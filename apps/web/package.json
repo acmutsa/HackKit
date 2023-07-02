@@ -1,25 +1,53 @@
 {
   "name": "web",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrations:generate": "drizzle-kit generate:mysql",
+    "migrations:apply": "node -r esbuild-register src/db/migrate.ts",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "next": "^13.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ui": "workspace:*"
+    "@clerk/nextjs": "^4.21.13",
+    "@hookform/resolvers": "^3.1.1",
+    "@planetscale/database": "^1.8.0",
+    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-popover": "^1.0.6",
+    "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@t3-oss/env-nextjs": "^0.6.0",
+    "@types/node": "20.3.2",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.6",
+    "@vercel/postgres": "^0.4.0",
+    "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
+    "class-variance-authority": "^0.6.1",
+    "clsx": "^1.2.1",
+    "cmdk": "^0.2.0",
+    "dotenv": "^16.3.1",
+    "drizzle-kit": "^0.19.3",
+    "drizzle-orm": "^0.27.0",
+    "lucide-react": "^0.257.0",
+    "next": "13.4.7",
+    "pg": "^8.11.1",
+    "postcss": "8.4.24",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "7.44.3",
+    "tailwind-merge": "^1.13.2",
+    "tailwindcss": "3.3.2",
+    "tailwindcss-animate": "^1.0.6",
+    "typescript": "5.1.6",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@types/node": "^17.0.12",
-    "@types/react": "^18.0.22",
-    "@types/react-dom": "^18.0.7",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.5.3"
+    "esbuild-register": "^3.4.2"
   }
 }
