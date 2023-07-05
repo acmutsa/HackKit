@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { z } from "zod";
-import { RegisterFormValidator } from "@/validators/client/RegisterForm";
+import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
@@ -38,12 +38,18 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
+import { zpost, zpostSafe } from "@/lib/utils/client/zfetch";
+import { useAuth } from "@clerk/nextjs";
+import { BasicServerValidator } from "@/validators/shared/basic";
+import { useRouter } from "next/navigation";
 
 interface RegisterFormProps {
 	defaultEmail: string;
 }
 
 export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
+	const { isLoaded, userId } = useAuth();
+	const router = useRouter();
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
@@ -53,6 +59,28 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			profileIsSearchable: true,
 			bio: "",
 			wantsToReceiveMLHEmails: false,
+			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
+			acceptsMLHCodeOfConduct: false,
+			shareDataWithMLH: false,
+			accommodationNote: "",
+			firstName: "",
+			lastName: "",
+			age: 0,
+			ethnicity: "" as any,
+			gender: "" as any,
+			major: "",
+			github: "",
+			hackerTag: "",
+			heardAboutEvent: "" as any,
+			levelOfStudy: "" as any,
+			linkedin: "",
+			personalWebsite: "",
+			profileDiscordName: "",
+			pronouns: "",
+			race: "" as any,
+			shirtSize: "" as any,
+			shortID: "",
+			university: "",
 		},
 	});
 
@@ -67,8 +95,42 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 	}, [universityValue]);
 
-	function onSubmit(data: any) {
-		console.log(data);
+	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
+		if (!userId || !isLoaded) {
+			return alert(
+				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`
+			);
+		}
+
+		if (data.acceptsMLHCodeOfConduct !== true || data.shareDataWithMLH !== true) {
+			return alert("You must accept the MLH Code of Conduct and Privacy Policy to continue.");
+		}
+
+		const res = await zpostSafe({
+			url: "/api/registration/create",
+			body: data,
+			v: BasicServerValidator,
+		});
+
+		if (res.success) {
+			if (res.data.success) {
+				alert("Registration successfully created! Redirecting to the dashboard.");
+				router.push("/dash");
+			} else {
+				if (res.data.message == "hackertag_not_unique") {
+					alert(
+						"The HackerTag you chose has already been taken. Please change it and then resubmit the form."
+					);
+				}
+				alert(
+					`Registration not created. Error message: \n\n ${res.data.message} \n\n Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`
+				);
+			}
+		} else {
+			console.log(
+				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`
+			);
+		}
 	}
 
 	return (

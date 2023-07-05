@@ -11,6 +11,7 @@ export const RegisterFormValidator = z.object({
 		.min(1, { message: "Firstname must be at least one character" })
 		.max(50, { message: "Firstname must be less than 50 characters" }),
 	lastName: z
+
 		.string()
 		.min(1, { message: "Lastname must be at least 1 character" })
 		.max(50, { message: "Lastname must be less than 50 characters" }),
@@ -22,8 +23,17 @@ export const RegisterFormValidator = z.object({
 		.max(255, { message: "Email must be less than 255 characters." }),
 	age: z
 		.number()
+		.min(18, { message: "You must be at least 18 years old to register." })
 		.positive({ message: "Value must be positive" })
-		.int({ message: "Value must be an integer" }),
+		.int({ message: "Value must be an integer" })
+		.or(z.string())
+		.pipe(
+			z.coerce
+				.number()
+				.min(18, { message: "You must be at least 18 years old to register." })
+				.positive({ message: "Value must be positive" })
+				.int({ message: "Value must be an integer" })
+		),
 	gender: z.union([
 		z.literal("MALE", defaultPrettyError),
 		z.literal("FEMALE", defaultPrettyError),
@@ -68,7 +78,14 @@ export const RegisterFormValidator = z.object({
 	hackathonsAttended: z
 		.number()
 		.positive({ message: "Value must be positive" })
-		.int({ message: "Value must be an integer" }),
+		.int({ message: "Value must be an integer" })
+		.or(z.string())
+		.pipe(
+			z.coerce
+				.number()
+				.positive({ message: "Value must be positive" })
+				.int({ message: "Value must be an integer" })
+		),
 	softwareBuildingExperience: z.union([
 		z.literal("Beginner", defaultPrettyError),
 		z.literal("Intermediate", defaultPrettyError),
@@ -95,14 +112,8 @@ export const RegisterFormValidator = z.object({
 	]),
 	dietaryRestrictions: z.array(z.string()),
 	accommodationNote: z.string().optional(),
-	github: z
-		.string()
-		.max(100, { message: "URL must be less than 100 characters" })
-		.optional(),
-	linkedin: z
-		.string()
-		.max(100, { message: "URL must be less than 100 characters" })
-		.optional(),
+	github: z.string().max(100, { message: "URL must be less than 100 characters" }).optional(),
+	linkedin: z.string().max(100, { message: "URL must be less than 100 characters" }).optional(),
 	personalWebsite: z
 		.string()
 		.max(100, { message: "URL must be less than 100 characters" })
@@ -112,18 +123,17 @@ export const RegisterFormValidator = z.object({
 		.min(3, { message: "Your HackerTag must be more than 3 characters long" })
 		.max(20, {
 			message: "Your HackerTag must be less than 20 characters long",
-		}),
+		})
+		.regex(/^[a-zA-Z0-9]+$/, {
+			message: "HackerTag must be alphanumeric and have no spaces",
+		})
+		.toLowerCase(),
 	profileDiscordName: z
 		.string()
 		.min(2, { message: "Please enter a valid Discord Username" })
-		.max(50, { message: "Please enter a valid Discord Username" })
-		.optional(),
+		.max(50, { message: "Please enter a valid Discord Username" }),
 	pronouns: z.string().min(1).max(15),
-	bio: z
-		.string()
-		.max(500, { message: "Bio must be less than 500 characters." }),
-	skills: z
-		.string()
-		.max(100, { message: "Skills must be less than 100 characters." }),
+	bio: z.string().min(1).max(500, { message: "Bio must be less than 500 characters." }),
+	skills: z.string().min(1).max(100, { message: "Skills must be less than 100 characters." }),
 	profileIsSearchable: z.boolean(),
 });

@@ -1,7 +1,6 @@
 export default {
 	hackathonName: "HackKit",
-	defaultMetaDataDescription:
-		"Powerful and easy to use hackathon managment platform.",
+	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
@@ -16,7 +15,12 @@ export default {
 		"Halal",
 	],
 	groups: ["Group A", "Group B", "Group C"],
+	issueEmail: "team@acmutsa.org",
 } as const;
+
+// Its important that this is kept in sync with the database schema.
+
+export const perms = ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"];
 
 export const schools = [
 	"The University of Texas at San Antonio",

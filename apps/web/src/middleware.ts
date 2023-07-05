@@ -1,12 +1,9 @@
-import { authMiddleware } from "@clerk/nextjs";
-
-const privateRoutes = "/dash/(.*)";
+import { authMiddleware, redirectToSignIn, currentUser } from "@clerk/nextjs";
 
 export default authMiddleware({
 	publicRoutes: ["/"],
 });
 
 export const config = {
-	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api)(.*)"],
-	//   matcher: ["/dash/:path*"],
+	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

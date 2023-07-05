@@ -17,6 +17,7 @@ import {
 	timestamp,
 	int,
 	json,
+	mysqlEnum,
 } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
@@ -32,6 +33,14 @@ export const users = mysqlTable(
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		hasSearchableProfile: boolean("has_searchable_profile").notNull().default(true),
 		group: int("group").notNull(),
+		role: mysqlEnum("role", [
+			"hacker",
+			"volunteer",
+			"mentor",
+			"mlh",
+			"admin",
+			"super_admin",
+		]).default("hacker"),
 	},
 	(table) => {
 		return {
@@ -56,8 +65,8 @@ export const registrationData = mysqlTable("registration_data", {
 	clerkID: varchar("clerk_id", { length: 255 }).notNull().primaryKey(),
 	age: int("age").notNull(),
 	gender: varchar("gender", { length: 50 }).notNull(),
-	race: varchar("gender", { length: 75 }).notNull(),
-	ethnicity: varchar("gender", { length: 50 }).notNull(),
+	race: varchar("race", { length: 75 }).notNull(),
+	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
 	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
 	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
 	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
@@ -67,10 +76,10 @@ export const registrationData = mysqlTable("registration_data", {
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
 	hackathonsAttended: int("hackathons_attended").notNull(),
 	softwareExperience: varchar("software_experience", { length: 25 }).notNull(),
-	heardFrom: varchar("heard_from", { length: 50 }).notNull(),
+	heardFrom: varchar("heard_from", { length: 50 }),
 	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
 	dietRestrictions: json("diet_restrictions").notNull(),
-	accommodationNote: text("accommodation_note").notNull(),
+	accommodationNote: text("accommodation_note"),
 	GitHub: varchar("github", { length: 100 }),
 	LinkedIn: varchar("linkedin", { length: 100 }),
 	PersonalWebsite: varchar("personal_website", { length: 100 }),
