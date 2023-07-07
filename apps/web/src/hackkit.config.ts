@@ -16,6 +16,7 @@ export default {
 	],
 	groups: ["Group A", "Group B", "Group C"],
 	issueEmail: "team@acmutsa.org",
+	iconDir: "/img/shared/logo/hackkit.png",
 } as const;
 
 // Its important that this is kept in sync with the database schema.
