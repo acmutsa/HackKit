@@ -16,7 +16,19 @@ export default {
 	],
 	groups: ["Group A", "Group B", "Group C"],
 	issueEmail: "team@acmutsa.org",
-	iconDir: "/img/shared/logo/hackkit.png",
+	icon: {
+		sm: "/img/logo/hackkit-sm.png",
+		md: "/img/logo/hackkit-md.png",
+		lg: "/img/logo/hackkit-lg.png",
+		svg: "/img/logo/hackkit.svg",
+	},
+	dashPaths: {
+		admin: {
+			Overview: "/admin",
+			Users: "/admin/users",
+			Events: "/admin/events",
+		},
+	},
 } as const;
 
 // Its important that this is kept in sync with the database schema.
