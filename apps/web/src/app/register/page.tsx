@@ -1,11 +1,23 @@
 import c from "@/hackkit.config";
 import RegisterForm from "@/components/registration/RegisterForm";
 import { currentUser } from "@clerk/nextjs";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
 	const user = await currentUser();
 
 	if (!user) return <div>Not logged in</div>;
+
+	const registration = await db.query.users.findFirst({
+		where: eq(users.clerkID, user.id),
+	});
+
+	if (registration) {
+		return redirect("/dash");
+	}
 
 	return (
 		<main className="dark:bg-zinc-950">

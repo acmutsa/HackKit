@@ -27,6 +27,7 @@ module.exports = {
 					foreground: "hsl(var(--primary-foreground))",
 				},
 				nav: "rgb(var(--nav))",
+				hackathon: "rgb(var(--hackathon-primary))",
 				secondary: {
 					DEFAULT: "hsl(var(--secondary))",
 					foreground: "hsl(var(--secondary-foreground))",

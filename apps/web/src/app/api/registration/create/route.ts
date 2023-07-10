@@ -124,7 +124,7 @@ export async function POST(req: Request) {
 			bio: body.bio,
 			discordUsername: body.profileDiscordName,
 			hackerTag: body.hackerTag.toLowerCase(),
-			profilePhoto: "",
+			profilePhoto: user.profileImageUrl,
 			pronouns: body.pronouns,
 			skills: [],
 		});

@@ -14,7 +14,7 @@ export default function DashNavItem({ name, path }: DashNavItemProps) {
 		<Link href={path}>
 			<button
 				className={`h-full px-3 border-b-2 text-sm ${
-					currPath == path
+					(currPath.startsWith(path) && path !== "/admin") || currPath === path
 						? "border-b-primary text-primary"
 						: "border-b-transparent text-muted-foreground"
 				}`}

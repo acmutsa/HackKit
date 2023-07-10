@@ -86,7 +86,7 @@ export const registrationData = mysqlTable("registration_data", {
 });
 
 export const profileData = mysqlTable("profile_data", {
-	hackerTag: varchar("hacker_tag", { length: 50 }).notNull(),
+	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().primaryKey(),
 	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
 	pronouns: varchar("pronouns", { length: 20 }).notNull(),
 	bio: text("bio").notNull(),
