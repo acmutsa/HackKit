@@ -36,8 +36,8 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	}
 
 	return (
-		<>
-			<div className="w-screen h-16 px-5 grid grid-cols-2 bg-nav">
+		<div className="max-w-screen">
+			<div className="w-full h-16 px-5 grid grid-cols-2 bg-nav">
 				<div className="flex items-center gap-x-4">
 					<Image src={c.icon.svg} alt={c.hackathonName + " Logo"} width={32} height={32} />
 					<div className="bg-muted-foreground h-[45%] rotate-[25deg] w-[2px]" />
@@ -61,13 +61,13 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 					</Link>
 				</div>
 			</div>
-			<div className="w-screen h-12 px-5 flex bg-nav border-b-border border-b mb-12">
+			<div className="w-full h-12 px-5 flex bg-nav border-b-border border-b mb-12">
 				{Object.entries(c.dashPaths.admin).map(([name, path]) => (
 					<DashNavItem key={name} name={name} path={path} />
 				))}
 			</div>
 			{children}
-		</>
+		</div>
 	);
 }
 
