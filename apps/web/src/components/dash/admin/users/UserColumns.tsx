@@ -58,7 +58,7 @@ export const columns: ColumnDef<userValidatorType>[] = [
 			})}`,
 	},
 	{
-		accessorKey: "clerkID",
+		accessorKey: "clerkID2",
 		header: "View",
 		cell: ({ row }) => (
 			<Link href={`/admin/users/${row.original.clerkID}`}>
