@@ -93,3 +93,13 @@ export const profileData = mysqlTable("profile_data", {
 	skills: json("skills").notNull(),
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 });
+
+export const events = mysqlTable("events", {
+	id: int("id").notNull().primaryKey().autoincrement(),
+	name: varchar("name", { length: 255 }).notNull(),
+	startTime: timestamp("start_time").notNull(),
+	endTime: timestamp("end_time").notNull(),
+	description: text("description"),
+	type: varchar("type", { length: 50 }).notNull(),
+	host: varchar("host", { length: 255 }),
+});
