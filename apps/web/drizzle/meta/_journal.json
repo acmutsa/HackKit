@@ -43,6 +43,13 @@
       "when": 1689121408901,
       "tag": "0005_orange_shocker",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1689169875821,
+      "tag": "0006_gifted_tombstone",
+      "breakpoints": true
     }
   ]
 }
