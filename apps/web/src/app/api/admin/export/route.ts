@@ -1,4 +1,7 @@
 import { db } from "@/db";
+import { eq } from "drizzle-orm";
+import { users } from "@/db/schema";
+import { auth } from "@clerk/nextjs";
 
 function escape(value: any) {
 	if (value === null) return "None";
@@ -27,6 +30,18 @@ function jsonToCSV(json: any[]): string {
 }
 
 export async function GET() {
+	const { userId } = auth();
+
+	if (!userId) return new Response("Unauthorized", { status: 401 });
+
+	const reqUserRecord = await db.query.users.findFirst({
+		where: eq(users.clerkID, userId),
+	});
+
+	if (!reqUserRecord || (reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")) {
+		return new Response("Unauthorized", { status: 401 });
+	}
+
 	const userTableData = await db.query.users.findMany({
 		with: {
 			registrationData: true,
