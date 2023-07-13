@@ -29,6 +29,11 @@ export default {
 			Events: "/admin/events",
 		},
 	},
+	eventTypes: ["Meal", "Workshop", "Ceremony", "Social", "Other"],
+	days: {
+		Saturday: new Date(2023, 6, 15),
+		Sunday: new Date(2023, 6, 16),
+	},
 } as const;
 
 // Its important that this is kept in sync with the database schema.
