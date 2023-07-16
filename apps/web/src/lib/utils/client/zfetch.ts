@@ -1,8 +1,10 @@
 import { z, ZodError } from "zod";
 import axios from "axios";
+import superjson from "superjson";
 
 interface zfetchOptions {
 	url: string;
+	superRes?: boolean;
 }
 
 interface zgetOptions<T extends z.ZodType<any, any>> extends zfetchOptions {
@@ -10,8 +12,9 @@ interface zgetOptions<T extends z.ZodType<any, any>> extends zfetchOptions {
 }
 
 interface zpostOptions<Req = any, Res = any> extends zfetchOptions {
-	v?: z.ZodType<Res, any>;
-	vbody?: z.ZodType<Req, any>;
+	vReq?: z.ZodType<Req, any>;
+	vRes?: z.ZodType<Res, any>;
+	superReq?: boolean;
 	body?: Req;
 }
 
@@ -28,17 +31,19 @@ export type SafeParseResult<T> =
 export async function zget<T extends z.ZodType<any, any>>({
 	url,
 	v,
+	superRes,
 }: zgetOptions<T>): Promise<z.infer<T>> {
 	const { data } = await axios.get(url);
-	return v.parse(data);
+	return v.parse(superRes ? superjson.parse(data) : data);
 }
 
 export async function zgetSafe<T extends z.ZodType<any, any>>({
 	url,
 	v,
+	superRes,
 }: zgetOptions<T>): Promise<SafeParseResult<z.infer<T>>> {
 	const { data } = await axios.get(url);
-	const result = v.safeParse(data);
+	const result = v.safeParse(superRes ? superjson.parse(data) : data);
 	if (result.success) {
 		return { success: true, data: result.data };
 	} else {
@@ -48,30 +53,38 @@ export async function zgetSafe<T extends z.ZodType<any, any>>({
 
 export async function zpost<Req = any, Res = any>({
 	url,
-	v,
-	vbody,
+	vReq,
+	vRes,
 	body,
+	superReq,
+	superRes,
 }: zpostOptions<Req, Res>): Promise<Res> {
-	if (vbody && body) {
-		body = vbody.parse(body);
+	if (vReq && body) {
+		body = vReq.parse(body);
 	}
-	const { data } = await axios.post(url, body);
-	return v ? v.parse(data) : data;
+	const { data } = await axios.post(url, superReq ? superjson.stringify(body) : body);
+	return vRes
+		? vRes.parse(superRes ? superjson.parse(data) : data)
+		: superRes
+		? superjson.parse(data)
+		: data;
 }
 
 export async function zpostSafe<Req = any, Res = any>({
 	url,
-	v,
-	vbody,
+	vRes,
+	vReq,
 	body,
+	superReq,
+	superRes,
 }: zpostOptions<Req, Res>): Promise<SafeParseResult<Res>> {
 	try {
-		if (vbody && body) {
-			body = vbody.parse(body);
+		if (vReq && body) {
+			body = vReq.parse(body);
 		}
-		const { data } = await axios.post(url, body);
-		if (v) {
-			const result = v.safeParse(data);
+		const { data } = await axios.post(url, superReq ? superjson.stringify(body) : body);
+		if (vRes) {
+			const result = vRes.safeParse(superRes ? superjson.parse(data) : data);
 			if (result.success) {
 				return { success: true, data: result.data };
 			} else {

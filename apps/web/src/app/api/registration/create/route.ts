@@ -7,7 +7,6 @@ import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "@/hackkit.config";
 
 export async function POST(req: Request) {
-	console.log("registering user");
 	const rawBody = await req.json();
 	const parsedBody = RegisterFormValidator.safeParse(rawBody);
 

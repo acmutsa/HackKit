@@ -23,30 +23,53 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import c from "@/hackkit.config";
+import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
+import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
+import { newEventValidator } from "@/validators/shared/newEvent";
+import { zpostSafe } from "@/lib/utils/client/zfetch";
+import { BasicRedirValidator } from "@/validators/shared/basicRedir";
+import { useState } from "react";
+import { ImSpinner10 } from "react-icons/im";
+import { useRouter } from "next/navigation";
 
-const formSchema = z.object({
-	title: z.string().min(2).max(255),
-	description: z.string().min(2).max(255),
-	type: z.enum(c.eventTypes),
-	day: z
-		.number()
-		.or(z.string())
-		.pipe(z.coerce.number().int({ message: "Value must be an integer" })),
-});
+const formSchema = newEventValidator.merge(
+	z.object({
+		type: z.enum(c.eventTypes),
+	})
+);
 
 export default function NewEventForm() {
+	const defaultDate = new Date();
+	const [loading, setLoading] = useState(false);
+	const router = useRouter();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: "",
 			description: "",
+			type: "" as any,
+			host: "",
+			startTime: defaultDate,
+			endTime: defaultDate,
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		setLoading(true);
+		const res = await zpostSafe({
+			url: "/api/admin/events/create",
+			body: values,
+			superReq: true,
+			vReq: formSchema,
+			vRes: BasicRedirValidator,
+		});
+		setLoading(false);
+		if (res.success) {
+			alert("Event Created Successfully! Redirecting to event page...");
+			router.push(res.data.redirect);
+		} else {
+			alert("Failed to create event, please try again. Error:\n\n" + res.error);
+		}
 	}
 
 	return (
@@ -82,52 +105,25 @@ export default function NewEventForm() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="type"
-					render={({ field }) => (
-						<FormItem className="col-span-2">
-							<FormLabel>Event Type</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
-								<FormControl>
-									<SelectTrigger className="w-full">
-										<SelectValue placeholder="Select a Event Type" />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									<SelectGroup>
-										{c.eventTypes.map((type) => (
-											<SelectItem value={type}>{type}</SelectItem>
-										))}
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<div className="grid grid-cols-3 gap-x-2">
+				<div className="grid grid-cols-2 gap-x-2">
 					<FormField
 						control={form.control}
-						name="day"
+						name="type"
 						render={({ field }) => (
-							<FormItem className="col-span-2">
-								<FormLabel>Event Day</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value ? field.value.toString() : ""}
-								>
+							<FormItem>
+								<FormLabel>Event Type</FormLabel>
+								<Select onValueChange={field.onChange} defaultValue={field.value}>
 									<FormControl>
 										<SelectTrigger className="w-full">
-											<SelectValue placeholder="Select a Day" />
+											<SelectValue placeholder="Select a Event Type" />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
 										<SelectGroup>
-											{Object.entries(c.days).map(([key, value]) => (
-												<SelectItem
-													value={value.getMilliseconds().toString()}
-												>{`${key} (${value.toLocaleDateString("en-US")})`}</SelectItem>
+											{c.eventTypes.map((type) => (
+												<SelectItem key={type} value={type}>
+													{type}
+												</SelectItem>
 											))}
 										</SelectGroup>
 									</SelectContent>
@@ -136,8 +132,75 @@ export default function NewEventForm() {
 							</FormItem>
 						)}
 					/>
+					<FormField
+						control={form.control}
+						name="host"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Host (Optional)</FormLabel>
+								<FormControl>
+									<Input placeholder={c.hackathonName} {...(field as any)} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 				</div>
-				<Button type="submit">Create Event</Button>
+				<div className="grid grid-cols-2 gap-x-2">
+					<FormField
+						control={form.control}
+						name="startTime"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Event Start</FormLabel>
+								<DateTimePicker
+									value={
+										!!field.value
+											? parseAbsolute(field.value.toISOString(), getLocalTimeZone())
+											: null
+									}
+									onChange={(date) => {
+										field.onChange(!!date ? date.toDate(getLocalTimeZone()) : null);
+									}}
+									shouldCloseOnSelect={false}
+									granularity={"minute"}
+									label="Event Start"
+								/>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="endTime"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Event End</FormLabel>
+								<DateTimePicker
+									value={
+										!!field.value
+											? parseAbsolute(field.value.toISOString(), getLocalTimeZone())
+											: null
+									}
+									onChange={(date) => {
+										field.onChange(!!date ? date.toDate(getLocalTimeZone()) : null);
+									}}
+									shouldCloseOnSelect={false}
+									granularity={"minute"}
+									label="Event End"
+								/>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+				{loading ? (
+					<p className="flex justify-center gap-x-1">
+						Creating Event <ImSpinner10 className="animate-spin" />
+					</p>
+				) : (
+					<Button type="submit">Create Event</Button>
+				)}
 			</form>
 		</Form>
 	);

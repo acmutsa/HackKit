@@ -109,7 +109,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		const res = await zpostSafe({
 			url: "/api/registration/create",
 			body: data,
-			v: BasicServerValidator,
+			vRes: BasicServerValidator,
 		});
 
 		if (res.success) {

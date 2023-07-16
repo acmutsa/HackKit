@@ -23,6 +23,10 @@ export default {
 		svg: "/img/logo/hackkit.svg",
 	},
 	dashPaths: {
+		dash: {
+			Overview: "/dash",
+			"Event Pass": "/dash/pass",
+		},
 		admin: {
 			Overview: "/admin",
 			Users: "/admin/users",
