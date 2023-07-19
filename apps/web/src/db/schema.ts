@@ -36,7 +36,7 @@ export const users = mysqlTable("users", {
 	),
 });
 
-export const userRelations = relations(users, ({ one }) => ({
+export const userRelations = relations(users, ({ one, many }) => ({
 	registrationData: one(registrationData, {
 		fields: [users.clerkID],
 		references: [registrationData.clerkID],
@@ -45,6 +45,7 @@ export const userRelations = relations(users, ({ one }) => ({
 		fields: [users.hackerTag],
 		references: [profileData.hackerTag],
 	}),
+	files: many(files),
 }));
 
 export const registrationData = mysqlTable("registration_data", {
@@ -90,3 +91,19 @@ export const events = mysqlTable("events", {
 	host: varchar("host", { length: 255 }),
 	hidden: boolean("hidden").notNull().default(false),
 });
+
+export const files = mysqlTable("files", {
+	id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
+	presignedURL: text("presigned_url").notNull(),
+	key: varchar("key", { length: 500 }).notNull().unique(),
+	validated: boolean("validated").notNull().default(false),
+	type: mysqlEnum("type", ["generic", "resume"]).notNull(),
+	ownerID: varchar("owner_id", { length: 255 }).notNull(),
+});
+
+export const filesRelations = relations(files, ({ one }) => ({
+	owner: one(users, {
+		fields: [files.ownerID],
+		references: [users.clerkID],
+	}),
+}));

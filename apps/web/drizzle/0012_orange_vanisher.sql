@@ -1,0 +1,1 @@
+ALTER TABLE `files` MODIFY COLUMN `presigned_url` text NOT NULL;

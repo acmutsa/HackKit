@@ -57,6 +57,34 @@
       "when": 1689460586915,
       "tag": "0007_robust_roughhouse",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1689766254137,
+      "tag": "0008_amazing_multiple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1689766935396,
+      "tag": "0009_curvy_silver_surfer",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1689767611673,
+      "tag": "0011_normal_red_shift",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1689776411804,
+      "tag": "0012_orange_vanisher",
+      "breakpoints": true
     }
   ]
 }

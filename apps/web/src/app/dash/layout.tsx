@@ -8,6 +8,7 @@ import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { eq } from "drizzle-orm";
 import { users } from "@/db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
+import { redirect } from "next/navigation";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
@@ -17,7 +18,7 @@ export default async function AdminLayout({ children }: DashLayoutProps) {
 	const user = await currentUser();
 
 	if (!user || !user.publicMetadata.registrationComplete) {
-		return <FullScreenMessage title="Not Authorized" message="" />;
+		return redirect("/register");
 	}
 
 	return (

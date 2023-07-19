@@ -723,6 +723,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
+						<div className="border-2 border-white rounded-lg border-dashed min-h-[200px]"></div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hacker Profile">
 						<div className="grid grid-cols-3 gap-x-2">

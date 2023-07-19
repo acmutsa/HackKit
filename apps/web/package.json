@@ -9,6 +9,7 @@
     "lint": "next lint",
     "migrations:generate": "drizzle-kit generate:mysql",
     "migrations:apply": "node -r esbuild-register src/db/migrate.ts",
+    "migrations:drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "drizzle-orm": "^0.27.2",
     "drizzle-zod": "^0.4.4",
     "lucide-react": "^0.257.0",
+    "nanoid": "^4.0.2",
     "next": "13.4.9",
     "pg": "^8.11.1",
     "postcss": "8.4.24",
