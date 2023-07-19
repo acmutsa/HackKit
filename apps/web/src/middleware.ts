@@ -1,7 +1,7 @@
-import { authMiddleware, redirectToSignIn, currentUser } from "@clerk/nextjs";
+import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-	publicRoutes: ["/"],
+	publicRoutes: ["/", /^\/schedule(\/.*)?$/],
 });
 
 export const config = {

@@ -27,7 +27,7 @@ export default function EventFull({ event }: { event: InferModel<typeof events> 
 					>
 						{event.type}
 					</Badge>
-					<p className="font-bold text-sm">{`${format(event.startTime, "MMMM do")}, ${format(
+					<p className="font-bold text-sm">{`${format(event.startTime, "EEEE MMMM do")}, ${format(
 						event.startTime,
 						"h:mm a"
 					)} - ${format(event.endTime, "h:mm a")}`}</p>
