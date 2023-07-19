@@ -26,6 +26,7 @@ export default {
 		dash: {
 			Overview: "/dash",
 			"Event Pass": "/dash/pass",
+			Schedule: "/dash/schedule",
 		},
 		admin: {
 			Overview: "/admin",
@@ -33,7 +34,13 @@ export default {
 			Events: "/admin/events",
 		},
 	},
-	eventTypes: ["Meal", "Workshop", "Ceremony", "Social", "Other"],
+	eventTypes: {
+		Meal: "#FFC107",
+		Workshop: "#10b981",
+		Ceremony: "#9C27B0",
+		Social: "#2196F3",
+		Other: "#795548",
+	},
 	days: {
 		Saturday: new Date(2023, 6, 15),
 		Sunday: new Date(2023, 6, 16),

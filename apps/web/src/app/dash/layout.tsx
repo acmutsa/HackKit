@@ -46,7 +46,7 @@ export default async function AdminLayout({ children }: DashLayoutProps) {
 					</Link>
 				</div>
 			</div>
-			<div className="w-full h-12 px-5 flex bg-nav border-b-border border-b mb-12">
+			<div className="w-full h-12 px-5 flex bg-nav border-b-border border-b">
 				{Object.entries(c.dashPaths.dash).map(([name, path]) => (
 					<DashNavItem key={name} name={name} path={path} />
 				))}

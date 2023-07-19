@@ -34,7 +34,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = newEventValidator.merge(
 	z.object({
-		type: z.enum(c.eventTypes),
+		type: z.enum(Object.keys(c.eventTypes) as any),
 	})
 );
 
@@ -120,7 +120,7 @@ export default function NewEventForm() {
 									</FormControl>
 									<SelectContent>
 										<SelectGroup>
-											{c.eventTypes.map((type) => (
+											{Object.keys(c.eventTypes).map((type) => (
 												<SelectItem key={type} value={type}>
 													{type}
 												</SelectItem>

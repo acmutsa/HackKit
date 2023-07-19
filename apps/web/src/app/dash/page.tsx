@@ -5,7 +5,7 @@ import Loading from "@/components/shared/Loading";
 
 export default async function Page() {
 	return (
-		<div className="h-screen w-full flex flex-col gap-y-2 items-center justify-center">
+		<div className="w-full flex flex-col gap-y-2 items-center">
 			<p>More here soon :)</p>
 			<Suspense fallback={<Loading />}>
 				<SignOutButton>
