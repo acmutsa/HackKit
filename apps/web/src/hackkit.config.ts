@@ -45,6 +45,8 @@ export default {
 		Saturday: new Date(2023, 6, 15),
 		Sunday: new Date(2023, 6, 16),
 	},
+	maxResumeSizeInBytes: 4194304,
+	maxFileSizeInBytes: 4194304,
 } as const;
 
 // Its important that this is kept in sync with the database schema.

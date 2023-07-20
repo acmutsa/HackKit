@@ -36,12 +36,13 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import { zpost, zpostSafe } from "@/lib/utils/client/zfetch";
+import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { useAuth } from "@clerk/nextjs";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { useRouter } from "next/navigation";
+import { FileRejection, useDropzone } from "react-dropzone";
 
 interface RegisterFormProps {
 	defaultEmail: string;
@@ -93,7 +94,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		} else {
 			form.setValue("shortID", "");
 		}
-	}, [universityValue]);
+	}, [universityValue, form]);
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		if (!userId || !isLoaded) {
@@ -132,6 +133,20 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			);
 		}
 	}
+
+	const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
+		if (fileRejections.length > 0) {
+			alert(
+				`The file you uploaded was rejected with the reason "${fileRejections[0].errors[0].message}". Please try again.`
+			);
+		}
+	}, []);
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({
+		onDrop,
+		multiple: false,
+		accept: { "application/pdf": [".pdf"] },
+		maxSize: c.maxResumeSizeInBytes,
+	});
 
 	return (
 		<div>
@@ -723,7 +738,30 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
-						<div className="border-2 border-white rounded-lg border-dashed min-h-[200px]"></div>
+						<FormField
+							control={form.control}
+							name="personalWebsite"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Resume</FormLabel>
+									<FormControl>
+										{/* <Input placeholder="https://example.com/" {...field} /> */}
+										<div
+											{...getRootProps()}
+											className="border-2 cursor-pointer border-white rounded-lg border-dashed min-h-[200px] flex flex-col items-center justify-center"
+										>
+											<input {...getInputProps()} />
+											{isDragActive ? (
+												<p>Drop your resume here...</p>
+											) : (
+												<p>Drag 'n' drop your resume here, or click to select a file</p>
+											)}
+										</div>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hacker Profile">
 						<div className="grid grid-cols-3 gap-x-2">
