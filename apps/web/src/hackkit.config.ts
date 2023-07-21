@@ -1,5 +1,6 @@
 export default {
 	hackathonName: "HackKit",
+	itteration: "2023",
 	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
@@ -48,6 +49,9 @@ export default {
 	maxResumeSizeInBytes: 4194304,
 	maxFileSizeInBytes: 4194304,
 	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	eventPassBgImage: "/img/dash/pass/bg.png",
+	startDate: new Date(2023, 6, 15).setHours(9),
+	prettyLocation: "San Pedro I, UTSA",
 } as const;
 
 // Its important that this is kept in sync with the database schema.
