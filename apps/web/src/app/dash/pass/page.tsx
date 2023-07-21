@@ -82,3 +82,5 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 		</div>
 	);
 }
+
+export const runtime = "edge";
