@@ -32,6 +32,7 @@ export default {
 		admin: {
 			Overview: "/admin",
 			Users: "/admin/users",
+			Scanner: "/admin/scanner",
 			Events: "/admin/events",
 		},
 	},
