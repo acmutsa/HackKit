@@ -47,6 +47,7 @@ export default {
 	},
 	maxResumeSizeInBytes: 4194304,
 	maxFileSizeInBytes: 4194304,
+	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 } as const;
 
 // Its important that this is kept in sync with the database schema.

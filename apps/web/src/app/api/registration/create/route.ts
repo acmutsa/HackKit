@@ -5,10 +5,13 @@ import { eq, sql } from "drizzle-orm";
 import { users, registrationData, profileData } from "@/db/schema";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "@/hackkit.config";
+import { z } from "zod";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
-	const parsedBody = RegisterFormValidator.safeParse(rawBody);
+	const parsedBody = RegisterFormValidator.merge(z.object({ resume: z.string().url() })).safeParse(
+		rawBody
+	);
 
 	if (!parsedBody.success) {
 		return NextResponse.json(
@@ -117,6 +120,7 @@ export async function POST(req: Request) {
 			GitHub: body.github,
 			LinkedIn: body.linkedin,
 			PersonalWebsite: body.personalWebsite,
+			resume: body.resume,
 		});
 
 		await tx.insert(profileData).values({

@@ -43,6 +43,7 @@ import { useAuth } from "@clerk/nextjs";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
+import { put, type PutBlobResult } from "@vercel/blob";
 
 interface RegisterFormProps {
 	defaultEmail: string;
@@ -84,6 +85,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			university: "",
 		},
 	});
+	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
@@ -94,7 +96,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		} else {
 			form.setValue("shortID", "");
 		}
-	}, [universityValue, form]);
+	}, [universityValue]);
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		if (!userId || !isLoaded) {
@@ -107,9 +109,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			return alert("You must accept the MLH Code of Conduct and Privacy Policy to continue.");
 		}
 
+		let resume: string = c.noResumeProvidedURL;
+
+		if (uploadedFile) {
+			const newBlob = await put(uploadedFile.name, uploadedFile, {
+				access: "public",
+				handleBlobUploadUrl: "/api/upload/resume/register",
+			});
+			resume = newBlob.url;
+		}
+
 		const res = await zpostSafe({
 			url: "/api/registration/create",
-			body: data,
+			body: { ...data, resume },
 			vRes: BasicServerValidator,
 		});
 
@@ -140,12 +152,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 				`The file you uploaded was rejected with the reason "${fileRejections[0].errors[0].message}". Please try again.`
 			);
 		}
+		if (acceptedFiles.length > 0) {
+			console.log(`Got accepted file! The length of the array is ${acceptedFiles.length}.`);
+			console.log(acceptedFiles[0]);
+			setUploadedFile(acceptedFiles[0]);
+		}
 	}, []);
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
 		multiple: false,
 		accept: { "application/pdf": [".pdf"] },
 		maxSize: c.maxResumeSizeInBytes,
+		noClick: uploadedFile != null,
+		noDrag: uploadedFile != null,
 	});
 
 	return (
@@ -304,7 +323,11 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<div className="space-y-1 leading-none">
 										<FormLabel>
 											I accept the{" "}
-											<Link className="underline" href={"https://mlh.io/code-of-conduct"}>
+											<Link
+												target="_blank"
+												className="underline"
+												href={"https://mlh.io/code-of-conduct"}
+											>
 												MLH Code of Conduct
 											</Link>
 										</FormLabel>
@@ -327,13 +350,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											League Hacking for event administration, ranking, and MLH administration
 											in-line with the MLH Privacy Policy. I further agree to the terms of both the{" "}
 											<Link
+												target="_blank"
 												className="underline"
 												href={"https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"}
 											>
 												MLH Contest Terms and Conditions
 											</Link>{" "}
 											and the{" "}
-											<Link className="underline" href={"https://mlh.io/privacy"}>
+											<Link target="_blank" className="underline" href={"https://mlh.io/privacy"}>
 												MLH Privacy Policy
 											</Link>
 											.
@@ -745,17 +769,25 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								<FormItem>
 									<FormLabel>Resume</FormLabel>
 									<FormControl>
-										{/* <Input placeholder="https://example.com/" {...field} /> */}
 										<div
 											{...getRootProps()}
-											className="border-2 cursor-pointer border-white rounded-lg border-dashed min-h-[200px] flex flex-col items-center justify-center"
+											className={`border-2${
+												uploadedFile ? "" : " cursor-pointer"
+											} border-white rounded-lg border-dashed min-h-[200px] flex flex-col items-center justify-center`}
 										>
 											<input {...getInputProps()} />
-											{isDragActive ? (
-												<p>Drop your resume here...</p>
-											) : (
-												<p>Drag 'n' drop your resume here, or click to select a file</p>
-											)}
+											<p>
+												{uploadedFile
+													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+													: isDragActive
+													? "Drop your resume here..."
+													: "Drag 'n' drop your resume here, or click to select a file"}
+											</p>
+											{uploadedFile ? (
+												<Button className="mt-4" onClick={() => setUploadedFile(null)}>
+													Remove
+												</Button>
+											) : null}
 										</div>
 									</FormControl>
 									<FormMessage />

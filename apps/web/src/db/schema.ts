@@ -70,6 +70,9 @@ export const registrationData = mysqlTable("registration_data", {
 	GitHub: varchar("github", { length: 100 }),
 	LinkedIn: varchar("linkedin", { length: 100 }),
 	PersonalWebsite: varchar("personal_website", { length: 100 }),
+	resume: varchar("resume", { length: 255 })
+		.notNull()
+		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
 });
 
 export const profileData = mysqlTable("profile_data", {

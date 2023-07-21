@@ -1,0 +1,1 @@
+ALTER TABLE `registration_data` ADD `resume` varchar(255) DEFAULT 'https://static.acmutsa.org/No%20Resume%20Provided.pdf' NOT NULL;
