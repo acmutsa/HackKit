@@ -27,7 +27,7 @@ export default async function Page() {
 	const qrPayload = superjson.stringify({ userId: user.id, createdAt: Date.now() });
 
 	return (
-		<div className="flex items-center justify-center h-[calc(100vh-7rem)] bg-nav">
+		<div className="flex items-center justify-center min-h-[calc(100vh-7rem)] bg-nav">
 			{/* <QRCode value={qrObject} /> */}
 			<EventPass user={userDbRecord} qrPayload={qrPayload} clerk={user} />
 		</div>
@@ -36,9 +36,9 @@ export default async function Page() {
 
 function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 	return (
-		<div className="relative">
+		<div className="relative h-max my-20">
 			<div className="absolute -translate-y-[50%] top-0 left-1/2 border-nav border border-b-muted border-r-muted rotate-45 -translate-x-1/2 w-[75px] h-[75px] bg-nav rounded-full" />
-			<div className=" bg-background border-muted border max-w-[400px] max-h-[calc(100vh-7rem)] w-full aspect-[9/17] rounded-3xl flex flex-col overflow-hidden py-[37.5px]">
+			<div className=" bg-background border-muted border max-w-[400px] !max-h-[calc(100vh-7rem)] w-full aspect-[9/17] rounded-3xl flex flex-col overflow-hidden py-[37.5px]">
 				<div className="w-full relative h-[30%] pt-2 flex flex-col items-center">
 					<Image
 						src={clerk.imageUrl}
@@ -51,7 +51,7 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 					<h2 className="font-mono text-center">@{user.hackerTag}</h2>
 				</div>
 				<div className="h-[45%] w-full relative flex items-end">
-					<div className="absolute left-1/2 top-1/2 w-[200px] aspect-square -translate-x-1/2 -translate-y-[65%] bg-hackathon opacity-60 blur-[50px]"></div>
+					<div className="absolute will-change-transform left-1/2 top-1/2 w-[200px] aspect-square -translate-x-1/2 -translate-y-[65%] bg-hackathon opacity-60 blur-[50px]"></div>
 					<Image
 						src={c.eventPassBgImage}
 						alt={""}
@@ -61,7 +61,7 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 					<div className="w-full h-20 grid grid-cols-2">
 						<div className="w-full h-full flex items-center justify-start pl-2">
 							<Image src={c.icon.svg} height={60} width={60} alt={`${c.hackathonName} Logo`} />
-							<h1 className="font-bold ml-1 text-lg">
+							<h1 className="font-bold ml-1 text-lg leading-tight">
 								{c.hackathonName} <span className="text-hackathon">{c.itteration}</span>
 							</h1>
 						</div>

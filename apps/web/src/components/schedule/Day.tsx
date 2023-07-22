@@ -34,8 +34,8 @@ export default function Day({ title, subtitle, events }: DayProps) {
 function EventItem({ event }: EventItemProps) {
 	return (
 		<Link target="_blank" href={"/schedule/" + event.id} className="m-0 p-0 w-full">
-			<div className="grid grid-cols-3 h-16 w-full hover:bg-white/[0.08] px-2 cursor-pointer rounded-xl">
-				<div className="col-span-2 flex flex-col h-full justify-center">
+			<div className="grid md:grid-cols-3 grid-cols-5 h-16 w-full hover:bg-white/[0.08] px-2 cursor-pointer rounded-xl">
+				<div className="md:col-span-2 col-span-3 flex flex-col h-full justify-center">
 					<h3 className="font-bold">{event.title}</h3>
 					<div>
 						<Badge
@@ -49,7 +49,7 @@ function EventItem({ event }: EventItemProps) {
 						</Badge>
 					</div>
 				</div>
-				<div className="flex items-center justify-end">
+				<div className="flex items-center justify-end text-sm md:text-md md:col-span-1 col-span-2">
 					<p>{`${format(event.startTime, "h:mm a")} - ${format(event.endTime, "h:mm a")}`}</p>
 				</div>
 			</div>
