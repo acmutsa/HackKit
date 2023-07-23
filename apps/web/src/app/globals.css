@@ -90,3 +90,12 @@
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
+
+.parallax-effect-img {
+	transform-style: preserve-3d;
+	transform: perspective(1000px);
+}
+
+.event-pass-img {
+	transform: translateZ(40px);
+}

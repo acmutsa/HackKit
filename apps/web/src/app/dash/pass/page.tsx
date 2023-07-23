@@ -7,6 +7,7 @@ import { users } from "@/db/schema";
 import Image from "next/image";
 import c from "@/hackkit.config";
 import { format } from "date-fns";
+import TiltWrapper from "@/components/dash/shared/TiltWrapper";
 
 interface EventPassProps {
 	user: InferModel<typeof users>;
@@ -29,7 +30,9 @@ export default async function Page() {
 	return (
 		<div className="flex items-center justify-center min-h-[calc(100vh-7rem)] bg-nav">
 			{/* <QRCode value={qrObject} /> */}
-			<EventPass user={userDbRecord} qrPayload={qrPayload} clerk={user} />
+			<TiltWrapper>
+				<EventPass user={userDbRecord} qrPayload={qrPayload} clerk={user} />
+			</TiltWrapper>
 		</div>
 	);
 }
@@ -37,7 +40,7 @@ export default async function Page() {
 function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 	return (
 		<div className="relative h-max my-20">
-			<div className="absolute -translate-y-[50%] top-0 left-1/2 border-nav border border-b-muted border-r-muted rotate-45 -translate-x-1/2 w-[75px] h-[75px] bg-nav rounded-full" />
+			<div className="absolute z-10 -translate-y-[50%] top-0 left-1/2 border-nav border border-b-muted border-r-muted rotate-45 -translate-x-1/2 w-[75px] h-[75px] bg-nav rounded-full" />
 			<div className=" bg-background border-muted border max-w-[400px] !max-h-[calc(100vh-7rem)] w-full aspect-[9/17] rounded-3xl flex flex-col overflow-hidden py-[37.5px]">
 				<div className="w-full relative h-[30%] pt-2 flex flex-col items-center">
 					<Image
@@ -50,13 +53,13 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 					<h1 className="text-4xl font-bold text-center mt-2">{user.firstName}</h1>
 					<h2 className="font-mono text-center">@{user.hackerTag}</h2>
 				</div>
-				<div className="h-[45%] w-full relative flex items-end">
+				<div className="event-pass-img h-[45%] w-full relative flex items-end">
 					<div className="absolute will-change-transform left-1/2 top-1/2 w-[200px] aspect-square -translate-x-1/2 -translate-y-[65%] bg-hackathon opacity-60 blur-[50px]"></div>
 					<Image
 						src={c.eventPassBgImage}
 						alt={""}
 						fill
-						className="object-contain -translate-y-[15%] no-select"
+						className="object-contain -translate-y-[15%] scale-[0.8] no-select"
 					/>
 					<div className="w-full h-20 grid grid-cols-2">
 						<div className="w-full h-full flex items-center justify-start pl-2">
@@ -82,7 +85,7 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 					</div>
 				</div>
 			</div>
-			<div className="absolute translate-y-[50%] bottom-0 left-1/2 border-nav border border-t-muted border-l-muted rotate-45 -translate-x-1/2  w-[75px] h-[75px] bg-nav rounded-full" />
+			<div className="absolute z-10 translate-y-[50%] bottom-0 left-1/2 border-nav border border-t-muted border-l-muted rotate-45 -translate-x-1/2  w-[75px] h-[75px] bg-nav rounded-full" />
 		</div>
 	);
 }
