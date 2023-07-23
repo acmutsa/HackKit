@@ -10,47 +10,54 @@ import {
 } from "@/components/shadcn/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
 import { Button } from "@/components/shadcn/ui/button";
+import { auth, SignOutButton } from "@clerk/nextjs";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import Link from "next/link";
 
-export default function ProfileButton() {
+export default async function ProfileButton() {
+	const { userId } = await auth();
+	if (!userId) return null;
+	const user = await db.query.users.findFirst({
+		where: eq(users.clerkID, userId),
+		with: { profileData: true },
+	});
+	if (!user) return null;
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant="ghost" className="relative h-8 w-8 rounded-full">
 					<Avatar className="h-8 w-8">
-						<AvatarImage src="/avatars/01.png" alt="@shadcn" />
-						<AvatarFallback>SC</AvatarFallback>
+						<AvatarImage src={user.profileData.profilePhoto} alt="@shadcn" />
+						<AvatarFallback>{user.firstName.charAt(0) + user.lastName.charAt(0)}</AvatarFallback>
 					</Avatar>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
 				<DropdownMenuLabel className="font-normal">
 					<div className="flex flex-col space-y-1">
-						<p className="text-sm font-medium leading-none">shadcn</p>
-						<p className="text-xs leading-none text-muted-foreground">m@example.com</p>
+						<p className="text-sm font-medium leading-none">{`${user.firstName} ${user.lastName}`}</p>
+						<p className="text-xs leading-none text-muted-foreground">@{user.hackerTag}</p>
 					</div>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					<DropdownMenuItem>
-						Profile
-						<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						Billing
-						<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						Settings
-						<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-					</DropdownMenuItem>
-					<DropdownMenuItem>New Team</DropdownMenuItem>
+					<Link href={"/profile"}>
+						<DropdownMenuItem>Profile</DropdownMenuItem>
+					</Link>
+					<Link href={"/settings"}>
+						<DropdownMenuItem>Settings</DropdownMenuItem>
+					</Link>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
-					Log out
-					<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-				</DropdownMenuItem>
+				<SignOutButton>
+					<DropdownMenuItem>Log out</DropdownMenuItem>
+				</SignOutButton>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
 }
+
+export const runtime = "edge";
