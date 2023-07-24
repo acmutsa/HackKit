@@ -44,7 +44,7 @@ export default async function ProfileButton() {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					<Link href={"/profile"}>
+					<Link href={`/@${user.hackerTag}`}>
 						<DropdownMenuItem>Profile</DropdownMenuItem>
 					</Link>
 					<Link href={"/settings"}>

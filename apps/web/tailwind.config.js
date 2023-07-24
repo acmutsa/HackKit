@@ -18,6 +18,9 @@ module.exports = {
 			},
 		},
 		extend: {
+			backgroundImage: {
+				"gradient-radial": "radial-gradient(ellipse_at_center, var(--gradient-color-stops))",
+			},
 			colors: {
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",

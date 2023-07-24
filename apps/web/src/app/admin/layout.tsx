@@ -8,6 +8,7 @@ import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { eq } from "drizzle-orm";
 import { users } from "@/db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
+import ProfileButton from "@/components/dash/shared/ProfileButton";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -59,6 +60,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 							Discord
 						</Button>
 					</Link>
+					<ProfileButton />
 				</div>
 			</div>
 			<div className="w-full h-12 px-5 flex bg-nav border-b-border border-b mb-12">

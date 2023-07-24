@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { events } from "@/db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import EventFull from "@/components/schedule/EventFull";
+import Navbar from "@/components/shared/Navbar";
 
 export default async function Page({ params }: { params: { id: string } }) {
 	if (!params || !params.id || isNaN(parseInt(params.id))) {
@@ -24,7 +25,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 		);
 	}
 
-	return <EventFull event={event} />;
+	return (
+		<>
+			<Navbar />
+			<EventFull event={event} />
+		</>
+	);
 }
 
 export const runtime = "edge";

@@ -53,11 +53,49 @@ export default {
 	eventPassBgImage: "/img/dash/pass/bg.png",
 	startDate: new Date(2023, 6, 15).setHours(9),
 	prettyLocation: "San Pedro I, UTSA",
+	roleBadges: {
+		hacker: {
+			title: "Hacker",
+			color: "hsl(var(--hackathon-primary))",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		volunteer: {
+			title: "Volunteer",
+			color: "#4CAF50",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		mentor: {
+			title: "Mentor",
+			color: "#9C27B0",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		mlh: {
+			title: "MLH",
+			color: "#ffffff",
+			foreground: "#E73426",
+			checked: "#E73426",
+		},
+		admin: {
+			title: "Organizer",
+			color: "#f59e0b",
+			foreground: "#ffffff",
+			checked: true,
+		},
+		super_admin: {
+			title: "Organizer",
+			color: "#f59e0b",
+			foreground: "#ffffff",
+			checked: true,
+		},
+	},
 } as const;
 
 // Its important that this is kept in sync with the database schema.
 
-export const perms = ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"];
+export const perms = ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"] as const;
 
 export const schools = [
 	"The University of Texas at San Antonio",

@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 export default async function Page() {
 	const user = await currentUser();
 
-	if (!user) return <div>Not logged in</div>;
+	if (!user) return redirect("/sign-in");
 
 	const registration = await db.query.users.findFirst({
 		where: eq(users.clerkID, user.id),

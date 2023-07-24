@@ -31,9 +31,9 @@ export const users = mysqlTable("users", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	hasSearchableProfile: boolean("has_searchable_profile").notNull().default(true),
 	group: int("group").notNull(),
-	role: mysqlEnum("role", ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"]).default(
-		"hacker"
-	),
+	role: mysqlEnum("role", ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"])
+		.default("hacker")
+		.notNull(),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({

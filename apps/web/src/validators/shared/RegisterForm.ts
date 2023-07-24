@@ -112,8 +112,8 @@ export const RegisterFormValidator = z.object({
 	]),
 	dietaryRestrictions: z.array(z.string()),
 	accommodationNote: z.string().optional(),
-	github: z.string().max(100, { message: "URL must be less than 100 characters" }).optional(),
-	linkedin: z.string().max(100, { message: "URL must be less than 100 characters" }).optional(),
+	github: z.string().max(50, { message: "Username must be less than 50 characters" }).optional(),
+	linkedin: z.string().max(50, { message: "Username must be less than 50 characters" }).optional(),
 	personalWebsite: z
 		.string()
 		.max(100, { message: "URL must be less than 100 characters" })
