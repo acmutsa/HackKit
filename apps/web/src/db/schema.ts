@@ -36,6 +36,7 @@ export const users = mysqlTable("users", {
 		.default("hacker")
 		.notNull(),
 	checkinTimestamp: timestamp("checkin_timestamp"),
+	teamID: varchar("team_id", { length: 50 }),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
@@ -49,6 +50,10 @@ export const userRelations = relations(users, ({ one, many }) => ({
 	}),
 	files: many(files),
 	scans: many(scans),
+	team: one(teams, {
+		fields: [users.teamID],
+		references: [teams.id],
+	}),
 }));
 
 export const registrationData = mysqlTable("registration_data", {
@@ -140,4 +145,18 @@ export const scansRelations = relations(scans, ({ one }) => ({
 		fields: [scans.eventID],
 		references: [events.id],
 	}),
+}));
+
+export const teams = mysqlTable("teams", {
+	id: varchar("id", { length: 50 }).notNull().primaryKey().unique(),
+	name: varchar("name", { length: 255 }).notNull(),
+	tag: varchar("tag", { length: 50 }).notNull().unique(),
+	photo: varchar("photo", { length: 400 }).notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	ownerID: varchar("owner_id", { length: 255 }).notNull(),
+	devpostURL: varchar("devpost_url", { length: 255 }),
+});
+
+export const teamsRelations = relations(teams, ({ one, many }) => ({
+	members: many(users),
 }));
