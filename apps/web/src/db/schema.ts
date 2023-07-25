@@ -18,6 +18,7 @@ import {
 	int,
 	json,
 	mysqlEnum,
+	primaryKey,
 } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
@@ -34,6 +35,7 @@ export const users = mysqlTable("users", {
 	role: mysqlEnum("role", ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"])
 		.default("hacker")
 		.notNull(),
+	checkinTimestamp: timestamp("checkin_timestamp"),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
@@ -46,6 +48,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
 		references: [profileData.hackerTag],
 	}),
 	files: many(files),
+	scans: many(scans),
 }));
 
 export const registrationData = mysqlTable("registration_data", {
@@ -95,6 +98,10 @@ export const events = mysqlTable("events", {
 	hidden: boolean("hidden").notNull().default(false),
 });
 
+export const eventsRelations = relations(events, ({ many }) => ({
+	scans: many(scans),
+}));
+
 export const files = mysqlTable("files", {
 	id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
 	presignedURL: text("presigned_url").notNull(),
@@ -108,5 +115,29 @@ export const filesRelations = relations(files, ({ one }) => ({
 	owner: one(users, {
 		fields: [files.ownerID],
 		references: [users.clerkID],
+	}),
+}));
+
+export const scans = mysqlTable(
+	"scans",
+	{
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		userID: varchar("user_id", { length: 255 }).notNull(),
+		eventID: int("event_id").notNull(),
+		count: int("count").notNull(),
+	},
+	(table) => ({
+		id: primaryKey(table.userID, table.eventID),
+	})
+);
+
+export const scansRelations = relations(scans, ({ one }) => ({
+	user: one(users, {
+		fields: [scans.userID],
+		references: [users.clerkID],
+	}),
+	event: one(events, {
+		fields: [scans.eventID],
+		references: [events.id],
 	}),
 }));
