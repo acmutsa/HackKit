@@ -40,8 +40,8 @@ export default async function Page() {
 function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 	return (
 		<div className="relative h-max my-20">
-			<div className="absolute z-10 -translate-y-[50%] top-0 left-1/2 border-nav border border-b-muted border-r-muted rotate-45 -translate-x-1/2 w-[75px] h-[75px] bg-nav rounded-full" />
-			<div className=" bg-background border-muted border max-w-[400px] !max-h-[calc(100vh-7rem)] w-full aspect-[9/17] rounded-3xl flex flex-col overflow-hidden py-[37.5px]">
+			<div className="absolute z-10 -translate-y-[50%] top-0 left-1/2 border-nav dark:border border-2 border-b-muted border-r-muted rotate-45 -translate-x-1/2 w-[75px] h-[75px] bg-nav rounded-full" />
+			<div className=" bg-background border-muted dark:border border-2 max-w-[400px] !max-h-[calc(100vh-7rem)] w-full aspect-[9/17] rounded-3xl flex flex-col overflow-hidden py-[37.5px]">
 				<div className="w-full relative h-[30%] pt-2 flex flex-col items-center">
 					<Image
 						src={clerk.imageUrl}
@@ -85,7 +85,7 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 					</div>
 				</div>
 			</div>
-			<div className="absolute z-10 translate-y-[50%] bottom-0 left-1/2 border-nav border border-t-muted border-l-muted rotate-45 -translate-x-1/2  w-[75px] h-[75px] bg-nav rounded-full" />
+			<div className="absolute z-10 translate-y-[50%] bottom-0 left-1/2 border-nav dark:border border-2 border-t-muted border-l-muted rotate-45 -translate-x-1/2  w-[75px] h-[75px] bg-nav rounded-full" />
 		</div>
 	);
 }

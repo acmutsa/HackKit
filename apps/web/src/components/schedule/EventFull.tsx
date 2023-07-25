@@ -9,7 +9,7 @@ export default function EventFull({ event }: { event: InferModel<typeof events> 
 	return (
 		<div className="w-screen relative">
 			<div
-				className="w-screen absolute top-0 h-[45vh] max-h-[400px] opacity-50"
+				className="w-screen absolute top-0 h-[45vh] max-h-[400px] dark:opacity-50 opacity-10"
 				style={{
 					backgroundImage: `linear-gradient(180deg, ${
 						(c.eventTypes as Record<string, string>)[event.type] || c.eventTypes.Other

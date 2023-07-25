@@ -1,12 +1,17 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { cookies } from "next/headers";
+import { defaultTheme } from "@/hackkit.config";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+	const theme = cookies().get("hk_theme")?.value || defaultTheme;
 	return (
 		<ClerkProvider>
-			<html lang="en" className="dark">
-				<body>{children}</body>
+			<html lang="en">
+				<body className={theme === "dark" ? "dark" : ""}>{children}</body>
 			</html>
 		</ClerkProvider>
 	);
 }
+
+export const runtime = "edge";

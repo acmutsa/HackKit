@@ -19,8 +19,8 @@ export default function Day({ title, subtitle, events }: DayProps) {
 	let dup = structuredClone(events);
 	dup.sort((a, b) => compareAsc(a.startTime, b.startTime));
 	return (
-		<div className="rounded-xl w-full flex flex-col items-center min-h-[60vh] bg-white/[0.08] backdrop-blur transition">
-			<h1 className="font-extrabold text-4xl mt-5">{title}</h1>
+		<div className="rounded-xl w-full flex flex-col items-center min-h-[60vh] dark:bg-white/[0.08] bg-white backdrop-blur transition">
+			<h1 className="font-extrabold text-4xl mt-5 dark:text-primary text-hackathon">{title}</h1>
 			<h2 className="text-muted-foreground text-sm mb-5">{subtitle}</h2>
 			<div className="flex flex-col items-center gap-y-2 w-full px-2">
 				{dup.map((event) => (

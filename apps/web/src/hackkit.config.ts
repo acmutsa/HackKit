@@ -1,3 +1,5 @@
+export const defaultTheme = "dark";
+
 export default {
 	hackathonName: "HackKit",
 	itteration: "2023",

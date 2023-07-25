@@ -15,6 +15,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
+import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 
 export default async function ProfileButton() {
 	const { userId } = await auth();
@@ -44,16 +45,19 @@ export default async function ProfileButton() {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
+					<DropdownSwitcher />
 					<Link href={`/@${user.hackerTag}`}>
-						<DropdownMenuItem>Profile</DropdownMenuItem>
+						<DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
 					</Link>
 					<Link href={"/settings"}>
-						<DropdownMenuItem>Settings</DropdownMenuItem>
+						<DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
 					</Link>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<SignOutButton>
-					<DropdownMenuItem>Log out</DropdownMenuItem>
+					<DropdownMenuItem className="hover:!bg-destructive cursor-pointer">
+						Log out
+					</DropdownMenuItem>
 				</SignOutButton>
 			</DropdownMenuContent>
 		</DropdownMenu>
