@@ -54,6 +54,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
 		fields: [users.teamID],
 		references: [teams.id],
 	}),
+	invites: many(invites),
 }));
 
 export const registrationData = mysqlTable("registration_data", {
@@ -159,4 +160,29 @@ export const teams = mysqlTable("teams", {
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
 	members: many(users),
+	invites: many(invites),
+}));
+
+export const invites = mysqlTable(
+	"invites",
+	{
+		inviteeID: varchar("invitee_id", { length: 255 }).notNull(),
+		teamID: varchar("team_id", { length: 50 }).notNull(),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		status: mysqlEnum("status", ["pending", "accepted", "declined"]).notNull().default("pending"),
+	},
+	(table) => ({
+		id: primaryKey(table.inviteeID, table.teamID),
+	})
+);
+
+export const invitesRelations = relations(invites, ({ one }) => ({
+	invitee: one(users, {
+		fields: [invites.inviteeID],
+		references: [users.clerkID],
+	}),
+	team: one(teams, {
+		fields: [invites.teamID],
+		references: [teams.id],
+	}),
 }));
