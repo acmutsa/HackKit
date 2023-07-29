@@ -93,6 +93,7 @@ export default {
 			checked: true,
 		},
 	},
+	maxTeamSize: 4,
 } as const;
 
 // Its important that this is kept in sync with the database schema.

@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 	} catch (e) {
 		return NextResponse.json({
 			success: false,
-			message: `An error occurred while creating your team. If this is a continuing issue, please reach out to ${c.issueEmail} .Error: ${e}`,
+			message: `An error occurred while creating your team. If this is a continuing issue, please reach out to ${c.issueEmail}. Error: ${e}`,
 		});
 	}
 }

@@ -25,3 +25,7 @@ export const newTeamValidator = z.object({
 		}),
 	photo: z.string().url(),
 });
+
+export const newInviteValidator = z.object({
+	inviteeTag: z.string(),
+});
