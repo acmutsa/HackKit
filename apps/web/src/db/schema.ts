@@ -152,6 +152,7 @@ export const teams = mysqlTable("teams", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey().unique(),
 	name: varchar("name", { length: 255 }).notNull(),
 	tag: varchar("tag", { length: 50 }).notNull().unique(),
+	bio: text("bio"),
 	photo: varchar("photo", { length: 400 }).notNull(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	ownerID: varchar("owner_id", { length: 255 }).notNull(),
@@ -186,3 +187,11 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 		references: [teams.id],
 	}),
 }));
+
+export const errorLog = mysqlTable("error_log", {
+	id: varchar("id", { length: 50 }).notNull().primaryKey(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	userID: varchar("user_id", { length: 255 }),
+	route: varchar("route", { length: 255 }),
+	message: text("message").notNull(),
+});

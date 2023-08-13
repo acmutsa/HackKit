@@ -2,10 +2,11 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { users, teams } from "@/db/schema";
+import { users, teams, errorLog } from "@/db/schema";
 import { newTeamValidator } from "@/validators/shared/team";
 import { nanoid } from "nanoid";
 import c from "@/hackkit.config";
+import { logError } from "@/lib/utils/server/logError";
 
 export async function POST(req: Request) {
 	const { userId } = await auth();
@@ -28,13 +29,23 @@ export async function POST(req: Request) {
 		});
 	}
 
+	const teamID = nanoid();
+
 	try {
-		await db.insert(teams).values({
-			id: nanoid(10),
-			name: body.data.name,
-			tag: body.data.tag,
-			photo: body.data.photo,
-			ownerID: userId,
+		await db.transaction(async (tx) => {
+			await tx.insert(teams).values({
+				id: teamID,
+				name: body.data.name,
+				tag: body.data.tag,
+				photo: body.data.photo,
+				ownerID: userId,
+			});
+			await tx
+				.update(users)
+				.set({
+					teamID,
+				})
+				.where(eq(users.clerkID, userId));
 		});
 
 		return NextResponse.json({
@@ -42,9 +53,14 @@ export async function POST(req: Request) {
 			message: body.data.tag,
 		});
 	} catch (e) {
+		const errorID = await logError({
+			error: e,
+			userID: userId,
+			route: "/api/team/create",
+		});
 		return NextResponse.json({
 			success: false,
-			message: `An error occurred while creating your team. If this is a continuing issue, please reach out to ${c.issueEmail}. Error: ${e}`,
+			message: `An error occurred while creating your team. If this is a continuing issue, please reach out to ${c.issueEmail} with error ID ${errorID}.`,
 		});
 	}
 }

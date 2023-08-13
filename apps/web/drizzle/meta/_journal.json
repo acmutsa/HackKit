@@ -120,6 +120,20 @@
       "when": 1690324895322,
       "tag": "0017_naive_wallflower",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1691820711613,
+      "tag": "0018_normal_leech",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1691916654080,
+      "tag": "0019_nosy_salo",
+      "breakpoints": true
     }
   ]
 }

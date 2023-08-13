@@ -30,6 +30,7 @@ export default {
 			Overview: "/dash",
 			"Event Pass": "/dash/pass",
 			Schedule: "/dash/schedule",
+			Team: "/dash/team",
 		},
 		admin: {
 			Overview: "/admin",
@@ -51,6 +52,7 @@ export default {
 	},
 	maxResumeSizeInBytes: 4194304,
 	maxFileSizeInBytes: 4194304,
+	maxProfilePhotoSizeInBytes: 10485760,
 	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	eventPassBgImage: "/img/dash/pass/bg.png",
 	startDate: new Date(2023, 6, 15).setHours(9),
