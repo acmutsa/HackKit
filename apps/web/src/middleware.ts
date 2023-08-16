@@ -9,6 +9,11 @@ export default authMiddleware({
 				new URL(`/user/${req.nextUrl.pathname.replace("/@", "")}`, req.url)
 			);
 		}
+		if (req.nextUrl.pathname.startsWith("/~")) {
+			return NextResponse.rewrite(
+				new URL(`/team/${req.nextUrl.pathname.replace("/~", "")}`, req.url)
+			);
+		}
 	},
 });
 
