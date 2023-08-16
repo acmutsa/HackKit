@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/shared/Navbar";
 
 export default async function Page({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
@@ -23,6 +24,7 @@ export default async function Page({ params }: { params: { tag: string } }) {
 
 	return (
 		<>
+			<Navbar />
 			<div className="fixed left-1/2 top-[calc(50%+7rem)] overflow-x-hidden h-[40vh] w-[800px] max-w-screen -translate-x-1/2 -translate-y-1/2 scale-150 bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
 			<div className="min-h-screen flex items-center justify-center flex-col gap-y-2 relative">
 				<div className="w-[200px] mb-5 aspect-square rounded-full overflow-hidden relative">
