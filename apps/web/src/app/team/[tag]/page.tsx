@@ -52,7 +52,9 @@ export default async function Page({ params }: { params: { tag: string } }) {
 									<p className="leading-none">
 										{member.firstName} {member.lastName}
 									</p>
-									<p className="text-xs leading-none">@{member.hackerTag}</p>
+									<p className="text-xs leading-none font-mono text-muted-foreground">
+										@{member.hackerTag}
+									</p>
 								</div>
 							</div>
 						</Link>
