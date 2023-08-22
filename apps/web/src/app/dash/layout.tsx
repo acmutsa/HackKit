@@ -7,6 +7,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { redirect } from "next/navigation";
 import ProfileButton from "@/components/dash/shared/ProfileButton";
+import ClientToast from "@/components/shared/ClientToast";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
@@ -21,6 +22,7 @@ export default async function AdminLayout({ children }: DashLayoutProps) {
 
 	return (
 		<>
+			<ClientToast />
 			<div className="w-full h-16 px-5 grid grid-cols-2 bg-nav">
 				<div className="flex items-center gap-x-4">
 					<Image src={c.icon.svg} alt={c.hackathonName + " Logo"} width={32} height={32} />
