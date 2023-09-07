@@ -1,6 +1,10 @@
 "use client";
 import { Toaster } from "sonner";
 
-export default function ClientToast() {
-	return <Toaster />;
+interface clientToastOptions {
+	richColors?: boolean;
+}
+
+export default function ClientToast({ richColors = true }: clientToastOptions) {
+	return <Toaster richColors={richColors} />;
 }

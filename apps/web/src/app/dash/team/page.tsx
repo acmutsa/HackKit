@@ -93,7 +93,7 @@ export default async function Page() {
 							<TeamInvite />
 							<Button variant={"destructive"}>
 								<ImExit className="mr-1" />
-								Leave Team
+								Leave
 							</Button>
 						</div>
 					</div>
