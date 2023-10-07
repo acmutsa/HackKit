@@ -30,22 +30,25 @@ export async function POST(req: Request) {
 		return new Response("Malformed request body.", { status: 400 });
 	}
 
-	const res = await db.insert(events).values({
-		title: parsedBody.data.title,
-		description: parsedBody.data.description,
-		startTime: parsedBody.data.startTime,
-		endTime: parsedBody.data.endTime,
-		type: parsedBody.data.type,
-		host:
-			parsedBody.data.host && parsedBody.data.host.length > 0
-				? parsedBody.data.host
-				: `${c.hackathonName}`,
-	});
+	const res = await db
+		.insert(events)
+		.values({
+			title: parsedBody.data.title,
+			description: parsedBody.data.description,
+			startTime: parsedBody.data.startTime,
+			endTime: parsedBody.data.endTime,
+			type: parsedBody.data.type,
+			host:
+				parsedBody.data.host && parsedBody.data.host.length > 0
+					? parsedBody.data.host
+					: `${c.hackathonName}`,
+		})
+		.returning();
 
 	return NextResponse.json<z.infer<typeof BasicRedirValidator>>({
 		success: true,
 		message: "Event created successfully.",
-		redirect: `/dash/schedule/${res.rowsAffected}`,
+		redirect: `/dash/schedule/${res[0].id}`,
 	});
 }
 

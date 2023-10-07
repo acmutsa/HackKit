@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { users, invites, teams } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
-export const inviteDeclineValidator = z.object({
+const inviteDeclineValidator = z.object({
 	teamInviteID: z.string().min(1).max(50),
 });
 

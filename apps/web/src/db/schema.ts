@@ -9,20 +9,34 @@ more info: https://orm.drizzle.team/kit-docs/overview
 */
 
 import {
-	mysqlTable,
+	bigserial,
 	text,
 	varchar,
 	uniqueIndex,
 	boolean,
 	timestamp,
-	int,
+	integer,
 	json,
-	mysqlEnum,
+	pgEnum,
 	primaryKey,
-} from "drizzle-orm/mysql-core";
+	pgTable,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-export const users = mysqlTable("users", {
+export const roles = pgEnum("role", [
+	"hacker",
+	"volunteer",
+	"mentor",
+	"mlh",
+	"admin",
+	"super_admin",
+]);
+
+export const fileTypesEnum = pgEnum("type", ["generic", "resume"]);
+
+export const inviteType = pgEnum("status", ["pending", "accepted", "declined"]);
+
+export const users = pgTable("users", {
 	clerkID: varchar("clerk_id", { length: 255 }).notNull().primaryKey().unique(),
 	firstName: varchar("first_name", { length: 50 }).notNull(),
 	lastName: varchar("last_name", { length: 50 }).notNull(),
@@ -31,10 +45,8 @@ export const users = mysqlTable("users", {
 	registrationComplete: boolean("registration_complete").notNull().default(false),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	hasSearchableProfile: boolean("has_searchable_profile").notNull().default(true),
-	group: int("group").notNull(),
-	role: mysqlEnum("role", ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"])
-		.default("hacker")
-		.notNull(),
+	group: integer("group").notNull(),
+	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
 	teamID: varchar("team_id", { length: 50 }),
 });
@@ -57,9 +69,9 @@ export const userRelations = relations(users, ({ one, many }) => ({
 	invites: many(invites),
 }));
 
-export const registrationData = mysqlTable("registration_data", {
+export const registrationData = pgTable("registration_data", {
 	clerkID: varchar("clerk_id", { length: 255 }).notNull().primaryKey().unique(),
-	age: int("age").notNull(),
+	age: integer("age").notNull(),
 	gender: varchar("gender", { length: 50 }).notNull(),
 	race: varchar("race", { length: 75 }).notNull(),
 	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
@@ -70,7 +82,7 @@ export const registrationData = mysqlTable("registration_data", {
 	major: varchar("major", { length: 200 }).notNull(),
 	shortID: varchar("short_id", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
-	hackathonsAttended: int("hackathons_attended").notNull(),
+	hackathonsAttended: integer("hackathons_attended").notNull(),
 	softwareExperience: varchar("software_experience", { length: 25 }).notNull(),
 	heardFrom: varchar("heard_from", { length: 50 }),
 	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
@@ -84,7 +96,7 @@ export const registrationData = mysqlTable("registration_data", {
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
 });
 
-export const profileData = mysqlTable("profile_data", {
+export const profileData = pgTable("profile_data", {
 	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().primaryKey().unique(),
 	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
 	pronouns: varchar("pronouns", { length: 20 }).notNull(),
@@ -93,8 +105,8 @@ export const profileData = mysqlTable("profile_data", {
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 });
 
-export const events = mysqlTable("events", {
-	id: int("id").notNull().primaryKey().autoincrement(),
+export const events = pgTable("events", {
+	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),
 	title: varchar("name", { length: 255 }).notNull(),
 	startTime: timestamp("start_time").notNull(),
 	endTime: timestamp("end_time").notNull(),
@@ -108,12 +120,12 @@ export const eventsRelations = relations(events, ({ many }) => ({
 	scans: many(scans),
 }));
 
-export const files = mysqlTable("files", {
+export const files = pgTable("files", {
 	id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
 	presignedURL: text("presigned_url").notNull(),
 	key: varchar("key", { length: 500 }).notNull().unique(),
 	validated: boolean("validated").notNull().default(false),
-	type: mysqlEnum("type", ["generic", "resume"]).notNull(),
+	type: fileTypesEnum("type").notNull(),
 	ownerID: varchar("owner_id", { length: 255 }).notNull(),
 });
 
@@ -124,13 +136,13 @@ export const filesRelations = relations(files, ({ one }) => ({
 	}),
 }));
 
-export const scans = mysqlTable(
+export const scans = pgTable(
 	"scans",
 	{
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		userID: varchar("user_id", { length: 255 }).notNull(),
-		eventID: int("event_id").notNull(),
-		count: int("count").notNull(),
+		eventID: integer("event_id").notNull(),
+		count: integer("count").notNull(),
 	},
 	(table) => ({
 		id: primaryKey(table.userID, table.eventID),
@@ -148,7 +160,7 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-export const teams = mysqlTable("teams", {
+export const teams = pgTable("teams", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey().unique(),
 	name: varchar("name", { length: 255 }).notNull(),
 	tag: varchar("tag", { length: 50 }).notNull().unique(),
@@ -164,13 +176,13 @@ export const teamsRelations = relations(teams, ({ one, many }) => ({
 	invites: many(invites),
 }));
 
-export const invites = mysqlTable(
+export const invites = pgTable(
 	"invites",
 	{
 		inviteeID: varchar("invitee_id", { length: 255 }).notNull(),
 		teamID: varchar("team_id", { length: 50 }).notNull(),
 		createdAt: timestamp("created_at").notNull().defaultNow(),
-		status: mysqlEnum("status", ["pending", "accepted", "declined"]).notNull().default("pending"),
+		status: inviteType("status").notNull().default("pending"),
 	},
 	(table) => ({
 		id: primaryKey(table.inviteeID, table.teamID),
@@ -188,7 +200,7 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 	}),
 }));
 
-export const errorLog = mysqlTable("error_log", {
+export const errorLog = pgTable("error_log", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	userID: varchar("user_id", { length: 255 }),

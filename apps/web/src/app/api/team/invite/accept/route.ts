@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import c from "@/hackkit.config";
 
-export const inviteAcceptValidator = z.object({
+const inviteAcceptValidator = z.object({
 	teamInviteID: z.string().min(1).max(50),
 });
 
@@ -48,7 +48,7 @@ export async function POST(req: Request): serverZodResponse<typeof BasicServerVa
 	if (user.invites.length === 0) {
 		return NextResponse.json({
 			success: false,
-			message: "You have not been invited to this team team.",
+			message: "You have not been invited to this team.",
 			internalCode: "not_invited",
 		});
 	}

@@ -13,10 +13,10 @@ export default function DashNavItem({ name, path }: DashNavItemProps) {
 	return (
 		<Link href={path}>
 			<button
-				className={`h-full px-3 border-b-2 text-sm ${
+				className={`h-full px-3 border-b-2 text-sm transition-colors duration-150 ${
 					(currPath.startsWith(path) && path !== "/admin" && path !== "/dash") || currPath === path
 						? "border-b-primary text-primary"
-						: "border-b-transparent text-muted-foreground"
+						: "border-b-transparent text-muted-foreground hover:border-b-muted"
 				}`}
 			>
 				{name}
