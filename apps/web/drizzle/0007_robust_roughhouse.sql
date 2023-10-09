@@ -1,1 +1,0 @@
-ALTER TABLE `events` MODIFY COLUMN `description` text NOT NULL;

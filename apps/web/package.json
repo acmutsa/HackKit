@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrations:generate": "drizzle-kit generate:mysql",
+    "migrations:generate": "drizzle-kit generate:pg",
     "migrations:apply": "node -r esbuild-register src/db/migrate.ts",
     "migrations:drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio"
