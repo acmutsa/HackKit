@@ -1,36 +1,24 @@
-import { migrate } from "drizzle-orm/planetscale-serverless/migrator";
-import { connect } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 import "dotenv/config";
 
-// inspired by Raphael Moreau @rphlmr for Postgres, extended for Planetscale
-const runMigrate = async () => {
-	if (!process.env.DB_URL) {
-		throw new Error("DB_URL is not defined");
-	}
-
-	const connection = connect({
-		url: process.env.DB_URL,
-		fetch,
-	});
-
-	const db = drizzle(connection);
-
+const runMigrations = async () => {
 	console.log("⏳ Running migrations...");
-
 	const start = Date.now();
 
-	await migrate(db, { migrationsFolder: "./drizzle" });
+	// TODO: Change this to use t3-env instead of dotenv for type checking
+	const sql = postgres((process.env.POSTGRES_URL as string) + "?sslmode=require", { max: 1 });
+	const db = drizzle(sql);
 
-	const end = Date.now();
+	await migrate(db, { migrationsFolder: "drizzle" });
 
-	console.log(`✅ Migrations completed in ${end - start}ms`);
+	console.log(`✅ Migrations completed in ${Date.now() - start}ms`);
 
 	process.exit(0);
 };
 
-runMigrate().catch((err) => {
+runMigrations().catch((err) => {
 	console.error("❌ Migration failed");
 	console.error(err);
 	process.exit(1);

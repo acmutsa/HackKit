@@ -105,7 +105,7 @@ importers:
         version: 0.19.11
       drizzle-orm:
         specifier: ^0.27.2
-        version: 0.27.2(@planetscale/database@1.8.0)(@vercel/postgres@0.4.0)(pg@8.11.1)
+        version: 0.27.2(@planetscale/database@1.8.0)(@vercel/postgres@0.4.0)(pg@8.11.1)(postgres@3.3.5)
       drizzle-zod:
         specifier: ^0.4.4
         version: 0.4.4(drizzle-orm@0.27.2)(zod@3.21.4)
@@ -124,6 +124,9 @@ importers:
       postcss:
         specifier: 8.4.24
         version: 8.4.24
+      postgres:
+        specifier: ^3.3.5
+        version: 3.3.5
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -4223,7 +4226,7 @@ packages:
       - supports-color
     dev: false
 
-  /drizzle-orm@0.27.2(@planetscale/database@1.8.0)(@vercel/postgres@0.4.0)(pg@8.11.1):
+  /drizzle-orm@0.27.2(@planetscale/database@1.8.0)(@vercel/postgres@0.4.0)(pg@8.11.1)(postgres@3.3.5):
     resolution: {integrity: sha512-ZvBvceff+JlgP7FxHKe0zOU9CkZ4RcOtibumIrqfYzDGuOeF0YUY0F9iMqYpRM7pxnLRfC+oO7rWOUH3T5oFQA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -4288,6 +4291,7 @@ packages:
       '@planetscale/database': 1.8.0
       '@vercel/postgres': 0.4.0
       pg: 8.11.1
+      postgres: 3.3.5
     dev: false
 
   /drizzle-zod@0.4.4(drizzle-orm@0.27.2)(zod@3.21.4):
@@ -4296,7 +4300,7 @@ packages:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
-      drizzle-orm: 0.27.2(@planetscale/database@1.8.0)(@vercel/postgres@0.4.0)(pg@8.11.1)
+      drizzle-orm: 0.27.2(@planetscale/database@1.8.0)(@vercel/postgres@0.4.0)(pg@8.11.1)(postgres@3.3.5)
       zod: 3.21.4
     dev: false
 
@@ -5830,6 +5834,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       xtend: 4.0.2
+    dev: false
+
+  /postgres@3.3.5:
+    resolution: {integrity: sha512-+JD93VELV9gHkqpV5gdL5/70HdGtEw4/XE1S4BC8f1mcPmdib3K5XsKVbnR1XcAyC41zOnifJ+9YRKxdIsXiUw==}
     dev: false
 
   /prelude-ls@1.2.1:
