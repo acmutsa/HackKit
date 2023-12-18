@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 	return NextResponse.json<z.infer<typeof BasicRedirValidator>>({
 		success: true,
 		message: "Event created successfully.",
-		redirect: `/dash/schedule/${res[0].id}`,
+		redirect: `/schedule/${res[0].id}`,
 	});
 }
 
