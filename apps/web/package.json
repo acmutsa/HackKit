@@ -45,7 +45,7 @@
     "drizzle-zod": "^0.4.4",
     "lucide-react": "^0.257.0",
     "nanoid": "^4.0.2",
-    "next": "13.4.9",
+    "next": "14.0.4",
     "pg": "^8.11.1",
     "postcss": "8.4.24",
     "postgres": "^3.3.5",

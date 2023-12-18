@@ -9,12 +9,12 @@ export default function Page() {
 	return (
 		<div>
 			<h1>Scanner</h1>
-			<div className="w-[500px] aspect-square overflow-hidden">
-				<QrScanner
+			<div className="w-[500px] max-w-screen aspect-square overflow-hidden">
+				{/* <QrScanner
 					onDecode={(result) => setData(result)}
 					onError={(error) => console.log(error?.message)}
 					containerStyle={{ width: "500px", margin: "0" }}
-				/>
+				/> */}
 			</div>
 			<p>{data}</p>
 			<br />

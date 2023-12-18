@@ -99,6 +99,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	}, [universityValue]);
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
+		console.log("Submision Clickjed");
 		if (!userId || !isLoaded) {
 			return alert(
 				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`

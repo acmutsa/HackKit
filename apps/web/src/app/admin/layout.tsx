@@ -28,6 +28,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	});
 
 	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+		console.log("Denying admin access to user", user);
 		return (
 			<FullScreenMessage
 				title="Access Denied"

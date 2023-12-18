@@ -17,8 +17,12 @@ function DateSegment({ segment, state }: DateSegmentProps) {
 		segmentProps: { ...segmentProps },
 	} = useDateSegment(segment, state, ref);
 
+	// Supressed hydration warning due to weirdness in date formatting.
+	// TODO: Maybe find a better solution for this?
+
 	return (
 		<div
+			suppressHydrationWarning={true}
 			{...segmentProps}
 			ref={ref}
 			className={cn(

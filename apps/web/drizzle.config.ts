@@ -6,7 +6,7 @@ export default {
 	out: "./drizzle",
 	driver: "pg",
 	dbCredentials: {
-		connectionString: `${process.env.DB_URL as string}&ssl={"rejectUnauthorized":true}`,
+		connectionString: `${process.env.POSTGRES_URL as string}?sslmode=require`,
 	},
 	breakpoints: true,
 } satisfies Config;

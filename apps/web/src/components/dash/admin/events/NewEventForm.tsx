@@ -32,14 +32,17 @@ import { useState } from "react";
 import { ImSpinner10 } from "react-icons/im";
 import { useRouter } from "next/navigation";
 
+interface NewEventFormProps {
+	defaultDate: Date;
+}
+
 const formSchema = newEventValidator.merge(
 	z.object({
 		type: z.enum(Object.keys(c.eventTypes) as any),
 	})
 );
 
-export default function NewEventForm() {
-	const defaultDate = new Date();
+export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const form = useForm<z.infer<typeof formSchema>>({
