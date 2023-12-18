@@ -49,13 +49,15 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		accessorKey: "createdAt",
 		header: "Signup Date",
-		cell: ({ row }) =>
-			`${new Date(row.original.createdAt).toLocaleDateString()} ${new Date(
-				row.original.createdAt
-			).toLocaleTimeString("en-US", {
-				hour: "2-digit",
-				minute: "2-digit",
-			})}`,
+		cell: ({ row }) => (
+			<span suppressHydrationWarning={true}>
+				{new Date(row.original.createdAt).toLocaleDateString() + " "}
+				{new Date(row.original.createdAt).toLocaleTimeString("en-US", {
+					hour: "2-digit",
+					minute: "2-digit",
+				})}
+			</span>
+		),
 	},
 	{
 		accessorKey: "clerkID2",
