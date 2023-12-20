@@ -73,6 +73,9 @@ importers:
       '@vercel/blob':
         specifier: ^0.10.0
         version: 0.10.0
+      '@vercel/kv':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@vercel/postgres':
         specifier: ^0.4.0
         version: 0.4.0
@@ -3674,6 +3677,12 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: false
 
+  /@upstash/redis@1.25.1:
+    resolution: {integrity: sha512-ACj0GhJ4qrQyBshwFgPod6XufVEfKX2wcaihsEvSdLYnY+m+pa13kGt1RXm/yTHKf4TQi/Dy2A8z/y6WUEOmlg==}
+    dependencies:
+      crypto-js: 4.2.0
+    dev: false
+
   /@vercel/blob@0.10.0:
     resolution: {integrity: sha512-ypRO1Q0mil2FjvNCZDGmOBrdARuuR+FpV4MKkQvFvHiyc2K6EB16XmrFOdmHojPiof172NL4b1Y6hpfbUtq5IA==}
     engines: {node: '>=16.14'}
@@ -3685,6 +3694,13 @@ packages:
       - canvas
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@vercel/kv@1.0.1:
+    resolution: {integrity: sha512-uTKddsqVYS2GRAM/QMNNXCTuw9N742mLoGRXoNDcyECaxEXvIHG0dEY+ZnYISV4Vz534VwJO+64fd9XeSggSKw==}
+    engines: {node: '>=14.6'}
+    dependencies:
+      '@upstash/redis': 1.25.1
     dev: false
 
   /@vercel/postgres@0.4.0:
@@ -4256,6 +4272,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    dev: false
 
   /cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
