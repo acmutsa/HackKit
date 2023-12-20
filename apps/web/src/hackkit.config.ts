@@ -35,8 +35,8 @@ export default {
 		admin: {
 			Overview: "/admin",
 			Users: "/admin/users",
-			Scanner: "/admin/scanner",
 			Events: "/admin/events",
+			Toggles: "/admin/toggles",
 		},
 	},
 	eventTypes: {
@@ -46,6 +46,7 @@ export default {
 		Social: "#2196F3",
 		Other: "#795548",
 	},
+	// TODO: Can remove days? Pretty sure they're dynamic now.
 	days: {
 		Saturday: new Date(2023, 6, 15),
 		Sunday: new Date(2023, 6, 16),
