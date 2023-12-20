@@ -2,10 +2,12 @@ import Image from "next/image";
 import c from "@/hackkit.config";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
+import Navbar from "@/components/shared/Navbar";
 
 export default function Home() {
 	return (
 		<>
+			<Navbar />
 			<main className="grid grid-cols-1 w-full">
 				<div className="min-h-screen w-full flex flex-col items-center justify-center relative">
 					<div className="absolute top-[-30vh] left-[20%] -translate-x-5 h-[110vh] w-[225px] bg-white blur-3xl opacity-20 -rotate-[50deg]"></div>
