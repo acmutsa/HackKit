@@ -13,15 +13,7 @@ export default async function NavBarLinksGrouper() {
 			);
 		}
 	}
-	return (
-		<>
-			{nav.items.map((item) => (
-				<NavbarItem key={item.name} link={item.url}>
-					{item.name}
-				</NavbarItem>
-			))}
-		</>
-	);
+	return <>{toRender}</>;
 }
 
 export const runtime = "edge";

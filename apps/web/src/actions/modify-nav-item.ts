@@ -30,18 +30,6 @@ export const removeItem = adminAction(z.string(), async (name, { user, userId })
 	return { success: true };
 });
 
-// export const enableItem = adminAction(z.string(), async (name, { user, userId }) => {
-// 	await kv.hset(`config:navitems:${encodeURIComponent(name)}`, { enabled: true });
-// 	revalidatePath(navAdminPage);
-// 	return { success: true };
-// });
-
-// export const disableItem = adminAction(z.string(), async (name, { user, userId }) => {
-// 	await kv.hset(`config:navitems:${encodeURIComponent(name)}`, { enabled: false });
-// 	revalidatePath(navAdminPage);
-// 	return { success: true };
-// });
-
 export const toggleItem = adminAction(
 	z.object({ name: z.string(), statusToSet: z.boolean() }),
 	async ({ name, statusToSet }, { user, userId }) => {
