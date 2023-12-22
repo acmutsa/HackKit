@@ -10,6 +10,7 @@ import { users } from "@/db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import ProfileButton from "@/components/dash/shared/ProfileButton";
 import { Suspense } from "react";
+import ClientToast from "@/components/shared/ClientToast";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -40,6 +41,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 
 	return (
 		<>
+			<ClientToast />
 			<div className="w-full h-16 px-5 grid grid-cols-2 bg-nav">
 				<div className="flex items-center gap-x-4">
 					<Image src={c.icon.svg} alt={c.hackathonName + " Logo"} width={32} height={32} />

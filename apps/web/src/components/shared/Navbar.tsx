@@ -4,8 +4,7 @@ import c from "@/hackkit.config";
 import { Button } from "../shadcn/ui/button";
 import ProfileButton from "../dash/shared/ProfileButton";
 import { auth } from "@clerk/nextjs";
-import NavbarItem from "./NavbarItem";
-import { kv } from "@vercel/kv";
+import NavBarLinksGrouper from "./NavBarLinksGrouper";
 
 export default async function Navbar() {
 	const { userId } = await auth();
@@ -19,9 +18,7 @@ export default async function Navbar() {
 						<h2 className="font-bold tracking-tight">{c.hackathonName}</h2>
 					</Link>
 
-					<NavbarItem link={"/about"}>About</NavbarItem>
-					<NavbarItem link={"/schedule"}>Schedule</NavbarItem>
-					<NavbarItem link={"/faq"}>FAQ</NavbarItem>
+					<NavBarLinksGrouper />
 				</div>
 				<div className="items-center justify-end gap-x-4 md:flex hidden">
 					{userId ? (
