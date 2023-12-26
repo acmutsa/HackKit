@@ -7,7 +7,7 @@ import { Label } from "@/components/shadcn/ui/label";
 export default function AccountSettings() {
 	return (
 		<main>
-			<div className="border-2 border-muted rounded py-10 px-5">
+			<div className="border-2 border-muted rounded-lg py-10 px-5">
 				<h2 className="font-semibold text-3xl pb-5">Personal Information</h2>
 				<div className="max-w-[500px] space-y-4">
 					<div>

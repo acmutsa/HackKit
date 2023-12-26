@@ -27,6 +27,7 @@ export default async function ({ children }: { children: ReactNode }) {
 				<div>
 					<SettingsSection name="Settings" path="/settings" />
 					<SettingsSection name="Account" path="/settings/account" />
+					<SettingsSection name="Profile" path="/settings/profile" />
 				</div>
 				<div className="col-span-4">{children}</div>
 			</div>

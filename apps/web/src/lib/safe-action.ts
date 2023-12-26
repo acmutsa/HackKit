@@ -5,6 +5,7 @@ import { users } from "@/db/schema";
 import { auth } from "@clerk/nextjs";
 
 export const publicAction = createSafeActionClient();
+
 export const adminAction = createSafeActionClient({
 	async middleware() {
 		const { userId } = auth();
@@ -17,5 +18,14 @@ export const adminAction = createSafeActionClient({
 		}
 
 		return { user, userId };
+	},
+});
+
+export const authenticatedAction = createSafeActionClient({
+	// TODO: Add registration check here?
+	async middleware() {
+		const { userId } = auth();
+		if (!userId) throw new Error("Unauthorized");
+		return { userId };
 	},
 });
