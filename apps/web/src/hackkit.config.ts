@@ -19,6 +19,9 @@ export default {
 	],
 	groups: ["Group A", "Group B", "Group C"],
 	issueEmail: "team@acmutsa.org",
+	links: {
+		discord: "https://go.acmutsa.org/discord",
+	},
 	icon: {
 		sm: "/img/logo/hackkit-sm.png",
 		md: "/img/logo/hackkit-md.png",
@@ -56,7 +59,7 @@ export default {
 	maxProfilePhotoSizeInBytes: 10485760,
 	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	eventPassBgImage: "/img/dash/pass/bg.png",
-	startDate: new Date(2023, 6, 15).setHours(9),
+	startDate: new Date(new Date(2024, 1, 25).setHours(9)),
 	prettyLocation: "San Pedro I, UTSA",
 	roleBadges: {
 		hacker: {
