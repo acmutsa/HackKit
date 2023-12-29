@@ -8,6 +8,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import c from "@/hackkit.config";
 import superjson from "superjson";
+import { createQRpayload } from "@/lib/utils/shared/qr";
 
 // HackKit Bubbles
 
@@ -22,10 +23,10 @@ export default async function Page() {
 	});
 	if (!user) return null;
 
-	const qrPayload = superjson.stringify({ userId: userId, createdAt: Date.now() });
+	const qrPayload = createQRpayload({ userID: userId, createdAt: new Date() });
 
 	return (
-		<div className="max-w-7xl mx-auto pt-10 min-h-screen">
+		<div className="max-w-7xl mx-auto pt-10  min-h-[calc(100%-7rem)]">
 			<div className="w-full">
 				<h2 className="font-bold text-xl">Welcome,</h2>
 				<h1 className="font-black text-5xl text-hackathon">{user.firstName}</h1>

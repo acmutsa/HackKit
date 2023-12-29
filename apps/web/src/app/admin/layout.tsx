@@ -68,7 +68,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 				</div>
 				<div className="items-center justify-end gap-x-4 md:hidden flex"></div>
 			</div>
-			<div className="w-full h-12 px-5 flex bg-nav border-b-border border-b mb-12">
+			<div className="w-full h-12 px-5 flex bg-nav border-b-border border-b">
 				{Object.entries(c.dashPaths.admin).map(([name, path]) => (
 					<DashNavItem key={name} name={name} path={path} />
 				))}

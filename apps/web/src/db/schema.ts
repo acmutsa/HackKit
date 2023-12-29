@@ -145,7 +145,7 @@ export const scans = pgTable(
 		count: integer("count").notNull(),
 	},
 	(table) => ({
-		id: primaryKey(table.userID, table.eventID),
+		id: primaryKey({ columns: [table.userID, table.eventID] }),
 	})
 );
 

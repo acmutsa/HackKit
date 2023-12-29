@@ -8,6 +8,7 @@ import Image from "next/image";
 import c from "@/hackkit.config";
 import { format } from "date-fns";
 import TiltWrapper from "@/components/dash/shared/TiltWrapper";
+import { createQRpayload } from "@/lib/utils/shared/qr";
 
 interface EventPassProps {
 	user: InferModel<typeof users>;
@@ -25,7 +26,7 @@ export default async function Page() {
 
 	if (!userDbRecord) return null;
 
-	const qrPayload = superjson.stringify({ userId: user.id, createdAt: Date.now() });
+	const qrPayload = createQRpayload({ userID: user.id, createdAt: new Date() });
 
 	return (
 		<div className="flex items-center justify-center min-h-[calc(100vh-7rem)] bg-nav">
