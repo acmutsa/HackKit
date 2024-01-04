@@ -22,7 +22,14 @@ export default async function Navbar() {
 				</div>
 				<div className="items-center justify-end gap-x-4 md:flex hidden">
 					{userId ? (
-						<ProfileButton />
+						<>
+							<Link href={"/dash"}>
+								<Button variant={"outline"} className="bg-nav hover:bg-background">
+									Dashboard
+								</Button>
+							</Link>
+							<ProfileButton />
+						</>
 					) : (
 						<>
 							<Link href={"/sign-in"}>
