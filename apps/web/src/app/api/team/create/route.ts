@@ -11,8 +11,10 @@ import { logError } from "@/lib/utils/server/logError";
 export async function POST(req: Request) {
 	const { userId } = await auth();
 	if (!userId) return new Response("Unauthorized", { status: 401 });
+
 	const user = await db.query.users.findFirst({ where: eq(users.clerkID, userId) });
 	if (!user) return new Response("Unauthorized", { status: 401 });
+
 	if (user.teamID) {
 		return NextResponse.json({
 			success: false,
@@ -22,6 +24,7 @@ export async function POST(req: Request) {
 
 	const rawBody = await req.json();
 	const body = newTeamValidator.safeParse(rawBody);
+
 	if (!body.success) {
 		return NextResponse.json({
 			success: false,
@@ -47,7 +50,6 @@ export async function POST(req: Request) {
 				})
 				.where(eq(users.clerkID, userId));
 		});
-
 		return NextResponse.json({
 			success: true,
 			message: body.data.tag,

@@ -6,11 +6,11 @@ import { eq } from "drizzle-orm";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { BsFillPlusCircleFill, BsPeopleFill } from "react-icons/bs";
-import { ImExit } from "react-icons/im";
 import Image from "next/image";
 import TeamInvite from "@/components/dash/team/invite";
 import { Fragment } from "react";
 import { Badge } from "@/components/shadcn/ui/badge";
+import LeaveTeamButton from "@/components/dash/team/LeaveTeamButton";
 
 export default async function Page() {
 	const { userId } = auth();
@@ -104,10 +104,7 @@ export default async function Page() {
 					</div>
 					<div className="flex items-center justify-end gap-2">
 						<TeamInvite />
-						<Button variant={"destructive"}>
-							<ImExit className="mr-1" />
-							Leave
-						</Button>
+						<LeaveTeamButton issueEmail={c.issueEmail} />
 					</div>
 				</div>
 				<div className="grid grid-cols-3 w-full min-h-[500px] mt-20">
@@ -120,7 +117,7 @@ export default async function Page() {
 								alt={`Team Photo for ${team.name}`}
 							/>
 						</div>
-						<h1 className="text-3xl mt-4 font-semibold">{team.name}</h1>
+						<h1 className="text-3xl mt-4 font-semibold text-center">{team.name}</h1>
 						<h2 className="font-mono text-muted-foreground">~{team.tag}</h2>
 						<p className="text-sm mt-5">{team.bio}</p>
 						<div className="flex mt-5 gap-x-2">
@@ -151,7 +148,9 @@ export default async function Page() {
 												<h3>
 													{member.firstName} {member.lastName}
 												</h3>
-												<h4 className="font-mono text-xs">@{member.hackerTag}</h4>
+												<h4 className="font-mono text-xs whitespace-nowrap overflow-hidden text-ellipsis max-w-[16ch]">
+													@{member.hackerTag}
+												</h4>
 											</div>
 										</div>
 									</div>

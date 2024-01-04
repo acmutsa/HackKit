@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { BasicServerValidator } from "@/validators/shared/basic";
-import { useRef, useState, useCallback } from "react";
+import { useState, useTransition } from "react";
 import { ImSpinner10 } from "react-icons/im";
 import { useRouter } from "next/navigation";
 import { newTeamValidator } from "@/validators/shared/team";
@@ -26,6 +26,8 @@ import { put } from "@vercel/blob";
 export default function NewTeamForm() {
 	const formValidator = newTeamValidator.merge(z.object({ photo: z.instanceof(File) }));
 	const [loading, setLoading] = useState(false);
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
 	const form = useForm<z.infer<typeof formValidator>>({
 		resolver: zodResolver(formValidator),
 		defaultValues: {
@@ -35,23 +37,6 @@ export default function NewTeamForm() {
 			photo: new File([], ""),
 		},
 	});
-
-	// const validateFile = useCallback((file: File) => {
-	// 	if (!fileInputRef.current || fileInputRef) return false;
-	// 	if (file.size > c.maxProfilePhotoSizeInBytes) {
-	// 		alert(
-	// 			`Team Photo size must be less than ${
-	// 				c.maxProfilePhotoSizeInBytes / (1024 * 1024)
-	// 			}MB. Please upload a different file.`
-	// 		);
-	// 		return false;
-	// 	}
-	// 	if (file.type != "image/png" && file.type != "image/jpeg") {
-	// 		alert(`Team Photo must be a PNG or JPEG file. Please upload a different file.`);
-	// 		return false;
-	// 	}
-	// 	return true;
-	// }, []);
 
 	async function onSubmit(values: z.infer<typeof formValidator>) {
 		setLoading(true);
@@ -95,25 +80,10 @@ export default function NewTeamForm() {
 
 		alert("Team Created Successfully! Redirecting to team page...");
 
-		// const { url } = await put(values.photo.name, values.photo, {
-		// 	access: "public",
-		// 	handleBlobUploadUrl: "/api/upload/pfp",
-		// });
+		// Due to weirdness with next router we have to use a react transition here.
 
-		// const res = await zpostSafe({
-		// 	url: "/api/admin/events/create",
-		// 	body: values,
-		// 	superReq: true,
-		// 	vReq: formSchema,
-		// 	vRes: BasicRedirValidator,
-		// });
-		// setLoading(false);
-		// if (res.success) {
-		// 	alert("Event Created Successfully! Redirecting to event page...");
-		// 	router.push(res.data.redirect);
-		// } else {
-		// 	alert("Failed to create event, please try again. Error:\n\n" + res.error);
-		// }
+		startTransition(() => router.push("/dash/team"));
+		startTransition(() => router.refresh());
 	}
 
 	return (

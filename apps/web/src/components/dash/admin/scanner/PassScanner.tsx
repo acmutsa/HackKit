@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
-import { getScan } from "@/actions/scanner-admin-actions";
+import { getScan } from "@/actions/admin/scanner-admin-actions";
 import { useAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { scansType, userType } from "@/lib/utils/shared/types";
