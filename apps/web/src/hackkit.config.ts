@@ -56,7 +56,7 @@ export default {
 	},
 	maxResumeSizeInBytes: 4194304,
 	maxFileSizeInBytes: 4194304,
-	maxProfilePhotoSizeInBytes: 10485760,
+	maxProfilePhotoSizeInBytes: 3145728,
 	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	eventPassBgImage: "/img/dash/pass/bg.png",
 	startDate: new Date(new Date(2024, 1, 25).setHours(9)),

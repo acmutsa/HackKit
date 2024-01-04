@@ -26,6 +26,7 @@ export const authenticatedAction = createSafeActionClient({
 	async middleware() {
 		const { userId } = auth();
 		if (!userId) throw new Error("Unauthorized");
+		// TODO: add check for registration
 		return { userId };
 	},
 });

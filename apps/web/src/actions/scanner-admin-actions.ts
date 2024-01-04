@@ -1,3 +1,5 @@
+"use server";
+
 import { adminAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "@/db";

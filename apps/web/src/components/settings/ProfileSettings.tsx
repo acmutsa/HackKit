@@ -4,7 +4,8 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { Label } from "@/components/shadcn/ui/label";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import { modifyUserBioAndSkills } from "@/actions/user-profile-mod";
+import { modifyUserBioAndSkills, updateProfileImage } from "@/actions/user-profile-mod";
+import { useUser } from "@clerk/nextjs";
 import { useAction } from "next-safe-action/hook";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -15,6 +16,7 @@ interface ProfileSettingsProps {
 
 export default function ProfileSettings({ bio }: ProfileSettingsProps) {
 	const [newBio, setNewBio] = useState(bio);
+	const user = useUser();
 
 	const { execute: runUpdateBioAndSkills } = useAction(modifyUserBioAndSkills, {
 		onSuccess: () => {
