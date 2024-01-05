@@ -1,8 +1,9 @@
 import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { publicRoutes } from "@/hackkit.config";
 
 export default authMiddleware({
-	publicRoutes: ["/", /^\/schedule(\/.*)?$/, /^\/@/, /^\/user\//, "/404"],
+	publicRoutes,
 	afterAuth: (auth, req, evt) => {
 		if (req.nextUrl.pathname.startsWith("/@")) {
 			return NextResponse.rewrite(
