@@ -5,6 +5,13 @@ import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { FaInfoCircle } from "react-icons/fa";
+import Link from "next/link";
+import {
+	AccountInfo,
+	PersonalInfo,
+	ProfileInfo,
+	TeamInfo,
+} from "@/components/dash/admin/users/ServerSections";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 	const user = await db.query.users.findFirst({
@@ -12,6 +19,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		with: {
 			profileData: true,
 			registrationData: true,
+			team: true,
 		},
 	});
 
@@ -20,7 +28,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	}
 
 	return (
-		<main className="max-w-5xl mx-auto">
+		<main className="max-w-5xl mx-auto pt-16">
 			<div className="w-full grid grid-cols-2 mb-5">
 				<div className="flex items-center">
 					<div>
@@ -32,7 +40,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					</div>
 				</div>
 				<div className="flex items-center justify-end gap-2">
-					<Button variant={"outline"}>Hacker Profile</Button>
+					<Link href={`/@${user.hackerTag}`} target="_blank">
+						<Button variant={"outline"}>Hacker Profile</Button>
+					</Link>
 					<Button variant={"outline"}>Email Hacker</Button>
 				</div>
 			</div>
@@ -56,6 +66,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							Joined {user.createdAt.toDateString().split(" ").slice(1).join(" ")}
 						</Badge>
 					</div>
+				</div>
+				<div className="col-span-2 overflow-x-hidden">
+					<PersonalInfo user={user} />
+					<ProfileInfo user={user} />
+					<AccountInfo user={user} />
+					<TeamInfo user={user} />
 				</div>
 			</div>
 		</main>

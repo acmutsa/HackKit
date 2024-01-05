@@ -6,7 +6,7 @@ interface ToggleLayoutProps {
 
 export default function Layout({ children }: ToggleLayoutProps) {
 	return (
-		<div className="max-w-5xl mx-auto grid grid-cols-5 gap-x-3">
+		<div className="max-w-5xl mx-auto grid grid-cols-5 gap-x-3 pt-16">
 			<div className="min-h-screen">
 				<ToggleItem name="Toggles" path="/admin/toggles" />
 				<ToggleItem name="Landing Page" path="/admin/toggles/landing" />

@@ -2,14 +2,14 @@ import { db } from "@/db";
 import { DataTable } from "@/components/dash/admin/events/EventDataTable";
 import { columns } from "@/components/dash/admin/events/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
-import { BiSolidFileExport } from "react-icons/bi";
-import { type eventTableValidatorType } from "@/components/dash/admin/events/EventColumns";
+import { AiFillPlusCircle } from "react-icons/ai";
+import Link from "next/link";
 
 export default async function Page() {
 	const events = await db.query.events.findMany();
 
 	return (
-		<div className="max-w-7xl mx-auto px-5">
+		<div className="max-w-7xl mx-auto px-5 pt-16">
 			<div className="w-full grid grid-cols-2 mb-5">
 				<div className="flex items-center">
 					<div>
@@ -20,15 +20,14 @@ export default async function Page() {
 					</div>
 				</div>
 				<div className="flex items-center justify-end">
-					{/* <a download href="/api/admin/export">
+					<Link href="/admin/events/new">
 						<Button className="flex gap-x-1">
-							<BiSolidFileExport />
-							Export
+							<AiFillPlusCircle />
+							New Event
 						</Button>
-					</a> */}
+					</Link>
 				</div>
 			</div>
-			{/* TODO: Would very much like to not have "as any" here in the future */}
 			<DataTable columns={columns} data={events} />
 		</div>
 	);
