@@ -8,6 +8,10 @@ export const env = createEnv({
 		DB_UNAME: z.string().min(1),
 		DB_PASS: z.string().min(1),
 		DB_URL: z.string().min(1),
+		AWS_SES_ACCESS_KEY: z.string().min(1),
+		AWS_SES_SECRET_ACCESS_KEY: z.string().min(1),
+		AWS_REGION: z.string().min(1),
+		AWS_SES_EMAIL_FROM: z.string().min(1),
 	},
 	client: {
 		NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
