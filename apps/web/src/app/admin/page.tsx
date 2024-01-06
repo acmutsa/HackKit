@@ -15,7 +15,7 @@ export default async function Page() {
 	const totalCheckinCount = 0;
 
 	return (
-		<div className="w-full max-w-7xl mx-auto h-16 pt-16">
+		<div className="w-full max-w-7xl mx-auto h-16 pt-44">
 			<div className="grid grid-cols-4 gap-x-2">
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

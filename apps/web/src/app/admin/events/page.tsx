@@ -9,7 +9,7 @@ export default async function Page() {
 	const events = await db.query.events.findMany();
 
 	return (
-		<div className="max-w-7xl mx-auto px-5 pt-16">
+		<div className="max-w-7xl mx-auto px-5 pt-44">
 			<div className="w-full grid grid-cols-2 mb-5">
 				<div className="flex items-center">
 					<div>

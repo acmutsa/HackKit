@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	}
 
 	return (
-		<main className="max-w-5xl mx-auto pt-16">
+		<main className="max-w-5xl mx-auto pt-44">
 			<div className="w-full grid grid-cols-2 mb-5">
 				<div className="flex items-center">
 					<div>
