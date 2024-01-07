@@ -6,6 +6,7 @@ import { users, registrationData, profileData } from "@/db/schema";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "@/hackkit.config";
 import { z } from "zod";
+import { sendEmail } from "@/lib/utils/server/ses";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
@@ -139,6 +140,12 @@ export async function POST(req: Request) {
 			registrationComplete: true,
 		},
 	});
+
+	// sendEmail({
+	// 	to: body.email,
+	// 	subject: `You are now registered for ${c.hackathonName} ${c.itteration}!`,
+	// });
+
 	return NextResponse.json({ success: true, message: "Successfully created registration!" });
 }
 

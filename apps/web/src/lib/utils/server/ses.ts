@@ -1,7 +1,13 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { env } from "@/env.mjs";
 
-async function sendEmail(to: string, subject: string, html: string) {
+interface SendEmailParams {
+	to: string;
+	subject: string;
+	html: string;
+}
+
+export async function sendEmail({ to, subject, html }: SendEmailParams) {
 	// Create an SES client
 	const sesClient = new SESClient({
 		region: env.AWS_REGION, // Replace with your AWS region

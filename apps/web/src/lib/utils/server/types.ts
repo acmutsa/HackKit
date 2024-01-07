@@ -13,3 +13,7 @@ export interface UserWithAllData extends User {
 	registrationData: typeof registrationData.$inferSelect;
 	team: typeof teams.$inferSelect | null;
 }
+
+export interface DefaultEmailTemplateProps {
+	firstName: string;
+}
