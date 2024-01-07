@@ -101,7 +101,7 @@ export const profileData = pgTable("profile_data", {
 	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
 	pronouns: varchar("pronouns", { length: 20 }).notNull(),
 	bio: text("bio").notNull(),
-	skills: json("skills").notNull(),
+	skills: json("skills").notNull().$type<string[]>().default([]),
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 });
 

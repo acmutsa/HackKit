@@ -3,7 +3,7 @@ import { SignUp } from "@clerk/nextjs";
 export default function Page() {
 	return (
 		<div className="flex min-h-screen items-center justify-center">
-			<SignUp afterSignUpUrl={"/dash/register"} afterSignInUrl={"/dash/"} />
+			<SignUp afterSignUpUrl={"/register"} afterSignInUrl={"/dash/"} />
 		</div>
 	);
 }

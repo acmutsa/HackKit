@@ -44,6 +44,7 @@ import { BasicServerValidator } from "@/validators/shared/basic";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put, type PutBlobResult } from "@vercel/blob";
+import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 
 interface RegisterFormProps {
 	defaultEmail: string;
@@ -85,7 +86,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			university: "",
 		},
 	});
+
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+	const [skills, setSkills] = useState<Tag[]>([]);
 
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
@@ -391,9 +394,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						<div
 							className={`grid ${
 								universityValue === c.localUniversityName.toLowerCase()
-									? "grid-cols-6"
-									: "grid-cols-5"
-							} gap-x-2`}
+									? "md:grid-cols-6 grid-cols-4"
+									: "md:grid-cols-5 grid-cols-4"
+							} gap-x-2 gap-y-4`}
 						>
 							<FormField
 								control={form.control}
@@ -513,7 +516,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="levelOfStudy"
 								render={({ field }) => (
-									<FormItem className="flex flex-col">
+									<FormItem className="flex flex-col col-span-2 md:col-span-1">
 										<FormLabel>Level of Study</FormLabel>
 										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
@@ -543,7 +546,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem
 										className={`${
 											universityValue === c.localUniversityName.toLowerCase()
-												? "flex flex-col"
+												? "flex flex-col col-span-2 md:col-span-1"
 												: "hidden"
 										}`}
 									>
@@ -627,7 +630,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Day of Event">
-						<div className="grid grid-cols-2 gap-x-4">
+						<div className="grid grid-cols-2 gap-x-4 pb-5">
 							<FormField
 								control={form.control}
 								name="shirtSize"
@@ -856,15 +859,15 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="bio"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>
-											Bio{" "}
-											<span className={bioValue.length > 500 ? "text-red-500" : ""}>
-												({bioValue.length} / 500)
-											</span>
-										</FormLabel>
+										<FormLabel>Bio</FormLabel>
 										<FormControl>
 											<Textarea placeholder="Hello! I'm..." className="resize-none" {...field} />
 										</FormControl>
+										<FormDescription>
+											<span className={bioValue.length > 500 ? "text-red-500" : ""}>
+												{bioValue.length} / 500 Characters
+											</span>
+										</FormDescription>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -873,15 +876,25 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="skills"
 								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Skills</FormLabel>
-										<FormControl>
-											<Textarea
-												placeholder="Enter your skills here seperated by commas. EG: Python, React, Node.js, Art, etc..."
-												className="resize-none"
+									<FormItem className="flex flex-col items-start">
+										<FormLabel className="text-left pb-2">Skills</FormLabel>
+										<FormControl className="min-h-[80px]">
+											<TagInput
+												inputFieldPostion="top"
 												{...field}
+												placeholder="Type and then press enter to add a skill..."
+												tags={skills}
+												className="sm:min-w-[450px]"
+												setTags={(newTags) => {
+													setSkills(newTags);
+													form.setValue("skills", newTags as [Tag, ...Tag[]]);
+												}}
 											/>
 										</FormControl>
+										<FormDescription className="!mt-0">
+											These skills can be listed on your profile and help with the team finding
+											process! Enter anything you think is relevant, including non-technical skills!
+										</FormDescription>
 										<FormMessage />
 									</FormItem>
 								)}

@@ -134,6 +134,11 @@ export const RegisterFormValidator = z.object({
 		.max(50, { message: "Please enter a valid Discord Username" }),
 	pronouns: z.string().min(1).max(15),
 	bio: z.string().min(1).max(500, { message: "Bio must be less than 500 characters." }),
-	skills: z.string().min(1).max(100, { message: "Skills must be less than 100 characters." }),
+	skills: z.array(
+		z.object({
+			id: z.string(),
+			text: z.string(),
+		})
+	), // TODO: impliment a max length
 	profileIsSearchable: z.boolean(),
 });

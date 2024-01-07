@@ -3,11 +3,11 @@ import Image from "next/image";
 import c from "@/hackkit.config";
 import { Button } from "../shadcn/ui/button";
 import ProfileButton from "../dash/shared/ProfileButton";
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
 
 export default async function Navbar() {
-	const { userId } = await auth();
+	const user = await currentUser();
 	return (
 		<div className="fixed top-0 w-screen h-16 bg-nav z-50 border-b-border border-b">
 			<div className="w-full h-full mx-auto max-w-7xl px-5 grid grid-cols-3">
@@ -21,11 +21,11 @@ export default async function Navbar() {
 					<NavBarLinksGrouper />
 				</div>
 				<div className="items-center justify-end gap-x-4 md:flex hidden">
-					{userId ? (
+					{user ? (
 						<>
-							<Link href={"/dash"}>
+							<Link href={user.publicMetadata.registrationComplete ? "/dash" : "/register"}>
 								<Button variant={"outline"} className="bg-nav hover:bg-background">
-									Dashboard
+									{user.publicMetadata.registrationComplete ? "Dashboard" : "Complete Registration"}
 								</Button>
 							</Link>
 							<ProfileButton />

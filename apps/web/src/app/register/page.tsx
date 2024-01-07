@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import Navbar from "@/components/shared/Navbar";
 
 export default async function Page() {
 	const user = await currentUser();
@@ -20,16 +21,19 @@ export default async function Page() {
 	}
 
 	return (
-		<main className="dark:bg-zinc-950">
-			<div className="mx-auto min-h-screen max-w-5xl pb-10 pt-[20vh] font-sans dark:text-white">
-				<h1 className="text-8xl font-black">Register</h1>
-				<p className="mb-10 mt-5 font-medium">
-					<span className="font-bold">Welcome Hacker!</span> Please fill out the form below to
-					complete your registration for {c.hackathonName}.
-				</p>
-				<RegisterForm defaultEmail={user.emailAddresses[0]?.emailAddress || ""} />
-			</div>
-		</main>
+		<>
+			<Navbar />
+			<main className="dark:bg-zinc-950">
+				<div className="mx-auto min-h-screen max-w-5xl pb-10 pt-[20vh] font-sans dark:text-white px-5">
+					<h1 className="text-8xl font-black">Register</h1>
+					<p className="mb-10 mt-5 font-medium">
+						<span className="font-bold">Welcome Hacker!</span> Please fill out the form below to
+						complete your registration for {c.hackathonName}.
+					</p>
+					<RegisterForm defaultEmail={user.emailAddresses[0]?.emailAddress || ""} />
+				</div>
+			</main>
+		</>
 	);
 }
 
