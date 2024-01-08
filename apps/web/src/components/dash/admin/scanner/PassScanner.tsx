@@ -53,8 +53,8 @@ export default function PassScanner({ eventName, hasScanned, scan, scanUser }: P
 
 	return (
 		<>
-			<div className="flex flex-col items-center justify-center">
-				<div className="w-screen flex flex-col gap-5">
+			<div className="flex flex-col items-center justify-center pt-32 h-dvh">
+				<div className="w-screen flex flex-col items-center justify-center gap-5">
 					<div className="w-screen max-w-[500px] aspect-square overflow-hidden mx-auto">
 						<QrScanner
 							onDecode={(result) => {

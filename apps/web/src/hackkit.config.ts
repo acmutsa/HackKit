@@ -39,6 +39,8 @@ export default {
 			Overview: "/admin",
 			Users: "/admin/users",
 			Events: "/admin/events",
+			Points: "/admin/points",
+			"Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
 	},
