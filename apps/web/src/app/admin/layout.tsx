@@ -11,6 +11,7 @@ import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import ProfileButton from "@/components/dash/shared/ProfileButton";
 import { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
+import { redirect } from "next/navigation";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -20,9 +21,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	const { userId } = auth();
 
 	if (!userId) {
-		return (
-			<FullScreenMessage message="No clue how this happened since you should have been redirected, but this page is only viewable by admins." />
-		);
+		return redirect("/sign-in");
 	}
 
 	const user = await db.query.users.findFirst({

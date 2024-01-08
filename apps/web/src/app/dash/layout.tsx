@@ -13,7 +13,7 @@ interface DashLayoutProps {
 	children: React.ReactNode;
 }
 
-export default async function AdminLayout({ children }: DashLayoutProps) {
+export default async function DashLayout({ children }: DashLayoutProps) {
 	const user = await currentUser();
 
 	if (!user || !user.publicMetadata.registrationComplete) {
