@@ -6,7 +6,8 @@ import { db } from "db";
 import { users, profileData } from "db/schema";
 import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
-import { clerkClient } from "@clerk/nextjs";
+import { decodeBase64AsFile } from "@/lib/utils/shared/files";
+import { revalidatePath } from "next/cache";
 
 // TODO: Add skill updating
 export const modifyUserBioAndSkills = authenticatedAction(
@@ -20,17 +21,18 @@ export const modifyUserBioAndSkills = authenticatedAction(
 );
 
 export const updateProfileImage = authenticatedAction(
-	z.object({ image: z.instanceof(File) }),
-	async ({ image }, { userId }) => {
+	z.object({ fileBase64: z.string(), fileName: z.string() }),
+	async ({ fileBase64, fileName }, { userId }) => {
+		const image = await decodeBase64AsFile(fileBase64, fileName);
 		const user = await db.query.users.findFirst({ where: eq(users.clerkID, userId) });
 		if (!user) throw new Error("User not found");
 
 		const blobUpload = await put(image.name, image, { access: "public" });
-
 		await db
 			.update(profileData)
 			.set({ profilePhoto: blobUpload.url })
 			.where(eq(profileData.hackerTag, user.hackerTag));
-		return { success: true, newImage: image };
+		revalidatePath("/settings/profile");
+		return { success: true };
 	}
 );

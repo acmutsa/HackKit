@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import SettingsSection from "@/components/settings/SettingsSection";
 import Navbar from "@/components/shared/Navbar";
 import { FaGear } from "react-icons/fa6";
+import ClientToast from "@/components/shared/ClientToast";
 
 export default async function ({ children }: { children: ReactNode }) {
 	const { userId } = await auth();
@@ -12,6 +13,7 @@ export default async function ({ children }: { children: ReactNode }) {
 
 	return (
 		<>
+			<ClientToast />
 			<Navbar />
 			<div className="max-w-5xl mx-auto grid grid-cols-5 gap-x-3 pt-44">
 				<div className="col-span-5 flex items-center">

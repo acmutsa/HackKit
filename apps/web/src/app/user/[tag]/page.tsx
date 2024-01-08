@@ -32,6 +32,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 								fill
 								src={user.profileData.profilePhoto}
 								alt={`@${user.hackerTag}'s Profile Photo`}
+								className="object-cover"
 							/>
 						</div>
 						<h1 className="font-bold text-2xl mt-2">
