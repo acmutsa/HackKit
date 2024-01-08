@@ -1,8 +1,8 @@
 import c from "@/hackkit.config";
 import { auth } from "@clerk/nextjs";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { BsFillPlusCircleFill, BsPeopleFill } from "react-icons/bs";

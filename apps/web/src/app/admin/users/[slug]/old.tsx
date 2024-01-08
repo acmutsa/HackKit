@@ -1,6 +1,6 @@
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { titleCase } from "title-case";

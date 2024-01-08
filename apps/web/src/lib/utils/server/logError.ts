@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { errorLog } from "@/db/schema";
+import { db } from "db";
+import { errorLog } from "db/schema";
 import { nanoid } from "nanoid";
 
 interface LogErrorParams {

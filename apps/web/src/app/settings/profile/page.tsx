@@ -1,7 +1,7 @@
 import ProfileSettings from "@/components/settings/ProfileSettings";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import { auth } from "@clerk/nextjs";
 
 export default async function Page() {

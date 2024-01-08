@@ -1,9 +1,9 @@
 import QRCode from "react-qr-code";
 import { currentUser } from "@clerk/nextjs";
 import superjson from "superjson";
-import { db } from "@/db";
-import { eq, InferModel } from "drizzle-orm";
-import { users } from "@/db/schema";
+import { db } from "db";
+import { eq, InferModel } from "db/drizzle";
+import { users } from "db/schema";
 import Image from "next/image";
 import c from "@/hackkit.config";
 import { format } from "date-fns";

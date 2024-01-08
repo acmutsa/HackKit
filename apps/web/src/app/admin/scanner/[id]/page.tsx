@@ -1,8 +1,8 @@
 import PassScanner from "@/components/dash/admin/scanner/PassScanner";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
-import { db } from "@/db";
-import { eq, and } from "drizzle-orm";
-import { events, users, scans } from "@/db/schema";
+import { db } from "db";
+import { eq, and } from "db/drizzle";
+import { events, users, scans } from "db/schema";
 
 export default async function Page({
 	params,

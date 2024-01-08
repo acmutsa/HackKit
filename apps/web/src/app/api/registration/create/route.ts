@@ -1,8 +1,8 @@
 import { currentUser, clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { eq, sql } from "drizzle-orm";
-import { users, registrationData, profileData } from "@/db/schema";
+import { db } from "db";
+import { eq, sql } from "db/drizzle";
+import { users, registrationData, profileData } from "db/schema";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "@/hackkit.config";
 import { z } from "zod";

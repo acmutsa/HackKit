@@ -1,7 +1,7 @@
-import { db } from "@/db";
-import { teams } from "@/db/schema";
+import { db } from "db";
+import { teams } from "db/schema";
 import { notFound } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { eq } from "db/drizzle";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";

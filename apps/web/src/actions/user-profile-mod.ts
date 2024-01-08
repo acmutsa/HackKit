@@ -2,9 +2,9 @@
 
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
-import { db } from "@/db";
-import { users, profileData } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users, profileData } from "db/schema";
+import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { clerkClient } from "@clerk/nextjs";
 

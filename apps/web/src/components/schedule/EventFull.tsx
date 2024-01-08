@@ -1,5 +1,5 @@
-import { events } from "@/db/schema";
-import { InferModel } from "drizzle-orm";
+import { events } from "db/schema";
+import { InferModel } from "db/drizzle";
 import c from "@/hackkit.config";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { format } from "date-fns";

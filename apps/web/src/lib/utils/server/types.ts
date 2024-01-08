@@ -1,6 +1,6 @@
 import { z, type ZodType } from "zod";
 import type { NextResponse } from "next/server";
-import { users, profileData, registrationData, teams } from "@/db/schema";
+import { users, profileData, registrationData, teams } from "db/schema";
 
 export type serverZodResponse<T extends ZodType<any, any, any>> = Promise<
 	undefined | NextResponse<z.infer<T>> | NextResponse<"Unauthorized">

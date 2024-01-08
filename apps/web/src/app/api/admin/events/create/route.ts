@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
-import { eq } from "drizzle-orm";
-import { db } from "@/db";
-import { users, events } from "@/db/schema";
+import { eq } from "db/drizzle";
+import { db } from "db";
+import { users, events } from "db/schema";
 import { newEventValidator } from "@/validators/shared/newEvent";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";

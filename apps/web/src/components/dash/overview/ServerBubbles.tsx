@@ -3,7 +3,7 @@ import Link from "next/link";
 import c from "@/hackkit.config";
 import { format } from "date-fns";
 import GradientHero from "./GradientHero";
-// import { users } from "@/db/schema";
+// import { users } from "db/schema";
 import QRCode from "react-qr-code";
 
 // interface MYInfoProps {

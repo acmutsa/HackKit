@@ -2,10 +2,10 @@
 
 import { adminAction } from "@/lib/safe-action";
 import { z } from "zod";
-import { db } from "@/db";
-import { scans } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
-import { primaryKey } from "drizzle-orm/pg-core";
+import { db } from "db";
+import { scans } from "db/schema";
+import { eq, and } from "db/drizzle";
+import { primaryKey } from "db/drizzle/pg-core";
 export const createScan = adminAction(
 	z.object({ eventID: z.number(), userID: z.string(), creationTime: z.date() }),
 	async ({ eventID, userID, creationTime }, { user, userId: adminUserID }) => {

@@ -1,9 +1,9 @@
 import c from "@/hackkit.config";
 import RegisterForm from "@/components/registration/RegisterForm";
 import { currentUser } from "@clerk/nextjs";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
 

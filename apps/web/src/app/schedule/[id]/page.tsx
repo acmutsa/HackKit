@@ -1,6 +1,6 @@
-import { db } from "@/db";
-import { eq } from "drizzle-orm";
-import { events } from "@/db/schema";
+import { db } from "db";
+import { eq } from "db/drizzle";
+import { events } from "db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import EventFull from "@/components/schedule/EventFull";
 import Navbar from "@/components/shared/Navbar";

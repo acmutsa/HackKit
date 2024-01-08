@@ -1,8 +1,8 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { eq } from "drizzle-orm";
-import { users, teams, errorLog } from "@/db/schema";
+import { db } from "db";
+import { eq } from "db/drizzle";
+import { users, teams, errorLog } from "db/schema";
 import { newTeamValidator } from "@/validators/shared/team";
 import { nanoid } from "nanoid";
 import c from "@/hackkit.config";

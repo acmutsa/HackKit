@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/shadcn/ui/card";
-import { db } from "@/db";
-import { sql } from "drizzle-orm";
-import { users } from "@/db/schema";
+import { db } from "db";
+import { sql } from "db/drizzle";
+import { users } from "db/schema";
 import { BsFillPersonLinesFill, BsPersonBoundingBox, BsFillPersonCheckFill } from "react-icons/bs";
 import { RiTeamFill } from "react-icons/ri";
 

@@ -1,11 +1,11 @@
 import { auth } from "@clerk/nextjs";
-import { db } from "@/db";
-import { eq } from "drizzle-orm";
-import { users } from "@/db/schema";
+import { db } from "db";
+import { eq } from "db/drizzle";
+import { users } from "db/schema";
 import { NextResponse } from "next/server";
 import { newInviteValidator } from "@/validators/shared/team";
 import { BasicServerValidator } from "@/validators/shared/basic";
-import { invites } from "@/db/schema";
+import { invites } from "db/schema";
 import type { serverZodResponse } from "@/lib/utils/server/types";
 
 export async function POST(req: Request): serverZodResponse<typeof BasicServerValidator> {

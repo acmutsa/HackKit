@@ -1,6 +1,6 @@
 import c from "@/hackkit.config";
 import Day from "@/components/schedule/Day";
-import { db } from "@/db";
+import { db } from "db";
 import { format, compareAsc } from "date-fns";
 import { type ReactNode } from "react";
 

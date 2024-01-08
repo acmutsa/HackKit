@@ -1,9 +1,9 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/db";
-import { users, invites, teams } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { db } from "db";
+import { users, invites, teams } from "db/schema";
+import { eq, and } from "db/drizzle";
 
 const inviteDeclineValidator = z.object({
 	teamInviteID: z.string().min(1).max(50),

@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "db";
 import { DataTable } from "@/components/dash/admin/users/UserDataTable";
 import { columns } from "@/components/dash/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";

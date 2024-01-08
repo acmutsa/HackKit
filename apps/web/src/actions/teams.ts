@@ -4,9 +4,9 @@
 
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
-import { db } from "@/db";
-import { users, teams } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users, teams } from "db/schema";
+import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
 
 export const leaveTeam = authenticatedAction(z.null(), async (_, { userId }) => {

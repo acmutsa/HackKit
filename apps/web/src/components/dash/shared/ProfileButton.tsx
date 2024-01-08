@@ -11,9 +11,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
 import { Button } from "@/components/shadcn/ui/button";
 import { auth, SignOutButton } from "@clerk/nextjs";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 

@@ -1,8 +1,8 @@
 import { serverZodResponse } from "@/lib/utils/server/types";
 import { BasicServerValidator } from "@/validators/shared/basic";
-import { db } from "@/db";
-import { eq, and } from "drizzle-orm";
-import { users, invites, teams } from "@/db/schema";
+import { db } from "db";
+import { eq, and } from "db/drizzle";
+import { users, invites, teams } from "db/schema";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";

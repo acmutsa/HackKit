@@ -1,12 +1,12 @@
 import c from "@/hackkit.config";
 import Image from "next/image";
-import { db } from "@/db";
+import { db } from "db";
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
-import { eq } from "drizzle-orm";
-import { users } from "@/db/schema";
+import { eq } from "db/drizzle";
+import { users } from "db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import ProfileButton from "@/components/dash/shared/ProfileButton";
 import { Suspense } from "react";

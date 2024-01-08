@@ -1,6 +1,6 @@
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import RoleBadge from "@/components/dash/shared/RoleBadge";

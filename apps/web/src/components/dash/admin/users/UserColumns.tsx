@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 import { createSelectSchema } from "drizzle-zod";
-import { users, registrationData, profileData } from "@/db/schema";
+import { users, registrationData, profileData } from "db/schema";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 

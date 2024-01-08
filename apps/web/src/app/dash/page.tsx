@@ -3,9 +3,9 @@
 // import { Suspense } from "react";
 // import Loading from "@/components/shared/Loading";
 import { auth } from "@clerk/nextjs";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from "db";
+import { users } from "db/schema";
+import { eq } from "db/drizzle";
 import c from "@/hackkit.config";
 import superjson from "superjson";
 import { createQRpayload } from "@/lib/utils/shared/qr";
