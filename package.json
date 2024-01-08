@@ -4,7 +4,11 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "migrations:generate": "pnpm --filter=db migrations:generate",
+    "migrations:apply": "pnpm --filter=db migrations:apply",
+    "migrations:drop": "pnpm --filter=db migrations:drop",
+    "studio": "pnpm --filter=db studio"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
