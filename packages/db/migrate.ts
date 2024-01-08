@@ -1,9 +1,13 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-import "dotenv/config";
+import * as dotenv from "dotenv";
 
 const runMigrations = async () => {
+	dotenv.config({
+		path: "../../.env",
+	});
+
 	console.log("⏳ Running migrations...");
 	const start = Date.now();
 

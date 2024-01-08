@@ -19,6 +19,7 @@
     "dotenv": "^16.3.1",
     "drizzle-kit": "^0.20.8",
     "drizzle-orm": "^0.29.2",
+    "esbuild-register": "^3.4.2",
     "postgres": "^3.3.5"
   }
 }

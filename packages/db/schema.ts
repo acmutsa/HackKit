@@ -49,6 +49,7 @@ export const users = pgTable("users", {
 	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
 	teamID: varchar("team_id", { length: 50 }),
+	points: integer("points").notNull().default(0),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({

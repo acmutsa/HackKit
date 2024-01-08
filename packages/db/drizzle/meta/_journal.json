@@ -8,6 +8,13 @@
       "when": 1696842047292,
       "tag": "0000_fearless_snowbird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1704726711632,
+      "tag": "0001_curly_sleeper",
+      "breakpoints": true
     }
   ]
 }
