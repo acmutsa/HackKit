@@ -136,13 +136,13 @@ export default async function Page() {
 							<Fragment key={member.hackerTag}>
 								<Link href={`/@${member.hackerTag}`}>
 									<div className="h-full w-full flex items-center justify-center">
-										<div className="bg-zinc-900 hover:bg-muted hover:border-muted-foreground transition-colors duration-150 border-muted border-2 rounded flex gap-x-2 p-2 items-center justify-center h-[75px] w-[200px]">
+										<div className="bg-zinc-900  hover:bg-muted hover:border-muted-foreground transition-colors duration-150 border-muted border-2 rounded flex gap-x-2 p-2 items-center justify-center h-[75px] w-[200px]">
 											<Image
 												src={member.profileData.profilePhoto}
 												alt={`${member.hackerTag}'s Profile Photo`}
 												height={40}
 												width={40}
-												className="rounded-full"
+												className="rounded-full !aspect-square"
 											/>
 											<div>
 												<h3>
