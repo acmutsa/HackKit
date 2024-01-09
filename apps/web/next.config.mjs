@@ -14,8 +14,7 @@ const nextConfig = {
 	},
 	experimental: {
 		serverActions: {
-			// If you are working with the QR scanner and using a proxy service, swap the hostname below with your proxy service hostname
-			allowedOrigins: ["gh7xtpdz-3000.usw3.devtunnels.ms", "localhost:3000"],
+			allowedOrigins: ["localhost:3000"],
 		},
 	},
 };

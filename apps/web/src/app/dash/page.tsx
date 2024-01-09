@@ -26,12 +26,12 @@ export default async function Page() {
 	const qrPayload = createQRpayload({ userID: userId, createdAt: new Date() });
 
 	return (
-		<div className="max-w-7xl mx-auto pt-10  min-h-[calc(100%-7rem)]">
-			<div className="w-full">
+		<div className="max-w-7xl mx-auto py-10 min-h-[calc(100%-7rem)]">
+			<div className="w-full px-2">
 				<h2 className="font-bold text-xl">Welcome,</h2>
 				<h1 className="font-black text-5xl text-hackathon">{user.firstName}</h1>
 			</div>
-			<div className="grid grid-cols-4 w-full pt-10 gap-2 rows-[]">
+			<div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 grid-cols-1 w-full pt-10 gap-2 rows-[] px-2">
 				<QuickQR qrPayload={qrPayload} />
 				<TitleBubble />
 				<Countdown title={`${c.hackathonName} ${c.itteration}`} date={c.startDate} />
