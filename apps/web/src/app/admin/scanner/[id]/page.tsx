@@ -47,11 +47,18 @@ export default async function Page({
 			}
 		});
 		return (
-			<PassScanner eventName={event.title} hasScanned={true} scan={scan} scanUser={scanUser} />
+			<div>
+				<PassScanner event={event} hasScanned={true} scan={scan} scanUser={scanUser} />
+			</div>
 		);
 	}
 
-	return <PassScanner eventName={event.title} hasScanned={false} scan={null} scanUser={null} />;
+	return (
+		<div>
+			<PassScanner event={event} hasScanned={false} scan={null} scanUser={null} />
+		</div>
+	);
 }
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";

@@ -140,7 +140,7 @@ export const filesRelations = relations(files, ({ one }) => ({
 export const scans = pgTable(
 	"scans",
 	{
-		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
 		userID: varchar("user_id", { length: 255 }).notNull(),
 		eventID: integer("event_id").notNull(),
 		count: integer("count").notNull(),

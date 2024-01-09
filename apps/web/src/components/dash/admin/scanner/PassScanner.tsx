@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
-import { getScan } from "@/actions/admin/scanner-admin-actions";
-import { useAction } from "next-safe-action/hook";
+import { getScan, createScan } from "@/actions/scanner-admin-actions";
+import { useAction, useOptimisticAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
-import type { scansType, userType } from "@/lib/utils/shared/types";
+import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
 import {
 	Drawer,
 	DrawerClose,
@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 /*
 
@@ -32,14 +33,15 @@ scan: the scan object that has been scanned. If they have not scanned before sca
 */
 
 interface PassScannerProps {
-	eventName: string;
+	event: eventType;
 	hasScanned: boolean;
 	scan: scansType | null;
 	scanUser: userType | null;
 }
 
-export default function PassScanner({ eventName, hasScanned, scan, scanUser }: PassScannerProps) {
+export default function PassScanner({ event, hasScanned, scan, scanUser }: PassScannerProps) {
 	const [scanLoading, setScanLoading] = useState(false);
+	const { execute: runScanAction } = useAction(createScan, {});
 
 	useEffect(() => {
 		if (hasScanned) {
@@ -50,6 +52,35 @@ export default function PassScanner({ eventName, hasScanned, scan, scanUser }: P
 	const searchParams = useSearchParams();
 	const path = usePathname();
 	const router = useRouter();
+
+	function handleScanCreate() {
+		const params = new URLSearchParams(searchParams);
+		const timestamp = parseInt(params.get("createdAt") as string);
+		if (isNaN(timestamp)) {
+			return alert("Invalid QR Code Data (Field: createdAt)");
+		}
+		if (scan) {
+			runScanAction({
+				eventID: event.id,
+				userID: scan.userID,
+				countToSet: scan.count + 1,
+				alreadyExists: true,
+				creationTime: new Date(timestamp),
+			});
+		} else {
+			// TODO: make this a little more typesafe
+			runScanAction({
+				eventID: event.id,
+				userID: scanUser?.clerkID as string,
+				countToSet: 1,
+				alreadyExists: false,
+				creationTime: new Date(timestamp),
+			});
+		}
+
+		toast.success("Successfully Scanned User In");
+		router.replace(`${path}`);
+	}
 
 	return (
 		<>
@@ -63,6 +94,7 @@ export default function PassScanner({ eventName, hasScanned, scan, scanUser }: P
 									setScanLoading(true);
 									const qrParsedData = superjson.parse<QRDataInterface>(result);
 									params.set("user", qrParsedData.userID);
+									params.set("createdAt", qrParsedData.createdAt.getTime().toString());
 									router.replace(`${path}?${params.toString()}`);
 								}
 							}}
@@ -98,13 +130,15 @@ export default function PassScanner({ eventName, hasScanned, scan, scanUser }: P
 					) : (
 						<>
 							<DrawerHeader>
-								<DrawerTitle>New Scan for {eventName}</DrawerTitle>
+								<DrawerTitle>New Scan for {event.title}</DrawerTitle>
 								<DrawerDescription>
 									New scan for {scanUser?.firstName} {scanUser?.lastName}
 								</DrawerDescription>
 							</DrawerHeader>
 							<DrawerFooter>
-								<Button>{scan ? "Add Additional Scan" : "Scan User In"}</Button>
+								<Button onClick={() => handleScanCreate()}>
+									{scan ? "Add Additional Scan" : "Scan User In"}
+								</Button>
 
 								<Button variant="outline">Cancel</Button>
 							</DrawerFooter>

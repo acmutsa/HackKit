@@ -5,9 +5,10 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { users, teams } from "db/schema";
+import { users, teams, invites } from "db/schema";
 import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
+import { toCalendar } from "@internationalized/date";
 
 export const leaveTeam = authenticatedAction(z.null(), async (_, { userId }) => {
 	const user = await db.query.users.findFirst({
@@ -48,6 +49,7 @@ export const leaveTeam = authenticatedAction(z.null(), async (_, { userId }) => 
 
 		if (team.members.length < 1) {
 			await tx.delete(teams).where(eq(teams.id, team.id));
+			await tx.delete(invites).where(eq(invites.teamID, team.id));
 			revalidatePath("/dash/team");
 			return {
 				success: true,
