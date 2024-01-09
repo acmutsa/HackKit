@@ -8,7 +8,8 @@
     "migrations:generate": "pnpm --filter=db migrations:generate",
     "migrations:apply": "pnpm --filter=db migrations:apply",
     "migrations:drop": "pnpm --filter=db migrations:drop",
-    "studio": "pnpm --filter=db studio"
+    "studio": "pnpm --filter=db studio",
+    "tunnel": "pnpm --filter=devtunnel opentunnel"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
