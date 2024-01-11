@@ -1,6 +1,6 @@
 import Balancer from "react-wrap-balancer";
 import Image from "next/image";
-import LetsGetRowdy from "@/components/LetsGetRowdy";
+import LetsGetRowdy from "@/components/landing/LetsGetRowdy";
 
 export default function About() {
 	return (
