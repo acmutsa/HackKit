@@ -7,12 +7,18 @@ import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
+import { Oswald } from "next/font/google";
+
+const oswald = Oswald({
+	variable: "--font-oswald",
+	subsets: ["latin"],
+});
 
 export default function Home() {
 	return (
 		<>
 			<Navbar />
-			<main className="w-full">
+			<main className={`${oswald.variable} w-full overflow-x-hidden`}>
 				<Hero />
 				<About />
 				<Partners />
@@ -21,3 +27,6 @@ export default function Home() {
 		</>
 	);
 }
+
+export const runtime = "edge";
+export const revalidate = "30";
