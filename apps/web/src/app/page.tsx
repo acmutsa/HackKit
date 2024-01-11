@@ -35,7 +35,7 @@ export default function Home() {
 						</p>
 					</div>
 				</div>
-				<div className="absolute top-[70vh] items-center justify-center flex w-screen gap-2">
+				<div className="absolute top-[70vh] items-center justify-center flex flex-wrap w-screen gap-x-2 gap-y-4">
 					<Link href={"https://github.com/acmutsa/hackkit"}>
 						<Button variant={"outline"} size={"lg"}>
 							GitHub
@@ -51,6 +51,16 @@ export default function Home() {
 							Channel Log
 						</Button>
 					</Link>
+					<div className="h-0 basis-full" />
+					<div className="max-h-[50px] overflow-hidden">
+						<Link href={"https://vercel.com/?utm_source=ACM%20UTSA&utm_campaign=oss"}>
+							<img
+								src="/img/powered-by-vercel.svg"
+								alt="Powered by Vercel"
+								className="border-[#5D5D5D] border rounded-lg overflow-hidden bg-black"
+							/>
+						</Link>
+					</div>
 				</div>
 			</main>
 		</>

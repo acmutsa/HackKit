@@ -12,6 +12,7 @@ export const env = createEnv({
 		AWS_SES_SECRET_ACCESS_KEY: z.string().min(1),
 		AWS_REGION: z.string().min(1),
 		AWS_SES_EMAIL_FROM: z.string().min(1),
+		INTERNAL_AUTH_KEY: z.string().min(64),
 	},
 	client: {
 		NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
