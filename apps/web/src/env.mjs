@@ -4,10 +4,6 @@ import { z } from "zod";
 export const env = createEnv({
 	server: {
 		CLERK_SECRET_KEY: z.string().min(1),
-		DB_HOST: z.string().min(1),
-		DB_UNAME: z.string().min(1),
-		DB_PASS: z.string().min(1),
-		DB_URL: z.string().min(1),
 		AWS_SES_ACCESS_KEY: z.string().min(1),
 		AWS_SES_SECRET_ACCESS_KEY: z.string().min(1),
 		AWS_REGION: z.string().min(1),
