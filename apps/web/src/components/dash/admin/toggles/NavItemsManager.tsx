@@ -25,7 +25,7 @@ import { Label } from "@/components/shadcn/ui/label";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useState } from "react";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
-import { setItem, removeItem, toggleItem } from "@/actions/modify-nav-item";
+import { setItem, removeItem, toggleItem } from "@/actions/admin/modify-nav-item";
 import { toast } from "sonner";
 import Link from "next/link";
 import { Switch } from "@/components/shadcn/ui/switch";

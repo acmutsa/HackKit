@@ -6,14 +6,28 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { FaInfoCircle } from "react-icons/fa";
 import Link from "next/link";
+import UpdateRoleDialog from "@/components/dash/admin/users/UpdateRoleDialog";
 import {
 	AccountInfo,
 	PersonalInfo,
 	ProfileInfo,
 	TeamInfo,
 } from "@/components/dash/admin/users/ServerSections";
+import { auth } from "@clerk/nextjs";
+import { notFound } from "next/navigation";
+import { isUserAdmin } from "@/lib/utils/server/admin";
 
 export default async function Page({ params }: { params: { slug: string } }) {
+	const { userId } = auth();
+
+	if (!userId) return notFound();
+
+	const admin = await db.query.users.findFirst({
+		where: eq(users.clerkID, userId),
+	});
+
+	if (!admin || !isUserAdmin(admin)) return notFound();
+
 	const user = await db.query.users.findFirst({
 		where: eq(users.clerkID, params.slug),
 		with: {
@@ -44,6 +58,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<Button variant={"outline"}>Hacker Profile</Button>
 					</Link>
 					<Button variant={"outline"}>Email Hacker</Button>
+					<UpdateRoleDialog
+						name={`${user.firstName} ${user.lastName}`}
+						canMakeAdmins={admin.role === "super_admin"}
+						currPermision={user.role}
+						userID={user.clerkID}
+					/>
 				</div>
 			</div>
 			<div className="grid grid-cols-3 w-full min-h-[500px] mt-20">
