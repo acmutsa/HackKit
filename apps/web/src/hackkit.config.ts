@@ -1,9 +1,10 @@
 export const defaultTheme = "dark";
 
 export default {
-	hackathonName: "HackKit",
-	itteration: "2023",
-	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
+	hackathonName: "RowdyHacks",
+	itteration: "IX",
+	defaultMetaDataDescription:
+		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
@@ -17,16 +18,27 @@ export default {
 		"Eggs",
 		"Halal",
 	],
-	groups: ["Group A", "Group B", "Group C"],
-	issueEmail: "team@acmutsa.org",
+	groups: [
+		"T-rex | Group A",
+		"T-rex | Group B",
+		"Triceratops | Group A",
+		"Triceratops | Group B",
+		"Pterodactyl | Group A",
+		"Pterodactyl | Group B",
+		"Alamosaurus | Group A",
+		"Alamosaurus | Group B",
+		"Stegosaurus | Group A",
+		"Stegosaurus | Group B",
+	],
+	issueEmail: "team@rowdyhacks.org",
 	links: {
-		discord: "https://go.acmutsa.org/discord",
+		discord: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit-sm.png",
-		md: "/img/logo/hackkit-md.png",
-		lg: "/img/logo/hackkit-lg.png",
-		svg: "/img/logo/hackkit.svg",
+		sm: "/img/logo/logo.png",
+		md: "/img/logo/rh-md.png",
+		lg: "/img/logo/rh-lg.png",
+		svg: "/img/logo/logo.png",
 	},
 	dashPaths: {
 		dash: {

@@ -5,17 +5,25 @@ import { Button } from "../shadcn/ui/button";
 import ProfileButton from "../dash/shared/ProfileButton";
 import { auth, currentUser } from "@clerk/nextjs";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
+import { Oswald } from "next/font/google";
+
+const oswald = Oswald({
+	variable: "--font-oswald",
+	subsets: ["latin"],
+});
 
 export default async function Navbar() {
 	const user = await currentUser();
 	return (
-		<div className="fixed top-0 w-screen h-16 bg-nav z-50 border-b-border border-b">
+		<div
+			className={`fixed top-0 w-screen h-16 bg-nav z-50 border-b-border border-b ${oswald.variable}`}
+		>
 			<div className="w-full h-full mx-auto max-w-7xl px-5 grid grid-cols-3">
 				<div className="flex items-center justify-start gap-x-5 col-span-2">
 					<Link href={"/"} className="flex items-center gap-x-2 mr-5">
 						<Image src={c.icon.svg} alt={c.hackathonName + " Logo"} width={32} height={32} />
 						{/* <div className="bg-muted-foreground h-[45%] rotate-[25deg] w-[2px]" /> */}
-						<h2 className="font-bold tracking-tight">{c.hackathonName}</h2>
+						<h2 className="font-bold font-oswald text-lg text-[#FEF2E6]">{c.hackathonName}</h2>
 					</Link>
 
 					<NavBarLinksGrouper />
