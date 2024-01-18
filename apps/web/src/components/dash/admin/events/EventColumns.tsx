@@ -7,7 +7,7 @@ import { events } from "db/schema";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
-import c from "@/hackkit.config";
+import c from "config";
 
 // const userValidator = createSelectSchema(users).merge(
 // 	z.object({

@@ -5,7 +5,7 @@ import { eq } from "db/drizzle";
 import { users, teams, errorLog } from "db/schema";
 import { newTeamValidator } from "@/validators/shared/team";
 import { nanoid } from "nanoid";
-import c from "@/hackkit.config";
+import c from "config";
 import { logError } from "@/lib/utils/server/logError";
 
 export async function POST(req: Request) {

@@ -16,7 +16,7 @@ import {
 	Text,
 } from "@react-email/components";
 import type { DefaultEmailTemplateProps } from "@/lib/utils/server/types";
-import c from "@/hackkit.config";
+import c from "config";
 
 interface RegistrationSuccessProps extends DefaultEmailTemplateProps {}
 

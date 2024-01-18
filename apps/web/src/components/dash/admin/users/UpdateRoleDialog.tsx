@@ -16,7 +16,7 @@ import {
 	SelectValue,
 } from "@/components/shadcn/ui/select";
 import { Button } from "@/components/shadcn/ui/button";
-import { perms } from "@/hackkit.config";
+import { perms } from "config";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hook";
 import { updateRole } from "@/actions/admin/user-actions";

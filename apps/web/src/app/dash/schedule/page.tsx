@@ -1,4 +1,4 @@
-import c from "@/hackkit.config";
+import c from "config";
 import Day from "@/components/schedule/Day";
 import { db } from "db";
 import { format, compareAsc } from "date-fns";

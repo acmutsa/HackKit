@@ -1,6 +1,6 @@
 import { events } from "db/schema";
 import { InferModel } from "db/drizzle";
-import c from "@/hackkit.config";
+import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { format } from "date-fns";
 import Balancer from "react-wrap-balancer";

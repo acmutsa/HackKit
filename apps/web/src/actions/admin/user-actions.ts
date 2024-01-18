@@ -2,7 +2,7 @@
 
 import { adminAction } from "@/lib/safe-action";
 import { z } from "zod";
-import { perms } from "@/hackkit.config";
+import { perms } from "config";
 import { users } from "db/schema";
 import { db } from "db";
 import { eq } from "db/drizzle";

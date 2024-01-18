@@ -20,7 +20,7 @@ import { useState, useTransition } from "react";
 import { ImSpinner10 } from "react-icons/im";
 import { useRouter } from "next/navigation";
 import { newTeamValidator } from "@/validators/shared/team";
-import c from "@/hackkit.config";
+import c from "config";
 import { put } from "@vercel/blob";
 
 export default function NewTeamForm() {

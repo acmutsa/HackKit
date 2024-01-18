@@ -5,7 +5,7 @@ import { db } from "db";
 import { eq, InferModel } from "db/drizzle";
 import { users } from "db/schema";
 import Image from "next/image";
-import c from "@/hackkit.config";
+import c from "config";
 import { format } from "date-fns";
 import TiltWrapper from "@/components/dash/shared/TiltWrapper";
 import { createQRpayload } from "@/lib/utils/shared/qr";

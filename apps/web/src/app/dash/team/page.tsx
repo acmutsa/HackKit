@@ -1,4 +1,4 @@
-import c from "@/hackkit.config";
+import c from "config";
 import { auth } from "@clerk/nextjs";
 import { db } from "db";
 import { users } from "db/schema";

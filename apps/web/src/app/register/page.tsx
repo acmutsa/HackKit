@@ -1,4 +1,4 @@
-import c from "@/hackkit.config";
+import c from "config";
 import RegisterForm from "@/components/registration/RegisterForm";
 import { currentUser } from "@clerk/nextjs";
 import { db } from "db";

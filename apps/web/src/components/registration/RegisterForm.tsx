@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import Link from "next/link";
-import c, { schools, majors } from "@/hackkit.config";
+import c, { schools, majors } from "config";
 import {
 	Command,
 	CommandEmpty,

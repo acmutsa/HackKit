@@ -22,6 +22,12 @@ importers:
 
   apps/bot:
     dependencies:
+      config:
+        specifier: workspace:*
+        version: link:../../packages/config
+      db:
+        specifier: workspace:*
+        version: link:../../packages/db
       discord.js:
         specifier: ^14.14.1
         version: 14.14.1
@@ -222,6 +228,8 @@ importers:
       esbuild-register:
         specifier: ^3.4.2
         version: 3.4.2(esbuild@0.19.8)
+
+  packages/config: {}
 
   packages/db:
     dependencies:

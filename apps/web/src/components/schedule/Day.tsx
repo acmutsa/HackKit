@@ -2,7 +2,7 @@ import { events } from "db/schema";
 import { InferModel } from "db/drizzle";
 import { format, compareAsc } from "date-fns";
 import { Badge } from "@/components/shadcn/ui/badge";
-import c from "@/hackkit.config";
+import c from "config";
 import Link from "next/link";
 
 interface DayProps {

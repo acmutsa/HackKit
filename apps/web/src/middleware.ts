@@ -1,6 +1,6 @@
 import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { publicRoutes } from "@/hackkit.config";
+import { publicRoutes } from "config";
 
 export default authMiddleware({
 	publicRoutes,

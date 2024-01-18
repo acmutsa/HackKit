@@ -6,7 +6,7 @@ import { auth } from "@clerk/nextjs";
 import { db } from "db";
 import { users } from "db/schema";
 import { eq } from "db/drizzle";
-import c from "@/hackkit.config";
+import c from "config";
 import superjson from "superjson";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 

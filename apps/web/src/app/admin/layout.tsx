@@ -1,4 +1,4 @@
-import c from "@/hackkit.config";
+import c from "config";
 import Image from "next/image";
 import { db } from "db";
 import { auth } from "@clerk/nextjs";

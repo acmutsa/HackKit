@@ -22,7 +22,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import c from "@/hackkit.config";
+import c from "config";
 import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
 import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
 import { newEventValidator } from "@/validators/shared/newEvent";
