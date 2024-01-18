@@ -1,0 +1,22 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.ts",
+  "scripts": {
+    "dev": "bun run --env-file=../../.env --hot bot.ts",
+    "start": "bun run --env-file=../../.env bot.ts",
+    "deploy:dev": "bun run --env-file=../../.env --dev deploy-commands.ts",
+    "deploy:prod": "bun run --env-file=../../.env --prod deploy-commands.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "hono": "^3.12.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.0.1"
+  }
+}
