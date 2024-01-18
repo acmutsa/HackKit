@@ -41,6 +41,7 @@
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "db": "workspace:*",
+    "config": "workspace:*",
     "dotenv": "^16.3.1",
     "drizzle-zod": "^0.5.1",
     "lucide-react": "^0.257.0",
