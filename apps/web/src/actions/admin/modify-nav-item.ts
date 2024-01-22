@@ -25,7 +25,7 @@ export const removeItem = adminAction(z.string(), async (name, { user, userId })
 	pipe.srem("config:navitemslist", encodeURIComponent(name));
 	pipe.del(`config:navitems:${encodeURIComponent(name)}`);
 	await pipe.exec();
-	await new Promise((resolve) => setTimeout(resolve, 1500));
+	// await new Promise((resolve) => setTimeout(resolve, 1500));
 	revalidatePath(navAdminPage);
 	return { success: true };
 });
