@@ -17,8 +17,8 @@
   "dependencies": {
     "@vercel/postgres": "^0.4.0",
     "dotenv": "^16.3.1",
-    "drizzle-kit": "^0.20.8",
-    "drizzle-orm": "^0.29.2",
+    "drizzle-kit": "^0.20.13",
+    "drizzle-orm": "^0.29.3",
     "esbuild-register": "^3.4.2",
     "postgres": "^3.3.5"
   }
