@@ -17,7 +17,7 @@ Want to help make RowdyHacks the best Hackathon around? Please reach out to us a
 
 ## RH 2024 Website Contributors
 
-<a href="https://github.com/acmutsa/RowdyhHacks24/graphs/contributors">
+<a href="https://github.com/acmutsa/RowdyHacks24/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=acmutsa/RowdyHacks24" />
 </a>
   
