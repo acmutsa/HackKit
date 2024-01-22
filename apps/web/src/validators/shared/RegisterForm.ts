@@ -83,7 +83,7 @@ export const RegisterFormValidator = z.object({
 		.pipe(
 			z.coerce
 				.number()
-				.positive({ message: "Value must be positive" })
+				.min(0, { message: "Value must be positive or zero" })
 				.int({ message: "Value must be an integer" })
 		),
 	softwareBuildingExperience: z.union([
