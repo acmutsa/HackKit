@@ -65,7 +65,7 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
 					<div className="w-full h-20 grid grid-cols-2">
 						<div className="w-full h-full flex items-center justify-start pl-2">
 							<Image src={c.icon.svg} height={60} width={60} alt={`${c.hackathonName} Logo`} />
-							<h1 className="font-bold ml-1 text-lg leading-tight">
+							<h1 className="font-bold ml-1 text-md leading-tight">
 								{c.hackathonName} <span className="text-hackathon">{c.itteration}</span>
 							</h1>
 						</div>

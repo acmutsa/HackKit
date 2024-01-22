@@ -23,7 +23,9 @@ export default async function Navbar() {
 					<Link href={"/"} className="flex items-center gap-x-2 mr-5">
 						<Image src={c.icon.svg} alt={c.hackathonName + " Logo"} width={32} height={32} />
 						{/* <div className="bg-muted-foreground h-[45%] rotate-[25deg] w-[2px]" /> */}
-						<h2 className="font-bold font-oswald text-lg text-[#FEF2E6]">{c.hackathonName}</h2>
+						<h2 className="font-bold font-oswald text-lg dark:text-[#FEF2E6] text-[#A7866A]">
+							{c.hackathonName}
+						</h2>
 					</Link>
 
 					<NavBarLinksGrouper />
