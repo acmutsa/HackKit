@@ -176,7 +176,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-3 gap-x-2">
+						<div className="grid md:grid-cols-3 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="firstName"
@@ -217,7 +217,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
-						<div className="grid grid-cols-7 gap-x-2">
+						<div className="grid md:grid-cols-7 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="age"
@@ -394,8 +394,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						<div
 							className={`grid ${
 								universityValue === c.localUniversityName.toLowerCase()
-									? "md:grid-cols-6 grid-cols-4"
-									: "md:grid-cols-5 grid-cols-4"
+									? "md:grid-cols-6 grid-cols-1"
+									: "md:grid-cols-5 grid-cols-1"
 							} gap-x-2 gap-y-4`}
 						>
 							<FormField
@@ -561,7 +561,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hackathon Experience">
-						<div className="grid grid-cols-3 gap-x-2">
+						<div className="grid md:grid-cols-3 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="hackathonsAttended"
@@ -630,7 +630,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Day of Event">
-						<div className="grid grid-cols-2 gap-x-4 pb-5">
+						<div className="grid md:grid-cols-2 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-4 pb-5">
 							<FormField
 								control={form.control}
 								name="shirtSize"
@@ -725,7 +725,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Career Info">
-						<div className="grid grid-cols-3 gap-x-2">
+						<div className="grid md:grid-cols-3 grid-cols-1 gap-y-2 md:gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="github"
@@ -780,7 +780,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											} border-white rounded-lg border-dashed min-h-[200px] flex flex-col items-center justify-center`}
 										>
 											<input {...getInputProps()} />
-											<p>
+											<p className="text-center p-2">
 												{uploadedFile
 													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
 													: isDragActive
@@ -800,7 +800,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hacker Profile">
-						<div className="grid grid-cols-3 gap-x-2">
+						<div className="grid md:grid-cols-3 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="hackerTag"
@@ -853,7 +853,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
-						<div className="grid grid-cols-2 gap-x-2">
+						<div className="grid md:grid-cols-2 grid-cols-1 gap-y-4 md:gap-y-0 gap-x-2">
 							<FormField
 								control={form.control}
 								name="bio"
