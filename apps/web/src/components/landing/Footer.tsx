@@ -37,7 +37,7 @@ export default function Footer() {
 						<div className="flex items-center justify-center h-full">
 							<div>
 								<Image
-									src={"/img/logo.png"}
+									src={"/img/logo/logo.png"}
 									height={120}
 									width={120}
 									alt="RowdyHacks 2024 Logo"
@@ -171,7 +171,7 @@ export default function Footer() {
 					<div className="flex items-center justify-center h-full">
 						<div>
 							<Image
-								src={"/img/logo.png"}
+								src={"/img/logo/logo.png"}
 								height={120}
 								width={120}
 								alt="RowdyHacks 2024 Logo"
