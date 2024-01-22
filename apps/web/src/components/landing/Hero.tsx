@@ -99,7 +99,12 @@ export default function Hero() {
 			</div>
 			<div className="flex lg:flex-row flex-col items-center justify-center absolute w-screen lg:top-[30%] top-[10%] lg:pr-24">
 				<div className="md:h-[300px] md:w-[300px] h-[200px] w-[200px]">
-					<Image src={"/img/logo.png"} height={300} width={300} alt="RowdyHacks 2024 Logo"></Image>
+					<Image
+						src={"/img/logo/logo.png"}
+						height={300}
+						width={300}
+						alt="RowdyHacks 2024 Logo"
+					></Image>
 				</div>
 				<div className="relative md:scale-100 scale-50 md:my-0 -my-10">
 					<div className="font-oswald absolute translate-y-1 -translate-x-2">
