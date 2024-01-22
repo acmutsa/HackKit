@@ -1,7 +1,7 @@
 import { handleBlobUpload, type HandleBlobUploadBody } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
-import c from "@/hackkit.config";
+import c from "config";
 
 export async function POST(request: Request): Promise<NextResponse> {
 	const body = (await request.json()) as HandleBlobUploadBody;

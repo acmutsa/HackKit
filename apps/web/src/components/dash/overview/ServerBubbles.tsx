@@ -1,6 +1,6 @@
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
-import c from "@/hackkit.config";
+import c from "config";
 import { format } from "date-fns";
 import GradientHero from "./GradientHero";
 // import { users } from "db/schema";

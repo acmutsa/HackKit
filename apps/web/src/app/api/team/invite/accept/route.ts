@@ -6,7 +6,7 @@ import { users, invites, teams } from "db/schema";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import c from "@/hackkit.config";
+import c from "config";
 
 const inviteAcceptValidator = z.object({
 	teamInviteID: z.string().min(1).max(50),

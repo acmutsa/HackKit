@@ -1,5 +1,5 @@
 import Image from "next/image";
-import c from "@/hackkit.config";
+import c from "config";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";

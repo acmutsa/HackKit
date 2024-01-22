@@ -1,5 +1,5 @@
 import { z } from "zod";
-import c from "@/hackkit.config";
+import c from "config";
 
 const defaultPrettyError = {
 	errorMap: () => ({ message: "Please select a value" }),

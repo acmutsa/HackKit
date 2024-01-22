@@ -4,7 +4,7 @@ import { db } from "db";
 import { eq, sql } from "db/drizzle";
 import { users, registrationData, profileData } from "db/schema";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
-import c from "@/hackkit.config";
+import c from "config";
 import { z } from "zod";
 import { sendEmail } from "@/lib/utils/server/ses";
 

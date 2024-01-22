@@ -1,4 +1,4 @@
-import c from "@/hackkit.config";
+import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 

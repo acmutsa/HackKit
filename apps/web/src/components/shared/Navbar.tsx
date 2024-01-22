@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import c from "@/hackkit.config";
+import c from "config";
 import { Button } from "../shadcn/ui/button";
 import ProfileButton from "../dash/shared/ProfileButton";
 import { auth, currentUser } from "@clerk/nextjs";

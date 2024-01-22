@@ -16,7 +16,7 @@ import { useState } from "react";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { newInviteValidator } from "@/validators/shared/team";
 import { BasicServerValidator } from "@/validators/shared/basic";
-import c from "@/hackkit.config";
+import c from "config";
 import { toast } from "sonner";
 
 export default function TeamInvite() {

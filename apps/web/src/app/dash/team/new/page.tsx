@@ -1,4 +1,4 @@
-import c from "@/hackkit.config";
+import c from "config";
 import NewTeamForm from "@/components/dash/main/team/NewTeam";
 
 export default async function Page() {

@@ -9,7 +9,9 @@
     "migrations:apply": "pnpm --filter=db migrations:apply",
     "migrations:drop": "pnpm --filter=db migrations:drop",
     "studio": "pnpm --filter=db studio",
-    "tunnel": "pnpm --filter=devtunnel opentunnel"
+    "tunnel": "pnpm --filter=devtunnel opentunnel",
+    "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
+    "deploy-discord:prod": "pnpm --filter=bot deploy:prod"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",

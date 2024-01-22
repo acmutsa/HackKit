@@ -7,7 +7,7 @@ import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import superjson from "superjson";
-import c from "@/hackkit.config";
+import c from "config";
 
 export async function POST(req: Request) {
 	const { userId } = auth();
