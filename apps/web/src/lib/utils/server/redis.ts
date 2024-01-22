@@ -19,3 +19,15 @@ export async function getAllNavItems() {
 		items,
 	};
 }
+
+export function parseRedisBoolean(
+	value: string | boolean | undefined | null,
+	defaultValue?: boolean
+) {
+	if (typeof value === "string") {
+		if (value === "true") return true;
+		if (value === "false") return false;
+	}
+	if (typeof value === "boolean") return value;
+	return defaultValue !== undefined ? defaultValue : false;
+}
