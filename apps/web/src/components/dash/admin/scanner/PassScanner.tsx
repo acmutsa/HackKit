@@ -54,7 +54,7 @@ export default function PassScanner({ event, hasScanned, scan, scanUser }: PassS
 	const router = useRouter();
 
 	function handleScanCreate() {
-		const params = new URLSearchParams(searchParams);
+		const params = new URLSearchParams(searchParams.toString());
 		const timestamp = parseInt(params.get("createdAt") as string);
 		if (isNaN(timestamp)) {
 			return alert("Invalid QR Code Data (Field: createdAt)");
@@ -89,7 +89,7 @@ export default function PassScanner({ event, hasScanned, scan, scanUser }: PassS
 					<div className="w-screen max-w-[500px] aspect-square overflow-hidden mx-auto">
 						<QrScanner
 							onDecode={(result) => {
-								const params = new URLSearchParams(searchParams);
+								const params = new URLSearchParams(searchParams.toString());
 								if (!params.has("user")) {
 									setScanLoading(true);
 									const qrParsedData = superjson.parse<QRDataInterface>(result);
