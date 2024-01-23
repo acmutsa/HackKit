@@ -6,17 +6,25 @@ import ProfileButton from "../dash/shared/ProfileButton";
 import { auth, currentUser } from "@clerk/nextjs";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
 import { Oswald } from "next/font/google";
+import { cn } from "@/lib/utils/client/cn";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
 	subsets: ["latin"],
 });
 
-export default async function Navbar() {
+interface NavbarProps {
+	className?: string;
+}
+
+export default async function Navbar({ className }: NavbarProps) {
 	const user = await currentUser();
 	return (
 		<div
-			className={`fixed top-0 w-screen h-16 bg-nav z-50 border-b-border border-b ${oswald.variable}`}
+			className={cn(
+				`fixed top-0 w-screen h-16 bg-nav z-50 border-b-border border-b ${oswald.variable}`,
+				className
+			)}
 		>
 			<div className="w-full h-full mx-auto max-w-7xl px-5 grid grid-cols-3">
 				<div className="flex items-center justify-start gap-x-5 col-span-2">

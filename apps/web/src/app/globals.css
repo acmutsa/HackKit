@@ -4,11 +4,11 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%;
+		--background: 32 48% 94%;
 		--foreground: 240 10% 3.9%;
 
-		--nav: 255, 255, 255;
-		--hackathon-primary: 101 29% 27%;
+		--nav: 32 48% 94%;
+		--hackathon-primary: 67 42% 62%;
 
 		--muted: 28 27% 53%;
 		--muted-foreground: 240 3.8% 46.1%;
