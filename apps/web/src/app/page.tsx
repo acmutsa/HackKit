@@ -7,6 +7,7 @@ import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
+import Team from "@/components/landing/Team";
 import { Oswald } from "next/font/google";
 
 const oswald = Oswald({
@@ -22,6 +23,7 @@ export default function Home() {
 				<Hero />
 				<About />
 				<Partners />
+				<Team/>
 				<Footer />
 			</main>
 		</>

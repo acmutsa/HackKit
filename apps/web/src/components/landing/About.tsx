@@ -2,7 +2,7 @@ import Balancer from "react-wrap-balancer";
 
 export default function About() {
   return (
-    <section className="relative z-10 min-h-screen w-full bg-black bg-[url('/img/landing/layer_background.svg')] bg-no-repeat bg-cover px-5 py-20" id="About">
+    <section className="relative z-10 min-h-screen w-full bg-[#5c422b] bg-[url('/img/landing/layer_background.svg')] bg-no-repeat bg-cover px-5 py-20" id="About">
       <div className="mx-auto max-w-6xl pt-20">
         {/* Div for all of the fossil background images. Would love to have these without the little ground affect around them */}
         
