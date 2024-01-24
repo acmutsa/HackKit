@@ -1,4 +1,4 @@
-export const defaultTheme = "dark";
+export const defaultTheme = "light";
 
 export default {
 	hackathonName: "RowdyHacks",

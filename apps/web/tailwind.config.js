@@ -31,7 +31,7 @@ module.exports = {
 					DEFAULT: "hsl(var(--primary))",
 					foreground: "hsl(var(--primary-foreground))",
 				},
-				nav: "rgb(var(--nav))",
+				nav: "hsl(var(--nav))",
 				hackathon: "hsl(var(--hackathon-primary))",
 				secondary: {
 					DEFAULT: "hsl(var(--secondary))",
