@@ -23,7 +23,7 @@ export default function Home() {
 				<Hero />
 				<About />
 				<Partners />
-				<Team/>
+				{/* <Team/> */}
 				<Footer />
 			</main>
 		</>
