@@ -2,19 +2,29 @@ import Balancer from "react-wrap-balancer";
 
 export default function About() {
   return (
-    <section className="relative z-10 min-h-screen w-full bg-[#5c422b] bg-[url('/img/landing/layer_background.svg')] bg-no-repeat bg-cover px-5 py-20" id="About">
+    <section
+      className="relative z-10 min-h-screen w-full bg-[#563a1f] bg-[url('/img/landing/layer_background.svg')] bg-no-repeat bg-cover px-5 py-20"
+      id="About">
       <div className="mx-auto max-w-6xl pt-20">
         {/* Div for all of the fossil background images. Would love to have these without the little ground affect around them */}
-        
+
         <div className="w-full h-full">
-            <img src='/img/landing/d1.svg'
-          className="w-[25rem] sm:w-[30rem] md:w-[32rem] 2xl:w-[48rem] top-0 right-0 sm:left-1/3 md:left-0  absolute -z-[1]"/>
-        <img src='/img/landing/d2.svg'
-          className="w-96 sm:w-[28rem] md:w-[30rem] 2xl:w-[40rem] left-0 top-1/4 sm:top-1/4 md:top-1/3 md:left-1/2 lg:top-[38%] lg:left-[63%] absolute -z-[1]"/>
-        <img src='/img/landing/d3.svg'
-          className="w-[22rem] sm:w-[25rem] md:w-[28rem] 2xl:w-[32rem] right-0 top-[51rem] sm:top-[62%] md:top-[78%] md:right-60 lg:top-[36%] lg:left-6 2xl:top-[29rem] absolute -z-[1]"/>
-        <img src='/img/landing/d4.svg'
-          className="w-72 sm:w-96 md:w-[28rem] 2xl:w-[35rem] bottom-0 left-0 sm:right-32 md:bottom-0 md:hidden lg:block lg:top-[80%] lg:left-1/4 2xl:top-[52rem] absolute -z-[1]"/>
+          <img
+            src="/img/landing/d1.svg"
+            className="w-[25rem] sm:w-[30rem] md:w-[32rem] 2xl:w-[48rem] top-0 right-0 sm:left-1/3 md:left-0  absolute -z-[1]"
+          />
+          <img
+            src="/img/landing/d2.svg"
+            className="w-96 sm:w-[28rem] md:w-[30rem] 2xl:w-[40rem] left-0 top-1/4 sm:top-1/4 md:top-1/3 md:left-1/2 lg:top-[38%] lg:left-[63%] absolute -z-[1]"
+          />
+          <img
+            src="/img/landing/d3.svg"
+            className="w-[22rem] sm:w-[25rem] md:w-[28rem] 2xl:w-[32rem] right-0 top-[51rem] sm:top-[62%] md:top-[78%] md:right-60 lg:top-[36%] lg:left-6 2xl:top-[29rem] absolute -z-[1]"
+          />
+          <img
+            src="/img/landing/d4.svg"
+            className="w-72 sm:w-96 md:w-[28rem] 2xl:w-[35rem] bottom-0 left-0 sm:right-32 md:bottom-0 md:hidden lg:block lg:top-[80%] lg:left-1/4 2xl:top-[52rem] absolute -z-[1]"
+          />
         </div>
 
         {/* Info columns */}
@@ -25,16 +35,18 @@ export default function About() {
             </h1>
             <p className="text-center font-mono text-lg font-bold text-[#FEF2E6] md:text-left">
               <Balancer>
-                RowdyHacks is a free, weekend-long, overnight hackathon hosted at
-              UTSA! Students can join us to network, code, collaborate, and
-              compete. We welcome hackers from all disciplines, backgrounds, &
-              technical levels!
+                RowdyHacks is a free, weekend-long, overnight hackathon hosted
+                at UTSA! Students can join us to network, code, collaborate, and
+                compete. We welcome hackers from all disciplines, backgrounds, &
+                technical levels!
               </Balancer>
             </p>
           </div>
-            {/* Placeholder for let's get rowdy alternative */}
-            <img src='/img/landing/lil_man.png'
-                className="mx-auto hidden md:block md:w-[200px] md:h[200px] lg:w-[250px] lg:h[250px] 2xl:w-[300px] 2xl:h[3000px]"/>
+          {/* Placeholder for let's get rowdy alternative */}
+          <img
+            src="/img/landing/lil_man.png"
+            className="mx-auto hidden md:block md:w-[200px] md:h[200px] lg:w-[250px] lg:h[250px] 2xl:w-[300px] 2xl:h[3000px]"
+          />
           <div>
             <img
               src="/img/landing/dinos_coding.png"

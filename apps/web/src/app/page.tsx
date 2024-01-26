@@ -4,6 +4,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
+import Filler from "@/components/landing/Filler";
 import About from "@/components/landing/About";
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
@@ -21,6 +22,7 @@ export default function Home() {
 			<Navbar />
 			<main className={`${oswald.variable} w-full overflow-x-hidden`}>
 				<Hero />
+				<Filler/>
 				<About />
 				<Partners />
 				{/* <Team/> */}
