@@ -1,6 +1,11 @@
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
+import { Client, Collection, Events, GatewayIntentBits, EmbedBuilder } from "discord.js";
 import { readdirSync } from "node:fs";
 import path from "node:path";
+import { Hono } from "hono";
+import { serve } from "bun";
+import c from "config";
+
+/* DISCORD BOT */
 
 const client = new Client({
 	intents: [
@@ -59,3 +64,51 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 client.login(process.env.DISCORD_SECRET_TOKEN);
+
+/* WEB SERVER */
+
+const app = new Hono();
+app.get("/postMsgToServer", (h) => {
+	const internalAuthKey = h.req.query("access");
+	const serverType: string | undefined | "dev" | "prod" = h.req.query("env");
+	if (!internalAuthKey || internalAuthKey != process.env.INTERNAL_AUTH_KEY) {
+		return h.text("access denied");
+	}
+	if (!serverType || (serverType !== "dev" && serverType !== "prod")) {
+		return h.text("invalid env");
+	}
+
+	const verifyEmbed = new EmbedBuilder()
+		.setColor(0x0099ff)
+		.setTitle("Verification")
+		.setURL(c.siteUrl)
+		.setAuthor({ name: c.botName, iconURL: c.siteUrl + c.icon.md, url: c.siteUrl })
+		.setDescription(
+			`**Verify your registration for ${c.hackathonName} ${c.itteration} to gain access to the rest of the server!**\n\nClick the "verify" button below to begin the verification process.\n\u200B`
+		)
+		.setThumbnail(`${c.siteUrl}${c.icon.md}`)
+		.setFooter({
+			text: "Questions or issues? Contact an organizer :)",
+			iconURL: "https://static.acmutsa.org/Info_Simple.svg.png",
+		});
+
+	const channel = client.channels.cache.get(
+		serverType === "dev"
+			? (process.env.DISCORD_DEV_VERIFY_CHANNEL_ID as string)
+			: (process.env.DISCORD_PROD_VERIFY_CHANNEL_ID as string)
+	);
+
+	if (!channel || !channel.isTextBased()) {
+		return h.text("Invalid channel");
+	}
+
+	channel.send({
+		embeds: [verifyEmbed],
+	});
+	return h.text(`Posted to channel!`);
+});
+
+serve({
+	fetch: app.fetch,
+	port: 4000,
+});

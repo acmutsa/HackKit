@@ -3,6 +3,8 @@ export const defaultTheme = "dark";
 export default {
 	hackathonName: "HackKit",
 	itteration: "2023",
+	siteUrl: "https://hack-kit-web.vercel.app", // Do not have a trailing slash
+	botName: "HackKit",
 	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
