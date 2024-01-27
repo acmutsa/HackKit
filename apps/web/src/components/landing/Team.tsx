@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Carousel,
   CarouselContent,
@@ -6,7 +7,7 @@ import {
   CarouselPrevious,
 } from "../shadcn/ui/carousel";
 
-import TeamPerson from "./TeamMember";
+import TeamMember from "./TeamMember";
 
 export type Person = {
   fname: string; //picture file name must match name with .png
@@ -47,7 +48,7 @@ function createImgLink(firstname: string, lastname: string) {
   return `/img/landing/team/${firstname}_${lastname}.jpg`;
 }
 const director = 'Director'
-const media = 'Media / Design'
+const media = 'Media/Design'
 const experience = "Experience";
 const logistics = "Logistics";
 const tech = 'Tech';
@@ -79,7 +80,7 @@ let team: Array<Person> = [
     "https://github.com/Lermatroid"
   ),
   createPerson(
-    "Josh",
+    "Joshua",
     "Silva",
     tech,
     "https://www.linkedin.com/in/joshuasilva414/",
@@ -97,17 +98,59 @@ let team: Array<Person> = [
   createPerson(
     "Jacob",
     "Ellerbrock",
-    tech,
+    `${logistics}/${tech}`,
     "https://www.linkedin.com/in/jacobellerbrock/",
     "",
     ""
   ),
-  createPerson("Kathy", "Ngu", media, "", "", ""),
-  createPerson("Macreen", "Marbella", media, "", "", ""),
-  createPerson("Rin", "Peralez", media, "", "", ""),
-  createPerson("Annalisa", "Vuong", pr, "", "", ""),
-  createPerson("Diem", "Bui", pr, "", "", ""),
-  createPerson("Natasha", "Blussick", pr, "", "", ""),
+  createPerson(
+    "Kathy",
+    "Nguyen",
+    media,
+    "https://www.linkedin.com/in/kathy-nguyen-6892812ab/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Macreen",
+    "Marbella",
+    media,
+    "https://www.linkedin.com/in/macreen-marbella-67b067200/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Rin",
+    "Peralez",
+    media,
+    "https://www.linkedin.com/in/rin-peralez-046721281/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Annalisa",
+    "Vuong",
+    pr,
+    "https://www.linkedin.com/in/annalisa-vuong-68b002238/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Diem",
+    "Bui",
+    pr,
+    "https://www.linkedin.com/in/diembui1910/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Natasha",
+    "Blussick",
+    pr,
+    "https://www.linkedin.com/in/natasha-blussick/",
+    "",
+    ""
+  ),
   createPerson(
     "Alejandro",
     "Mugica",
@@ -116,49 +159,107 @@ let team: Array<Person> = [
     "",
     ""
   ),
-  createPerson("Calvin", "Jessen", logistics, "", "", ""),
-  createPerson("Elizabeth", "Truong", logistics, "", "", ""),
-  createPerson("Paolo", "Lay", logistics, "", "", ""),
-  createPerson("Alessandro", "Espinosa", experience, "", "", ""),
-  createPerson("Darren", "Manaligod", experience, "", "", ""),
-  createPerson("Iqra", "Abdullah", experience, "", "", ""),
-  createPerson("Kailey", "Perrino", experience, "", "", ""),
-  createPerson("Anusha", "Abdulla", experience, "", "", ""),
+  createPerson(
+    "Calvin",
+    "Jessen",
+    `${logistics}/${pr}/Photographer`,
+    "https://www.linkedin.com/in/calvin-j-39547a24b/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Elizabeth",
+    "Truong",
+    logistics,
+    "https://www.linkedin.com/in/elizabeth-truong-/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Paolo",
+    "Lay",
+    logistics,
+    "https://www.linkedin.com/in/paolo-lay/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Alessandro",
+    "Espinosa",
+    experience,
+    "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Darren",
+    "Manaligod",
+    experience,
+    "https://www.linkedin.com/in/darrenmanaligod/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Iqra",
+    "Abdullah",
+    experience,
+    "https://www.linkedin.com/in/iqra-abdullah/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Kailey",
+    "Perrino",
+    experience,
+    "https://www.linkedin.com/in/kailey-perrino-3bb82a213/",
+    "",
+    ""
+  ),
+  createPerson(
+    "Anusha",
+    "Abdulla",
+    experience,
+    "https://www.linkedin.com/in/anusha-abdulla/",
+    "",
+    ""
+  ),
 ];
 
 export function CarouselDefault() {
-//   let teamPageArray: Person[][] = [];
-
-//   for (let i = 0; i < team.length / 10; i++) {
-//     teamPageArray[i] = [];
-//     for (let j = 0; j < 10; j++) {
-//       if (team.length <= i * 10 + j) break;
-//       teamPageArray[i].push(team[i * 10 + j]);
-//     }
-//   }
-
   return (
     //Where Carousel will go
-    <div>
-
-    </div>
+    <Carousel opts={
+        {align:"start"}
+    }
+    className="w-full max-w-2xl"
+    >
+        <CarouselContent>
+        {
+            team.map((p:Person,index:React.Key)=>(
+                <TeamMember key={index} person={p}/>
+            ))
+        }
+        </CarouselContent>
+        <CarouselPrevious/>
+        <CarouselNext/>
+    </Carousel>
   );
 }
 
-function Page({ list }: { list: Person[] }) {
-  return (
-    <div className={"grid grid-cols-5 grid-rows-2 mx-20 gap-x-0.5 p-5"}>
-      {list.map((person: Person, index: React.Key) => (
-        <TeamPerson key={index} person={person} />
-      ))}
-    </div>
-  );
-}
+// function Page({ list }: { list: Person[] }) {
+//   return (
+//     <div className={"grid grid-cols-5 grid-rows-2 mx-20 gap-x-0.5 p-5"}>
+//       {list.map((person: Person, index: React.Key) => (
+//         <TeamPerson key={index} person={person} />
+//       ))}
+//     </div>
+//   );
+// }
 
 export default function Team() {
   return (
     <>
-      <div className="flex flex-wrap -mx-3 bg-[#3D5A30]">
+      <div className="flex flex-col bg-[url('/img/landing/About_background.svg')] bg-cover bg-no-repeat w-full">
         <div className="w-full max-w-full px-3 mb-6 mx-auto">
           <div className="relative flex-[1_auto] flex flex-col break-words min-w-0 bg-clip-border rounded-[.95rem] m-5">
             {/* card body  */}
@@ -173,7 +274,9 @@ export default function Team() {
                     Meet All The People Who worked To Make Rowdyhacks Possible!{" "}
                   </span>
                 </div>
-                <CarouselDefault />
+                <div className="flex items-center justify-center">
+                  <CarouselDefault />
+                </div>
               </div>
             </div>
           </div>

@@ -10,7 +10,12 @@ import {
   CardTitle,
 } from "../shadcn/ui/card"
 import { useEffect, useState } from "react";
+import { Oswald } from "next/font/google";
 
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+});
 
 
 
@@ -44,43 +49,6 @@ export function Github({ fillColor }:{fillColor:string}) {
     )
 }
 
-{/* <div className="flex flex-col mx-5 text-center my-6">
-            <div className="inline-block mb-4 relative shrink-0 rounded-[.95rem]">
-                <img
-                    className="object-cover inline-block shrink-0 rounded-[.95rem] w-[150px] h-[150px]"
-                    src={"/img/profiles/" + person.name + ".jpg"}
-                    alt={person.name}
-                />
-            </div>
-            <div className="text-center">
-                <p
-                    className="text-white text-dark font-semibold hover:text-primary text-[1.25rem] transition-colors duration-200 ease-in-out"
-                >
-                    {person.name}
-                </p>
-                <span className="text-gray-300 block font-medium text-muted">
-                    {person.role}
-                </span>
-            </div>
-            <div className={"flex justify-center p-2 gap-3"}>
-                <a href={person.linkedin} className={person.linkedin ? "" : "hidden"}>
-                    <div className={"size-8"}>
-                        <LinkedIn fillColor={"fill-gray-400"}/>
-                    </div>
-                </a>
-                <a href={person.website} className={person.website ? "" : "hidden"}>
-                    <div className={"size-8"}>
-                        <Website fillColor={"fill-gray-400"}/>
-                    </div>
-                </a>
-                <a href={person.github} className={person.github ? "" : "hidden"}>
-                    <div className={"size-8"}>
-                        <Github fillColor={"fill-gray-400"}/>
-                    </div>
-                </a>
-            </div>
-        </div> */}
-
 
 export default function TeamPerson({person}:{person:Person}) {
     const [data_rendered, setData_rendered] = useState(false);
@@ -89,24 +57,24 @@ export default function TeamPerson({person}:{person:Person}) {
         // Basic use effect hook to check if the page has rendered
         setData_rendered(true)
     },[])
-    // Currently causes a hydration error, but will be fixed later
+    
     return (
       <>
         {data_rendered ? (
-          <Card>
+          <Card className={`${oswald.className} w-full`}>
             <CardHeader>
-              <CardTitle>
+              <CardTitle className="text-lg">
                 <h1>{`${person.fname} ${person.lname}`}</h1>
               </CardTitle>
               <CardDescription>
-                <h2>{person.role}</h2>
+                <h2 className=" text-sm">{person.role}</h2>
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <img src={person.imgLink} className="w-[300px] h-[300px]" />
+            <CardContent className="flex items-center justify-center">
+              <img src={person.imgLink} className="w-[150px] h-[120px] rounded-lg" />
             </CardContent>
             <CardFooter>
-              <div className={"flex justify-center p-2 gap-3"}>
+              <div className={"flex w-full items-baseline justify-center gap-3"}>
                 <a
                   href={person.linkedin}
                   className={person.linkedin ? "" : "hidden"}>

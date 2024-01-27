@@ -23,7 +23,9 @@ export default function Footer() {
 
 	return (
 		<div className="relative z-[100]">
-			<div className="bg-black border-t-gray-500 border-t-[1px] lg:block hidden">
+			{/* border-t-gray-500 border-t-[1px] */}
+			{/* Proposed simply for keeping with the look of thw website */}
+			<div className="bg-amber-950 lg:block hidden">
 				<div className="grid grid-cols-5 bg-transparent md:p-10 max-w-[1200px] mx-auto">
 					<div className="col-span-2 flex items-center justify-start ">
 						{/* <div className="w-full flex items-start flex-col justify-start h-full">

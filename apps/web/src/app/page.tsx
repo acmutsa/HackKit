@@ -25,7 +25,7 @@ export default function Home() {
 				<Filler/>
 				<About />
 				<Partners />
-				{/* <Team/> */}
+				<Team/>
 				<Footer />
 			</main>
 		</>
