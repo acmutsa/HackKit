@@ -51,30 +51,28 @@ export function Github({ fillColor }:{fillColor:string}) {
 
 
 export default function TeamPerson({person}:{person:Person}) {
-    const [data_rendered, setData_rendered] = useState(false);
-
-    useEffect(()=>{
-        // Basic use effect hook to check if the page has rendered
-        setData_rendered(true)
-    },[])
     
+
     return (
-      <>
-        {data_rendered ? (
-          <Card className={`${oswald.className} w-full`}>
-            <CardHeader>
+     <div className="p-1">
+          <Card className={`${oswald.className} w-[245px] h-[400px]`}>
+            <CardHeader className="items-center">
               <CardTitle className="text-lg">
-                <h1>{`${person.fname} ${person.lname}`}</h1>
+                <h1>{`${person.fname}\u00A0${person.lname}`}</h1>
               </CardTitle>
               <CardDescription>
-                <h2 className=" text-sm">{person.role}</h2>
+                <h2 className="text-sm">{person.role}</h2>
               </CardDescription>
             </CardHeader>
             <CardContent className="flex items-center justify-center">
-              <img src={person.imgLink} className="w-[150px] h-[120px] rounded-lg" />
+              <img
+                src={person.imgLink}
+                className="w-[150px] h-[100px] rounded-lg"
+              />
             </CardContent>
             <CardFooter>
-              <div className={"flex w-full items-baseline justify-center gap-3"}>
+              <div
+                className={"flex w-full h-full items-baseline justify-center gap-3"}>
                 <a
                   href={person.linkedin}
                   className={person.linkedin ? "" : "hidden"}>
@@ -99,9 +97,7 @@ export default function TeamPerson({person}:{person:Person}) {
               </div>
             </CardFooter>
           </Card>
-        ) : (
-          <h1>Loading...</h1>
-        )}
-      </>
+        
+      </div>
     );
 }

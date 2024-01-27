@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import {
   Carousel,
@@ -8,6 +10,15 @@ import {
 } from "../shadcn/ui/carousel";
 
 import TeamMember from "./TeamMember";
+import { Oswald } from "next/font/google";
+import { useState,useEffect } from "react";
+
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+});
+
 
 export type Person = {
   fname: string; //picture file name must match name with .png
@@ -84,7 +95,7 @@ let team: Array<Person> = [
     "Silva",
     tech,
     "https://www.linkedin.com/in/joshuasilva414/",
-    "",
+    "https://joshuasilva.netlify.app/",
     "https://github.com/joshuasilva414"
   ),
   createPerson(
@@ -226,62 +237,48 @@ let team: Array<Person> = [
 ];
 
 export function CarouselDefault() {
+    const [data_rendered, setData_rendered] = useState(false);
+
+    useEffect(() => {
+      // Basic use effect hook to check if the page has rendered
+      setData_rendered(true);
+    }, []);
+
   return (
     //Where Carousel will go
-    <Carousel opts={
-        {align:"start"}
-    }
-    className="w-full max-w-2xl"
-    >
-        <CarouselContent>
-        {
-            team.map((p:Person,index:React.Key)=>(
-                <TeamMember key={index} person={p}/>
-            ))
-        }
-        </CarouselContent>
-        <CarouselPrevious/>
-        <CarouselNext/>
+    <>
+    {
+        data_rendered ? 
+        <Carousel opts={{ align: "start" }} className=" flex justify-center w-full max-w-5xl h-auto">
+      <CarouselContent>
+        {team.map((p: Person, index: React.Key) => (
+          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+            <TeamMember person={p} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious/>
+      <CarouselNext/>
     </Carousel>
+    :<h1 className='text-3xl'>Loading...</h1>
+    }
+    </>
+    // <TeamMember person={p}/>
   );
 }
 
-// function Page({ list }: { list: Person[] }) {
-//   return (
-//     <div className={"grid grid-cols-5 grid-rows-2 mx-20 gap-x-0.5 p-5"}>
-//       {list.map((person: Person, index: React.Key) => (
-//         <TeamPerson key={index} person={person} />
-//       ))}
-//     </div>
-//   );
-// }
 
 export default function Team() {
   return (
-    <>
-      <div className="flex flex-col bg-[url('/img/landing/About_background.svg')] bg-cover bg-no-repeat w-full">
-        <div className="w-full max-w-full px-3 mb-6 mx-auto">
-          <div className="relative flex-[1_auto] flex flex-col break-words min-w-0 bg-clip-border rounded-[.95rem] m-5">
-            {/* card body  */}
-            <div className="flex-auto block py-8 px-9">
-              <div>
-                <div className="mb-9">
-                  <h1 className="mb-2 text-[1.75rem] font-semibold text-dark">
-                    Rowdyhacks IX Organizers
-                  </h1>
-                  <span className="text-[1.15rem] font-medium text-muted">
-                    {" "}
-                    Meet All The People Who worked To Make Rowdyhacks Possible!{" "}
-                  </span>
-                </div>
-                <div className="flex items-center justify-center">
-                  <CarouselDefault />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <section className={`${oswald.className}flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20`}>
+      <div className="flex w-full justify-center">
+        <h1 className="pt-10 text-2xl">
+          Meet The Team That Made RowdyHacks IX Possible!
+        </h1>
       </div>
-    </>
+      <div className="flex w-full h-full items-center justify-center">
+        <CarouselDefault />
+      </div>
+    </section>
   );
 }
