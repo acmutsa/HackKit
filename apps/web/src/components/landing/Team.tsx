@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../shadcn/ui/carousel";
-
+import { Person } from "./Person";
 import TeamMember from "./TeamMember";
 import { Oswald } from "next/font/google";
 import { useState,useEffect } from "react";
@@ -20,17 +20,8 @@ const oswald = Oswald({
 });
 
 
-export type Person = {
-  fname: string; //picture file name must match name with .png
-  lname: string;
-  imgLink: string;
-  role: string;
-  linkedin: string;
-  website: string;
-  github: string;
-};
 // Creates our person and makes it seamless
-export function createPerson(
+function createPerson(
   fname: string,
   lname: string,
   role: string,
@@ -42,7 +33,7 @@ export function createPerson(
   return {
     fname: fname,
     lname: lname,
-    imgLink: createImgLink(fname,lname),
+    imgLink: CreateImgLink(fname,lname),
     role: role,
     linkedin: linkedin,
     website: website,
@@ -51,19 +42,17 @@ export function createPerson(
   
 }
 
-type HashMap = {
-  [key: string]: Object;
-};
-
-function createImgLink(firstname: string, lastname: string) {
+function CreateImgLink(firstname: string, lastname: string) {
   return `/img/landing/team/${firstname}_${lastname}.jpg`;
 }
+
 const director = 'Director'
 const media = 'Media/Design'
 const experience = "Experience";
 const logistics = "Logistics";
 const tech = 'Tech';
-const pr = 'PR'
+const pr = 'PR';
+
 let team: Array<Person> = [
   // add each person here. if no website, leave empty string
   createPerson(
@@ -85,7 +74,7 @@ let team: Array<Person> = [
   createPerson(
     "Liam",
     "Murray",
-    `${tech}/${logistics}`,
+    `${tech}\u00A0/\u00A0${logistics}`,
     "https://www.linkedin.com/in/liamrmurray/",
     "",
     "https://github.com/Lermatroid"
@@ -109,7 +98,7 @@ let team: Array<Person> = [
   createPerson(
     "Jacob",
     "Ellerbrock",
-    `${logistics}/${tech}`,
+    `${logistics}\u00A0/\u00A0${tech}`,
     "https://www.linkedin.com/in/jacobellerbrock/",
     "",
     ""
@@ -173,7 +162,7 @@ let team: Array<Person> = [
   createPerson(
     "Calvin",
     "Jessen",
-    `${logistics}/${pr}/Photographer`,
+    `${logistics}\u00A0/\u00A0${pr}\u00A0/Photographer`,
     "https://www.linkedin.com/in/calvin-j-39547a24b/",
     "",
     ""
@@ -236,7 +225,7 @@ let team: Array<Person> = [
   ),
 ];
 
-export function CarouselDefault() {
+function CarouselDefault() {
     const [data_rendered, setData_rendered] = useState(false);
 
     useEffect(() => {
@@ -263,16 +252,16 @@ export function CarouselDefault() {
     :<h1 className='text-3xl'>Loading...</h1>
     }
     </>
-    // <TeamMember person={p}/>
   );
 }
 
 
 export default function Team() {
   return (
-    <section className={`${oswald.className}flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20`}>
+    <section
+      className={`${oswald.className} flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20 pb-48`}>
       <div className="flex w-full justify-center">
-        <h1 className="pt-10 text-2xl">
+        <h1 className="pt-10 text-4xl font-bold font-oswald italic">
           Meet The Team That Made RowdyHacks IX Possible!
         </h1>
       </div>

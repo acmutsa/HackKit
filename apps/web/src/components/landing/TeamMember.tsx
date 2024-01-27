@@ -1,6 +1,6 @@
 "use client"
 
-import { Person } from "./Team";
+import { Person } from "./Person";
 import {
   Card,
   CardContent,
@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../shadcn/ui/card"
-import { useEffect, useState } from "react";
 import { Oswald } from "next/font/google";
 
 const oswald = Oswald({
@@ -19,7 +18,7 @@ const oswald = Oswald({
 
 
 
-export function LinkedIn({ fillColor }: {fillColor:string}) {
+function LinkedIn({ fillColor }: {fillColor:string}) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className={fillColor}>
             <path
@@ -29,7 +28,7 @@ export function LinkedIn({ fillColor }: {fillColor:string}) {
 }
 
 
-export function Website({fillColor}:{fillColor:string}) {
+function Website({fillColor}:{fillColor:string}) {
     return (
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"
              className={fillColor} overflow={"true"}>
@@ -40,7 +39,7 @@ export function Website({fillColor}:{fillColor:string}) {
 }
 
 
-export function Github({ fillColor }:{fillColor:string}) {
+function Github({ fillColor }:{fillColor:string}) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className={fillColor}>
             <path
@@ -50,54 +49,60 @@ export function Github({ fillColor }:{fillColor:string}) {
 }
 
 
-export default function TeamPerson({person}:{person:Person}) {
-    
+export default function TeamMember({person}:{person:Person}) {
 
     return (
-     <div className="p-1">
-          <Card className={`${oswald.className} w-[245px] h-[400px]`}>
+      <div className="p-1 flex">
+        <Card className={`relative ${oswald.className} w-[245px] h-[400px]`}>
+          {/* Option 1 */}
+          <img
+            src="/img/landing/RHlogo.svg"
+            className="absolute z-[100] w-[60px] h-[60px] right-0 top-0"
+          />
+           
+          <div>
             <CardHeader className="items-center">
-              <CardTitle className="text-lg">
-                <h1>{`${person.fname}\u00A0${person.lname}`}</h1>
-              </CardTitle>
-              <CardDescription>
-                <h2 className="text-sm">{person.role}</h2>
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center justify-center">
-              <img
-                src={person.imgLink}
-                className="w-[150px] h-[100px] rounded-lg"
-              />
-            </CardContent>
-            <CardFooter>
-              <div
-                className={"flex w-full h-full items-baseline justify-center gap-3"}>
-                <a
-                  href={person.linkedin}
-                  className={person.linkedin ? "" : "hidden"}>
-                  <div className={"size-8"}>
-                    <LinkedIn fillColor={"fill-gray-400"} />
-                  </div>
-                </a>
-                <a
-                  href={person.website}
-                  className={person.website ? "" : "hidden"}>
-                  <div className={"size-8"}>
-                    <Website fillColor={"fill-gray-400"} />
-                  </div>
-                </a>
-                <a
-                  href={person.github}
-                  className={person.github ? "" : "hidden"}>
-                  <div className={"size-8"}>
-                    <Github fillColor={"fill-gray-400"} />
-                  </div>
-                </a>
-              </div>
-            </CardFooter>
-          </Card>
-        
+            <CardTitle className="text-lg">
+              <h1>{`${person.fname}\u00A0${person.lname}`}</h1>
+            </CardTitle>
+            <CardDescription>
+              <h2 className="text-sm">{person.role}</h2>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center">
+            <img
+              src={person.imgLink}
+              className="w-[150px] h-[100px] rounded-lg"
+            />
+          </CardContent>
+          <CardFooter>
+            <div
+              className={
+                "flex w-full h-full items-baseline justify-center gap-3"
+              }>
+              <a
+                href={person.linkedin}
+                className={person.linkedin ? "" : "hidden"}>
+                <div className={"size-8"}>
+                  <LinkedIn fillColor={"fill-gray-400"} />
+                </div>
+              </a>
+              <a
+                href={person.website}
+                className={person.website ? "" : "hidden"}>
+                <div className={"size-8"}>
+                  <Website fillColor={"fill-gray-400"} />
+                </div>
+              </a>
+              <a href={person.github} className={person.github ? "" : "hidden"}>
+                <div className={"size-8"}>
+                  <Github fillColor={"fill-gray-400"} />
+                </div>
+              </a>
+            </div>
+          </CardFooter>
+          </div>
+        </Card>
       </div>
     );
 }
