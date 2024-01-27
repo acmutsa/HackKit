@@ -1,6 +1,3 @@
-import { log } from "util";
-import { Card, CardContent } from "../shadcn/ui/card";
-
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +6,7 @@ import {
   CarouselPrevious,
 } from "../shadcn/ui/carousel";
 
-import TeamPerson from "./TeamPerson";
+import TeamPerson from "./TeamMember";
 
 export type Person = {
   fname: string; //picture file name must match name with .png
@@ -21,7 +18,7 @@ export type Person = {
   github: string;
 };
 // Creates our person and makes it seamless
-function createPerson(
+export function createPerson(
   fname: string,
   lname: string,
   role: string,
@@ -47,7 +44,7 @@ type HashMap = {
 };
 
 function createImgLink(firstname: string, lastname: string) {
-  return `${firstname}_${lastname}.jpg`;
+  return `/img/landing/team/${firstname}_${lastname}.jpg`;
 }
 const director = 'Director'
 const media = 'Media / Design'
@@ -130,24 +127,21 @@ let team: Array<Person> = [
 ];
 
 export function CarouselDefault() {
-  let teamPageArray: Person[][] = [];
+//   let teamPageArray: Person[][] = [];
 
-  for (let i = 0; i < team.length / 10; i++) {
-    teamPageArray[i] = [];
-    for (let j = 0; j < 10; j++) {
-      if (team.length <= i * 10 + j) break;
-      teamPageArray[i].push(team[i * 10 + j]);
-    }
-  }
+//   for (let i = 0; i < team.length / 10; i++) {
+//     teamPageArray[i] = [];
+//     for (let j = 0; j < 10; j++) {
+//       if (team.length <= i * 10 + j) break;
+//       teamPageArray[i].push(team[i * 10 + j]);
+//     }
+//   }
 
   return (
-    <Carousel interval={null}>
-      {teamPageArray.map((people, index) => (
-        <Carousel.Item>
-          <Page key={index} list={people} />
-        </Carousel.Item>
-      ))}
-    </Carousel>
+    //Where Carousel will go
+    <div>
+
+    </div>
   );
 }
 

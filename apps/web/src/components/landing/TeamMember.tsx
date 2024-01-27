@@ -1,4 +1,18 @@
+"use client"
+
 import { Person } from "./Team";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../shadcn/ui/card"
+import { useEffect, useState } from "react";
+
+
+
 
 export function LinkedIn({ fillColor }: {fillColor:string}) {
     return (
@@ -30,12 +44,7 @@ export function Github({ fillColor }:{fillColor:string}) {
     )
 }
 
-
-
-export default function TeamPerson({person}:{person:Person}) {
-
-    return (
-        <div className="flex flex-col mx-5 text-center my-6">
+{/* <div className="flex flex-col mx-5 text-center my-6">
             <div className="inline-block mb-4 relative shrink-0 rounded-[.95rem]">
                 <img
                     className="object-cover inline-block shrink-0 rounded-[.95rem] w-[150px] h-[150px]"
@@ -70,6 +79,61 @@ export default function TeamPerson({person}:{person:Person}) {
                     </div>
                 </a>
             </div>
-        </div>
-    )
+        </div> */}
+
+
+export default function TeamPerson({person}:{person:Person}) {
+    const [data_rendered, setData_rendered] = useState(false);
+
+    useEffect(()=>{
+        // Basic use effect hook to check if the page has rendered
+        setData_rendered(true)
+    },[])
+    // Currently causes a hydration error, but will be fixed later
+    return (
+      <>
+        {data_rendered ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <h1>{`${person.fname} ${person.lname}`}</h1>
+              </CardTitle>
+              <CardDescription>
+                <h2>{person.role}</h2>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <img src={person.imgLink} className="w-[300px] h-[300px]" />
+            </CardContent>
+            <CardFooter>
+              <div className={"flex justify-center p-2 gap-3"}>
+                <a
+                  href={person.linkedin}
+                  className={person.linkedin ? "" : "hidden"}>
+                  <div className={"size-8"}>
+                    <LinkedIn fillColor={"fill-gray-400"} />
+                  </div>
+                </a>
+                <a
+                  href={person.website}
+                  className={person.website ? "" : "hidden"}>
+                  <div className={"size-8"}>
+                    <Website fillColor={"fill-gray-400"} />
+                  </div>
+                </a>
+                <a
+                  href={person.github}
+                  className={person.github ? "" : "hidden"}>
+                  <div className={"size-8"}>
+                    <Github fillColor={"fill-gray-400"} />
+                  </div>
+                </a>
+              </div>
+            </CardFooter>
+          </Card>
+        ) : (
+          <h1>Loading...</h1>
+        )}
+      </>
+    );
 }
