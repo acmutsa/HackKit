@@ -80,7 +80,7 @@ let team: Array<Person> = [
     "https://github.com/Lermatroid"
   ),
   createPerson(
-    "Joshua",
+    "Josh",
     "Silva",
     tech,
     "https://www.linkedin.com/in/joshuasilva414/",
@@ -155,7 +155,7 @@ let team: Array<Person> = [
     "Alejandro",
     "Mugica",
     logistics,
-    "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
+    "https://www.linkedin.com/in/alejandromugica/",
     "",
     ""
   ),
