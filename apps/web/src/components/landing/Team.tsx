@@ -236,21 +236,25 @@ function CarouselDefault() {
   return (
     //Where Carousel will go
     <>
-    {
-        data_rendered ? 
-        <Carousel opts={{ align: "start" }} className=" flex justify-center w-full max-w-5xl h-auto">
-      <CarouselContent>
-        {team.map((p: Person, index: React.Key) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
-            <TeamMember person={p} />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious/>
-      <CarouselNext/>
-    </Carousel>
-    :<h1 className='text-3xl'>Loading...</h1>
-    }
+      {data_rendered ? (
+        <Carousel
+          opts={{ align: "start" }}
+          className="flex justify-center w-[80%] max-w-5xl h-auto">
+          <CarouselContent>
+            {team.map((p: Person, index: React.Key) => (
+              <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+                <TeamMember person={p} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      ) : (
+        <div className="flex justify-center">
+          <h1 className="text-3xl">Loading...</h1>
+        </div>
+      )}
     </>
   );
 }
@@ -260,7 +264,7 @@ export default function Team() {
   return (
     <section
       className={`${oswald.className} flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20 pb-48`}>
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center items-center">
         <h1 className="pt-10 text-4xl font-bold font-oswald italic">
           Meet The Team That Made RowdyHacks IX Possible!
         </h1>
