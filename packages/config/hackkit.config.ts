@@ -1,4 +1,4 @@
-export const defaultTheme = "dark";
+export const defaultTheme = "light";
 
 export default {
 	hackathonName: "RowdyHacks",
@@ -33,6 +33,10 @@ export default {
 	issueEmail: "team@rowdyhacks.org",
 	links: {
 		discord: "https://go.rowdyhacks.org/discord",
+		instagram: "https://instagram.com/rowdyhacks",
+		twitter: "https://twitter.com/rowdyhacks",
+		facebook: "https://facebook.com/rowdyhacks",
+		github: "https://github.com/acmutsa",
 	},
 	icon: {
 		sm: "/img/logo/logo.png",
