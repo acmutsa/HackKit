@@ -238,6 +238,7 @@ function CarouselDefault() {
     <>
       {data_rendered ? (
         <Carousel
+         
           opts={{ align: "start" }}
           className="flex justify-center w-[80%] max-w-5xl h-auto">
           <CarouselContent>
@@ -247,6 +248,7 @@ function CarouselDefault() {
               </CarouselItem>
             ))}
           </CarouselContent>
+          {/* Technically we want to move 2 at a time */}
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
@@ -265,7 +267,7 @@ export default function Team() {
     <section
       className={`${oswald.className} flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20 pb-48`}>
       <div className="flex w-full justify-center items-center">
-        <h1 className="pt-10 text-4xl font-bold font-oswald italic">
+        <h1 className="pt-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
           Meet The Team That Made RowdyHacks IX Possible!
         </h1>
       </div>
