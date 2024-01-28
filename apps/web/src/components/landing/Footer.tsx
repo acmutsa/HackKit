@@ -181,7 +181,9 @@ export default function Footer() {
               <a href="https://www.facebook.com/UTSA.ACM" className="mx-2">
                 <FaFacebook />
               </a>
-              <a href="https://github.com/acmutsa" className="mx-2">
+              <a
+                href="https://github.com/acmutsa/RowdyHacks24/"
+                className="mx-2">
                 <FaGithub />
               </a>
               <a href="https://go.rowdyhacks.org/discord" className="ml-2">
@@ -267,7 +269,7 @@ export default function Footer() {
             {showLinks ? (
               <div className="flex flex-col">
                 <Link
-                  href={"https://github.com/acmutsa/CodeQuantum2023"}
+                  href={"https://github.com/acmutsa/RowdyHacks24/"}
                   className="text-sm hover:underline">
                   Open Source
                 </Link>
