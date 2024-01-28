@@ -263,6 +263,7 @@ function CarouselDefault() {
 
 
 export default function Team() {
+  
   return (
     <section
       className={`${oswald.className} flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20 pb-48`}>

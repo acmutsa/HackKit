@@ -1,7 +1,3 @@
-import Image from "next/image";
-import c from "config";
-import { Button } from "@/components/shadcn/ui/button";
-import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
 import Filler from "@/components/landing/Filler";
