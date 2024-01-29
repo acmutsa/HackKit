@@ -22,10 +22,11 @@ export default function Home() {
 			<Navbar />
 			<main className={`${oswald.variable} w-full overflow-x-hidden`}>
 				<Hero />
-				<Filler/>
+				<Filler />
 				<About />
-				<Partners />
-				<Team/>
+				{/* Commenting Out Until All Partners Added */}
+				{/* <Partners /> */}
+				<Team />
 				<Footer />
 			</main>
 		</>
