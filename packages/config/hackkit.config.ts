@@ -1,10 +1,18 @@
 export const defaultTheme = "light";
 
 export default {
+<<<<<<< HEAD
 	hackathonName: "RowdyHacks",
 	itteration: "IX",
 	defaultMetaDataDescription:
 		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
+=======
+	hackathonName: "HackKit",
+	itteration: "2023",
+	siteUrl: "https://hack-kit-web.vercel.app", // Do not have a trailing slash
+	botName: "HackKit",
+	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
+>>>>>>> HackKit/main
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
@@ -502,6 +510,7 @@ export const schools = [
 	"Thomas Edison State College",
 	"Trent University",
 	"Trinity College",
+	"Trinity University - San Antonio",
 	"Trinity Valley School",
 	"Troy University",
 	"Tufts University",
