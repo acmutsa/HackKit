@@ -4,6 +4,8 @@
 * [Vercel](https://vercel.com/)
 * RowdyHacks Tech Team
 * RowdyHacks Design Team
+* UTSA Hackkit Team
 * [Google Fonts](https://fonts.google.com/)
 * [Shadcn](https://ui.shadcn.com/)
+
 
