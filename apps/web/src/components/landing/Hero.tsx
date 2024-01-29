@@ -124,6 +124,7 @@ export default function Hero() {
 						</h1>
 					</div>
 				</div>
+				
 			</div>
 		</section>
 	);

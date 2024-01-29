@@ -2,10 +2,19 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+enum Tier {
+  In_Kind =1,
+  Bronze,
+  Silver,
+  Gold,
+  Title,
+}
+
 type Partner = {
   name: string;
   logo: string;
   url: string;
+  tier: Tier;
 };
 
 function PartnerCard(partner: Partner) {

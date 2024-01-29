@@ -1,9 +1,73 @@
+
 {
   "partners": [
     {
-      "name": "marathon",
+      "name": "Marathon",
       "logo": "marathon.jpg",
-      "url": "https://www.marathonpetroleum.com/"
+      "url": "https://www.marathonpetroleum.com/",
+      "tier":5
+    },
+    {
+      "name": "Cymannii",
+      "logo": "CyManII_Logo.png",
+      "url": "https://cymanii.org/",
+      "tier":4
+    },
+    {
+      "name":"UTSA Data Science",
+      "logo":"UTSADS.png",
+      "url":"https://sds.utsa.edu/",
+      "tier":4
+    },
+    {
+      "name":"Frost bank",
+      "logo":"FrostBank.svg",
+      "url":"https://www.frostbank.com/",
+      "tier":3
+    },
+    {
+      "name":"Valero",
+      "logo":"ValeroLogo.png",
+      "url":"https://www.valero.com/",
+      "tier":3
+    },
+    {
+      "name":"Paycom",
+      "logo":"PaycomLogo.png",
+      "url":"https://www.paycom.com/",
+      "tier":2
+    },
+    {
+      "name":"AFCS",
+      "logo":"AFCSLogo.png",
+      "url":"https://afciviliancareers.com/",
+      "tier":2
+
+    },
+    {
+      "name":"Dell",
+      "logo":"Dell_logo.png",
+      "url":"https://www.dell.com/",
+      "tier":2
+    },
+    {
+      "name":"Google",
+      "logo":"Google.svg",
+      "url":"https://about.google/",
+      "tier":2
+    },
+    {
+      "name":"Bunz",
+      "logo":"Bunz_logo.png",
+      "url":"https://www.tastybunz.com/",
+      "tier":1
+    },
+    {
+      "name":"Six Flags",
+      "logo":"Six_Flags.png",
+      "url":"https://www.sixflags.com/",
+      "tier":1
     }
+    
   ]
 }
