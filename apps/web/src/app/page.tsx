@@ -20,9 +20,9 @@ export default function Home() {
 				<Hero />
 				<Filler />
 				<About />
-				{/* Commenting Out Until All Partners Added */}
+				{/* Commenting Out Until All Partners / Teams completed */}
 				{/* <Partners /> */}
-				<Team />
+				{/* <Team /> */}
 				<Footer />
 			</main>
 		</>
