@@ -502,7 +502,6 @@ export const schools = [
 	"Thomas Edison State College",
 	"Trent University",
 	"Trinity College",
-	"Trinity University - San Antonio",
 	"Trinity Valley School",
 	"Troy University",
 	"Tufts University",
