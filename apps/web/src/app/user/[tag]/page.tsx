@@ -6,8 +6,7 @@ import Image from "next/image";
 import RoleBadge from "@/components/dash/shared/RoleBadge";
 import { Balancer } from "react-wrap-balancer";
 import Link from "next/link";
-import { CgWebsite } from "react-icons/cg";
-import { BsGithub, BsLinkedin, BsGlobe } from "react-icons/bs";
+import { Github, Linkedin, Globe } from "lucide-react";
 import Navbar from "@/components/shared/Navbar";
 
 export default async function ({ params }: { params: { tag: string } }) {
@@ -47,7 +46,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 								href={"https://github.com/" + user.registrationData.GitHub}
 								className="flex items-center gap-x-2 leading-none mt-10 hover:underline"
 							>
-								<BsGithub className="text-xl" />
+								<Github className="text-xl" />
 								{user.registrationData.GitHub}
 							</Link>
 						)}
@@ -56,7 +55,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 								href={"https://linkedin.com/in/" + user.registrationData.LinkedIn}
 								className="flex items-center gap-x-2 leading-none mt-3 hover:underline"
 							>
-								<BsLinkedin className="text-xl" />
+								<Linkedin className="text-xl" />
 								{user.registrationData.LinkedIn}
 							</Link>
 						)}
@@ -71,7 +70,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 									}
 									className="flex items-center gap-x-2 leading-none mt-3 hover:underline"
 								>
-									<BsGlobe className="text-xl" />
+									<Globe className="text-xl" />
 									{user.registrationData.PersonalWebsite.replace("https://", "").replace(
 										"http://",
 										""

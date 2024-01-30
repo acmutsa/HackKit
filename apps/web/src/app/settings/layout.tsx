@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import SettingsSection from "@/components/settings/SettingsSection";
 import Navbar from "@/components/shared/Navbar";
-import { FaGear } from "react-icons/fa6";
+import { Settings } from "lucide-react";
 import ClientToast from "@/components/shared/ClientToast";
 
 export default async function ({ children }: { children: ReactNode }) {
@@ -20,7 +20,7 @@ export default async function ({ children }: { children: ReactNode }) {
 					<div className="flex items-center pb-24">
 						<div>
 							<h2 className="text-3xl font-bold tracking-tight flex items-center gap-x-2">
-								<FaGear />
+								<Settings />
 								Settings
 							</h2>
 						</div>

@@ -2,8 +2,7 @@ import { Card, CardHeader, CardContent, CardTitle } from "@/components/shadcn/ui
 import { db } from "db";
 import { sql } from "db/drizzle";
 import { users } from "db/schema";
-import { BsFillPersonLinesFill, BsPersonBoundingBox, BsFillPersonCheckFill } from "react-icons/bs";
-import { RiTeamFill } from "react-icons/ri";
+import { Users, UserCheck, User2 } from "lucide-react";
 
 export default async function Page() {
 	const totalUserCount = await db
@@ -20,7 +19,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Registrations</CardTitle>
-						<BsFillPersonLinesFill />
+						<User2 />
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{totalUserCount[0].count}</div>
@@ -30,7 +29,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Teams</CardTitle>
-						<RiTeamFill />
+						<Users />
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{totalTeamCount}</div>
@@ -40,7 +39,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">RSVPs</CardTitle>
-						<BsFillPersonCheckFill />
+						<UserCheck />
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{totalRSVPCount}</div>
@@ -50,7 +49,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Check-ins</CardTitle>
-						<BsPersonBoundingBox />
+						<User2 />
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{totalCheckinCount}</div>

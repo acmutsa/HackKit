@@ -10,7 +10,7 @@ import {
 } from "@/components/shadcn/ui/dialog";
 import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import { useState } from "react";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
@@ -46,7 +46,7 @@ export default function TeamInvite() {
 		<Dialog>
 			<DialogTrigger asChild>
 				<Button>
-					<AiFillPlusCircle className="mr-1" />
+					<PlusCircle className="mr-1" />
 					Invite Members
 				</Button>
 			</DialogTrigger>

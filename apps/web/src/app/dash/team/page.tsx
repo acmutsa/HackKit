@@ -5,7 +5,7 @@ import { users } from "db/schema";
 import { eq } from "db/drizzle";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
-import { BsFillPlusCircleFill, BsPeopleFill } from "react-icons/bs";
+import { Plus, User } from "lucide-react";
 import Image from "next/image";
 import TeamInvite from "@/components/dash/team/invite";
 import { Fragment } from "react";
@@ -57,7 +57,7 @@ export default async function Page() {
 						<div className="flex items-center justify-end">
 							<Link href="/dash/team/new">
 								<Button>
-									<BsFillPlusCircleFill className="mr-1" />
+									<Plus className="mr-1" />
 									New Team
 								</Button>
 							</Link>
@@ -96,7 +96,7 @@ export default async function Page() {
 					<div className="flex items-center">
 						<div>
 							<h2 className="text-3xl font-bold tracking-tight flex items-center gap-x-1">
-								<BsPeopleFill />
+								<User />
 								Team
 							</h2>
 							{/* <p className="text-sm text-muted-foreground">{users.length} Total Users</p> */}
