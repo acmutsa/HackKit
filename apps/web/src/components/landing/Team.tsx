@@ -267,11 +267,11 @@ export default function Team() {
   
   return (
     <section
-      className={`${oswald.className} flex flex-col w-full min-h-screen bg-[rgb(91,130,73)] space-y-20 pb-20 md:pb-48`}>
+      className={`${oswald.className} flex flex-col w-full min-h-screen lg:bg-[url('/img/landing/Second_Layer_Background_large.svg')] bg-cover bg-no-repeat space-y-20 pb-20 md:pb-48`}>
       <div className="flex w-full justify-center items-center ">
-          <h1 className="pt-10 text-gray-50 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
-            Meet The Team That Made RowdyHacks IX Possible!
-          </h1>
+        <h1 className="pt-10 text-gray-50 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
+          Meet The Team That Made RowdyHacks IX Possible!
+        </h1>
       </div>
       <div className="flex w-full h-full items-center justify-center">
         <CarouselDefault />

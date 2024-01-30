@@ -19,11 +19,16 @@ type Partner = {
 
 function PartnerCard(partner: Partner) {
   return (
-    <Link href={partner.url} className="p-4 border-2 rounded-full mx-auto my-auto border-blue-300">
+    // Change border colors to adapt to tier
+    // border-2 rounded-full border-blue-300
+
+    // We will create a carousel that will be used for smaller screens
+    <Link href={partner.url} className="p-4  mx-auto my-auto ">
       <Image
         src={`/img/partner-logos/${partner.logo}`}
-        width={600}
-        height={455}
+        width={200}
+        height={300}
+        layout="responsive"
         alt={`${partner.name} logo`}
       />
     </Link>

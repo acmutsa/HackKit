@@ -22,10 +22,10 @@ export default function Footer() {
 	const [showHackathons, setShowHackathons] = useState(false);
 
 	return (
-    <div className="relative z-[100]">
+    <div className="relative z-[100] bg-amber-950">
       {/* border-t-gray-500 border-t-[1px] */}
       {/* Proposed simply for keeping with the look of thw website */}
-      <div className="bg-amber-950 lg:block hidden">
+      <div className=" lg:block hidden">
         <div className="grid grid-cols-5 bg-transparent md:p-10 max-w-[1200px] mx-auto">
           <div className="col-span-2 flex items-center justify-start ">
             {/* <div className="w-full flex items-start flex-col justify-start h-full">
@@ -194,7 +194,7 @@ export default function Footer() {
         </div>
       </div>
       {/* bg-black border-t-gray-500 border-t-[1px] */}
-      <div className="lg:hidden grid grid-cols-2 bg-amber-950 min-h-[350px] py-5">
+      <div className="lg:hidden grid grid-cols-2 min-h-[350px] py-5">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center justify-center h-full">
             <div>

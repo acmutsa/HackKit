@@ -9,13 +9,13 @@
     },
     {
       "name": "Cymannii",
-      "logo": "CyManII_Logo.png",
+      "logo": "CyManII_Logo.svg",
       "url": "https://cymanii.org/",
       "tier":4
     },
     {
       "name":"UTSA Data Science",
-      "logo":"UTSADS.png",
+      "logo":"UTSADS.svg",
       "url":"https://sds.utsa.edu/",
       "tier":4
     },
@@ -27,32 +27,32 @@
     },
     {
       "name":"Valero",
-      "logo":"ValeroLogo.png",
+      "logo":"ValeroLogo.svg",
       "url":"https://www.valero.com/",
       "tier":3
     },
     {
       "name":"Paycom",
-      "logo":"PaycomLogo.png",
+      "logo":"PaycomLogo.svg",
       "url":"https://www.paycom.com/",
       "tier":2
     },
     {
       "name":"AFCS",
-      "logo":"AFCSLogo.png",
+      "logo":"AFCSLogo.svg",
       "url":"https://afciviliancareers.com/",
       "tier":2
 
     },
     {
       "name":"Dell",
-      "logo":"Dell_logo.png",
+      "logo":"Dell_logo.svg",
       "url":"https://www.dell.com/",
       "tier":2
     },
     {
       "name":"Google",
-      "logo":"Google.svg",
+      "logo":"Google_Icon.svg",
       "url":"https://about.google/",
       "tier":2
     },
