@@ -3,7 +3,7 @@
   "partners": [
     {
       "name": "Marathon",
-      "logo": "marathon.jpg",
+      "logo": "Marathon_Oil_Logo.svg",
       "url": "https://www.marathonpetroleum.com/",
       "tier":5
     },
@@ -55,19 +55,6 @@
       "logo":"Google.svg",
       "url":"https://about.google/",
       "tier":2
-    },
-    {
-      "name":"Bunz",
-      "logo":"Bunz_logo.png",
-      "url":"https://www.tastybunz.com/",
-      "tier":1
-    },
-    {
-      "name":"Six Flags",
-      "logo":"Six_Flags.png",
-      "url":"https://www.sixflags.com/",
-      "tier":1
     }
-    
   ]
 }
