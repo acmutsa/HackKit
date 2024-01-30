@@ -3,7 +3,7 @@ import PartnerCard from "./PartnerCard";
 // Partner should have an enum type
 
 enum Tier {
-  In_Kind =1,
+  In_Kind_Partner =1,
   Bronze,
   Silver,
   Gold,

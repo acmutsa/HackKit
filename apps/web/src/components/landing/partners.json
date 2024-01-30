@@ -55,6 +55,62 @@
       "logo":"Google.svg",
       "url":"https://about.google/",
       "tier":2
+    },
+    {
+      "name":"Students and Startups",
+      "logo":"Students_and_Startups.svg",
+      "url":"https://studentsstartups.com/",
+      "tier":2
+    },
+    {
+      "name":"Accenture",
+      "logo":"Accenture-logo.svg",
+      "url":"https://www.accenture.com/",
+      "tier":1
+    },
+    {
+      "name":"UTSA COE",
+      "logo":"UTSA_COE.svg", 
+      "url":"https://klesse.utsa.edu/",
+      "tier":1
+    },
+    {
+      "name":"TD Synnex",
+      "logo":"TD_Synnex_logo.svg",
+      "url":"https://www.tdsynnex.com/",
+      "tier":1
+    },
+    {
+      "name":"Wolfram Alpha",
+      "logo":"wolfram_logo.svg",
+      "url":"https://www.wolframalpha.com/",
+      "tier":1
+    },
+    {
+      "name":"CodePath",
+      "logo":"Codepath_logo.svg",
+      "url":"https://www.codepath.org/",
+      "tier":1
+    },
+    {
+      "name":"ACM",
+      "logo":"ACM_logo.svg",
+      "url":"https://www.acm.org/",
+      "tier":1
+
+    },
+    {
+      "name":"Artea",
+      "logo":"Artea_logo.svg",
+      "url":"https://www.drinkartea.com/",
+      "tier":1
+    },
+    {
+      "name":"Pho Thien An",
+      "logo":"Pho_logo.svg",
+      "url":"https://www.phothienan.com/",
+      "tier":1
+
     }
   ]
 }

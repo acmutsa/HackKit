@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 enum Tier {
-  In_Kind =1,
+  In_Kind_Partner = 1,
   Bronze,
   Silver,
   Gold,
