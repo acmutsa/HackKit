@@ -1,6 +1,6 @@
 "use client";
 
-import { ImExit } from "react-icons/im";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import { leaveTeam } from "@/actions/teams";
 import { useAction } from "next-safe-action/hook";
@@ -38,7 +38,7 @@ export default function LeaveTeamButton({ issueEmail }: LeaveTeamButtonProps) {
 
 	return (
 		<Button onClick={() => leave()} variant={"destructive"}>
-			<ImExit className="mr-1" />
+			<LogOut className="mr-1" />
 			Leave
 		</Button>
 	);
