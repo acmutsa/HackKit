@@ -17,7 +17,7 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { useState, useTransition } from "react";
-import { ImSpinner10 } from "react-icons/im";
+import { Shell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { newTeamValidator } from "@/validators/shared/team";
 import c from "config";
@@ -172,7 +172,7 @@ export default function NewTeamForm() {
 
 				{loading ? (
 					<p className="flex justify-center items-center gap-x-1">
-						Creating Team <ImSpinner10 className="animate-spin" />
+						Creating Team <Shell className="animate-spin" />
 					</p>
 				) : (
 					<Button type="submit">Create Team</Button>

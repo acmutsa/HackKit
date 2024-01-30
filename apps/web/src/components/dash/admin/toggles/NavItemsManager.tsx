@@ -22,7 +22,7 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
 import { setItem, removeItem, toggleItem } from "@/actions/admin/modify-nav-item";
@@ -124,7 +124,7 @@ export function NavItemDialog() {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button>
-					<AiFillPlusCircle className="mr-1" />
+					<Plus className="mr-1" />
 					Add Item
 				</Button>
 			</DialogTrigger>
