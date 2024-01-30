@@ -3,14 +3,7 @@
 import { type FunctionComponent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-	FaTwitter,
-	FaInstagram,
-	FaFacebook,
-	FaGithub,
-	FaDiscord,
-	FaLinkedin,
-} from "react-icons/fa";
+import { Instagram, Facebook, Twitter, Github } from "lucide-react";
 
 interface Props {
 	className?: string;
