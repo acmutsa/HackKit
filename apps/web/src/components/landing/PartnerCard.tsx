@@ -19,7 +19,7 @@ type Partner = {
 
 function PartnerCard(partner: Partner) {
   return (
-    <Link href={partner.url} className="p-4">
+    <Link href={partner.url} className="p-4 border-2 rounded-full mx-auto my-auto border-blue-300">
       <Image
         src={`/img/partner-logos/${partner.logo}`}
         width={600}

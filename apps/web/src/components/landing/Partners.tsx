@@ -24,7 +24,7 @@ export default async function Partners() {
         A Huge Thanks To Our Rowdyhacks Partners!
       </h1>
       {/* Render Carousel view if it is smaller than a certain width */}
-      <div className="flex justify-center items-center w-[80%] h-auto flex-wrap pb-12">
+      <div className="flex justify-center items-center w-[80%] h-auto flex-wrap pb-12 space-y-8">
         {partnerData.partners.map((partner: Partner) => (
           <PartnerCard key={partner.name} {...partner} />
         ))}

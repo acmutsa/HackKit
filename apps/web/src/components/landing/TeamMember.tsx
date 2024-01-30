@@ -72,7 +72,7 @@ export default function TeamMember({person}:{person:Person}) {
           <CardContent className="flex items-center justify-center">
             <img
               src={person.imgLink}
-              // Problem child lol
+             
               className=" rounded-lg"
             />
           </CardContent>
