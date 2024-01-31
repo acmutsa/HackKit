@@ -29,7 +29,7 @@ export default function About() {
           />
           <Image
             src={D3}
-            className="w-[9rem] sm:w-[10rem] 2xl:w-[13rem] right-0 top-[45rem] sm:top-[62%] md:top-[90%] md:right-60 lg:hidden 2xl:block  2xl:top-4/5 absolute -z-[1]"
+            className="w-[9rem] sm:w-[10rem] 2xl:w-[13rem] right-0 top-[50rem] sm:top-[62%] md:top-[90%] md:right-60 lg:hidden 2xl:block  2xl:top-4/5 absolute -z-[1]"
             alt="d3.svg"
           />
           <Image
