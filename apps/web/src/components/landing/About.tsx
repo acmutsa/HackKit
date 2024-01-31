@@ -19,22 +19,22 @@ export default function About() {
         <div className="w-full h-full">
           <Image
             src={D1}
-            className="w-[10rem] sm:w-[11rem] md:w-[10rem] lg:w-[12rem] 2xl:w-[15rem] top-0 right-0 md:left-10 lg:left-1/2 2xl:left-12 absolute -z-[1]"
+            className="w-[9rem] sm:w-[10rem] md:w-[9rem] lg:w-[11rem] 2xl:w-[12rem] top-0 right-0 md:left-10 lg:left-1/4 2xl:left-12 absolute -z-[1]"
             alt="d1.svg"
           />
           <Image
             src={D2}
-            className="w-[11rem] sm:w-[13rem] md:w-[11rem] lg:w-[14rem] 2xl:w-[16rem] left-0 top-1/3  md:top-1/3 md:left-3/4 lg:top-[40%] lg:left-1/3 2xl:left-3/4 absolute -z-[1]"
+            className="w-[8rem] sm:w-[10rem] md:w-[9rem] lg:w-[10rem] 2xl:w-[12rem] left-4 top-1/3  md:top-1/3 md:left-3/4 lg:top-[42%] lg:left-4 2xl:left-3/4 absolute -z-[1]"
             alt="d2.svg"
           />
           <Image
             src={D3}
-            className="w-[10rem] sm:w-[12rem] md:w-[13rem]  2xl:w-[16rem] right-0 top-[45rem] sm:top-[62%] md:top-[90%] md:right-60 lg:hidden 2xl:block  2xl:top-4/5 absolute -z-[1]"
+            className="w-[9rem] sm:w-[10rem] 2xl:w-[13rem] right-0 top-[45rem] sm:top-[62%] md:top-[90%] md:right-60 lg:hidden 2xl:block  2xl:top-4/5 absolute -z-[1]"
             alt="d3.svg"
           />
           <Image
             src={D4}
-            className="w-[8rem] sm:w-[10rem] md:w-[17rem] lg:w-[10rem] 2xl:w-[12rem] bottom-10 left-12 sm:right-12 md:bottom-0 md:hidden lg:block lg:bottom-7 2xl:top-[52rem] absolute -z-[1]"
+            className="w-[7rem] sm:w-[8rem] lg:w-[9rem] 2xl:w-[11rem] bottom-10 left-12 sm:right-12 md:bottom-0 md:hidden lg:block lg:bottom-7 lg:left-1/3 2xl:top-[52rem] 2xl:left-12 absolute -z-[1]"
             alt="d4.svg"
           />
         </div>
