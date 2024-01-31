@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "../shadcn/ui/card"
 import { Oswald } from "next/font/google";
+import Image from "next/image";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -55,10 +56,17 @@ export default function TeamMember({person}:{person:Person}) {
       <div className="p-1 flex">
         <Card className={`relative ${oswald.className} w-[245px] h-[400px]`}>
           {/* Option 1 */}
-          <img
-            src="/img/landing/RHlogo.svg"
-            className="absolute z-[100] w-[60px] h-[60px] right-0 top-0"
-          />
+          {/* <Image
+            width={50}
+            height={50}
+            quality={100}
+            src="/img/landing/RH_Icon.svg"
+            className="absolute z-[100] w-[50px] h-[50px] left-0 top-0"
+            style={{
+              width:"auto"
+            }}
+            alt="Team member Icon"
+          /> */}
            
           <div>
             <CardHeader className="items-center">

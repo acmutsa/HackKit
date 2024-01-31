@@ -5,62 +5,62 @@
       "name": "Marathon",
       "logo": "Marathon_Oil_Logo.svg",
       "url": "https://www.marathonpetroleum.com/",
-      "tier":5
+      "tier":6
     },
     {
       "name": "Cymannii",
       "logo": "CyManII_Logo.svg",
       "url": "https://cymanii.org/",
-      "tier":4
+      "tier":5
     },
     {
       "name":"UTSA Data Science",
       "logo":"UTSADS.svg",
       "url":"https://sds.utsa.edu/",
-      "tier":4
+      "tier":5
     },
     {
       "name":"Frost bank",
       "logo":"FrostBank.svg",
       "url":"https://www.frostbank.com/",
-      "tier":3
+      "tier":4
     },
     {
       "name":"Valero",
       "logo":"ValeroLogo.svg",
       "url":"https://www.valero.com/",
-      "tier":3
+      "tier":4
     },
     {
       "name":"Paycom",
       "logo":"PaycomLogo.svg",
       "url":"https://www.paycom.com/",
-      "tier":2
+      "tier":3
     },
     {
       "name":"AFCS",
       "logo":"AFCSLogo.svg",
       "url":"https://afciviliancareers.com/",
-      "tier":2
+      "tier":3
 
     },
     {
       "name":"Dell",
       "logo":"Dell_logo.svg",
       "url":"https://www.dell.com/",
-      "tier":2
+      "tier":3
     },
     {
       "name":"Google",
       "logo":"Google_Icon.svg",
       "url":"https://about.google/",
-      "tier":2
+      "tier":3
     },
     {
       "name":"Students and Startups",
       "logo":"Students_and_Startups.svg",
       "url":"https://studentsstartups.com/",
-      "tier":2
+      "tier":3
     },
     {
       "name":"Accenture",
