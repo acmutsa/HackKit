@@ -28,7 +28,7 @@ function PartnerCard(partner: Partner) {
         src={`/img/partner-logos/${partner.logo}`}
         width={200}
         height={300}
-        layout="responsive"
+        quality={100}
         alt={`${partner.name} logo`}
       />
     </Link>

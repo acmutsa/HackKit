@@ -70,10 +70,11 @@ export default function TeamMember({person}:{person:Person}) {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center">
+            {/* This also needs to be fixed */}
             <img
               src={person.imgLink}
              
-              className=" rounded-lg"
+              className="rounded-lg"
             />
           </CardContent>
           <CardFooter>
