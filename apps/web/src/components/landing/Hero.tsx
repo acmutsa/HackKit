@@ -6,19 +6,26 @@ import { useScroll, useSpring, useTransform, motion } from "framer-motion";
 import Volcano from "@/components/landing/Volcano";
 
 export default function Hero() {
-	const contentWrapperRef = useRef(null);
-	const { scrollYProgress } = useScroll({
-		target: contentWrapperRef,
-		offset: ["start start", "end start"],
-	});
-	const springyScrollProg = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
+  const contentWrapperRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: contentWrapperRef,
+    offset: ["start start", "end start"],
+  });
+  const springyScrollProg = useSpring(scrollYProgress, {
+    stiffness: 400,
+    damping: 90,
+  });
 
-	const sky = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
-	const grass_back_5 = useTransform(springyScrollProg, [0, 1], ["0%", "50%"]);
-	const grass_back_4 = useTransform(springyScrollProg, [0, 1], ["0%", "40%"]);
-	const grass_back_3 = useTransform(springyScrollProg, [0, 1], ["0%", "30%"]);
-	const grass_back_caveplants_2 = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
-	const grass_back_1 = useTransform(springyScrollProg, [0, 1], ["0%", "10%"]);
+  const sky = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
+  const grass_back_5 = useTransform(springyScrollProg, [0, 1], ["0%", "50%"]);
+  const grass_back_4 = useTransform(springyScrollProg, [0, 1], ["0%", "40%"]);
+  const grass_back_3 = useTransform(springyScrollProg, [0, 1], ["0%", "30%"]);
+  const grass_back_caveplants_2 = useTransform(
+    springyScrollProg,
+    [0, 1],
+    ["0%", "20%"]
+  );
+  const grass_back_1 = useTransform(springyScrollProg, [0, 1], ["0%", "10%"]);
 
 	return (
     <section
