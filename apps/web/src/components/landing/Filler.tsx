@@ -15,16 +15,19 @@ export default function Filler(){
         <Image
           src={D6}
           alt="D6.svg"
+          priority={true}
           className="w-40 sm:w-44 md:w-48 absolute right-8 top-[40%]"
         />
         <Image
           src={D4}
+          priority={true}
           alt="D6.svg"
           className="w-24 sm:w-32 lg:w-40 absolute left-8 bottom-[30%] sm:right-20 sm:bottom-1/3"
         />
         <Image
           src={D3}
-          alt="Shell asset"
+          priority={true}
+          alt="D3.svg"
           className="w-32 sm:w-40 md:w-44 lg:w-52 absolute left-1/3 bottom-0 sm:bottom-6 lg:left-1/4"
         />
       </div>
