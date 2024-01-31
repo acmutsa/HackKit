@@ -21,8 +21,8 @@ export default function Home() {
 				<Filler />
 				<About />
 				{/* Commenting Out Until All Partners / Teams completed */}
-				{/* <Partners /> */}
-				{/* <Team /> */}
+				<Partners /> 
+				<Team />
 				<Footer />
 			</main>
 		</>
