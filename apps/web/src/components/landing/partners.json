@@ -66,37 +66,37 @@
       "name":"Accenture",
       "logo":"Accenture-logo.svg",
       "url":"https://www.accenture.com/",
-      "tier":1
+      "tier":2
     },
     {
       "name":"UTSA COE",
       "logo":"UTSA_COE.svg", 
       "url":"https://klesse.utsa.edu/",
-      "tier":1
+      "tier":2
     },
     {
       "name":"TD Synnex",
       "logo":"TD_Synnex_logo.svg",
       "url":"https://www.tdsynnex.com/",
-      "tier":1
+      "tier":2
     },
     {
       "name":"Wolfram Alpha",
       "logo":"wolfram_logo.svg",
       "url":"https://www.wolframalpha.com/",
-      "tier":1
+      "tier":2
     },
     {
       "name":"CodePath",
       "logo":"Codepath_logo.svg",
       "url":"https://www.codepath.org/",
-      "tier":1
+      "tier":2
     },
     {
       "name":"ACM",
       "logo":"ACM_logo.svg",
       "url":"https://www.acm.org/",
-      "tier":1
+      "tier":2
 
     },
     {

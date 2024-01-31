@@ -15,7 +15,7 @@ export default function Filler(){
         <Image
           src={D6}
           alt="D6.svg"
-          className="w-40 sm:w-44 md:w-48 absolute right-0 top-[40%]"
+          className="w-40 sm:w-44 md:w-48 absolute right-8 top-[40%]"
         />
         <Image
           src={D4}
