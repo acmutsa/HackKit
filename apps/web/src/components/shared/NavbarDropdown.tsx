@@ -23,9 +23,7 @@ function NavbarDropdown({}: Props) {
       <NavigationMenuContent>
         <Link
           className="w-full"
-          href="https://form.rowdyhacks.org/volunteer"
-          passHref
-          legacyBehavior
+          href={process.env.NEXT_PUBLIC_VOLUNTEER_FORM_URL ?? "/not-found"}
         >
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             Volunteer
@@ -34,12 +32,10 @@ function NavbarDropdown({}: Props) {
 
         <Link
           className="w-full"
-          href="https://form.rowdyhacks.org/volunteer"
-          passHref
-          legacyBehavior
+          href={process.env.NEXT_PUBLIC_MENTOR_FORM_URL ?? "/not-found"}
         >
           <NavigationMenuLink
-            className={`w-auto ${navigationMenuTriggerStyle()}`}
+            className={`w-full grow ${navigationMenuTriggerStyle()}`}
           >
             Mentor
           </NavigationMenuLink>

@@ -1,47 +1,53 @@
 import {
-	Body,
-	Button,
-	Container,
-	Column,
-	Head,
-	Heading,
-	Hr,
-	Html,
-	Img,
-	Link,
-	Preview,
-	Row,
-	Section,
-	Tailwind,
-	Text,
+  Body,
+  Button,
+  Container,
+  Column,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Row,
+  Section,
+  Tailwind,
+  Text,
 } from "@react-email/components";
 import type { DefaultEmailTemplateProps } from "@/lib/utils/server/types";
 import c from "config";
 
 interface RegistrationSuccessProps extends DefaultEmailTemplateProps {}
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "";
 
-export default function RegistrationSuccessEmail({ firstName }: RegistrationSuccessProps) {
-	return (
-		<div>
-			<Tailwind>
-				<Body className="bg-white my-auto mx-auto font-sans">
-					<Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
-						<Section className="mt-[32px]">
-							<Img
-								src={`${baseUrl}${c.icon.md}`}
-								width="40"
-								height="37"
-								alt={`${c.hackathonName} logo`}
-								className="my-0 mx-auto"
-							/>
-						</Section>
-						<Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-							You are now registered for {c.hackathonName} ${c.itteration}!
-						</Heading>
-						<Text className="text-black text-[14px] leading-[24px]">Hello {firstName},</Text>
-						{/* <Text className="text-black text-[14px] leading-[24px]">
+export default function RegistrationSuccessEmail({
+  firstName,
+}: RegistrationSuccessProps) {
+  return (
+    <div>
+      <Tailwind>
+        <Body className="bg-white my-auto mx-auto font-sans">
+          <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
+            <Section className="mt-[32px]">
+              <Img
+                src={`${baseUrl}${c.icon.md}`}
+                width="40"
+                height="37"
+                alt={`${c.hackathonName} logo`}
+                className="my-0 mx-auto"
+              />
+            </Section>
+            <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
+              You are now registered for {c.hackathonName} ${c.itteration}!
+            </Heading>
+            <Text className="text-black text-[14px] leading-[24px]">
+              Hello {firstName},
+            </Text>
+            {/* <Text className="text-black text-[14px] leading-[24px]">
               <strong>bukinoshita</strong> (
               <Link
                 href={`mailto:${invitedByEmail}`}
@@ -99,9 +105,9 @@ export default function RegistrationSuccessEmail({ firstName }: RegistrationSucc
               concerned about your account's safety, please reply to this email to
               get in touch with us.
             </Text> */}
-					</Container>
-				</Body>
-			</Tailwind>
-		</div>
-	);
+          </Container>
+        </Body>
+      </Tailwind>
+    </div>
+  );
 }
