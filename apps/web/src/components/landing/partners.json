@@ -110,7 +110,12 @@
       "logo":"Pho_logo.svg",
       "url":"https://www.phothienan.com/",
       "tier":1
-
+    },
+    {
+      "name":"H-E-B",
+      "logo":"HEB.svg",
+      "url":"https://www.heb.com/",
+      "tier":1
     }
   ]
 }
