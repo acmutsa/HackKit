@@ -102,7 +102,7 @@ let team: Array<Person> = [
   createPerson(
     "Calvin",
     "Jessen",
-    `${logistics}\u00A0/\u00A0${pr}\u00A0/Photographer`,
+    `${logistics}\u00A0/\u00A0Photographer`,
     "https://www.linkedin.com/in/calvin-j-39547a24b/",
     "",
     ""
@@ -250,7 +250,7 @@ function CarouselDefault() {
 					<CarouselNext />
 				</Carousel>
 			) : (
-				<div className="flex justify-center">
+				<div className="hidden md:flex md:justify-center">
 					<h1 className="text-3xl">Loading...</h1>
 				</div>
 			)}
@@ -269,13 +269,16 @@ useEffect(() => {
 return (
   <>
     {data_rendered ? (
-      <div className="overflow-x-auto grid grid-flow-col grid-rows-2 md:hidden ">
-        {team.map((p: Person, index: React.Key) => (
-          <TeamMember person={p} key={index} />
-        ))}
+      <div className="md:hidden flex flex-col w-full justify-center items-center">
+        <div className="overflow-x-auto grid grid-flow-col w-[85%] grid-rows-2  ">
+          {team.map((p: Person, index: React.Key) => (
+            <TeamMember person={p} key={index} />
+          ))}
+        </div>
+        <h1 className="text-[#FEF2E6] animate-bounce">Scroll for more Team members!</h1>
       </div>
     ) : (
-      <div>Loading...</div>
+      <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>
     )}
   </>
 );
@@ -286,7 +289,7 @@ export default function Team() {
 
   return (
     <section
-      className={`${oswald.className} flex flex-col w-full min-h-screen bg-[url('/img/landing/Second_Layer_Background_large.svg')] bg-cover bg-no-repeat space-y-20 md:pb-48`}>
+      className={`${oswald.className} flex flex-col w-full min-h-screen bg-[url('/img/landing/Second_Layer_Background_large.svg')] bg-cover bg-no-repeat space-y-20`}>
       <div className="flex w-full justify-center items-center mx-auto">
         <h1 className="pt-10 text-[#FEF2E6] text-xl text-center sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
           Meet The Team That Made RowdyHacks IX Possible!
