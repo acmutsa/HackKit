@@ -16,13 +16,13 @@ export default function Filler(){
           src={D6}
           alt="D6.svg"
           priority={true}
-          className="w-40 sm:w-44 md:w-48 absolute right-8 top-[40%]"
+          className="w-40 sm:w-44 md:w-48 absolute right-8 top-1/2"
         />
         <Image
           src={D4}
           priority={true}
           alt="D6.svg"
-          className="w-24 sm:w-32 lg:w-40 absolute left-8 bottom-[30%] sm:right-20 sm:bottom-1/3"
+          className="w-24 sm:w-32 lg:w-40 absolute left-8 bottom-[20%] sm:right-20 sm:bottom-1/3"
         />
         <Image
           src={D3}

@@ -51,68 +51,60 @@ function Github({ fillColor }:{fillColor:string}) {
 
 
 export default function TeamMember({person}:{person:Person}) {
-
+    // Edit the max width and height and then set the height to auto in the styling
     return (
-      <div className="p-1 flex">
-        <Card className={`relative ${oswald.className} w-[245px] h-[400px]`}>
-          {/* Option 1 */}
-          {/* <Image
-            width={50}
-            height={50}
-            quality={100}
-            src="/img/landing/RH_Icon.svg"
-            className="absolute z-[100] w-[50px] h-[50px] left-0 top-0"
-            style={{
-              width:"auto"
-            }}
-            alt="Team member Icon"
-          /> */}
-           
-          <div>
+        <Card
+          className={`w-full ${oswald.className} bg-transparent border-none flex text-[#FEF2E6]`}>
+          <div className="text-[#FEF2E6]">
             <CardHeader className="items-center">
-            <CardTitle className="text-lg">
-              <h1>{`${person.fname}\u00A0${person.lname}`}</h1>
-            </CardTitle>
-            <CardDescription>
-              <h2 className="text-sm">{person.role}</h2>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center">
-            {/* This also needs to be fixed */}
-            <img
-              src={person.imgLink}
-             
-              className="rounded-lg"
-            />
-          </CardContent>
-          <CardFooter>
-            <div
-              className={
-                "flex w-full h-full items-baseline justify-center gap-3"
-              }>
-              <a
-                href={person.linkedin}
-                className={person.linkedin ? "" : "hidden"}>
-                <div className={"size-8"}>
-                  <LinkedIn fillColor={"fill-gray-400"} />
-                </div>
-              </a>
-              <a
-                href={person.website}
-                className={person.website ? "" : "hidden"}>
-                <div className={"size-8"}>
-                  <Website fillColor={"fill-gray-400"} />
-                </div>
-              </a>
-              <a href={person.github} className={person.github ? "" : "hidden"}>
-                <div className={"size-8"}>
-                  <Github fillColor={"fill-gray-400"} />
-                </div>
-              </a>
-            </div>
-          </CardFooter>
+              <CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">
+                <h1 className="font-bold">{`${person.fname}\u00A0${person.lname}`}</h1>
+              </CardTitle>
+              <CardDescription>
+                <h2 className="text-[#FEF2E6] text-sm">{person.role}</h2>
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center">
+              {/* This also needs to be fixed */}
+              <Image
+                width={300}
+                height={300}
+                src={person.imgLink}
+                className="max-w-[100px] h-auto rounded-lg"
+                quality={100}
+                priority={true}
+                alt="Person Placeholder"
+              />
+            </CardContent>
+            <CardFooter>
+              <div
+                className={
+                  "flex w-full h-full items-baseline justify-center gap-3"
+                }>
+                <a
+                  href={person.linkedin}
+                  className={person.linkedin ? "" : "hidden"}>
+                  <div className={"size-8"}>
+                    <LinkedIn fillColor={"fill-gray-400"} />
+                  </div>
+                </a>
+                <a
+                  href={person.website}
+                  className={person.website ? "" : "hidden"}>
+                  <div className={"size-8"}>
+                    <Website fillColor={"fill-gray-400"} />
+                  </div>
+                </a>
+                <a
+                  href={person.github}
+                  className={person.github ? "" : "hidden"}>
+                  <div className={"size-8"}>
+                    <Github fillColor={"fill-gray-400"} />
+                  </div>
+                </a>
+              </div>
+            </CardFooter>
           </div>
         </Card>
-      </div>
     );
 }
