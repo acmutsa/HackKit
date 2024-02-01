@@ -270,12 +270,12 @@ return (
   <>
     {data_rendered ? (
       <div className="md:hidden flex flex-col w-full justify-center items-center">
-        <div className="overflow-x-auto grid grid-flow-col w-[85%] grid-rows-2  ">
+        <div className="overflow-x-auto overflow-y-hidden grid grid-flow-col w-[85%] grid-rows-2  ">
           {team.map((p: Person, index: React.Key) => (
             <TeamMember person={p} key={index} />
           ))}
         </div>
-        <h1 className="text-[#FEF2E6] animate-bounce">Scroll for more Team members!</h1>
+        <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl">Scroll For More Team Members!</h1>
       </div>
     ) : (
       <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>

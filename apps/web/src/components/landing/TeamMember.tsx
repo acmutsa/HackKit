@@ -54,7 +54,7 @@ export default function TeamMember({person}:{person:Person}) {
     // Edit the max width and height and then set the height to auto in the styling
     return (
         <Card
-          className={`w-full ${oswald.className} bg-transparent border-none flex text-[#FEF2E6]`}>
+          className={`w-full ${oswald.className} bg-transparent border-none flex text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
           <div className="text-[#FEF2E6]">
             <CardHeader className="items-center">
               <CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">
