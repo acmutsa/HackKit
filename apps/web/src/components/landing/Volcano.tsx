@@ -45,7 +45,12 @@ export default function Volcano() {
 	});
 	return (
 		<div className="absolute w-[500px] top-[50%] md:-translate-y-[48%] -translate-y-[53%] left-[10%] ">
-			{/* <svg
+			{/* <img
+				src="/img/landing/layers/volcano.svg"
+				alt="volcano"
+				style={{ height: "100vh", width: "500px" }}
+			/> */}
+			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				xmlSpace="preserve"
 				id="mountain"
@@ -576,7 +581,7 @@ export default function Volcano() {
 						/>
 					</g>
 				</g>
-			</svg> */}
+			</svg>
 		</div>
 	);
 }
