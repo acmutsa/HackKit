@@ -12,7 +12,6 @@ import { Person } from "./Person";
 import TeamMember from "./TeamMember";
 import { Oswald } from "next/font/google";
 import { useState,useEffect } from "react";
-import Balancer from "react-wrap-balancer";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -238,7 +237,7 @@ function CarouselDefault() {
         // We will try a grid view of some sort to see if we can get better results that way
 				<Carousel
 					opts={{ align: "start" }}
-					className="w-[70%]"
+					className="w-[80%] hidden md:block"
 				>
 					<CarouselContent className="mx-auto">
 						{team.map((p: Person, index: React.Key) => (
@@ -259,8 +258,32 @@ function CarouselDefault() {
 	);
 }
 
+function MobileTeam (){
+const [data_rendered, setData_rendered] = useState(false);
+
+useEffect(() => {
+  // Basic use effect hook to check if the page has rendered
+  setData_rendered(true);
+}, []);
+
+return (
+  <>
+    {data_rendered ? (
+      <div className="overflow-x-auto grid grid-flow-col grid-rows-2 md:hidden ">
+        {team.map((p: Person, index: React.Key) => (
+          <TeamMember person={p} key={index} />
+        ))}
+      </div>
+    ) : (
+      <div>Loading...</div>
+    )}
+  </>
+);
+
+}
+
 export default function Team() {
-  
+
   return (
     <section
       className={`${oswald.className} flex flex-col w-full min-h-screen bg-[url('/img/landing/Second_Layer_Background_large.svg')] bg-cover bg-no-repeat space-y-20 md:pb-48`}>
@@ -270,7 +293,8 @@ export default function Team() {
         </h1>
       </div>
       <div className="flex w-full h-full items-center justify-center">
-        <CarouselDefault />
+        <CarouselDefault/>
+        <MobileTeam/>
       </div>
     </section>
   );
