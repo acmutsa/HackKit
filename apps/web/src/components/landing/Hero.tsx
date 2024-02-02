@@ -29,9 +29,9 @@ export default function Hero() {
 				style={{ y: sky }}
 				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[#CCD2AD]"
 			></motion.div>
-			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
+			{/* <motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Volcano />
-			</motion.div>
+			</motion.div> */}
 			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Image
 					src="/img/landing/layers/grass_back_5.svg"
