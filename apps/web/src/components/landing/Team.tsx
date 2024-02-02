@@ -72,7 +72,7 @@ let team: Array<Person> = [
     "Murray",
     `${tech}\u00A0/\u00A0${logistics}`,
     "https://www.linkedin.com/in/liamrmurray/",
-    "",
+    "https://www.liammurray.dev/",
     "https://github.com/Lermatroid"
   ),
   createPerson(
@@ -194,7 +194,7 @@ let team: Array<Person> = [
     experience,
     "https://www.linkedin.com/in/darrenmanaligod/",
     "",
-    ""
+    "https://github.com/dmanaligod96"
   ),
   createPerson(
     "Iqra",
@@ -269,13 +269,15 @@ useEffect(() => {
 return (
   <>
     {data_rendered ? (
-      <div className="md:hidden flex flex-col w-full justify-center items-center">
-        <div className="overflow-x-auto overflow-y-hidden grid grid-flow-col w-[85%] grid-rows-2  ">
+      <div className="md:hidden flex flex-col w-full justify-center items-center ">
+        <div className="overflow-x-auto overflow-y-hidden grid grid-flow-col w-[85%] grid-rows-2 no-scrollbar ">
           {team.map((p: Person, index: React.Key) => (
             <TeamMember person={p} key={index} />
           ))}
         </div>
-        <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl">Scroll For More Team Members!</h1>
+        <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl">
+          Scroll For More Team Members!
+        </h1>
       </div>
     ) : (
       <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>
@@ -295,9 +297,9 @@ export default function Team() {
           Meet The Team That Made RowdyHacks IX Possible!
         </h1>
       </div>
-      <div className="flex w-full h-full items-center justify-center">
-        <CarouselDefault/>
-        <MobileTeam/>
+      <div className="w-full h-full items-center justify-center">
+        <CarouselDefault />
+        <MobileTeam />
       </div>
     </section>
   );
