@@ -1,9 +1,21 @@
-import { Client, Collection, Events, GatewayIntentBits, EmbedBuilder } from "discord.js";
+import {
+	Client,
+	Collection,
+	Events,
+	GatewayIntentBits,
+	EmbedBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	ActionRowBuilder,
+} from "discord.js";
 import { readdirSync } from "node:fs";
 import path from "node:path";
 import { Hono } from "hono";
 import { serve } from "bun";
 import c from "config";
+import { db } from "db";
+import { discordVerification } from "db/schema";
+import { nanoid } from "nanoid";
 
 /* DISCORD BOT */
 
@@ -36,27 +48,56 @@ for (const file of commandFiles) {
 console.log(`Loaded ${client.commands.size} Commands`);
 
 client.on(Events.InteractionCreate, async (interaction) => {
-	if (!interaction.isChatInputCommand()) return;
+	if (interaction.isChatInputCommand()) {
+		const command = interaction.client.commands.get(interaction.commandName);
 
-	const command = interaction.client.commands.get(interaction.commandName);
+		if (!command) {
+			console.error(`No command matching ${interaction.commandName} was found.`);
+			return;
+		}
 
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
-	}
+		try {
+			await command.execute(interaction);
+		} catch (error) {
+			console.error(error);
+			if (interaction.replied || interaction.deferred) {
+				await interaction.followUp({
+					content: "There was an error while executing this command!",
+					ephemeral: true,
+				});
+			} else {
+				await interaction.reply({
+					content: "There was an error while executing this command!",
+					ephemeral: true,
+				});
+			}
+		}
+	} else if (interaction.isButton()) {
+		if (interaction.customId === "verify") {
+			console.log("Button Pressed");
+			const user = interaction.member?.user;
+			if (!user) {
+				interaction.reply({
+					content: "There was an error while executing this command!",
+					ephemeral: true,
+				});
+				return;
+			}
+			const vCode = nanoid(20);
+			const verification = await db
+				.insert(discordVerification)
+				.values({
+					code: vCode,
+					discordName: user.username,
+					discordProfilePhoto: user.avatar,
+					discordUserID: user.id,
+					discordUserTag: user.discriminator,
+					status: "pending",
+				})
+				.returning();
 
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({
-				content: "There was an error while executing this command!",
-				ephemeral: true,
-			});
-		} else {
-			await interaction.reply({
-				content: "There was an error while executing this command!",
+			interaction.reply({
+				content: `Please click [this link](${c.siteUrl}/discord-verify?code=${vCode}) to verify your registration!`,
 				ephemeral: true,
 			});
 		}
@@ -77,6 +118,11 @@ app.get("/postMsgToServer", (h) => {
 	if (!serverType || (serverType !== "dev" && serverType !== "prod")) {
 		return h.text("invalid env");
 	}
+
+	const verifyBtn = new ButtonBuilder()
+		.setCustomId("verify")
+		.setLabel("Verify")
+		.setStyle(ButtonStyle.Primary);
 
 	const verifyEmbed = new EmbedBuilder()
 		.setColor(0x0099ff)
@@ -102,8 +148,11 @@ app.get("/postMsgToServer", (h) => {
 		return h.text("Invalid channel");
 	}
 
+	const row = new ActionRowBuilder<ButtonBuilder>().addComponents(verifyBtn);
+
 	channel.send({
 		embeds: [verifyEmbed],
+		components: [row],
 	});
 	return h.text(`Posted to channel!`);
 });
