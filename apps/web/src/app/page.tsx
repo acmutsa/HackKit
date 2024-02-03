@@ -2,9 +2,12 @@ import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
 import Filler from "@/components/landing/Filler";
 import About from "@/components/landing/About";
+import FillerAboutPartners from "@/components/landing/FillerAboutPartners";
 import Partners from "@/components/landing/Partners";
-import Footer from "@/components/landing/Footer";
+import FillerPartnersTeam from "@/components/FillerPartnersTeam";
 import Team from "@/components/landing/Team";
+import Footer from "@/components/landing/Footer";
+
 import { Oswald } from "next/font/google";
 
 const oswald = Oswald({
@@ -20,8 +23,9 @@ export default function Home() {
 				<Hero />
 				<Filler />
 				<About />
-				{/* Commenting Out Until All Partners / Teams completed */}
+				<FillerAboutPartners/>
 				<Partners /> 
+				<FillerPartnersTeam/>
 				<Team />
 				<Footer />
 			</main>

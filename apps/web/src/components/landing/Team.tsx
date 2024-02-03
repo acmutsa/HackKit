@@ -231,31 +231,27 @@ function CarouselDefault() {
 	}, []);
 
 	return (
-		//Where Carousel will go
-		<>
-			{data_rendered ? (
-        // We will try a grid view of some sort to see if we can get better results that way
-				<Carousel
-					opts={{ align: "start" }}
-					className="w-[80%] hidden md:block"
-				>
-					<CarouselContent className="mx-auto">
-						{team.map((p: Person, index: React.Key) => (
-							<CarouselItem key={index} className=" md:basis-1/3 lg:basis-1/4">
-								<TeamMember person={p} />
-							</CarouselItem>
-						))}
-					</CarouselContent>
-					<CarouselPrevious />
-					<CarouselNext />
-				</Carousel>
-			) : (
-				<div className="hidden md:flex md:justify-center">
-					<h1 className="text-3xl">Loading...</h1>
-				</div>
-			)}
-		</>
-	);
+    //Where Carousel will go
+    <>
+      {data_rendered ? (
+        <Carousel opts={{ align: "start" }} className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
+          <CarouselContent>
+            {team.map((p: Person, index: React.Key) => (
+              <CarouselItem key={index} className="pl-1 md:basis-1/3 lg:basis-1/4 2xl:basis-1/5">
+                <TeamMember person={p} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      ) : (
+        <div className="hidden md:flex md:justify-center">
+          <h1 className="text-3xl">Loading...</h1>
+        </div>
+      )}
+    </>
+  );
 }
 
 function MobileTeam (){
@@ -275,7 +271,7 @@ return (
             <TeamMember person={p} key={index} />
           ))}
         </div>
-        <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl">
+        <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl pb-5">
           Scroll For More Team Members!
         </h1>
       </div>
@@ -291,13 +287,13 @@ export default function Team() {
 
   return (
     <section
-      className={`${oswald.className} flex flex-col w-full min-h-screen bg-[url('/img/landing/Second_Layer_Background_large.svg')] bg-cover bg-no-repeat space-y-20`}>
+      className={`${oswald.className} flex flex-col w-full h-full bg-[rgb(33,15,1)] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)] bg-[url('/img/landing/Team_Background.svg')] bg-cover bg-no-repeat space-y-20 pb-20`}>
       <div className="flex w-full justify-center items-center mx-auto">
         <h1 className="pt-10 text-[#FEF2E6] text-xl text-center sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
           Meet The Team That Made RowdyHacks IX Possible!
         </h1>
       </div>
-      <div className="w-full h-full items-center justify-center">
+      <div className="flex w-full h-full items-center justify-center">
         <CarouselDefault />
         <MobileTeam />
       </div>
