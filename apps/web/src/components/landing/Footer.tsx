@@ -16,7 +16,7 @@ export default function Footer() {
 	const [showHackathons, setShowHackathons] = useState(false);
 
 	return (
-    <div className="relative z-[100] bg-[#281300] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)]">
+    <div className="relative z-[100] bg-[rgb(33,15,1)] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)]">
       {/* border-t-gray-500 border-t-[1px] */}
       {/* Proposed simply for keeping with the look of thw website */}
       <div className=" lg:block hidden">
