@@ -1,6 +1,6 @@
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
-import Filler from "@/components/landing/Filler";
+import Filler from "@/components/landing/FillerHeroAbout";
 import About from "@/components/landing/About";
 import FillerAboutPartners from "@/components/landing/FillerAboutPartners";
 import Partners from "@/components/landing/Partners";

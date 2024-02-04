@@ -246,6 +246,7 @@ function CarouselDefault() {
               </CarouselItem>
             ))}
           </CarouselContent>
+          {/* NOTE: Source image of carousel previous and next are modified with color prop  */}
           <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer " />
           <CarouselNext className="bg-transparent border-none hover:cursor-pointer" />
         </Carousel>
