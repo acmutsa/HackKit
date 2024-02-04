@@ -70,7 +70,7 @@ export default function TeamMember({person}:{person:Person}) {
                 width={300}
                 height={300}
                 src={person.imgLink}
-                className="max-w-[100px] h-auto rounded-lg"
+                className="max-w-[110px] md:max-w-[140px] lg:max-w-[160px] 2xl:max-w-[200px] h-auto rounded-lg"
                 quality={100}
                 priority={true}
                 alt="Person Placeholder"
