@@ -4,7 +4,7 @@ import Filler from "@/components/landing/Filler";
 import About from "@/components/landing/About";
 import FillerAboutPartners from "@/components/landing/FillerAboutPartners";
 import Partners from "@/components/landing/Partners";
-import FillerPartnersTeam from "@/components/FillerPartnersTeam";
+import FillerPartnersTeam from "@/components/landing/FillerPartnersTeam";
 import Team from "@/components/landing/Team";
 import Footer from "@/components/landing/Footer";
 
