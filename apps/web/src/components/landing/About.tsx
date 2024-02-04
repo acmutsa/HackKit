@@ -41,11 +41,11 @@ export default function About() {
 
         {/* Info columns */}
         <div className="grid grid-cols-1 gap-y-16 md:grid-cols-2">
-          <div className="flex flex-col justify-center gap-y-6">
-            <h1 className="font-oswald text-center text-5xl font-bold italic text-[#FEF2E6] md:text-left lg:text-6xl">
+          <div className="flex flex-col justify-center gap-y-6 bg-[#F7F0E8] border-[#A5836B] border-4 rounded-xl p-5">
+            <h1 className="font-oswald text-center text-5xl font-bold italic text-[#A5836B] md:text-left lg:text-6xl">
               ABOUT US
             </h1>
-            <p className="text-center font-mono text-lg font-bold text-[#FEF2E6] md:text-left">
+            <p className="text-center font-mono text-lg font-bold text-[#A5836B] md:text-left">
               <Balancer>
                 RowdyHacks is a free, weekend-long, overnight hackathon hosted
                 at UTSA! Students can join us to network, code, collaborate, and
@@ -64,18 +64,20 @@ export default function About() {
             alt="Dinosaurs Coding Around A Table"
             className="w-80 sm:w-96 md:w-[25rem] lg:w-[26rem] 2xl:w-[34rem] mx-auto"
           />
-          <div className="pb-20 md:pb-0 flex flex-col justify-center gap-y-10">
-            <h1 className="font-oswald text-center text-5xl font-bold italic text-[#FEF2E6] md:text-left lg:text-6xl">
-              WHO CAN ATTEND?
-            </h1>
-            <p className="text-center font-mono text-lg font-bold text-[#FEF2E6] md:text-left">
-              <Balancer>
-                We're excited to welcome hackers from all disciplines,
-                backgrounds, & technical levels! Whether you can't count the
-                number of apps you've built, or you have never written a line of
-                code before, RowdyHacks has something for everyone!
-              </Balancer>
-            </p>
+          <div className="pb-20 md:pb-0 flex flex-col justify-center">
+            <div className="flex flex-col justify-center gap-y-10 bg-[#F7F0E8] border-[#A5836B] border-4 rounded-xl p-5">
+              <h1 className="font-oswald text-center text-5xl font-bold italic text-[#A5836B] md:text-left lg:text-6xl">
+                WHO CAN ATTEND?
+              </h1>
+              <p className="text-center font-mono text-lg font-bold text-[#A5836B] md:text-left">
+                <Balancer>
+                  We're excited to welcome hackers from all disciplines,
+                  backgrounds, & technical levels! Whether you can't count the
+                  number of apps you've built, or you have never written a line
+                  of code before, RowdyHacks has something for everyone!
+                </Balancer>
+              </p>
+            </div>
           </div>
         </div>
       </div>

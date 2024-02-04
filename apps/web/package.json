@@ -49,7 +49,7 @@
     "embla-carousel-react": "8.0.0-rc20",
     "framer-motion": "^10.18.0",
     "gsap": "^3.12.4",
-    "lucide-react": "^0.257.0",
+    "lucide-react": "^0.317.0",
     "nanoid": "^4.0.2",
     "next": "14.0.4",
     "next-safe-action": "^5.2.3",

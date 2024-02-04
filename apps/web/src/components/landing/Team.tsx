@@ -2,44 +2,44 @@
 
 import React from "react";
 import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "../shadcn/ui/carousel";
 import { Person } from "./Person";
 import TeamMember from "./TeamMember";
 import { Oswald } from "next/font/google";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const oswald = Oswald({
-	variable: "--font-oswald",
-	subsets: ["latin"],
+  variable: "--font-oswald",
+  subsets: ["latin"],
 });
 
 // Creates our person and makes it seamless
 function createPerson(
-	fname: string,
-	lname: string,
-	role: string,
-	linkedin: string,
-	website: string,
-	github: string
+  fname: string,
+  lname: string,
+  role: string,
+  linkedin: string,
+  website: string,
+  github: string
 ): Person {
-	return {
-		fname: fname,
-		lname: lname,
-		imgLink: CreateImgLink(fname, lname),
-		role: role,
-		linkedin: linkedin,
-		website: website,
-		github: github,
-	};
+  return {
+    fname: fname,
+    lname: lname,
+    imgLink: CreateImgLink(fname, lname),
+    role: role,
+    linkedin: linkedin,
+    website: website,
+    github: github,
+  };
 }
 
 function CreateImgLink(firstname: string, lastname: string) {
-	return `/img/landing/team/${firstname}_${lastname}.jpg`;
+  return `/img/landing/team/${firstname}_${lastname}.jpg`;
 }
 
 const director = "Director";
@@ -223,27 +223,31 @@ let team: Array<Person> = [
 ];
 
 function CarouselDefault() {
-	const [data_rendered, setData_rendered] = useState(false);
+  const [data_rendered, setData_rendered] = useState(false);
 
-	useEffect(() => {
-		// Basic use effect hook to check if the page has rendered
-		setData_rendered(true);
-	}, []);
+  useEffect(() => {
+    // Basic use effect hook to check if the page has rendered
+    setData_rendered(true);
+  }, []);
 
-	return (
+  return (
     //Where Carousel will go
     <>
       {data_rendered ? (
-        <Carousel opts={{ align: "start" }} className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
+        <Carousel
+          opts={{ align: "start" }}
+          className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
           <CarouselContent>
             {team.map((p: Person, index: React.Key) => (
-              <CarouselItem key={index} className="pl-1 md:basis-1/3 lg:basis-1/4 2xl:basis-1/5">
+              <CarouselItem
+                key={index}
+                className="pl-1 md:basis-1/3 lg:basis-1/4 2xl:basis-1/5">
                 <TeamMember person={p} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer " />
+          <CarouselNext className="bg-transparent border-none hover:cursor-pointer" />
         </Carousel>
       ) : (
         <div className="hidden md:flex md:justify-center">
@@ -254,37 +258,35 @@ function CarouselDefault() {
   );
 }
 
-function MobileTeam (){
-const [data_rendered, setData_rendered] = useState(false);
+function MobileTeam() {
+  const [data_rendered, setData_rendered] = useState(false);
 
-useEffect(() => {
-  // Basic use effect hook to check if the page has rendered
-  setData_rendered(true);
-}, []);
+  useEffect(() => {
+    // Basic use effect hook to check if the page has rendered
+    setData_rendered(true);
+  }, []);
 
-return (
-  <>
-    {data_rendered ? (
-      <div className="md:hidden flex flex-col w-full justify-center items-center ">
-        <div className="overflow-x-auto overflow-y-hidden grid grid-flow-col w-[85%] grid-rows-2 no-scrollbar ">
-          {team.map((p: Person, index: React.Key) => (
-            <TeamMember person={p} key={index} />
-          ))}
+  return (
+    <>
+      {data_rendered ? (
+        <div className="md:hidden flex flex-col w-full justify-center items-center ">
+          <div className="overflow-x-auto overflow-y-hidden grid grid-flow-col w-[85%] grid-rows-2 no-scrollbar ">
+            {team.map((p: Person, index: React.Key) => (
+              <TeamMember person={p} key={index} />
+            ))}
+          </div>
+          <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl pb-5">
+            Scroll For More Team Members!
+          </h1>
         </div>
-        <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl pb-5">
-          Scroll For More Team Members!
-        </h1>
-      </div>
-    ) : (
-      <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>
-    )}
-  </>
-);
-
+      ) : (
+        <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>
+      )}
+    </>
+  );
 }
 
 export default function Team() {
-
   return (
     <section
       className={`${oswald.className} flex flex-col w-full h-full bg-[rgb(33,15,1)] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)] bg-[url('/img/landing/Team_Background.svg')] bg-cover bg-no-repeat space-y-20 pb-20`}>

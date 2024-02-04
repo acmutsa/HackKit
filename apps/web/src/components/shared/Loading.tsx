@@ -6,5 +6,5 @@ interface LoadingProps {
 }
 
 export default function Loading({ className }: LoadingProps) {
-  return <Loader2 className="animate-spin duration-1000 text-5xl" />;
+	return <Loader2 className="animate-spin duration-1000 text-5xl" />;
 }
