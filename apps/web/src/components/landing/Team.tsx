@@ -86,7 +86,7 @@ let team: Array<Person> = [
   createPerson(
     "Christian",
     "Walker",
-    tech,
+    "Tech\u00A0Lead",
     "https://www.linkedin.com/in/christian-d-walker/",
     "",
     "https://github.com/christianhelp"

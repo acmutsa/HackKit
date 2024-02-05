@@ -20,7 +20,7 @@ type Partner = {
 // Async in order to avoid hydration errors
 export default async function Partners() {
   return (
-    <section className="h-full w-full bg-[url('/img/landing/Partner_BG.svg')] to-white bg-no-repeat bg-cover flex flex-col gap-y-10 items-center justify-center">
+    <section className="h-full w-full bg-[rgb(108,60,38)] bg-[url('/img/landing/Partner_BG.svg')] bg-no-repeat bg-cover flex flex-col gap-y-10 items-center justify-center">
       <h1 className=" text-4xl sm:text-5xl md:text-6xl font-bold font-oswald italic text-[#FEF2E6] text-center pt-7">
         A Huge Thanks To Our Rowdyhacks Partners!
       </h1>
