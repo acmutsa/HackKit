@@ -25,9 +25,9 @@ export default async function Navbar({ className }: NavbarProps) {
         className={cn(
           `top-0 w-screen h-16 bg-nav relative z-50 border-b-border border-b ${oswald.variable}`,
           className
-        )}
-      >
-        <div className="w-full h-full mx-auto max-w-7xl px-5 grid grid-cols-3">
+        )}>
+        
+        <div className="w-full h-full mx-auto max-w-7xl lg:max-w-full px-2 sm:px-6 lg:px-8  grid grid-flow-col grid-cols-2">
           <div className="flex items-center justify-start gap-x-5 col-span-2">
             <Link href={"/"} className="flex items-center gap-x-2 mr-5">
               <Image
@@ -44,7 +44,7 @@ export default async function Navbar({ className }: NavbarProps) {
 
             <NavBarLinksGrouper />
           </div>
-          <div className="items-center justify-end gap-x-4 md:flex hidden">
+          <div className="items-center justify-between md:justify-center flex space-x-2">
             {user ? (
               <>
                 <Link
@@ -52,12 +52,10 @@ export default async function Navbar({ className }: NavbarProps) {
                     user.publicMetadata.registrationComplete
                       ? "/dash"
                       : "/register"
-                  }
-                >
+                  }>
                   <Button
                     variant={"outline"}
-                    className="bg-nav hover:bg-background"
-                  >
+                    className="bg-nav hover:bg-background">
                     {user.publicMetadata.registrationComplete
                       ? "Dashboard"
                       : "Complete Registration"}
@@ -70,8 +68,7 @@ export default async function Navbar({ className }: NavbarProps) {
                 <Link href={"/sign-in"}>
                   <Button
                     variant={"outline"}
-                    className="bg-nav hover:bg-background"
-                  >
+                    className="bg-nav hover:bg-background">
                     Sign In
                   </Button>
                 </Link>
@@ -89,8 +86,7 @@ export default async function Navbar({ className }: NavbarProps) {
           className="max-w-[100px] min-w-[60px] absolute w-[10%] right-5 top-0 z-[10000]"
           // style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
           href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
-          target="_blank"
-        >
+          target="_blank">
           <Image
             src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-black.svg"
             alt="Major League Hacking 2024 Hackathon Season"
