@@ -31,7 +31,6 @@ export default async function Partners() {
       quality={100}
       alt="BG img"
       />
-
       <h1 className=" text-4xl sm:text-5xl md:text-6xl font-bold font-oswald italic text-[#FEF2E6] text-center pt-7">
         A Huge Thanks To Our Rowdyhacks Partners!
       </h1>
