@@ -52,14 +52,6 @@ const pr = "PR";
 let team: Array<Person> = [
   // add each person here. if no website, leave empty string
   createPerson(
-    "Nathan",
-    "Zuniga",
-    director,
-    "https://www.linkedin.com/in/nathanzuniga/",
-    "",
-    ""
-  ),
-  createPerson(
     "Mei",
     "Sullum",
     director,
@@ -68,9 +60,17 @@ let team: Array<Person> = [
     ""
   ),
   createPerson(
+    "Nathan",
+    "Zuniga",
+    "Co-Director",
+    "https://www.linkedin.com/in/nathanzuniga/",
+    "",
+    ""
+  ),
+  createPerson(
     "Liam",
     "Murray",
-    `${tech}\u00A0/\u00A0${logistics}`,
+    `${logistics} Lead\u00A0/ Tech`,
     "https://www.linkedin.com/in/liamrmurray/",
     "https://www.liammurray.dev/",
     "https://github.com/Lermatroid"
@@ -116,6 +116,14 @@ let team: Array<Person> = [
     ""
   ),
   createPerson(
+    "Christian",
+    "Salinas",
+    "Media Lead",
+    "https://www.linkedin.com/in/christian--salinas/",
+    "",
+    "https://github.com/ChristianSalinas722"
+  ),
+  createPerson(
     "Macreen",
     "Marbella",
     media,
@@ -158,7 +166,7 @@ let team: Array<Person> = [
   createPerson(
     "Alejandro",
     "Mugica",
-    logistics,
+    `${logistics}\u00A0/ Media`,
     "https://www.linkedin.com/in/alejandromugica/",
     "",
     ""
@@ -251,8 +259,8 @@ function CarouselDefault() {
           <CarouselNext className="bg-transparent border-none hover:cursor-pointer" />
         </Carousel>
       ) : (
-        <div className="hidden md:flex md:justify-center">
-          <h1 className="text-3xl">Loading...</h1>
+        <div className="hidden md:flex md:justify-center ">
+          <h1 className="text-3xl text-[#FEF2E6]">Loading...</h1>
         </div>
       )}
     </>
