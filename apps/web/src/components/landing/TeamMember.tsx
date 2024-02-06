@@ -11,7 +11,6 @@ import {
 } from "../shadcn/ui/card"
 import { Oswald } from "next/font/google";
 import Image from "next/image";
-import FallbackImage from "../../../public/img/landing/RHlogo.svg";
 import { useState } from "react";
 const oswald = Oswald({
   variable: "--font-oswald",
