@@ -11,7 +11,7 @@ import {
 } from "../shadcn/ui/card"
 import { Oswald } from "next/font/google";
 import Image from "next/image";
-
+import { useState } from "react";
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
@@ -51,38 +51,43 @@ function Github({ fillColor }:{fillColor:string}) {
 
 
 export default function TeamMember({person}:{person:Person}) {
+    // Edit the max width and height and then set the height to auto in the styling
+
+    const [src,setSrc] = useState(person.imgLink);
+    const [styling, setStyling] = useState(
+      "max-w-[110px] md:max-w-[140px] lg:max-w-[160px] 2xl:max-w-[200px] h-auto rounded-lg"
+    );
+
+    const FallBackStyling = "max-w-[105px] md:max-w-[132px] lg:max-w-[150px] xl:max-w-[151px] 2xl:max-w-[188px] rounded-lg";
+
 
     return (
-      <div className="p-1 flex">
-        <Card className={`relative ${oswald.className} w-[245px] h-[400px]`}>
-          {/* Option 1 */}
-          {/* <Image
-            width={50}
-            height={50}
-            quality={100}
-            src="/img/landing/RH_Icon.svg"
-            className="absolute z-[100] w-[50px] h-[50px] left-0 top-0"
-            style={{
-              width:"auto"
-            }}
-            alt="Team member Icon"
-          /> */}
-           
-          <div>
-            <CardHeader className="items-center">
-            <CardTitle className="text-lg">
-              <h1>{`${person.fname}\u00A0${person.lname}`}</h1>
+      <Card
+        className={`w-full ${oswald.className} bg-transparent border-none flex text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
+        <div className="text-[#FEF2E6]">
+          <CardHeader className="items-center">
+            <CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">
+              <h1 className="font-bold">{`${person.fname}\u00A0${person.lname}`}</h1>
             </CardTitle>
             <CardDescription>
-              <h2 className="text-sm">{person.role}</h2>
+              <h2 className="text-[#FEF2E6] text-sm">{person.role}</h2>
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center">
             {/* This also needs to be fixed */}
-            <img
-              src={person.imgLink}
-             
-              className="rounded-lg"
+            <Image
+              width={300}
+              height={300}
+              src={src}
+              className={`${styling}`}
+              quality={100}
+              priority={true}
+              alt="Person Placeholder"
+              onError={(e) => {
+                  setSrc("/img/landing/lil_man.png");
+                  setStyling(FallBackStyling);
+
+              }}
             />
           </CardContent>
           <CardFooter>
@@ -111,8 +116,7 @@ export default function TeamMember({person}:{person:Person}) {
               </a>
             </div>
           </CardFooter>
-          </div>
-        </Card>
-      </div>
+        </div>
+      </Card>
     );
 }

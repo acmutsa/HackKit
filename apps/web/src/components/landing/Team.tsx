@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import {
@@ -11,15 +11,12 @@ import {
 import { Person } from "./Person";
 import TeamMember from "./TeamMember";
 import { Oswald } from "next/font/google";
-import { useState,useEffect } from "react";
-import Balancer from "react-wrap-balancer";
-
+import { useState, useEffect } from "react";
 
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
 });
-
 
 // Creates our person and makes it seamless
 function createPerson(
@@ -30,40 +27,30 @@ function createPerson(
   website: string,
   github: string
 ): Person {
-
   return {
     fname: fname,
     lname: lname,
-    imgLink: CreateImgLink(fname,lname),
+    imgLink: CreateImgLink(fname, lname),
     role: role,
     linkedin: linkedin,
     website: website,
     github: github,
   };
-  
 }
 
 function CreateImgLink(firstname: string, lastname: string) {
   return `/img/landing/team/${firstname}_${lastname}.jpg`;
 }
 
-const director = 'Director'
-const media = 'Media/Design'
+const director = "Director";
+const media = "Media/Design";
 const experience = "Experience";
 const logistics = "Logistics";
-const tech = 'Tech';
-const pr = 'PR';
+const tech = "Tech";
+const pr = "PR";
 
 let team: Array<Person> = [
   // add each person here. if no website, leave empty string
-  createPerson(
-    "Nathan",
-    "Zuniga",
-    director,
-    "https://www.linkedin.com/in/nathanzuniga/",
-    "",
-    ""
-  ),
   createPerson(
     "Mei",
     "Sullum",
@@ -73,11 +60,19 @@ let team: Array<Person> = [
     ""
   ),
   createPerson(
+    "Nathan",
+    "Zuniga",
+    "Co-Director",
+    "https://www.linkedin.com/in/nathanzuniga/",
+    "",
+    ""
+  ),
+  createPerson(
     "Liam",
     "Murray",
-    `${tech}\u00A0/\u00A0${logistics}`,
+    `${logistics} Lead\u00A0/ Tech`,
     "https://www.linkedin.com/in/liamrmurray/",
-    "",
+    "https://www.liammurray.dev/",
     "https://github.com/Lermatroid"
   ),
   createPerson(
@@ -91,7 +86,7 @@ let team: Array<Person> = [
   createPerson(
     "Christian",
     "Walker",
-    tech,
+    "Tech\u00A0Lead",
     "https://www.linkedin.com/in/christian-d-walker/",
     "",
     "https://github.com/christianhelp"
@@ -105,12 +100,28 @@ let team: Array<Person> = [
     ""
   ),
   createPerson(
+    "Calvin",
+    "Jessen",
+    `${logistics}\u00A0/\u00A0Photographer`,
+    "https://www.linkedin.com/in/calvin-j-39547a24b/",
+    "",
+    ""
+  ),
+  createPerson(
     "Kathy",
     "Nguyen",
     media,
     "https://www.linkedin.com/in/kathy-nguyen-6892812ab/",
     "",
     ""
+  ),
+  createPerson(
+    "Christian",
+    "Salinas",
+    "Media Lead",
+    "https://www.linkedin.com/in/christian--salinas/",
+    "",
+    "https://github.com/ChristianSalinas722"
   ),
   createPerson(
     "Macreen",
@@ -155,19 +166,12 @@ let team: Array<Person> = [
   createPerson(
     "Alejandro",
     "Mugica",
-    logistics,
+    `${logistics}\u00A0/ Media`,
     "https://www.linkedin.com/in/alejandromugica/",
     "",
     ""
   ),
-  createPerson(
-    "Calvin",
-    "Jessen",
-    `${logistics}\u00A0/\u00A0${pr}\u00A0/Photographer`,
-    "https://www.linkedin.com/in/calvin-j-39547a24b/",
-    "",
-    ""
-  ),
+
   createPerson(
     "Elizabeth",
     "Truong",
@@ -198,7 +202,7 @@ let team: Array<Person> = [
     experience,
     "https://www.linkedin.com/in/darrenmanaligod/",
     "",
-    ""
+    "https://github.com/dmanaligod96"
   ),
   createPerson(
     "Iqra",
@@ -227,54 +231,82 @@ let team: Array<Person> = [
 ];
 
 function CarouselDefault() {
-    const [data_rendered, setData_rendered] = useState(false);
+  const [data_rendered, setData_rendered] = useState(false);
 
-    useEffect(() => {
-      // Basic use effect hook to check if the page has rendered
-      setData_rendered(true);
-    }, []);
+  useEffect(() => {
+    // Basic use effect hook to check if the page has rendered
+    setData_rendered(true);
+  }, []);
 
   return (
     //Where Carousel will go
     <>
       {data_rendered ? (
         <Carousel
-         
           opts={{ align: "start" }}
-          className="flex justify-center w-[80%] max-w-5xl h-auto">
+          className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
           <CarouselContent>
             {team.map((p: Person, index: React.Key) => (
-              <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+              <CarouselItem
+                key={index}
+                className="pl-1 md:basis-1/3 lg:basis-1/4 2xl:basis-1/5">
                 <TeamMember person={p} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          {/* Technically we want to move 2 at a time */}
-          <CarouselPrevious />
-          <CarouselNext />
+          {/* NOTE: Source image of carousel previous and next are modified with color prop  */}
+          <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer " />
+          <CarouselNext className="bg-transparent border-none hover:cursor-pointer" />
         </Carousel>
       ) : (
-        <div className="flex justify-center">
-          <h1 className="text-3xl">Loading...</h1>
+        <div className="hidden md:flex md:justify-center ">
+          <h1 className="text-3xl text-[#FEF2E6]">Loading...</h1>
         </div>
       )}
     </>
   );
 }
 
+function MobileTeam() {
+  const [data_rendered, setData_rendered] = useState(false);
+
+  useEffect(() => {
+    // Basic use effect hook to check if the page has rendered
+    setData_rendered(true);
+  }, []);
+
+  return (
+    <>
+      {data_rendered ? (
+        <div className="md:hidden flex flex-col w-full justify-center items-center ">
+          <div className="overflow-x-auto overflow-y-hidden grid grid-flow-col w-[85%] grid-rows-2 no-scrollbar ">
+            {team.map((p: Person, index: React.Key) => (
+              <TeamMember person={p} key={index} />
+            ))}
+          </div>
+          <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl pb-5">
+            Scroll For More Team Members!
+          </h1>
+        </div>
+      ) : (
+        <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>
+      )}
+    </>
+  );
+}
 
 export default function Team() {
-  
   return (
     <section
-      className={`${oswald.className} flex flex-col w-full min-h-screen bg-[url('/img/landing/Second_Layer_Background_large.svg')] bg-cover bg-no-repeat space-y-20 md:pb-48`}>
+      className={`${oswald.className} flex flex-col w-full h-full bg-[rgb(33,15,1)] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)] bg-[url('/img/landing/Team_Background.svg')] bg-cover bg-no-repeat space-y-20 pb-20`}>
       <div className="flex w-full justify-center items-center mx-auto">
-        <h1 className="pt-10 text-gray-50 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
+        <h1 className="pt-10 text-[#FEF2E6] text-xl text-center sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
           Meet The Team That Made RowdyHacks IX Possible!
         </h1>
       </div>
       <div className="flex w-full h-full items-center justify-center">
         <CarouselDefault />
+        <MobileTeam />
       </div>
     </section>
   );

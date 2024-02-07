@@ -1,6 +1,6 @@
 import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { BsFillPatchCheckFill } from "react-icons/bs";
+import { BadgeCheck } from "lucide-react";
 
 interface RoleBadgeProps {
 	role: keyof typeof c.roleBadges;
@@ -14,7 +14,7 @@ export default function RoleBadge({ role }: RoleBadgeProps) {
 		>
 			<span style={{ color: c.roleBadges[role].foreground }}>{c.roleBadges[role].title}</span>
 			{c.roleBadges[role].checked ? (
-				<BsFillPatchCheckFill
+				<BadgeCheck
 					className="text-lg"
 					style={{
 						color:

@@ -1,5 +1,4 @@
 "use client";
-// import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import { DropdownMenuItem } from "@/components/shadcn/ui/dropdown-menu";
 
 function toggleTheme() {

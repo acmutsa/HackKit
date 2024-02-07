@@ -2,7 +2,7 @@ import { db } from "db";
 import { DataTable } from "@/components/dash/admin/users/UserDataTable";
 import { columns } from "@/components/dash/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
-import { BiSolidFileExport } from "react-icons/bi";
+import { FolderInput } from "lucide-react";
 
 export default async function Page() {
 	const users = await db.query.users.findMany({
@@ -24,7 +24,7 @@ export default async function Page() {
 				<div className="flex items-center justify-end">
 					<a download href="/api/admin/export">
 						<Button className="flex gap-x-1">
-							<BiSolidFileExport />
+							<FolderInput />
 							Export
 						</Button>
 					</a>

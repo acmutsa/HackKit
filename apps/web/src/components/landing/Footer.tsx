@@ -3,14 +3,8 @@
 import { type FunctionComponent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-	FaTwitter,
-	FaInstagram,
-	FaFacebook,
-	FaGithub,
-	FaDiscord,
-	FaLinkedin,
-} from "react-icons/fa";
+import { Instagram, Facebook, Twitter, Github, Disc } from "lucide-react";
+import Discord from "../../../public/img/landing/discord_icon.svg";
 
 interface Props {
 	className?: string;
@@ -22,7 +16,7 @@ export default function Footer() {
 	const [showHackathons, setShowHackathons] = useState(false);
 
 	return (
-    <div className="relative z-[100] bg-amber-950">
+    <div className="relative z-[100] bg-[rgb(33,15,1)] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)]">
       {/* border-t-gray-500 border-t-[1px] */}
       {/* Proposed simply for keeping with the look of thw website */}
       <div className=" lg:block hidden">
@@ -173,21 +167,26 @@ export default function Footer() {
           <div className="flex justify-end items-center h-[44px] max-w-[212px] w-full">
             <div className="flex text-gray-900 bg-white h-[44px] w-[212px] items-center justify-evenly p-[5px] rounded-lg text-xl">
               <a href="https://twitter.com/rowdyhacks/" className="mr-2">
-                <FaTwitter />
+                <Twitter />
               </a>
               <a href="https://www.instagram.com/rowdyhacks/" className="mx-2">
-                <FaInstagram />
+                <Instagram />
               </a>
               <a href="https://www.facebook.com/UTSA.ACM" className="mx-2">
-                <FaFacebook />
+                <Facebook />
               </a>
               <a
                 href="https://github.com/acmutsa/RowdyHacks24/"
                 className="mx-2">
-                <FaGithub />
+                <Github />
               </a>
               <a href="https://go.rowdyhacks.org/discord" className="ml-2">
-                <FaDiscord />
+                <Image
+                  src={Discord}
+                  width={25}
+                  height={25}
+                  alt="Discord icon"
+                />
               </a>
             </div>
           </div>
@@ -347,19 +346,24 @@ export default function Footer() {
           <div className="flex justify-center items-center min-h-[44px] h-full min-w-[212px] w-full">
             <div className="flex text-gray-900 bg-white h-[44px] w-[212px] items-center justify-evenly p-[5px] rounded-lg text-xl">
               <a href="https://twitter.com/rowdyhacks/" className="mr-2">
-                <FaTwitter />
+                <Twitter />
               </a>
               <a href="https://www.instagram.com/rowdyhacks/" className="mx-2">
-                <FaInstagram />
+                <Instagram />
               </a>
               <a href="https://www.facebook.com/UTSA.ACM" className="mx-2">
-                <FaFacebook />
+                <Facebook />
               </a>
               <a href="https://github.com/acmutsa" className="mx-2">
-                <FaGithub />
+                <Github />
               </a>
               <a href="https://go.rowdyhacks.org/discord" className="ml-2">
-                <FaDiscord />
+                <Image
+                  src={Discord}
+                  width={25}
+                  height={25}
+                  alt="Discord icon"
+                />
               </a>
             </div>
           </div>

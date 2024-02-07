@@ -4,7 +4,8 @@ import { eq } from "db/drizzle";
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { FaInfoCircle } from "react-icons/fa";
+import { Info } from "lucide-react";
+
 import Link from "next/link";
 import UpdateRoleDialog from "@/components/dash/admin/users/UpdateRoleDialog";
 import {
@@ -47,7 +48,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<div className="flex items-center">
 					<div>
 						<h2 className="text-3xl font-bold tracking-tight flex items-center gap-x-2">
-							<FaInfoCircle />
+							<Info />
 							User Info
 						</h2>
 						{/* <p className="text-sm text-muted-foreground">{users.length} Total Users</p> */}

@@ -29,7 +29,7 @@ import { newEventValidator } from "@/validators/shared/newEvent";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { useState } from "react";
-import { ImSpinner10 } from "react-icons/im";
+import { Shell } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface NewEventFormProps {
@@ -199,7 +199,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 				</div>
 				{loading ? (
 					<p className="flex justify-center gap-x-1">
-						Creating Event <ImSpinner10 className="animate-spin" />
+						Creating Event <Shell className="animate-spin" />
 					</p>
 				) : (
 					<Button type="submit">Create Event</Button>

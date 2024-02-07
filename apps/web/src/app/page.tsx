@@ -1,10 +1,13 @@
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
-import Filler from "@/components/landing/Filler";
+import Filler from "@/components/landing/FillerHeroAbout";
 import About from "@/components/landing/About";
+import FillerAboutPartners from "@/components/landing/FillerAboutPartners";
 import Partners from "@/components/landing/Partners";
-import Footer from "@/components/landing/Footer";
+import FillerPartnersTeam from "@/components/landing/FillerPartnersTeam";
 import Team from "@/components/landing/Team";
+import Footer from "@/components/landing/Footer";
+
 import { Oswald } from "next/font/google";
 
 const oswald = Oswald({
@@ -18,10 +21,12 @@ export default function Home() {
 			<Navbar />
 			<main className={`${oswald.variable} w-full overflow-x-hidden`}>
 				<Hero />
-				<Filler/>
+				<Filler />
 				<About />
-				<Partners />
-				<Team/>
+				<FillerAboutPartners/>
+				<Partners /> 
+				<FillerPartnersTeam/>
+				<Team />
 				<Footer />
 			</main>
 		</>
