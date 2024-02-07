@@ -11,26 +11,26 @@ import Footer from "@/components/landing/Footer";
 import { Oswald } from "next/font/google";
 
 const oswald = Oswald({
-	variable: "--font-oswald",
-	subsets: ["latin"],
+  variable: "--font-oswald",
+  subsets: ["latin"],
 });
 
 export default function Home() {
-	return (
-		<>
-			<Navbar />
-			<main className={`${oswald.variable} w-full overflow-x-hidden`}>
-				<Hero />
-				<Filler />
-				<About />
-				<FillerAboutPartners/>
-				<Partners /> 
-				<FillerPartnersTeam/>
-				<Team />
-				<Footer />
-			</main>
-		</>
-	);
+  return (
+    <>
+      <Navbar />
+      <main className={`${oswald.variable} w-full overflow-x-hidden`}>
+        <Hero />
+        <Filler />
+        <About />
+        <FillerAboutPartners />
+        <Partners />
+        <FillerPartnersTeam />
+        <Team />
+        <Footer />
+      </main>
+    </>
+  );
 }
 
 export const runtime = "edge";
