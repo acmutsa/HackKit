@@ -34,7 +34,7 @@ export default async function Partners() {
       <h1 className=" text-4xl sm:text-5xl md:text-6xl font-bold font-oswald italic text-[#FEF2E6] text-center pt-7">
         A Huge Thanks To Our Rowdyhacks Partners!
       </h1>
-      <div className="flex justify-center items-center w-full md:w-full h-auto flex-wrap pb-12 space-y-8 md:pt-8">
+      <div className="z-20 flex justify-center items-center w-full md:w-full h-auto flex-wrap pb-12 space-y-8 md:pt-8">
         {partnerData.partners.map((partner: Partner) => (
           <PartnerCard key={partner.name} {...partner} />
         ))}
