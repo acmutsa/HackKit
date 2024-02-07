@@ -7,6 +7,7 @@ import Partners from "@/components/landing/Partners";
 import FillerPartnersTeam from "@/components/landing/FillerPartnersTeam";
 import Team from "@/components/landing/Team";
 import Footer from "@/components/landing/Footer";
+import MLHBadge from "@/components/landing/MLHBadge";
 
 import { Oswald } from "next/font/google";
 
@@ -19,6 +20,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <MLHBadge />
       <main className={`${oswald.variable} w-full overflow-x-hidden`}>
         <Hero />
         <Filler />

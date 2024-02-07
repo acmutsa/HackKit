@@ -20,13 +20,13 @@ interface NavbarProps {
 export default async function Navbar({ className }: NavbarProps) {
   const user = await currentUser();
   return (
-    <div className="fixed w-screen z-50">
+    <div className="w-screen z-50">
       <div
         className={cn(
           `top-0 w-screen h-16 bg-nav relative z-50 border-b-border border-b ${oswald.variable}`,
           className
         )}>
-        
+
         <div className="w-full h-full mx-auto max-w-7xl lg:max-w-full px-2 sm:px-6 lg:px-8  grid grid-flow-col grid-cols-2">
           <div className="flex items-center justify-start gap-x-5 col-span-2">
             <Link href={"/"} className="flex items-center gap-x-2 mr-5">
@@ -79,23 +79,6 @@ export default async function Navbar({ className }: NavbarProps) {
             )}
           </div>
         </div>
-      </div>
-      <div className="w-full h-0 relative">
-        <Link
-          id="mlh-trust-badge"
-          className="max-w-[100px] min-w-[60px] absolute w-[10%] right-5 top-0 z-[10000]"
-          // style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
-          href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
-          target="_blank">
-          <Image
-            src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-black.svg"
-            alt="Major League Hacking 2024 Hackathon Season"
-            width={0}
-            height={0}
-            className="aspect-auto w-full h-auto"
-            style={{ width: "100%" }}
-          />
-        </Link>
       </div>
     </div>
   );
