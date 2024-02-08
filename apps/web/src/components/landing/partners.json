@@ -116,6 +116,12 @@
       "logo":"HEB.svg",
       "url":"https://www.heb.com/",
       "tier":1
+    },
+    {
+      "name":"Six Flags",
+      "logo":"Six_Flags_logo.svg",
+      "url":"https://www.sixflags.com/fiestatexas",
+      "tier":1
     }
   ]
 }
