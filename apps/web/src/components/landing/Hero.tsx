@@ -4,6 +4,12 @@ import Image from "next/image";
 import { useRef } from "react";
 import { useScroll, useSpring, useTransform, motion } from "framer-motion";
 import Volcano from "@/components/landing/Volcano";
+import { Signika } from "next/font/google";
+import Link from "next/link";
+
+const signika = Signika({
+	subsets: ["latin"],
+});
 
 export default function Hero() {
 	const contentWrapperRef = useRef(null);
@@ -23,15 +29,15 @@ export default function Hero() {
 	return (
 		<section
 			ref={contentWrapperRef}
-			className="min-h-screen w-screen overflow-x-hidden overflow-y-hidden relative"
+			className={`min-h-screen w-screen overflow-x-hidden overflow-y-hidden relative`}
 		>
 			<motion.div
 				style={{ y: sky }}
 				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[#CCD2AD]"
 			></motion.div>
-			{/* <motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
+			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Volcano />
-			</motion.div> */}
+			</motion.div>
 			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Image
 					src="/img/landing/layers/grass_back_5.svg"
@@ -87,8 +93,28 @@ export default function Hero() {
 					className="object-cover object-right-bottom hidden lg:block"
 					fill
 				/>
-			</div>
-			<div className="absolute w-full h-full">
+			</div>{" "}
+			<Link href={"/register"}>
+				<div className="absolute w-full h-full hover:cursor-pointer">
+					<Image
+						src={"/img/landing/sign-wood-register.png"}
+						alt="Register Now!"
+						width={350}
+						height={350}
+						className="absolute bottom-[5vh] left-[8vw]"
+					/>
+					<div className="absolute bottom-[5vh] left-[8vw] h-[275px] w-[350px] pb-12 flex items-center justify-center">
+						<h1
+							className={`text-[#FCF2E7] italic font-black text-6xl text-center leading-[3.5rem] ${signika.className}`}
+						>
+							Register
+							<br />
+							Now!
+						</h1>
+					</div>
+				</div>
+			</Link>
+			<div className="absolute w-full h-full pointer-events-none">
 				<div className="h-[5px] w-screen absolute bg-[#7D9037] bottom-0"></div>
 				<Image
 					src="/img/landing/layers/grass_front.svg"
