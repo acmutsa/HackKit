@@ -46,6 +46,8 @@
     "db": "workspace:*",
     "dotenv": "^16.3.1",
     "drizzle-zod": "^0.5.1",
+    "embla-carousel": "8.0.0-rc22",
+    "embla-carousel-autoplay": "8.0.0-rc22",
     "embla-carousel-react": "8.0.0-rc20",
     "framer-motion": "^10.18.0",
     "gsap": "^3.12.4",
