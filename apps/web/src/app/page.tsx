@@ -18,10 +18,11 @@ const oswald = Oswald({
 
 export default function Home() {
   return (
-   <div className={`${oswald.variable} w-full overflow-x-hidden`}>
+    <div
+      className={`${oswald.variable} w-full overflow-x-hidden `}>
       <Navbar />
       <MLHBadge />
-      <main >
+      <main>
         <Hero />
         <Filler />
         <About />
