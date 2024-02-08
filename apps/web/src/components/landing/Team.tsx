@@ -12,6 +12,7 @@ import { Person } from "./Person";
 import TeamMember from "./TeamMember";
 import { Oswald } from "next/font/google";
 import { useState, useEffect } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -232,18 +233,27 @@ let team: Array<Person> = [
 
 function CarouselDefault() {
   const [data_rendered, setData_rendered] = useState(false);
-
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
   useEffect(() => {
     // Basic use effect hook to check if the page has rendered
     setData_rendered(true);
   }, []);
-
+  
+  
   return (
     //Where Carousel will go
     <>
       {data_rendered ? (
         <Carousel
-          opts={{ align: "start" }}
+          opts={{ align: "start", loop: true }}
+          //Christian Walker: Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
+          // See docs for example code: https://ui.shadcn.com/docs/components/carousel#plugins
+          // @ts-ignore
+          plugins={[plugin.current]}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
           className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
           <CarouselContent>
             {team.map((p: Person, index: React.Key) => (
