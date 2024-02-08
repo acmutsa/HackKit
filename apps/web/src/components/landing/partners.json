@@ -1,9 +1,127 @@
+
 {
   "partners": [
     {
-      "name": "marathon",
-      "logo": "marathon.jpg",
-      "url": "https://www.marathonpetroleum.com/"
+      "name": "Marathon",
+      "logo": "Marathon_Oil_Logo.svg",
+      "url": "https://www.marathonpetroleum.com/",
+      "tier":6
+    },
+    {
+      "name": "Cymannii",
+      "logo": "CyManII_Logo.svg",
+      "url": "https://cymanii.org/",
+      "tier":5
+    },
+    {
+      "name":"UTSA Data Science",
+      "logo":"UTSADS.svg",
+      "url":"https://sds.utsa.edu/",
+      "tier":5
+    },
+    {
+      "name":"Frost bank",
+      "logo":"FrostBank.svg",
+      "url":"https://www.frostbank.com/",
+      "tier":4
+    },
+    {
+      "name":"Valero",
+      "logo":"ValeroLogo.svg",
+      "url":"https://www.valero.com/",
+      "tier":4
+    },
+    {
+      "name":"Paycom",
+      "logo":"PaycomLogo.svg",
+      "url":"https://www.paycom.com/",
+      "tier":3
+    },
+    {
+      "name":"AFCS",
+      "logo":"AFCSLogo.svg",
+      "url":"https://afciviliancareers.com/",
+      "tier":3
+
+    },
+    {
+      "name":"Dell",
+      "logo":"Dell_Tech_Logo.svg",
+      "url":"https://www.dell.com/",
+      "tier":3
+    },
+    {
+      "name":"Google",
+      "logo":"Google_Icon.svg",
+      "url":"https://about.google/",
+      "tier":3
+    },
+    {
+      "name":"Students and Startups",
+      "logo":"Students_and_Startups.svg",
+      "url":"https://studentsstartups.com/",
+      "tier":3
+    },
+    {
+      "name":"Accenture",
+      "logo":"Accenture-logo.svg",
+      "url":"https://www.accenture.com/",
+      "tier":2
+    },
+    {
+      "name":"UTSA COE",
+      "logo":"UTSA_COE.svg", 
+      "url":"https://klesse.utsa.edu/",
+      "tier":2
+    },
+    {
+      "name":"TD Synnex",
+      "logo":"TD_Synnex_logo.svg",
+      "url":"https://www.tdsynnex.com/",
+      "tier":2
+    },
+    {
+      "name":"Wolfram Alpha",
+      "logo":"wolfram_logo.svg",
+      "url":"https://www.wolframalpha.com/",
+      "tier":2
+    },
+    {
+      "name":"CodePath",
+      "logo":"Codepath_logo.svg",
+      "url":"https://www.codepath.org/",
+      "tier":2
+    },
+    {
+      "name":"ACM",
+      "logo":"ACM_logo.svg",
+      "url":"https://www.acm.org/",
+      "tier":2
+
+    },
+    {
+      "name":"Artea",
+      "logo":"Artea_logo.svg",
+      "url":"https://www.drinkartea.com/",
+      "tier":1
+    },
+    {
+      "name":"Pho Thien An",
+      "logo":"Pho_logo.svg",
+      "url":"https://www.phothienan.com/",
+      "tier":1
+    },
+    {
+      "name":"H-E-B",
+      "logo":"HEB.svg",
+      "url":"https://www.heb.com/",
+      "tier":1
+    },
+    {
+      "name":"Six Flags",
+      "logo":"Six_Flags_logo.svg",
+      "url":"https://www.sixflags.com/fiestatexas",
+      "tier":1
     }
   ]
 }

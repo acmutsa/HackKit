@@ -199,14 +199,14 @@ const CarouselPrevious = React.forwardRef<
   React.ComponentProps<typeof Button>
 >(({ className, variant = "outline", size = "icon", ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
-
+  // NOTE: Modified source code to make arrows white
   return (
     <Button
       ref={ref}
       variant={variant}
       size={size}
       className={cn(
-        "absolute  h-8 w-8 rounded-full",
+        "absolute  h-8 w-8 rounded-full hover:bg-transparent",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -214,12 +214,14 @@ const CarouselPrevious = React.forwardRef<
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
-      {...props}
-    >
-      <ArrowLeft className="h-4 w-4" />
+      {...props}>
+      <ArrowLeft
+        className=" h-4 w-4 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8"
+        color="#FEF2E6"
+      />
       <span className="sr-only">Previous slide</span>
     </Button>
-  )
+  );
 })
 CarouselPrevious.displayName = "CarouselPrevious"
 
@@ -235,7 +237,7 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full",
+        "absolute h-8 w-8 rounded-full hover:bg-transparent",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -243,12 +245,14 @@ const CarouselNext = React.forwardRef<
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
-      {...props}
-    >
-      <ArrowRight className="h-4 w-4" />
+      {...props}>
+      <ArrowRight
+        className=" h-4 w-4 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8"
+        color="#FEF2E6"
+      />
       <span className="sr-only">Next slide</span>
     </Button>
-  )
+  );
 })
 CarouselNext.displayName = "CarouselNext"
 

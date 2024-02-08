@@ -42,8 +42,9 @@
 		--gradient-color-2: #94a33d;
 		--gradient-color-3: #babc34;
 		--gradient-color-4: #b5bf63;
-	}
 
+
+	}
 	.dark {
 		--background: 240 10% 3.9%;
 		--foreground: 0 0% 98%;
@@ -78,6 +79,7 @@
 	}
 }
 
+
 @layer base {
 	* {
 		@apply border-border;
@@ -103,4 +105,16 @@
 
 .event-pass-img {
 	transform: translateZ(40px);
+}
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
 }

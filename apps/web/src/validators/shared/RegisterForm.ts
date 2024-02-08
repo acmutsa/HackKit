@@ -2,15 +2,15 @@ import { z } from "zod";
 import c from "config";
 
 const defaultPrettyError = {
-	errorMap: () => ({ message: "Please select a value" }),
+  errorMap: () => ({ message: "Please select a value" }),
 };
 
 export const RegisterFormValidator = z.object({
-	firstName: z
-		.string()
-		.min(1, { message: "Firstname must be at least one character" })
-		.max(50, { message: "Firstname must be less than 50 characters" }),
-	lastName: z
+  firstName: z
+    .string()
+    .min(1, { message: "Firstname must be at least one character" })
+    .max(50, { message: "Firstname must be less than 50 characters" }),
+  lastName: z
 
 		.string()
 		.min(1, { message: "Lastname must be at least 1 character" })
