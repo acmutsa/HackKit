@@ -35,3 +35,6 @@ export default async function Page() {
 		</div>
 	);
 }
+
+export const runtime = "edge";
+export const revalidate = 10;
