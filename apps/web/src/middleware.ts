@@ -4,7 +4,7 @@ import { publicRoutes } from "config";
 
 export default authMiddleware({
 	publicRoutes,
-	afterAuth: (auth, req, evt) => {
+	beforeAuth: (req) => {
 		if (req.nextUrl.pathname.startsWith("/@")) {
 			return NextResponse.rewrite(
 				new URL(`/user/${req.nextUrl.pathname.replace("/@", "")}`, req.url)
