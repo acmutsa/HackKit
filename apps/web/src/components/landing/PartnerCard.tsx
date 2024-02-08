@@ -33,15 +33,14 @@ const tierBorderMap = {
 function PartnerCard(partner: Partner) {
   
   return (
-    // We will create a carousel that will be used for smaller screens
-    // Also need to make it so that Marathon is held on it's own pedestal
+    // rounded-full bg-slate-500 bg-opacity-10
     <Link
       href={partner.url}
       className={`p-3 sm:p-5 mx-auto my-auto opacity-100 sm:opacity-85  sm:hover:opacity-100 ${
         partner.tier > 4
           ? "hover:scale-[1.10] sm:hover:scale-[1.30]"
           : "hover:scale-[1.05] sm:hover:scale-[1.20]"
-      }  transition-all duration-350 ease-in-out`}>
+      }  transition-all duration-350 ease-in-out `}>
       <Image
         src={`/img/partner-logos/${partner.logo}`}
         width={0}
@@ -49,9 +48,7 @@ function PartnerCard(partner: Partner) {
         quality={100}
         // Come back and add the md: to the styling
         alt={`${partner.name} logo`}
-        className={`h-auto ${
-          tierBorderMap[partner.tier]
-        }`}
+        className={`h-auto ${tierBorderMap[partner.tier]}`}
       />
     </Link>
   );
