@@ -88,6 +88,26 @@
 		@apply bg-background text-foreground;
 	}
 }
+@layer utilities{
+	.arrow_animate {
+			animation: arrow 2s infinite;
+		}
+}
+@keyframes arrow {
+	0% {
+
+		transform: translate(0px);
+	}
+
+	50% {
+		transform: translate(20px);
+	}
+
+	100% {
+		transform: translate(0px);
+	}
+
+}
 
 .no-select {
 	user-drag: none;
@@ -117,4 +137,23 @@
 	/* IE and Edge */
 	scrollbar-width: none;
 	/* Firefox */
+}
+.arrow_animate {
+	animation: arrow 2s infinite;
+}
+
+@keyframes arrow {
+	0% {
+
+		transform: translate(0px);
+	}
+
+	50% {
+		transform: translate(20px);
+	}
+
+	100% {
+		transform: translate(0px);
+	}
+
 }

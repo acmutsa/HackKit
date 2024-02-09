@@ -3,6 +3,7 @@ import D3 from "../../../public/img/landing/d3.svg";
 import D4 from "../../../public/img/landing/d4.svg";
 import Land_Before from "../../../public/img/landing/Land_Before.svg"
 import Image from "next/image";
+
 export default function Filler(){
     return (
       // Christian:  Purpose is to add a bit of fluff and affect between the hero and about section

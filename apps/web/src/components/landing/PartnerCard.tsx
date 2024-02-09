@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import './test.css';
 enum Tier {
   In_Kind_Partner = 1,
   Rowdy_Partner,
@@ -33,7 +33,6 @@ const tierBorderMap = {
 function PartnerCard(partner: Partner) {
   
   return (
-    // rounded-full bg-slate-500 bg-opacity-10
     <Link
       href={partner.url}
       className={`p-3 sm:p-5 mx-auto my-auto opacity-100 sm:opacity-85  sm:hover:opacity-100 ${
