@@ -152,6 +152,9 @@ export default function Hero() {
 						<h1 className="font-bold text-9xl m-0 leading-[0.95] select-none text-[#A88567] lg:text-left text-center">
 							RowdyHacks
 						</h1>
+						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#A88567] pt-3 italic lg:text-right w-full text-center">
+							FEB. 25TH - 26TH
+						</h2>
 					</div>
 					<div className="font-oswald relative">
 						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#FEF2E6] pl-2 opacity-0  lg:text-left text-center">
@@ -160,6 +163,9 @@ export default function Hero() {
 						<h1 className="font-bold text-9xl m-0 leading-[0.95] text-[#FEF2E6]  lg:text-left text-center">
 							RowdyHacks
 						</h1>
+						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#FEF2E6] pt-3 opacity-0  lg:text-right w-full text-center">
+							FEB. 25TH - 26TH
+						</h2>
 					</div>
 				</div>
 			</div>
