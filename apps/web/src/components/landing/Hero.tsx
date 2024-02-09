@@ -7,6 +7,7 @@ import Volcano from "@/components/landing/Volcano";
 import { Signika } from "next/font/google";
 import Link from "next/link";
 import Marquee from "react-fast-marquee";
+import { MousePointer2 } from "lucide-react";
 
 const signika = Signika({
 	subsets: ["latin"],
@@ -104,22 +105,23 @@ export default function Hero() {
 					fill
 				/>
 			</div>{" "}
-			<Link href={"/register"}>
-				<div className="absolute w-full h-full hover:cursor-pointer">
+			<Link href={"/register"} className="bg-red-500">
+				<div className="absolute w-[400px] h-[400px] hover:cursor-pointer bottom-0">
 					<Image
-						src={"/img/landing/sign-wood-register.png"}
+						src={"/img/landing/rock.png"}
 						alt="Register Now!"
-						width={350}
-						height={350}
-						className="absolute bottom-[5vh] left-[8vw]"
+						width={400}
+						height={400}
+						className="absolute bottom-[7vh] left-[8vw]"
 					/>
-					<div className="absolute bottom-[5vh] left-[8vw] h-[275px] w-[350px] pb-12 flex items-center justify-center">
+					<div className="absolute bottom-[7vh] left-[8vw] h-[275px] w-[350px] flex items-center pt-12 pl-10 justify-center">
 						<h1
-							className={`text-[#FCF2E7] italic font-black text-6xl text-center leading-[3.5rem] ${signika.className}`}
+							className={`text-gray-700 italic flex items-end font-black text-6xl text-center leading-[3.5rem] ${signika.className}`}
 						>
 							Register
 							<br />
 							Now!
+							<MousePointer2 size={62} />
 						</h1>
 					</div>
 				</div>
