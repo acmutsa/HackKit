@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import './test.css';
 enum Tier {
   In_Kind_Partner = 1,
   Rowdy_Partner,
