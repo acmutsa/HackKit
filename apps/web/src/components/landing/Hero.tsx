@@ -6,32 +6,29 @@ import { useScroll, useSpring, useTransform, motion } from "framer-motion";
 import Volcano from "@/components/landing/Volcano";
 import { Signika } from "next/font/google";
 import Link from "next/link";
+import Marquee from "react-fast-marquee";
 
 const signika = Signika({
 	subsets: ["latin"],
 });
 
 export default function Hero() {
-  const contentWrapperRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: contentWrapperRef,
-    offset: ["start start", "end start"],
-  });
-  const springyScrollProg = useSpring(scrollYProgress, {
-    stiffness: 400,
-    damping: 90,
-  });
+	const contentWrapperRef = useRef(null);
+	const { scrollYProgress } = useScroll({
+		target: contentWrapperRef,
+		offset: ["start start", "end start"],
+	});
+	const springyScrollProg = useSpring(scrollYProgress, {
+		stiffness: 400,
+		damping: 90,
+	});
 
-  const sky = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
-  const grass_back_5 = useTransform(springyScrollProg, [0, 1], ["0%", "50%"]);
-  const grass_back_4 = useTransform(springyScrollProg, [0, 1], ["0%", "40%"]);
-  const grass_back_3 = useTransform(springyScrollProg, [0, 1], ["0%", "30%"]);
-  const grass_back_caveplants_2 = useTransform(
-    springyScrollProg,
-    [0, 1],
-    ["0%", "20%"]
-  );
-  const grass_back_1 = useTransform(springyScrollProg, [0, 1], ["0%", "10%"]);
+	const sky = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
+	const grass_back_5 = useTransform(springyScrollProg, [0, 1], ["0%", "50%"]);
+	const grass_back_4 = useTransform(springyScrollProg, [0, 1], ["0%", "40%"]);
+	const grass_back_3 = useTransform(springyScrollProg, [0, 1], ["0%", "30%"]);
+	const grass_back_caveplants_2 = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
+	const grass_back_1 = useTransform(springyScrollProg, [0, 1], ["0%", "10%"]);
 
 	return (
 		<section
@@ -41,7 +38,13 @@ export default function Hero() {
 			<motion.div
 				style={{ y: sky }}
 				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[#CCD2AD]"
-			></motion.div>
+			>
+				<Marquee autoFill={true} direction="right" speed={10}>
+					<div className="relative h-screen -translate-y-20 w-screen">
+						<Image src={"/img/landing/clouds.svg"} alt="" fill className="opacity-30" />
+					</div>
+				</Marquee>
+			</motion.div>
 			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Volcano />
 			</motion.div>
