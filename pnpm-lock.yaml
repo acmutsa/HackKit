@@ -37,6 +37,9 @@ importers:
       hono:
         specifier: ^3.12.5
         version: 3.12.5
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
     devDependencies:
       '@types/node':
         specifier: 20.3.2
