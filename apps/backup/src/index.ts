@@ -6,6 +6,7 @@ import { backup } from "./backup";
 import { env } from "./env";
 
 const app = new Hono();
+
 app.get("/doBackup", async (c) => {
 	const key = c.req.query("key");
 	if (!key || key !== env.INTERNAL_AUTH_KEY) {
@@ -15,6 +16,8 @@ app.get("/doBackup", async (c) => {
 	await backup();
 	return c.text("Backup ran!");
 });
+
+app.get("/", async (c) => c.text("The BackUp Service is running!"));
 
 const job = new CronJob(env.BACKUP_CRON_SCHEDULE, async () => {
 	try {
