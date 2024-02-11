@@ -27,7 +27,7 @@ export default async function Partners() {
         className="absolute"
         src="/img/landing/Partner_BG.svg"
         fill
-        priority
+        priority={true}
         quality={100}
         alt="BG img"
       />
