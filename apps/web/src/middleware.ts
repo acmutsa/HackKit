@@ -15,6 +15,7 @@ export default authMiddleware({
 				new URL(`/team/${req.nextUrl.pathname.replace("/~", "")}`, req.url)
 			);
 		}
+		return NextResponse.next();
 	},
 });
 

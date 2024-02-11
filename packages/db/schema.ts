@@ -34,9 +34,9 @@ export const roles = pgEnum("role", [
 
 export const fileTypesEnum = pgEnum("type", ["generic", "resume"]);
 
-export const inviteType = pgEnum("status", ["pending", "accepted", "declined"]);
+export const inviteType = pgEnum("invite_status", ["pending", "accepted", "declined"]);
 
-export const discordVerificationStatus = pgEnum("status", [
+export const discordVerificationStatus = pgEnum("discord_status", [
 	"pending",
 	"expired",
 	"accepted",

@@ -5,7 +5,13 @@ const nextConfig = {
 	swcMinify: true,
 	transpilePackages: ["db"],
 	images: {
-		domains: ["images.clerk.dev", "www.gravatar.com", "img.clerk.com", "api.dicebear.com"],
+		domains: [
+			"images.clerk.dev",
+			"www.gravatar.com",
+			"img.clerk.com",
+			"api.dicebear.com",
+			"cdn.discordapp.com",
+		],
 		remotePatterns: [
 			{
 				hostname: "**.blob.vercel-storage.com",
