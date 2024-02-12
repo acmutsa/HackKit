@@ -19,7 +19,7 @@ const oswald = Oswald({
 export default function Home() {
   return (
     <div
-      className={`${oswald.variable} w-full overflow-x-hidden `}>
+      className={`${oswald.variable} w-full overflow-x-hidden bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[rgb(204,210,173)] `}>
       <Navbar />
       <MLHBadge />
       <main>

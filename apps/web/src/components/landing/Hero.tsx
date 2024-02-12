@@ -40,7 +40,7 @@ export default function Hero() {
 		>
 			<motion.div
 				style={{ y: sky }}
-				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[#CCD2AD]"
+				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[rgb(204,210,173)]"
 			></motion.div>
 			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Volcano />
