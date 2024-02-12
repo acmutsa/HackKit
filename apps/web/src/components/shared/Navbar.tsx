@@ -24,7 +24,12 @@ export default async function Navbar() {
 					{user ? (
 						<>
 							<Link href={user.publicMetadata.registrationComplete ? "/dash" : "/register"}>
-								<Button variant={"outline"} className="bg-nav hover:bg-background">
+								<Button
+									variant={user.publicMetadata.registrationComplete ? "outline" : "default"}
+									className={
+										user.publicMetadata.registrationComplete ? "bg-nav hover:bg-background" : ""
+									}
+								>
 									{user.publicMetadata.registrationComplete ? "Dashboard" : "Complete Registration"}
 								</Button>
 							</Link>
