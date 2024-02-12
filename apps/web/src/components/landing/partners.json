@@ -3,7 +3,7 @@
   "partners": [
     {
       "name": "Marathon",
-      "logo": "Marathon_Oil_Logo.svg",
+      "logo": "marathon_logo.svg",
       "url": "https://www.marathonpetroleum.com/",
       "tier":6
     },
@@ -18,6 +18,12 @@
       "logo":"UTSADS.svg",
       "url":"https://sds.utsa.edu/",
       "tier":5
+    },
+    {
+      "name":"UTSA Computer Science Dept",
+      "logo":"UTSA_CS.svg",
+      "url":"https://sciences.utsa.edu/computer-science/",
+      "tier":4
     },
     {
       "name":"Frost bank",
@@ -46,7 +52,7 @@
     },
     {
       "name":"Dell",
-      "logo":"Dell_Tech_Logo.svg",
+      "logo":"Dell_Tech_logo.svg",
       "url":"https://www.dell.com/",
       "tier":3
     },
