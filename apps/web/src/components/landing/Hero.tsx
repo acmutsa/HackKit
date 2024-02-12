@@ -112,9 +112,9 @@ export default function Hero() {
 						alt="Register Now!"
 						width={400}
 						height={400}
-						className="absolute bottom-[7vh] left-[8vw]"
+						className="absolute z-20 md:bottom-[7vh] bottom-[-2vh] md:left-[8vw] left-1/2 -translate-x-1/2 md:translate-x-0 md:scale-100 scale-75"
 					/>
-					<div className="absolute bottom-[7vh] left-[8vw] h-[275px] w-[350px] flex items-center pt-12 pl-10 justify-center">
+					<div className="absolute z-20 md:bottom-[7vh] bottom-[-2vh] md:left-[8vw] left-1/2 -translate-x-1/2 md:translate-x-0 md:scale-100 scale-75 h-[275px] w-[350px] flex items-center pt-12 md:pl-10 pl-0 justify-center">
 						<h1
 							className={`text-gray-700 italic flex items-end font-black text-6xl text-center leading-[3.5rem] ${signika.className}`}
 						>
@@ -146,24 +146,24 @@ export default function Hero() {
 				</div>
 				<div className="relative md:scale-100 scale-50 md:my-0 -my-10">
 					<div className="font-oswald absolute translate-y-1 -translate-x-2">
-						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#A88567] pl-2 italic lg:text-left text-center">
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#A88567] pl-2 md:pb-0 pb-3 italic lg:text-left text-center">
 							A LAND BEFORE
 						</h2>
 						<h1 className="font-bold text-9xl m-0 leading-[0.95] select-none text-[#A88567] lg:text-left text-center">
 							RowdyHacks
 						</h1>
-						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#A88567] pt-3 italic lg:text-right w-full text-center">
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#A88567] md:pt-3 pt-6 italic lg:text-right w-full text-center">
 							FEB. 25TH - 26TH
 						</h2>
 					</div>
 					<div className="font-oswald relative">
-						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#FEF2E6] pl-2 opacity-0  lg:text-left text-center">
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#FEF2E6] pl-2 md:pb-0 pb-3 opacity-0  lg:text-left text-center">
 							A LAND BEFORE
 						</h2>
 						<h1 className="font-bold text-9xl m-0 leading-[0.95] text-[#FEF2E6]  lg:text-left text-center">
 							RowdyHacks
 						</h1>
-						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#FEF2E6] pt-3 opacity-0  lg:text-right w-full text-center">
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#FEF2E6] md:pt-3 pt-6 opacity-0  lg:text-right w-full text-center">
 							FEB. 25TH - 26TH
 						</h2>
 					</div>
