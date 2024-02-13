@@ -438,9 +438,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 															>
 																<Check
 																	className={`mr-2 h-4 w-4 ${
-																		school.toLowerCase() === field.value
-																			? "opacity-100"
-																			: "opacity-0"
+																		school.toLowerCase() === field.value ? "block" : "hidden"
 																	}
 																	`}
 																/>
@@ -494,10 +492,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																className="cursor-pointer"
 															>
 																<Check
-																	className={`mr-2 h-4 w-4 ${
-																		major.toLowerCase() === field.value
-																			? "opacity-100"
-																			: "opacity-0"
+																	className={`h-4 mr-2 overflow-hidden w-4 ${
+																		major.toLowerCase() === field.value ? "block" : "hidden"
 																	}
 																	`}
 																/>
