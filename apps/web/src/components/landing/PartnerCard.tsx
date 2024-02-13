@@ -30,25 +30,25 @@ const tierBorderMap = {
 };
 
 const tierColorMap = {
-  [Tier.Title]: "border-purple-700",
+  [Tier.Title]: "border-[3px] border-purple-700",
   [Tier.Gold]: "border-green-700",
-  [Tier.Silver]: "border-gray-700",
+  [Tier.Silver]: "border-gray-950",
   [Tier.Bronze]: "border-amber-800",
   [Tier.Rowdy_Partner]: "border-blue-500",
   [Tier.In_Kind_Partner]: "border-red-500",
 };
 
 
-// tan : #d2b48c
+// NOTE: Make responsive!!!
 function PartnerCard(partner: Partner) {
   // rounded-xl bg-white bg-opacity-30
   return (
     <Link
       href={partner?.url}
       target="_blank"
-      className={` p-3 sm:p-5 opacity-100 my-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out`}>
+      className={` p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out`}>
       <Card
-        className={`flex flex-col w-auto min-h-[40rem] shadow-none bg-[#d2b48c] bg-opacity-30 border ${tierColorMap[partner?.tier]}`}>
+        className={`flex flex-col w-auto min-h-[25rem] shadow-none bg-[#d2b48c] bg-opacity-30 border-2 ${tierColorMap[partner?.tier]}`}>
         <CardHeader className="items-center">
           <CardTitle>{partner?.name}</CardTitle>
         </CardHeader>
@@ -62,15 +62,6 @@ function PartnerCard(partner: Partner) {
             className={`h-auto w-[11rem]      sm:w-52           md:w-60       lg:w-[16rem]  2xl:w-[17rem]`}
           />
         </CardContent>
-        <CardFooter className="justify-center">
-          <Image
-            src="/img/landing/RHlogo.svg"
-            alt="RH logo"
-            width={0}
-            height={0}
-            className="w-[100px] h-[100px]"
-          />
-        </CardFooter>
       </Card>
     </Link>
   );

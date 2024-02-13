@@ -24,7 +24,7 @@ export default async function Partners() {
   return (
     <section className=" relative h-full w-full bg-[rgb(108,60,38)] bg-no-repeat bg-cover flex flex-col gap-y-10 items-center justify-center">
       <Image
-        className="absolute"
+        className="h-full w-full object-fill"
         src="/img/landing/Partner_BG.svg"
         fill
         priority={true}
