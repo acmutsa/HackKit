@@ -2,7 +2,7 @@
 nixPkgs = ['...', 'bun']
 
 [phases.build]
-cmds = ['pnpm install']
+cmds = ['pnpm install --filter db', 'pnpm install --filter config', 'pnpm install --filter bot']
 
 [start]
 cmd = 'pnpm run start --filter bot'
