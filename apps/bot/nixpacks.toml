@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ['...', 'bun']
+
+[start]
+cmd = 'pnpm run start'

@@ -16,6 +16,7 @@ import c from "config";
 import { db } from "db";
 import { discordVerification } from "db/schema";
 import { nanoid } from "nanoid";
+import { z } from "zod";
 
 /* DISCORD BOT */
 
@@ -157,7 +158,11 @@ app.get("/postMsgToServer", (h) => {
 	return h.text(`Posted to channel!`);
 });
 
+app.post("/check", (h) => {
+	return h.text("ok");
+});
+
 serve({
 	fetch: app.fetch,
-	port: 4000,
+	port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
 });
