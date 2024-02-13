@@ -46,20 +46,22 @@ function PartnerCard(partner: Partner) {
     <Link
       href={partner?.url}
       target="_blank"
-      className={` p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out`}>
+      className={`group p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out`}>
+      <div className="w-full h-full flex"><h1 className="text-xl w-full text-center">{partner.name}</h1></div>
       <Card
         className={`flex flex-col w-auto min-h-[25rem] shadow-none bg-[#d2b48c] bg-opacity-30 border-2 ${tierColorMap[partner?.tier]}`}>
-        <CardHeader className="items-center">
+        {/* <CardHeader className="items-center">
           <CardTitle>{partner?.name}</CardTitle>
-        </CardHeader>
+        </CardHeader> */}
         <CardContent className="flex w-full h-full flex-col justify-center items-center my-auto">
           <Image
             src={`/img/partner-logos/${partner?.logo}`}
             width={0}
             height={0}
             quality={100}
+            priority={true}
             alt={`${partner?.name} logo`}
-            className={`h-auto w-[11rem]      sm:w-52           md:w-60       lg:w-[16rem]  2xl:w-[17rem]`}
+            className={`h-auto w-[9rem] sm:w-40 md:w-[13rem] lg:w-[14rem] 2xl:w-[15rem]`}
           />
         </CardContent>
       </Card>
