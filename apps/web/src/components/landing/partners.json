@@ -20,6 +20,12 @@
       "tier":5
     },
     {
+      "name":"swivel",
+      "logo":"swivel_logo.svg",
+      "url":"https://www.getswivel.io/",
+      "tier":4
+    },
+    {
       "name":"UTSA Computer Science Dept",
       "logo":"UTSA_CS.svg",
       "url":"https://sciences.utsa.edu/computer-science/",
