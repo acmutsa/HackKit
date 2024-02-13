@@ -6,32 +6,30 @@ import { useScroll, useSpring, useTransform, motion } from "framer-motion";
 import Volcano from "@/components/landing/Volcano";
 import { Signika } from "next/font/google";
 import Link from "next/link";
+import Marquee from "react-fast-marquee";
+import { MousePointer2 } from "lucide-react";
 
 const signika = Signika({
 	subsets: ["latin"],
 });
 
 export default function Hero() {
-  const contentWrapperRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: contentWrapperRef,
-    offset: ["start start", "end start"],
-  });
-  const springyScrollProg = useSpring(scrollYProgress, {
-    stiffness: 400,
-    damping: 90,
-  });
+	const contentWrapperRef = useRef(null);
+	const { scrollYProgress } = useScroll({
+		target: contentWrapperRef,
+		offset: ["start start", "end start"],
+	});
+	const springyScrollProg = useSpring(scrollYProgress, {
+		stiffness: 400,
+		damping: 90,
+	});
 
-  const sky = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
-  const grass_back_5 = useTransform(springyScrollProg, [0, 1], ["0%", "50%"]);
-  const grass_back_4 = useTransform(springyScrollProg, [0, 1], ["0%", "40%"]);
-  const grass_back_3 = useTransform(springyScrollProg, [0, 1], ["0%", "30%"]);
-  const grass_back_caveplants_2 = useTransform(
-    springyScrollProg,
-    [0, 1],
-    ["0%", "20%"]
-  );
-  const grass_back_1 = useTransform(springyScrollProg, [0, 1], ["0%", "10%"]);
+	const sky = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
+	const grass_back_5 = useTransform(springyScrollProg, [0, 1], ["0%", "50%"]);
+	const grass_back_4 = useTransform(springyScrollProg, [0, 1], ["0%", "40%"]);
+	const grass_back_3 = useTransform(springyScrollProg, [0, 1], ["0%", "30%"]);
+	const grass_back_caveplants_2 = useTransform(springyScrollProg, [0, 1], ["0%", "20%"]);
+	const grass_back_1 = useTransform(springyScrollProg, [0, 1], ["0%", "10%"]);
 
 	return (
 		<section
@@ -40,8 +38,14 @@ export default function Hero() {
 		>
 			<motion.div
 				style={{ y: sky }}
-				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[rgb(204,210,173)]"
-			></motion.div>
+				className="absolute h-full w-full bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[#CCD2AD]"
+			>
+				<Marquee autoFill={true} direction="right" speed={10}>
+					<div className="relative h-screen -translate-y-20 w-screen">
+						<Image src={"/img/landing/clouds.svg"} alt="" fill className="opacity-30" />
+					</div>
+				</Marquee>
+			</motion.div>
 			<motion.div style={{ y: grass_back_5 }} className="absolute w-full h-full">
 				<Volcano />
 			</motion.div>
@@ -101,22 +105,23 @@ export default function Hero() {
 					fill
 				/>
 			</div>{" "}
-			<Link href={"/register"}>
-				<div className="absolute w-full h-full hover:cursor-pointer">
+			<Link href={"/register"} className="bg-red-500">
+				<div className="absolute w-[400px] h-[400px] hover:cursor-pointer bottom-0">
 					<Image
-						src={"/img/landing/sign-wood-register.png"}
+						src={"/img/landing/rock.png"}
 						alt="Register Now!"
-						width={350}
-						height={350}
-						className="absolute bottom-[5vh] left-[8vw]"
+						width={400}
+						height={400}
+						className="absolute z-20 md:bottom-[7vh] bottom-[-2vh] md:left-[8vw] left-1/2 -translate-x-1/2 md:translate-x-0 md:scale-100 scale-75"
 					/>
-					<div className="absolute bottom-[5vh] left-[8vw] h-[275px] w-[350px] pb-12 flex items-center justify-center">
+					<div className="absolute z-20 md:bottom-[7vh] bottom-[-2vh] md:left-[8vw] left-1/2 -translate-x-1/2 md:translate-x-0 md:scale-100 scale-75 h-[275px] w-[350px] flex items-center pt-12 md:pl-10 pl-0 justify-center">
 						<h1
-							className={`text-[#FCF2E7] italic font-black text-6xl text-center leading-[3.5rem] ${signika.className}`}
+							className={`text-gray-700 italic flex items-end font-black text-6xl text-center leading-[3.5rem] ${signika.className}`}
 						>
 							Register
 							<br />
 							Now!
+							<MousePointer2 size={62} />
 						</h1>
 					</div>
 				</div>
@@ -141,20 +146,26 @@ export default function Hero() {
 				</div>
 				<div className="relative md:scale-100 scale-50 md:my-0 -my-10">
 					<div className="font-oswald absolute translate-y-1 -translate-x-2">
-						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#A88567] pl-2 italic lg:text-left text-center">
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#A88567] pl-2 md:pb-0 pb-3 italic lg:text-left text-center">
 							A LAND BEFORE
 						</h2>
 						<h1 className="font-bold text-9xl m-0 leading-[0.95] select-none text-[#A88567] lg:text-left text-center">
 							RowdyHacks
 						</h1>
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#A88567] md:pt-3 pt-6 italic lg:text-right w-full text-center">
+							FEB. 25TH - 26TH
+						</h2>
 					</div>
 					<div className="font-oswald relative">
-						<h2 className="font-bold m-0 text-3xl leading-[0.95] text-[#FEF2E6] pl-2 opacity-0  lg:text-left text-center">
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#FEF2E6] pl-2 md:pb-0 pb-3 opacity-0  lg:text-left text-center">
 							A LAND BEFORE
 						</h2>
 						<h1 className="font-bold text-9xl m-0 leading-[0.95] text-[#FEF2E6]  lg:text-left text-center">
 							RowdyHacks
 						</h1>
+						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#FEF2E6] md:pt-3 pt-6 opacity-0  lg:text-right w-full text-center">
+							FEB. 25TH - 26TH
+						</h2>
 					</div>
 				</div>
 			</div>
