@@ -52,6 +52,7 @@ const logistics = "Logistics";
 const tech = "Tech";
 const pr = "PR";
 
+
 let team: Array<Person> = [
   // add each person here. if no website, leave empty string
   createPerson(
@@ -169,7 +170,7 @@ let team: Array<Person> = [
   createPerson(
     "Alejandro",
     "Mugica",
-    `${logistics}\u00A0/ Media`,
+    logistics,
     "https://www.linkedin.com/in/alejandromugica/",
     "",
     ""
@@ -194,7 +195,7 @@ let team: Array<Person> = [
   createPerson(
     "Alessandro",
     "Espinosa",
-    experience,
+    "Media co-lead\u00A0/\u00A0Media",
     "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
     "",
     ""
@@ -226,7 +227,7 @@ let team: Array<Person> = [
   createPerson(
     "Anusha",
     "Abdulla",
-    experience,
+    "Outreach",
     "https://www.linkedin.com/in/anusha-abdulla/",
     "",
     ""
