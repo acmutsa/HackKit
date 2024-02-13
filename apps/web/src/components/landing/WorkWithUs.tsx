@@ -48,7 +48,7 @@ export default function WorkWithUs() {
 							Packet.
 						</p>
 						<div className="pb-5">
-							<Link href="#">
+							<Link href="https://static.rowdyhacks.org/docs%2FRowdyHacks%202024%20Partner%20Packet.pdf">
 								<button className="bg-[#A5836B] rounded px-3 text-white font-bold py-3 transition-colors duration-150">
 									Partner Packet
 								</button>
