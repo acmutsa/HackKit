@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle } from "../shadcn/ui/card";
+
+
 enum Tier {
   In_Kind_Partner = 1,
   Rowdy_Partner,
@@ -26,26 +29,49 @@ const tierBorderMap = {
   [Tier.In_Kind_Partner]: "w-[6rem]       sm:w-[7rem]       md:w-32       lg:w-40       2xl:w-52",
 };
 
+const tierColorMap = {
+  [Tier.Title]: "border-purple-700",
+  [Tier.Gold]: "border-green-700",
+  [Tier.Silver]: "border-gray-700",
+  [Tier.Bronze]: "border-amber-800",
+  [Tier.Rowdy_Partner]: "border-blue-500",
+  [Tier.In_Kind_Partner]: "border-red-500",
+};
 
+
+// tan : #d2b48c
 function PartnerCard(partner: Partner) {
   // rounded-xl bg-white bg-opacity-30
   return (
     <Link
-      href={partner.url}
+      href={partner?.url}
       target="_blank"
-      className={`p-3 sm:p-5 mx-auto my-auto opacity-100 ${
-        partner.tier > 4
-          ? "hover:scale-[1.10] sm:hover:scale-[1.35]"
-          : "hover:scale-[1.05] sm:hover:scale-[1.20]"
-      }  transition-all duration-350 ease-in-out`}>
-      <Image
-        src={`/img/partner-logos/${partner.logo}`}
-        width={0}
-        height={0}
-        quality={100}
-        alt={`${partner.name} logo`}
-        className={`h-auto ${tierBorderMap[partner.tier]}`}
-      />
+      className={` p-3 sm:p-5 opacity-100 my-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out`}>
+      <Card
+        className={`flex flex-col w-auto min-h-[40rem] shadow-none bg-[#d2b48c] bg-opacity-30 border ${tierColorMap[partner?.tier]}`}>
+        <CardHeader className="items-center">
+          <CardTitle>{partner?.name}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex w-full h-full flex-col justify-center items-center my-auto">
+          <Image
+            src={`/img/partner-logos/${partner?.logo}`}
+            width={0}
+            height={0}
+            quality={100}
+            alt={`${partner?.name} logo`}
+            className={`h-auto w-[11rem]      sm:w-52           md:w-60       lg:w-[16rem]  2xl:w-[17rem]`}
+          />
+        </CardContent>
+        <CardFooter className="justify-center">
+          <Image
+            src="/img/landing/RHlogo.svg"
+            alt="RH logo"
+            width={0}
+            height={0}
+            className="w-[100px] h-[100px]"
+          />
+        </CardFooter>
+      </Card>
     </Link>
   );
 }
