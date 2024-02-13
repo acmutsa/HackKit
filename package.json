@@ -3,7 +3,6 @@
   "scripts": {
     "build": "turbo run build && pnpm --filter=db migrations:apply",
     "dev": "turbo run dev",
-    "start": "turbo run start",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "migrations:generate": "pnpm --filter=db migrations:generate",
