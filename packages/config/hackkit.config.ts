@@ -119,6 +119,7 @@ export const publicRoutes = ["/", /^\/schedule(\/.*)?$/, /^\/@/, /^\/user\//, "/
 
 export const schools = [
 	"The University of Texas at San Antonio",
+	"Texas A&M University - San Antonio",
 	"American Heritage School",
 	"American River College, California",
 	"American University, Washington, D.C.",
@@ -330,6 +331,7 @@ export const schools = [
 	"St. Cloud State University",
 	"St. John's University, New York",
 	"St.Mary's Convent School",
+	"St. Mary's University",
 	"Stanford University",
 	"Stephen F. Austin State University",
 	"Stetson University",
@@ -527,6 +529,7 @@ export const schools = [
 	"York University",
 	"The University of Chicago",
 	"York College, CUNY",
+	"Other",
 ] as const;
 
 export const majors = [
@@ -640,4 +643,5 @@ export const majors = [
 	"Supply Chain Management",
 	"Urban Studies/Urban Affairs",
 	"Webpage Design",
+	"Other",
 ] as const;
