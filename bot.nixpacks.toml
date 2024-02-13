@@ -5,4 +5,4 @@ nixPkgs = ['...', 'bun']
 cmds = ['pnpm install']
 
 [start]
-cmd = 'pnpm run start'
+cmd = 'pnpm run start --filter bot'
