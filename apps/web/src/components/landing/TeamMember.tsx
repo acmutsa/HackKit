@@ -63,7 +63,7 @@ export default function TeamMember({person}:{person:Person}) {
       
     return (
       <Card
-        className={`w-full ${oswald.className} bg-transparent border-transparent shadow-none flex text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
+        className={`w-full flex items-center justify-center ${oswald.className} bg-transparent border-transparent shadow-none  text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
         <div className="text-[#FEF2E6]">
           <CardHeader className="items-center">
             <CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">

@@ -74,7 +74,7 @@ let team: Array<Person> = [
   createPerson(
     "Liam",
     "Murray",
-    `${logistics} Lead\u00A0/ Tech`,
+    `${logistics} Lead/Tech`,
     "https://www.linkedin.com/in/liamrmurray/",
     "https://www.liammurray.dev/",
     "https://github.com/Lermatroid"
@@ -98,7 +98,7 @@ let team: Array<Person> = [
   createPerson(
     "Jacob",
     "Ellerbrock",
-    `${logistics}\u00A0/\u00A0${tech}`,
+    `${logistics}/${tech}`,
     "https://www.linkedin.com/in/jacobellerbrock/",
     "",
     ""
@@ -106,7 +106,7 @@ let team: Array<Person> = [
   createPerson(
     "Calvin",
     "Jessen",
-    `${logistics}\u00A0/\u00A0Photographer`,
+    `${logistics}/Photographer`,
     "https://www.linkedin.com/in/calvin-j-39547a24b/",
     "",
     ""
@@ -195,7 +195,7 @@ let team: Array<Person> = [
   createPerson(
     "Alessandro",
     "Espinosa",
-    "Media co-lead\u00A0/\u00A0Media",
+    "Media co-lead/Media",
     "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
     "",
     ""
@@ -250,14 +250,14 @@ function CarouselDefault() {
     <>
       {data_rendered ? (
         <Carousel
-          opts={{ align: "start", loop: true }}
-          //Christian Walker: Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
+          opts={{ align: "end", loop: true }}
+          // Christian Walker: Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
           // See docs for example code: https://ui.shadcn.com/docs/components/carousel#plugins
           // @ts-ignore
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
-          className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
+          className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[92rem] justify-center items-center ">
           <CarouselContent>
             {team.map((p: Person, index: React.Key) => (
               <CarouselItem
@@ -268,7 +268,7 @@ function CarouselDefault() {
             ))}
           </CarouselContent>
           {/* NOTE: Source image of carousel previous and next are modified with color prop  */}
-          <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer " />
+          <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer" />
           <CarouselNext className="bg-transparent border-none hover:cursor-pointer" />
         </Carousel>
       ) : (
