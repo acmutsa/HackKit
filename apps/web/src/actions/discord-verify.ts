@@ -3,7 +3,7 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { eq } from "db/drizzle";
+import { eq, and } from "db/drizzle";
 import { discordVerification } from "db/schema";
 
 export const confirmVerifyDiscord = authenticatedAction(
@@ -11,10 +11,21 @@ export const confirmVerifyDiscord = authenticatedAction(
 		code: z.string().min(20).max(20),
 	}),
 	async ({ code }, { userId }) => {
+		const verification = await db.query.discordVerification.findFirst({
+			where: and(eq(discordVerification.code, code), eq(discordVerification.status, "pending")),
+		});
+		if (!verification) {
+			return {
+				success: false,
+			};
+		}
 		await db
 			.update(discordVerification)
-			.set({ status: "accepted" })
+			.set({ status: "accepted", clerkID: userId })
 			.where(eq(discordVerification.code, code));
-		// impliment ping to server to update user roles
+
+		return {
+			success: true,
+		};
 	}
 );
