@@ -10,30 +10,31 @@ import Footer from "@/components/landing/Footer";
 import MLHBadge from "@/components/landing/MLHBadge";
 
 import { Oswald } from "next/font/google";
+import WorkWithUs from "@/components/landing/WorkWithUs";
 
 const oswald = Oswald({
-  variable: "--font-oswald",
-  subsets: ["latin"],
+	variable: "--font-oswald",
+	subsets: ["latin"],
 });
 
 export default function Home() {
-  return (
-    <div
-      className={`${oswald.variable} w-full overflow-x-hidden bg-gradient-to-t from-[#E3E165] via-[#CCD2AD] to-[rgb(204,210,173)] `}>
-      <Navbar />
-      <MLHBadge />
-      <main>
-        <Hero />
-        <Filler />
-        <About />
-        <FillerAboutPartners />
-        <Partners />
-        <FillerPartnersTeam />
-        <Team />
-        <Footer />
-      </main>
-    </div>
-  );
+	return (
+		<div className={`${oswald.variable} w-full overflow-x-hidden `}>
+			<Navbar />
+			<MLHBadge />
+			<main>
+				<Hero />
+				<Filler />
+				<About />
+				<FillerAboutPartners />
+				<Partners />
+				{/* <FillerPartnersTeam /> */}
+				<WorkWithUs />
+				<Team />
+				<Footer />
+			</main>
+		</div>
+	);
 }
 
 export const runtime = "edge";
