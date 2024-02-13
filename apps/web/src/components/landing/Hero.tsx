@@ -153,7 +153,7 @@ export default function Hero() {
 							RowdyHacks
 						</h1>
 						<h2 className="font-bold m-0 md:text-3xl text-4xl leading-[0.95] text-[#A88567] md:pt-3 pt-6 italic lg:text-right w-full text-center">
-							FEB. 25TH - 26TH
+							FEB. 24TH - 25TH
 						</h2>
 					</div>
 					<div className="font-oswald relative">
