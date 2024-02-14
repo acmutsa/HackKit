@@ -4,21 +4,18 @@ import Image from "next/image";
 import { Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle } from "../shadcn/ui/card";
 
 
-enum Tier {
-  In_Kind_Partner = 1,
-  Rowdy_Partner,
-  Bronze,
-  Silver,
-  Gold,
-  Title,
-}
 
 type Partner = {
   name: string;
   logo: string;
   url: string;
-  tier: Tier;
+  tier: string;
 };
+
+type colorMap = {
+  key:string,
+  value:string
+}
 
 // const tierBorderMap = {
 //   [Tier.Title]:           "w-[15rem]      sm:w-72           md:w-72       lg:w-80       2xl:w-[19rem]",
@@ -29,14 +26,17 @@ type Partner = {
 //   [Tier.In_Kind_Partner]: "w-[6rem]       sm:w-[7rem]       md:w-32       lg:w-40       2xl:w-52",
 // };
 
-const tierColorMap = {
-  [Tier.Title]: "border-[3px] border-purple-700",
-  [Tier.Gold]: "border-yellow-600",
-  [Tier.Silver]: "border-green-700",
-  [Tier.Bronze]: "border-amber-800",
-  [Tier.Rowdy_Partner]: "border-blue-500",
-  [Tier.In_Kind_Partner]: "border-red-500",
+
+
+const tierColorMap:{[key:string]:string} =  {
+  "Title Sponsor": "text-purple-500",
+ [ "Gold Sponsor"]: "text-yellow-600",
+  ["Silver Sponsor"]: "text-green-700",
+  ["Bronze Sponsor"]: "text-amber-800",
+  ["Rowdy Partner"]: "text-blue-500",
+  ["Rowdy In-Kind"]: "text-red-500",
 };
+
 
 
 // NOTE: Make responsive!!!
@@ -46,10 +46,14 @@ function PartnerCard(partner: Partner) {
     <Link
       href={partner?.url}
       target="_blank"
-      className={`group p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out`}>
-      <div className="w-full h-full flex"><h1 className="text-xl w-full text-center">{partner.name}</h1></div>
+      className={`group p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out ${
+        tierColorMap[partner?.tier]
+      }`}>
+      <h1 className="transition duration-300 ease-in-out delay-75 text-2xl w-full text-center pb-4 invisible group-hover:visible group-hover:-translate-y-4  ">
+        {partner?.name}
+      </h1>
       <Card
-        className={`flex flex-col w-auto min-h-[25rem] shadow-none bg-[#d2b48c] bg-opacity-30 border-2 ${tierColorMap[partner?.tier]}`}>
+        className={`flex flex-col w-auto min-h-[25rem] border-none shadow-none bg-[#d2b48c] bg-opacity-30 `}>
         {/* <CardHeader className="items-center">
           <CardTitle>{partner?.name}</CardTitle>
         </CardHeader> */}
@@ -65,6 +69,9 @@ function PartnerCard(partner: Partner) {
           />
         </CardContent>
       </Card>
+      <h1 className="transition duration-300 ease-in-out delay-75 text-2xl w-full text-center pb-4 invisible group-hover:visible group-hover:translate-y-4  ">
+        {partner?.tier}
+      </h1>
     </Link>
   );
 }
