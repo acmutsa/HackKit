@@ -49,11 +49,11 @@ function PartnerCard(partner: Partner) {
       className={`group p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out ${
         tierColorMap[partner?.tier]
       }`}>
-      <h1 className="transition duration-300 ease-in-out delay-75 text-2xl w-full text-center pb-4 invisible group-hover:visible group-hover:-translate-y-4  ">
+      <h2 className="transition duration-300 ease-in-out delay-75 text-2xl w-full text-center pb-4 invisible group-hover:visible group-hover:-translate-y-4  ">
         {partner?.name}
-      </h1>
+      </h2>
       <Card
-        className={`flex flex-col w-auto min-h-[25rem] border-none shadow-none bg-[#d2b48c] bg-opacity-30 `}>
+        className={`flex flex-col w-auto h-[20rem] border-none shadow-none bg-[#d2b48c] bg-opacity-30 `}>
         {/* <CardHeader className="items-center">
           <CardTitle>{partner?.name}</CardTitle>
         </CardHeader> */}
@@ -65,7 +65,7 @@ function PartnerCard(partner: Partner) {
             quality={100}
             priority={true}
             alt={`${partner?.name} logo`}
-            className={`h-auto w-[9rem] sm:w-40 md:w-[13rem] lg:w-[14rem] 2xl:w-[15rem]`}
+            className={`h-auto w-[7rem] sm:w-32 md:w-40 lg:w-48 xl:w-52`}
           />
         </CardContent>
       </Card>
