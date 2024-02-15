@@ -56,7 +56,7 @@ export default function WorkWithUs() {
 						</div>
 					</div>
 				</div>
-				<div className="hidden md:text-[14rem] text-5xl text-[#AB8167] font-oswald font-semibold md:flex flex-col justify-center">
+				<div className="hidden md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[16rem] text-[#AB8167] font-oswald font-semibold md:flex flex-col justify-center">
 					<h1>Work</h1>
 					<h1>With</h1>
 					<h1>Us</h1>
