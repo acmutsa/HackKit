@@ -2,12 +2,6 @@
 {
   "partners": [
     {
-      "name": "Marathon",
-      "logo": "marathon_logo.svg",
-      "url": "https://www.marathonpetroleum.com/",
-      "tier":"Title Sponsor"
-    },
-    {
       "name": "Cymannii",
       "logo": "CyManII_Logo.svg",
       "url": "https://cymanii.org/",
@@ -75,6 +69,12 @@
       "tier":"Bronze Sponsor"
     },
     {
+      "name":"UTSA Tech Store",
+      "logo":"rowdy_tech_logo.svg",
+      "url":"https://campustechnologystore.com/campustechnologystore/",
+      "tier":"Rowdy Partner"
+    },
+    {
       "name":"Accenture",
       "logo":"Accenture-logo.svg",
       "url":"https://www.accenture.com/",
@@ -123,7 +123,7 @@
       "tier":"Rowdy In-Kind"
     },
     {
-      "name":"Bunz Handcrafed Bugers",
+      "name":"Bunz Handfracted Burgers",
       "logo":"Bunz_logo.svg",
       "url":"https://www.tastybunz.com/",
       "tier":"Rowdy In-Kind"
