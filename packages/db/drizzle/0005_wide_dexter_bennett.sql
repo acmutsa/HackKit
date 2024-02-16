@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "checked_id" boolean DEFAULT false NOT NULL;
