@@ -65,7 +65,7 @@ export const users = pgTable("users", {
   checkinTimestamp: timestamp("checkin_timestamp"),
   teamID: varchar("team_id", { length: 50 }),
   points: integer("points").notNull().default(0),
-  checkedIn: boolean("checked_id").notNull().default(false),
+  checkedIn: boolean("checked_in").notNull().default(false),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
