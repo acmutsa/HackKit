@@ -29,7 +29,7 @@ type colorMap = {
 
 
 const tierColorMap:{[key:string]:string} =  {
-  "Title Sponsor": "text-purple-500",
+  ["Title Sponsor"]: "text-purple-500",
  [ "Gold Sponsor"]: "text-yellow-600",
   ["Silver Sponsor"]: "text-green-700",
   ["Bronze Sponsor"]: "text-amber-800",
@@ -40,38 +40,47 @@ const tierColorMap:{[key:string]:string} =  {
 
 
 // NOTE: Make responsive!!!
-function PartnerCard(partner: Partner) {
-  // rounded-xl bg-white bg-opacity-30
+function PartnerCard({partner,is_title}:{partner:Partner,is_title:boolean}) {
+
+  const text: string = is_title
+    ? "text-2xl sm:text-3xl xl:text-4xl 2xl:text-[3rem]"
+    : "text-md sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl";
+
+  const height: string = is_title
+    ? "h-[15rem] sm:h-[15rem] md:h-[16rem] lg:h-[20rem] xl:h-[20rem] 2xl:h-[22rem]"
+    : "h-[9rem] sm:h-[11rem] md:h-[11rem] lg:h-[12rem] xl:h-[14rem] 2xl:h-[17rem]";
+  const image: string = is_title
+    ? "w-[17rem] sm:w-[17rem] md:w-[18rem] xl:w-[20rem] 2xl:w-[24rem]"
+    : "w-[8rem] sm:w-[10rem] md:w-[14rem] lg:w-48 xl:w-[16rem]";
+
   return (
     <Link
       href={partner?.url}
       target="_blank"
-      className={`group p-3 sm:p-5 opacity-100 my-auto mx-auto hover:scale-[1.05] sm:hover:scale-[1.20] transition-all duration-350 ease-in-out ${
+      className={`group opacity-100 font-semibold hover:-translate-y-8 transition duration-350 ease-in-out  ${text} ${
         tierColorMap[partner?.tier]
       }`}>
-      <h2 className="transition duration-300 ease-in-out delay-75 text-2xl w-full text-center pb-4 invisible group-hover:visible group-hover:-translate-y-4  ">
+      <div
+        className={`flex items-center justify-center w-full ${height} shadow-none bg-[#d2b48c] bg-opacity-45 rounded-lg p-3`}>
+        <Image
+          src={`/img/partner-logos/${partner?.logo}`}
+          width={0}
+          height={0}
+          quality={100}
+          priority={true}
+          alt={`${partner?.name} logo`}
+          className={`h-auto  ${image}`}
+        />
+      </div>
+      <h2
+        className={`transition duration-300 ease-in-out delay-100  w-full text-center ${
+          is_title ? "pb-8" : "pb-4"
+        } invisible group-hover:visible group-hover:translate-y-4 `}>
         {partner?.name}
       </h2>
-      <Card
-        className={`flex flex-col w-auto h-[20rem] border-none shadow-none bg-[#d2b48c] bg-opacity-30 `}>
-        {/* <CardHeader className="items-center">
-          <CardTitle>{partner?.name}</CardTitle>
-        </CardHeader> */}
-        <CardContent className="flex w-full h-full flex-col justify-center items-center my-auto">
-          <Image
-            src={`/img/partner-logos/${partner?.logo}`}
-            width={0}
-            height={0}
-            quality={100}
-            priority={true}
-            alt={`${partner?.name} logo`}
-            className={`h-auto w-[7rem] sm:w-32 md:w-40 lg:w-48 xl:w-52`}
-          />
-        </CardContent>
-      </Card>
-      <h1 className="transition duration-300 ease-in-out delay-75 text-2xl w-full text-center pb-4 invisible group-hover:visible group-hover:translate-y-4  ">
+      <h2 className="transition duration-300 ease-in-out delay-75 w-full text-center pb-4 invisible group-hover:visible group-hover:translate-y-4  ">
         {partner?.tier}
-      </h1>
+      </h2>
     </Link>
   );
 }

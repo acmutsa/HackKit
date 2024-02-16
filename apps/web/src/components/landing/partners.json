@@ -8,7 +8,7 @@
       "tier":"Gold Sponsor"
     },
     {
-      "name":"UTSA Data Science",
+      "name":"UTSA DS Dept.",
       "logo":"UTSADS.svg",
       "url":"https://sds.utsa.edu/",
       "tier":"Gold Sponsor"
@@ -63,16 +63,10 @@
       "tier":"Bronze Sponsor"
     },
     {
-      "name":"Students and Startups",
+      "name":"S + S",
       "logo":"Students_and_Startups.svg",
       "url":"https://studentsstartups.com/",
       "tier":"Bronze Sponsor"
-    },
-    {
-      "name":"UTSA Tech Store",
-      "logo":"rowdy_tech_logo.svg",
-      "url":"https://campustechnologystore.com/campustechnologystore/",
-      "tier":"Rowdy Partner"
     },
     {
       "name":"Accenture",
@@ -84,6 +78,12 @@
       "name":"UTSA COE",
       "logo":"UTSA_COE.svg", 
       "url":"https://klesse.utsa.edu/",
+      "tier":"Rowdy Partner"
+    },
+    {
+      "name":"UTSA Tech Store",
+      "logo":"rowdy_tech_logo.svg",
+      "url":"https://campustechnologystore.com/campustechnologystore/",
       "tier":"Rowdy Partner"
     },
     {
@@ -123,7 +123,7 @@
       "tier":"Rowdy In-Kind"
     },
     {
-      "name":"Bunz Handfracted Burgers",
+      "name":"Bunz Burgers",
       "logo":"Bunz_logo.svg",
       "url":"https://www.tastybunz.com/",
       "tier":"Rowdy In-Kind"
