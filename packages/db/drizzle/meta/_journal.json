@@ -43,6 +43,13 @@
       "when": 1708126640321,
       "tag": "0005_wide_dexter_bennett",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1708127696279,
+      "tag": "0006_serious_misty_knight",
+      "breakpoints": true
     }
   ]
 }
