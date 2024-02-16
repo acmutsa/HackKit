@@ -38,17 +38,16 @@
       "tier":"Silver Sponsor"
     },
     {
+      "name":"Google",
+      "logo":"Google_Icon.svg",
+      "url":"https://about.google/",
+      "tier":"Bronze Sponsor"
+    },
+    {
       "name":"Paycom",
       "logo":"PaycomLogo.svg",
       "url":"https://www.paycom.com/",
       "tier":"Bronze Sponsor"
-    },
-    {
-      "name":"AFCS",
-      "logo":"AFCSLogo.svg",
-      "url":"https://afciviliancareers.com/",
-      "tier":"Bronze Sponsor"
-
     },
     {
       "name":"Dell",
@@ -57,15 +56,15 @@
       "tier":"Bronze Sponsor"
     },
     {
-      "name":"Google",
-      "logo":"Google_Icon.svg",
-      "url":"https://about.google/",
-      "tier":"Bronze Sponsor"
-    },
-    {
       "name":"S + S",
       "logo":"Students_and_Startups.svg",
       "url":"https://studentsstartups.com/",
+      "tier":"Bronze Sponsor"
+    },
+    {
+      "name":"AFCS",
+      "logo":"AFCSLogo.svg",
+      "url":"https://afciviliancareers.com/",
       "tier":"Bronze Sponsor"
     },
     {
