@@ -60,10 +60,10 @@ export default function TeamMember({person}:{person:Person}) {
 
     const FallBackStyling = "max-w-[105px] md:max-w-[132px] lg:max-w-[150px] xl:max-w-[151px] 2xl:max-w-[188px] rounded-lg";
 
-
+      
     return (
       <Card
-        className={`w-full ${oswald.className} bg-transparent border-none flex text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
+        className={`w-full flex items-center justify-center ${oswald.className} bg-transparent border-transparent shadow-none  text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
         <div className="text-[#FEF2E6]">
           <CardHeader className="items-center">
             <CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">
@@ -84,9 +84,8 @@ export default function TeamMember({person}:{person:Person}) {
               priority={true}
               alt="Person Placeholder"
               onError={(e) => {
-                  setSrc("/img/landing/lil_man.png");
-                  setStyling(FallBackStyling);
-
+                setSrc("/img/landing/lil_man.png");
+                setStyling(FallBackStyling);
               }}
             />
           </CardContent>
@@ -97,6 +96,7 @@ export default function TeamMember({person}:{person:Person}) {
               }>
               <a
                 href={person.linkedin}
+                target="_blank"
                 className={person.linkedin ? "" : "hidden"}>
                 <div className={"size-8"}>
                   <LinkedIn fillColor={"fill-gray-400"} />
@@ -104,12 +104,16 @@ export default function TeamMember({person}:{person:Person}) {
               </a>
               <a
                 href={person.website}
+                target="_blank"
                 className={person.website ? "" : "hidden"}>
                 <div className={"size-8"}>
                   <Website fillColor={"fill-gray-400"} />
                 </div>
               </a>
-              <a href={person.github} className={person.github ? "" : "hidden"}>
+              <a
+                href={person.github}
+                target="_blank"
+                className={person.github ? "" : "hidden"}>
                 <div className={"size-8"}>
                   <Github fillColor={"fill-gray-400"} />
                 </div>

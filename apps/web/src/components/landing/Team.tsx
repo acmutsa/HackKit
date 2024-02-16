@@ -13,6 +13,8 @@ import TeamMember from "./TeamMember";
 import { Oswald } from "next/font/google";
 import { useState, useEffect } from "react";
 import Autoplay from "embla-carousel-autoplay";
+import { ArrowRight } from "lucide-react";
+
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -50,6 +52,7 @@ const logistics = "Logistics";
 const tech = "Tech";
 const pr = "PR";
 
+
 let team: Array<Person> = [
   // add each person here. if no website, leave empty string
   createPerson(
@@ -71,7 +74,7 @@ let team: Array<Person> = [
   createPerson(
     "Liam",
     "Murray",
-    `${logistics} Lead\u00A0/ Tech`,
+    `${logistics} Lead/Tech`,
     "https://www.linkedin.com/in/liamrmurray/",
     "https://www.liammurray.dev/",
     "https://github.com/Lermatroid"
@@ -95,7 +98,7 @@ let team: Array<Person> = [
   createPerson(
     "Jacob",
     "Ellerbrock",
-    `${logistics}\u00A0/\u00A0${tech}`,
+    `${logistics}/${tech}`,
     "https://www.linkedin.com/in/jacobellerbrock/",
     "",
     ""
@@ -103,7 +106,7 @@ let team: Array<Person> = [
   createPerson(
     "Calvin",
     "Jessen",
-    `${logistics}\u00A0/\u00A0Photographer`,
+    `${logistics}/Photographer`,
     "https://www.linkedin.com/in/calvin-j-39547a24b/",
     "",
     ""
@@ -167,7 +170,7 @@ let team: Array<Person> = [
   createPerson(
     "Alejandro",
     "Mugica",
-    `${logistics}\u00A0/ Media`,
+    logistics,
     "https://www.linkedin.com/in/alejandromugica/",
     "",
     ""
@@ -192,7 +195,7 @@ let team: Array<Person> = [
   createPerson(
     "Alessandro",
     "Espinosa",
-    experience,
+    "Media co-lead/Media",
     "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
     "",
     ""
@@ -224,7 +227,7 @@ let team: Array<Person> = [
   createPerson(
     "Anusha",
     "Abdulla",
-    experience,
+    "Outreach",
     "https://www.linkedin.com/in/anusha-abdulla/",
     "",
     ""
@@ -234,7 +237,7 @@ let team: Array<Person> = [
 function CarouselDefault() {
   const [data_rendered, setData_rendered] = useState(false);
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 2500, stopOnInteraction: true })
   );
   useEffect(() => {
     // Basic use effect hook to check if the page has rendered
@@ -247,14 +250,14 @@ function CarouselDefault() {
     <>
       {data_rendered ? (
         <Carousel
-          opts={{ align: "start", loop: true }}
-          //Christian Walker: Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
+          opts={{ align: "end", loop: true }}
+          // Christian Walker: Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
           // See docs for example code: https://ui.shadcn.com/docs/components/carousel#plugins
           // @ts-ignore
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
-          className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[90rem] justify-center items-center ">
+          className="hidden md:flex md:w-[75%] xl:w-[85%] 2xl:w-full max-w-7xl 2xl:max-w-[92rem] justify-center items-center ">
           <CarouselContent>
             {team.map((p: Person, index: React.Key) => (
               <CarouselItem
@@ -265,7 +268,7 @@ function CarouselDefault() {
             ))}
           </CarouselContent>
           {/* NOTE: Source image of carousel previous and next are modified with color prop  */}
-          <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer " />
+          <CarouselPrevious className="bg-transparent border-none  hover:cursor-pointer" />
           <CarouselNext className="bg-transparent border-none hover:cursor-pointer" />
         </Carousel>
       ) : (
@@ -294,9 +297,12 @@ function MobileTeam() {
               <TeamMember person={p} key={index} />
             ))}
           </div>
-          <h1 className="text-[#FEF2E6] animate-bounce text-xl sm:text-2xl pb-5">
-            Scroll For More Team Members!
-          </h1>
+          <div className="flex w-full items-center justify-center ">
+            <h1 className="text-[#FEF2E6] [@media (min-width)] text-xl sm:text-2xl pr-3 sm:pr-5">
+              Swipe For More Organizers
+            </h1>
+            <ArrowRight className=" pt-1 arrow_animate self-center w-8 h-8 sm:w-10 sm:h-10" color="#FEF2E6" />
+          </div>
         </div>
       ) : (
         <div className="md:hidden text-[#FEF2E6] tetx-3xl">Loading...</div>
