@@ -31,7 +31,7 @@ type colorMap = {
 const tierColorMap:{[key:string]:string} =  {
   ["Title Sponsor"]: "text-purple-500",
  [ "Gold Sponsor"]: "text-yellow-600",
-  ["Silver Sponsor"]: "text-green-700",
+  ["Silver Sponsor"]: "text-gray-400",
   ["Bronze Sponsor"]: "text-amber-800",
   ["Rowdy Partner"]: "text-blue-500",
   ["Rowdy In-Kind"]: "text-red-500",
