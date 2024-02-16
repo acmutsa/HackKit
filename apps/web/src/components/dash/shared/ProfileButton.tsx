@@ -18,13 +18,51 @@ import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 
 export default async function ProfileButton() {
-	const { userId } = await auth();
+	const clerkUser = await auth();
+	const { userId } = clerkUser;
 	if (!userId) return null;
 	const user = await db.query.users.findFirst({
 		where: eq(users.clerkID, userId),
 		with: { profileData: true },
 	});
-	if (!user) return null;
+
+	if (!user && !userId) return null;
+
+	if (!user) {
+		return (
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" className="relative h-8 w-8 rounded-full">
+						<Avatar className="h-8 w-8">
+							<AvatarImage src={clerkUser.user?.imageUrl} alt={""} />
+							<AvatarFallback>
+								{clerkUser.user?.firstName && clerkUser.user?.lastName
+									? clerkUser.user?.firstName.charAt(0) + clerkUser.user?.lastName.charAt(0)
+									: "NA"}
+							</AvatarFallback>
+						</Avatar>
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
+					<DropdownMenuGroup>
+						<DropdownSwitcher />
+						<Link href={`/register`}>
+							<DropdownMenuItem className="cursor-pointer">Complete Registration</DropdownMenuItem>
+						</Link>
+						<Link href={`/bug-report`}>
+							<DropdownMenuItem className="cursor-pointer">Report a Bug</DropdownMenuItem>
+						</Link>
+					</DropdownMenuGroup>
+					<DropdownMenuSeparator />
+					<SignOutButton>
+						<DropdownMenuItem className="hover:!bg-destructive cursor-pointer">
+							Log out
+						</DropdownMenuItem>
+					</SignOutButton>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		);
+	}
 
 	return (
 		<DropdownMenu>

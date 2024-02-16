@@ -7,9 +7,13 @@ import { Settings } from "lucide-react";
 import ClientToast from "@/components/shared/ClientToast";
 
 export default async function ({ children }: { children: ReactNode }) {
-	const { userId } = await auth();
+	const { userId, user } = await auth();
 
-	if (!userId) return redirect("/sign-in");
+	if (!user || !userId) return redirect("/sign-in");
+
+	if (!user.publicMetadata.registrationComplete) {
+		return redirect("/register");
+	}
 
 	return (
 		<>
