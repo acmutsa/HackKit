@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle } from "../shadcn/ui/card";
-
 
 
 type Partner = {
@@ -38,8 +36,6 @@ const tierColorMap:{[key:string]:string} =  {
 };
 
 
-
-// NOTE: Make responsive!!!
 function PartnerCard({partner,is_title}:{partner:Partner,is_title:boolean}) {
 
   const text: string = is_title

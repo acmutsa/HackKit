@@ -237,7 +237,7 @@ let team: Array<Person> = [
 function CarouselDefault() {
   const [data_rendered, setData_rendered] = useState(false);
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 2500, stopOnInteraction: true })
   );
   useEffect(() => {
     // Basic use effect hook to check if the page has rendered
