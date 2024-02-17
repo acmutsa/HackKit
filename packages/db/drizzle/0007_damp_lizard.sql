@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "rsvp" boolean DEFAULT false NOT NULL;

@@ -53,6 +53,7 @@
     "postgres": "^3.3.5",
     "react": "18.2.0",
     "react-aria": "^3.26.0",
+    "react-confetti": "^6.1.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-email": "^1.10.0",
@@ -70,6 +71,7 @@
     "tailwindcss-animate": "^1.0.6",
     "title-case": "^3.0.3",
     "typescript": "5.1.6",
+    "usehooks-ts": "^2.14.0",
     "vaul": "^0.8.0",
     "zod": "^3.21.4"
   },
