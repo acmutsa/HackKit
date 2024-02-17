@@ -1,7 +1,7 @@
 import { db } from "db";
 import { discordVerification, users } from "db/schema";
 import { eq, and, or } from "db/drizzle";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import c from "config";
 import Balancer from "react-wrap-balancer";
@@ -29,7 +29,15 @@ export default async function Page({
 	const { userId } = auth();
 
 	if (!userId) {
-		return notFound();
+		return redirect("/sign-in");
+	}
+
+	const user = await db.query.users.findFirst({
+		where: eq(users.clerkID, userId),
+	});
+
+	if (!user) {
+		return redirect("/register");
 	}
 
 	const verification = await db.query.discordVerification.findFirst({
@@ -60,10 +68,6 @@ export default async function Page({
 			</main>
 		);
 	}
-
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
 
 	if (!verification) {
 		return notFound();
