@@ -158,7 +158,7 @@ app.get("/postMsgToServer", (h) => {
 	return h.text(`Posted to channel!`);
 });
 
-app.post("/check", (h) => {
+app.post("/health", (h) => {
 	return h.text("ok");
 });
 
