@@ -4,7 +4,7 @@ export default function WorkWithUs() {
 	return (
 		<section className="bg-gradient-to-b from-[#6c3c26] to-[#724001] p-5">
 			<div className="bg-[#F9F0E7] h-full w-full min-h-[700px] rounded-xl grid grid-cols-1 md:grid-cols-2 gap-x-5 p-5 pt-10">
-				<div className="leading-[0.8] md:hidden md:text-[14rem] py-20 text-6xl font-bebas flex flex-col justify-center text-white">
+				<div className="md:leading-[0.8] md:hidden md:text-[14rem] py-20 text-6xl font-bebas flex flex-col justify-center text-white">
 					<h1 className="block md:hidden text-center text-[#AB8167] font-oswald font-semibold">
 						Work With Us
 					</h1>
@@ -56,7 +56,7 @@ export default function WorkWithUs() {
 						</div>
 					</div>
 				</div>
-				<div className="hidden md:text-[14rem] text-5xl text-[#AB8167] font-oswald font-semibold md:flex flex-col justify-center">
+				<div className="hidden md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[16rem] text-[#AB8167] font-oswald font-semibold md:flex flex-col justify-center">
 					<h1>Work</h1>
 					<h1>With</h1>
 					<h1>Us</h1>
