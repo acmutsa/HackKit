@@ -5,4 +5,4 @@ nixPkgs = ['...', 'bun']
 cmds = ['pnpm install --filter db', 'pnpm install --filter config', 'pnpm install --filter bot']
 
 [start]
-cmd = 'bun -v && pnpm --filter=bot run start'
+cmd = 'bun -v && pwd && pnpm --filter=bot run start'
