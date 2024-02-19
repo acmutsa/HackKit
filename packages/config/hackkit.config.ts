@@ -1,169 +1,154 @@
 export const defaultTheme = "dark";
 
 export default {
-  hackathonName: "RowdyHacks",
-  itteration: "IX",
-  defaultMetaDataDescription:
-  siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-    "RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
-  botName: "HackKit",
-  botParticipantRole: "RowdyHacks24 Participant",
-  localUniversityName: "The University of Texas at San Antonio",
-  localUniversityShortIDName: "ABC123",
-  localUniversityShortIDMaxLength: 6,
-  dietaryRestrictionOptions: [
-    "Vegan",
-    "Vegetarian",
-    "Nuts",
-    "Fish",
-    "Wheat",
-    "Dairy",
-    "Eggs",
-    "Halal",
-  ],
-  groups: {
-    "T-rex | Group A": {
-        discordRole: "T-rex"
-    },
-    "T-rex | Group B":  {
-        discordRole: "T-rex"
-    },
-    "Triceratops | Group A": {
-        discordRole: "Triceratops"
-    },
-    "Triceratops | Group B": {
-        discordRole: "Triceratops"
-    },
-    "Pterodactyl | Group A": {
-        discordRole: "Pterodactyl"
-    },
-    "Pterodactyl | Group B": {
-        discordRole: "Pterodactyl"
-    },
-    "Alamosaurus | Group A": {
-        discordRole: "Alamosaurus"
-    },
-    "Alamosaurus | Group B": {
-        discordRole: "Alamosaurus"
-    },
-    "Stegosaurus | Group A": {
-        discordRole: "Stegosaurus"
-    },
-    "Stegosaurus | Group B": {
-        discordRole: "Stegosaurus"
-    },
-  },
-  issueEmail: "team@rowdyhacks.org",
-  links: {
-    discord: "https://go.rowdyhacks.org/discord",
-    instagram: "https://instagram.com/rowdyhacks",
-    facebook: "https://facebook.com/rowdyhacks",
-    twitter: "https://twitter.com/rowdyhacks",
-    github: "https://github.com/acmutsa",
-  },
-  icon: {
-    sm: "/img/logo/logo.png",
-    md: "/img/logo/rh-md.png",
-    lg: "/img/logo/rh-lg.png",
-    svg: "/img/logo/logo.png",
-  },
-  dashPaths: {
-    dash: {
-      Overview: "/dash",
-      Schedule: "/dash/schedule",
-      "Event Pass": "/dash/pass",
-      // Team: "/dash/team",
-    },
-    admin: {
-      Overview: "/admin",
-      Users: "/admin/users",
-      Events: "/admin/events",
-      Points: "/admin/points",
-      "Check-in": "/admin/check-in",
-      Toggles: "/admin/toggles",
-    },
-  eventTypes: {
-  },
-    Meal: "#FFC107",
-    Workshop: "#10b981",
-    Ceremony: "#9C27B0",
-    Social: "#2196F3",
-    Other: "#795548",
-  // TODO: Can remove days? Pretty sure they're dynamic now.
-  },
-  days: {
-    Saturday: new Date(2023, 6, 15),
-  },
-    Sunday: new Date(2023, 6, 16),
-  maxResumeSizeInBytes: 4194304,
-  maxProfilePhotoSizeInBytes: 3145728,
-  maxFileSizeInBytes: 4194304,
-  eventPassBgImage: "/img/dash/pass/bg.png",
-  noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
-  startDate: new Date(new Date(2024, 1, 24).setHours(9)),
-  prettyLocation: "San Pedro I, UTSA",
-    hacker: {
-      title: "Hacker",
-      color: "hsl(var(--hackathon-primary))",
-      foreground: "#ffffff",
-      checked: false,
-    },
-      title: "Volunteer",
-    volunteer: {
-      foreground: "#ffffff",
-      checked: false,
-      color: "#4CAF50",
-    },
-    mentor: {
-      title: "Mentor",
-      color: "#9C27B0",
-      foreground: "#ffffff",
-      checked: false,
-    },
-    mlh: {
-      title: "MLH",
-      color: "#ffffff",
-      foreground: "#E73426",
-    },
-      checked: "#E73426",
-      title: "Organizer",
-    admin: {
-      color: "#f59e0b",
-      foreground: "#ffffff",
-      checked: true,
-    },
-  roleBadges: {
-    super_admin: {
-      title: "Organizer",
-      foreground: "#ffffff",
-      color: "#f59e0b",
-      checked: true,
-    },
-  },
-  maxTeamSize: 4,
+	hackathonName: "RowdyHacks",
+	itteration: "IX",
+	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
+	defaultMetaDataDescription:
+		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
+	botName: "HackKit",
+	botParticipantRole: "RowdyHacks24 Participant",
+	localUniversityName: "The University of Texas at San Antonio",
+	localUniversityShortIDName: "ABC123",
+	localUniversityShortIDMaxLength: 6,
+	dietaryRestrictionOptions: [
+		"Vegan",
+		"Vegetarian",
+		"Nuts",
+		"Fish",
+		"Wheat",
+		"Dairy",
+		"Eggs",
+		"Halal",
+	],
+	groups: {
+		"T-rex | Group A": {
+			discordRole: "T-rex",
+		},
+		"T-rex | Group B": {
+			discordRole: "T-rex",
+		},
+		"Triceratops | Group A": {
+			discordRole: "Triceratops",
+		},
+		"Triceratops | Group B": {
+			discordRole: "Triceratops",
+		},
+		"Pterodactyl | Group A": {
+			discordRole: "Pterodactyl",
+		},
+		"Pterodactyl | Group B": {
+			discordRole: "Pterodactyl",
+		},
+		"Alamosaurus | Group A": {
+			discordRole: "Alamosaurus",
+		},
+		"Alamosaurus | Group B": {
+			discordRole: "Alamosaurus",
+		},
+		"Stegosaurus | Group A": {
+			discordRole: "Stegosaurus",
+		},
+		"Stegosaurus | Group B": {
+			discordRole: "Stegosaurus",
+		},
+	},
+	issueEmail: "team@rowdyhacks.org",
+	links: {
+		discord: "https://go.rowdyhacks.org/discord",
+		instagram: "https://instagram.com/rowdyhacks",
+		facebook: "https://facebook.com/rowdyhacks",
+		twitter: "https://twitter.com/rowdyhacks",
+		github: "https://github.com/acmutsa",
+	},
+	icon: {
+		sm: "/img/logo/logo.png",
+		md: "/img/logo/rh-md.png",
+		lg: "/img/logo/rh-lg.png",
+		svg: "/img/logo/logo.png",
+	},
+	dashPaths: {
+		dash: {
+			Overview: "/dash",
+			Schedule: "/dash/schedule",
+			"Event Pass": "/dash/pass",
+			// Team: "/dash/team",
+		},
+		admin: {
+			Overview: "/admin",
+			Users: "/admin/users",
+			Events: "/admin/events",
+			Points: "/admin/points",
+			"Check-in": "/admin/check-in",
+			Toggles: "/admin/toggles",
+		},
+		eventTypes: {},
+		Meal: "#FFC107",
+		Workshop: "#10b981",
+		Ceremony: "#9C27B0",
+		Social: "#2196F3",
+		Other: "#795548",
+		// TODO: Can remove days? Pretty sure they're dynamic now.
+	},
+	days: {
+		Saturday: new Date(2023, 6, 15),
+	},
+	Sunday: new Date(2023, 6, 16),
+	maxResumeSizeInBytes: 4194304,
+	maxProfilePhotoSizeInBytes: 3145728,
+	maxFileSizeInBytes: 4194304,
+	eventPassBgImage: "/img/dash/pass/bg.png",
+	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
+	prettyLocation: "San Pedro I, UTSA",
+	roleBadges: {
+		hacker: {
+			title: "Hacker",
+			color: "hsl(var(--hackathon-primary))",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		volunteer: {
+			title: "Volunteer",
+			foreground: "#ffffff",
+			checked: false,
+			color: "#4CAF50",
+		},
+		mentor: {
+			title: "Mentor",
+			color: "#9C27B0",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		mlh: {
+			title: "MLH",
+			color: "#ffffff",
+			foreground: "#E73426",
+			checked: "#E73426",
+		},
+		admin: {
+			title: "Organizer",
+			color: "#f59e0b",
+			foreground: "#ffffff",
+			checked: true,
+		},
+		super_admin: {
+			title: "Organizer",
+			foreground: "#ffffff",
+			color: "#f59e0b",
+			checked: true,
+		},
+	},
+	maxTeamSize: 4,
 } as const;
 
 // Its important that this is kept in sync with the database schema.
 
-export const perms = [
-  "hacker",
-  "volunteer",
-  "mentor",
-  "mlh",
-  "admin",
-  "super_admin",
-] as const;
+export const perms = ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"] as const;
 
 // These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
 
-export const publicRoutes = [
-  "/",
-  /^\/schedule(\/.*)?$/,
-  /^\/@/,
-  /^\/user\//,
-  "/404",
-  "/bugreport",
-];
+export const publicRoutes = ["/", /^\/schedule(\/.*)?$/, /^\/@/, /^\/user\//, "/404", "/bugreport"];
 
 // Generally it is reccomended to put your primary audience's university at the top of this list.
 
