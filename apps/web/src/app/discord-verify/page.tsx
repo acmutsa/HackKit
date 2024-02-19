@@ -34,10 +34,21 @@ export default async function Page({
 
 	const user = await db.query.users.findFirst({
 		where: eq(users.clerkID, userId),
+		with: {
+			discordVerification: true,
+		},
 	});
 
 	if (!user) {
 		return redirect("/register");
+	}
+
+	if (user.discordVerification) {
+		await db
+			.update(discordVerification)
+			.set({ status: "rejected" })
+			.where(eq(discordVerification.code, passedCode));
+		return redirect("/discord-verify/linked");
 	}
 
 	const verification = await db.query.discordVerification.findFirst({
