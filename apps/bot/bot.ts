@@ -87,18 +87,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			}
 			const vCode = nanoid(20);
 			console.log(interaction.guildId);
-			// const verification = await db
-			// 	.insert(discordVerification)
-			// 	.values({
-			// 		code: vCode,
-			// 		discordName: user.username,
-			// 		discordProfilePhoto: user.avatar,
-			// 		discordUserID: user.id,
-			// 		discordUserTag: user.discriminator,
-			// 		status: "pending",
-			// 		guild: interaction.guildId as string,
-			// 	})
-			// 	.returning();
+			const verification = await db
+				.insert(discordVerification)
+				.values({
+					code: vCode,
+					discordName: user.username,
+					discordProfilePhoto: user.avatar || "",
+					discordUserID: user.id as string,
+					discordUserTag: user.discriminator as string,
+					status: "pending",
+					guild: interaction.guildId as string,
+				})
+				.returning();
 
 			interaction.reply({
 				content: `Please click [this link](${c.siteUrl}/discord-verify?code=${vCode}) to verify your registration!`,
