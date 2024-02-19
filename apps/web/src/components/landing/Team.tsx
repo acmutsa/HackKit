@@ -297,9 +297,10 @@ function MobileTeam() {
               <TeamMember person={p} key={index} />
             ))}
           </div>
+          {/* Change directiom */}
           <div className="flex w-full items-center justify-center ">
             <h1 className="text-[#FEF2E6] [@media (min-width)] text-xl sm:text-2xl pr-3 sm:pr-5">
-              Swipe For More Organizers
+            More Organizers
             </h1>
             <ArrowRight className=" pt-1 arrow_animate self-center w-8 h-8 sm:w-10 sm:h-10" color="#FEF2E6" />
           </div>
