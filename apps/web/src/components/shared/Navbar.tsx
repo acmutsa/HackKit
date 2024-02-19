@@ -14,7 +14,7 @@ export default async function Navbar() {
 
 	return (
     <div className="fixed top-0 w-screen h-16 bg-nav z-50 border-b-border border-b">
-      <div className="w-full h-full mx-auto max-w-7xl px-5 grid grid-cols-3">
+      <div className="w-full h-full mx-auto max-w-7xl lg:max-w-full px-5 grid grid-cols-3">
         <div className="flex items-center justify-start gap-x-5 col-span-2">
           <Link href={"/"} className="flex items-center gap-x-2 mr-5">
             <Image
@@ -32,54 +32,49 @@ export default async function Navbar() {
             <NavBarLinksGrouper />
           </div>
         </div>
-        <div className="items-center justify-end gap-x-4 md:flex hidden">
-          {user ? (
-            <>
-              <Link
-                href={
-                  user.publicMetadata.registrationComplete
-                    ? "/dash"
-                    : "/register"
-                }>
-                <Button
-                  variant={
+        <div className="items-center justify-end flex space-x-3">
+          <div className="gap-x-4 md:flex hidden">
+            {user ? (
+              <>
+                <Link
+                  href={
                     user.publicMetadata.registrationComplete
-                      ? "outline"
-                      : "default"
-                  }
-                  className={
-                    user.publicMetadata.registrationComplete
-                      ? "bg-nav hover:bg-background"
-                      : ""
+                      ? "/dash"
+                      : "/register"
                   }>
-                  {user.publicMetadata.registrationComplete
-                    ? "Dashboard"
-                    : "Complete Registration"}
-                </Button>
-              </Link>
-              <ProfileButton />
-            </>
-          ) : (
-            <>
-              <Link href={"/sign-in"}>
-                <Button
-                  variant={"outline"}
-                  className="bg-nav hover:bg-background">
-                  Sign In
-                </Button>
-              </Link>
-              <Link href={"/register"}>
-                <Button>Register</Button>
-              </Link>
-			  <ProfileButton/>
-            </>
-          )}
-        </div>
-        <div className="flex w-full h-full items-center justify-end">
-          <MobileNavView
-            userName={user?.firstName}
-            userRegistered={user?.publicMetadata.registrationComplete as boolean}
-          />
+                  <Button
+                    variant={
+                      user.publicMetadata.registrationComplete
+                        ? "outline"
+                        : "default"
+                    }
+                    className={
+                      user.publicMetadata.registrationComplete
+                        ? "bg-nav hover:bg-background"
+                        : ""
+                    }>
+                    {user.publicMetadata.registrationComplete
+                      ? "Dashboard"
+                      : "Complete Registration"}
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href={"/sign-in"}>
+                  <Button
+                    variant={"outline"}
+                    className="bg-nav hover:bg-background">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href={"/register"}>
+                  <Button>Register</Button>
+                </Link>
+              </>
+            )}
+          </div>
+          <ProfileButton />
         </div>
       </div>
     </div>

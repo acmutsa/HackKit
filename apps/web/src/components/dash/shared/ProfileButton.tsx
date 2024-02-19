@@ -31,7 +31,7 @@ export default async function ProfileButton() {
         <DropdownMenuTrigger
           asChild
           className="border-transparent bg-transparent hover:bg-transparent hover:border-transparent">
-          <Button className="relative rounded-full border-transparent focus-visible:ring-transparent ">
+          <Button className="relative rounded-full border-transparent focus-visible:ring-transparent focus-visible:ring-offset-transparent">
             <DefaultDropdownTrigger />
           </Button>
         </DropdownMenuTrigger>
