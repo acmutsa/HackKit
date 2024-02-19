@@ -20,7 +20,17 @@ export default {
 		"Eggs",
 		"Halal",
 	],
-	groups: ["Group A", "Group B", "Group C"],
+	groups: {
+		"Group A": {
+			discordRole: "Group A",
+		},
+		"Group B": {
+			discordRole: "Group B",
+		},
+		"Group C": {
+			discordRole: "Group C",
+		},
+	},
 	issueEmail: "team@acmutsa.org",
 	links: {
 		discord: "https://go.acmutsa.org/discord",

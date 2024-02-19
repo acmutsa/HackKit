@@ -95,7 +95,7 @@ export async function POST(req: Request) {
 			email: body.email,
 			hackerTag: body.hackerTag.toLowerCase(),
 			registrationComplete: true,
-			group: totalUserCount[0].count % c.groups.length,
+			group: totalUserCount[0].count % Object.keys(c.groups).length,
 			hasSearchableProfile: body.profileIsSearchable,
 		});
 

@@ -15,7 +15,7 @@ import { serve } from "bun";
 import c from "config";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { discordVerification } from "db/schema";
+import { discordVerification, users } from "db/schema";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 
@@ -178,11 +178,26 @@ app.post("/api/checkDiscordVerification", async (h) => {
 
 	const verification = await db.query.discordVerification.findFirst({
 		where: eq(discordVerification.code, body.code),
+		with: {
+			user: true,
+		},
 	});
 
-	if (!verification) {
+	if (!verification || !verification.clerkID) {
 		return h.json({ success: false });
 	}
+
+	const user = await db.query.users.findFirst({
+		where: eq(users.clerkID, verification.clerkID),
+	});
+
+	if (!user) {
+		return h.json({ success: false });
+	}
+
+	const { discordRole: userGroupRoleName } = (c.groups as Record<string, { discordRole: string }>)[
+		Object.keys(c.groups)[user.group]
+	];
 
 	const guild = client.guilds.cache.get(verification.guild);
 	if (!guild) {
@@ -190,8 +205,9 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	}
 
 	const role = guild.roles.cache.find((role) => role.name === c.botParticipantRole);
+	const userGroupRole = guild.roles.cache.find((role) => role.name === userGroupRoleName);
 
-	if (!role) {
+	if (!role || !userGroupRole) {
 		return h.json({ success: false });
 	}
 
@@ -202,6 +218,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	}
 
 	await member.roles.add(role);
+	await member.roles.add(userGroupRole);
 
 	return h.json({ success: true });
 });
