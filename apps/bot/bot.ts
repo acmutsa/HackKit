@@ -14,6 +14,7 @@ import { Hono } from "hono";
 import { serve } from "bun";
 import c from "config";
 import { db } from "db";
+import { eq } from "db/drizzle";
 import { discordVerification } from "db/schema";
 import { nanoid } from "nanoid";
 import { z } from "zod";
@@ -85,17 +86,19 @@ client.on(Events.InteractionCreate, async (interaction) => {
 				return;
 			}
 			const vCode = nanoid(20);
-			const verification = await db
-				.insert(discordVerification)
-				.values({
-					code: vCode,
-					discordName: user.username,
-					discordProfilePhoto: user.avatar,
-					discordUserID: user.id,
-					discordUserTag: user.discriminator,
-					status: "pending",
-				})
-				.returning();
+			console.log(interaction.guildId);
+			// const verification = await db
+			// 	.insert(discordVerification)
+			// 	.values({
+			// 		code: vCode,
+			// 		discordName: user.username,
+			// 		discordProfilePhoto: user.avatar,
+			// 		discordUserID: user.id,
+			// 		discordUserTag: user.discriminator,
+			// 		status: "pending",
+			// 		guild: interaction.guildId as string,
+			// 	})
+			// 	.returning();
 
 			interaction.reply({
 				content: `Please click [this link](${c.siteUrl}/discord-verify?code=${vCode}) to verify your registration!`,
@@ -158,8 +161,49 @@ app.get("/postMsgToServer", (h) => {
 	return h.text(`Posted to channel!`);
 });
 
-app.post("/health", (h) => {
+app.get("/health", (h) => {
 	return h.text("ok");
+});
+
+app.post("/api/checkDiscordVerification", async (h) => {
+	const body = await h.req.json();
+	const internalAuthKey = h.req.query("access");
+	if (!internalAuthKey || internalAuthKey != process.env.INTERNAL_AUTH_KEY) {
+		return h.text("access denied");
+	}
+
+	if (body.code === undefined || typeof body.code !== "string") {
+		return h.json({ success: false });
+	}
+
+	const verification = await db.query.discordVerification.findFirst({
+		where: eq(discordVerification.code, body.code),
+	});
+
+	if (!verification) {
+		return h.json({ success: false });
+	}
+
+	const guild = client.guilds.cache.get(verification.guild);
+	if (!guild) {
+		return h.json({ success: false });
+	}
+
+	const role = guild.roles.cache.find((role) => role.name === c.botParticipantRole);
+
+	if (!role) {
+		return h.json({ success: false });
+	}
+
+	const member = guild.members.cache.get(verification.discordUserID);
+
+	if (!member) {
+		return h.json({ success: false });
+	}
+
+	await member.roles.add(role);
+
+	return h.json({ success: true });
 });
 
 serve({

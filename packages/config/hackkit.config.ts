@@ -4,8 +4,8 @@ export default {
 	hackathonName: "HackKit",
 	itteration: "2023",
 	siteUrl: "https://hack-kit-web.vercel.app", // Do not have a trailing slash
-	botUrl: "localhost:",
 	botName: "HackKit",
+	botParticipantRole: "HackKit User",
 	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",

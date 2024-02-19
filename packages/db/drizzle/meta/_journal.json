@@ -57,6 +57,27 @@
       "when": 1708153868283,
       "tag": "0007_damp_lizard",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1708309810150,
+      "tag": "0008_graceful_surge",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1708309834167,
+      "tag": "0009_keen_the_phantom",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1708310062051,
+      "tag": "0010_clean_vin_gonzales",
+      "breakpoints": true
     }
   ]
 }
