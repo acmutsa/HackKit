@@ -1,18 +1,7 @@
-# Build stage
-FROM alpine:3.14 AS build
-
-# Install dependencies required for Node.js installation
-RUN apk add --update --no-cache curl alpine-sdk python3
+# Build stage with official Node.js base image
+FROM node:20.11.1-alpine3.14 AS build
 
 WORKDIR /root
-
-# Download and install Node.js LTS (20.11.1)
-RUN cd /tmp && \
-    curl -fsSLO --compressed "https://nodejs.org/dist/v20.11.1/node-v20.11.1-linux-x64-musl.tar.xz" && \
-    tar -xJf "node-v20.11.1-linux-x64-musl.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && \
-    ln -s /usr/local/bin/node /usr/local/bin/nodejs && \
-    node -v && \
-    npm -v
 
 # Copy the application files
 COPY package*.json ./
@@ -24,22 +13,21 @@ RUN npm install
 RUN npm run build
 RUN npm prune --production
 
-# Final stage
+# Final stage with Alpine base image
 FROM alpine:3.14
 
 WORKDIR /root
 
-# Install dependencies required for Node.js and runtime dependencies
-RUN apk add --update --no-cache curl postgresql-client alpine-sdk python3
+# Install runtime dependencies
+RUN apk add --update --no-cache curl postgresql-client
 
-# Repeat the Node.js installation for the runtime environment
-RUN cd /tmp && \
-    curl -fsSLO --compressed "https://nodejs.org/dist/v20.11.1/node-v20.11.1-linux-x64-musl.tar.xz" && \
-    tar -xJf "node-v20.11.1-linux-x64-musl.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && \
-    ln -s /usr/local/bin/node /usr/local/bin/nodejs
-
-# Copy the node_modules and build directories from the build stage
+# Copy Node.js from the build stage
+COPY --from=build /usr/local/bin/node /usr/local/bin/node
+COPY --from=build /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=build /root/node_modules ./node_modules
 COPY --from=build /root/dist ./dist
+
+# Ensure node command is available
+RUN ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
 ENTRYPOINT ["node", "dist/index.js"]
