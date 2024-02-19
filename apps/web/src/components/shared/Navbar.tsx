@@ -5,7 +5,7 @@ import { Button } from "../shadcn/ui/button";
 import ProfileButton from "../dash/shared/ProfileButton";
 import { auth, currentUser } from "@clerk/nextjs";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
-import MobileNavView from "./MobileNavView";
+
 
 
 export default async function Navbar() {

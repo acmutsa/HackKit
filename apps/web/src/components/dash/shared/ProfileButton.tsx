@@ -17,7 +17,7 @@ import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import DefaultDropdownTrigger from "./DefaultDropdownTrigger";
-
+import MobileNavBarLinks from "@/components/shared/MobileNavBarLinks";
 
 export default async function ProfileButton() {
 	const clerkUser = await auth();
@@ -35,12 +35,12 @@ export default async function ProfileButton() {
             <DefaultDropdownTrigger />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
+        <DropdownMenuContent className="w-32 sm:w-40 lg:w-52  mt-2" align="end" forceMount>
           <DropdownMenuGroup>
             <DropdownSwitcher />
             <Link href={`/sign-in`}>
               <DropdownMenuItem className="cursor-pointer">
-                Sign in
+                Sign In
               </DropdownMenuItem>
             </Link>
             <Link href={`/register`}>
@@ -48,6 +48,7 @@ export default async function ProfileButton() {
                 Register
               </DropdownMenuItem>
             </Link>
+			<MobileNavBarLinks/>
             <Link href={`/bug-report`}>
               <DropdownMenuItem className="cursor-pointer">
                 Report a Bug
@@ -66,38 +67,37 @@ export default async function ProfileButton() {
 
 	if (!user) {
 		return (
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" className="relative h-8 w-8 rounded-full">
-						<Avatar className="h-8 w-8">
-							<AvatarImage src={clerkUser.user?.imageUrl} alt={""} />
-							<AvatarFallback>
-								{clerkUser.user?.firstName && clerkUser.user?.lastName
-									? clerkUser.user?.firstName.charAt(0) + clerkUser.user?.lastName.charAt(0)
-									: "NA"}
-							</AvatarFallback>
-						</Avatar>
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
-					<DropdownMenuGroup>
-						<DropdownSwitcher />
-						<Link href={`/register`}>
-							<DropdownMenuItem className="cursor-pointer">Complete Registration</DropdownMenuItem>
-						</Link>
-						<Link href={`/bug-report`}>
-							<DropdownMenuItem className="cursor-pointer">Report a Bug</DropdownMenuItem>
-						</Link>
-					</DropdownMenuGroup>
-					<DropdownMenuSeparator />
-					<SignOutButton>
-						<DropdownMenuItem className="hover:!bg-destructive cursor-pointer">
-							Log out
-						</DropdownMenuItem>
-					</SignOutButton>
-				</DropdownMenuContent>
-			</DropdownMenu>
-		);
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          asChild
+          className="border-transparent bg-transparent hover:bg-transparent hover:border-transparent">
+          <Button className="relative rounded-full border-transparent focus-visible:ring-transparent focus-visible:ring-offset-transparent">
+            <DefaultDropdownTrigger />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
+          <DropdownMenuGroup>
+            <DropdownSwitcher />
+            <Link href={`/register`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Complete Registration
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/bug-report`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Report a Bug
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <SignOutButton>
+            <DropdownMenuItem className="hover:!bg-destructive cursor-pointer">
+              Log out
+            </DropdownMenuItem>
+          </SignOutButton>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
 	}
 
 	return (
