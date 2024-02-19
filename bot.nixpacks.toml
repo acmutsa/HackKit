@@ -1,0 +1,9 @@
+[phases.setup]
+nixpkgsArchive = 'e99651a836b162b48fbf4195e0c8d3028b6b32a8'
+nixPkgs = ['...', 'bun']
+
+[phases.build]
+cmds = ['pnpm install --filter db', 'pnpm install --filter config', 'pnpm install --filter bot']
+
+[start]
+cmd = 'bun -v && pwd && pnpm --filter=bot run start'

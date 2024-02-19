@@ -34,9 +34,9 @@ export const roles = pgEnum("role", [
 
 export const fileTypesEnum = pgEnum("type", ["generic", "resume"]);
 
-export const inviteType = pgEnum("status", ["pending", "accepted", "declined"]);
+export const inviteType = pgEnum("invite_status", ["pending", "accepted", "declined"]);
 
-export const discordVerificationStatus = pgEnum("status", [
+export const discordVerificationStatus = pgEnum("discord_status", [
 	"pending",
 	"expired",
 	"accepted",
@@ -57,6 +57,8 @@ export const users = pgTable("users", {
 	checkinTimestamp: timestamp("checkin_timestamp"),
 	teamID: varchar("team_id", { length: 50 }),
 	points: integer("points").notNull().default(0),
+	checkedIn: boolean("checked_in").notNull().default(false),
+	rsvp: boolean("rsvp").notNull().default(false),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
@@ -224,9 +226,10 @@ export const discordVerification = pgTable("discord_verification", {
 	code: varchar("code", { length: 255 }).notNull().primaryKey(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	clerkID: varchar("clerk_id", { length: 255 }),
-	discordUserID: varchar("discord_user_id", { length: 255 }),
-	discordUserTag: varchar("discord_user_tag", { length: 255 }),
-	discordProfilePhoto: varchar("discord_profile_photo", { length: 255 }),
-	discordName: varchar("discord_name", { length: 255 }),
+	discordUserID: varchar("discord_user_id", { length: 255 }).notNull(),
+	discordUserTag: varchar("discord_user_tag", { length: 255 }).notNull(),
+	discordProfilePhoto: varchar("discord_profile_photo", { length: 255 }).notNull(),
+	discordName: varchar("discord_name", { length: 255 }).notNull(),
 	status: discordVerificationStatus("status").notNull().default("pending"),
+	guild: varchar("guild", { length: 100 }).notNull(),
 });

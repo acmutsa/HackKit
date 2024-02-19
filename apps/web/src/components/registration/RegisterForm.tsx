@@ -45,6 +45,7 @@ import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put, type PutBlobResult } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
+import CreatingRegistration from "./CreatingRegistration";
 
 interface RegisterFormProps {
 	defaultEmail: string;
@@ -89,6 +90,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [skills, setSkills] = useState<Tag[]>([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
@@ -102,14 +104,17 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	}, [universityValue]);
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
-		console.log("Submision Clickjed");
+		setIsLoading(true);
+		console.log("Submision Clicked");
 		if (!userId || !isLoaded) {
+			setIsLoading(false);
 			return alert(
 				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`
 			);
 		}
 
 		if (data.acceptsMLHCodeOfConduct !== true || data.shareDataWithMLH !== true) {
+			setIsLoading(false);
 			return alert("You must accept the MLH Code of Conduct and Privacy Policy to continue.");
 		}
 
@@ -135,16 +140,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 				router.push("/dash");
 			} else {
 				if (res.data.message == "hackertag_not_unique") {
-					alert(
+					setIsLoading(false);
+					return alert(
 						"The HackerTag you chose has already been taken. Please change it and then resubmit the form."
 					);
 				}
-				alert(
+				setIsLoading(false);
+				return alert(
 					`Registration not created. Error message: \n\n ${res.data.message} \n\n Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`
 				);
 			}
 		} else {
-			console.log(
+			setIsLoading(false);
+			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`
 			);
 		}
@@ -170,6 +178,10 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		noClick: uploadedFile != null,
 		noDrag: uploadedFile != null,
 	});
+
+	if (isLoading) {
+		return <CreatingRegistration />;
+	}
 
 	return (
 		<div>
@@ -438,9 +450,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 															>
 																<Check
 																	className={`mr-2 h-4 w-4 ${
-																		school.toLowerCase() === field.value
-																			? "opacity-100"
-																			: "opacity-0"
+																		school.toLowerCase() === field.value ? "block" : "hidden"
 																	}
 																	`}
 																/>
@@ -494,10 +504,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																className="cursor-pointer"
 															>
 																<Check
-																	className={`mr-2 h-4 w-4 ${
-																		major.toLowerCase() === field.value
-																			? "opacity-100"
-																			: "opacity-0"
+																	className={`h-4 mr-2 overflow-hidden w-4 ${
+																		major.toLowerCase() === field.value ? "block" : "hidden"
 																	}
 																	`}
 																/>

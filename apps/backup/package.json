@@ -1,0 +1,24 @@
+{
+  "name": "backup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "20.3.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.511.0",
+    "@hono/node-server": "^1.7.0",
+    "cron": "^3.1.6",
+    "envsafe": "^2.0.3",
+    "hono": "^3.12.5",
+    "typescript": "5.1.6"
+  }
+}

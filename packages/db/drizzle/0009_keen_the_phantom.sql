@@ -1,0 +1,1 @@
+ALTER TABLE "discord_verification" RENAME COLUMN "guide" TO "guild";
