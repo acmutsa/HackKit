@@ -82,13 +82,14 @@ export default {
 			"Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
-		eventTypes: {},
+		// TODO: Can remove days? Pretty sure they're dynamic now.
+	},
+	eventTypes: {
 		Meal: "#FFC107",
 		Workshop: "#10b981",
 		Ceremony: "#9C27B0",
 		Social: "#2196F3",
 		Other: "#795548",
-		// TODO: Can remove days? Pretty sure they're dynamic now.
 	},
 	days: {
 		Saturday: new Date(2023, 6, 15),
