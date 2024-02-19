@@ -9,7 +9,7 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY src ./src
 
-RUN npm ci
+RUN npm i
 RUN npm run build
 RUN npm prune --production
 
