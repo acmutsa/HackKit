@@ -16,17 +16,53 @@ import { users } from "db/schema";
 import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
+import DefaultDropdownTrigger from "./DefaultDropdownTrigger";
+
 
 export default async function ProfileButton() {
 	const clerkUser = await auth();
 	const { userId } = clerkUser;
-	if (!userId) return null;
+
+	
+
+	if (!userId){
+		return (
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          asChild
+          className="border-transparent bg-transparent hover:bg-transparent hover:border-transparent">
+          <Button className="relative rounded-full border-transparent focus-visible:ring-transparent ">
+            <DefaultDropdownTrigger />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
+          <DropdownMenuGroup>
+            <DropdownSwitcher />
+            <Link href={`/sign-in`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Sign in
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/register`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Register
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/bug-report`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Report a Bug
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+	}
+
 	const user = await db.query.users.findFirst({
 		where: eq(users.clerkID, userId),
 		with: { profileData: true },
 	});
-
-	if (!user && !userId) return null;
 
 	if (!user) {
 		return (
