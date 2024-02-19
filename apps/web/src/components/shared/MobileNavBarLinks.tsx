@@ -7,7 +7,6 @@ export default async function MobileNavBarLinks() {
     
   return (
     <div className="md:hidden cursor-pointer">
-      <DropdownMenuSeparator />
       {navLinks.items.map((nav, key)=>{
         return(
             <div key={nav.name}>
