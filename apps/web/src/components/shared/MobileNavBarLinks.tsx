@@ -1,9 +1,9 @@
-import { getNavBarLinks } from "./NavBarLinksGrouper";
 
-import { DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator } from "../shadcn/ui/dropdown-menu";
+import { getAllNavItems } from "@/lib/utils/server/redis";
+import { DropdownMenuItem, DropdownMenuSeparator } from "../shadcn/ui/dropdown-menu";
 import Link from "next/link";
 export default async function MobileNavBarLinks() {
-    const navLinks = await getNavBarLinks();
+    const navLinks = await getAllNavItems();
     
   return (
     <div className="md:hidden cursor-pointer">
