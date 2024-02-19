@@ -169,6 +169,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	const body = await h.req.json();
 	const internalAuthKey = h.req.query("access");
 	if (!internalAuthKey || internalAuthKey != process.env.INTERNAL_AUTH_KEY) {
+		console.log("denied access");
 		return h.text("access denied");
 	}
 
@@ -176,21 +177,20 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		return h.json({ success: false });
 	}
 
+	console.log("got here 1");
 	const verification = await db.query.discordVerification.findFirst({
 		where: eq(discordVerification.code, body.code),
-		with: {
-			user: true,
-		},
 	});
+	console.log("got here 1 with verification ", verification);
 
 	if (!verification || !verification.clerkID) {
 		return h.json({ success: false });
 	}
-
+	console.log("got here 2");
 	const user = await db.query.users.findFirst({
 		where: eq(users.clerkID, verification.clerkID),
 	});
-
+	console.log("got here 2 with user", user);
 	if (!user) {
 		return h.json({ success: false });
 	}

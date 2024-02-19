@@ -20,6 +20,9 @@ export const confirmVerifyDiscord = authenticatedAction(
 				success: false,
 			};
 		}
+
+		// TODO: set some kind of thing that will revert the verification if the bot api call fails
+
 		await db
 			.update(discordVerification)
 			.set({ status: "accepted", clerkID: userId })
