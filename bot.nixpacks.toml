@@ -1,7 +1,7 @@
 [phases.setup]
 nixpkgsArchive = 'e99651a836b162b48fbf4195e0c8d3028b6b32a8'
 nixPkgs = ['...', 'bun']
-cmds=['pnpm install -g corepack@0.24.1 && corepack enable']
+cmds=['npm install -g corepack@0.24.1 && corepack enable']
 
 [phases.build]
 cmds = ['pnpm install --filter db', 'pnpm install --filter config', 'pnpm install --filter bot']
