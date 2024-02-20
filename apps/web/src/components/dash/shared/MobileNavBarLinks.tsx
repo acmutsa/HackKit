@@ -20,7 +20,6 @@ export default async function MobileNavBarLinks() {
           </div>
         );
       })}
-      <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
     </div>
   );
 }

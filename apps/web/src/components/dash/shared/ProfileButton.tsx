@@ -39,7 +39,7 @@ export default async function ProfileButton() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-32 sm:w-40 lg:w-52  mt-2"
+          className="w-32 sm:w-40 lg:w-52  mt-2 bg-[rgb(247,240,232)] dark:bg-black"
           align="end"
           forceMount>
           <DropdownMenuGroup>
@@ -54,6 +54,7 @@ export default async function ProfileButton() {
               </DropdownMenuItem>
             </Link>
             <MobileNavBarLinks />
+            <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
             <DropdownSwitcher />
             <Link href={`/bug-report`}>
               <DropdownMenuItem className="cursor-pointer">
@@ -84,7 +85,7 @@ export default async function ProfileButton() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-56 mt-2 bg-[rgb(247,240,232)] dark:bg-black"
+          className="w-32 sm:w-40 lg:w-52  mt-2 bg-[rgb(247,240,232)] dark:bg-black"
           align="end"
           forceMount>
           <DropdownMenuGroup>
@@ -100,7 +101,7 @@ export default async function ProfileButton() {
               </DropdownMenuItem>
             </Link>
           </DropdownMenuGroup>
-          {/* bg-[rgb(228,228,231)]  */}
+          
           <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
           <DropdownSwitcher />
           <SignOutButton>
@@ -126,7 +127,10 @@ export default async function ProfileButton() {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
+      <DropdownMenuContent
+        className="w-32 sm:w-40 lg:w-52  mt-2 bg-[rgb(247,240,232)] dark:bg-black"
+        align="end"
+        forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{`${user.firstName} ${user.lastName}`}</p>
@@ -143,6 +147,7 @@ export default async function ProfileButton() {
             </DropdownMenuItem>
           </Link>
           <MobileNavBarLinks />
+          <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
           <Link href={`/bug-report`}>
             <DropdownMenuItem className="cursor-pointer">
               Report a Bug
