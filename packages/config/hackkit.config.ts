@@ -7,7 +7,7 @@ export default {
 	defaultMetaDataDescription:
 		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
 	botName: "HackKit",
-	botParticipantRole: "RowdyHacks24 Participant",
+	botParticipantRole: "RH24 Participant",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
