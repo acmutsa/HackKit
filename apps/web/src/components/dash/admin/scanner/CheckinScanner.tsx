@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
-import { getScan, createScan } from "@/actions/admin/scanner-admin-actions";
+import { getScan, checkInUser } from "@/actions/admin/scanner-admin-actions";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
@@ -32,21 +32,22 @@ scan: the scan object that has been scanned. If they have not scanned before sca
 
 */
 
-interface PassScannerProps {
-  event: eventType;
+interface CheckinScannerProps {
+  // event: eventType;
   hasScanned: boolean;
-  scan: scansType | null;
+  // scan: scansType | null;
+  checkedIn: boolean;
   scanUser: userType | null;
 }
 
-export default function PassScanner({
-  event,
+export default function CheckinScanner({
+  // event,
   hasScanned,
-  scan,
+  checkedIn,
   scanUser,
-}: PassScannerProps) {
+}: CheckinScannerProps) {
   const [scanLoading, setScanLoading] = useState(false);
-  const { execute: runScanAction } = useAction(createScan, {});
+  const { execute: runScanAction } = useAction(checkInUser, {});
 
   useEffect(() => {
     if (hasScanned) {
@@ -64,25 +65,12 @@ export default function PassScanner({
     if (isNaN(timestamp)) {
       return alert("Invalid QR Code Data (Field: createdAt)");
     }
-    if (scan) {
-      runScanAction({
-        eventID: event.id,
-        userID: scan.userID,
-        countToSet: scan.count + 1,
-        alreadyExists: true,
-        creationTime: new Date(timestamp),
-      });
+    if (checkedIn) {
+      return alert("User Already Checked in!");
     } else {
       // TODO: make this a little more typesafe
-      runScanAction({
-        eventID: event.id,
-        userID: scanUser?.clerkID as string,
-        countToSet: 1,
-        alreadyExists: false,
-        creationTime: new Date(timestamp),
-      });
+      runScanAction(scanUser?.clerkID!);
     }
-
     toast.success("Successfully Scanned User In");
     router.replace(`${path}`);
   }
@@ -114,11 +102,11 @@ export default function PassScanner({
               }}
             />
           </div>
-          <div className="w-screen max-w-[500px] flex justify-center gap-x-2 overflow-hidden mx-auto">
+          {/* <div className="w-screen max-w-[500px] flex justify-center gap-x-2 overflow-hidden mx-auto">
             <Link href={"/admin/events"}>
               <Button>Return To Events</Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
       <Drawer
@@ -130,7 +118,7 @@ export default function PassScanner({
             <>
               <DrawerHeader>
                 <DrawerTitle>Loading Scan...</DrawerTitle>
-                <DrawerDescription></DrawerDescription>
+                {/* <DrawerDescription></DrawerDescription> */}
               </DrawerHeader>
               <DrawerFooter>
                 <Button onClick={() => router.replace(path)} variant="outline">
@@ -141,16 +129,25 @@ export default function PassScanner({
           ) : (
             <>
               <DrawerHeader>
-                <DrawerTitle>New Scan for {event.title}</DrawerTitle>
-                <DrawerDescription>
-                  New scan for {scanUser?.firstName} {scanUser?.lastName}
-                </DrawerDescription>
+                {checkedIn ? (
+                  <DrawerTitle className="mx-auto">
+                    User already checked in!
+                  </DrawerTitle>
+                ) : (
+                  <>
+                    <DrawerTitle>New Scan</DrawerTitle>
+                    <DrawerDescription>
+                      New scan for {scanUser?.firstName} {scanUser?.lastName}
+                    </DrawerDescription>
+                  </>
+                )}
               </DrawerHeader>
               <DrawerFooter>
-                <Button onClick={() => handleScanCreate()}>
-                  {scan ? "Add Additional Scan" : "Scan User In"}
-                </Button>
-
+                {!checkedIn && (
+                  <Button onClick={() => handleScanCreate()}>
+                    {"Scan User In"}
+                  </Button>
+                )}
                 <Button variant="outline">Cancel</Button>
               </DrawerFooter>
             </>
