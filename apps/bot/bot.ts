@@ -219,6 +219,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 
 	await member.roles.add(role);
 	await member.roles.add(userGroupRole);
+	await member.setNickname(user.firstName + " " + user.lastName);
 
 	return h.json({ success: true });
 });

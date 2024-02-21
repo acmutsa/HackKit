@@ -3,6 +3,7 @@ import Day from "@/components/schedule/Day";
 import { db } from "db";
 import { format, compareAsc } from "date-fns";
 import { type ReactNode } from "react";
+import { formatInTimeZone } from "date-fns-tz";
 
 export default async function Page() {
 	const events = await db.query.events.findMany();
@@ -40,8 +41,8 @@ export default async function Page() {
 				{entries.map(([key, value]) => (
 					<Day
 						key={key}
-						title={format(value[0].startTime, "EEEE")}
-						subtitle={format(value[0].startTime, "MM/dd/yyyy")}
+						title={formatInTimeZone(value[0].startTime, c.hackathonTimezone, "EEEE")}
+						subtitle={formatInTimeZone(value[0].startTime, c.hackathonTimezone, "MM/dd/yyyy")}
 						events={value}
 					/>
 				))}
