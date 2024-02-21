@@ -4,6 +4,7 @@ import { format, compareAsc } from "date-fns";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import Link from "next/link";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface DayProps {
 	title: string;
@@ -50,7 +51,11 @@ function EventItem({ event }: EventItemProps) {
 					</div>
 				</div>
 				<div className="flex items-center justify-end text-sm md:text-md md:col-span-1 col-span-2">
-					<p>{`${format(event.startTime, "h:mm a")} - ${format(event.endTime, "h:mm a")}`}</p>
+					<p>{`${formatInTimeZone(
+						event.startTime,
+						c.hackathonTimezone,
+						"h:mm a"
+					)} - ${formatInTimeZone(event.endTime, c.hackathonTimezone, "h:mm a")}`}</p>
 				</div>
 			</div>
 		</Link>
