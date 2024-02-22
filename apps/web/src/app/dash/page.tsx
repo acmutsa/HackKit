@@ -10,35 +10,48 @@ import c from "config";
 import superjson from "superjson";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 
-// HackKit Bubbles
-
+// HackKit Bubbless
 import { Countdown } from "@/components/dash/overview/ClientBubbles";
-import { Questions, TitleBubble, QuickQR } from "@/components/dash/overview/ServerBubbles";
+import {
+  Questions,
+  TitleBubble,
+  QuickQR,
+} from "@/components/dash/overview/ServerBubbles";
 
 export default async function Page() {
-	const { userId } = auth();
-	if (!userId) return null;
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
-	if (!user) return null;
+  const { userId } = auth();
+  if (!userId) return null;
+  const user = await db.query.users.findFirst({
+    where: eq(users.clerkID, userId),
+  });
+  if (!user) return null;
 
-	const qrPayload = createQRpayload({ userID: userId, createdAt: new Date() });
+  const qrPayload = createQRpayload({ userID: userId, createdAt: new Date() });
 
-	return (
-		<div className="max-w-7xl mx-auto py-10 min-h-[calc(100%-7rem)]">
-			<div className="w-full px-2">
-				<h2 className="font-bold text-xl">Welcome,</h2>
-				<h1 className="font-black text-5xl text-hackathon">{user.firstName}</h1>
-			</div>
-			<div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 grid-cols-1 w-full pt-10 gap-2 rows-[] px-2">
-				<QuickQR qrPayload={qrPayload} />
-				<TitleBubble />
-				<Countdown title={`${c.hackathonName} ${c.itteration}`} date={c.startDate} />
-				<Questions />
-			</div>
-		</div>
-	);
+  return (
+    <div className="max-w-7xl mx-auto py-10 min-h-[calc(100%-7rem)]">
+      <div className="w-full px-2">
+        <h2 className="font-bold text-xl">Welcome,</h2>
+        <h1 className="font-black text-5xl text-hackathon">{user.firstName}</h1>
+      </div>
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 grid-cols-1 w-full pt-10 gap-2 rows-[] px-2">
+        <QuickQR qrPayload={qrPayload} />
+        <TitleBubble />
+        {Date.now() < c.startDate.getTime() ? (
+          <Countdown
+            title={`${c.hackathonName} ${c.itteration}`}
+            date={c.startDate}
+            withConfetti
+          />
+        ) : Date.now() < c.hackStartTime.getTime() ? (
+          <Countdown title={`Hacking Starts`} date={c.hackStartTime} />
+        ) : (
+          <Countdown title={`Hacking Ends`} date={c.hackEndTime} withConfetti />
+        )}
+        <Questions />
+      </div>
+    </div>
+  );
 }
 
 export const runtime = "edge";
