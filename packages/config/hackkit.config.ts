@@ -61,6 +61,7 @@ export default {
 		facebook: "https://facebook.com/rowdyhacks",
 		twitter: "https://twitter.com/rowdyhacks",
 		github: "https://github.com/acmutsa",
+    guide: "https://go.rowdyhacks.org/guide",
 	},
 	icon: {
 		sm: "/img/logo/logo.png",
