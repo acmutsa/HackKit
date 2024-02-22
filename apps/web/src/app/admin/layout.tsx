@@ -58,7 +58,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
               Home
             </Button>
           </Link>
-          <Link href={"/guide"}>
+          <Link href={c.links.guide}>
             <Button variant={"outline"} className="bg-nav hover:bg-background">
               Survival Guide
             </Button>
