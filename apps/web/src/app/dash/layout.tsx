@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { redirect } from "next/navigation";
-import ProfileButton from "@/components/dash/shared/ProfileButton";
+import ProfileButton from "@/components/shared/ProfileButton";
 import ClientToast from "@/components/shared/ClientToast";
 
 interface DashLayoutProps {

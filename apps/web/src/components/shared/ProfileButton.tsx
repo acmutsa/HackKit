@@ -20,7 +20,7 @@ import { users } from "db/schema";
 import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
-import DefaultDropdownTrigger from "./DefaultDropDownTrigger";
+import DefaultDropdownTrigger from "../dash/shared/DefaultDropDownTrigger";
 import MobileNavBarLinks from "./MobileNavBarLinks";
 
 export default async function ProfileButton() {
@@ -101,7 +101,6 @@ export default async function ProfileButton() {
               </DropdownMenuItem>
             </Link>
           </DropdownMenuGroup>
-          
           <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
           <DropdownSwitcher />
           <SignOutButton>
