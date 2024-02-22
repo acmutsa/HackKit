@@ -12,10 +12,7 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
   const maxPerPage = 30;
 
   let page = +(searchParams["page"] ?? "1");
-  let user = searchParams["user"] ?? "Christian";
-
-  console.log(page);
-  console.log(user);
+  let user = searchParams["user"] ?? "";
 
   const start = maxPerPage * (page - 1);
   const end = maxPerPage + start;
@@ -34,7 +31,7 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
       ),
   });
 
-  //   || like(users.lastName, `%${user}%`)
+  
 
   return (
     <div className="max-w-7xl mx-auto px-5 pt-44">
@@ -43,7 +40,7 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Users</h2>
             <p className="text-sm text-muted-foreground">
-              {/*{users.length} */}Total Users
+              Total Users: {users.length}
             </p>
           </div>
         </div>
