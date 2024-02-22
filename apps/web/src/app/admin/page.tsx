@@ -9,7 +9,7 @@ import {
 import { db } from "db";
 import { eq, desc } from "db/drizzle";
 import { users } from "db/schema";
-import { Users, UserCheck, User2, TimerReset } from "lucide-react";
+import { Users, UserCheck, User2, TimerReset,MailCheck } from "lucide-react";
 import type { userType } from "@/lib/utils/shared/types";
 import { unstable_cache } from "next/cache";
 import { env } from "@/env.mjs";
@@ -68,7 +68,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">RSVPs</CardTitle>
-						<UserCheck />
+						<MailCheck/>
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{rsvpCount}</div>
@@ -78,7 +78,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Check-ins</CardTitle>
-						<User2 />
+						<UserCheck/>
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{checkinCount}</div>
