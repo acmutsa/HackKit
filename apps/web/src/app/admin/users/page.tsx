@@ -1,4 +1,4 @@
-import { db } from "db";
+import { db,ilike,or } from "db";
 import { DataTable } from "@/components/dash/admin/users/UserDataTable";
 import { columns } from "@/components/dash/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
@@ -8,31 +8,35 @@ import SearchBar from "@/components/shared/SearchBar";
 import { any } from "zod";
 
 export default async function Page({searchParams}:{searchParams:{[key:string]:string | string[] |undefined}}) {
-	// COME BACK AND CHANGE
-	const maxPerPage = 2;
+  // COME BACK AND CHANGE
+  const maxPerPage = 30;
 
-	let page = +(searchParams["page"] ?? "1");
-	let user = searchParams['user'] ?? "Christian";
+  let page = +(searchParams["page"] ?? "1");
+  let user = searchParams["user"] ?? "Christian";
 
-	console.log(page);
-	console.log(user);
+  console.log(page);
+  console.log(user);
 
-	const start = maxPerPage * (page - 1);
-  	const end = maxPerPage + start;
-	
+  const start = maxPerPage * (page - 1);
+  const end = maxPerPage + start;
 
-	const users = await db.query.users.findMany({
+
+//   Might want to work with cache in prod to see if this will be plausible to do 
+  const users = await db.query.users.findMany({
     with: {
       registrationData: true,
       profileData: true,
     },
-	
+    where: (users, { ilike }) =>
+      or(
+        ilike(users.firstName, `%${user}%`),
+        ilike(users.lastName, `%${user}%`)
+      ),
   });
 
-  
-	
+  //   || like(users.lastName, `%${user}%`)
 
-	return (
+  return (
     <div className="max-w-7xl mx-auto px-5 pt-44">
       <div className="w-full grid grid-cols-3 mb-5">
         <div className="flex items-center">
@@ -54,8 +58,8 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
         </div>
       </div>
       {/* TODO: Would very much like to not have "as any" here in the future */}
-      <DataTable columns={columns} data={users.slice(start,end) as any} />
-      <DefaultPagination maxPages={Math.ceil(users.length / maxPerPage)}/>
+      <DataTable columns={columns} data={users.slice(start, end) as any} />
+      <DefaultPagination maxPages={Math.ceil(users.length / maxPerPage)} />
     </div>
   );
 }
