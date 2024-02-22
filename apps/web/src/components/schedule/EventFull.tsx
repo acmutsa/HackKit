@@ -2,8 +2,8 @@ import { events } from "db/schema";
 import { InferModel } from "db/drizzle";
 import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { format } from "date-fns";
 import Balancer from "react-wrap-balancer";
+import { formatInTimeZone } from "date-fns-tz";
 
 export default function EventFull({ event }: { event: InferModel<typeof events> }) {
 	return (
@@ -28,10 +28,15 @@ export default function EventFull({ event }: { event: InferModel<typeof events> 
 					>
 						{event.type}
 					</Badge>
-					<p className="font-bold md:text-sm text-xs">{`${format(
+					<p className="font-bold md:text-sm text-xs">{`${formatInTimeZone(
 						event.startTime,
+						c.hackathonTimezone,
 						"EEEE MMMM do"
-					)}, ${format(event.startTime, "h:mm a")} - ${format(event.endTime, "h:mm a")}`}</p>
+					)}, ${formatInTimeZone(
+						event.startTime,
+						c.hackathonTimezone,
+						"h:mm a"
+					)} - ${formatInTimeZone(event.endTime, c.hackathonTimezone, "h:mm a")}`}</p>
 				</div>
 
 				<h1 className="font-black text-7xl mb-2">

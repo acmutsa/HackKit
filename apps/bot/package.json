@@ -5,7 +5,7 @@
   "main": "bot.ts",
   "scripts": {
     "dev": "bun run --env-file=../../.env --hot bot.ts",
-    "start": "bun run --env-file=../../.env bot.ts",
+    "start": "bun run --env-file=../../.env ./bot.ts",
     "deploy:dev": "bun run --env-file=../../.env --dev deploy-commands.ts",
     "deploy:prod": "bun run --env-file=../../.env --prod deploy-commands.ts"
   },
@@ -13,12 +13,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "workspace:*",
+    "db": "workspace:*",
     "discord.js": "^14.14.1",
     "hono": "^3.12.5",
-    "db": "workspace:*",
-    "config": "workspace:*"
+    "nanoid": "^4.0.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/bun": "^1.0.1"
-  }
+  },
+  "packageManager": "pnpm@8.3.1"
 }

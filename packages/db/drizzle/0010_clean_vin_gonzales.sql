@@ -1,0 +1,1 @@
+ALTER TABLE "discord_verification" ALTER COLUMN "guild" SET NOT NULL;

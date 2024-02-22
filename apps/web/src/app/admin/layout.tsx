@@ -16,31 +16,31 @@ import NavBarLinksGrouper from "@/components/shared/NavBarLinksGrouper";
 
 
 interface AdminLayoutProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-	const { userId } = auth();
+  const { userId } = auth();
 
-	if (!userId) {
-		return redirect("/sign-in");
-	}
+  if (!userId) {
+    return redirect("/sign-in");
+  }
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
+  const user = await db.query.users.findFirst({
+    where: eq(users.clerkID, userId),
+  });
 
-	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
-		console.log("Denying admin access to user", user);
-		return (
-			<FullScreenMessage
-				title="Access Denied"
-				message="You are not an admin. If you belive this is a mistake, please contact a administrator."
-			/>
-		);
-	}
+  if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+    console.log("Denying admin access to user", user);
+    return (
+      <FullScreenMessage
+        title="Access Denied"
+        message="You are not an admin. If you belive this is a mistake, please contact a administrator."
+      />
+    );
+  }
 
-	return (
+  return (
     <>
       <ClientToast />
       <div className="w-full h-16 px-5 grid grid-cols-2 bg-nav fixed z-20">
@@ -53,9 +53,6 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
           />
           <div className="bg-muted-foreground h-[45%] rotate-[25deg] w-[2px]" />
           <h2 className="font-bold tracking-tight">Admin</h2>
-          <div className="hidden md:flex items-center justify-start gap-x-5 col-span-2">
-            <NavBarLinksGrouper />
-          </div>
         </div>
         <div className="items-center justify-end gap-x-4 md:flex hidden">
           <Link href={"/"}>
@@ -63,12 +60,12 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
               Home
             </Button>
           </Link>
-          <Link href={"/guide"}>
+          <Link href={c.links.guide}>
             <Button variant={"outline"} className="bg-nav hover:bg-background">
               Survival Guide
             </Button>
           </Link>
-          <Link href={"/guide"}>
+          <Link href={c.links.discord}>
             <Button variant={"outline"} className="bg-nav hover:bg-background">
               Discord
             </Button>

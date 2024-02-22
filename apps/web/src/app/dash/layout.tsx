@@ -35,12 +35,12 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 							Home
 						</Button>
 					</Link>
-					<Link href={"/guide"}>
+					<Link href={c.links.guide}>
 						<Button variant={"outline"} className="bg-nav hover:bg-background">
 							Survival Guide
 						</Button>
 					</Link>
-					<Link href={"/guide"}>
+					<Link href={c.links.discord}>
 						<Button variant={"outline"} className="bg-nav hover:bg-background">
 							Discord
 						</Button>
