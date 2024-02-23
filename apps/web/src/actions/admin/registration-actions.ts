@@ -35,3 +35,12 @@ export const toggleSecretRegistrationEnabled = adminAction(
 		return { success: true, statusSet: enabled };
 	}
 );
+
+export const toggleRSVPs = adminAction(
+	defaultRegistrationToggleSchema,
+	async ({ enabled }, { user, userId }) => {
+		await kv.set("config:registration:allowRSVPs", enabled);
+		revalidatePath("/admin/toggles/registration");
+		return { success: true, statusSet: enabled };
+	}
+);
