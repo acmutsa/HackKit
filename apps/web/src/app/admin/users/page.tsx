@@ -1,34 +1,45 @@
-import { db,ilike,or } from "db";
+import { db,ilike,or,and,eq,AnyColumn } from "db";
 import { DataTable } from "@/components/dash/admin/users/UserDataTable";
 import { columns } from "@/components/dash/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { FolderInput } from "lucide-react";
 import { DefaultPagination } from "@/app/admin/DefaultPagination";
 import SearchBar from "@/components/shared/SearchBar";
-import { any } from "zod";
+import { any, nullable } from "zod";
+import Filters from "../Filters";
+import { users } from "db/schema";
 
-export default async function Page({searchParams}:{searchParams:{[key:string]:string | string[] |undefined}}) {
+
+export default async function Page({searchParams}:{searchParams:{[key:string]:string |undefined}}) {
   // COME BACK AND CHANGE
   const maxPerPage = 30;
 
   let page = +(searchParams["page"] ?? "1");
   let user = searchParams["user"] ?? "";
-
+  const checkedBoxes = searchParams["checkedBoxes"] ?? "";
   const start = maxPerPage * (page - 1);
   const end = maxPerPage + start;
 
+  console.log(checkedBoxes);
+  
+
 
 //   Might want to work with cache in prod to see if this will be plausible to do 
-  const users = await db.query.users.findMany({
+  const userData = await db.query.users.findMany({
     with: {
       registrationData: true,
       profileData: true,
     },
-    where: (users, { ilike }) =>
-      or(
-        ilike(users.firstName, `%${user}%`),
-        ilike(users.lastName, `%${user}%`)
-      ),
+    where: and(
+        or(
+          ilike(users.firstName, `%${user}%`),
+          ilike(users.lastName, `%${user}%`)
+        ),
+        // (role.length > 0) ? eq(users.role,role):undefined
+    ),
+    
+    
+      
   });
 
   
@@ -40,7 +51,7 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Users</h2>
             <p className="text-sm text-muted-foreground">
-              Total Users: {users.length}
+              Total Users: {userData.length}
             </p>
           </div>
         </div>
@@ -55,8 +66,11 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
         </div>
       </div>
       {/* TODO: Would very much like to not have "as any" here in the future */}
-      <DataTable columns={columns} data={users.slice(start, end) as any} />
-      <DefaultPagination maxPages={Math.ceil(users.length / maxPerPage)} />
+      <div className="w-full flex space-x-10">
+        <DataTable columns={columns} data={userData.slice(start, end) as any} />
+        <Filters/>
+      </div>
+      <DefaultPagination maxPages={Math.ceil(userData.length / maxPerPage)} />
     </div>
   );
 }

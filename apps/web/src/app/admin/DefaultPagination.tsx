@@ -11,7 +11,7 @@ import {
 } from "@/components/shadcn/ui/pagination";
 import { useEffect, useRef, useState } from "react";
 import {usePathname,useSearchParams } from "next/navigation";
-
+import { createPath } from "@/lib/utils/shared/pageParams";
 
 export function DefaultPagination({maxPages}:{maxPages:number}) {
   // FIXME: Come back and change after done testing
@@ -21,6 +21,8 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
 
   const user = params.get('user') ?? '';
   const page = params.get("page") ?? "1";
+  const checkedBoxes = params.get("checkedBoxes") ?? "";
+
 
   const [currPage,setCurrPage] = useState(+page);
   const pageRef = useRef(1);
@@ -42,15 +44,22 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
   },[currPage]);
 
 
+  // `${path}?page=${Math.max(
+            //   1,
+            //   pageRef.current - 1
+            // )}&user=${user}`
+
   return (
     <Pagination className="pt-4">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`${path}?page=${Math.max(
-              1,
-              pageRef.current - 1
-            )}&user=${user}`}
+            href={createPath(
+              path,
+              `${Math.max(1, pageRef.current - 1)}`,
+              user,
+              checkedBoxes
+            )}
             onClick={() => {
               decPage();
             }}
@@ -59,10 +68,8 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
         {currPage}
         <PaginationItem>
           <PaginationNext
-            href={`${path}?page=${Math.min(
-              maxPages,
-              pageRef.current + 1
-            )}&user=${user}`}
+            // 
+            href={createPath(path,`${Math.min(maxPages,pageRef.current + 1)}`,user,checkedBoxes)}
             onClick={() => {
               incPage();
             }}
