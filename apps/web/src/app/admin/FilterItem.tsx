@@ -24,10 +24,10 @@ export default function FilterItem({parentName,item}:{parentName:string,item:str
     function handleClick(){
         if (isClicked.current) {
           isClicked.current = false;
-          router.push(createPath(path, page, user, checkedBoxes));
+          router.push(createPath(path, '1', user, checkedBoxes));
         } else {
           isClicked.current = true;
-          router.push(createPath(path,page,user,checkedBoxes+`&${item}`));
+          router.push(createPath(path,'1',user,`${item}&`+checkedBoxes));
         }
     }
 

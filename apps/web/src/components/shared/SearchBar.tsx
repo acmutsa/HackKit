@@ -11,11 +11,10 @@ export default function SearchBar(){
   const path = usePathname();
 
 
-  const page = params.get('page') ?? '1';
   const checkedBoxes = params.get("checkedBoxes") ?? "";
 
   function handleSearch(user: string) {
-    router.push(createPath(path,page,user,checkedBoxes));
+    router.push(createPath(path,'1',user,checkedBoxes));
   }
 
   return(
