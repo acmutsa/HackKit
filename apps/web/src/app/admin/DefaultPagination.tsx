@@ -11,7 +11,7 @@ import {
 } from "@/components/shadcn/ui/pagination";
 import { useEffect, useRef, useState } from "react";
 import {usePathname,useSearchParams } from "next/navigation";
-
+import { createPath } from "@/lib/utils/shared/pageParams";
 
 export function DefaultPagination({maxPages}:{maxPages:number}) {
   // FIXME: Come back and change after done testing
@@ -19,7 +19,7 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
   const path = usePathname();
   const params = useSearchParams();
 
-  const user = params.get('user') ?? '';
+  
   const page = params.get("page") ?? "1";
 
   const [currPage,setCurrPage] = useState(+page);
@@ -36,10 +36,13 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
     setCurrPage(Math.max(1, currPage - 1));
   }
 
-  useEffect(()=>{
-
-    console.log("Curr page is:",currPage);
-  },[currPage]);
+  function createPaginationPath(reqPage:string){
+    const url = `${path}?${reqPage}&user=${
+      params.get("user") ?? ""
+    }&checkedBoxes=${params.get("checkedBoxes") ?? ""}`;
+    console.log("Pagination",url);
+    return url;
+  }
 
 
   return (
@@ -47,10 +50,7 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`${path}?page=${Math.max(
-              1,
-              pageRef.current - 1
-            )}&user=${user}`}
+            href={createPaginationPath(`${Math.max(1, pageRef.current - 1)}`)}
             onClick={() => {
               decPage();
             }}
@@ -59,10 +59,10 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
         {currPage}
         <PaginationItem>
           <PaginationNext
-            href={`${path}?page=${Math.min(
-              maxPages,
-              pageRef.current + 1
-            )}&user=${user}`}
+            //
+            href={createPaginationPath(
+              `${Math.min(maxPages, pageRef.current + 1)}`
+            )}
             onClick={() => {
               incPage();
             }}
