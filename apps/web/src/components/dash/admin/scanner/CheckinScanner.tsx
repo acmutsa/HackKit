@@ -173,7 +173,10 @@ export default function CheckinScanner({
                   </>
                 )}
               </DrawerHeader>
-              <DrawerFooter>
+              {
+				proceed ? 
+				<>
+				<DrawerFooter>
                 {!checkedIn && (
                   <Button onClick={() => handleScanCreate()}>
                     {"Scan User In"}
@@ -183,6 +186,9 @@ export default function CheckinScanner({
                   Cancel
                 </Button>
               </DrawerFooter>
+				</>:
+				<></>
+			  }
             </>
           )}
         </DrawerContent>

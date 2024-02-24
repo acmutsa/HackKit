@@ -123,8 +123,7 @@ export default function PassScanner({
       </div>
       <Drawer
         onClose={() => router.replace(path)}
-        open={hasScanned || scanLoading}
-      >
+        open={hasScanned || scanLoading}>
         <DrawerContent>
           {scanLoading ? (
             <>
@@ -150,8 +149,9 @@ export default function PassScanner({
                 <Button onClick={() => handleScanCreate()}>
                   {scan ? "Add Additional Scan" : "Scan User In"}
                 </Button>
-
-                <Button variant="outline">Cancel</Button>
+                <Button onClick={() => router.replace(path)} variant="outline">
+                  Cancel
+                </Button>
               </DrawerFooter>
             </>
           )}
