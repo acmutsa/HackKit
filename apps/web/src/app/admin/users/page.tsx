@@ -39,12 +39,10 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
           ilike(users.lastName, `%${user}%`)
         ),
         // (role.length > 0) ? eq(users.role,role):undefined
-    ),
-    
-    
-      
+    ),  
   });
 
+    const x = userData[0].rsvp
   
 
   return (

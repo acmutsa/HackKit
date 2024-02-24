@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/shadcn/ui/input";
 import {useRouter,useSearchParams,usePathname } from "next/navigation";
-import { createPath } from "@/lib/utils/shared/pageParams";
+import { X } from "lucide-react";
 export default function SearchBar(){
   const router = useRouter();
   const params = useSearchParams();
@@ -19,13 +19,22 @@ export default function SearchBar(){
     router.push(url);
   }
 
-  return(
-    <Input
-    placeholder="Search for users"
-    onChange={(e) => {
-      handleSearch(e.target.value);
-    }}
-    // Render a little x here to clear out the stuff
-  />
+  return (
+    <div className="flex items-center justify-center">
+      {/* Needs to clear text */}
+      <Input
+        placeholder="Search for users"
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        // Render a little x here to clear out the stuff
+      />
+      <button onClick={()=>{
+        const url = `${path}`
+        router.push(url);
+      }}>
+        <X />
+      </button>
+    </div>
   );
 }
