@@ -145,6 +145,11 @@ export default async function ProfileButton() {
               Profile
             </DropdownMenuItem>
           </Link>
+          <Link href={`/dash/pass`}>
+            <DropdownMenuItem className="cursor-pointer">
+              Event Pass
+            </DropdownMenuItem>
+          </Link>
           <MobileNavBarLinks />
           <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
           <Link href={`/bug-report`}>
