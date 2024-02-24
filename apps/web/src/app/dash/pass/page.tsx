@@ -15,6 +15,7 @@ interface EventPassProps {
 	user: InferModel<typeof users>;
 	clerk: NonNullable<Awaited<ReturnType<typeof currentUser>>>;
 	qrPayload: string;
+  guild:string;
 }
 
 export default async function Page() {
@@ -28,18 +29,19 @@ export default async function Page() {
 	if (!userDbRecord) return null;
 
 	const qrPayload = createQRpayload({ userID: user.id, createdAt: new Date() });
+  const guild = Object.keys(c.groups)[userDbRecord.group];
 
 	return (
 		<div className="flex items-center justify-center min-h-[calc(100vh-7rem)] bg-nav">
 			{/* <QRCode value={qrObject} /> */}
 			<TiltWrapper>
-				<EventPass user={userDbRecord} qrPayload={qrPayload} clerk={user} />
+				<EventPass user={userDbRecord} qrPayload={qrPayload} clerk={user} guild={guild} />
 			</TiltWrapper>
 		</div>
 	);
 }
 
-function EventPass({ qrPayload, user, clerk }: EventPassProps) {
+function EventPass({ qrPayload, user, clerk,guild }: EventPassProps) {
 	return (
     <div className="relative h-max my-20">
       <div className="absolute z-10 -translate-y-[50%] top-0 left-1/2 border-background dark:border border-2 border-b-muted border-r-muted rotate-45 -translate-x-1/2 w-[75px] h-[75px] bg-background rounded-full" />
@@ -56,8 +58,8 @@ function EventPass({ qrPayload, user, clerk }: EventPassProps) {
             {user.firstName}
           </h1>
           <div className="w-full flex items-center justify-center space-x-5">
-            <h2 className="font-mono text-center">@{user.hackerTag}</h2>
-            <h2 className="font-mono text-center">FIX ME</h2>
+            <h3 className="font-mono text-center text-sm">@{user.hackerTag}</h3>
+            <h3 className="font-mono text-center text-sm">{guild}</h3>
           </div>
         </div>
         <div className="event-pass-img h-[45%] w-full relative flex items-end">
