@@ -50,7 +50,7 @@ export default function CheckinScanner({
 }: CheckinScannerProps) {
 	const [scanLoading, setScanLoading] = useState(false);
 	const { execute: runScanAction } = useAction(checkInUser, {});
-	const [proceed,setProceed] = useState(hasRSVP ? true:false);
+	const [proceed,setProceed] = useState(hasRSVP);
 	useEffect(() => {
 		if (hasScanned) {
 			setScanLoading(false);
