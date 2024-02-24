@@ -43,11 +43,11 @@ export default async function Page({
         return [null, null,null];
       }
       const scan = await tx
-        .select({ isChecked: users.checkedIn })
+        .select({ isChecked: users.checkedIn, hasRSVPed:users.rsvp })
         .from(users)
         .where(eq(users.clerkID, searchParams.user!));
       if (scan) {
-        return [scan[0].isChecked, scanUser,scanUser.rsvp];
+        return [scan[0].isChecked, scanUser,scan[0].hasRSVPed];
       } else {
         return [null, scanUser,null];
       }
