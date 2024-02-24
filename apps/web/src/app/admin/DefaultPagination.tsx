@@ -19,10 +19,8 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
   const path = usePathname();
   const params = useSearchParams();
 
-  const user = params.get('user') ?? '';
+  
   const page = params.get("page") ?? "1";
-  const checkedBoxes = params.get("checkedBoxes") ?? "";
-
 
   const [currPage,setCurrPage] = useState(+page);
   const pageRef = useRef(1);
@@ -38,28 +36,21 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
     setCurrPage(Math.max(1, currPage - 1));
   }
 
-  useEffect(()=>{
+  function createPaginationPath(reqPage:string){
+    const url = `${path}?${reqPage}&user=${
+      params.get("user") ?? ""
+    }&checkedBoxes=${params.get("checkedBoxes") ?? ""}`;
+    console.log("Pagination",url);
+    return url;
+  }
 
-    console.log("Curr page is:",currPage);
-  },[currPage]);
-
-
-  // `${path}?page=${Math.max(
-            //   1,
-            //   pageRef.current - 1
-            // )}&user=${user}`
 
   return (
     <Pagination className="pt-4">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={createPath(
-              path,
-              `${Math.max(1, pageRef.current - 1)}`,
-              user,
-              checkedBoxes
-            )}
+            href={createPaginationPath(`${Math.max(1, pageRef.current - 1)}`)}
             onClick={() => {
               decPage();
             }}
@@ -68,8 +59,10 @@ export function DefaultPagination({maxPages}:{maxPages:number}) {
         {currPage}
         <PaginationItem>
           <PaginationNext
-            // 
-            href={createPath(path,`${Math.min(maxPages,pageRef.current + 1)}`,user,checkedBoxes)}
+            //
+            href={createPaginationPath(
+              `${Math.min(maxPages, pageRef.current + 1)}`
+            )}
             onClick={() => {
               incPage();
             }}

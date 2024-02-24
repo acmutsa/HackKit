@@ -9,12 +9,14 @@ export default function SearchBar(){
 
   // Uses path name it is already on...?
   const path = usePathname();
-
+  const user = params.get("user") ?? "";
 
   const checkedBoxes = params.get("checkedBoxes") ?? "";
 
   function handleSearch(user: string) {
-    router.push(createPath(path,'1',user,checkedBoxes));
+    const url = `${path}?page=1&user=${user}&checkedBoxes=${checkedBoxes}`;
+    console.log("searchbar",url);
+    router.push(url);
   }
 
   return(
@@ -23,6 +25,7 @@ export default function SearchBar(){
     onChange={(e) => {
       handleSearch(e.target.value);
     }}
+    // Render a little x here to clear out the stuff
   />
   );
 }

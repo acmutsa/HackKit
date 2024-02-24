@@ -1,14 +1,13 @@
-import { db,ilike,or,and,eq,AnyColumn } from "db";
+import { db,ilike,or,and,eq } from "db";
 import { DataTable } from "@/components/dash/admin/users/UserDataTable";
 import { columns } from "@/components/dash/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { FolderInput } from "lucide-react";
 import { DefaultPagination } from "@/app/admin/DefaultPagination";
 import SearchBar from "@/components/shared/SearchBar";
-import { any, nullable } from "zod";
 import Filters from "../Filters";
 import { users } from "db/schema";
-
+import { parseCheckBoxParams } from "@/lib/utils/shared/pageParams";
 
 export default async function Page({searchParams}:{searchParams:{[key:string]:string |undefined}}) {
   // COME BACK AND CHANGE
@@ -17,10 +16,14 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
   let page = +(searchParams["page"] ?? "1");
   let user = searchParams["user"] ?? "";
   const checkedBoxes = searchParams["checkedBoxes"] ?? "";
+  
+
+  console.log(checkedBoxes);
+
   const start = maxPerPage * (page - 1);
   const end = maxPerPage + start;
 
-  console.log(checkedBoxes);
+  
   
 
 
@@ -68,7 +71,7 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
       {/* TODO: Would very much like to not have "as any" here in the future */}
       <div className="w-full flex space-x-10">
         <DataTable columns={columns} data={userData.slice(start, end) as any} />
-        <Filters/>
+        {/* <Filters/> */}
       </div>
       <DefaultPagination maxPages={Math.ceil(userData.length / maxPerPage)} />
     </div>

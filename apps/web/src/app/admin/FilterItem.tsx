@@ -9,25 +9,32 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useRef } from "react";
 import { createPath } from "@/lib/utils/shared/pageParams";
 
+
 export default function FilterItem({parentName,item}:{parentName:string,item:string}){
     const isClicked = useRef(false);
     const path = usePathname();
     const params = useSearchParams();
     const router = useRouter();
-
-    const user = params.get("user") ?? "";
-    const page = params.get("page") ?? "1";
-    const checkedBoxes = params.get("checkedBoxes") ?? "";
-
-    console.log("Boxes checked",checkedBoxes);
+    
 
     function handleClick(){
         if (isClicked.current) {
           isClicked.current = false;
-          router.push(createPath(path, '1', user, checkedBoxes));
+          // router.push(createPath(path, '1', user, checkedBoxes));
+          
+          const url = `${path}?${params}`;
+          console.log("Flipping off!");
+          router.push(url);
         } else {
           isClicked.current = true;
-          router.push(createPath(path,'1',user,`${item}&`+checkedBoxes));
+          console.log("Flipping on!");
+          const user = params.get("user") ?? "";
+          const checkedBoxes = params.get("checkedBoxes") ?? [];
+          // We want to filter basically 
+          
+          const url = `${path}?user=${user}&checkedBoxes=${item}`;
+          console.log("Filter item",url);
+          router.push(url);
         }
     }
 
