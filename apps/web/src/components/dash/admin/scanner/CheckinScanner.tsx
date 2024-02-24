@@ -9,7 +9,6 @@ import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
 	DrawerFooter,

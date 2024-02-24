@@ -23,8 +23,6 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
   const start = maxPerPage * (page - 1);
   const end = maxPerPage + start;
 
-  
-  
 
 
 //   Might want to work with cache in prod to see if this will be plausible to do 
@@ -38,11 +36,8 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
           ilike(users.firstName, `%${user}%`),
           ilike(users.lastName, `%${user}%`)
         ),
-        // (role.length > 0) ? eq(users.role,role):undefined
     ),  
   });
-
-    const x = userData[0].rsvp
   
 
   return (
@@ -68,7 +63,18 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
       </div>
       {/* TODO: Would very much like to not have "as any" here in the future */}
       <div className="w-full flex space-x-10">
-        <DataTable columns={columns} data={userData.slice(start, end) as any} />
+        {userData && userData.length > 0 ? (
+          <>
+            <DataTable
+              columns={columns}
+              data={userData.slice(start, end) as any}
+            />
+          </>
+        ) : (
+          <div className="flex w-full items-center justify-center">
+            <h1>No Results :(</h1>
+          </div>
+        )}
         {/* <Filters/> */}
       </div>
       <DefaultPagination maxPages={Math.ceil(userData.length / maxPerPage)} />
