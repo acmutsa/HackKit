@@ -143,7 +143,7 @@ export default function CheckinScanner({
                         </DrawerTitle>
                         <DrawerDescription>
                           {scanUser?.firstName} {scanUser?.lastName} Is not
-                          checked in.
+                          RSVP'd
                         </DrawerDescription>
                         <DrawerFooter>
                           Do you wish to proceed?
