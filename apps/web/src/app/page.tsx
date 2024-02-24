@@ -4,7 +4,6 @@ import Filler from "@/components/landing/FillerHeroAbout";
 import About from "@/components/landing/About";
 import FillerAboutPartners from "@/components/landing/FillerAboutPartners";
 import Partners from "@/components/landing/Partners";
-import FillerPartnersTeam from "@/components/landing/FillerPartnersTeam";
 import Team from "@/components/landing/Team";
 import Footer from "@/components/landing/Footer";
 import MLHBadge from "@/components/landing/MLHBadge";
@@ -28,7 +27,7 @@ export default function Home() {
 				<About />
 				<FillerAboutPartners />
 				<Partners />
-				{/* <FillerPartnersTeam /> */}
+				
 				<WorkWithUs />
 				<Team />
 				<Footer />

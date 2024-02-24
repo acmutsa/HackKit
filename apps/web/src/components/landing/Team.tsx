@@ -195,7 +195,7 @@ let team: Array<Person> = [
   createPerson(
     "Alessandro",
     "Espinosa",
-    "Media co-lead/Media",
+    "Media co-lead/Experience",
     "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
     "",
     ""

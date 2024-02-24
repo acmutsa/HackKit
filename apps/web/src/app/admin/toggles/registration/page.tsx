@@ -8,11 +8,14 @@ export default async function Page() {
 	pipe.get("config:registration:secretRegistrationEnabled");
 	// const result = await pipe.exec();
 
-	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled]: (string | null)[] =
-		await kv.mget(
-			"config:registration:registrationEnabled",
-			"config:registration:secretRegistrationEnabled"
-		);
+	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled, defaultRSVPsEnabled]: (
+		| string
+		| null
+	)[] = await kv.mget(
+		"config:registration:registrationEnabled",
+		"config:registration:secretRegistrationEnabled",
+		"config:registration:allowRSVPs"
+	);
 
 	return (
 		<div>
@@ -25,6 +28,7 @@ export default async function Page() {
 					defaultSecretRegistrationEnabled,
 					false
 				)}
+				defaultRSVPsEnabled={parseRedisBoolean(defaultRSVPsEnabled, true)}
 			/>
 		</div>
 	);

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { redirect } from "next/navigation";
-import ProfileButton from "@/components/dash/shared/ProfileButton";
+import ProfileButton from "@/components/shared/ProfileButton";
 import ClientToast from "@/components/shared/ClientToast";
 
 interface DashLayoutProps {
@@ -35,12 +35,12 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 							Home
 						</Button>
 					</Link>
-					<Link href={"/guide"}>
+					<Link href={c.links.guide} target="_blank">
 						<Button variant={"outline"} className="bg-nav hover:bg-background">
 							Survival Guide
 						</Button>
 					</Link>
-					<Link href={"/guide"}>
+					<Link href={c.links.discord} target="_blank">
 						<Button variant={"outline"} className="bg-nav hover:bg-background">
 							Discord
 						</Button>

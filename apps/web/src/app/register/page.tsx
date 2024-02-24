@@ -77,7 +77,7 @@ export default async function Page() {
 					<Button>Return Home</Button>
 				</Link>
 				<p className="text-sm absolute bottom-0 text-center pb-2">
-					Already registered?{" "}
+					Already registered?
 					<Link className="underline" href={"/sign-in"}>
 						Sign-in.
 					</Link>
