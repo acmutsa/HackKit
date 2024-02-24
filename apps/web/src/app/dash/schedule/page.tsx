@@ -4,8 +4,10 @@ import { db } from "db";
 import { format, compareAsc } from "date-fns";
 import { type ReactNode } from "react";
 import { formatInTimeZone } from "date-fns-tz";
+import { redirect } from 'next/navigation';
 
 export default async function Page() {
+	redirect('https://static.rowdyhacks.org/schedule.png');
 	const events = await db.query.events.findMany();
 	let days: Record<string, typeof events> = {};
 	let toRender: ReactNode[] = [];
