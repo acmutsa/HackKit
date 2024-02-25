@@ -63,7 +63,7 @@ export default function PassScanner({
 
   const register = (scanUser?.checkedIn) ? "Checked in!" : "Not Checked In";
   const guild = Object.keys(c.groups)[scanUser?.group || 0] ?? "None";
-
+  const role = (scanUser?.role) ? scanUser?.role : "Not Found";
 
 
 
@@ -151,11 +151,12 @@ export default function PassScanner({
               <DrawerHeader>
                 <DrawerTitle>New Scan for {event.title}</DrawerTitle>
                 <DrawerDescription className="flex flex-col">
-                  <>{scanUser?.firstName} {scanUser?.lastName}</>
-                  <div className="flex">
-                    <h3>{register}</h3>
-                    <h3>{guild}</h3>
-                  </div>
+                  <>
+                    {scanUser?.firstName} {scanUser?.lastName}
+                  </>
+                  <h2>Role: {role}</h2>
+                  <h2>Status: {register}</h2>
+                  <h2>Guild: {guild}</h2>
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
