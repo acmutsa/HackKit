@@ -7,6 +7,9 @@ import { getScan, createScan } from "@/actions/admin/scanner-admin-actions";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
+import c from "config";
+
+
 import {
   Drawer,
   DrawerClose,
@@ -57,6 +60,12 @@ export default function PassScanner({
   const searchParams = useSearchParams();
   const path = usePathname();
   const router = useRouter();
+
+  const register = (scanUser?.checkedIn) ? "Checked in!" : "Not Checked In";
+  const guild = Object.keys(c.groups)[scanUser?.group || 0] ?? "None";
+
+
+
 
   function handleScanCreate() {
     const params = new URLSearchParams(searchParams.toString());
@@ -141,8 +150,12 @@ export default function PassScanner({
             <>
               <DrawerHeader>
                 <DrawerTitle>New Scan for {event.title}</DrawerTitle>
-                <DrawerDescription>
-                  New scan for {scanUser?.firstName} {scanUser?.lastName}
+                <DrawerDescription className="flex flex-col">
+                  <>{scanUser?.firstName} {scanUser?.lastName}</>
+                  <div className="flex">
+                    <h3>{register}</h3>
+                    <h3>{guild}</h3>
+                  </div>
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
