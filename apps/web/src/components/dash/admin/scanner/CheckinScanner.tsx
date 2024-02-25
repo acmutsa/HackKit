@@ -7,6 +7,7 @@ import { getScan, checkInUser } from "@/actions/admin/scanner-admin-actions";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
+
 import {
 	Drawer,
 	DrawerContent,
