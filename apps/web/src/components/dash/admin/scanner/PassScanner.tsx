@@ -154,9 +154,13 @@ export default function PassScanner({
                   <>
                     {scanUser?.firstName} {scanUser?.lastName}
                   </>
-                  <h2>Role: {role}</h2>
-                  <h2>Status: {register}</h2>
-                  <h2>Guild: {guild}</h2>
+                  <h2>
+                    <span className="font-bold">Role:</span> {role}
+                  </h2>
+                  <h2>
+                    <span className="font-bold">Status:</span> {register}
+                  </h2>
+                  <h2><span className="font-bold">Guild:</span> {guild}</h2>
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
