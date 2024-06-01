@@ -1,8 +1,8 @@
 export const defaultTheme = "dark";
 
 export default {
-	hackathonName: "RowdyHacks",
-	itteration: "IX",
+	hackathonName: "Hackkit",
+	itteration: "Your Iteration",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription:
 		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
@@ -64,10 +64,10 @@ export default {
     guide: "https://go.rowdyhacks.org/guide",
 	},
 	icon: {
-		sm: "/img/logo/logo.png",
-		md: "/img/logo/rh-md.png",
-		lg: "/img/logo/rh-lg.png",
-		svg: "/img/logo/logo.png",
+		sm: "/img/logo/hackkit.svg",
+		md: "/img/logo/hackkit-md.png",
+		lg: "/img/logo/hackkit-lg.png",
+		svg: "/img/logo/hackkit.svg",
 	},
 	dashPaths: {
 		dash: {

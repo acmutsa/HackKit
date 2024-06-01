@@ -1,8 +1,8 @@
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
-import Filler from "@/components/landing/FillerHeroAbout";
+
 import About from "@/components/landing/About";
-import FillerAboutPartners from "@/components/landing/FillerAboutPartners";
+
 import Partners from "@/components/landing/Partners";
 import Team from "@/components/landing/Team";
 import Footer from "@/components/landing/Footer";
@@ -23,11 +23,8 @@ export default function Home() {
 			<MLHBadge />
 			<main>
 				<Hero />
-				<Filler />
 				<About />
-				<FillerAboutPartners />
 				<Partners />
-				
 				<WorkWithUs />
 				<Team />
 				<Footer />

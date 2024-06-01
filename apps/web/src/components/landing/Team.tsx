@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import {
   Carousel,
@@ -14,14 +13,23 @@ import { Oswald } from "next/font/google";
 import { useState, useEffect } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight } from "lucide-react";
-
+import c from "config"
 
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
 });
 
-// Creates our person and makes it seamless
+/**
+ * Creates our person and makes it seamless
+ * @param fname First Name
+ * @param lname Last Name
+ * @param role Role
+ * @param linkedin LinkedIn
+ * @param website Website
+ * @param github Github
+ * @returns Person
+ *  */ 
 function createPerson(
   fname: string,
   lname: string,
@@ -40,197 +48,86 @@ function createPerson(
     github: github,
   };
 }
-
-function CreateImgLink(firstname: string, lastname: string) {
+/**
+ * Helper function to find each team member's image in the public img landing folder
+ * @param firstname 
+ * @param lastname
+ * @returns Image Link
+ * 
+ */
+function CreateImgLink(firstname: string, lastname: string):string {
   return `/img/landing/team/${firstname}_${lastname}.jpg`;
 }
 
-const director = "Director";
-const media = "Media/Design";
-const experience = "Experience";
-const logistics = "Logistics";
-const tech = "Tech";
-const pr = "PR";
+// Insert whatever roles that you want here and add them to the roles object
+const roles = {
+  director: "Director",
+  media: "Media/Design",
+  experience: "Experience",
+  logistics: "Logistics",
+  tech: "Tech",
+  pr: "PR",
+};
+
 
 
 let team: Array<Person> = [
   // add each person here. if no website, leave empty string
   createPerson(
-    "Mei",
-    "Sullum",
-    director,
-    "https://www.linkedin.com/in/meirasullum/",
-    "",
-    ""
+    "First Name",
+    "Last Name",
+    "Position of Person",
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
   createPerson(
-    "Nathan",
-    "Zuniga",
-    "Co-Director",
-    "https://www.linkedin.com/in/nathanzuniga/",
-    "",
-    ""
+    "First Name",
+    "Last Name",
+    roles.director,
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
   createPerson(
-    "Liam",
-    "Murray",
-    `${logistics} Lead/Tech`,
-    "https://www.linkedin.com/in/liamrmurray/",
-    "https://www.liammurray.dev/",
-    "https://github.com/Lermatroid"
+    "First Name",
+    "Last Name",
+    roles.media,
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
   createPerson(
-    "Josh",
-    "Silva",
-    tech,
-    "https://www.linkedin.com/in/joshuasilva414/",
-    "https://joshuasilva.netlify.app/",
-    "https://github.com/joshuasilva414"
+    "First Name",
+    "Last Name",
+    roles.experience,
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
   createPerson(
-    "Christian",
-    "Walker",
-    "Tech\u00A0Lead",
-    "https://www.linkedin.com/in/christian-d-walker/",
-    "",
-    "https://github.com/christianhelp"
+    "First Name",
+    "Last Name",
+    roles.logistics,
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
   createPerson(
-    "Jacob",
-    "Ellerbrock",
-    `${logistics}/${tech}`,
-    "https://www.linkedin.com/in/jacobellerbrock/",
-    "",
-    ""
+    "First Name",
+    "Last Name",
+    roles.tech,
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
   createPerson(
-    "Calvin",
-    "Jessen",
-    `${logistics}/Photographer`,
-    "https://www.linkedin.com/in/calvin-j-39547a24b/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Kathy",
-    "Nguyen",
-    media,
-    "https://www.linkedin.com/in/kathy-nguyen-6892812ab/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Christian",
-    "Salinas",
-    "Media Lead",
-    "https://www.linkedin.com/in/christian--salinas/",
-    "",
-    "https://github.com/ChristianSalinas722"
-  ),
-  createPerson(
-    "Macreen",
-    "Marbella",
-    media,
-    "https://www.linkedin.com/in/macreen-marbella-67b067200/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Rin",
-    "Peralez",
-    media,
-    "https://www.linkedin.com/in/rin-peralez-046721281/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Annalisa",
-    "Vuong",
-    pr,
-    "https://www.linkedin.com/in/annalisa-vuong-68b002238/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Diem",
-    "Bui",
-    pr,
-    "https://www.linkedin.com/in/diembui1910/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Natasha",
-    "Blussick",
-    pr,
-    "https://www.linkedin.com/in/natasha-blussick/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Alejandro",
-    "Mugica",
-    logistics,
-    "https://www.linkedin.com/in/alejandromugica/",
-    "",
-    ""
-  ),
-
-  createPerson(
-    "Elizabeth",
-    "Truong",
-    logistics,
-    "https://www.linkedin.com/in/elizabeth-truong-/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Paolo",
-    "Lay",
-    logistics,
-    "https://www.linkedin.com/in/paolo-lay/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Alessandro",
-    "Espinosa",
-    "Media co-lead/Experience",
-    "https://www.linkedin.com/in/alessandro-espinosa-a10640242/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Darren",
-    "Manaligod",
-    experience,
-    "https://www.linkedin.com/in/darrenmanaligod/",
-    "",
-    "https://github.com/dmanaligod96"
-  ),
-  createPerson(
-    "Iqra",
-    "Abdullah",
-    experience,
-    "https://www.linkedin.com/in/iqra-abdullah/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Kailey",
-    "Perrino",
-    experience,
-    "https://www.linkedin.com/in/kailey-perrino-3bb82a213/",
-    "",
-    ""
-  ),
-  createPerson(
-    "Anusha",
-    "Abdulla",
-    "Outreach",
-    "https://www.linkedin.com/in/anusha-abdulla/",
-    "",
-    ""
+    "First Name",
+    "Last Name",
+    roles.pr,
+    "https://www.linkedin.com/",
+    "https://www.google.com/",
+    "https://www.github.com/"
   ),
 ];
 
@@ -246,12 +143,12 @@ function CarouselDefault() {
   
   
   return (
-    //Where Carousel will go
+    
     <>
       {data_rendered ? (
         <Carousel
           opts={{ align: "end", loop: true }}
-          // Christian Walker: Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
+          // Typescript was complaining here so I suppressed. This use of the carousel is correct according to the docs
           // See docs for example code: https://ui.shadcn.com/docs/components/carousel#plugins
           // @ts-ignore
           plugins={[plugin.current]}
@@ -315,10 +212,10 @@ function MobileTeam() {
 export default function Team() {
   return (
     <section
-      className={`${oswald.className} flex flex-col w-full h-full bg-[rgb(33,15,1)] lg:bg-[rgb(59,30,0)] 2xl:bg-[rgb(92,48,1)] bg-[url('/img/landing/Team_Background.svg')] bg-cover bg-no-repeat space-y-20 pb-20`}>
+      className={`${oswald.className} flex flex-col w-full h-full space-y-20 pb-20`}>
       <div className="flex w-full justify-center items-center mx-auto">
         <h1 className="pt-10 text-[#FEF2E6] text-xl text-center sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
-          Meet The Team That Made RowdyHacks IX Possible!
+          {`Meet The Team That Made ${c.hackathonName} Possible!`}
         </h1>
       </div>
       <div className="flex w-full h-full items-center justify-center">

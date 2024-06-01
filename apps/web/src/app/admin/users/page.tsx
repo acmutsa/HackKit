@@ -24,7 +24,6 @@ export default async function Page({searchParams}:{searchParams:{[key:string]:st
   const end = maxPerPage + start;
 
 
-
 //   Might want to work with cache in prod to see if this will be plausible to do 
   const userData = await db.query.users.findMany({
     with: {
