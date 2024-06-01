@@ -10,6 +10,17 @@ import { format } from "date-fns";
 import TiltWrapper from "@/components/dash/shared/TiltWrapper";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 import FullScreenQR from "./FullScreenQR";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/shadcn/ui/drawer";
+
 
 interface EventPassProps {
 	user: InferModel<typeof users>;
@@ -33,7 +44,6 @@ export default async function Page() {
 
 	return (
 		<div className="flex items-center justify-center min-h-[calc(100vh-7rem)] bg-nav">
-			{/* <QRCode value={qrObject} /> */}
 			<TiltWrapper>
 				<EventPass user={userDbRecord} qrPayload={qrPayload} clerk={user} guild={guild} />
 			</TiltWrapper>
@@ -65,7 +75,7 @@ function EventPass({ qrPayload, user, clerk,guild }: EventPassProps) {
         <div className="event-pass-img h-[45%] w-full relative flex items-end">
           <div className="absolute will-change-transform left-1/2 top-1/2 w-[200px] aspect-square -translate-x-1/2 -translate-y-[65%] bg-hackathon opacity-60 blur-[50px]"></div>
           <Image
-            src={c.eventPassBgImage}
+            src={c.icon.svg}
             alt={""}
             fill
             className="object-contain -translate-y-[15%] scale-[0.8] no-select"
@@ -93,16 +103,28 @@ function EventPass({ qrPayload, user, clerk,guild }: EventPassProps) {
           </div>
         </div>
         <div className="h-[25%] w-full flex items-center justify-center border-dashed border-muted">
-          <div className="h-[90%] aspect-square overflow-x-hidden flex items-center justify-center border-dashed border-muted border-2 p-2 rounded-xl">
-            <QRCode
-              className="h-full"
-              bgColor="hsl(var(--background))"
-              fgColor="hsl(var(--primary))"
-              value={qrPayload}
-            />
-          </div>
+          <Drawer>
+            <DrawerTrigger asChild>
+              <div className="h-[90%] aspect-square overflow-x-hidden flex items-center justify-center border-dashed border-muted border-2 p-2 rounded-xl">
+                <QRCode
+                  className="h-full"
+                  bgColor="hsl(var(--background))"
+                  fgColor="hsl(var(--primary))"
+                  value={qrPayload}
+                />
+              </div>
+            </DrawerTrigger>
+            <DrawerContent className="flex items-center justify-center w-full h-[90%] ">
+              <QRCode
+                className="h-full"
+                bgColor="hsl(var(--background))"
+                fgColor="hsl(var(--primary))"
+                value={qrPayload}
+              />
+            </DrawerContent>
+          </Drawer>
         </div>
-        <FullScreenQR QRstring={qrPayload} />
+        <div className="flex w-full items-center justify-center font-bold text-lg"><h3>Psst! Click To Enlarge QR Code</h3></div>
       </div>
       <div className="absolute z-10 translate-y-[50%] bottom-0 left-1/2 border-background dark:border border-2 border-t-muted border-l-muted rotate-45 -translate-x-1/2  w-[75px] h-[75px] bg-background rounded-full" />
     </div>

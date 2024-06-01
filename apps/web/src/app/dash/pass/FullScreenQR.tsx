@@ -19,7 +19,12 @@ export default function FullScreenQR({QRstring}:{QRstring:string}){
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline">Click To Expand QR!</Button>
+        <QRCode
+          className="h-full"
+          bgColor="hsl(var(--background))"
+          fgColor="hsl(var(--primary))"
+          value={QRstring}
+        />
       </DrawerTrigger>
       <DrawerContent className="flex items-center justify-center w-full h-[90%] ">
         <QRCode

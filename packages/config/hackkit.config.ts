@@ -23,35 +23,35 @@ export default {
 		"Halal",
 	],
 	groups: {
-		"T-rex | Group A": {
-			discordRole: "T-rex",
+		"Guild A | Group A": {
+			discordRole: "Guild A Role",
 		},
-		"T-rex | Group B": {
-			discordRole: "T-rex",
+		"Guild A | Group B": {
+			discordRole: "Guild A Role",
 		},
-		"Triceratops | Group A": {
-			discordRole: "Triceratops",
+		"Guild B | Group A": {
+			discordRole: "Guild B Role",
 		},
-		"Triceratops | Group B": {
-			discordRole: "Triceratops",
+		"Guild B | Group B": {
+			discordRole: "Guild B Role",
 		},
-		"Pterodactyl | Group A": {
-			discordRole: "Pterodactyl",
+		"Guild C | Group A": {
+			discordRole: "Guild C Role	",
 		},
-		"Pterodactyl | Group B": {
-			discordRole: "Pterodactyl",
+		"Guild C | Group B": {
+			discordRole: "Guild C Role",
 		},
-		"Alamosaurus | Group A": {
-			discordRole: "Alamosaurus",
+		"Guild D | Group A": {
+			discordRole: "Guild D Role",
 		},
-		"Alamosaurus | Group B": {
-			discordRole: "Alamosaurus",
+		"Guild D | Group B": {
+			discordRole: "Guild D Role",
 		},
-		"Stegosaurus | Group A": {
-			discordRole: "Stegosaurus",
+		"Guild E | Group A": {
+			discordRole: "Guild E Role",
 		},
-		"Stegosaurus | Group B": {
-			discordRole: "Stegosaurus",
+		"Guild E | Group B": {
+			discordRole: "Guild E Role",
 		},
 	},
 	issueEmail: "team@rowdyhacks.org",
@@ -102,8 +102,9 @@ export default {
 	maxFileSizeInBytes: 4194304,
 	eventPassBgImage: "/img/dash/pass/bg.png",
 	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	// Come in and change this date to whenever the hackathon starts
 	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
-	prettyLocation: "San Pedro I, UTSA",
+	prettyLocation: "Location of Hackathon",
 	roleBadges: {
 		hacker: {
 			title: "Hacker",

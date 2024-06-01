@@ -23,6 +23,7 @@ export default function Home() {
 			<MLHBadge />
 			<main>
 				<Hero />
+
 				<About />
 				<Partners />
 				<WorkWithUs />
