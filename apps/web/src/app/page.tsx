@@ -21,7 +21,7 @@ export default function Home() {
 		<div className={`${oswald.variable} w-full overflow-x-hidden `}>
 			<Navbar />
 			<MLHBadge />
-			<main>
+			<main className="overflow-x-hidden">
 				<Hero />
 
 				<About />

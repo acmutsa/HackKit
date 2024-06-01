@@ -5,7 +5,7 @@ import { Button } from "../shadcn/ui/button";
 export default function Hero() {
 	
 	return (
-    <section className="grid grid-cols-1 w-full">
+    <section className="grid grid-cols-1 w-full overflow-hidden">
       <div className="min-h-screen w-full flex flex-col items-center justify-center relative">
         <div className="absolute top-[-30vh] left-[20%] -translate-x-5 h-[110vh] w-[225px] bg-white blur-3xl opacity-20 -rotate-[50deg]"></div>
         <div className="relative">
@@ -32,7 +32,7 @@ export default function Hero() {
           </p>
         </div>
       </div>
-      <div className="absolute top-[80vh] items-center justify-center flex flex-wrap w-screen gap-x-2 gap-y-4">
+      <div className="absolute top-[80vh] items-center justify-center flex flex-wrap w-full gap-x-2 gap-y-4">
         <Link href={"https://github.com/acmutsa/hackkit"}>
           <Button variant={"outline"} size={"lg"}>
             GitHub

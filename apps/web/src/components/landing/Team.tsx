@@ -213,7 +213,8 @@ export default function Team() {
   return (
     <section
       className={`${oswald.className} flex flex-col w-full h-full space-y-20 pb-20`}>
-      <div className="flex w-full justify-center items-center mx-auto">
+      <div className="flex flex-col w-full justify-center items-center mx-auto">
+        <h2 className="text-3xl font-bold">Demo Responsive Team Section</h2>
         <h1 className="pt-10 text-[#FEF2E6] text-xl text-center sm:text-3xl md:text-4xl lg:text-5xl font-bold font-oswald italic">
           {`Meet The Team That Made ${c.hackathonName} Possible!`}
         </h1>
