@@ -150,6 +150,13 @@ export default async function ProfileButton() {
               Event Pass
             </DropdownMenuItem>
           </Link>
+          {user.role === "admin" || user.role === "super_admin" && (
+            <Link href={`/admin`}>
+              <DropdownMenuItem className="cursor-pointer text-blue-400">
+                Admin
+              </DropdownMenuItem>
+            </Link>
+          )}
           <MobileNavBarLinks />
           <DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
           <Link href={`/bug-report`}>
