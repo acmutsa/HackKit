@@ -132,19 +132,18 @@ function getRecentRegistrationData(users: userType[]) {
 
 		// Format the date as YYYY-MM-DD
 		const dateString = date.toISOString().split("T")[0];
-		console.log("generated stamp: ", dateString);
+		
 		// Assign a default value, e.g., 0
 		recentSignupCount[dateString] = 0;
 	}
 
 	for (const user of users) {
-		console.log(user);
+		
 
 		if (user.rsvp) rsvpCount++;
 		if (user.checkedIn) checkinCount++;
 
 		const stamp = user.createdAt.toISOString().split("T")[0];
-		console.log("user stamp: ", stamp);
 
 		if (recentSignupCount[stamp] != undefined) recentSignupCount[stamp]++;
 	}
