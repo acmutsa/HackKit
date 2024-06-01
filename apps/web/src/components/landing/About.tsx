@@ -13,10 +13,15 @@ export default function About() {
   };
   return (
     <section
-      className="flex w-full items-center justify-center min-h-screen"
+      className="flex w-full items-center justify-center min-h-screen border-y-2 border-muted-foreground"
       id="About">
-      <div >
-        <h1 className=" text-4xl md:text-5xl font-black text-center">About Section Can Go Here</h1>
+      <div className="w-full flex flex-col items-center justify-center">
+        <h1 className=" text-4xl md:text-5xl font-black text-center">
+          About Section
+        </h1>
+        <h3 className="text-center font-bold text-lg md:text-2xl px-4 md:px-0">
+          Introduce the hackathon and its purpose! Make it sound enticing
+        </h3>
       </div>
     </section>
   );

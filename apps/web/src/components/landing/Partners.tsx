@@ -22,13 +22,15 @@ export default async function Partners() {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col gap-y-10 items-center justify-center">
+    <section className="relative min-h-screen w-full flex flex-col gap-y-10 items-center justify-center border-y-2 border-muted-foreground">
       <div className="w-full flex flex-col items-center justify-center space-y-4">
         <h1 className="text-4xl md:text-5xl font-black text-center">
-          {"Partners Section Can Go here"}
+          Partners Sections
         </h1>
-        <h3 className=" text-xl md:text-2xl font-bold text-center px-7 lg:px-0">
-          {'See the Partners Component inside components/landing/Partners for an example'}
+        <h3 className="text-lg md:text-2xl font-bold text-center px-4 lg:px-0">
+          {
+            "See the Partners Component inside components/landing/Partners for an example"
+          }
         </h3>
       </div>
       {/* Example Code of what our previous partner section looked like */}
