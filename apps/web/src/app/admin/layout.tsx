@@ -8,10 +8,12 @@ import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { eq } from "db/drizzle";
 import { users } from "db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
-import ProfileButton from "@/components/dash/shared/ProfileButton";
+import ProfileButton from "@/components/shared/ProfileButton";
 import { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
 import { redirect } from "next/navigation";
+import NavBarLinksGrouper from "@/components/shared/NavBarLinksGrouper";
+
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -58,7 +60,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
               Home
             </Button>
           </Link>
-          <Link href={"/guide"}>
+          <Link href={c.links.guide}>
             <Button variant={"outline"} className="bg-nav hover:bg-background">
               Survival Guide
             </Button>

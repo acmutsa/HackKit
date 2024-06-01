@@ -33,38 +33,42 @@ export default async function Page({
   //   );
   // }
 
+  // Returns only if search params exist
   if (searchParams.user) {
-    const [isChecked, scanUser] = await db.transaction(async (tx) => {
+    const [isChecked, scanUser,hasRSVPed] = await db.transaction(async (tx) => {
       const scanUser = await tx.query.users.findFirst({
         where: eq(users.clerkID, searchParams.user ?? "unknown"),
       });
       if (!scanUser) {
-        return [null, null];
+        return [null, null,null];
       }
       const scan = await tx
-        .select({ isChecked: users.checkedIn })
+        .select({ isChecked: users.checkedIn, hasRSVPed:users.rsvp })
         .from(users)
         .where(eq(users.clerkID, searchParams.user!));
       if (scan) {
-        return [scan[0].isChecked, scanUser];
+        return [scan[0].isChecked, scanUser,scan[0].hasRSVPed];
       } else {
-        return [null, scanUser];
+        return [null, scanUser,null];
       }
     });
+    
     return (
       <div>
         <CheckinScanner
           checkedIn={isChecked}
           hasScanned={true}
           scanUser={scanUser}
+          hasRSVP={hasRSVPed}
         />
       </div>
     );
   }
 
+  // Fall through case
   return (
     <div>
-      <CheckinScanner hasScanned={false} checkedIn={null} scanUser={null} />
+      <CheckinScanner hasScanned={false} checkedIn={null} scanUser={null} hasRSVP={null} />
     </div>
   );
 }

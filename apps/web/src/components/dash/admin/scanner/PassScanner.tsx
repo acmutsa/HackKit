@@ -7,6 +7,9 @@ import { getScan, createScan } from "@/actions/admin/scanner-admin-actions";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
+import c from "config";
+
+
 import {
   Drawer,
   DrawerClose,
@@ -57,6 +60,12 @@ export default function PassScanner({
   const searchParams = useSearchParams();
   const path = usePathname();
   const router = useRouter();
+
+  const register = (scanUser?.checkedIn) ? "Checked in!" : "Not Checked In";
+  const guild = Object.keys(c.groups)[scanUser?.group || 0] ?? "None";
+  const role = (scanUser?.role) ? scanUser?.role : "Not Found";
+
+
 
   function handleScanCreate() {
     const params = new URLSearchParams(searchParams.toString());
@@ -123,8 +132,7 @@ export default function PassScanner({
       </div>
       <Drawer
         onClose={() => router.replace(path)}
-        open={hasScanned || scanLoading}
-      >
+        open={hasScanned || scanLoading}>
         <DrawerContent>
           {scanLoading ? (
             <>
@@ -142,16 +150,26 @@ export default function PassScanner({
             <>
               <DrawerHeader>
                 <DrawerTitle>New Scan for {event.title}</DrawerTitle>
-                <DrawerDescription>
-                  New scan for {scanUser?.firstName} {scanUser?.lastName}
+                <DrawerDescription className="flex flex-col">
+                  <>
+                    {scanUser?.firstName} {scanUser?.lastName}
+                  </>
+                  <h2>
+                    <span className="font-bold">Role:</span> {role}
+                  </h2>
+                  <h2>
+                    <span className="font-bold">Status:</span> {register}
+                  </h2>
+                  <h2><span className="font-bold">Guild:</span> {guild}</h2>
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
                 <Button onClick={() => handleScanCreate()}>
                   {scan ? "Add Additional Scan" : "Scan User In"}
                 </Button>
-
-                <Button variant="outline">Cancel</Button>
+                <Button onClick={() => router.replace(path)} variant="outline">
+                  Cancel
+                </Button>
               </DrawerFooter>
             </>
           )}

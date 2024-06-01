@@ -45,7 +45,7 @@ for (const file of commandFiles) {
 		console.log(
 			`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
 		);
-	}
+	} 
 }
 console.log(`Loaded ${client.commands.size} Commands`);
 
@@ -174,6 +174,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	}
 
 	if (body.code === undefined || typeof body.code !== "string") {
+		console.log("failed cause of malformed body");
 		return h.json({ success: false });
 	}
 
@@ -184,6 +185,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	console.log("got here 1 with verification ", verification);
 
 	if (!verification || !verification.clerkID) {
+		console.log("failed cause of no verification or missing clerkID");
 		return h.json({ success: false });
 	}
 	console.log("got here 2");
@@ -192,6 +194,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	});
 	console.log("got here 2 with user", user);
 	if (!user) {
+		console.log("failed cause of no user in db");
 		return h.json({ success: false });
 	}
 
@@ -201,6 +204,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 
 	const guild = client.guilds.cache.get(verification.guild);
 	if (!guild) {
+		console.log("failed cause of no guild on intereaction");
 		return h.json({ success: false });
 	}
 
@@ -208,12 +212,19 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	const userGroupRole = guild.roles.cache.find((role) => role.name === userGroupRoleName);
 
 	if (!role || !userGroupRole) {
+		console.log(
+			"failed cause could not find a role, was looking for group " +
+				user.group +
+				" called " +
+				userGroupRoleName
+		);
 		return h.json({ success: false });
 	}
 
 	const member = guild.members.cache.get(verification.discordUserID);
 
 	if (!member) {
+		console.log("failed cause could not find member");
 		return h.json({ success: false });
 	}
 
