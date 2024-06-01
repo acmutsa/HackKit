@@ -9,7 +9,6 @@ import c from "config";
 import { format } from "date-fns";
 import TiltWrapper from "@/components/dash/shared/TiltWrapper";
 import { createQRpayload } from "@/lib/utils/shared/qr";
-import FullScreenQR from "./FullScreenQR";
 import {
   Drawer,
   DrawerClose,
@@ -114,7 +113,7 @@ function EventPass({ qrPayload, user, clerk,guild }: EventPassProps) {
                 />
               </div>
             </DrawerTrigger>
-            <DrawerContent className="flex items-center justify-center w-full h-[90%] ">
+            <DrawerContent className="flex items-center justify-center w-full h-[90%] focus-visible:outline-none ">
               <QRCode
                 className="h-full"
                 bgColor="hsl(var(--background))"
