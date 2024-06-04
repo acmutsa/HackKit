@@ -20,7 +20,7 @@ export default function Hero() {
               />
             </div>
             <div className="flex py-5 z-10">
-              <h1 className="font-black text-8xl md:text-8xl text-hackathon dark:text-transparent dark:bg-gradient-to-tl dark:from-hackathon/80 dark:to-white dark:bg-clip-text">
+              <h1 className="font-black text-7xl md:text-8xl text-hackathon dark:text-transparent dark:bg-gradient-to-tl dark:from-hackathon/80 dark:to-white dark:bg-clip-text">
                 Hack
                 <br />
                 Kit

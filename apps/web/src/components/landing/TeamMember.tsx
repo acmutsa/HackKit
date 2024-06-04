@@ -18,7 +18,7 @@ const oswald = Oswald({
 });
 
 
-
+// Using the raw svg tag is inefficient. Will need to change later
 function LinkedIn({ fillColor }: {fillColor:string}) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className={fillColor}>
@@ -83,8 +83,9 @@ export default function TeamMember({person}:{person:Person}) {
               quality={100}
               priority={true}
               alt="Person Placeholder"
+              
               onError={(e) => {
-                setSrc("/img/landing/lil_man.png");
+                setSrc("/img/logo/hackkit.svg");
                 setStyling(FallBackStyling);
               }}
             />

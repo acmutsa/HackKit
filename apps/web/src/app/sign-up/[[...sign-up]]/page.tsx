@@ -39,7 +39,7 @@ export default async function Page() {
 				</Link>
 				<p className="text-sm absolute bottom-0 text-center pb-2">
 					Already registered?{" "}
-					<Link className="underline" href={"/sign-in"}>
+					<Link className="underline pl-2" href={"/sign-in"}>
 						Sign-in.
 					</Link>
 				</p>
