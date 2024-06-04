@@ -28,7 +28,7 @@ export default async function Page() {
 				Registration
 			</h1>
 			<div className="w-full max-w-[500px] flex gap-y-4 flex-col justify-center items-center px-5 dark:bg-white/[0.08] bg-white backdrop-blur transition rounded-xl aspect-video relative z-10 ">
-				<h2 className="font-black text-2xl">Registration Is Currently Closed</h2>
+				<h2 className="font-black text-2xl text-center w-full">Registration Is Currently Closed</h2>
 				<p className="text-center font-bold">
 					If you believe this is a mistake or have any questions, feel free to reach out to us at{" "}
 					{c.issueEmail}!

@@ -83,7 +83,6 @@ export default function TeamMember({person}:{person:Person}) {
               quality={100}
               priority={true}
               alt="Person Placeholder"
-              
               onError={(e) => {
                 setSrc("/img/logo/hackkit.svg");
                 setStyling(FallBackStyling);
