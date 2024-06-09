@@ -1,4 +1,4 @@
-import ToggleItem from "@/components/dash/admin/toggles/ToggleItem";
+import ToggleItem from "@/components/admin/toggles/ToggleItem";
 
 interface ToggleLayoutProps {
 	children: React.ReactNode;

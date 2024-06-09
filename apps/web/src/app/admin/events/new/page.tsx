@@ -1,10 +1,10 @@
-import NewEventForm from "@/components/dash/admin/events/NewEventForm";
+import NewEventForm from "@/components/admin/events/NewEventForm";
 
 export default function Page() {
 	const defaultDate = new Date();
 
 	return (
-		<div className="mx-auto max-w-3xl">
+		<div className="mx-auto max-w-3xl pt-32">
 			<div className="grid grid-cols-2">
 				<h1 className="text-3xl font-bold tracking-tight">New Event</h1>
 			</div>

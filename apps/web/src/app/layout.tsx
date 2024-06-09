@@ -1,6 +1,7 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cookies } from "next/headers";
+import { Analytics } from "@vercel/analytics/react";
 import { defaultTheme } from "config";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -8,7 +9,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<ClerkProvider>
 			<html lang="en">
-				<body className={theme === "dark" ? "dark" : ""}>{children}</body>
+				<body className={theme === "dark" ? "dark" : ""}>
+					{children}
+					<Analytics />
+				</body>
 			</html>
 		</ClerkProvider>
 	);

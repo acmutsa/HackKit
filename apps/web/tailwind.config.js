@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require("tailwindcss/plugin");
 
+
 module.exports = {
 	darkMode: ["class"],
 	content: [
@@ -10,6 +11,7 @@ module.exports = {
 		"./src/**/*.{ts,tsx}",
 	],
 	theme: {
+		
 		container: {
 			center: true,
 			padding: "2rem",
@@ -31,7 +33,7 @@ module.exports = {
 					DEFAULT: "hsl(var(--primary))",
 					foreground: "hsl(var(--primary-foreground))",
 				},
-				nav: "rgb(var(--nav))",
+				nav: "hsl(var(--nav))",
 				hackathon: "hsl(var(--hackathon-primary))",
 				secondary: {
 					DEFAULT: "hsl(var(--secondary))",
@@ -76,6 +78,9 @@ module.exports = {
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
+			},
+			fontFamily: {
+				oswald: ["var(--font-oswald)"],
 			},
 		},
 	},

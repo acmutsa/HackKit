@@ -4,13 +4,13 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%;
+		--background: 32 48% 94%;
 		--foreground: 240 10% 3.9%;
 
-		--nav: 255, 255, 255;
-		--hackathon-primary: 206 86% 52%;
+		--nav: 32 48% 94%;
+		--hackathon-primary: 67 42% 62%;
 
-		--muted: 240 4.8% 95.9%;
+		--muted: 28 27% 53%;
 		--muted-foreground: 240 3.8% 46.1%;
 
 		--popover: 0 0% 100%;
@@ -38,17 +38,18 @@
 
 		--radius: 0.5rem;
 
-		--gradient-color-1: #668cff;
-		--gradient-color-2: #3366ff;
-		--gradient-color-3: #002db3;
-		--gradient-color-4: #1952cc;
-	}
+		--gradient-color-1: #355c2b;
+		--gradient-color-2: #94a33d;
+		--gradient-color-3: #babc34;
+		--gradient-color-4: #b5bf63;
 
+
+	}
 	.dark {
 		--background: 240 10% 3.9%;
 		--foreground: 0 0% 98%;
 
-		--nav: 0, 0, 0;
+		--nav: 0 0% 0%;
 
 		--muted: 240 3.7% 15.9%;
 		--muted-foreground: 240 5% 64.9%;
@@ -78,6 +79,7 @@
 	}
 }
 
+
 @layer base {
 	* {
 		@apply border-border;
@@ -85,6 +87,26 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+@layer utilities{
+	.arrow_animate {
+			animation: arrow 2s infinite;
+		}
+}
+@keyframes arrow {
+	0% {
+
+		transform: translate(0px);
+	}
+
+	50% {
+		transform: translate(20px);
+	}
+
+	100% {
+		transform: translate(0px);
+	}
+
 }
 
 .no-select {
@@ -103,4 +125,34 @@
 
 .event-pass-img {
 	transform: translateZ(40px);
+}
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
+}
+.arrow_animate {
+	animation: arrow 2s infinite;
+}
+
+@keyframes arrow {
+	0% {
+
+		transform: translate(0px);
+	}
+
+	50% {
+		transform: translate(20px);
+	}
+
+	100% {
+		transform: translate(0px);
+	}
 }

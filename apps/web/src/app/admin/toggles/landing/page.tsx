@@ -1,4 +1,4 @@
-import { NavItemsManager, NavItemDialog } from "@/components/dash/admin/toggles/NavItemsManager";
+import { NavItemsManager, NavItemDialog } from "@/components/admin/toggles/NavItemsManager";
 import { getAllNavItems } from "@/lib/utils/server/redis";
 
 export default async function Page() {

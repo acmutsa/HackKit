@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils/client/cn";
 import { Loader2 } from "lucide-react";
 
 interface LoadingProps {
-	className?: string;
+  className?: string;
 }
 
 export default function Loading({ className }: LoadingProps) {

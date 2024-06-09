@@ -1,13 +1,14 @@
 export const defaultTheme = "dark";
 
 export default {
-	hackathonName: "HackKit",
-	itteration: "2023",
-	siteUrl: "https://hack-kit-web.vercel.app", // Do not have a trailing slash
+	hackathonName: "Hackkit",
+	itteration: "Your Iteration",
+	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
+	defaultMetaDataDescription:
+		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
 	botName: "HackKit",
-	botParticipantRole: "HackKit User",
+	botParticipantRole: "RH24 Participant",
 	hackathonTimezone: "America/Chicago",
-	defaultMetaDataDescription: "Powerful and easy to use hackathon managment platform.",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
@@ -22,22 +23,48 @@ export default {
 		"Halal",
 	],
 	groups: {
-		"Group A": {
-			discordRole: "Group A",
+		"Guild A | Group A": {
+			discordRole: "Guild A Role",
 		},
-		"Group B": {
-			discordRole: "Group B",
+		"Guild A | Group B": {
+			discordRole: "Guild A Role",
 		},
-		"Group C": {
-			discordRole: "Group C",
+		"Guild B | Group A": {
+			discordRole: "Guild B Role",
+		},
+		"Guild B | Group B": {
+			discordRole: "Guild B Role",
+		},
+		"Guild C | Group A": {
+			discordRole: "Guild C Role	",
+		},
+		"Guild C | Group B": {
+			discordRole: "Guild C Role",
+		},
+		"Guild D | Group A": {
+			discordRole: "Guild D Role",
+		},
+		"Guild D | Group B": {
+			discordRole: "Guild D Role",
+		},
+		"Guild E | Group A": {
+			discordRole: "Guild E Role",
+		},
+		"Guild E | Group B": {
+			discordRole: "Guild E Role",
 		},
 	},
-	issueEmail: "team@acmutsa.org",
+	issueEmail: "team@rowdyhacks.org",
 	links: {
-		discord: "https://go.acmutsa.org/discord",
+		discord: "https://go.rowdyhacks.org/discord",
+		instagram: "https://instagram.com/rowdyhacks",
+		facebook: "https://facebook.com/rowdyhacks",
+		twitter: "https://twitter.com/rowdyhacks",
+		github: "https://github.com/acmutsa",
+    guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit-sm.png",
+		sm: "/img/logo/hackkit.svg",
 		md: "/img/logo/hackkit-md.png",
 		lg: "/img/logo/hackkit-lg.png",
 		svg: "/img/logo/hackkit.svg",
@@ -45,9 +72,9 @@ export default {
 	dashPaths: {
 		dash: {
 			Overview: "/dash",
-			"Event Pass": "/dash/pass",
 			Schedule: "/dash/schedule",
-			Team: "/dash/team",
+			"Event Pass": "/dash/pass",
+			// Team: "/dash/team",
 		},
 		admin: {
 			Overview: "/admin",
@@ -57,6 +84,7 @@ export default {
 			"Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
+		// TODO: Can remove days? Pretty sure they're dynamic now.
 	},
 	eventTypes: {
 		Meal: "#FFC107",
@@ -65,18 +93,18 @@ export default {
 		Social: "#2196F3",
 		Other: "#795548",
 	},
-	// TODO: Can remove days? Pretty sure they're dynamic now.
 	days: {
 		Saturday: new Date(2023, 6, 15),
-		Sunday: new Date(2023, 6, 16),
 	},
+	Sunday: new Date(2023, 6, 16),
 	maxResumeSizeInBytes: 4194304,
-	maxFileSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
-	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	maxFileSizeInBytes: 4194304,
 	eventPassBgImage: "/img/dash/pass/bg.png",
+	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	// Come in and change this date to whenever the hackathon starts
 	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
-	prettyLocation: "San Pedro I, UTSA",
+	prettyLocation: "Location of Hackathon",
 	roleBadges: {
 		hacker: {
 			title: "Hacker",
@@ -86,9 +114,9 @@ export default {
 		},
 		volunteer: {
 			title: "Volunteer",
-			color: "#4CAF50",
 			foreground: "#ffffff",
 			checked: false,
+			color: "#4CAF50",
 		},
 		mentor: {
 			title: "Mentor",
@@ -110,8 +138,8 @@ export default {
 		},
 		super_admin: {
 			title: "Organizer",
-			color: "#f59e0b",
 			foreground: "#ffffff",
+			color: "#f59e0b",
 			checked: true,
 		},
 	},

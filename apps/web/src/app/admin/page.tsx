@@ -1,4 +1,4 @@
-import { Overview } from "@/components/dash/admin/landing/Overview";
+import { Overview } from "@/components/admin/landing/Overview";
 import {
 	Card,
 	CardHeader,
@@ -9,7 +9,7 @@ import {
 import { db } from "db";
 import { eq, desc } from "db/drizzle";
 import { users } from "db/schema";
-import { Users, UserCheck, User2, TimerReset } from "lucide-react";
+import { Users, UserCheck, User2, TimerReset,MailCheck } from "lucide-react";
 import type { userType } from "@/lib/utils/shared/types";
 import { unstable_cache } from "next/cache";
 import { env } from "@/env.mjs";
@@ -68,7 +68,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">RSVPs</CardTitle>
-						<UserCheck />
+						<MailCheck/>
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{rsvpCount}</div>
@@ -78,7 +78,7 @@ export default async function Page() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Check-ins</CardTitle>
-						<User2 />
+						<UserCheck/>
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{checkinCount}</div>
@@ -132,19 +132,18 @@ function getRecentRegistrationData(users: userType[]) {
 
 		// Format the date as YYYY-MM-DD
 		const dateString = date.toISOString().split("T")[0];
-		console.log("generated stamp: ", dateString);
+		
 		// Assign a default value, e.g., 0
 		recentSignupCount[dateString] = 0;
 	}
 
 	for (const user of users) {
-		console.log(user);
+		
 
 		if (user.rsvp) rsvpCount++;
 		if (user.checkedIn) checkinCount++;
 
 		const stamp = user.createdAt.toISOString().split("T")[0];
-		console.log("user stamp: ", stamp);
 
 		if (recentSignupCount[stamp] != undefined) recentSignupCount[stamp]++;
 	}
