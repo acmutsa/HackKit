@@ -1,4 +1,4 @@
-import PassScanner from "@/components/dash/admin/scanner/PassScanner";
+import PassScanner from "@/components/admin/scanner/PassScanner";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { db } from "db";
 import { eq, and } from "db/drizzle";

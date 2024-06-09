@@ -1,6 +1,6 @@
 import { db } from "db";
-import { DataTable } from "@/components/dash/admin/events/EventDataTable";
-import { columns } from "@/components/dash/admin/events/EventColumns";
+import { DataTable } from "@/components/admin/events/EventDataTable";
+import { columns } from "@/components/admin/events/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";

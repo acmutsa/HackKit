@@ -1,4 +1,4 @@
-import { RegistrationToggles } from "@/components/dash/admin/toggles/RegistrationSettings";
+import { RegistrationToggles } from "@/components/admin/toggles/RegistrationSettings";
 import { kv } from "@vercel/kv";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 

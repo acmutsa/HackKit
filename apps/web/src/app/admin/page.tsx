@@ -1,4 +1,4 @@
-import { Overview } from "@/components/dash/admin/landing/Overview";
+import { Overview } from "@/components/admin/landing/Overview";
 import {
 	Card,
 	CardHeader,

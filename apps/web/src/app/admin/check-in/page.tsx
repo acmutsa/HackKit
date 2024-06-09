@@ -1,4 +1,4 @@
-import CheckinScanner from "@/components/dash/admin/scanner/CheckinScanner";
+import CheckinScanner from "@/components/admin/scanner/CheckinScanner";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { db } from "db";
 import { eq, and } from "db/drizzle";

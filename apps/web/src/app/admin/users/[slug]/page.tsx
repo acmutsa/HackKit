@@ -7,13 +7,13 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import { Info } from "lucide-react";
 
 import Link from "next/link";
-import UpdateRoleDialog from "@/components/dash/admin/users/UpdateRoleDialog";
+import UpdateRoleDialog from "@/components/admin/users/UpdateRoleDialog";
 import {
 	AccountInfo,
 	PersonalInfo,
 	ProfileInfo,
 	TeamInfo,
-} from "@/components/dash/admin/users/ServerSections";
+} from "@/components/admin/users/ServerSections";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
 import { isUserAdmin } from "@/lib/utils/server/admin";

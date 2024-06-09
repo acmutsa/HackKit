@@ -1,11 +1,11 @@
 import { db,ilike,or,and,eq } from "db";
-import { DataTable } from "@/components/dash/admin/users/UserDataTable";
-import { columns } from "@/components/dash/admin/users/UserColumns";
+import { DataTable } from "@/components/admin/users/UserDataTable";
+import { columns } from "@/components/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { FolderInput } from "lucide-react";
-import { DefaultPagination } from "@/app/admin/DefaultPagination";
-import SearchBar from "@/components/shared/SearchBar";
-import Filters from "../Filters";
+import { DefaultPagination } from "@/components/admin/users/DefaultPagination";
+import SearchBar from "@/components/admin/users/SearchBar";
+import Filters from "../../../components/admin/users/Filters";
 import { users } from "db/schema";
 import { parseCheckBoxParams } from "@/lib/utils/shared/pageParams";
 
