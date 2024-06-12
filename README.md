@@ -7,3 +7,26 @@
 <p>Want to get started with using <i>HackKit</i>? Check out our <a href="https://oss-acmutsa.vercel.app/">OSS Documents</a> that will be updated as we add new features and fix bugs! </p>
 <p>
  Have any questions, feedback, or need help hosting? Join our <a href="https://discord.acmutsa.org">Discord</a> or <a href="mailto:projectsofficer@acmutsa.org"> Contact our projects officer.</a></p></p>
+
+**The offical website for RowdyHacks 2024!**
+
+## Technologies Used
+
+- TypeScript
+- Next.js
+- Drizzle ORM
+- Tailwind CSS
+
+[![Vercel](https://static.rowdyhacks.org/img/powered-by-vercel.svg)](https://vercel.com/?utm_source=ACM%20UTSA&utm_campaign=oss)
+
+## Join The Team
+
+Want to help make RowdyHacks the best Hackathon around? Please reach out to us at `team@rowdyhacks.org`!
+
+## RH 2024 Website Contributors
+
+<a href="https://github.com/acmutsa/RowdyHacks24/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=acmutsa/RowdyHacks24" />
+</a>
+  
+[📣❤️ Other Contributions ❤️📣](https://github.com/UTSA-ACM/RowdyHacks24/blob/dev/contributions.md)
