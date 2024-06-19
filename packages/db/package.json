@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Shared drizzle-orm schema for the db",
   "scripts": {
-    "migrations:generate": "drizzle-kit generate:pg",
+    "migrations:generate": "drizzle-kit generate",
     "migrations:apply": "node -r esbuild-register migrate.ts",
     "migrations:drop": "drizzle-kit drop",
+    "migrations:push": "drizzle-kit push",
+    "kit:up": "drizzle-kit up",
     "studio": "drizzle-kit studio"
   },
   "keywords": [],
@@ -15,11 +17,13 @@
   "types": "./index.ts",
   "private": true,
   "dependencies": {
-    "@vercel/postgres": "^0.4.0",
-    "dotenv": "^16.3.1",
-    "drizzle-kit": "^0.20.13",
-    "drizzle-orm": "^0.29.3",
+    "@vercel/postgres": "^0.8.0",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.31.2",
     "esbuild-register": "^3.4.2",
-    "postgres": "^3.3.5"
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.22.7"
   }
 }
