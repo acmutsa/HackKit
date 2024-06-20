@@ -33,7 +33,7 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@vercel/analytics": "^1.1.1",
-    "@vercel/blob": "^0.23.3",
+    "@vercel/blob": "^0.10.0",
     "@vercel/kv": "^2.0.0",
     "@vercel/postgres": "^0.8.0",
     "@yudiel/react-qr-scanner": "^1.1.9",
