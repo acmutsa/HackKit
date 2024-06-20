@@ -1,10 +1,8 @@
 {
-  "id": "f47d6311-8aff-4849-b6dc-6eef79e9a490",
-  "prevId": "a6c4dbf4-d3d6-4d94-81be-b2e601ed30de",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "discord_verification": {
+    "public.discord_verification": {
       "name": "discord_verification",
       "schema": "",
       "columns": {
@@ -64,7 +62,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "error_log": {
+    "public.error_log": {
       "name": "error_log",
       "schema": "",
       "columns": {
@@ -105,7 +103,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "events": {
+    "public.events": {
       "name": "events",
       "schema": "",
       "columns": {
@@ -165,14 +163,14 @@
       "uniqueConstraints": {
         "events_id_unique": {
           "name": "events_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "files": {
+    "public.files": {
       "name": "files",
       "schema": "",
       "columns": {
@@ -220,21 +218,21 @@
       "uniqueConstraints": {
         "files_id_unique": {
           "name": "files_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         },
         "files_key_unique": {
           "name": "files_key_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "key"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "invites": {
+    "public.invites": {
       "name": "invites",
       "schema": "",
       "columns": {
@@ -278,7 +276,7 @@
       },
       "uniqueConstraints": {}
     },
-    "profile_data": {
+    "public.profile_data": {
       "name": "profile_data",
       "schema": "",
       "columns": {
@@ -326,14 +324,14 @@
       "uniqueConstraints": {
         "profile_data_hacker_tag_unique": {
           "name": "profile_data_hacker_tag_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "hacker_tag"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "registration_data": {
+    "public.registration_data": {
       "name": "registration_data",
       "schema": "",
       "columns": {
@@ -477,14 +475,14 @@
       "uniqueConstraints": {
         "registration_data_clerk_id_unique": {
           "name": "registration_data_clerk_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "clerk_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "scans": {
+    "public.scans": {
       "name": "scans",
       "schema": "",
       "columns": {
@@ -527,7 +525,7 @@
       },
       "uniqueConstraints": {}
     },
-    "teams": {
+    "public.teams": {
       "name": "teams",
       "schema": "",
       "columns": {
@@ -587,21 +585,21 @@
       "uniqueConstraints": {
         "teams_id_unique": {
           "name": "teams_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         },
         "teams_tag_unique": {
           "name": "teams_tag_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "tag"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -702,69 +700,75 @@
       "uniqueConstraints": {
         "users_clerk_id_unique": {
           "name": "users_clerk_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "clerk_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         },
         "users_email_unique": {
           "name": "users_email_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "email"
-          ]
+          ],
+          "nullsNotDistinct": false
         },
         "users_hacker_tag_unique": {
           "name": "users_hacker_tag_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "hacker_tag"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "discord_status": {
+    "public.discord_status": {
       "name": "discord_status",
-      "values": {
-        "pending": "pending",
-        "expired": "expired",
-        "accepted": "accepted",
-        "rejected": "rejected"
-      }
+      "schema": "public",
+      "values": [
+        "pending",
+        "expired",
+        "accepted",
+        "rejected"
+      ]
     },
-    "type": {
+    "public.type": {
       "name": "type",
-      "values": {
-        "generic": "generic",
-        "resume": "resume"
-      }
+      "schema": "public",
+      "values": [
+        "generic",
+        "resume"
+      ]
     },
-    "invite_status": {
+    "public.invite_status": {
       "name": "invite_status",
-      "values": {
-        "pending": "pending",
-        "accepted": "accepted",
-        "declined": "declined"
-      }
+      "schema": "public",
+      "values": [
+        "pending",
+        "accepted",
+        "declined"
+      ]
     },
-    "role": {
+    "public.role": {
       "name": "role",
-      "values": {
-        "hacker": "hacker",
-        "volunteer": "volunteer",
-        "mentor": "mentor",
-        "mlh": "mlh",
-        "admin": "admin",
-        "super_admin": "super_admin"
-      }
+      "schema": "public",
+      "values": [
+        "hacker",
+        "volunteer",
+        "mentor",
+        "mlh",
+        "admin",
+        "super_admin"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "f47d6311-8aff-4849-b6dc-6eef79e9a490",
+  "prevId": "a6c4dbf4-d3d6-4d94-81be-b2e601ed30de"
 }

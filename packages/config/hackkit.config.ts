@@ -1,13 +1,12 @@
 export const defaultTheme = "dark";
 
 export default {
-	hackathonName: "Hackkit",
-	itteration: "Your Iteration",
+	hackathonName: "HackKit",
+	itteration: "Your Iteration Here",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-	defaultMetaDataDescription:
-		"RowdyHacks is a free, weekend-long, overnight hackathon hosted at UTSA! Students can join us to network, code, collaborate, and compete. We welcome hackers from all disciplines, backgrounds, & technical levels!",
+	defaultMetaDataDescription:"Your Metadata Description Here",
 	botName: "HackKit",
-	botParticipantRole: "RH24 Participant",
+	botParticipantRole: "RH25 Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
