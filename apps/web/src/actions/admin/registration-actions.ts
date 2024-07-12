@@ -9,6 +9,10 @@ const defaultRegistrationToggleSchema = z.object({
 	enabled: z.boolean(),
 });
 
+const defaultRSVPLimitSchema = z.object({
+	rsvpLimit: z.number()
+});
+
 export const toggleRegistrationEnabled = adminAction(
 	defaultRegistrationToggleSchema,
 	async ({ enabled }, { user, userId }) => {
@@ -43,4 +47,13 @@ export const toggleRSVPs = adminAction(
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
 	},
+);
+
+export const setRSVPLimit = adminAction(
+	defaultRSVPLimitSchema,
+	async ({ rsvpLimit }) => {
+		await kv.set("config:registration:maxRSVPs", rsvpLimit);
+		revalidatePath("/admin/toggles/registration");
+		return { success: true, statusSet: rsvpLimit };
+	}
 );

@@ -11,18 +11,22 @@ import {
 	toggleRegistrationMessageEnabled,
 	toggleSecretRegistrationEnabled,
 	toggleRSVPs,
+	setRSVPLimit,
 } from "@/actions/admin/registration-actions";
+import { UpdateItemWithConfirmation } from "./UpdateItemWithConfirmation";
 
 interface RegistrationTogglesProps {
 	defaultRegistrationEnabled: boolean;
 	defaultSecretRegistrationEnabled: boolean;
 	defaultRSVPsEnabled: boolean;
+	defaultRSVPLimit: number
 }
 
 export function RegistrationToggles({
 	defaultSecretRegistrationEnabled,
 	defaultRegistrationEnabled,
 	defaultRSVPsEnabled,
+	defaultRSVPLimit
 }: RegistrationTogglesProps) {
 	const {
 		execute: executeToggleSecretRegistrationEnabled,
@@ -55,6 +59,17 @@ export function RegistrationToggles({
 		(state, { enabled }) => {
 			return { statusSet: enabled, success: true };
 		},
+	);
+
+	const {
+		execute: executeSetRSVPLimit,
+		optimisticData: SetRSVPLimitOptimisticData
+	} = useOptimisticAction(
+		setRSVPLimit,
+		{ success: true, statusSet: defaultRSVPLimit },
+		(_, { rsvpLimit }) => {
+			return { statusSet: rsvpLimit, success: true }
+		}
 	);
 
 	return (
@@ -113,6 +128,18 @@ export function RegistrationToggles({
 									`RSVPs ${checked ? "enabled" : "disabled"} successfully!`,
 								);
 								executeToggleRSVPs({ enabled: checked });
+							}}
+						/>
+					</div>
+					<div className="flex items-center py-4 border-t-muted border-t border-b">
+						<p className="text-sm font-bold mr-auto">RSVP Limit</p>
+						<UpdateItemWithConfirmation 
+							defaultValue={SetRSVPLimitOptimisticData.statusSet}
+							enabled={toggleRSVPsOptimisticData.statusSet}
+							type="number"
+							onSubmit={(newLimit) => {
+								toast.success(`Limit on the number of users who can RSVP changed to ${newLimit}`)
+								executeSetRSVPLimit({ rsvpLimit: newLimit })
 							}}
 						/>
 					</div>
