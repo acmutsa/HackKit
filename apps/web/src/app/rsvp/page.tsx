@@ -2,13 +2,13 @@ import ConfirmDialogue from "@/components/rsvp/ConfirmDialogue";
 import c from "config";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { db } from "db";
+import { count, db } from "db";
 import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import ClientToast from "@/components/shared/ClientToast";
 import { SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 import { kv } from "@vercel/kv";
-import { parseRedisBoolean } from "@/lib/utils/server/redis";
+import { parseRedisBoolean, parseRedisNumber } from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
@@ -41,15 +41,25 @@ export default async function RsvpPage({
 	}
 
 	const rsvpEnabled = await kv.get("config:registration:allowRSVPs");
+	const rsvpLimit = parseRedisNumber(
+		await kv.get("config:registration:maxRSVPs"),
+		c.rsvpDefaultLimit,
+	);
+	const rsvpUserCount = await db
+		.select({ count: count() })
+		.from(userCommonData)
+		.where(eq(userCommonData.isRSVPed, true))
+		.limit(rsvpLimit)
+		.then((result) => result[0].count);
 
 	// TODO: fix type jank here
-	if (
+	const isRsvpPossible =
 		parseRedisBoolean(
 			rsvpEnabled as string | boolean | null | undefined,
 			true,
-		) === true ||
-		user.isRSVPed === true
-	) {
+		) === true && rsvpUserCount < rsvpLimit;
+
+	if (isRsvpPossible || user.isRSVPed === true) {
 		return (
 			<>
 				<ClientToast />
