@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"typeRoots": ["src/@types", "node_modules/@types"],
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"moduleResolution": "node",
+		"preserveWatchOutput": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"strict": true
+	},
+	"exclude": ["node_modules"]
+}
