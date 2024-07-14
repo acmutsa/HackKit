@@ -2,11 +2,11 @@ export const defaultTheme = "dark";
 
 export default {
 	hackathonName: "HackKit",
-	itteration: "Your Iteration Here",
+	itteration: "I",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	botName: "HackKit",
-	botParticipantRole: "RH25 Participant",
+	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
@@ -74,6 +74,7 @@ export default {
 			Schedule: "/dash/schedule",
 			"Event Pass": "/dash/pass",
 			// Team: "/dash/team",
+			Tickets: "/dash/tickets",
 		},
 		admin: {
 			Overview: "/admin",
