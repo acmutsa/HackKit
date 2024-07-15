@@ -96,6 +96,9 @@ export const userRelations = relations(users, ({ one, many }) => ({
 		references: [teams.id],
 	}),
 	invites: many(invites),
+	tickets: many(ticketsToUsers),
+	chats: many(chatsToUsers),
+	messages: many(chatMessages),
 }));
 
 export const registrationData = pgTable("registration_data", {
@@ -269,8 +272,9 @@ export const tickets = pgTable("tickets", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const ticketRelations = relations(tickets, ({ one }) => ({
+export const ticketRelations = relations(tickets, ({ one, many }) => ({
 	chat: one(chats),
+	tickets: many(ticketsToUsers),
 }));
 
 export const chats = pgTable("chats", {
@@ -283,13 +287,14 @@ export const chats = pgTable("chats", {
 
 export const chatRelations = relations(chats, ({ many }) => ({
 	messages: many(chatMessages),
+	members: many(chatsToUsers),
 }));
 
 export const chatMessages = pgTable("chat_messages", {
 	id: bigserial("id", { mode: "number" }).primaryKey(),
 	chatID: text("chat_id").notNull(),
 	message: text("message").notNull(),
-	author: text("author").notNull(),
+	authorID: text("author_id").notNull(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
@@ -297,5 +302,61 @@ export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
 	chat: one(chats, {
 		fields: [chatMessages.chatID],
 		references: [chats.id],
+	}),
+	author: one(users, {
+		fields: [chatMessages.authorID],
+		references: [users.clerkID],
+	}),
+}));
+
+export const ticketsToUsers = pgTable(
+	"tickets_to_users",
+	{
+		ticketID: text("ticket_id")
+			.notNull()
+			.references(() => tickets.id),
+		userID: text("user_id")
+			.notNull()
+			.references(() => users.clerkID),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
+	})
+);
+
+export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
+	ticket: one(tickets, {
+		fields: [ticketsToUsers.ticketID],
+		references: [tickets.id],
+	}),
+	user: one(users, {
+		fields: [ticketsToUsers.userID],
+		references: [users.clerkID],
+	}),
+}));
+
+export const chatsToUsers = pgTable(
+	"chats_to_users",
+	{
+		chatID: text("chat_id")
+			.notNull()
+			.references(() => chats.id),
+		userID: text("user_id")
+			.notNull()
+			.references(() => users.clerkID),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.userID, t.chatID] }),
+	})
+);
+
+export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
+	chat: one(chats, {
+		fields: [chatsToUsers.chatID],
+		references: [chats.id],
+	}),
+	user: one(users, {
+		fields: [chatsToUsers.userID],
+		references: [users.clerkID],
 	}),
 }));

@@ -35,12 +35,9 @@ export default function TicketList() {
 
 function TicketItem() {
 	return (
-		<div className="flex items-center justify-between gap-x-2 p-4 border-b border-b-muted">
-			<div className="flex items-center gap-x-2">
-				<div className="h-10 w-10 rounded-full b"></div>
-				<h1 className="text-lg font-bold">Ticket Name</h1>
-			</div>
-			<div className="text-muted-foreground">$100</div>
+		<div className="border-b border-b-muted h-16 px-5 py-4 flex flex-col justify-center">
+			<h3 className="font-bold text-sm">Ticket Name</h3>
+			<p className="text-xs text-muted-foreground">Last Message</p>
 		</div>
 	);
 }
