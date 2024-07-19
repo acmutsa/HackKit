@@ -4,7 +4,11 @@ import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import { defaultTheme } from "config";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	const theme = cookies().get("hk_theme")?.value || defaultTheme;
 	return (
 		<ClerkProvider>

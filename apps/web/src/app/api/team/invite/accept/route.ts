@@ -12,7 +12,9 @@ const inviteAcceptValidator = z.object({
 	teamInviteID: z.string().min(1).max(50),
 });
 
-export async function POST(req: Request): serverZodResponse<typeof BasicServerValidator> {
+export async function POST(
+	req: Request,
+): serverZodResponse<typeof BasicServerValidator> {
 	const { userId } = await auth();
 	if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
 
@@ -76,12 +78,20 @@ export async function POST(req: Request): serverZodResponse<typeof BasicServerVa
 		});
 	}
 
-	await db.update(users).set({ teamID: user.invites[0].teamID }).where(eq(users.clerkID, userId));
+	await db
+		.update(users)
+		.set({ teamID: user.invites[0].teamID })
+		.where(eq(users.clerkID, userId));
 	// TODO: would be interesting to see if the and() could be reomved here in favor of directly looking up the composite key.
 	await db
 		.update(invites)
 		.set({ status: "accepted" })
-		.where(and(eq(invites.teamID, user.invites[0].teamID), eq(invites.inviteeID, userId)));
+		.where(
+			and(
+				eq(invites.teamID, user.invites[0].teamID),
+				eq(invites.inviteeID, userId),
+			),
+		);
 
 	return NextResponse.json({
 		success: true,

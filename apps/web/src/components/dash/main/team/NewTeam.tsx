@@ -24,7 +24,9 @@ import c from "config";
 import { put } from "@vercel/blob";
 
 export default function NewTeamForm() {
-	const formValidator = newTeamValidator.merge(z.object({ photo: z.instanceof(File) }));
+	const formValidator = newTeamValidator.merge(
+		z.object({ photo: z.instanceof(File) }),
+	);
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
@@ -52,7 +54,7 @@ export default function NewTeamForm() {
 			teamPhotoURL = url;
 		} else {
 			teamPhotoURL = `https://api.dicebear.com/6.x/shapes/svg?seed=${encodeURIComponent(
-				values.tag.toLowerCase()
+				values.tag.toLowerCase(),
 			)}`;
 		}
 
@@ -70,7 +72,7 @@ export default function NewTeamForm() {
 
 		if (!res.success) {
 			return alert(
-				`An unknown error occurred. Please try again later. If this is a continuous issue, please contact us at ${c.issueEmail}.`
+				`An unknown error occurred. Please try again later. If this is a continuous issue, please contact us at ${c.issueEmail}.`,
 			);
 		}
 		if (!res.data.success) {
@@ -90,7 +92,7 @@ export default function NewTeamForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="w-full gap-y-4 flex flex-col justify-center"
+				className="flex w-full flex-col justify-center gap-y-4"
 			>
 				<FormField
 					control={form.control}
@@ -100,11 +102,14 @@ export default function NewTeamForm() {
 							<FormLabel>Team Name</FormLabel>
 							<FormControl>
 								<Input
-									className="dark:bg-transparent dark:border-primary dark:ring-offset-primary"
+									className="dark:border-primary dark:bg-transparent dark:ring-offset-primary"
 									{...field}
 								/>
 							</FormControl>
-							<FormDescription>This will be the public display name of your team.</FormDescription>
+							<FormDescription>
+								This will be the public display name of your
+								team.
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -117,17 +122,18 @@ export default function NewTeamForm() {
 							<FormLabel>TeamTag</FormLabel>
 							<FormControl>
 								<div className="flex">
-									<div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-l text-lg font-light">
+									<div className="flex h-10 w-10 items-center justify-center rounded-l bg-primary text-lg font-light text-primary-foreground">
 										~
 									</div>
 									<Input
-										className="dark:bg-transparent dark:border-primary dark:ring-offset-primary rounded-l-none"
+										className="rounded-l-none dark:border-primary dark:bg-transparent dark:ring-offset-primary"
 										{...field}
 									/>
 								</div>
 							</FormControl>
 							<FormDescription>
-								This will be the public, unique identifier for your team.
+								This will be the public, unique identifier for
+								your team.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -143,8 +149,14 @@ export default function NewTeamForm() {
 								<Input
 									accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
 									type="file"
-									className="dark:bg-transparent cursor-pointer file:cursor-pointer file:text-primary dark:border-primary dark:ring-offset-primary"
-									onChange={(e) => field.onChange(e.target.files ? e.target.files[0] : null)}
+									className="cursor-pointer file:cursor-pointer file:text-primary dark:border-primary dark:bg-transparent dark:ring-offset-primary"
+									onChange={(e) =>
+										field.onChange(
+											e.target.files
+												? e.target.files[0]
+												: null,
+										)
+									}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -159,7 +171,7 @@ export default function NewTeamForm() {
 							<FormLabel>Bio</FormLabel>
 							<FormControl>
 								<Textarea
-									className="dark:bg-transparent dark:border-primary dark:ring-offset-primary"
+									className="dark:border-primary dark:bg-transparent dark:ring-offset-primary"
 									placeholder="We are team X building Y..."
 									{...field}
 								/>
@@ -171,7 +183,7 @@ export default function NewTeamForm() {
 				/>
 
 				{loading ? (
-					<p className="flex justify-center items-center gap-x-1">
+					<p className="flex items-center justify-center gap-x-1">
 						Creating Team <Shell className="animate-spin" />
 					</p>
 				) : (

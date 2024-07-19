@@ -4,14 +4,16 @@
     "build": "turbo run build && pnpm --filter=db migrations:apply",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "migrations:generate": "pnpm --filter=db migrations:generate",
     "migrations:apply": "pnpm --filter=db migrations:apply",
     "migrations:drop": "pnpm --filter=db migrations:drop",
     "studio": "pnpm --filter=db studio",
     "tunnel": "pnpm --filter=devtunnel opentunnel",
     "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
-    "deploy-discord:prod": "pnpm --filter=bot deploy:prod"
+    "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
+    "format": "prettier --write .",
+    "format-check": "prettier --check ."
+
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",

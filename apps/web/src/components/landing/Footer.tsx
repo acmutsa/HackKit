@@ -16,8 +16,11 @@ export default function Footer() {
 	const [showHackathons, setShowHackathons] = useState(false);
 
 	return (
-    <section className="flex w-full items-center justify-center min-h-[25vh] border-t-2 border-muted-foreground">
-      <h1 className="text-4xl md:text-5xl font-black"> Your Footer Here</h1>
-    </section>
-  );
+		<section className="flex min-h-[25vh] w-full items-center justify-center border-t-2 border-muted-foreground">
+			<h1 className="text-4xl font-black md:text-5xl">
+				{" "}
+				Your Footer Here
+			</h1>
+		</section>
+	);
 }
