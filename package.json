@@ -17,9 +17,12 @@
     "@turbo/gen": "^1.9.7",
     "dotenv-cli": "^7.3.0",
     "eslint": "^7.32.0",
-    "prettier": "^2.5.1",
+    "prettier": "^3.3.3",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.3.1",
-  "name": "hackkit"
+  "name": "hackkit",
+  "dependencies": {
+    "prettier-plugin-tailwindcss": "^0.6.5"
+  }
 }
