@@ -5,7 +5,7 @@ import { z } from "zod";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
 import { discordVerification } from "db/schema";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export const confirmVerifyDiscord = authenticatedAction(
 	z.object({

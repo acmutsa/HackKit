@@ -12,7 +12,7 @@ import { users } from "db/schema";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { userType } from "@/lib/utils/shared/types";
 import { unstable_cache } from "next/cache";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
 
