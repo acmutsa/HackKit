@@ -43,11 +43,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	}
 
 	return (
-		<main className="max-w-5xl mx-auto pt-44">
-			<div className="w-full grid grid-cols-2 mb-5">
+		<main className="mx-auto max-w-5xl pt-44">
+			<div className="mb-5 grid w-full grid-cols-2">
 				<div className="flex items-center">
 					<div>
-						<h2 className="text-3xl font-bold tracking-tight flex items-center gap-x-2">
+						<h2 className="flex items-center gap-x-2 text-3xl font-bold tracking-tight">
 							<Info />
 							User Info
 						</h2>
@@ -67,9 +67,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					/>
 				</div>
 			</div>
-			<div className="grid grid-cols-3 w-full min-h-[500px] mt-20">
-				<div className="flex flex-col items-center h-full w-full max-w-[250px]">
-					<div className="relative w-full h-min rounded-full aspect-square overflow-hidden">
+			<div className="mt-20 grid min-h-[500px] w-full grid-cols-3">
+				<div className="flex h-full w-full max-w-[250px] flex-col items-center">
+					<div className="relative aspect-square h-min w-full overflow-hidden rounded-full">
 						<Image
 							className="object-cover object-center"
 							fill
@@ -77,14 +77,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							alt={`Profile Photo for ${user.firstName} ${user.lastName}`}
 						/>
 					</div>
-					<h1 className="text-3xl mt-4 font-semibold">
+					<h1 className="mt-4 text-3xl font-semibold">
 						{user.firstName} {user.lastName}
 					</h1>
-					<h2 className="font-mono text-muted-foreground">@{user.hackerTag}</h2>
+					<h2 className="font-mono text-muted-foreground">
+						@{user.hackerTag}
+					</h2>
 					{/* <p className="text-sm mt-5">{team.bio}</p> */}
-					<div className="flex mt-5 gap-x-2">
+					<div className="mt-5 flex gap-x-2">
 						<Badge className="no-select">
-							Joined {user.createdAt.toDateString().split(" ").slice(1).join(" ")}
+							Joined{" "}
+							{user.createdAt
+								.toDateString()
+								.split(" ")
+								.slice(1)
+								.join(" ")}
 						</Badge>
 					</div>
 				</div>

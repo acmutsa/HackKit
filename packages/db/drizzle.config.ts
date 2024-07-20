@@ -16,11 +16,11 @@ dotenv.config({
 // } satisfies Config;
 
 // driver: "pg", Can be removed as of version 0.21.0 or above https://orm.drizzle.team/kit-docs/upgrade-21
-// Connection string also removed 
+// Connection string also removed
 
 export default defineConfig({
 	schema: "./schema.ts",
-	dialect:"postgresql",
+	dialect: "postgresql",
 	out: "./drizzle",
 	dbCredentials: {
 		url: `${process.env.POSTGRES_URL as string}?sslmode=require`,

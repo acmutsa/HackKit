@@ -38,8 +38,14 @@ function Calendar(props: CalendarProps<DateValue>) {
 		nextButtonProps: _nextButtonProps,
 		title,
 	} = useCalendar(props, state);
-	const { buttonProps: prevButtonProps } = useButton(_prevButtonProps, prevButtonRef);
-	const { buttonProps: nextButtonProps } = useButton(_nextButtonProps, nextButtonRef);
+	const { buttonProps: prevButtonProps } = useButton(
+		_prevButtonProps,
+		prevButtonRef,
+	);
+	const { buttonProps: nextButtonProps } = useButton(
+		_nextButtonProps,
+		nextButtonRef,
+	);
 
 	return (
 		<div {...calendarProps} className="space-y-4">
@@ -48,18 +54,22 @@ function Calendar(props: CalendarProps<DateValue>) {
 					{...prevButtonProps}
 					ref={prevButtonRef}
 					variant={"outline"}
-					className={cn("absolute left-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100")}
+					className={cn(
+						"absolute left-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+					)}
 				>
-					<ChevronLeftIcon className="w-4 h-4" />
+					<ChevronLeftIcon className="h-4 w-4" />
 				</Button>
 				<div className="text-sm font-medium">{title}</div>
 				<Button
 					{...nextButtonProps}
 					ref={nextButtonRef}
 					variant={"outline"}
-					className={cn("absolute right-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100")}
+					className={cn(
+						"absolute right-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+					)}
 				>
-					<ChevronRightIcon className="w-4 h-4" />
+					<ChevronRightIcon className="h-4 w-4" />
 				</Button>
 			</div>
 			<CalendarGrid state={state} />
@@ -79,7 +89,13 @@ function CalendarGrid({ state, ...props }: CalendarGridProps) {
 	const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale);
 
 	return (
-		<table {...gridProps} className={cn(gridProps.className, "w-full border-collapse space-y-1")}>
+		<table
+			{...gridProps}
+			className={cn(
+				gridProps.className,
+				"w-full border-collapse space-y-1",
+			)}
+		>
 			<thead {...headerProps}>
 				<tr className="flex">
 					{weekDays.map((day, index) => (
@@ -94,11 +110,19 @@ function CalendarGrid({ state, ...props }: CalendarGridProps) {
 			</thead>
 			<tbody>
 				{[...new Array(weeksInMonth).keys()].map((weekIndex) => (
-					<tr className="flex w-full mt-2" key={weekIndex}>
+					<tr className="mt-2 flex w-full" key={weekIndex}>
 						{state
 							.getDatesInWeek(weekIndex)
 							.map((date, i) =>
-								date ? <CalendarCell key={i} state={state} date={date} /> : <td key={i} />
+								date ? (
+									<CalendarCell
+										key={i}
+										state={state}
+										date={date}
+									/>
+								) : (
+									<td key={i} />
+								),
 							)}
 					</tr>
 				))}
@@ -114,8 +138,14 @@ interface CalendarCellProps {
 
 function CalendarCell({ state, date }: CalendarCellProps) {
 	const ref = React.useRef<HTMLButtonElement | null>(null);
-	const { cellProps, buttonProps, isSelected, isOutsideVisibleRange, isDisabled, formattedDate } =
-		useCalendarCell({ date }, state, ref);
+	const {
+		cellProps,
+		buttonProps,
+		isSelected,
+		isOutsideVisibleRange,
+		isDisabled,
+		formattedDate,
+	} = useCalendarCell({ date }, state, ref);
 
 	const isToday = useMemo(() => {
 		const timezone = getLocalTimeZone();
@@ -127,7 +157,7 @@ function CalendarCell({ state, date }: CalendarCellProps) {
 			{...cellProps}
 			className={cn(
 				cellProps.className,
-				"relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
+				"relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
 			)}
 		>
 			<Button
@@ -142,8 +172,10 @@ function CalendarCell({ state, date }: CalendarCellProps) {
 					isSelected
 						? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground"
 						: "",
-					isOutsideVisibleRange ? "text-muted-foreground opacity-50" : "",
-					isDisabled ? "text-muted-foreground opacity-50" : ""
+					isOutsideVisibleRange
+						? "text-muted-foreground opacity-50"
+						: "",
+					isDisabled ? "text-muted-foreground opacity-50" : "",
 				)}
 			>
 				{formattedDate}

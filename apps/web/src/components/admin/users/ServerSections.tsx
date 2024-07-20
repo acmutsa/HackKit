@@ -11,10 +11,18 @@ export function PersonalInfo({ user }: { user: UserWithAllData }) {
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="First Name" value={user.firstName} />
 				<Cell title="Last Name" value={user.lastName} />
-				<Cell title="Gender" value={titleCase(user.registrationData.gender.toLowerCase())} />
+				<Cell
+					title="Gender"
+					value={titleCase(
+						user.registrationData.gender.toLowerCase(),
+					)}
+				/>
 				<Cell title="Pronouns" value={user.profileData.pronouns} />
 				<Cell title="Race" value={user.registrationData.race} />
-				<Cell title="Ethnicity" value={user.registrationData.ethnicity} />
+				<Cell
+					title="Ethnicity"
+					value={user.registrationData.ethnicity}
+				/>
 				<Cell title="Age" value={user.registrationData.age} />
 			</div>
 		</UserInfoSection>
@@ -27,13 +35,28 @@ export function ProfileInfo({ user }: { user: UserWithAllData }) {
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="Hacker Tag" value={`@${user.hackerTag}`} />
 				<Cell title="Team" value={user.teamID ? "Yes" : "No"} />
-				<Cell title="Discord" value={user.profileData.discordUsername} />
-				<Cell title="Linkedin" value={user.registrationData.LinkedIn || "N/A"} />
-				<Cell title="Github" value={user.registrationData.GitHub || "N/A"} />
-				<Cell title="Website" value={user.registrationData.PersonalWebsite || "N/A"} />
-				<Cell title="Profile is Searchable" value={user.hasSearchableProfile ? "Yes" : "No"} />
+				<Cell
+					title="Discord"
+					value={user.profileData.discordUsername}
+				/>
+				<Cell
+					title="Linkedin"
+					value={user.registrationData.LinkedIn || "N/A"}
+				/>
+				<Cell
+					title="Github"
+					value={user.registrationData.GitHub || "N/A"}
+				/>
+				<Cell
+					title="Website"
+					value={user.registrationData.PersonalWebsite || "N/A"}
+				/>
+				<Cell
+					title="Profile is Searchable"
+					value={user.hasSearchableProfile ? "Yes" : "No"}
+				/>
 			</div>
-			<div className="pt-5 flex flex-col gap-y-5">
+			<div className="flex flex-col gap-y-5 pt-5">
 				<Cell title="Skills" value={"Coming soon..."} />
 				<Cell title="Bio" value={user.profileData.bio} />
 			</div>
@@ -76,7 +99,14 @@ export function TeamInfo({ user }: { user: UserWithAllData }) {
 					<>
 						<Cell title="Team Name" value={user.team.name} />
 						<Cell title="Team Tag" value={`~${user.team.tag}`} />
-						<Cell title="Is owner" value={user.team.ownerID === user.clerkID ? "Yes" : "No"} />
+						<Cell
+							title="Is owner"
+							value={
+								user.team.ownerID === user.clerkID
+									? "Yes"
+									: "No"
+							}
+						/>
 					</>
 				) : null}
 			</div>
@@ -89,10 +119,16 @@ export function TeamInfo({ user }: { user: UserWithAllData }) {
 	);
 }
 
-function Cell({ title, value }: { title: string; value: string | number | boolean }) {
+function Cell({
+	title,
+	value,
+}: {
+	title: string;
+	value: string | number | boolean;
+}) {
 	return (
 		<div>
-			<p className="font-bold whitespace-nowrap">{title}</p>
+			<p className="whitespace-nowrap font-bold">{title}</p>
 			<p className="whitespace-nowrap">{value.toString()}</p>
 		</div>
 	);

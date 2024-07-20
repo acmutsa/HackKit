@@ -40,17 +40,20 @@ export default async function Page() {
 
 	if (!user.teamID) {
 		return (
-			<main className="max-w-5xl min-h-[70%] mx-auto w-full flex flex-col items-center mt-16">
-				<div className="fixed left-1/2 top-[calc(50%+7rem)] overflow-x-hidden h-[40vh] w-[800px] max-w-screen -translate-x-1/2 -translate-y-1/2 scale-150 bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
+			<main className="mx-auto mt-16 flex min-h-[70%] w-full max-w-5xl flex-col items-center">
+				<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
 				<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
-				<h1 className="text-6xl md:text-8xl mb-10 font-extrabold text-hackathon dark:text-transparent dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text">
+				<h1 className="mb-10 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
 					Team
 				</h1>
-				<div className="min-h-[60vh] w-full max-w-[500px] aspect-video dark:bg-white/[0.08] bg-white backdrop-blur transition rounded-xl p-5">
-					<div className="w-full grid grid-cols-2 border-b-primary/[0.09] border-b pb-2">
+				<div className="aspect-video min-h-[60vh] w-full max-w-[500px] rounded-xl bg-white p-5 backdrop-blur transition dark:bg-white/[0.08]">
+					<div className="grid w-full grid-cols-2 border-b border-b-primary/[0.09] pb-2">
 						<div className="flex flex-col justify-center text-sm">
 							<p>You are not currently in a team.</p>
-							<Link className="text-xs text-blue-500 hover:underline" href={"#"}>
+							<Link
+								className="text-xs text-blue-500 hover:underline"
+								href={"#"}
+							>
 								How do Teams work?
 							</Link>
 						</div>
@@ -63,16 +66,25 @@ export default async function Page() {
 							</Link>
 						</div>
 					</div>
-					<div className="w-full flex flex-col items-center mt-10">
-						<h2 className="font-bold font-xl mb-5 text-2xl">Invitations</h2>
+					<div className="mt-10 flex w-full flex-col items-center">
+						<h2 className="font-xl mb-5 text-2xl font-bold">
+							Invitations
+						</h2>
 						{user.invites.length > 0 ? (
 							user.invites.map((invite) => (
-								<div className="grid grid-cols-3 w-full h-16 rounded-xl px-2" key={invite.teamID}>
-									<div className="flex flex-col justify-center h-full w-full">
-										<h1 className="font-bold">{invite.team.name}</h1>
-										<h2 className="text-xs font-mono leading-none">~{invite.team.tag}</h2>
+								<div
+									className="grid h-16 w-full grid-cols-3 rounded-xl px-2"
+									key={invite.teamID}
+								>
+									<div className="flex h-full w-full flex-col justify-center">
+										<h1 className="font-bold">
+											{invite.team.name}
+										</h1>
+										<h2 className="font-mono text-xs leading-none">
+											~{invite.team.tag}
+										</h2>
 									</div>
-									<div className="h-full col-span-2 flex items-center justify-end gap-x-2">
+									<div className="col-span-2 flex h-full items-center justify-end gap-x-2">
 										<Link href={`/~${invite.team.tag}`}>
 											<Button>View Team</Button>
 										</Link>
@@ -91,11 +103,11 @@ export default async function Page() {
 		if (!user.team) return null;
 		const team = user.team;
 		return (
-			<main className="max-w-5xl min-h-[70%] mx-auto w-full flex flex-col items-center mt-16 font-sans">
-				<div className="w-full grid grid-cols-2 mb-5">
+			<main className="mx-auto mt-16 flex min-h-[70%] w-full max-w-5xl flex-col items-center font-sans">
+				<div className="mb-5 grid w-full grid-cols-2">
 					<div className="flex items-center">
 						<div>
-							<h2 className="text-3xl font-bold tracking-tight flex items-center gap-x-1">
+							<h2 className="flex items-center gap-x-1 text-3xl font-bold tracking-tight">
 								<User />
 								Team
 							</h2>
@@ -107,9 +119,9 @@ export default async function Page() {
 						<LeaveTeamButton issueEmail={c.issueEmail} />
 					</div>
 				</div>
-				<div className="grid grid-cols-3 w-full min-h-[500px] mt-20">
-					<div className="flex flex-col items-center h-full w-full max-w-[250px]">
-						<div className="relative w-full h-min rounded-full aspect-square overflow-hidden">
+				<div className="mt-20 grid min-h-[500px] w-full grid-cols-3">
+					<div className="flex h-full w-full max-w-[250px] flex-col items-center">
+						<div className="relative aspect-square h-min w-full overflow-hidden rounded-full">
 							<Image
 								className="object-cover object-center"
 								fill
@@ -117,17 +129,26 @@ export default async function Page() {
 								alt={`Team Photo for ${team.name}`}
 							/>
 						</div>
-						<h1 className="text-3xl mt-4 font-semibold text-center">{team.name}</h1>
-						<h2 className="font-mono text-muted-foreground">~{team.tag}</h2>
-						<p className="text-sm mt-5">{team.bio}</p>
-						<div className="flex mt-5 gap-x-2">
+						<h1 className="mt-4 text-center text-3xl font-semibold">
+							{team.name}
+						</h1>
+						<h2 className="font-mono text-muted-foreground">
+							~{team.tag}
+						</h2>
+						<p className="mt-5 text-sm">{team.bio}</p>
+						<div className="mt-5 flex gap-x-2">
 							<Badge className="no-select">
-								Est. {team.createdAt.toDateString().split(" ").slice(1).join(" ")}
+								Est.{" "}
+								{team.createdAt
+									.toDateString()
+									.split(" ")
+									.slice(1)
+									.join(" ")}
 							</Badge>
 						</div>
 					</div>
 					<div
-						className="aspect-video grid grid-cols-2 col-span-2 border-muted border-2 w-full rounded-2xl bg-[radial-gradient(#27272a,_1px,_transparent_0)]"
+						className="col-span-2 grid aspect-video w-full grid-cols-2 rounded-2xl border-2 border-muted bg-[radial-gradient(#27272a,_1px,_transparent_0)]"
 						style={{
 							backgroundSize: "30px 30px",
 						}}
@@ -135,20 +156,24 @@ export default async function Page() {
 						{team.members.map((member) => (
 							<Fragment key={member.hackerTag}>
 								<Link href={`/@${member.hackerTag}`}>
-									<div className="h-full w-full flex items-center justify-center">
-										<div className="bg-zinc-900  hover:bg-muted hover:border-muted-foreground transition-colors duration-150 border-muted border-2 rounded flex gap-x-2 p-2 items-center justify-center h-[75px] w-[200px]">
+									<div className="flex h-full w-full items-center justify-center">
+										<div className="flex h-[75px] w-[200px] items-center justify-center gap-x-2 rounded border-2 border-muted bg-zinc-900 p-2 transition-colors duration-150 hover:border-muted-foreground hover:bg-muted">
 											<Image
-												src={member.profileData.profilePhoto}
+												src={
+													member.profileData
+														.profilePhoto
+												}
 												alt={`${member.hackerTag}'s Profile Photo`}
 												height={40}
 												width={40}
-												className="rounded-full !aspect-square"
+												className="!aspect-square rounded-full"
 											/>
 											<div>
 												<h3>
-													{member.firstName} {member.lastName}
+													{member.firstName}{" "}
+													{member.lastName}
 												</h3>
-												<h4 className="font-mono text-xs whitespace-nowrap overflow-hidden text-ellipsis max-w-[16ch]">
+												<h4 className="max-w-[16ch] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-xs">
 													@{member.hackerTag}
 												</h4>
 											</div>

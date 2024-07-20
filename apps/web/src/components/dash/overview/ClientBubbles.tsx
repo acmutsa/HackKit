@@ -10,30 +10,44 @@ interface CountdownProps {
 }
 
 export function Countdown({ title, date }: CountdownProps) {
-	const { seconds, minutes, hours, days } = useTimer({ expiryTimestamp: date });
+	const { seconds, minutes, hours, days } = useTimer({
+		expiryTimestamp: date,
+	});
 	return (
-		<div className="border border-muted rounded-xl p-5 min-h-[150px]">
+		<div className="min-h-[150px] rounded-xl border border-muted p-5">
 			<div className="flex justify-between">
-				<div className="flex items-center flex-col">
-					<h2 className="font-black text-3xl" suppressHydrationWarning>
+				<div className="flex flex-col items-center">
+					<h2
+						className="text-3xl font-black"
+						suppressHydrationWarning
+					>
 						{days}
 					</h2>
 					<h3 className="font-bold">Days</h3>
 				</div>
-				<div className="flex items-center flex-col">
-					<h2 className="font-black text-3xl" suppressHydrationWarning>
+				<div className="flex flex-col items-center">
+					<h2
+						className="text-3xl font-black"
+						suppressHydrationWarning
+					>
 						{hours}
 					</h2>
 					<h3 className="font-bold">Hours</h3>
 				</div>
-				<div className="flex items-center flex-col">
-					<h2 className="font-black text-3xl" suppressHydrationWarning>
+				<div className="flex flex-col items-center">
+					<h2
+						className="text-3xl font-black"
+						suppressHydrationWarning
+					>
 						{minutes}
 					</h2>
 					<h3 className="font-bold">Minutes</h3>
 				</div>
-				<div className="flex items-center flex-col">
-					<h2 className="font-black text-3xl" suppressHydrationWarning>
+				<div className="flex flex-col items-center">
+					<h2
+						className="text-3xl font-black"
+						suppressHydrationWarning
+					>
 						{seconds}
 					</h2>
 					<h3 className="font-bold">Seconds</h3>
