@@ -1,5 +1,5 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 interface SendEmailParams {
 	to: string;
