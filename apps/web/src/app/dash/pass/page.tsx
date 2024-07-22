@@ -85,7 +85,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 				<div className="event-pass-img relative flex h-[45%] w-full items-end">
 					<div className="absolute left-1/2 top-1/2 aspect-square w-[200px] -translate-x-1/2 -translate-y-[65%] bg-hackathon opacity-60 blur-[50px] will-change-transform"></div>
 					<Image
-						src={c.icon.svg}
+						src={c.eventPassBgImage}
 						alt={""}
 						fill
 						className="no-select -translate-y-[15%] scale-[0.8] object-contain"
@@ -96,7 +96,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 								src={c.icon.svg}
 								height={60}
 								width={60}
-								alt={`${c.hackathonName} Logo`}
+								alt={``}
 							/>
 							<h1 className="text-md ml-1 font-bold leading-tight">
 								{c.hackathonName}{" "}
