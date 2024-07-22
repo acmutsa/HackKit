@@ -74,7 +74,7 @@ export default {
 			Schedule: "/dash/schedule",
 			"Event Pass": "/dash/pass",
 			// Team: "/dash/team",
-			// Tickets: "/dash/tickets",
+			Tickets: "/dash/tickets",
 		},
 		admin: {
 			Overview: "/admin",
