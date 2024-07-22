@@ -38,7 +38,7 @@ export default async function RsvpPage({
 	}
 
 	if (
-		c.featureFlags.core.requireUsersApproval === true &&
+		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
 		user.approved === false &&
 		user.role === "hacker"
 	) {

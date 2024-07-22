@@ -32,7 +32,7 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 	if (!user) return redirect("/register");
 
 	if (
-		c.featureFlags.core.requireUsersApproval === true &&
+		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
 		user.approved === false &&
 		user.role === "hacker"
 	) {

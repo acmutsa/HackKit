@@ -67,7 +67,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						currPermision={user.role}
 						userID={user.clerkID}
 					/>
-					{c.featureFlags.core.requireUsersApproval && (
+					{(c.featureFlags.core.requireUsersApproval as boolean) && (
 						<ApproveUserButton
 							userIDToUpdate={user.clerkID}
 							currentApproval={user.approved}
