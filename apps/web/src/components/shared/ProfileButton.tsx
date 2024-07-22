@@ -137,7 +137,7 @@ export default async function ProfileButton() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				className="mt-2 w-32 bg-[rgb(247,240,232)] dark:bg-black sm:w-40 lg:w-52"
+				className="mt-2 w-32 sm:w-40 lg:w-52"
 				align="end"
 				forceMount
 			>
@@ -164,7 +164,7 @@ export default async function ProfileButton() {
 					{user.role === "admin" ||
 						(user.role === "super_admin" && (
 							<Link href={`/admin`}>
-								<DropdownMenuItem className="cursor-pointer text-blue-400">
+								<DropdownMenuItem className="cursor-pointer hover:!bg-amber-600">
 									Admin
 								</DropdownMenuItem>
 							</Link>

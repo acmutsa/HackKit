@@ -14,7 +14,7 @@ export function Countdown({ title, date }: CountdownProps) {
 		expiryTimestamp: date,
 	});
 	return (
-		<div className="min-h-[150px] rounded-xl border border-muted p-5">
+		<div className="min-h-[150px] rounded-xl border border-border p-5">
 			<div className="flex justify-between">
 				<div className="flex flex-col items-center">
 					<h2
