@@ -138,9 +138,6 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 						</DrawerContent>
 					</Drawer>
 				</div>
-				<div className="flex w-full items-center justify-center text-lg font-bold">
-					<h3>Psst! Click To Enlarge QR Code</h3>
-				</div>
 			</div>
 			<div className="absolute bottom-0 left-1/2 z-10 h-[75px] w-[75px] -translate-x-1/2 translate-y-[50%] rotate-45 rounded-full border-2 border-background border-l-muted border-t-muted bg-background dark:border" />
 		</div>
