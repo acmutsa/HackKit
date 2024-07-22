@@ -10,16 +10,33 @@ import ProfileButton from "@/components/shared/ProfileButton";
 import ClientToast from "@/components/shared/ClientToast";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { db } from "db";
+import { eq } from "db/drizzle";
+import { users } from "db/schema";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
 }
 
 export default async function DashLayout({ children }: DashLayoutProps) {
-	const user = await currentUser();
+	const clerkUser = await currentUser();
 
-	if (!user || !user.publicMetadata.registrationComplete) {
+	if (!clerkUser || !clerkUser.publicMetadata.registrationComplete) {
 		return redirect("/register");
+	}
+
+	const user = await db.query.users.findFirst({
+		where: eq(users.clerkID, clerkUser.id),
+	});
+
+	if (!user) return redirect("/register");
+
+	if (
+		c.featureFlags.core.requireUsersApproval === true &&
+		user.approved === false &&
+		user.role === "hacker"
+	) {
+		return redirect("/i/approval");
 	}
 
 	return (

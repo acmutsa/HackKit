@@ -147,7 +147,7 @@ export default {
 	maxTeamSize: 4,
 	featureFlags: {
 		core: {
-			requireUsersApproval: false,
+			requireUsersApproval: true,
 		},
 	},
 } as const;
