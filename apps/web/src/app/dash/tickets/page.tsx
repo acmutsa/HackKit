@@ -1,3 +1,7 @@
 export default function Page() {
-	return <main className="flex items-center justify-center h-full">No Ticket Selected</main>;
+	return (
+		<main className="flex h-full items-center justify-center">
+			No Ticket Selected
+		</main>
+	);
 }

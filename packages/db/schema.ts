@@ -42,7 +42,11 @@ export const inviteType = pgEnum("invite_status", [
 
 export const chatType = pgEnum("chat_type", ["ticket"]);
 
-export const ticketStatus = pgEnum("ticket_status", ["awaiting", "in_progress", "completed"]);
+export const ticketStatus = pgEnum("ticket_status", [
+	"awaiting",
+	"in_progress",
+	"completed",
+]);
 
 export const discordVerificationStatus = pgEnum("discord_status", [
 	"pending",
@@ -321,7 +325,7 @@ export const ticketsToUsers = pgTable(
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
-	})
+	}),
 );
 
 export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
@@ -347,7 +351,7 @@ export const chatsToUsers = pgTable(
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.chatID] }),
-	})
+	}),
 );
 
 export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({

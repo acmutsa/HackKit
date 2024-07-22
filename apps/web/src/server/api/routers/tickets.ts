@@ -28,7 +28,12 @@ export const ticketsRouter = createTRPCRouter({
 
 	// TODO: needs error handling
 	create: authedProcedure
-		.input(z.object({ title: z.string().min(1), description: z.string().min(1) }))
+		.input(
+			z.object({
+				title: z.string().min(1),
+				description: z.string().min(1),
+			}),
+		)
 		.mutation(async ({ ctx, input }) => {
 			const ticketID = nanoid();
 
