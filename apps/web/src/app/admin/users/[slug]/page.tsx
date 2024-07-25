@@ -17,6 +17,8 @@ import {
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
 import { isUserAdmin } from "@/lib/utils/server/admin";
+import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
+import c from "config";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 	const { userId } = auth();
@@ -44,7 +46,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	return (
 		<main className="mx-auto max-w-5xl pt-44">
-			<div className="mb-5 grid w-full grid-cols-2">
+			<div className="mb-5 grid w-full grid-cols-3">
 				<div className="flex items-center">
 					<div>
 						<h2 className="flex items-center gap-x-2 text-3xl font-bold tracking-tight">
@@ -54,7 +56,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						{/* <p className="text-sm text-muted-foreground">{users.length} Total Users</p> */}
 					</div>
 				</div>
-				<div className="flex items-center justify-end gap-2">
+				<div className="col-span-2 flex items-center justify-end gap-2">
 					<Link href={`/@${user.hackerTag}`} target="_blank">
 						<Button variant={"outline"}>Hacker Profile</Button>
 					</Link>
@@ -65,6 +67,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						currPermision={user.role}
 						userID={user.clerkID}
 					/>
+					{(c.featureFlags.core.requireUsersApproval as boolean) && (
+						<ApproveUserButton
+							userIDToUpdate={user.clerkID}
+							currentApproval={user.approved}
+						/>
+					)}
 				</div>
 			</div>
 			<div className="mt-20 grid min-h-[500px] w-full grid-cols-3">

@@ -43,6 +43,14 @@ export default async function Page({
 		return redirect("/register");
 	}
 
+	if (
+		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
+		user.approved === false &&
+		user.role === "hacker"
+	) {
+		return redirect("/i/approval");
+	}
+
 	if (user.discordVerification) {
 		await db
 			.update(discordVerification)

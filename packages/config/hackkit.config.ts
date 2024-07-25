@@ -145,6 +145,11 @@ export default {
 		},
 	},
 	maxTeamSize: 4,
+	featureFlags: {
+		core: {
+			requireUsersApproval: false,
+		},
+	},
 } as const;
 
 // Its important that this is kept in sync with the database schema.
