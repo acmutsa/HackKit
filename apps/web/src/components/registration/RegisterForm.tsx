@@ -28,6 +28,7 @@ import Link from "next/link";
 import c, { schools, majors } from "config";
 import {
 	Command,
+	CommandList,
 	CommandEmpty,
 	CommandGroup,
 	CommandInput,
@@ -536,37 +537,41 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 													<CommandEmpty>
 														No university found.
 													</CommandEmpty>
-													<CommandGroup>
-														{schools.map(
-															(school) => (
-																<CommandItem
-																	value={
-																		school
-																	}
-																	key={school}
-																	onSelect={(
-																		value,
-																	) => {
-																		form.setValue(
-																			"university",
+													<CommandList>
+														<CommandGroup>
+															{schools.map(
+																(school) => (
+																	<CommandItem
+																		value={
+																			school
+																		}
+																		key={
+																			school
+																		}
+																		onSelect={(
 																			value,
-																		);
-																	}}
-																	className="cursor-pointer"
-																>
-																	<Check
-																		className={`mr-2 h-4 w-4 ${
-																			school.toLowerCase() ===
-																			field.value
-																				? "block"
-																				: "hidden"
-																		} `}
-																	/>
-																	{school}
-																</CommandItem>
-															),
-														)}
-													</CommandGroup>
+																		) => {
+																			form.setValue(
+																				"university",
+																				value,
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 ${
+																				school.toLowerCase() ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{school}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
 												</Command>
 											</PopoverContent>
 										</Popover>
@@ -609,33 +614,41 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 													<CommandEmpty>
 														No major found.
 													</CommandEmpty>
-													<CommandGroup>
-														{majors.map((major) => (
-															<CommandItem
-																value={major}
-																key={major}
-																onSelect={(
-																	value,
-																) => {
-																	form.setValue(
-																		"major",
-																		value,
-																	);
-																}}
-																className="cursor-pointer"
-															>
-																<Check
-																	className={`mr-2 h-4 w-4 overflow-hidden ${
-																		major.toLowerCase() ===
-																		field.value
-																			? "block"
-																			: "hidden"
-																	} `}
-																/>
-																{major}
-															</CommandItem>
-														))}
-													</CommandGroup>
+													<CommandList>
+														<CommandGroup>
+															{majors.map(
+																(major) => (
+																	<CommandItem
+																		value={
+																			major
+																		}
+																		key={
+																			major
+																		}
+																		onSelect={(
+																			value,
+																		) => {
+																			form.setValue(
+																				"major",
+																				value,
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 overflow-hidden ${
+																				major.toLowerCase() ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{major}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
 												</Command>
 											</PopoverContent>
 										</Popover>
