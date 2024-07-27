@@ -152,7 +152,8 @@ export const RegisterFormValidator = z.object({
 	bio: z
 		.string()
 		.min(1)
-		.max(500, { message: "Bio must be less than 500 characters." }).refine(noProfanityValidator, noProfanityMessage),
+		.max(500, { message: "Bio must be less than 500 characters." })
+		.refine(noProfanityValidator, noProfanityMessage),
 	skills: z.array(
 		z.object({
 			id: z.string(),
