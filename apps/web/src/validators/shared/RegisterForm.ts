@@ -1,9 +1,13 @@
 import { z } from "zod";
 import c from "config";
+import { isProfane } from "no-profanity";
 
 const defaultPrettyError = {
 	errorMap: () => ({ message: "Please select a value" }),
 };
+
+const noProfanityValidator = (val: any) => !isProfane(val);
+const noProfanityMessage = "Profanity is not allowed";
 
 export const RegisterFormValidator = z.object({
 	firstName: z
@@ -11,7 +15,6 @@ export const RegisterFormValidator = z.object({
 		.min(1, { message: "Firstname must be at least one character" })
 		.max(50, { message: "Firstname must be less than 50 characters" }),
 	lastName: z
-
 		.string()
 		.min(1, { message: "Lastname must be at least 1 character" })
 		.max(50, { message: "Lastname must be less than 50 characters" }),
@@ -139,7 +142,8 @@ export const RegisterFormValidator = z.object({
 		.regex(/^[a-zA-Z0-9]+$/, {
 			message: "HackerTag must be alphanumeric and have no spaces",
 		})
-		.toLowerCase(),
+		.toLowerCase()
+		.refine(noProfanityValidator, noProfanityMessage),
 	profileDiscordName: z
 		.string()
 		.min(2, { message: "Please enter a valid Discord Username" })
@@ -148,7 +152,7 @@ export const RegisterFormValidator = z.object({
 	bio: z
 		.string()
 		.min(1)
-		.max(500, { message: "Bio must be less than 500 characters." }),
+		.max(500, { message: "Bio must be less than 500 characters." }).refine(noProfanityValidator, noProfanityMessage),
 	skills: z.array(
 		z.object({
 			id: z.string(),

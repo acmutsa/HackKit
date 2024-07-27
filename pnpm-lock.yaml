@@ -242,6 +242,9 @@ importers:
       next-safe-action:
         specifier: ^5.2.3
         version: 5.2.3(next@14.2.5)(react@18.3.1)(zod@3.23.8)
+      no-profanity:
+        specifier: ^1.5.1
+        version: 1.5.1
       pg:
         specifier: ^8.12.0
         version: 8.12.0
@@ -10016,6 +10019,11 @@ packages:
     dependencies:
       lower-case: 2.0.2
       tslib: 2.6.3
+    dev: false
+
+  /no-profanity@1.5.1:
+    resolution: {integrity: sha512-WHUWSXRSobqcYD++EGgxXU7asFcECICUSiDfrpzK5c+V2luNVZp2vAas0yje45CC3XPkZb6J0CRIMyEZLQK2sg==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /node-fetch-native@1.0.1:
