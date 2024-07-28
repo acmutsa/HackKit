@@ -8,7 +8,10 @@ import Navbar from "@/components/shared/Navbar";
 export default async function Page({ params }: { params: { id: string } }) {
 	if (!params || !params.id || isNaN(parseInt(params.id))) {
 		return (
-			<FullScreenMessage title={"Invalid ID"} message={"The Event ID in the URL is invalid."} />
+			<FullScreenMessage
+				title={"Invalid ID"}
+				message={"The Event ID in the URL is invalid."}
+			/>
 		);
 	}
 
@@ -20,7 +23,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 		return (
 			<FullScreenMessage
 				title={"Invalid ID"}
-				message={"The Event ID in the URL is invalid or does not exist."}
+				message={
+					"The Event ID in the URL is invalid or does not exist."
+				}
 			/>
 		);
 	}

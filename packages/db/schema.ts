@@ -34,7 +34,19 @@ export const roles = pgEnum("role", [
 
 export const fileTypesEnum = pgEnum("type", ["generic", "resume"]);
 
-export const inviteType = pgEnum("invite_status", ["pending", "accepted", "declined"]);
+export const inviteType = pgEnum("invite_status", [
+	"pending",
+	"accepted",
+	"declined",
+]);
+
+export const chatType = pgEnum("chat_type", ["ticket"]);
+
+export const ticketStatus = pgEnum("ticket_status", [
+	"awaiting",
+	"in_progress",
+	"completed",
+]);
 
 export const discordVerificationStatus = pgEnum("discord_status", [
 	"pending",
@@ -44,14 +56,21 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 ]);
 
 export const users = pgTable("users", {
-	clerkID: varchar("clerk_id", { length: 255 }).notNull().primaryKey().unique(),
+	clerkID: varchar("clerk_id", { length: 255 })
+		.notNull()
+		.primaryKey()
+		.unique(),
 	firstName: varchar("first_name", { length: 50 }).notNull(),
 	lastName: varchar("last_name", { length: 50 }).notNull(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
 	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().unique(),
-	registrationComplete: boolean("registration_complete").notNull().default(false),
+	registrationComplete: boolean("registration_complete")
+		.notNull()
+		.default(false),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
-	hasSearchableProfile: boolean("has_searchable_profile").notNull().default(true),
+	hasSearchableProfile: boolean("has_searchable_profile")
+		.notNull()
+		.default(true),
 	group: integer("group").notNull(),
 	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
@@ -59,6 +78,7 @@ export const users = pgTable("users", {
 	points: integer("points").notNull().default(0),
 	checkedIn: boolean("checked_in").notNull().default(false),
 	rsvp: boolean("rsvp").notNull().default(false),
+	approved: boolean("approved").notNull().default(false),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
@@ -81,10 +101,16 @@ export const userRelations = relations(users, ({ one, many }) => ({
 		references: [teams.id],
 	}),
 	invites: many(invites),
+	tickets: many(ticketsToUsers),
+	chats: many(chatsToUsers),
+	messages: many(chatMessages),
 }));
 
 export const registrationData = pgTable("registration_data", {
-	clerkID: varchar("clerk_id", { length: 255 }).notNull().primaryKey().unique(),
+	clerkID: varchar("clerk_id", { length: 255 })
+		.notNull()
+		.primaryKey()
+		.unique(),
 	age: integer("age").notNull(),
 	gender: varchar("gender", { length: 50 }).notNull(),
 	race: varchar("race", { length: 75 }).notNull(),
@@ -97,7 +123,9 @@ export const registrationData = pgTable("registration_data", {
 	shortID: varchar("short_id", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
 	hackathonsAttended: integer("hackathons_attended").notNull(),
-	softwareExperience: varchar("software_experience", { length: 25 }).notNull(),
+	softwareExperience: varchar("software_experience", {
+		length: 25,
+	}).notNull(),
 	heardFrom: varchar("heard_from", { length: 50 }),
 	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
 	dietRestrictions: json("diet_restrictions").notNull(),
@@ -111,7 +139,10 @@ export const registrationData = pgTable("registration_data", {
 });
 
 export const profileData = pgTable("profile_data", {
-	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().primaryKey().unique(),
+	hackerTag: varchar("hacker_tag", { length: 50 })
+		.notNull()
+		.primaryKey()
+		.unique(),
 	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
 	pronouns: varchar("pronouns", { length: 20 }).notNull(),
 	bio: text("bio").notNull(),
@@ -160,7 +191,7 @@ export const scans = pgTable(
 	},
 	(table) => ({
 		id: primaryKey({ columns: [table.userID, table.eventID] }),
-	})
+	}),
 );
 
 export const scansRelations = relations(scans, ({ one }) => ({
@@ -200,7 +231,7 @@ export const invites = pgTable(
 	},
 	(table) => ({
 		id: primaryKey(table.inviteeID, table.teamID),
-	})
+	}),
 );
 
 export const invitesRelations = relations(invites, ({ one }) => ({
@@ -228,8 +259,109 @@ export const discordVerification = pgTable("discord_verification", {
 	clerkID: varchar("clerk_id", { length: 255 }),
 	discordUserID: varchar("discord_user_id", { length: 255 }).notNull(),
 	discordUserTag: varchar("discord_user_tag", { length: 255 }).notNull(),
-	discordProfilePhoto: varchar("discord_profile_photo", { length: 255 }).notNull(),
+	discordProfilePhoto: varchar("discord_profile_photo", {
+		length: 255,
+	}).notNull(),
 	discordName: varchar("discord_name", { length: 255 }).notNull(),
 	status: discordVerificationStatus("status").notNull().default("pending"),
 	guild: varchar("guild", { length: 100 }).notNull(),
 });
+
+/* Tickets */
+
+export const tickets = pgTable("tickets", {
+	id: text("id").primaryKey(),
+	title: varchar("title", { length: 255 }).notNull(),
+	description: text("description").notNull(),
+	status: ticketStatus("status").notNull().default("awaiting"),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const ticketRelations = relations(tickets, ({ one, many }) => ({
+	chat: one(chats),
+	tickets: many(ticketsToUsers),
+}));
+
+export const chats = pgTable("chats", {
+	id: text("id").primaryKey(),
+	type: chatType("type").notNull(),
+	ticketID: text("ticket_id").references(() => tickets.id),
+	author: text("author").notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const chatRelations = relations(chats, ({ many }) => ({
+	messages: many(chatMessages),
+	members: many(chatsToUsers),
+}));
+
+export const chatMessages = pgTable("chat_messages", {
+	id: bigserial("id", { mode: "number" }).primaryKey(),
+	chatID: text("chat_id").notNull(),
+	message: text("message").notNull(),
+	authorID: text("author_id").notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
+	chat: one(chats, {
+		fields: [chatMessages.chatID],
+		references: [chats.id],
+	}),
+	author: one(users, {
+		fields: [chatMessages.authorID],
+		references: [users.clerkID],
+	}),
+}));
+
+export const ticketsToUsers = pgTable(
+	"tickets_to_users",
+	{
+		ticketID: text("ticket_id")
+			.notNull()
+			.references(() => tickets.id),
+		userID: text("user_id")
+			.notNull()
+			.references(() => users.clerkID),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
+	}),
+);
+
+export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
+	ticket: one(tickets, {
+		fields: [ticketsToUsers.ticketID],
+		references: [tickets.id],
+	}),
+	user: one(users, {
+		fields: [ticketsToUsers.userID],
+		references: [users.clerkID],
+	}),
+}));
+
+export const chatsToUsers = pgTable(
+	"chats_to_users",
+	{
+		chatID: text("chat_id")
+			.notNull()
+			.references(() => chats.id),
+		userID: text("user_id")
+			.notNull()
+			.references(() => users.clerkID),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.userID, t.chatID] }),
+	}),
+);
+
+export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
+	chat: one(chats, {
+		fields: [chatsToUsers.chatID],
+		references: [chats.id],
+	}),
+	user: one(users, {
+		fields: [chatsToUsers.userID],
+		references: [users.clerkID],
+	}),
+}));

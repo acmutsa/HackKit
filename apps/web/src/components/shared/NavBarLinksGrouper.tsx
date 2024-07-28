@@ -9,7 +9,7 @@ export default async function NavBarLinksGrouper() {
 			toRender.push(
 				<NavbarItem key={item.name} link={item.url}>
 					{item.name}
-				</NavbarItem>
+				</NavbarItem>,
 			);
 		}
 	}

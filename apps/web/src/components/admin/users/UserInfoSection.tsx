@@ -4,7 +4,10 @@ interface UserInfoSectionProps {
 	subtitle?: string;
 }
 
-export default function UserInfoSection({ children, title }: UserInfoSectionProps) {
+export default function UserInfoSection({
+	children,
+	title,
+}: UserInfoSectionProps) {
 	return (
 		<div className="pb-16">
 			<div className="flex items-center justify-start pb-10">

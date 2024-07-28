@@ -8,7 +8,9 @@ import { BasicServerValidator } from "@/validators/shared/basic";
 import { invites } from "db/schema";
 import type { serverZodResponse } from "@/lib/utils/server/types";
 
-export async function POST(req: Request): serverZodResponse<typeof BasicServerValidator> {
+export async function POST(
+	req: Request,
+): serverZodResponse<typeof BasicServerValidator> {
 	const { userId } = await auth();
 	if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
 	const user = await db.query.users.findFirst({
@@ -21,9 +23,10 @@ export async function POST(req: Request): serverZodResponse<typeof BasicServerVa
 		return NextResponse.json(
 			{
 				success: false,
-				message: "You are not on a team. Join a team to invite members.",
+				message:
+					"You are not on a team. Join a team to invite members.",
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -33,7 +36,7 @@ export async function POST(req: Request): serverZodResponse<typeof BasicServerVa
 				success: false,
 				message: "You are not the owner of this team.",
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
