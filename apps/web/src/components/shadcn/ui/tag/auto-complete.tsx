@@ -37,15 +37,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
 						<CommandItem key={option.id}>
 							<div
 								onClick={() => {
-									if (maxTags && tags.length >= maxTags)
-										return;
-									if (
-										!allowDuplicates &&
-										tags.some(
-											(tag) => tag.text === option.text,
-										)
-									)
-										return;
+									if (maxTags && tags.length >= maxTags) return;
+									if (!allowDuplicates && tags.some((tag) => tag.text === option.text)) return;
 									setTags([...tags, option]);
 									onTagAdd?.(option.text);
 								}}

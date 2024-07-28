@@ -62,15 +62,12 @@ export async function zpost<Req = any, Res = any>({
 	if (vReq && body) {
 		body = vReq.parse(body);
 	}
-	const { data } = await axios.post(
-		url,
-		superReq ? superjson.stringify(body) : body,
-	);
+	const { data } = await axios.post(url, superReq ? superjson.stringify(body) : body);
 	return vRes
 		? vRes.parse(superRes ? superjson.parse(data) : data)
 		: superRes
-			? superjson.parse(data)
-			: data;
+		? superjson.parse(data)
+		: data;
 }
 
 export async function zpostSafe<Req = any, Res = any>({
@@ -85,14 +82,9 @@ export async function zpostSafe<Req = any, Res = any>({
 		if (vReq && body) {
 			body = vReq.parse(body);
 		}
-		const { data } = await axios.post(
-			url,
-			superReq ? superjson.stringify(body) : body,
-		);
+		const { data } = await axios.post(url, superReq ? superjson.stringify(body) : body);
 		if (vRes) {
-			const result = vRes.safeParse(
-				superRes ? superjson.parse(data) : data,
-			);
+			const result = vRes.safeParse(superRes ? superjson.parse(data) : data);
 			if (result.success) {
 				return { success: true, data: result.data };
 			} else {

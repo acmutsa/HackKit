@@ -37,33 +37,20 @@ export default async function RsvpPage({
 		return redirect("/register");
 	}
 
-	if (
-		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
-		user.approved === false &&
-		user.role === "hacker"
-	) {
-		return redirect("/i/approval");
-	}
-
 	const rsvpEnabled = await kv.get("config:registration:allowRSVPs");
 
 	// TODO: fix type jank here
 	if (
-		parseRedisBoolean(
-			rsvpEnabled as string | boolean | null | undefined,
-			true,
-		) === true ||
+		parseRedisBoolean(rsvpEnabled as string | boolean | null | undefined, true) === true ||
 		user.rsvp === true
 	) {
 		return (
 			<>
 				<ClientToast />
-				<main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center">
-					<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
-					<h2 className="text-4xl font-extrabold">
-						{c.hackathonName}
-					</h2>
-					<h1 className="mb-10 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
+				<main className="max-w-5xl min-h-screen mx-auto w-full flex flex-col items-center justify-center">
+					<div className="fixed left-1/2 top-[calc(50%+7rem)] overflow-x-hidden h-[40vh] w-[800px] max-w-screen -translate-x-1/2 -translate-y-1/2 scale-150 bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
+					<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
+					<h1 className="text-6xl md:text-8xl mb-10 font-extrabold text-hackathon dark:text-transparent dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text">
 						RSVP
 					</h1>
 					<ConfirmDialogue hasRsvped={user.rsvp} />
@@ -72,20 +59,19 @@ export default async function RsvpPage({
 		);
 	} else {
 		return (
-			<main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center">
-				<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
+			<main className="max-w-5xl min-h-screen mx-auto w-full flex flex-col items-center justify-center">
+				<div className="fixed left-1/2 top-[calc(50%+7rem)] overflow-x-hidden h-[40vh] w-[800px] max-w-screen -translate-x-1/2 -translate-y-1/2 scale-150 bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
 				<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
-				<h1 className="mb-10 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
+				<h1 className="text-6xl md:text-8xl mb-10 font-extrabold text-hackathon dark:text-transparent dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text">
 					RSVP
 				</h1>
-				<div className="relative flex aspect-video w-full max-w-[500px] flex-col items-center justify-center rounded-xl bg-white p-5 backdrop-blur transition dark:bg-white/[0.08]">
-					<h1 className="flex items-center gap-x-2 text-center text-2xl font-bold text-red-500">
+				<div className="w-full max-w-[500px] aspect-video relative dark:bg-white/[0.08] bg-white backdrop-blur transition rounded-xl p-5 flex flex-col items-center justify-center">
+					<h1 className="flex items-center gap-x-2 font-bold text-2xl text-red-500 text-center">
 						RSVPs Are Currently Closed
 					</h1>
-					<p className="pb-10 pt-5 text-center">
-						We have currently reached capacity for RSVPs. However,
-						we still encourage you to show up for walk-ins! If you
-						have any questions or concerns, feel free to ask on{" "}
+					<p className="pt-5 pb-10 text-center">
+						We have currently reached capacity for RSVPs. However, we still encourage you to show up
+						for walk-ins! If you have any questions or concerns, feel free to ask on{" "}
 						<Link href={c.links.discord} className="underline">
 							Discord
 						</Link>{" "}

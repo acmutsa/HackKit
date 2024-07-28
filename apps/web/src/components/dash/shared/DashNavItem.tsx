@@ -13,12 +13,9 @@ export default function DashNavItem({ name, path }: DashNavItemProps) {
 	return (
 		<Link href={path}>
 			<button
-				className={`h-full whitespace-nowrap border-b-2 px-3 text-sm transition-colors duration-150 ${
-					(currPath.startsWith(path) &&
-						path !== "/admin" &&
-						path !== "/dash") ||
-					currPath === path
-						? "border-b-muted text-primary dark:border-b-primary"
+				className={`h-full px-3 border-b-2 text-sm transition-colors duration-150 whitespace-nowrap ${
+					(currPath.startsWith(path) && path !== "/admin" && path !== "/dash") || currPath === path
+						? "border-b-muted dark:border-b-primary text-primary"
 						: "border-b-transparent text-muted-foreground hover:border-b-muted"
 				}`}
 			>

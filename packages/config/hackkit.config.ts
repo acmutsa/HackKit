@@ -2,11 +2,11 @@ export const defaultTheme = "dark";
 
 export default {
 	hackathonName: "HackKit",
-	itteration: "I",
+	itteration: "Your Iteration Here",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-	defaultMetaDataDescription: "Your Metadata Description Here",
+	defaultMetaDataDescription:"Your Metadata Description Here",
 	botName: "HackKit",
-	botParticipantRole: "Participant",
+	botParticipantRole: "RH25 Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: "The University of Texas at San Antonio",
 	localUniversityShortIDName: "ABC123",
@@ -60,7 +60,7 @@ export default {
 		facebook: "https://facebook.com/rowdyhacks",
 		twitter: "https://twitter.com/rowdyhacks",
 		github: "https://github.com/acmutsa",
-		guide: "https://go.rowdyhacks.org/discord",
+    guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
 		sm: "/img/logo/hackkit.svg",
@@ -74,7 +74,6 @@ export default {
 			Schedule: "/dash/schedule",
 			"Event Pass": "/dash/pass",
 			// Team: "/dash/team",
-			// Tickets: "/dash/tickets",
 		},
 		admin: {
 			Overview: "/admin",
@@ -101,8 +100,7 @@ export default {
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
 	eventPassBgImage: "/img/dash/pass/bg.png",
-	noResumeProvidedURL:
-		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
 	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
 	prettyLocation: "Location of Hackathon",
@@ -145,34 +143,15 @@ export default {
 		},
 	},
 	maxTeamSize: 4,
-	featureFlags: {
-		core: {
-			requireUsersApproval: false,
-		},
-	},
 } as const;
 
 // Its important that this is kept in sync with the database schema.
 
-export const perms = [
-	"hacker",
-	"volunteer",
-	"mentor",
-	"mlh",
-	"admin",
-	"super_admin",
-] as const;
+export const perms = ["hacker", "volunteer", "mentor", "mlh", "admin", "super_admin"] as const;
 
 // These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
 
-export const publicRoutes = [
-	"/",
-	/^\/schedule(\/.*)?$/,
-	/^\/@/,
-	/^\/user\//,
-	"/404",
-	"/bugreport",
-];
+export const publicRoutes = ["/", /^\/schedule(\/.*)?$/, /^\/@/, /^\/user\//, "/404", "/bugreport"];
 
 // Generally it is reccomended to put your primary audience's university at the top of this list.
 

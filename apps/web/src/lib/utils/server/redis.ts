@@ -22,7 +22,7 @@ export async function getAllNavItems() {
 
 export function parseRedisBoolean(
 	value: string | boolean | undefined | null,
-	defaultValue?: boolean,
+	defaultValue?: boolean
 ) {
 	if (typeof value === "string") {
 		if (value === "true") return true;

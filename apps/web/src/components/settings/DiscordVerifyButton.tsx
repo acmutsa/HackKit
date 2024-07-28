@@ -9,15 +9,12 @@ import { toast } from "sonner";
 export default function DiscordVerifyButton() {
 	const searchParams = useSearchParams();
 	const { push } = useRouter();
-	const { execute: runConfirmVerifyDiscord } = useAction(
-		confirmVerifyDiscord,
-		{
-			onSuccess: () => {
-				toast.success("Accounts linked!");
-				push("/discord-verify/linked");
-			},
+	const { execute: runConfirmVerifyDiscord } = useAction(confirmVerifyDiscord, {
+		onSuccess: () => {
+			toast.success("Accounts linked!");
+			push("/discord-verify/linked");
 		},
-	);
+	});
 
 	return (
 		<>

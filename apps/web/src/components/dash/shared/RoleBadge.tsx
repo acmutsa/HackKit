@@ -12,9 +12,7 @@ export default function RoleBadge({ role }: RoleBadgeProps) {
 			style={{ backgroundColor: c.roleBadges[role].color }}
 			className={`${c.roleBadges[role].checked ? "px-1" : ""} gap-x-1`}
 		>
-			<span style={{ color: c.roleBadges[role].foreground }}>
-				{c.roleBadges[role].title}
-			</span>
+			<span style={{ color: c.roleBadges[role].foreground }}>{c.roleBadges[role].title}</span>
 			{c.roleBadges[role].checked ? (
 				<BadgeCheck
 					className="text-lg"

@@ -42,30 +42,25 @@ export default function ConfirmDialogue({ hasRsvped }: { hasRsvped: boolean }) {
 				/>
 			)}
 			{hasRsvped ? (
-				<div className="relative flex aspect-video w-full max-w-[500px] flex-col items-center justify-center rounded-xl bg-white p-5 backdrop-blur transition dark:bg-white/[0.08]">
-					<h1 className="flex items-center gap-x-2 text-2xl font-bold text-green-500">
+				<div className="w-full max-w-[500px] aspect-video relative dark:bg-white/[0.08] bg-white backdrop-blur transition rounded-xl p-5 flex flex-col items-center justify-center">
+					<h1 className="flex items-center gap-x-2 font-bold text-2xl text-green-500">
 						<CheckCircleIcon />
 						You have RSVPed!
 					</h1>
-					<p className="pb-10 pt-5">
-						We can't wait to see you at the event!
-					</p>
+					<p className="pt-5 pb-10">We can't wait to see you at the event!</p>
 					<Link href={"/dash"}>
 						<Button>Go To Dashboard</Button>
 					</Link>
 				</div>
 			) : (
-				<div className="relative flex aspect-video w-full max-w-[500px] flex-col items-center justify-center rounded-xl bg-white p-5 backdrop-blur transition dark:bg-white/[0.08]">
-					<p className="absolute bottom-0 px-10 pb-5 text-center text-sm text-gray-400">
-						Psst. make sure you only RSVP if you are certain you can
-						attend the event!
+				<div className="w-full max-w-[500px] aspect-video relative dark:bg-white/[0.08] bg-white backdrop-blur transition rounded-xl p-5 flex flex-col items-center justify-center">
+					<p className="text-gray-400 text-sm text-center px-10 pb-5 absolute bottom-0">
+						Psst. make sure you only RSVP if you are certain you can attend the event!
 					</p>
 					<Button
 						onClick={() => {
 							execute(null);
-							toast.loading("Confirming your RSVP...", {
-								duration: 0,
-							});
+							toast.loading("Confirming your RSVP...", { duration: 0 });
 						}}
 						size={"lg"}
 						className="font-bold"

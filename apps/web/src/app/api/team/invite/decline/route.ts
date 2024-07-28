@@ -39,10 +39,5 @@ export async function POST(req: Request) {
 		.set({
 			status: "declined",
 		})
-		.where(
-			and(
-				eq(invites.teamID, user.invites[0].teamID),
-				eq(invites.inviteeID, userId),
-			),
-		);
+		.where(and(eq(invites.teamID, user.invites[0].teamID), eq(invites.inviteeID, userId)));
 }

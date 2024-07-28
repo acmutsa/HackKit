@@ -39,9 +39,7 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 					variant={"outline"}
 					style={{
 						borderColor:
-							(c.eventTypes as Record<string, string>)[
-								row.original.type
-							] || c.eventTypes.Other,
+							(c.eventTypes as Record<string, string>)[row.original.type] || c.eventTypes.Other,
 					}}
 				>
 					{row.original.type}

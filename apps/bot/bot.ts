@@ -33,9 +33,7 @@ const client = new Client({
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, "commands");
-const commandFiles = readdirSync(commandsPath).filter((file) =>
-	file.endsWith(".ts"),
-);
+const commandFiles = readdirSync(commandsPath).filter((file) => file.endsWith(".ts"));
 for (const file of commandFiles) {
 	console.log(`[Loading Command] ${file}`);
 	const filePath = path.join(commandsPath, file);
@@ -45,22 +43,18 @@ for (const file of commandFiles) {
 		client.commands.set(command.data.name, command);
 	} else {
 		console.log(
-			`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+			`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
 		);
-	}
+	} 
 }
 console.log(`Loaded ${client.commands.size} Commands`);
 
 client.on(Events.InteractionCreate, async (interaction) => {
 	if (interaction.isChatInputCommand()) {
-		const command = interaction.client.commands.get(
-			interaction.commandName,
-		);
+		const command = interaction.client.commands.get(interaction.commandName);
 
 		if (!command) {
-			console.error(
-				`No command matching ${interaction.commandName} was found.`,
-			);
+			console.error(`No command matching ${interaction.commandName} was found.`);
 			return;
 		}
 
@@ -138,13 +132,9 @@ app.get("/postMsgToServer", (h) => {
 		.setColor(0x0099ff)
 		.setTitle("Verification")
 		.setURL(c.siteUrl)
-		.setAuthor({
-			name: c.botName,
-			iconURL: c.siteUrl + c.icon.md,
-			url: c.siteUrl,
-		})
+		.setAuthor({ name: c.botName, iconURL: c.siteUrl + c.icon.md, url: c.siteUrl })
 		.setDescription(
-			`**Verify your registration for ${c.hackathonName} ${c.itteration} to gain access to the rest of the server!**\n\nClick the "verify" button below to begin the verification process.\n\u200B`,
+			`**Verify your registration for ${c.hackathonName} ${c.itteration} to gain access to the rest of the server!**\n\nClick the "verify" button below to begin the verification process.\n\u200B`
 		)
 		.setThumbnail(`${c.siteUrl}${c.icon.md}`)
 		.setFooter({
@@ -155,7 +145,7 @@ app.get("/postMsgToServer", (h) => {
 	const channel = client.channels.cache.get(
 		serverType === "dev"
 			? (process.env.DISCORD_DEV_VERIFY_CHANNEL_ID as string)
-			: (process.env.DISCORD_PROD_VERIFY_CHANNEL_ID as string),
+			: (process.env.DISCORD_PROD_VERIFY_CHANNEL_ID as string)
 	);
 
 	if (!channel || !channel.isTextBased()) {
@@ -208,9 +198,9 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		return h.json({ success: false });
 	}
 
-	const { discordRole: userGroupRoleName } = (
-		c.groups as Record<string, { discordRole: string }>
-	)[Object.keys(c.groups)[user.group]];
+	const { discordRole: userGroupRoleName } = (c.groups as Record<string, { discordRole: string }>)[
+		Object.keys(c.groups)[user.group]
+	];
 
 	const guild = client.guilds.cache.get(verification.guild);
 	if (!guild) {
@@ -218,19 +208,15 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		return h.json({ success: false });
 	}
 
-	const role = guild.roles.cache.find(
-		(role) => role.name === c.botParticipantRole,
-	);
-	const userGroupRole = guild.roles.cache.find(
-		(role) => role.name === userGroupRoleName,
-	);
+	const role = guild.roles.cache.find((role) => role.name === c.botParticipantRole);
+	const userGroupRole = guild.roles.cache.find((role) => role.name === userGroupRoleName);
 
 	if (!role || !userGroupRole) {
 		console.log(
 			"failed cause could not find a role, was looking for group " +
 				user.group +
 				" called " +
-				userGroupRoleName,
+				userGroupRoleName
 		);
 		return h.json({ success: false });
 	}

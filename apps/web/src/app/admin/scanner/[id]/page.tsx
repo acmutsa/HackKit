@@ -15,10 +15,7 @@ export default async function Page({
 
 	if (!params || !params.id || isNaN(parseInt(params.id))) {
 		return (
-			<FullScreenMessage
-				title={"Invalid ID"}
-				message={"The Event ID in the URL is invalid."}
-			/>
+			<FullScreenMessage title={"Invalid ID"} message={"The Event ID in the URL is invalid."} />
 		);
 	}
 
@@ -28,10 +25,7 @@ export default async function Page({
 
 	if (!event) {
 		return (
-			<FullScreenMessage
-				title={"Invalid ID"}
-				message={"The Event ID in the URL is invalid."}
-			/>
+			<FullScreenMessage title={"Invalid ID"} message={"The Event ID in the URL is invalid."} />
 		);
 	}
 
@@ -44,10 +38,7 @@ export default async function Page({
 				return [null, null];
 			}
 			const scan = await tx.query.scans.findFirst({
-				where: and(
-					eq(scans.eventID, event.id),
-					eq(scans.userID, scanUser.clerkID),
-				),
+				where: and(eq(scans.eventID, event.id), eq(scans.userID, scanUser.clerkID)),
 			});
 			if (scan) {
 				return [scan, scanUser];
@@ -57,24 +48,14 @@ export default async function Page({
 		});
 		return (
 			<div>
-				<PassScanner
-					event={event}
-					hasScanned={true}
-					scan={scan}
-					scanUser={scanUser}
-				/>
+				<PassScanner event={event} hasScanned={true} scan={scan} scanUser={scanUser} />
 			</div>
 		);
 	}
 
 	return (
 		<div>
-			<PassScanner
-				event={event}
-				hasScanned={false}
-				scan={null}
-				scanUser={null}
-			/>
+			<PassScanner event={event} hasScanned={false} scan={null} scanUser={null} />
 		</div>
 	);
 }

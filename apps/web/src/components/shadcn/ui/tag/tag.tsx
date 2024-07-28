@@ -9,10 +9,8 @@ export const tagVariants = cva(
 	{
 		variants: {
 			variant: {
-				default:
-					"bg-secondary text-secondary-foreground hover:bg-secondary/80",
-				primary:
-					"bg-primary border-primary text-primary-foreground hover:bg-primary/90",
+				default: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+				primary: "bg-primary border-primary text-primary-foreground hover:bg-primary/90",
 				destructive:
 					"bg-destructive border-destructive text-destructive-foreground hover:bg-destructive/90",
 			},
@@ -65,7 +63,7 @@ export const tagVariants = cva(
 			animation: "fadeIn",
 			textStyle: "normal",
 		},
-	},
+	}
 );
 
 export type TagProps = {
@@ -123,7 +121,7 @@ export const Tag: React.FC<TagProps> = ({
 				{
 					"justify-between": direction === "column",
 					"cursor-pointer": draggable,
-				},
+				}
 			)}
 			onClick={() => onTagClick?.(tagObj)}
 		>
@@ -135,7 +133,7 @@ export const Tag: React.FC<TagProps> = ({
 					e.stopPropagation(); // Prevent event from bubbling up to the tag span
 					onRemoveTag(tagObj.id);
 				}}
-				className={cn("h-full px-3 py-1 hover:bg-transparent")}
+				className={cn("py-1 px-3 h-full hover:bg-transparent")}
 			>
 				<X size={14} />
 			</Button>

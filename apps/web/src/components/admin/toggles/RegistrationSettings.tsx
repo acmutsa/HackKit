@@ -32,19 +32,17 @@ export function RegistrationToggles({
 		{ success: true, statusSet: defaultSecretRegistrationEnabled },
 		(state, { enabled }) => {
 			return { statusSet: enabled, success: true };
-		},
+		}
 	);
 
-	const {
-		execute: executeToggleRSVPs,
-		optimisticData: toggleRSVPsOptimisticData,
-	} = useOptimisticAction(
-		toggleRSVPs,
-		{ success: true, statusSet: defaultRSVPsEnabled },
-		(state, { enabled }) => {
-			return { statusSet: enabled, success: true };
-		},
-	);
+	const { execute: executeToggleRSVPs, optimisticData: toggleRSVPsOptimisticData } =
+		useOptimisticAction(
+			toggleRSVPs,
+			{ success: true, statusSet: defaultRSVPsEnabled },
+			(state, { enabled }) => {
+				return { statusSet: enabled, success: true };
+			}
+		);
 
 	const {
 		execute: executeToggleRegistrationEnabled,
@@ -54,64 +52,50 @@ export function RegistrationToggles({
 		{ success: true, statusSet: defaultRegistrationEnabled },
 		(state, { enabled }) => {
 			return { statusSet: enabled, success: true };
-		},
+		}
 	);
 
 	return (
 		<>
-			<div className="rounded-lg border-2 border-muted px-5 py-10">
-				<h2 className="pb-5 text-3xl font-semibold">Registration</h2>
+			<div className="border-2 border-muted rounded-lg py-10 px-5">
+				<h2 className="font-semibold text-3xl pb-5">Registration</h2>
 				<div className="max-w-[500px]">
-					<div className="flex items-center border-y border-y-muted py-4">
+					<div className="flex items-center py-4 border-y-muted border-y">
 						<p className="text-sm font-bold">New Registrations</p>
 						<Switch
 							className="ml-auto"
-							checked={
-								ToggleRegistrationEnabledOptimisticData.statusSet
-							}
+							checked={ToggleRegistrationEnabledOptimisticData.statusSet}
 							onCheckedChange={(checked) => {
-								toast.success(
-									`Registration ${checked ? "enabled" : "disabled"} successfully!`,
-								);
-								executeToggleRegistrationEnabled({
-									enabled: checked,
-								});
+								toast.success(`Registration ${checked ? "enabled" : "disabled"} successfully!`);
+								executeToggleRegistrationEnabled({ enabled: checked });
 							}}
 						/>
 					</div>
-					<div className="flex items-center border-b border-b-muted py-4">
-						<p className="text-sm font-bold">
-							Allow Secret Code Sign-up
-						</p>
+					<div className="flex items-center py-4 border-b-muted border-b">
+						<p className="text-sm font-bold">Allow Secret Code Sign-up</p>
 						<Switch
 							className="ml-auto"
-							checked={
-								ToggleSecretRegistrationEnabledOptimisticData.statusSet
-							}
+							checked={ToggleSecretRegistrationEnabledOptimisticData.statusSet}
 							onCheckedChange={(checked) => {
 								toast.success(
-									`Secret registration ${checked ? "enabled" : "disabled"} successfully!`,
+									`Secret registration ${checked ? "enabled" : "disabled"} successfully!`
 								);
-								executeToggleSecretRegistrationEnabled({
-									enabled: checked,
-								});
+								executeToggleSecretRegistrationEnabled({ enabled: checked });
 							}}
 						/>
 					</div>
 				</div>
 			</div>
-			<div className="mt-5 rounded-lg border-2 border-muted px-5 py-10">
-				<h2 className="pb-5 text-3xl font-semibold">RSVPs</h2>
+			<div className="border-2 border-muted rounded-lg py-10 px-5 mt-5">
+				<h2 className="font-semibold text-3xl pb-5">RSVPs</h2>
 				<div className="max-w-[500px]">
-					<div className="flex items-center border-t border-t-muted py-4">
+					<div className="flex items-center py-4 border-t-muted border-t">
 						<p className="text-sm font-bold">Allow RSVPs</p>
 						<Switch
 							className="ml-auto"
 							checked={toggleRSVPsOptimisticData.statusSet}
 							onCheckedChange={(checked) => {
-								toast.success(
-									`RSVPs ${checked ? "enabled" : "disabled"} successfully!`,
-								);
+								toast.success(`RSVPs ${checked ? "enabled" : "disabled"} successfully!`);
 								executeToggleRSVPs({ enabled: checked });
 							}}
 						/>

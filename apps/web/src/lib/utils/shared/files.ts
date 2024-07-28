@@ -19,10 +19,7 @@ export async function encodeFileAsBase64(file: File) {
 	});
 }
 
-export async function decodeBase64AsFile(
-	base64String: string,
-	fileName: string,
-) {
+export async function decodeBase64AsFile(base64String: string, fileName: string) {
 	// Extract the content type from the base64 string
 	const contentType = base64String.match(/data:([^;]+);base64,/)?.[1];
 	if (!contentType) {

@@ -4,10 +4,10 @@ import Image from "next/image";
 export default function MLHBadge() {
 	return (
 		<>
-			<div className="relative hidden h-0 w-full dark:block">
+			<div className="w-full h-0 relative hidden dark:block">
 				<Link
 					id="mlh-trust-badge"
-					className="absolute right-5 top-0 z-50 w-[10%] min-w-[60px] max-w-[100px]"
+					className="max-w-[100px] min-w-[60px] absolute w-[10%] right-5 top-0 z-50"
 					// style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
 					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
 					target="_blank"
@@ -17,15 +17,15 @@ export default function MLHBadge() {
 						alt="Major League Hacking 2024 Hackathon Season"
 						width={0}
 						height={0}
-						className="aspect-auto h-auto w-full"
+						className="aspect-auto w-full h-auto"
 						style={{ width: "100%" }}
 					/>
 				</Link>
 			</div>
-			<div className="relative block h-0 w-full dark:hidden">
+			<div className="w-full h-0 relative block dark:hidden">
 				<Link
 					id="mlh-trust-badge"
-					className="absolute right-5 top-0 z-50 w-[10%] min-w-[60px] max-w-[100px]"
+					className="max-w-[100px] min-w-[60px] absolute w-[10%] right-5 top-0 z-50"
 					// style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
 					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=white"
 					target="_blank"
@@ -35,7 +35,7 @@ export default function MLHBadge() {
 						alt="Major League Hacking 2024 Hackathon Season"
 						width={0}
 						height={0}
-						className="aspect-auto h-auto w-full"
+						className="aspect-auto w-full h-auto"
 						style={{ width: "100%" }}
 					/>
 				</Link>

@@ -15,7 +15,7 @@ export const toggleRegistrationEnabled = adminAction(
 		await kv.set("config:registration:registrationEnabled", enabled);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
-	},
+	}
 );
 
 export const toggleRegistrationMessageEnabled = adminAction(
@@ -24,7 +24,7 @@ export const toggleRegistrationMessageEnabled = adminAction(
 		await kv.set("config:registration:registrationMessageEnabled", enabled);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
-	},
+	}
 );
 
 export const toggleSecretRegistrationEnabled = adminAction(
@@ -33,7 +33,7 @@ export const toggleSecretRegistrationEnabled = adminAction(
 		await kv.set("config:registration:secretRegistrationEnabled", enabled);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
-	},
+	}
 );
 
 export const toggleRSVPs = adminAction(
@@ -42,5 +42,5 @@ export const toggleRSVPs = adminAction(
 		await kv.set("config:registration:allowRSVPs", enabled);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
-	},
+	}
 );

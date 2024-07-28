@@ -33,11 +33,7 @@ import {
 	CommandInput,
 	CommandItem,
 } from "@/components/shadcn/ui/command";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/shadcn/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
@@ -113,18 +109,13 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		if (!userId || !isLoaded) {
 			setIsLoading(false);
 			return alert(
-				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
+				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`
 			);
 		}
 
-		if (
-			data.acceptsMLHCodeOfConduct !== true ||
-			data.shareDataWithMLH !== true
-		) {
+		if (data.acceptsMLHCodeOfConduct !== true || data.shareDataWithMLH !== true) {
 			setIsLoading(false);
-			return alert(
-				"You must accept the MLH Code of Conduct and Privacy Policy to continue.",
-			);
+			return alert("You must accept the MLH Code of Conduct and Privacy Policy to continue.");
 		}
 
 		let resume: string = c.noResumeProvidedURL;
@@ -145,47 +136,40 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 
 		if (res.success) {
 			if (res.data.success) {
-				alert(
-					"Registration successfully created! Redirecting to the dashboard.",
-				);
+				alert("Registration successfully created! Redirecting to the dashboard.");
 				router.push("/dash");
 			} else {
 				if (res.data.message == "hackertag_not_unique") {
 					setIsLoading(false);
 					return alert(
-						"The HackerTag you chose has already been taken. Please change it and then resubmit the form.",
+						"The HackerTag you chose has already been taken. Please change it and then resubmit the form."
 					);
 				}
 				setIsLoading(false);
 				return alert(
-					`Registration not created. Error message: \n\n ${res.data.message} \n\n Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+					`Registration not created. Error message: \n\n ${res.data.message} \n\n Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`
 				);
 			}
 		} else {
 			setIsLoading(false);
 			return console.log(
-				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`
 			);
 		}
 	}
 
-	const onDrop = useCallback(
-		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
-			if (fileRejections.length > 0) {
-				alert(
-					`The file you uploaded was rejected with the reason "${fileRejections[0].errors[0].message}". Please try again.`,
-				);
-			}
-			if (acceptedFiles.length > 0) {
-				console.log(
-					`Got accepted file! The length of the array is ${acceptedFiles.length}.`,
-				);
-				console.log(acceptedFiles[0]);
-				setUploadedFile(acceptedFiles[0]);
-			}
-		},
-		[],
-	);
+	const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
+		if (fileRejections.length > 0) {
+			alert(
+				`The file you uploaded was rejected with the reason "${fileRejections[0].errors[0].message}". Please try again.`
+			);
+		}
+		if (acceptedFiles.length > 0) {
+			console.log(`Got accepted file! The length of the array is ${acceptedFiles.length}.`);
+			console.log(acceptedFiles[0]);
+			setUploadedFile(acceptedFiles[0]);
+		}
+	}, []);
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
 		multiple: false,
@@ -202,12 +186,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	return (
 		<div>
 			<Form {...form}>
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className="space-y-6"
-				>
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="grid md:grid-cols-3 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="firstName"
@@ -215,10 +196,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>First Name</FormLabel>
 										<FormControl>
-											<Input
-												placeholder="Some"
-												{...field}
-											/>
+											<Input placeholder="Some" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -231,10 +209,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Last Name</FormLabel>
 										<FormControl>
-											<Input
-												placeholder="One"
-												{...field}
-											/>
+											<Input placeholder="One" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -247,19 +222,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Email</FormLabel>
 										<FormControl>
-											<Input
-												readOnly={
-													defaultEmail.length > 0
-												}
-												{...field}
-											/>
+											<Input readOnly={defaultEmail.length > 0} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
 						</div>
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7 md:gap-y-0">
+						<div className="grid md:grid-cols-7 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="age"
@@ -279,10 +249,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2">
 										<FormLabel>Gender</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
 												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Select a Gender" />
@@ -290,21 +257,11 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="MALE">
-														Male
-													</SelectItem>
-													<SelectItem value="FEMALE">
-														Female
-													</SelectItem>
-													<SelectItem value="NON-BINARY">
-														Non-binary
-													</SelectItem>
-													<SelectItem value="OTHER">
-														Other
-													</SelectItem>
-													<SelectItem value="PREFERNOTSAY">
-														Prefer not to say
-													</SelectItem>
+													<SelectItem value="MALE">Male</SelectItem>
+													<SelectItem value="FEMALE">Female</SelectItem>
+													<SelectItem value="NON-BINARY">Non-binary</SelectItem>
+													<SelectItem value="OTHER">Other</SelectItem>
+													<SelectItem value="PREFERNOTSAY">Prefer not to say</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -318,10 +275,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2">
 										<FormLabel>Race</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
 												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Select a Race" />
@@ -329,25 +283,16 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Native American">
-														Native American
-													</SelectItem>
+													<SelectItem value="Native American">Native American</SelectItem>
 													<SelectItem value="Asian / Pacific Islander">
 														Asian / Pacific Islander
 													</SelectItem>
 													<SelectItem value="Black or African American">
-														Black or African
-														American
+														Black or African American
 													</SelectItem>
-													<SelectItem value="White / Caucasion">
-														White / Caucasion
-													</SelectItem>
-													<SelectItem value="Multiple / Other">
-														Multiple / Other
-													</SelectItem>
-													<SelectItem value="Prefer not to say">
-														Prefer not to say
-													</SelectItem>
+													<SelectItem value="White / Caucasion">White / Caucasion</SelectItem>
+													<SelectItem value="Multiple / Other">Multiple / Other</SelectItem>
+													<SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -361,20 +306,15 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2">
 										<FormLabel>Ethnicity</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
+												<SelectTrigger className="placeholder:text-muted-foreground w-full">
 													<SelectValue placeholder="Select a Ethnicity" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Hispanic or Latino">
-														Hispanic or Latino
-													</SelectItem>
+													<SelectItem value="Hispanic or Latino">Hispanic or Latino</SelectItem>
 													<SelectItem value="Not Hispanic or Latino">
 														Not Hispanic or Latino
 													</SelectItem>
@@ -394,10 +334,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
 									</FormControl>
 									<div className="space-y-1 leading-none">
 										<FormLabel>
@@ -405,16 +342,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<Link
 												target="_blank"
 												className="underline"
-												href={
-													"https://mlh.io/code-of-conduct"
-												}
+												href={"https://mlh.io/code-of-conduct"}
 											>
 												MLH Code of Conduct
 											</Link>
 										</FormLabel>
-										<FormDescription>
-											This is required of all attendees.
-										</FormDescription>
+										<FormDescription>This is required of all attendees.</FormDescription>
 									</div>
 								</FormItem>
 							)}
@@ -425,42 +358,27 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
 									</FormControl>
 									<div className="space-y-1 leading-none">
 										<FormLabel>
-											I authorize you to share my
-											application/registration information
-											with Major League Hacking for event
-											administration, ranking, and MLH
-											administration in-line with the MLH
-											Privacy Policy. I further agree to
-											the terms of both the{" "}
+											I authorize you to share my application/registration information with Major
+											League Hacking for event administration, ranking, and MLH administration
+											in-line with the MLH Privacy Policy. I further agree to the terms of both the{" "}
 											<Link
 												target="_blank"
 												className="underline"
-												href={
-													"https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
-												}
+												href={"https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"}
 											>
 												MLH Contest Terms and Conditions
 											</Link>{" "}
 											and the{" "}
-											<Link
-												target="_blank"
-												className="underline"
-												href={"https://mlh.io/privacy"}
-											>
+											<Link target="_blank" className="underline" href={"https://mlh.io/privacy"}>
 												MLH Privacy Policy
 											</Link>
 											.
 										</FormLabel>
-										<FormDescription>
-											This is required of all attendees.
-										</FormDescription>
+										<FormDescription>This is required of all attendees.</FormDescription>
 									</div>
 								</FormItem>
 							)}
@@ -471,22 +389,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
 									</FormControl>
 									<div className="space-y-1 leading-none">
 										<FormLabel>
-											I authorize MLH to send me an email
-											where I can further opt into the MLH
-											Hacker, Events, or Organizer
-											Newsletters and other communications
-											from MLH.
+											I authorize MLH to send me an email where I can further opt into the MLH
+											Hacker, Events, or Organizer Newsletters and other communications from MLH.
 										</FormLabel>
-										<FormDescription>
-											This is optional.
-										</FormDescription>
+										<FormDescription>This is optional.</FormDescription>
 									</div>
 								</FormItem>
 							)}
@@ -495,10 +405,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 					<FormGroupWrapper title="University Info">
 						<div
 							className={`grid ${
-								universityValue ===
-								c.localUniversityName.toLowerCase()
-									? "grid-cols-1 md:grid-cols-6"
-									: "grid-cols-1 md:grid-cols-5"
+								universityValue === c.localUniversityName.toLowerCase()
+									? "md:grid-cols-6 grid-cols-1"
+									: "md:grid-cols-5 grid-cols-1"
 							} gap-x-2 gap-y-4`}
 						>
 							<FormField
@@ -515,16 +424,11 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														role="combobox"
 														className={cn(
 															"w-full justify-between",
-															!field.value &&
-																"text-muted-foreground",
+															!field.value && "text-muted-foreground"
 														)}
 													>
 														{field.value
-															? schools.find(
-																	(school) =>
-																		school.toLowerCase() ===
-																		field.value,
-																)
+															? schools.find((school) => school.toLowerCase() === field.value)
 															: "Select a University"}
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 													</Button>
@@ -533,39 +437,26 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search university..." />
-													<CommandEmpty>
-														No university found.
-													</CommandEmpty>
+													<CommandEmpty>No university found.</CommandEmpty>
 													<CommandGroup>
-														{schools.map(
-															(school) => (
-																<CommandItem
-																	value={
-																		school
+														{schools.map((school) => (
+															<CommandItem
+																value={school}
+																key={school}
+																onSelect={(value) => {
+																	form.setValue("university", value);
+																}}
+																className="cursor-pointer"
+															>
+																<Check
+																	className={`mr-2 h-4 w-4 ${
+																		school.toLowerCase() === field.value ? "block" : "hidden"
 																	}
-																	key={school}
-																	onSelect={(
-																		value,
-																	) => {
-																		form.setValue(
-																			"university",
-																			value,
-																		);
-																	}}
-																	className="cursor-pointer"
-																>
-																	<Check
-																		className={`mr-2 h-4 w-4 ${
-																			school.toLowerCase() ===
-																			field.value
-																				? "block"
-																				: "hidden"
-																		} `}
-																	/>
-																	{school}
-																</CommandItem>
-															),
-														)}
+																	`}
+																/>
+																{school}
+															</CommandItem>
+														))}
 													</CommandGroup>
 												</Command>
 											</PopoverContent>
@@ -588,16 +479,11 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														role="combobox"
 														className={cn(
 															"w-full justify-between",
-															!field.value &&
-																"text-muted-foreground",
+															!field.value && "text-muted-foreground"
 														)}
 													>
 														{field.value
-															? majors.find(
-																	(major) =>
-																		major.toLowerCase() ===
-																		field.value,
-																)
+															? majors.find((major) => major.toLowerCase() === field.value)
 															: "Select a Major"}
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 													</Button>
@@ -606,31 +492,22 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search major..." />
-													<CommandEmpty>
-														No major found.
-													</CommandEmpty>
+													<CommandEmpty>No major found.</CommandEmpty>
 													<CommandGroup>
 														{majors.map((major) => (
 															<CommandItem
 																value={major}
 																key={major}
-																onSelect={(
-																	value,
-																) => {
-																	form.setValue(
-																		"major",
-																		value,
-																	);
+																onSelect={(value) => {
+																	form.setValue("major", value);
 																}}
 																className="cursor-pointer"
 															>
 																<Check
-																	className={`mr-2 h-4 w-4 overflow-hidden ${
-																		major.toLowerCase() ===
-																		field.value
-																			? "block"
-																			: "hidden"
-																	} `}
+																	className={`h-4 mr-2 overflow-hidden w-4 ${
+																		major.toLowerCase() === field.value ? "block" : "hidden"
+																	}
+																	`}
 																/>
 																{major}
 															</CommandItem>
@@ -647,37 +524,22 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="levelOfStudy"
 								render={({ field }) => (
-									<FormItem className="col-span-2 flex flex-col md:col-span-1">
+									<FormItem className="flex flex-col col-span-2 md:col-span-1">
 										<FormLabel>Level of Study</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
+												<SelectTrigger className="placeholder:text-muted-foreground w-full">
 													<SelectValue placeholder="Level of Study" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Freshman">
-														Freshman
-													</SelectItem>
-													<SelectItem value="Sophomore">
-														Sophomore
-													</SelectItem>
-													<SelectItem value="Junior">
-														Junior
-													</SelectItem>
-													<SelectItem value="Senior">
-														Senior
-													</SelectItem>
-													<SelectItem value="Recent Grad">
-														Recent Grad
-													</SelectItem>
-													<SelectItem value="Other">
-														Other
-													</SelectItem>
+													<SelectItem value="Freshman">Freshman</SelectItem>
+													<SelectItem value="Sophomore">Sophomore</SelectItem>
+													<SelectItem value="Junior">Junior</SelectItem>
+													<SelectItem value="Senior">Senior</SelectItem>
+													<SelectItem value="Recent Grad">Recent Grad</SelectItem>
+													<SelectItem value="Other">Other</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -691,22 +553,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem
 										className={`${
-											universityValue ===
-											c.localUniversityName.toLowerCase()
-												? "col-span-2 flex flex-col md:col-span-1"
+											universityValue === c.localUniversityName.toLowerCase()
+												? "flex flex-col col-span-2 md:col-span-1"
 												: "hidden"
 										}`}
 									>
-										<FormLabel>
-											{c.localUniversityShortIDName}
-										</FormLabel>
+										<FormLabel>{c.localUniversityShortIDName}</FormLabel>
 										<FormControl>
-											<Input
-												placeholder={
-													c.localUniversityShortIDName
-												}
-												{...field}
-											/>
+											<Input placeholder={c.localUniversityShortIDName} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -715,15 +569,13 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hackathon Experience">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="grid md:grid-cols-3 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="hackathonsAttended"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>
-											# of Hackathons Attended
-										</FormLabel>
+										<FormLabel># of Hackathons Attended</FormLabel>
 										<FormControl>
 											<Input type="number" {...field} />
 										</FormControl>
@@ -736,32 +588,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="softwareBuildingExperience"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>
-											Software Building Experience
-										</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<FormLabel>Software Building Experience</FormLabel>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
+												<SelectTrigger className="placeholder:text-muted-foreground w-full">
 													<SelectValue placeholder="Experience Level" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Beginner">
-														Beginner
-													</SelectItem>
-													<SelectItem value="Intermediate">
-														Intermediate
-													</SelectItem>
-													<SelectItem value="Advanced">
-														Advanced
-													</SelectItem>
-													<SelectItem value="Expert">
-														Expert
-													</SelectItem>
+													<SelectItem value="Beginner">Beginner</SelectItem>
+													<SelectItem value="Intermediate">Intermediate</SelectItem>
+													<SelectItem value="Advanced">Advanced</SelectItem>
+													<SelectItem value="Expert">Expert</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -774,39 +613,21 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="heardAboutEvent"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>
-											Where did you hear about{" "}
-											{c.hackathonName}?
-										</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<FormLabel>Where did you hear about {c.hackathonName}?</FormLabel>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
+												<SelectTrigger className="placeholder:text-muted-foreground w-full">
 													<SelectValue placeholder="Heard From..." />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Instagram">
-														Instagram
-													</SelectItem>
-													<SelectItem value="Class Presentation">
-														Class Presentation
-													</SelectItem>
-													<SelectItem value="Twitter">
-														Twitter
-													</SelectItem>
-													<SelectItem value="Event Site">
-														Event Site
-													</SelectItem>
-													<SelectItem value="Friend">
-														Friend
-													</SelectItem>
-													<SelectItem value="Other">
-														Other
-													</SelectItem>
+													<SelectItem value="Instagram">Instagram</SelectItem>
+													<SelectItem value="Class Presentation">Class Presentation</SelectItem>
+													<SelectItem value="Twitter">Twitter</SelectItem>
+													<SelectItem value="Event Site">Event Site</SelectItem>
+													<SelectItem value="Friend">Friend</SelectItem>
+													<SelectItem value="Other">Other</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -817,42 +638,27 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Day of Event">
-						<div className="grid grid-cols-1 gap-x-4 gap-y-2 pb-5 md:grid-cols-2 md:gap-y-0">
+						<div className="grid md:grid-cols-2 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-4 pb-5">
 							<FormField
 								control={form.control}
 								name="shirtSize"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Shirt Size</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
+												<SelectTrigger className="placeholder:text-muted-foreground w-full">
 													<SelectValue placeholder="Shirt Size" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="S">
-														S
-													</SelectItem>
-													<SelectItem value="M">
-														M
-													</SelectItem>
-													<SelectItem value="L">
-														L
-													</SelectItem>
-													<SelectItem value="XL">
-														XL
-													</SelectItem>
-													<SelectItem value="2XL">
-														2XL
-													</SelectItem>
-													<SelectItem value="3XL">
-														3XL
-													</SelectItem>
+													<SelectItem value="S">S</SelectItem>
+													<SelectItem value="M">M</SelectItem>
+													<SelectItem value="L">L</SelectItem>
+													<SelectItem value="XL">XL</SelectItem>
+													<SelectItem value="2XL">2XL</SelectItem>
+													<SelectItem value="3XL">3XL</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -866,64 +672,41 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={() => (
 									<FormItem className="row-span-2">
 										<div className="mb-4">
-											<FormLabel className="text-base">
-												Dietary Restrictions
-											</FormLabel>
+											<FormLabel className="text-base">Dietary Restrictions</FormLabel>
 											<FormDescription>
-												Please select which dietary
-												restrictions you have so we can
-												best accomodate you at the
-												event!
+												Please select which dietary restrictions you have so we can best accomodate
+												you at the event!
 											</FormDescription>
 										</div>
-										{c.dietaryRestrictionOptions.map(
-											(item) => (
-												<FormField
-													key={item}
-													control={form.control}
-													name="dietaryRestrictions"
-													render={({ field }) => {
-														return (
-															<FormItem
-																key={item}
-																className="flex flex-row items-start space-x-3 space-y-0"
-															>
-																<FormControl>
-																	<Checkbox
-																		checked={field.value?.includes(
-																			item,
-																		)}
-																		onCheckedChange={(
-																			checked,
-																		) => {
-																			return checked
-																				? field.onChange(
-																						[
-																							...field.value,
-																							item,
-																						],
-																					)
-																				: field.onChange(
-																						field.value?.filter(
-																							(
-																								value,
-																							) =>
-																								value !==
-																								item,
-																						),
-																					);
-																		}}
-																	/>
-																</FormControl>
-																<FormLabel className="font-normal">
-																	{item}
-																</FormLabel>
-															</FormItem>
-														);
-													}}
-												/>
-											),
-										)}
+										{c.dietaryRestrictionOptions.map((item) => (
+											<FormField
+												key={item}
+												control={form.control}
+												name="dietaryRestrictions"
+												render={({ field }) => {
+													return (
+														<FormItem
+															key={item}
+															className="flex flex-row items-start space-x-3 space-y-0"
+														>
+															<FormControl>
+																<Checkbox
+																	checked={field.value?.includes(item)}
+																	onCheckedChange={(checked) => {
+																		return checked
+																			? field.onChange([...field.value, item])
+																			: field.onChange(
+																					field.value?.filter((value) => value !== item)
+																			  );
+																	}}
+																/>
+															</FormControl>
+															<FormLabel className="font-normal">{item}</FormLabel>
+														</FormItem>
+													);
+												}}
+											/>
+										))}
 										<FormMessage />
 									</FormItem>
 								)}
@@ -934,8 +717,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Anything else we can do to better
-											accommodate you at our hackathon?
+											Anything else we can do to better accommodate you at our hackathon?
 										</FormLabel>
 										<FormControl>
 											<Textarea
@@ -951,7 +733,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Career Info">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-2">
+						<div className="grid md:grid-cols-3 grid-cols-1 gap-y-2 md:gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="github"
@@ -959,10 +741,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>GitHub Username</FormLabel>
 										<FormControl>
-											<Input
-												placeholder="Username"
-												{...field}
-											/>
+											<Input placeholder="Username" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -975,10 +754,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Linkedin Username</FormLabel>
 										<FormControl>
-											<Input
-												placeholder="Username"
-												{...field}
-											/>
+											<Input placeholder="Username" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -991,10 +767,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Personal Website</FormLabel>
 										<FormControl>
-											<Input
-												placeholder="https://example.com/"
-												{...field}
-											/>
+											<Input placeholder="https://example.com/" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -1011,26 +784,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										<div
 											{...getRootProps()}
 											className={`border-2${
-												uploadedFile
-													? ""
-													: "cursor-pointer"
-											} flex min-h-[200px] flex-col items-center justify-center rounded-lg border-dashed border-white`}
+												uploadedFile ? "" : " cursor-pointer"
+											} border-white rounded-lg border-dashed min-h-[200px] flex flex-col items-center justify-center`}
 										>
 											<input {...getInputProps()} />
-											<p className="p-2 text-center">
+											<p className="text-center p-2">
 												{uploadedFile
 													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
 													: isDragActive
-														? "Drop your resume here..."
-														: "Drag 'n' drop your resume here, or click to select a file"}
+													? "Drop your resume here..."
+													: "Drag 'n' drop your resume here, or click to select a file"}
 											</p>
 											{uploadedFile ? (
-												<Button
-													className="mt-4"
-													onClick={() =>
-														setUploadedFile(null)
-													}
-												>
+												<Button className="mt-4" onClick={() => setUploadedFile(null)}>
 													Remove
 												</Button>
 											) : null}
@@ -1042,7 +808,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hacker Profile">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="grid md:grid-cols-3 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="hackerTag"
@@ -1051,7 +817,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										<FormLabel>HackerTag</FormLabel>
 										<FormControl>
 											<div className="flex">
-												<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
+												<div className="bg-accent text-primary flex h-10 w-10 items-center justify-center rounded-l text-lg font-light">
 													@
 												</div>
 												<Input
@@ -1095,7 +861,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2 md:gap-y-0">
+						<div className="grid md:grid-cols-2 grid-cols-1 gap-y-4 md:gap-y-0 gap-x-2">
 							<FormField
 								control={form.control}
 								name="bio"
@@ -1103,22 +869,11 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Bio</FormLabel>
 										<FormControl>
-											<Textarea
-												placeholder="Hello! I'm..."
-												className="resize-none"
-												{...field}
-											/>
+											<Textarea placeholder="Hello! I'm..." className="resize-none" {...field} />
 										</FormControl>
 										<FormDescription>
-											<span
-												className={
-													bioValue.length > 500
-														? "text-red-500"
-														: ""
-												}
-											>
-												{bioValue.length} / 500
-												Characters
+											<span className={bioValue.length > 500 ? "text-red-500" : ""}>
+												{bioValue.length} / 500 Characters
 											</span>
 										</FormDescription>
 										<FormMessage />
@@ -1130,9 +885,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="skills"
 								render={({ field }) => (
 									<FormItem className="flex flex-col items-start">
-										<FormLabel className="pb-2 text-left">
-											Skills
-										</FormLabel>
+										<FormLabel className="text-left pb-2">Skills</FormLabel>
 										<FormControl className="min-h-[80px]">
 											<TagInput
 												inputFieldPostion="top"
@@ -1142,22 +895,13 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												className="sm:min-w-[450px]"
 												setTags={(newTags) => {
 													setSkills(newTags);
-													form.setValue(
-														"skills",
-														newTags as [
-															Tag,
-															...Tag[],
-														],
-													);
+													form.setValue("skills", newTags as [Tag, ...Tag[]]);
 												}}
 											/>
 										</FormControl>
 										<FormDescription className="!mt-0">
-											These skills can be listed on your
-											profile and help with the team
-											finding process! Enter anything you
-											think is relevant, including
-											non-technical skills!
+											These skills can be listed on your profile and help with the team finding
+											process! Enter anything you think is relevant, including non-technical skills!
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -1170,23 +914,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							render={({ field }) => (
 								<FormItem className="mx-auto flex max-w-[600px] flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
 									</FormControl>
 									<div className="space-y-1 leading-none">
-										<FormLabel>
-											Make my profile searchable by other
-											Hackers
-										</FormLabel>
+										<FormLabel>Make my profile searchable by other Hackers</FormLabel>
 										<FormDescription>
-											This will allow other Hackers to
-											look you up by your name or
-											HackerTag. Other Hackers will still
-											be able to view your profile and
-											invite you to teams if they have
-											your link.
+											This will allow other Hackers to look you up by your name or HackerTag. Other
+											Hackers will still be able to view your profile and invite you to teams if
+											they have your link.
 										</FormDescription>
 									</div>
 								</FormItem>

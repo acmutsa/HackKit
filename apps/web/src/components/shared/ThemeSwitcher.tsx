@@ -3,11 +3,7 @@ import { DropdownMenuItem } from "@/components/shadcn/ui/dropdown-menu";
 
 function toggleTheme() {
 	document.body.classList.toggle("dark");
-	setCookie(
-		"hk_theme",
-		[...document.body.classList].includes("dark") ? "dark" : "light",
-		365,
-	);
+	setCookie("hk_theme", [...document.body.classList].includes("dark") ? "dark" : "light", 365);
 }
 
 function setCookie(cname: string, cvalue: string, exdays: number) {
@@ -19,10 +15,7 @@ function setCookie(cname: string, cvalue: string, exdays: number) {
 
 export function DropdownSwitcher() {
 	return (
-		<DropdownMenuItem
-			className="cursor-pointer"
-			onClick={() => toggleTheme()}
-		>
+		<DropdownMenuItem className="cursor-pointer" onClick={() => toggleTheme()}>
 			Toggle Theme
 		</DropdownMenuItem>
 	);

@@ -20,12 +20,10 @@ export default function Day({ title, subtitle, events }: DayProps) {
 	let dup = structuredClone(events);
 	dup.sort((a, b) => compareAsc(a.startTime, b.startTime));
 	return (
-		<div className="flex min-h-[60vh] w-full flex-col items-center rounded-xl bg-white backdrop-blur transition dark:bg-white/[0.08]">
-			<h1 className="mt-5 text-4xl font-extrabold text-hackathon dark:text-primary">
-				{title}
-			</h1>
-			<h2 className="mb-5 text-sm text-muted-foreground">{subtitle}</h2>
-			<div className="flex w-full flex-col items-center gap-y-2 px-2">
+		<div className="rounded-xl w-full flex flex-col items-center min-h-[60vh] dark:bg-white/[0.08] bg-white backdrop-blur transition">
+			<h1 className="font-extrabold text-4xl mt-5 dark:text-primary text-hackathon">{title}</h1>
+			<h2 className="text-muted-foreground text-sm mb-5">{subtitle}</h2>
+			<div className="flex flex-col items-center gap-y-2 w-full px-2">
 				{dup.map((event) => (
 					<EventItem key={event.id} event={event} />
 				))}
@@ -36,33 +34,27 @@ export default function Day({ title, subtitle, events }: DayProps) {
 
 function EventItem({ event }: EventItemProps) {
 	return (
-		<Link
-			target="_blank"
-			href={"/schedule/" + event.id}
-			className="m-0 w-full p-0"
-		>
-			<div className="grid h-16 w-full cursor-pointer grid-cols-5 rounded-xl px-2 hover:bg-white/[0.08] md:grid-cols-3">
-				<div className="col-span-3 flex h-full flex-col justify-center md:col-span-2">
+		<Link target="_blank" href={"/schedule/" + event.id} className="m-0 p-0 w-full">
+			<div className="grid md:grid-cols-3 grid-cols-5 h-16 w-full hover:bg-white/[0.08] px-2 cursor-pointer rounded-xl">
+				<div className="md:col-span-2 col-span-3 flex flex-col h-full justify-center">
 					<h3 className="font-bold">{event.title}</h3>
 					<div>
 						<Badge
 							variant={"outline"}
 							style={{
 								borderColor:
-									(c.eventTypes as Record<string, string>)[
-										event.type
-									] || c.eventTypes.Other,
+									(c.eventTypes as Record<string, string>)[event.type] || c.eventTypes.Other,
 							}}
 						>
 							{event.type}
 						</Badge>
 					</div>
 				</div>
-				<div className="md:text-md col-span-2 flex items-center justify-end text-sm md:col-span-1">
+				<div className="flex items-center justify-end text-sm md:text-md md:col-span-1 col-span-2">
 					<p>{`${formatInTimeZone(
 						event.startTime,
 						c.hackathonTimezone,
-						"h:mm a",
+						"h:mm a"
 					)} - ${formatInTimeZone(event.endTime, c.hackathonTimezone, "h:mm a")}`}</p>
 				</div>
 			</div>

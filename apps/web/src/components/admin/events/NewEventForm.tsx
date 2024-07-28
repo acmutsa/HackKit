@@ -39,7 +39,7 @@ interface NewEventFormProps {
 const formSchema = newEventValidator.merge(
 	z.object({
 		type: z.enum(Object.keys(c.eventTypes) as any),
-	}),
+	})
 );
 
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
@@ -71,10 +71,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 			alert("Event Created Successfully! Redirecting to event page...");
 			router.push(res.data.redirect);
 		} else {
-			alert(
-				"Failed to create event, please try again. Error:\n\n" +
-					res.error,
-			);
+			alert("Failed to create event, please try again. Error:\n\n" + res.error);
 		}
 	}
 
@@ -90,10 +87,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>
-								Generally its best to keep this short and
-								consise
-							</FormDescription>
+							<FormDescription>Generally its best to keep this short and consise</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -121,10 +115,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Event Type</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
+								<Select onValueChange={field.onChange} defaultValue={field.value}>
 									<FormControl>
 										<SelectTrigger className="w-full">
 											<SelectValue placeholder="Select a Event Type" />
@@ -132,16 +123,11 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 									</FormControl>
 									<SelectContent>
 										<SelectGroup>
-											{Object.keys(c.eventTypes).map(
-												(type) => (
-													<SelectItem
-														key={type}
-														value={type}
-													>
-														{type}
-													</SelectItem>
-												),
-											)}
+											{Object.keys(c.eventTypes).map((type) => (
+												<SelectItem key={type} value={type}>
+													{type}
+												</SelectItem>
+											))}
 										</SelectGroup>
 									</SelectContent>
 								</Select>
@@ -156,10 +142,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 							<FormItem>
 								<FormLabel>Host (Optional)</FormLabel>
 								<FormControl>
-									<Input
-										placeholder={c.hackathonName}
-										{...(field as any)}
-									/>
+									<Input placeholder={c.hackathonName} {...(field as any)} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -176,20 +159,11 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<DateTimePicker
 									value={
 										!!field.value
-											? parseAbsolute(
-													field.value.toISOString(),
-													getLocalTimeZone(),
-												)
+											? parseAbsolute(field.value.toISOString(), getLocalTimeZone())
 											: null
 									}
 									onChange={(date) => {
-										field.onChange(
-											!!date
-												? date.toDate(
-														getLocalTimeZone(),
-													)
-												: null,
-										);
+										field.onChange(!!date ? date.toDate(getLocalTimeZone()) : null);
 									}}
 									shouldCloseOnSelect={false}
 									granularity={"minute"}
@@ -208,20 +182,11 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<DateTimePicker
 									value={
 										!!field.value
-											? parseAbsolute(
-													field.value.toISOString(),
-													getLocalTimeZone(),
-												)
+											? parseAbsolute(field.value.toISOString(), getLocalTimeZone())
 											: null
 									}
 									onChange={(date) => {
-										field.onChange(
-											!!date
-												? date.toDate(
-														getLocalTimeZone(),
-													)
-												: null,
-										);
+										field.onChange(!!date ? date.toDate(getLocalTimeZone()) : null);
 									}}
 									shouldCloseOnSelect={false}
 									granularity={"minute"}

@@ -13,7 +13,7 @@ export default function ToggleItem({ name, path }: ToggleItemProps) {
 	return (
 		<Link href={path}>
 			<div
-				className={`w-full rounded px-2 py-3 transition-all duration-100 hover:bg-accent hover:text-accent-foreground ${
+				className={`rounded py-3 px-2 hover:bg-accent hover:text-accent-foreground w-full transition-all duration-100 ${
 					(currPath.startsWith(path) &&
 						path !== "/admin" &&
 						path !== "/dash" &&

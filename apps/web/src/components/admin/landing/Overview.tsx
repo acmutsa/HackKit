@@ -1,14 +1,6 @@
 "use client";
 
-import {
-	Bar,
-	BarChart,
-	ResponsiveContainer,
-	XAxis,
-	YAxis,
-	Tooltip,
-	CartesianGrid,
-} from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { parseISO, format } from "date-fns";
 
 type DateNumberMap = { [key: string]: number };
@@ -30,13 +22,7 @@ export function Overview({ rawData }: OverviewProps) {
 	return (
 		<ResponsiveContainer width="100%" height={350}>
 			<BarChart data={data}>
-				<XAxis
-					dataKey="name"
-					stroke="#888888"
-					fontSize={12}
-					tickLine={false}
-					axisLine={false}
-				/>
+				<XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
 				<YAxis
 					stroke="#888888"
 					fontSize={12}
@@ -44,12 +30,7 @@ export function Overview({ rawData }: OverviewProps) {
 					axisLine={false}
 					allowDecimals={false}
 				/>
-				<Bar
-					dataKey="total"
-					fill="currentColor"
-					radius={[4, 4, 0, 0]}
-					className="fill-primary"
-				/>
+				<Bar dataKey="total" fill="currentColor" radius={[4, 4, 0, 0]} className="fill-primary" />
 			</BarChart>
 		</ResponsiveContainer>
 	);

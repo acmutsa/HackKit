@@ -60,9 +60,7 @@ export default function UpdateRoleDialog({
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Update {name}'s Role</DialogTitle>
-					<DialogDescription>
-						Update the role of any user on HackKit.
-					</DialogDescription>
+					<DialogDescription>Update the role of any user on HackKit.</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="flex">
@@ -75,29 +73,16 @@ export default function UpdateRoleDialog({
                         placeholder="@HackerTag"
                         className="col-span-3"
                     /> */}
-						<Select
-							onValueChange={(v) =>
-								setRoleToSet(v as (typeof perms)[number])
-							}
-						>
+						<Select onValueChange={(v) => setRoleToSet(v as (typeof perms)[number])}>
 							<SelectTrigger className="w-[180px]">
-								<SelectValue
-									placeholder={titleCase(
-										currPermision.replace("_", " "),
-									)}
-								/>
+								<SelectValue placeholder={titleCase(currPermision.replace("_", " "))} />
 							</SelectTrigger>
 							<SelectContent>
 								{/* <SelectItem value="light">Light</SelectItem>
 								<SelectItem value="dark">Dark</SelectItem>
 								<SelectItem value="system">System</SelectItem> */}
 								{perms.map((perm) => {
-									if (
-										!canMakeAdmins &&
-										(perm === "admin" ||
-											perm === "super_admin")
-									)
-										return null;
+									if (!canMakeAdmins && (perm === "admin" || perm === "super_admin")) return null;
 									return (
 										<SelectItem key={perm} value={perm}>
 											{titleCase(perm.replace("_", " "))}
@@ -110,22 +95,16 @@ export default function UpdateRoleDialog({
 				</div>
 				<DialogFooter>
 					{roleToSet !== currPermision ? (
-						<div className="flex h-full w-full items-center justify-center gap-x-2 self-end sm:justify-start">
-							<Badge>
-								{titleCase(currPermision.replace("_", " "))}
-							</Badge>
+						<div className="flex sm:justify-start justify-center items-center gap-x-2 self-end h-full w-full">
+							<Badge>{titleCase(currPermision.replace("_", " "))}</Badge>
 							<span>&rarr;</span>
-							<Badge>
-								{titleCase(roleToSet.replace("_", " "))}
-							</Badge>
+							<Badge>{titleCase(roleToSet.replace("_", " "))}</Badge>
 						</div>
 					) : null}
 					<Button
 						onClick={() => {
 							if (roleToSet === currPermision) {
-								return toast.warning(
-									"The user already has this role.",
-								);
+								return toast.warning("The user already has this role.");
 							}
 							toast.loading("Updating role...", { duration: 0 });
 							execute({

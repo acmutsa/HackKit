@@ -25,11 +25,7 @@ import { Label } from "@/components/shadcn/ui/label";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useAction, useOptimisticAction } from "next-safe-action/hook";
-import {
-	setItem,
-	removeItem,
-	toggleItem,
-} from "@/actions/admin/modify-nav-item";
+import { setItem, removeItem, toggleItem } from "@/actions/admin/modify-nav-item";
 import { toast } from "sonner";
 import Link from "next/link";
 import { Switch } from "@/components/shadcn/ui/switch";
@@ -61,9 +57,7 @@ export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 				<TableBody>
 					{navItems.map((item) => (
 						<TableRow key={item.name}>
-							<TableCell className="font-medium">
-								{item.name}
-							</TableCell>
+							<TableCell className="font-medium">{item.name}</TableCell>
 							<TableCell>
 								<Link className="underline" href={item.url}>
 									{item.url}
@@ -74,15 +68,10 @@ export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 									checked={item.enabled}
 									onCheckedChange={(checked) => didToggle(item.name, checked)}
 								/> */}
-								<ToggleSwitch
-									itemStatus={item.enabled}
-									name={item.name}
-								/>
+								<ToggleSwitch itemStatus={item.enabled} name={item.name} />
 							</TableCell>
-							<TableCell className="space-x-2 text-right">
-								<Button onClick={() => alert("Coming soon...")}>
-									Edit
-								</Button>
+							<TableCell className="text-right space-x-2">
+								<Button onClick={() => alert("Coming soon...")}>Edit</Button>
 								<Button
 									onClick={() => {
 										execute(item.name);
@@ -99,13 +88,7 @@ export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 	);
 }
 
-function ToggleSwitch({
-	itemStatus,
-	name,
-}: {
-	itemStatus: boolean;
-	name: string;
-}) {
+function ToggleSwitch({ itemStatus, name }: { itemStatus: boolean; name: string }) {
 	const initialData = { itemStatus }; // Initial data matching the shape of toggleItem's return type
 
 	const { execute, optimisticData } = useOptimisticAction(
@@ -113,15 +96,13 @@ function ToggleSwitch({
 		initialData,
 		(state, { statusToSet }) => {
 			return { itemStatus: statusToSet };
-		},
+		}
 	);
 
 	return (
 		<Switch
 			checked={optimisticData.itemStatus}
-			onCheckedChange={(checked) =>
-				execute({ name, statusToSet: checked })
-			}
+			onCheckedChange={(checked) => execute({ name, statusToSet: checked })}
 		/>
 	);
 }
@@ -150,9 +131,7 @@ export function NavItemDialog() {
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>New Item</DialogTitle>
-					<DialogDescription>
-						Create a item to show in the non-dashboard navbar
-					</DialogDescription>
+					<DialogDescription>Create a item to show in the non-dashboard navbar</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="grid grid-cols-4 items-center gap-4">
@@ -182,8 +161,7 @@ export function NavItemDialog() {
 					<Button
 						onClick={() => {
 							console.log("Running Action");
-							if (!name || !url)
-								return alert("Please fill out all fields.");
+							if (!name || !url) return alert("Please fill out all fields.");
 							execute({ name, url });
 						}}
 					>

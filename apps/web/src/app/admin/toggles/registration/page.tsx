@@ -8,36 +8,27 @@ export default async function Page() {
 	pipe.get("config:registration:secretRegistrationEnabled");
 	// const result = await pipe.exec();
 
-	const [
-		defaultRegistrationEnabled,
-		defaultSecretRegistrationEnabled,
-		defaultRSVPsEnabled,
-	]: (string | null)[] = await kv.mget(
+	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled, defaultRSVPsEnabled]: (
+		| string
+		| null
+	)[] = await kv.mget(
 		"config:registration:registrationEnabled",
 		"config:registration:secretRegistrationEnabled",
-		"config:registration:allowRSVPs",
+		"config:registration:allowRSVPs"
 	);
 
 	return (
 		<div>
 			<div className="flex items-center justify-start pb-10">
-				<h2 className="text-3xl font-bold tracking-tight">
-					Registration & Sign-in
-				</h2>
+				<h2 className="text-3xl font-bold tracking-tight">Registration & Sign-in</h2>
 			</div>
 			<RegistrationToggles
-				defaultRegistrationEnabled={parseRedisBoolean(
-					defaultRegistrationEnabled,
-					true,
-				)}
+				defaultRegistrationEnabled={parseRedisBoolean(defaultRegistrationEnabled, true)}
 				defaultSecretRegistrationEnabled={parseRedisBoolean(
 					defaultSecretRegistrationEnabled,
-					false,
+					false
 				)}
-				defaultRSVPsEnabled={parseRedisBoolean(
-					defaultRSVPsEnabled,
-					true,
-				)}
+				defaultRSVPsEnabled={parseRedisBoolean(defaultRSVPsEnabled, true)}
 			/>
 		</div>
 	);

@@ -2,8 +2,8 @@ import { Bars } from "react-loader-spinner";
 
 export default function CreatingRegistration() {
 	return (
-		<main className="absolute bottom-0 left-0 z-10 flex min-h-screen w-screen flex-col items-center justify-center gap-y-20 bg-background">
-			<h1 className="text-3xl font-black">Creating Your Registration!</h1>
+		<main className="flex flex-col items-center justify-center min-h-screen w-screen absolute bottom-0 left-0 z-10 bg-background gap-y-20">
+			<h1 className="font-black text-3xl">Creating Your Registration!</h1>
 			<Bars
 				height="80"
 				width="80"

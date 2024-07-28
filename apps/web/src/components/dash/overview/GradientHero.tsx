@@ -23,7 +23,7 @@ export default function GradientHero() {
          `}
 			</style>
 			<canvas
-				className="absolute bottom-0 left-0 right-0 top-0 -z-10"
+				className="-z-10 absolute top-0 left-0 bottom-0 right-0"
 				id="gradient-canvas"
 				data-transition-in
 			/>

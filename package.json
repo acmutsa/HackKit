@@ -4,26 +4,22 @@
     "build": "turbo run build && pnpm --filter=db migrations:apply",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "migrations:generate": "pnpm --filter=db migrations:generate",
     "migrations:apply": "pnpm --filter=db migrations:apply",
     "migrations:drop": "pnpm --filter=db migrations:drop",
     "studio": "pnpm --filter=db studio",
     "tunnel": "pnpm --filter=devtunnel opentunnel",
     "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
-    "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
-    "format": "prettier --write .",
-    "format-check": "prettier --check ."
+    "deploy-discord:prod": "pnpm --filter=bot deploy:prod"
   },
   "devDependencies": {
-    "@turbo/gen": "^2.0.9",
-    "dotenv-cli": "^7.4.2",
-    "eslint": "^9.7.0",
-    "prettier": "^3.3.3",
-    "turbo": "^2.0.9"
+    "@turbo/gen": "^1.9.7",
+    "dotenv-cli": "^7.3.0",
+    "eslint": "^7.32.0",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
   },
   "packageManager": "pnpm@8.3.1",
-  "name": "hackkit",
-  "dependencies": {
-    "prettier-plugin-tailwindcss": "^0.6.5"
-  }
+  "name": "hackkit"
 }

@@ -28,40 +28,31 @@ export default async function Page() {
 		return redirect("/dash");
 	}
 
-	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled]: (
-		| string
-		| null
-	)[] = await kv.mget(
-		"config:registration:registrationEnabled",
-		"config:registration:secretRegistrationEnabled",
-	);
+	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled]: (string | null)[] =
+		await kv.mget(
+			"config:registration:registrationEnabled",
+			"config:registration:secretRegistrationEnabled"
+		);
 
 	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
 		return (
 			<>
 				<Navbar />
 				<main className="dark:bg-zinc-950">
-					<div className="mx-auto min-h-screen max-w-5xl px-5 pb-10 pt-[20vh] font-sans dark:text-white">
-						<h1 className="text-6xl font-black md:text-8xl">
-							Register
-						</h1>
+					<div className="mx-auto min-h-screen max-w-5xl pb-10 pt-[20vh] font-sans dark:text-white px-5">
+						<h1 className="md:text-8xl text-6xl font-black">Register</h1>
 						<p className="mt-5 font-medium">
-							<span className="font-bold">Welcome Hacker!</span>{" "}
-							Please fill out the form below to complete your
-							registration for {c.hackathonName}.
+							<span className="font-bold">Welcome Hacker!</span> Please fill out the form below to
+							complete your registration for {c.hackathonName}.
 						</p>
-						<p className="pb-10 pt-5 text-xs">
+						<p className="pt-5 pb-10 text-xs">
 							Psttt... Running into a issue? Please let us know on{" "}
 							<Link className="underline" href={c.links.discord}>
 								Discord
 							</Link>
 							!
 						</p>
-						<RegisterForm
-							defaultEmail={
-								user.emailAddresses[0]?.emailAddress || ""
-							}
-						/>
+						<RegisterForm defaultEmail={user.emailAddresses[0]?.emailAddress || ""} />
 					</div>
 				</main>
 			</>
@@ -69,28 +60,26 @@ export default async function Page() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center px-2">
-			<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform" />
+		<main className="flex flex-col min-h-screen items-center justify-center px-2">
+			<div className="fixed left-1/2 top-[calc(50%+7rem)] overflow-x-hidden h-[40vh] w-[800px] max-w-screen -translate-x-1/2 -translate-y-1/2 scale-150 bg-hackathon opacity-30 blur-[100px] will-change-transform" />
 			<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
-			{/* Why is this not a component? This same code is in here and insideo of sign-up */}
-			<h1 className="mb-10 pb-5 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
+			 {/* Why is this not a component? This same code is in here and insideo of sign-up */}
+			<h1 className="text-6xl md:text-8xl pb-5 mb-10 font-extrabold text-hackathon dark:text-transparent dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text">
 				Registration
 			</h1>
-			<div className="relative z-10 flex aspect-video w-full max-w-[500px] flex-col items-center justify-center gap-y-4 rounded-xl bg-white px-5 py-4 backdrop-blur transition dark:bg-white/[0.08]">
-				<h2 className="text-center text-2xl font-black">
-					Registration Is Currently Closed
-				</h2>
+			<div className="w-full max-w-[500px] flex gap-y-4 flex-col justify-center items-center px-5 dark:bg-white/[0.08] bg-white backdrop-blur transition rounded-xl aspect-video relative z-10 py-4">
+				<h2 className="font-black text-2xl text-center">Registration Is Currently Closed</h2>
 				<p className="text-center font-bold">
-					If you believe this is a mistake or have any questions, feel
-					free to reach out to us at {c.issueEmail}!
+					If you believe this is a mistake or have any questions, feel free to reach out to us at{" "}
+					{c.issueEmail}!
 				</p>
 
 				<Link href={"/"}>
 					<Button>Return Home</Button>
 				</Link>
-				<p className="text-center text-sm">
+				<p className="text-sm text-center">
 					Already registered?
-					<Link className="pl-1 underline" href={"/sign-in"}>
+					<Link className="underline pl-1" href={"/sign-in"}>
 						Sign-in.
 					</Link>
 				</p>

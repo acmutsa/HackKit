@@ -31,9 +31,6 @@ job.start();
 
 console.log("Backup cron scheduled...");
 
-serve({
-	fetch: app.fetch,
-	port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-});
+serve({ fetch: app.fetch, port: process.env.PORT ? parseInt(process.env.PORT) : 3000 });
 
 console.log("Server started...");

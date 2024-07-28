@@ -7,10 +7,7 @@ interface NavbarItemProps {
 
 export default function NavbarItem({ children, link }: NavbarItemProps) {
 	return (
-		<Link
-			href={link}
-			className="text-sm text-muted-foreground hover:text-primary hover:underline"
-		>
+		<Link href={link} className="hover:underline text-muted-foreground hover:text-primary text-sm">
 			{children}
 		</Link>
 	);
