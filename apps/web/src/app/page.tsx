@@ -15,7 +15,7 @@ export default function Home() {
             <img
               src="/logo.png"
               alt="Sunhacks logo"
-              className="w-32 h-32 invert"
+              className="w-32 h-32 invert mt-16"
             />
             <h1 className="text-8xl font-bold text-center">
               sunhacks<span className="text-2xl"> 6.0</span>
@@ -67,26 +67,46 @@ export default function Home() {
               />
             </svg>
           </div>
-          <section className="flex flex-col bg-[#D74E1D] min-h-screen z-50 items-center justify-center gap-8 px-8 md:px-0 py-8">
+          <section className="flex flex-col bg-[#D74E1D] min-h-screen z-50 items-center justify-center gap-8 px-8 md:px-0 py-8 pt-44">
             <div>
               <h2 className="text-white text-7xl">And we're back for 2024!</h2>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-              <div className="text-white flex flex-col gap-4">
-                <img
-                  className="md:w-[350px] rounded-xl"
-                  src="https://sunhacks.io/assets/showcase1.jpg"
-                />
+            <div className="flex flex-col items-center justify-center gap-8">
+              <div className="text-amber-300 text-xl">
+              We are incredibly excited to bring sunhacks back to the Arizona State community!
               </div>
-              <div className="text-amber-400 md:w-1/2 text-2xl">
-                sunhacks is a yearly hackathon (ideathon, coding marathon,
-                prototyping marathon, etc) designed to support students in their
-                innovative journeys. sunhacks is for students of all skill
-                levels, and our job as organizers is to support you by providing
-                the resources you need to achieve your development dreams. We
-                provide you with workshops, mentors, community connections, and
-                peers who are motivated to help each other succeed and reach
-                their goals.
+
+              {/* Three cards that are slightly tilted to look cool */}
+              <div className='flex flex-col md:flex-row gap-4 max-w-3xl'>
+                <div className='bg-[#F9EA8240] w-full rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-black rounded-xl p-4 flex flex-col gap-4'>
+                  <div className="text-2xl">
+                  fully in-person 
+                  </div>
+
+                  <div>
+                  For Fall 2024, sunhacks will be hosted as a fully in-person event at the Sun Devil Fitness Complex (SDFC) at Arizona State University - Tempe.
+                  </div>
+                </div>
+
+                <div className='bg-[#2A030850] w-full -rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-white rounded-xl p-4 flex flex-col gap-4'>
+                  <div className="text-2xl">
+                  all students are welcome!
+                  </div>
+
+                  <div>
+                  We are open to all skill levels, ages, background, fields, and more. As long as you're a student you're in!
+                  </div>
+                </div>
+
+                <div className='bg-[#E9A267] w-full rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-black rounded-xl p-4 flex flex-col gap-4'>
+                  <div className="text-2xl">
+                  in-person workshops, sponsors, and swag 
+                  </div>
+
+                  <div>
+                  This year, we will have sponsorship present in-person, as well as swag and live activities. Our workshops will be facilitated in person and live-streamed, in case you want to take a break from hacking while staying engaged.
+                  </div>
+                </div>
               </div>
             </div>
           </section>
