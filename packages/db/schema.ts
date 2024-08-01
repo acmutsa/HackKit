@@ -278,7 +278,10 @@ export const tickets = pgTable("tickets", {
 });
 
 export const ticketRelations = relations(tickets, ({ one, many }) => ({
-	chat: one(chats),
+	chat: one(chats, {
+		fields: [tickets.id],
+		references: [chats.ticketID],
+	}),
 	tickets: many(ticketsToUsers),
 }));
 
