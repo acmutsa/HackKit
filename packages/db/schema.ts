@@ -83,7 +83,7 @@ export const userData = pgTable("user_data", {
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 
     // metadata
-	registrationComplete: boolean("registration_complete")
+	isFullyRegistered: boolean("is_fully_registered")
 		.notNull()
 		.default(false),
 	signupTime: timestamp("signup_time").notNull().defaultNow(),
@@ -92,8 +92,8 @@ export const userData = pgTable("user_data", {
 		.default(true),
 	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
-	rsvp: boolean("rsvp").notNull().default(false),
-	approved: boolean("approved").notNull().default(false),
+	isRSVPed: boolean("is_rsvped").notNull().default(false),
+	isApproved: boolean("is_approved").notNull().default(false),
 });
 
 export const userRelations = relations(userData, ({ one, many }) => ({
@@ -139,8 +139,8 @@ export const hackerData = pgTable("hacker_data", {
     group: integer("group").notNull(),
     teamID: varchar("team_id", { length: 50 }),
     points: integer("points").notNull().default(0),
-	acceptedMLHCoC: boolean("accepted_mlh_coc").notNull(),
-	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
+	hasAcceptedMLHCoC: boolean("has_accepted_mlh_coc").notNull(),
+	hasSharedDataWithMLH: boolean("has_shared_data_with_mlh").notNull(),
 	isEmailable: boolean("is_emailable").notNull(),
 });
 
