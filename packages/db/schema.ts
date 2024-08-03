@@ -56,10 +56,13 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 ]);
 
 export const userData = pgTable("user_data", {
+    // id
 	clerkID: varchar("clerk_id", { length: 255 })
 		.notNull()
 		.primaryKey()
 		.unique(),
+    
+    // data
 	firstName: varchar("first_name", { length: 50 }).notNull(),
 	lastName: varchar("last_name", { length: 50 }).notNull(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
@@ -76,6 +79,8 @@ export const userData = pgTable("user_data", {
 	bio: text("bio").notNull(),
 	skills: json("skills").notNull().$type<string[]>().default([]),
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
+
+    // metadata
 	registrationComplete: boolean("registration_complete")
 		.notNull()
 		.default(false),
@@ -107,14 +112,14 @@ export const userRelations = relations(userData, ({ one, many }) => ({
 }));
 
 export const registrationData = pgTable("registration_data", {
+    // id
 	clerkID: varchar("clerk_id", { length: 255 })
 		.notNull()
 		.primaryKey()
 		.unique(),
-	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
-	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
-	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
-	university: varchar("university", { length: 200 }).notNull(),
+    
+    // data
+    university: varchar("university", { length: 200 }).notNull(),
 	major: varchar("major", { length: 200 }).notNull(),
 	shortID: varchar("short_id", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
@@ -129,9 +134,14 @@ export const registrationData = pgTable("registration_data", {
 	resume: varchar("resume", { length: 255 })
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
+
+    // metadata
     group: integer("group").notNull(),
     teamID: varchar("team_id", { length: 50 }),
     points: integer("points").notNull().default(0),
+	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
+	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
+	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
 });
 
 export const registrationRelations = relations(registrationData, ({one}) => ({
