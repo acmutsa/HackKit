@@ -55,12 +55,12 @@ export default {
 	},
 	issueEmail: "team@sunhacks.io",
 	links: {
-		discord: "https://go.rowdyhacks.org/discord",
-		instagram: "https://instagram.com/rowdyhacks",
-		facebook: "https://facebook.com/rowdyhacks",
-		twitter: "https://twitter.com/rowdyhacks",
-		github: "https://github.com/acmutsa",
-    guide: "https://go.rowdyhacks.org/discord",
+		discord: "https://discord.gg/tFNtvyRCd6",
+		instagram: "https://www.instagram.com/sunhacksio/",
+		facebook: "https://www.facebook.com/sunhacksio",
+		twitter: "https://x.com/sunhacksio",
+		github: "https://github.com/sunhacksio",
+    	guide: "https://discord.gg/tFNtvyRCd6",
 	},
 	icon: {
 		sm: "/img/logo/logo-black.png",
