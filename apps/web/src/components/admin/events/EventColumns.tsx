@@ -9,17 +9,6 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 
-// const userValidator = createSelectSchema(users).merge(
-// 	z.object({
-// 		registrationData: createSelectSchema(registrationData),
-// 		profileData: createSelectSchema(profileData).merge(
-// 			z.object({
-// 				skills: z.array(z.string()),
-// 			})
-// 		),
-// 	})
-// );
-
 const eventValidator = createSelectSchema(events);
 
 export type eventTableValidatorType = Pick<

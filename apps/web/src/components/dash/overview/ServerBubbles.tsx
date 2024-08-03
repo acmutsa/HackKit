@@ -3,12 +3,7 @@ import Link from "next/link";
 import c from "config";
 import { format } from "date-fns";
 import GradientHero from "./GradientHero";
-// import { users } from "db/schema";
 import QRCode from "react-qr-code";
-
-// interface MYInfoProps {
-// 	user: typeof users.$inferSelect;
-// }
 
 export function Questions() {
 	return (
