@@ -20,6 +20,7 @@ import {
 	pgEnum,
 	primaryKey,
 	pgTable,
+    serial,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -57,9 +58,10 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 
 export const userData = pgTable("user_data", {
     // id
+    id: serial("id")
+        .primaryKey(),
 	clerkID: varchar("clerk_id", { length: 255 })
 		.notNull()
-		.primaryKey()
 		.unique(),
     
     // data
@@ -114,9 +116,7 @@ export const userRelations = relations(userData, ({ one, many }) => ({
 export const hackerData = pgTable("hacker_data", {
     // id
 	clerkID: varchar("clerk_id", { length: 255 })
-		.notNull()
-		.primaryKey()
-		.unique(),
+		.primaryKey(),
     
     // data
     university: varchar("university", { length: 200 }).notNull(),
