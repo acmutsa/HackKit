@@ -71,6 +71,11 @@ export const userData = pgTable("user_data", {
 	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
 	dietRestrictions: json("diet_restrictions").notNull(),
 	accommodationNote: text("accommodation_note"),
+	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
+	pronouns: varchar("pronouns", { length: 20 }).notNull(),
+	bio: text("bio").notNull(),
+	skills: json("skills").notNull().$type<string[]>().default([]),
+	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 	registrationComplete: boolean("registration_complete")
 		.notNull()
 		.default(false),
@@ -96,10 +101,6 @@ export const userRelations = relations(userData, ({ one, many }) => ({
 	discordVerification: one(discordVerification, {
 		fields: [userData.clerkID],
 		references: [discordVerification.clerkID],
-	}),
-	profileData: one(profileData, {
-		fields: [userData.hackerTag],
-		references: [profileData.hackerTag],
 	}),
 	files: many(files),
 	scans: many(scans),
@@ -136,18 +137,6 @@ export const registrationData = pgTable("registration_data", {
 	resume: varchar("resume", { length: 255 })
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
-});
-
-export const profileData = pgTable("profile_data", {
-	hackerTag: varchar("hacker_tag", { length: 50 })
-		.notNull()
-		.primaryKey()
-		.unique(),
-	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
-	pronouns: varchar("pronouns", { length: 20 }).notNull(),
-	bio: text("bio").notNull(),
-	skills: json("skills").notNull().$type<string[]>().default([]),
-	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 });
 
 export const events = pgTable("events", {
