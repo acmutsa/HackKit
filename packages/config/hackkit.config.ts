@@ -1,4 +1,4 @@
-export const defaultTheme = "dark";
+export const defaultTheme = "light";
 
 export default {
 	hackathonName: "sunhacks",
@@ -63,10 +63,10 @@ export default {
     guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/logo-white.png",
-		md: "/img/logo/logo-white.png",
-		lg: "/img/logo/logo-white.png",
-		svg: "/img/logo/logo.svg",
+		sm: "/img/logo/logo-black.png",
+		md: "/img/logo/logo-black.png",
+		lg: "/img/logo/logo-black.png",
+		svg: "/img/logo/logo-black.png",
 	},
 	dashPaths: {
 		dash: {
