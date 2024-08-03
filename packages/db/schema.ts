@@ -64,6 +64,13 @@ export const userData = pgTable("user_data", {
 	lastName: varchar("last_name", { length: 50 }).notNull(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
 	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().unique(),
+	age: integer("age").notNull(),
+	gender: varchar("gender", { length: 50 }).notNull(),
+	race: varchar("race", { length: 75 }).notNull(),
+	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
+	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
+	dietRestrictions: json("diet_restrictions").notNull(),
+	accommodationNote: text("accommodation_note"),
 	registrationComplete: boolean("registration_complete")
 		.notNull()
 		.default(false),
@@ -111,10 +118,6 @@ export const registrationData = pgTable("registration_data", {
 		.notNull()
 		.primaryKey()
 		.unique(),
-	age: integer("age").notNull(),
-	gender: varchar("gender", { length: 50 }).notNull(),
-	race: varchar("race", { length: 75 }).notNull(),
-	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
 	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
 	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
 	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
@@ -127,9 +130,6 @@ export const registrationData = pgTable("registration_data", {
 		length: 25,
 	}).notNull(),
 	heardFrom: varchar("heard_from", { length: 50 }),
-	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
-	dietRestrictions: json("diet_restrictions").notNull(),
-	accommodationNote: text("accommodation_note"),
 	GitHub: varchar("github", { length: 100 }),
 	LinkedIn: varchar("linkedin", { length: 100 }),
 	PersonalWebsite: varchar("personal_website", { length: 100 }),
