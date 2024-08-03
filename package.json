@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo run build && pnpm --filter=db migrations:apply",
+    "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "migrations:generate": "pnpm --filter=db migrations:generate",
