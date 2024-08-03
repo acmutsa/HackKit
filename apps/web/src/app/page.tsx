@@ -7,7 +7,9 @@ import Parallax from './parallax';
 export default function Home() {
   return (
     <div className={`w-full overflow-x-hidden `}>
+      <Navbar />
       <MLHBadge />
+
       <main className="min-h-screen relative">
         <section className="relative bg-yellow-200/60 overflow-hidden">
           <Parallax />
@@ -18,7 +20,7 @@ export default function Home() {
               className="w-32 h-32 invert mt-16"
             />
             <h1 className="text-8xl font-bold text-center">
-              sunhacks<span className="text-2xl"> 6.0</span>
+              sunhacks<span className="text-2xl"> 7.0</span>
             </h1>
             <h2 className="text-lg text-center mt-4 text-slate-700">
               Coming Fall 2024 at{' '}
@@ -61,52 +63,78 @@ export default function Home() {
           <div className="absolute top-0 left-0 w-full h-full">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
               <path
-                fill="#2F0007"
-                fillOpacity={1}
-                d="M0,96L80,112C160,128,320,160,480,160C640,160,800,128,960,112C1120,96,1280,96,1360,96L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
+                  fill="#2F0007"
+                  fillOpacity={1}
+                  d="M0,96L80,112C160,128,320,160,480,160C640,160,800,128,960,112C1120,96,1280,96,1360,96L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
               />
             </svg>
           </div>
-          <section className="flex flex-col bg-[#D74E1D] min-h-screen z-50 items-center justify-center gap-8 px-8 md:px-0 py-8 pt-44">
+          <section
+              className="flex flex-col bg-[#D74E1D] min-h-screen z-50 items-center justify-center gap-8 px-8 md:px-0 py-8 pt-44">
             <div>
               <h2 className="text-white text-7xl">And we're back for 2024!</h2>
             </div>
             <div className="flex flex-col items-center justify-center gap-8">
               <div className="text-amber-300 text-xl">
-              We are incredibly excited to bring sunhacks back to the Arizona State community!
+                We are incredibly excited to bring sunhacks back to the Arizona State community!
               </div>
 
               {/* Three cards that are slightly tilted to look cool */}
               <div className='flex flex-col md:flex-row gap-4 max-w-3xl'>
-                <div className='bg-[#F9EA8240] w-full rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-black rounded-xl p-4 flex flex-col gap-4'>
+                <div
+                    className='bg-[#F9EA8240] w-full rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-black rounded-xl p-4 flex flex-col gap-4'>
                   <div className="text-2xl">
-                  fully in-person 
+                    fully in-person
                   </div>
 
                   <div>
-                  For Fall 2024, sunhacks will be hosted as a fully in-person event at the Sun Devil Fitness Complex (SDFC) at Arizona State University - Tempe.
+                    For Fall 2024, sunhacks will be hosted as a fully in-person event at the Sun Devil Fitness Complex
+                    (SDFC) at Arizona State University - Tempe.
                   </div>
                 </div>
 
-                <div className='bg-[#2A030850] w-full -rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-white rounded-xl p-4 flex flex-col gap-4'>
+                <div
+                    className='bg-[#2A030850] w-full -rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-white rounded-xl p-4 flex flex-col gap-4'>
                   <div className="text-2xl">
-                  all students are welcome!
+                    all students are welcome!
                   </div>
 
                   <div>
-                  We are open to all skill levels, ages, background, fields, and more. As long as you're a student you're in!
+                    We are open to all skill levels, ages, background, fields, and more. As long as you're a student
+                    you're in!
                   </div>
                 </div>
 
-                <div className='bg-[#E9A267] w-full rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-black rounded-xl p-4 flex flex-col gap-4'>
+                <div
+                    className='bg-[#E9A267] w-full rotate-2 hover:rotate-0 transition-transform duration-200 ease-in-out text-black rounded-xl p-4 flex flex-col gap-4'>
                   <div className="text-2xl">
-                  in-person workshops, sponsors, and swag 
+                    in-person workshops, sponsors, and swag
                   </div>
 
                   <div>
-                  This year, we will have sponsorship present in-person, as well as swag and live activities. Our workshops will be facilitated in person and live-streamed, in case you want to take a break from hacking while staying engaged.
+                    This year, we will have sponsorship present in-person, as well as swag and live activities. Our
+                    workshops will be facilitated in person and live-streamed, in case you want to take a break from
+                    hacking while staying engaged.
                   </div>
                 </div>
+              </div>
+            </div>
+          </section>
+          <section
+              className="flex flex-col bg-[#F9EA82] min-h-screen z-50 items-center justify-center gap-8 px-8 md:px-0 py-16">
+            <h2 className="text-[#2F0007] text-7xl mb-8">FAQ</h2>
+            <div className="max-w-4xl w-full">
+              <p className="text-[#2F0007] text-xl mb-8">
+                We know that things can be pretty intimidating when there's a lot of unknowns, so check out the some
+                what ifs below! If you still have questions email us at team@sunhacks.io
+              </p>
+              <div className="space-y-8">
+                {faqItems.map((item, index) => (
+                    <div key={index} className="bg-white rounded-lg p-6 shadow-md">
+                      <h3 className="text-2xl font-bold text-[#D74E1D] mb-2">{item.question}</h3>
+                      <p className="text-[#2F0007]">{item.answer}</p>
+                    </div>
+                ))}
               </div>
             </div>
           </section>
@@ -115,6 +143,41 @@ export default function Home() {
     </div>
   );
 }
+
+const faqItems = [
+  {
+    question: "What's a hackathon?",
+    answer: "Although definitions and connotations may vary, at sunhacks, a hackathon means a 24-36 hour prototyping marathon. sunhacks is a 24-hour hackathon this Fall! Work on software or hardware solutions to real-world problems, innovative projects, or anything you can think of, no holds barred (within our code of conduct, of course)."
+  },
+  {
+    question: "Who can hack?",
+    answer: "Any student above the age of 18 is welcome to participate! Our event is fully in-person, so the event may be capacity-limited. Be sure to register early to secure your spot! If you've recently graduated, you can still participate within one year of your graduation date."
+  },
+  {
+    question: "What about teams?",
+    answer: "Max team size is four (4), minimum team size is one (1, meaning you!). Make sure each of your team members 1) register to attend and 2) when it comes time to submit the project all members are included in the submission. Only one project submission is allowed per participant."
+  },
+  {
+    question: "How much does it cost?",
+    answer: "Through the help of ASU and our sponsors, sunhacks will never charge any sort of participation fee for our events."
+  },
+  {
+    question: "What are the rules?",
+    answer: "As an MLH member event, all attendees must follow the MLH code of conduct."
+  },
+  {
+    question: "I'm new to programming / I have never programmed before. Can I still participate?",
+    answer: "At sunhacks, everyone of any experience level or background is welcome to participate. sunhacks is your opportunity to explore the unknowns and learn a thing or two, or to simply make some new friends and build a silly project! Our experienced and diverse mentoring team is available throughout the whole event to answer any questions you may have, to ensure you have the tools to create whatever your project may be."
+  },
+  {
+    question: "How do I become a mentor/judge/speaker at sunhacks?",
+    answer: "All are eligible to become a mentor or speaker regardless of their experience level, although a hacker cannot also judge projects. Since schedule capacity is limited, Speakers will be selected based on their experience level and topic matter. If interested, fill out our volunteer form here, and our team will reach out when the time comes!"
+  },
+  {
+    question: "Are additional accommodations available for request?",
+    answer: "Absolutely! Additional accommodations can be requested through our Registration form. Don't hesitate to reach out team@sunhacks.io if you have any additional questions or ideas for ways that we can make sunhacks more accessible."
+  }
+];
 
 export const runtime = 'edge';
 export const revalidate = '30';

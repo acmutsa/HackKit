@@ -1,15 +1,15 @@
 export const defaultTheme = "dark";
 
 export default {
-	hackathonName: "HackKit",
-	itteration: "Your Iteration Here",
-	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
+	hackathonName: "sunhacks",
+	itteration: "7.0",
+	siteUrl: "https://sunhacks.io", // Do not have a trailing slash
 	defaultMetaDataDescription:"Your Metadata Description Here",
-	botName: "HackKit",
-	botParticipantRole: "RH25 Participant",
+	botName: "sunhacks",
+	botParticipantRole: "SH25 Participant",
 	hackathonTimezone: "America/Chicago",
-	localUniversityName: "The University of Texas at San Antonio",
-	localUniversityShortIDName: "ABC123",
+	localUniversityName: "Arizona State University",
+	localUniversityShortIDName: "ASU",
 	localUniversityShortIDMaxLength: 6,
 	dietaryRestrictionOptions: [
 		"Vegan",
@@ -53,7 +53,7 @@ export default {
 			discordRole: "Guild E Role",
 		},
 	},
-	issueEmail: "team@rowdyhacks.org",
+	issueEmail: "team@sunhacks.io",
 	links: {
 		discord: "https://go.rowdyhacks.org/discord",
 		instagram: "https://instagram.com/rowdyhacks",
@@ -63,10 +63,10 @@ export default {
     guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit.svg",
-		md: "/img/logo/hackkit-md.png",
-		lg: "/img/logo/hackkit-lg.png",
-		svg: "/img/logo/hackkit.svg",
+		sm: "/img/logo/logo-white.png",
+		md: "/img/logo/logo-white.png",
+		lg: "/img/logo/logo-white.png",
+		svg: "/img/logo/logo.svg",
 	},
 	dashPaths: {
 		dash: {
@@ -93,17 +93,17 @@ export default {
 		Other: "#795548",
 	},
 	days: {
-		Saturday: new Date(2023, 6, 15),
+		Saturday: new Date(2024, 9, 27),
 	},
-	Sunday: new Date(2023, 6, 16),
+	Sunday: new Date(2024, 9, 28),
 	maxResumeSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
 	eventPassBgImage: "/img/dash/pass/bg.png",
 	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
-	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
-	prettyLocation: "Location of Hackathon",
+	startDate: new Date(new Date(2024, 8, 28).setHours(9)),
+	prettyLocation: "Arizona State University",
 	roleBadges: {
 		hacker: {
 			title: "Hacker",

@@ -84,6 +84,10 @@
 	* {
 		@apply border-border;
 	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
 }
 @layer utilities{
 	.arrow_animate {
@@ -124,42 +128,42 @@
 	transform: translateZ(40px);
 }
 
-/* Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-	display: none;
-}
+/*!* Chrome, Safari and Opera *!*/
+/*.no-scrollbar::-webkit-scrollbar {*/
+/*	display: none;*/
+/*}*/
 
-.no-scrollbar {
-	-ms-overflow-style: none;
-	/* IE and Edge */
-	scrollbar-width: none;
-	/* Firefox */
-}
-.arrow_animate {
-	animation: arrow 2s infinite;
-}
+/*.no-scrollbar {*/
+/*	-ms-overflow-style: none;*/
+/*	!* IE and Edge *!*/
+/*	scrollbar-width: none;*/
+/*	!* Firefox *!*/
+/*}*/
+/*.arrow_animate {*/
+/*	animation: arrow 2s infinite;*/
+/*}*/
 
-@keyframes arrow {
-	0% {
+/*@keyframes arrow {*/
+/*	0% {*/
 
-		transform: translate(0px);
-	}
+/*		transform: translate(0px);*/
+/*	}*/
 
-	50% {
-		transform: translate(20px);
-	}
+/*	50% {*/
+/*		transform: translate(20px);*/
+/*	}*/
 
-	100% {
-		transform: translate(0px);
-	}
-}
+/*	100% {*/
+/*		transform: translate(0px);*/
+/*	}*/
+/*}*/
 
-.parallax-layer {
-    position: absolute;
-    top: 150px;
-    left: 0;
-    width: 100%;
-    height: 100vh; /* Full viewport height */
-    object-fit: cover; /* Ensure the img covers the entire area */
-    overflow: hidden;
-  }
+/*.parallax-layer {*/
+/*    position: absolute;*/
+/*    top: 150px;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100vh; !* Full viewport height *!*/
+/*    object-fit: cover; !* Ensure the img covers the entire area *!*/
+/*    overflow: hidden;*/
+/*  }*/
