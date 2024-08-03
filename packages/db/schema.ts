@@ -95,9 +95,9 @@ export const userData = pgTable("user_data", {
 });
 
 export const userRelations = relations(userData, ({ one, many }) => ({
-	registrationData: one(registrationData, {
+	registrationData: one(hackerData, {
 		fields: [userData.clerkID],
-		references: [registrationData.clerkID],
+		references: [hackerData.clerkID],
 	}),
 	discordVerification: one(discordVerification, {
 		fields: [userData.clerkID],
@@ -111,7 +111,7 @@ export const userRelations = relations(userData, ({ one, many }) => ({
 	messages: many(chatMessages),
 }));
 
-export const registrationData = pgTable("registration_data", {
+export const hackerData = pgTable("hacker_data", {
     // id
 	clerkID: varchar("clerk_id", { length: 255 })
 		.notNull()
@@ -144,9 +144,9 @@ export const registrationData = pgTable("registration_data", {
 	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
 });
 
-export const registrationRelations = relations(registrationData, ({one}) => ({
+export const registrationRelations = relations(hackerData, ({one}) => ({
 	team: one(teams, {
-		fields: [registrationData.teamID],
+		fields: [hackerData.teamID],
 		references: [teams.id],
 	}),
 }));
