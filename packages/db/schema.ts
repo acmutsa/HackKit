@@ -85,7 +85,6 @@ export const userData = pgTable("user_data", {
 		.default(true),
 	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
-	checkedIn: boolean("checked_in").notNull().default(false),
 	rsvp: boolean("rsvp").notNull().default(false),
 	approved: boolean("approved").notNull().default(false),
 });
