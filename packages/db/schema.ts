@@ -55,7 +55,7 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 	"rejected",
 ]);
 
-export const users = pgTable("users", {
+export const userData = pgTable("user_data", {
 	clerkID: varchar("clerk_id", { length: 255 })
 		.notNull()
 		.primaryKey()
@@ -81,23 +81,23 @@ export const users = pgTable("users", {
 	approved: boolean("approved").notNull().default(false),
 });
 
-export const userRelations = relations(users, ({ one, many }) => ({
+export const userRelations = relations(userData, ({ one, many }) => ({
 	registrationData: one(registrationData, {
-		fields: [users.clerkID],
+		fields: [userData.clerkID],
 		references: [registrationData.clerkID],
 	}),
 	discordVerification: one(discordVerification, {
-		fields: [users.clerkID],
+		fields: [userData.clerkID],
 		references: [discordVerification.clerkID],
 	}),
 	profileData: one(profileData, {
-		fields: [users.hackerTag],
+		fields: [userData.hackerTag],
 		references: [profileData.hackerTag],
 	}),
 	files: many(files),
 	scans: many(scans),
 	team: one(teams, {
-		fields: [users.teamID],
+		fields: [userData.teamID],
 		references: [teams.id],
 	}),
 	invites: many(invites),
@@ -175,9 +175,9 @@ export const files = pgTable("files", {
 });
 
 export const filesRelations = relations(files, ({ one }) => ({
-	owner: one(users, {
+	owner: one(userData, {
 		fields: [files.ownerID],
-		references: [users.clerkID],
+		references: [userData.clerkID],
 	}),
 }));
 
@@ -195,9 +195,9 @@ export const scans = pgTable(
 );
 
 export const scansRelations = relations(scans, ({ one }) => ({
-	user: one(users, {
+	user: one(userData, {
 		fields: [scans.userID],
-		references: [users.clerkID],
+		references: [userData.clerkID],
 	}),
 	event: one(events, {
 		fields: [scans.eventID],
@@ -217,7 +217,7 @@ export const teams = pgTable("teams", {
 });
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
-	members: many(users),
+	members: many(userData),
 	invites: many(invites),
 }));
 
@@ -235,9 +235,9 @@ export const invites = pgTable(
 );
 
 export const invitesRelations = relations(invites, ({ one }) => ({
-	invitee: one(users, {
+	invitee: one(userData, {
 		fields: [invites.inviteeID],
-		references: [users.clerkID],
+		references: [userData.clerkID],
 	}),
 	team: one(teams, {
 		fields: [invites.teamID],
@@ -311,9 +311,9 @@ export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
 		fields: [chatMessages.chatID],
 		references: [chats.id],
 	}),
-	author: one(users, {
+	author: one(userData, {
 		fields: [chatMessages.authorID],
-		references: [users.clerkID],
+		references: [userData.clerkID],
 	}),
 }));
 
@@ -325,7 +325,7 @@ export const ticketsToUsers = pgTable(
 			.references(() => tickets.id),
 		userID: text("user_id")
 			.notNull()
-			.references(() => users.clerkID),
+			.references(() => userData.clerkID),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
@@ -337,9 +337,9 @@ export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
 		fields: [ticketsToUsers.ticketID],
 		references: [tickets.id],
 	}),
-	user: one(users, {
+	user: one(userData, {
 		fields: [ticketsToUsers.userID],
-		references: [users.clerkID],
+		references: [userData.clerkID],
 	}),
 }));
 
@@ -351,7 +351,7 @@ export const chatsToUsers = pgTable(
 			.references(() => chats.id),
 		userID: text("user_id")
 			.notNull()
-			.references(() => users.clerkID),
+			.references(() => userData.clerkID),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.chatID] }),
@@ -363,8 +363,8 @@ export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
 		fields: [chatsToUsers.chatID],
 		references: [chats.id],
 	}),
-	user: one(users, {
+	user: one(userData, {
 		fields: [chatsToUsers.userID],
-		references: [users.clerkID],
+		references: [userData.clerkID],
 	}),
 }));
