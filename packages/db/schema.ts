@@ -56,7 +56,7 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 	"rejected",
 ]);
 
-export const userData = pgTable("user_data", {
+export const userCommonData = pgTable("user_common_data", {
     // id
     id: serial("id")
         .primaryKey(),
@@ -96,13 +96,13 @@ export const userData = pgTable("user_data", {
 	isApproved: boolean("is_approved").notNull().default(false),
 });
 
-export const userRelations = relations(userData, ({ one, many }) => ({
-	hackerData: one(hackerData, {
-		fields: [userData.clerkID],
-		references: [hackerData.clerkID],
+export const userCommonRelations = relations(userCommonData, ({ one, many }) => ({
+	hackerData: one(userHackerData, {
+		fields: [userCommonData.clerkID],
+		references: [userHackerData.clerkID],
 	}),
 	discordVerification: one(discordVerification, {
-		fields: [userData.clerkID],
+		fields: [userCommonData.clerkID],
 		references: [discordVerification.clerkID],
 	}),
 	files: many(files),
@@ -113,7 +113,7 @@ export const userRelations = relations(userData, ({ one, many }) => ({
 	messages: many(chatMessages),
 }));
 
-export const hackerData = pgTable("hacker_data", {
+export const userHackerData = pgTable("user_hacker_data", {
     // id
 	clerkID: varchar("clerk_id", { length: 255 })
 		.primaryKey(),
@@ -144,9 +144,9 @@ export const hackerData = pgTable("hacker_data", {
 	isEmailable: boolean("is_emailable").notNull(),
 });
 
-export const registrationRelations = relations(hackerData, ({one}) => ({
+export const userHackerRelations = relations(userHackerData, ({one}) => ({
 	team: one(teams, {
-		fields: [hackerData.teamID],
+		fields: [userHackerData.teamID],
 		references: [teams.id],
 	}),
 }));
@@ -176,9 +176,9 @@ export const files = pgTable("files", {
 });
 
 export const filesRelations = relations(files, ({ one }) => ({
-	owner: one(userData, {
+	owner: one(userCommonData, {
 		fields: [files.ownerID],
-		references: [userData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
 
@@ -196,9 +196,9 @@ export const scans = pgTable(
 );
 
 export const scansRelations = relations(scans, ({ one }) => ({
-	user: one(userData, {
+	user: one(userCommonData, {
 		fields: [scans.userID],
-		references: [userData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 	event: one(events, {
 		fields: [scans.eventID],
@@ -218,7 +218,7 @@ export const teams = pgTable("teams", {
 });
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
-	members: many(userData),
+	members: many(userCommonData),
 	invites: many(invites),
 }));
 
@@ -236,9 +236,9 @@ export const invites = pgTable(
 );
 
 export const invitesRelations = relations(invites, ({ one }) => ({
-	invitee: one(userData, {
+	invitee: one(userCommonData, {
 		fields: [invites.inviteeID],
-		references: [userData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 	team: one(teams, {
 		fields: [invites.teamID],
@@ -312,9 +312,9 @@ export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
 		fields: [chatMessages.chatID],
 		references: [chats.id],
 	}),
-	author: one(userData, {
+	author: one(userCommonData, {
 		fields: [chatMessages.authorID],
-		references: [userData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
 
@@ -326,7 +326,7 @@ export const ticketsToUsers = pgTable(
 			.references(() => tickets.id),
 		userID: text("user_id")
 			.notNull()
-			.references(() => userData.clerkID),
+			.references(() => userCommonData.clerkID),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
@@ -338,9 +338,9 @@ export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
 		fields: [ticketsToUsers.ticketID],
 		references: [tickets.id],
 	}),
-	user: one(userData, {
+	user: one(userCommonData, {
 		fields: [ticketsToUsers.userID],
-		references: [userData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
 
@@ -352,7 +352,7 @@ export const chatsToUsers = pgTable(
 			.references(() => chats.id),
 		userID: text("user_id")
 			.notNull()
-			.references(() => userData.clerkID),
+			.references(() => userCommonData.clerkID),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.chatID] }),
@@ -364,8 +364,8 @@ export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
 		fields: [chatsToUsers.chatID],
 		references: [chats.id],
 	}),
-	user: one(userData, {
+	user: one(userCommonData, {
 		fields: [chatsToUsers.userID],
-		references: [userData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
