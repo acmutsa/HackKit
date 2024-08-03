@@ -5,7 +5,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
 import {
@@ -16,7 +15,7 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { auth, SignOutButton } from "@clerk/nextjs";
 import { db } from "db";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
@@ -70,9 +69,8 @@ export default async function ProfileButton() {
 	}
 
 	// Make request with the clerk data that we may or may not have
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-		with: { profileData: true },
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId)
 	});
 
 	// If we do not have a fully fledged user, encourage them to complete registration
@@ -127,7 +125,7 @@ export default async function ProfileButton() {
 				>
 					<Avatar className="h-8 w-8">
 						<AvatarImage
-							src={user.profileData.profilePhoto}
+							src={user.profilePhoto}
 							alt="@shadcn"
 						/>
 						<AvatarFallback>

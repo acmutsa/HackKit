@@ -12,7 +12,7 @@ import ClientToast from "@/components/shared/ClientToast";
 import { TRPCReactProvider } from "@/trpc/react";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
@@ -25,15 +25,15 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 		return redirect("/register");
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, clerkUser.id),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, clerkUser.id),
 	});
 
 	if (!user) return redirect("/register");
 
 	if (
 		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
-		user.approved === false &&
+		user.isApproved === false &&
 		user.role === "hacker"
 	) {
 		return redirect("/i/approval");

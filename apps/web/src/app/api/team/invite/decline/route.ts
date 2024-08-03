@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "db";
-import { users, invites, teams } from "db/schema";
+import { userCommonData, invites, teams } from "db/schema";
 import { eq, and } from "db/drizzle";
 
 const inviteDeclineValidator = z.object({
@@ -23,8 +23,8 @@ export async function POST(req: Request) {
 		});
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 		with: {
 			invites: {
 				where: eq(invites.teamID, body.data.teamInviteID),

@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { users, teams, errorLog } from "db/schema";
+import { userCommonData, userHackerData, teams, errorLog } from "db/schema";
 import { newTeamValidator } from "@/validators/shared/team";
 import { nanoid } from "nanoid";
 import c from "config";
@@ -12,12 +12,13 @@ export async function POST(req: Request) {
 	const { userId } = await auth();
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
+        with: {hackerData: true}
 	});
 	if (!user) return new Response("Unauthorized", { status: 401 });
 
-	if (user.teamID) {
+	if (user.hackerData.teamID) {
 		return NextResponse.json({
 			success: false,
 			message:
@@ -47,11 +48,11 @@ export async function POST(req: Request) {
 				ownerID: userId,
 			});
 			await tx
-				.update(users)
+				.update(userHackerData)
 				.set({
 					teamID,
 				})
-				.where(eq(users.clerkID, userId));
+				.where(eq(userHackerData.clerkID, userId));
 		});
 		return NextResponse.json({
 			success: true,

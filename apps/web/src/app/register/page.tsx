@@ -2,7 +2,7 @@ import c from "config";
 import RegisterForm from "@/components/registration/RegisterForm";
 import { auth, currentUser } from "@clerk/nextjs";
 import { db } from "db";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
@@ -20,8 +20,8 @@ export default async function Page() {
 
 	if (!user) return redirect("/sign-up");
 
-	const registration = await db.query.users.findFirst({
-		where: eq(users.clerkID, user.id),
+	const registration = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, user.id),
 	});
 
 	if (registration) {
