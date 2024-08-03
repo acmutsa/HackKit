@@ -83,11 +83,8 @@ export const userData = pgTable("user_data", {
 	hasSearchableProfile: boolean("has_searchable_profile")
 		.notNull()
 		.default(true),
-	group: integer("group").notNull(),
 	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
-	teamID: varchar("team_id", { length: 50 }),
-	points: integer("points").notNull().default(0),
 	checkedIn: boolean("checked_in").notNull().default(false),
 	rsvp: boolean("rsvp").notNull().default(false),
 	approved: boolean("approved").notNull().default(false),
@@ -104,10 +101,6 @@ export const userRelations = relations(userData, ({ one, many }) => ({
 	}),
 	files: many(files),
 	scans: many(scans),
-	team: one(teams, {
-		fields: [userData.teamID],
-		references: [teams.id],
-	}),
 	invites: many(invites),
 	tickets: many(ticketsToUsers),
 	chats: many(chatsToUsers),
@@ -137,7 +130,17 @@ export const registrationData = pgTable("registration_data", {
 	resume: varchar("resume", { length: 255 })
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
+    group: integer("group").notNull(),
+    teamID: varchar("team_id", { length: 50 }),
+    points: integer("points").notNull().default(0),
 });
+
+export const registrationRelations = relations(registrationData, ({one}) => ({
+	team: one(teams, {
+		fields: [registrationData.teamID],
+		references: [teams.id],
+	}),
+}));
 
 export const events = pgTable("events", {
 	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),
