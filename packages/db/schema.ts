@@ -76,7 +76,7 @@ export const userData = pgTable("user_data", {
 	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
 	dietRestrictions: json("diet_restrictions").notNull(),
 	accommodationNote: text("accommodation_note"),
-	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
+	discord: varchar("discord", { length: 60 }).notNull(),
 	pronouns: varchar("pronouns", { length: 20 }).notNull(),
 	bio: text("bio").notNull(),
 	skills: json("skills").notNull().$type<string[]>().default([]),
@@ -86,8 +86,8 @@ export const userData = pgTable("user_data", {
 	registrationComplete: boolean("registration_complete")
 		.notNull()
 		.default(false),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	hasSearchableProfile: boolean("has_searchable_profile")
+	signupTime: timestamp("signup_time").notNull().defaultNow(),
+	isSearchable: boolean("is_searchable")
 		.notNull()
 		.default(true),
 	role: roles("role").notNull().default("hacker"),
@@ -121,7 +121,7 @@ export const hackerData = pgTable("hacker_data", {
     // data
     university: varchar("university", { length: 200 }).notNull(),
 	major: varchar("major", { length: 200 }).notNull(),
-	shortID: varchar("short_id", { length: 50 }).notNull(),
+	schoolID: varchar("schoolID", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
 	hackathonsAttended: integer("hackathons_attended").notNull(),
 	softwareExperience: varchar("software_experience", {
@@ -139,9 +139,9 @@ export const hackerData = pgTable("hacker_data", {
     group: integer("group").notNull(),
     teamID: varchar("team_id", { length: 50 }),
     points: integer("points").notNull().default(0),
-	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
+	acceptedMLHCoC: boolean("accepted_mlh_coc").notNull(),
 	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
-	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
+	isEmailable: boolean("is_emailable").notNull(),
 });
 
 export const registrationRelations = relations(hackerData, ({one}) => ({
