@@ -14,9 +14,9 @@ export default async function Page() {
 	return (
     <main className="max-w-5xl min-h-[70%] mx-auto w-full flex flex-col items-center mt-16">
       <h1 className="text-4xl  text-center font-black">
-        Bug with Scheduling was found. Fix Coming soon!
+        Schedule to be posted soon!
       </h1>
-      <h3 className="text-xl font-bold">- Christian</h3>
+      <h3 className="text-xl font-bold">- sunhacks team</h3>
     </main>
   );
 }
