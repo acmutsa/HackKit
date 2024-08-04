@@ -58,11 +58,8 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 
 export const userCommonData = pgTable("user_common_data", {
     // id
-    id: serial("id")
-        .primaryKey(),
 	clerkID: varchar("clerk_id", { length: 255 })
-		.notNull()
-		.unique(),
+        .primaryKey(),
     
     // data
 	firstName: varchar("first_name", { length: 50 }).notNull(),
