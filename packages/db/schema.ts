@@ -215,7 +215,7 @@ export const teams = pgTable("teams", {
 });
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
-	members: many(userCommonData),
+	members: many(userHackerData),
 	invites: many(invites),
 }));
 
