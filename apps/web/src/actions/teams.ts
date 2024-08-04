@@ -1,30 +1,27 @@
 "use server";
 
-// TODO: update team /api enpoints to be actions
+// TODO: update team /api endpoints to be actions
 
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { users, teams, invites } from "db/schema";
+import { userCommonData, userHackerData, teams, invites } from "db/schema";
 import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
-import { toCalendar } from "@internationalized/date";
 
 export const leaveTeam = authenticatedAction(
 	z.null(),
 	async (_, { userId }) => {
-		const user = await db.query.users.findFirst({
-			where: eq(users.clerkID, userId),
-			with: {
-				team: true,
-			},
+		const user = await db.query.userCommonData.findFirst({
+			where: eq(userCommonData.clerkID, userId),
+			with: { hackerData: true },
 		});
 
 		if (!user) {
 			throw new Error("User not found");
 		}
 
-		if (user.team === null || user.team === undefined) {
+		if (user.hackerData.teamID === null || user.hackerData.teamID === undefined) {
 			revalidatePath("/dash/team");
 			return {
 				success: false,
@@ -34,11 +31,11 @@ export const leaveTeam = authenticatedAction(
 
 		const result = await db.transaction(async (tx) => {
 			await tx
-				.update(users)
+				.update(userHackerData)
 				.set({ teamID: null })
-				.where(eq(users.clerkID, userId));
+				.where(eq(userHackerData.clerkID, user.clerkID));
 			const team = await tx.query.teams.findFirst({
-				where: eq(teams.id, user.team?.id as string), // Added null check for user.team. Converted to string since TS does not realise for some reason that we checked above.
+				where: eq(teams.id, user.hackerData.teamID as string), // Added null check for user.hackerData.teamID. Converted to string since TS does not realise for some reason that we checked above.
 				with: {
 					members: true,
 				},

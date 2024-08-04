@@ -1,5 +1,5 @@
 import { db } from "db";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
@@ -25,19 +25,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	if (!userId) return notFound();
 
-	const admin = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const admin = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 	});
 
 	if (!admin || !isUserAdmin(admin)) return notFound();
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, params.slug),
-		with: {
-			profileData: true,
-			registrationData: true,
-			team: true,
-		},
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, params.slug),
+		with: { hackerData: {with: { team: true}} },
 	});
 
 	if (!user) {
@@ -70,7 +66,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					{(c.featureFlags.core.requireUsersApproval as boolean) && (
 						<ApproveUserButton
 							userIDToUpdate={user.clerkID}
-							currentApproval={user.approved}
+							currentApproval={user.isApproved}
 						/>
 					)}
 				</div>
@@ -81,7 +77,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<Image
 							className="object-cover object-center"
 							fill
-							src={user.profileData.profilePhoto}
+							src={user.profilePhoto}
 							alt={`Profile Photo for ${user.firstName} ${user.lastName}`}
 						/>
 					</div>
@@ -91,11 +87,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<h2 className="font-mono text-muted-foreground">
 						@{user.hackerTag}
 					</h2>
-					{/* <p className="text-sm mt-5">{team.bio}</p> */}
+					{/* <p className="mt-5 text-sm">{team.bio}</p> */}
 					<div className="mt-5 flex gap-x-2">
 						<Badge className="no-select">
 							Joined{" "}
-							{user.createdAt
+							{user.signupTime
 								.toDateString()
 								.split(" ")
 								.slice(1)
