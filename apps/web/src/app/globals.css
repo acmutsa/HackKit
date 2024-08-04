@@ -8,7 +8,7 @@
 		--foreground: 240 10% 3.9%;
 
 		--nav: 32 48% 94%;
-		--hackathon-primary: 67 42% 62%;
+		--hackathon-primary: 26.1,88.5%,65.9%;
 
 		--muted: 28 27% 53%;
 		--muted-foreground: 240 3.8% 46.1%;
@@ -38,10 +38,10 @@
 
 		--radius: 0.5rem;
 
-		--gradient-color-1: #355c2b;
-		--gradient-color-2: #94a33d;
-		--gradient-color-3: #babc34;
-		--gradient-color-4: #b5bf63;
+		--gradient-color-1: #e04a17;
+		--gradient-color-2: #D74E1D;
+		--gradient-color-3: #F17C1F;
+		--gradient-color-4: #F59E5B;
 
 
 	}
