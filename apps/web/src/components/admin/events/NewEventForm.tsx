@@ -25,18 +25,19 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import c from "config";
 import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
 import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
-import { newEventValidator } from "@/validators/shared/newEvent";
+import { newEventSchema } from "@/validators/shared/newEvent";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { useState } from "react";
 import { Shell } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants/shared";
+import { useAction } from "next-safe-action/hook";
 interface NewEventFormProps {
 	defaultDate: Date;
 }
 
-const formSchema = newEventValidator.merge(
+const formSchema = newEventSchema.merge(
 	z.object({
 		type: z.enum(Object.keys(c.eventTypes) as any),
 	}),
@@ -53,7 +54,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 			type: "" as any,
 			host: "",
 			startTime: defaultDate,
-			endTime: defaultDate,
+			endTime: new Date(defaultDate.getTime() + ONE_HOUR_IN_MILLISECONDS),
 		},
 	});
 
@@ -91,8 +92,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<Input {...field} />
 							</FormControl>
 							<FormDescription>
-								Generally its best to keep this short and
-								consise
+								Keep title short and concise
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -106,7 +106,6 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 							<FormLabel>Description</FormLabel>
 							<FormControl>
 								<Textarea
-									placeholder="You can also include any resources / links that would be helpful for the event here!"
 									{...field}
 								/>
 							</FormControl>
@@ -123,8 +122,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<FormLabel>Event Type</FormLabel>
 								<Select
 									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
+									defaultValue={field.value}>
 									<FormControl>
 										<SelectTrigger className="w-full">
 											<SelectValue placeholder="Select a Event Type" />
