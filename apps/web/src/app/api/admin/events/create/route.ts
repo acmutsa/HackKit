@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { eq } from "db/drizzle";
 import { db } from "db";
 import { users, events } from "db/schema";
-import { newEventValidator } from "@/validators/shared/newEvent";
+import { newEventSchema } from "@/validators/shared/newEvent";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
 	// console.log(await req.json());
 	const body = superjson.parse(await req.text());
-	const parsedBody = newEventValidator.safeParse(body);
+	const parsedBody = newEventSchema.safeParse(body);
 
 	if (!parsedBody.success) {
 		return new Response("Malformed request body.", { status: 400 });
