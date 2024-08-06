@@ -1,7 +1,7 @@
 import c from "config";
 import { auth } from "@clerk/nextjs";
 import { db } from "db";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
@@ -17,28 +17,32 @@ export default async function Page() {
 	if (!userId) return null;
 
 	// TODO: make this db query not so bad
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 		with: {
 			invites: {
 				with: {
 					team: true,
 				},
 			},
-			team: {
-				with: {
-					members: {
-						with: {
-							profileData: true,
-						},
-					},
-				},
-			},
+            hackerData: {
+                with: {
+                    team: {
+                        with: {
+                            members: {
+                                with: {
+                                    commonData: true
+                                }
+                            }
+                        },
+                    },
+                }
+            },
 		},
 	});
 	if (!user) return null;
 
-	if (!user.teamID) {
+	if (!user.hackerData.teamID) {
 		return (
 			<main className="mx-auto mt-16 flex min-h-[70%] w-full max-w-5xl flex-col items-center">
 				<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
@@ -100,8 +104,8 @@ export default async function Page() {
 			</main>
 		);
 	} else {
-		if (!user.team) return null;
-		const team = user.team;
+		if (!user.hackerData.team) return null;
+		const team = user.hackerData.team;
 		return (
 			<main className="mx-auto mt-16 flex min-h-[70%] w-full max-w-5xl flex-col items-center font-sans">
 				<div className="mb-5 grid w-full grid-cols-2">
@@ -154,27 +158,26 @@ export default async function Page() {
 						}}
 					>
 						{team.members.map((member) => (
-							<Fragment key={member.hackerTag}>
-								<Link href={`/@${member.hackerTag}`}>
+							<Fragment key={member.commonData.hackerTag}>
+								<Link href={`/@${member.commonData.hackerTag}`}>
 									<div className="flex h-full w-full items-center justify-center">
 										<div className="flex h-[75px] w-[200px] items-center justify-center gap-x-2 rounded border-2 border-muted bg-zinc-900 p-2 transition-colors duration-150 hover:border-muted-foreground hover:bg-muted">
 											<Image
 												src={
-													member.profileData
-														.profilePhoto
+													member.commonData.profilePhoto
 												}
-												alt={`${member.hackerTag}'s Profile Photo`}
+												alt={`${member.commonData.hackerTag}'s Profile Photo`}
 												height={40}
 												width={40}
 												className="!aspect-square rounded-full"
 											/>
 											<div>
 												<h3>
-													{member.firstName}{" "}
-													{member.lastName}
+													{member.commonData.firstName}{" "}
+													{member.commonData.lastName}
 												</h3>
 												<h4 className="max-w-[16ch] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-xs">
-													@{member.hackerTag}
+													@{member.commonData.hackerTag}
 												</h4>
 											</div>
 										</div>
