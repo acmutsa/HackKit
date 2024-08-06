@@ -142,6 +142,10 @@ export const userHackerData = pgTable("user_hacker_data", {
 });
 
 export const userHackerRelations = relations(userHackerData, ({one}) => ({
+    commonData: one(userCommonData, {
+        fields: [userHackerData.clerkID],
+        references: [userCommonData.clerkID]
+    }),
 	team: one(teams, {
 		fields: [userHackerData.teamID],
 		references: [teams.id],
