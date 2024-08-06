@@ -8,8 +8,7 @@ export type serverZodResponse<T extends ZodType<any, any, any>> = Promise<
 >;
 
 export interface UserWithAllData extends userType {
-	hackerData: typeof userHackerData.$inferSelect
-    team: typeof teams.$inferSelect
+	hackerData: typeof userHackerData.$inferSelect & {team: typeof teams.$inferSelect | null}
 }
 
 export interface DefaultEmailTemplateProps {
