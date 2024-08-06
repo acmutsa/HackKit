@@ -2,7 +2,7 @@ import PassScanner from "@/components/admin/scanner/PassScanner";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
-import { events, users, scans } from "db/schema";
+import { events, userCommonData, scans } from "db/schema";
 
 export default async function Page({
 	params,
@@ -37,8 +37,8 @@ export default async function Page({
 
 	if (searchParams.user) {
 		const [scan, scanUser] = await db.transaction(async (tx) => {
-			const scanUser = await tx.query.users.findFirst({
-				where: eq(users.clerkID, searchParams.user!),
+			const scanUser = await tx.query.userCommonData.findFirst({
+				where: eq(userCommonData.clerkID, searchParams.user!),
 			});
 			if (!scanUser) {
 				return [null, null];
