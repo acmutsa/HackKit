@@ -38,23 +38,6 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 			</span>
 		),
 	},
-	// {
-	// 	accessorKey: "email",
-	// 	header: "Email",
-	// },
-	// {
-	// 	accessorKey: "profileData.hackerTag",
-	// 	header: "Hacker Tag",
-	// 	cell: ({ row }) => `@${row.original.profileData.hackerTag}`,
-	// },
-	// {
-	// 	accessorKey: "clerkID",
-	// 	header: "Account ID",
-	// },
-	// {
-	// 	accessorKey: "role",
-	// 	header: "Role",
-	// },
 	{
 		accessorKey: "startTime",
 		header: "Start",
