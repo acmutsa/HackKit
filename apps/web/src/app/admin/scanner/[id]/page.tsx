@@ -39,13 +39,13 @@ export default async function Page({
 		const [scan, scanUser] = await db.transaction(async (tx) => {
 			const scanUser = await tx.query.userCommonData.findFirst({
 				where: eq(userCommonData.clerkID, searchParams.user!),
-                with: {
-                    hackerData: {
-                        with: {
-                            team: true
-                        }
-                    }
-                }
+				with: {
+					hackerData: {
+						with: {
+							team: true,
+						},
+					},
+				},
 			});
 			if (!scanUser) {
 				return [null, null];

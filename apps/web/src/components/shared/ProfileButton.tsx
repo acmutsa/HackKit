@@ -70,7 +70,7 @@ export default async function ProfileButton() {
 
 	// Make request with the clerk data that we may or may not have
 	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId)
+		where: eq(userCommonData.clerkID, userId),
 	});
 
 	// If we do not have a fully fledged user, encourage them to complete registration
@@ -124,10 +124,7 @@ export default async function ProfileButton() {
 					className="relative h-8 w-8 rounded-full"
 				>
 					<Avatar className="h-8 w-8">
-						<AvatarImage
-							src={user.profilePhoto}
-							alt="@shadcn"
-						/>
+						<AvatarImage src={user.profilePhoto} alt="@shadcn" />
 						<AvatarFallback>
 							{user.firstName.charAt(0) + user.lastName.charAt(0)}
 						</AvatarFallback>

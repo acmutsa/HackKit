@@ -59,8 +59,11 @@ export default function PassScanner({
 	const path = usePathname();
 	const router = useRouter();
 
-	const register = scanUser?.checkinTimestamp ? "Checked in!" : "Not Checked In";
-	const guild = Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
+	const register = scanUser?.checkinTimestamp
+		? "Checked in!"
+		: "Not Checked In";
+	const guild =
+		Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
 	const role = scanUser?.role ? scanUser?.role : "Not Found";
 
 	function handleScanCreate() {

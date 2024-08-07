@@ -15,7 +15,7 @@ export async function POST(
 	if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
 	const user = await db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, userId),
-		with: { hackerData: {with: {team: true }}},
+		with: { hackerData: { with: { team: true } } },
 	});
 	if (!user) return NextResponse.json("Unauthorized", { status: 401 });
 
@@ -53,10 +53,10 @@ export async function POST(
 		where: eq(userCommonData.hackerTag, body.data.inviteeTag),
 		with: {
 			hackerData: {
-                with: {
-                    team: true,
-                }
-            },
+				with: {
+					team: true,
+				},
+			},
 			invites: {
 				where: eq(invites.teamID, user.hackerData.teamID),
 			},

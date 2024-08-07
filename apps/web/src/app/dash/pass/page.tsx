@@ -27,7 +27,7 @@ export default async function Page() {
 
 	const userDbRecord = await db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, user.id),
-        with: {hackerData: true}
+		with: { hackerData: true },
 	});
 
 	if (!userDbRecord) return null;

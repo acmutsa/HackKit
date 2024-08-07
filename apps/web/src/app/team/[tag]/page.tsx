@@ -52,7 +52,8 @@ export default async function Page({ params }: { params: { tag: string } }) {
 								/>
 								<div className="ml-2 space-y-1">
 									<p className="leading-none">
-										{member.commonData.firstName} {member.commonData.lastName}
+										{member.commonData.firstName}{" "}
+										{member.commonData.lastName}
 									</p>
 									<p className="font-mono text-xs leading-none text-muted-foreground">
 										@{member.commonData.hackerTag}

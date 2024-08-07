@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
 	const user = await db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, userId),
-        with: {hackerData: true}
+		with: { hackerData: true },
 	});
 	if (!user) return new Response("Unauthorized", { status: 401 });
 

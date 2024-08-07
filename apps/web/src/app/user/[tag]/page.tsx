@@ -70,8 +70,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 								</Link>
 							)}
 						{user.hackerData.PersonalWebsite &&
-							user.hackerData.PersonalWebsite.length >
-								0 && (
+							user.hackerData.PersonalWebsite.length > 0 && (
 								<Link
 									href={
 										user.hackerData.PersonalWebsite.startsWith(
@@ -80,11 +79,9 @@ export default async function ({ params }: { params: { tag: string } }) {
 										user.hackerData.PersonalWebsite.startsWith(
 											"https",
 										)
-											? user.hackerData
-													.PersonalWebsite
+											? user.hackerData.PersonalWebsite
 											: "https://" +
-												user.hackerData
-													.PersonalWebsite
+												user.hackerData.PersonalWebsite
 									}
 									className="mt-3 flex items-center gap-x-2 leading-none hover:underline"
 								>
@@ -101,15 +98,10 @@ export default async function ({ params }: { params: { tag: string } }) {
 						<p>
 							<Balancer>{user.bio}</Balancer>
 						</p>
-						{user.skills &&
-						(user.skills as string[]).length > 0 ? (
+						{user.skills && (user.skills as string[]).length > 0 ? (
 							<>
 								<h3 className="mt-4 font-bold">Skills</h3>
-								<p>
-									{(user.skills as string[]).join(
-										", ",
-									)}
-								</p>
+								<p>{(user.skills as string[]).join(", ")}</p>
 							</>
 						) : null}
 					</div>

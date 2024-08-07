@@ -200,7 +200,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	console.log("got here 2");
 	const user = await db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, verification.clerkID),
-        with: { hackerData: true }
+		with: { hackerData: true },
 	});
 	console.log("got here 2 with user", user);
 	if (!user) {

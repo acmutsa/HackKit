@@ -20,7 +20,7 @@ import {
 	pgEnum,
 	primaryKey,
 	pgTable,
-    serial,
+	serial,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -57,11 +57,10 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 ]);
 
 export const userCommonData = pgTable("user_common_data", {
-    // id
-	clerkID: varchar("clerk_id", { length: 255 })
-        .primaryKey(),
-    
-    // data
+	// id
+	clerkID: varchar("clerk_id", { length: 255 }).primaryKey(),
+
+	// data
 	firstName: varchar("first_name", { length: 50 }).notNull(),
 	lastName: varchar("last_name", { length: 50 }).notNull(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
@@ -79,44 +78,42 @@ export const userCommonData = pgTable("user_common_data", {
 	skills: json("skills").notNull().$type<string[]>().default([]),
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 
-    // metadata
-	isFullyRegistered: boolean("is_fully_registered")
-		.notNull()
-		.default(false),
+	// metadata
+	isFullyRegistered: boolean("is_fully_registered").notNull().default(false),
 	signupTime: timestamp("signup_time").notNull().defaultNow(),
-	isSearchable: boolean("is_searchable")
-		.notNull()
-		.default(true),
+	isSearchable: boolean("is_searchable").notNull().default(true),
 	role: roles("role").notNull().default("hacker"),
 	checkinTimestamp: timestamp("checkin_timestamp"),
 	isRSVPed: boolean("is_rsvped").notNull().default(false),
 	isApproved: boolean("is_approved").notNull().default(false),
 });
 
-export const userCommonRelations = relations(userCommonData, ({ one, many }) => ({
-	hackerData: one(userHackerData, {
-		fields: [userCommonData.clerkID],
-		references: [userHackerData.clerkID],
+export const userCommonRelations = relations(
+	userCommonData,
+	({ one, many }) => ({
+		hackerData: one(userHackerData, {
+			fields: [userCommonData.clerkID],
+			references: [userHackerData.clerkID],
+		}),
+		discordVerification: one(discordVerification, {
+			fields: [userCommonData.clerkID],
+			references: [discordVerification.clerkID],
+		}),
+		files: many(files),
+		scans: many(scans),
+		invites: many(invites),
+		tickets: many(ticketsToUsers),
+		chats: many(chatsToUsers),
+		messages: many(chatMessages),
 	}),
-	discordVerification: one(discordVerification, {
-		fields: [userCommonData.clerkID],
-		references: [discordVerification.clerkID],
-	}),
-	files: many(files),
-	scans: many(scans),
-	invites: many(invites),
-	tickets: many(ticketsToUsers),
-	chats: many(chatsToUsers),
-	messages: many(chatMessages),
-}));
+);
 
 export const userHackerData = pgTable("user_hacker_data", {
-    // id
-	clerkID: varchar("clerk_id", { length: 255 })
-		.primaryKey(),
-    
-    // data
-    university: varchar("university", { length: 200 }).notNull(),
+	// id
+	clerkID: varchar("clerk_id", { length: 255 }).primaryKey(),
+
+	// data
+	university: varchar("university", { length: 200 }).notNull(),
 	major: varchar("major", { length: 200 }).notNull(),
 	schoolID: varchar("schoolID", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
@@ -132,20 +129,20 @@ export const userHackerData = pgTable("user_hacker_data", {
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
 
-    // metadata
-    group: integer("group").notNull(),
-    teamID: varchar("team_id", { length: 50 }),
-    points: integer("points").notNull().default(0),
+	// metadata
+	group: integer("group").notNull(),
+	teamID: varchar("team_id", { length: 50 }),
+	points: integer("points").notNull().default(0),
 	hasAcceptedMLHCoC: boolean("has_accepted_mlh_coc").notNull(),
 	hasSharedDataWithMLH: boolean("has_shared_data_with_mlh").notNull(),
 	isEmailable: boolean("is_emailable").notNull(),
 });
 
-export const userHackerRelations = relations(userHackerData, ({one}) => ({
-    commonData: one(userCommonData, {
-        fields: [userHackerData.clerkID],
-        references: [userCommonData.clerkID]
-    }),
+export const userHackerRelations = relations(userHackerData, ({ one }) => ({
+	commonData: one(userCommonData, {
+		fields: [userHackerData.clerkID],
+		references: [userCommonData.clerkID],
+	}),
 	team: one(teams, {
 		fields: [userHackerData.teamID],
 		references: [teams.id],

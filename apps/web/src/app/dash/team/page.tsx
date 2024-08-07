@@ -25,19 +25,19 @@ export default async function Page() {
 					team: true,
 				},
 			},
-            hackerData: {
-                with: {
-                    team: {
-                        with: {
-                            members: {
-                                with: {
-                                    commonData: true
-                                }
-                            }
-                        },
-                    },
-                }
-            },
+			hackerData: {
+				with: {
+					team: {
+						with: {
+							members: {
+								with: {
+									commonData: true,
+								},
+							},
+						},
+					},
+				},
+			},
 		},
 	});
 	if (!user) return null;
@@ -164,7 +164,8 @@ export default async function Page() {
 										<div className="flex h-[75px] w-[200px] items-center justify-center gap-x-2 rounded border-2 border-muted bg-zinc-900 p-2 transition-colors duration-150 hover:border-muted-foreground hover:bg-muted">
 											<Image
 												src={
-													member.commonData.profilePhoto
+													member.commonData
+														.profilePhoto
 												}
 												alt={`${member.commonData.hackerTag}'s Profile Photo`}
 												height={40}
@@ -173,11 +174,18 @@ export default async function Page() {
 											/>
 											<div>
 												<h3>
-													{member.commonData.firstName}{" "}
+													{
+														member.commonData
+															.firstName
+													}{" "}
 													{member.commonData.lastName}
 												</h3>
 												<h4 className="max-w-[16ch] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-xs">
-													@{member.commonData.hackerTag}
+													@
+													{
+														member.commonData
+															.hackerTag
+													}
 												</h4>
 											</div>
 										</div>

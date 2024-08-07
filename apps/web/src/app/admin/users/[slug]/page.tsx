@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	const user = await db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, params.slug),
-		with: { hackerData: {with: { team: true}} },
+		with: { hackerData: { with: { team: true } } },
 	});
 
 	if (!user) {

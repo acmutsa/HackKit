@@ -15,7 +15,7 @@ export type userValidatorType = Pick<
 	| "signupTime"
 	| "firstName"
 	| "lastName"
-    | "hackerTag"
+	| "hackerTag"
 	| "email"
 	| "role"
 >;

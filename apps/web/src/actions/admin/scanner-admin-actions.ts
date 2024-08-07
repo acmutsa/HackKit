@@ -46,13 +46,10 @@ export const getScan = adminAction(
 	},
 );
 
-export const checkInUser = adminAction(
-	z.string(),
-	async (user) => {
-		// Set checkinTimestamp
-		return await db
-			.update(userCommonData)
-			.set({ checkinTimestamp: sql`now()` })
-			.where(eq(userCommonData.clerkID, user));
-	},
-);
+export const checkInUser = adminAction(z.string(), async (user) => {
+	// Set checkinTimestamp
+	return await db
+		.update(userCommonData)
+		.set({ checkinTimestamp: sql`now()` })
+		.where(eq(userCommonData.clerkID, user));
+});

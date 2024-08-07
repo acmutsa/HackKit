@@ -13,16 +13,11 @@ export function PersonalInfo({ user }: { user: UserWithAllData }) {
 				<Cell title="Last Name" value={user.lastName} />
 				<Cell
 					title="Gender"
-					value={titleCase(
-						user.gender.toLowerCase(),
-					)}
+					value={titleCase(user.gender.toLowerCase())}
 				/>
 				<Cell title="Pronouns" value={user.pronouns} />
 				<Cell title="Race" value={user.race} />
-				<Cell
-					title="Ethnicity"
-					value={user.ethnicity}
-				/>
+				<Cell title="Ethnicity" value={user.ethnicity} />
 				<Cell title="Age" value={user.age} />
 			</div>
 		</UserInfoSection>
@@ -34,19 +29,16 @@ export function ProfileInfo({ user }: { user: UserWithAllData }) {
 		<UserInfoSection title="Profile Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="Hacker Tag" value={`@${user.hackerTag}`} />
-				<Cell title="Team" value={user.hackerData.team ? "Yes" : "No"} />
 				<Cell
-					title="Discord"
-					value={user.discord}
+					title="Team"
+					value={user.hackerData.team ? "Yes" : "No"}
 				/>
+				<Cell title="Discord" value={user.discord} />
 				<Cell
 					title="Linkedin"
 					value={user.hackerData.LinkedIn || "N/A"}
 				/>
-				<Cell
-					title="Github"
-					value={user.hackerData.GitHub || "N/A"}
-				/>
+				<Cell title="Github" value={user.hackerData.GitHub || "N/A"} />
 				<Cell
 					title="Website"
 					value={user.hackerData.PersonalWebsite || "N/A"}
@@ -94,11 +86,20 @@ export function TeamInfo({ user }: { user: UserWithAllData }) {
 	return (
 		<UserInfoSection title="Team Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5 pb-5">
-				<Cell title="Is in Team" value={user.hackerData.team ? "Yes" : "No"} />
+				<Cell
+					title="Is in Team"
+					value={user.hackerData.team ? "Yes" : "No"}
+				/>
 				{user.hackerData.team ? (
 					<>
-						<Cell title="Team Name" value={user.hackerData.team.name} />
-						<Cell title="Team Tag" value={`~${user.hackerData.team.tag}`} />
+						<Cell
+							title="Team Name"
+							value={user.hackerData.team.name}
+						/>
+						<Cell
+							title="Team Tag"
+							value={`~${user.hackerData.team.tag}`}
+						/>
 						<Cell
 							title="Is owner"
 							value={
