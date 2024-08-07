@@ -58,8 +58,6 @@ export async function GET() {
 			...user,
 			...user.hackerData,
 		};
-		delete toRet.registrationData;
-		delete toRet.profileData;
 		return toRet;
 	});
 
