@@ -37,7 +37,11 @@ export const leaveTeam = authenticatedAction(
 			const team = await tx.query.teams.findFirst({
 				where: eq(teams.id, user.hackerData.teamID as string), // Added null check for user.hackerData.teamID. Converted to string since TS does not realise for some reason that we checked above.
 				with: {
-					members: true,
+					members: {
+                        with: {
+                            commonData: true
+                        }
+                    }
 				},
 			});
 
@@ -68,7 +72,7 @@ export const leaveTeam = authenticatedAction(
 				revalidatePath("/dash/team");
 				return {
 					success: true,
-					message: `Team has been left. Ownership has been transferred to ${team.members[0].firstName} ${team.members[0].lastName}.`,
+					message: `Team has been left. Ownership has been transferred to ${team.members[0].commonData.firstName} ${team.members[0].commonData.lastName}.`,
 				};
 			}
 			revalidatePath("/dash/team");
