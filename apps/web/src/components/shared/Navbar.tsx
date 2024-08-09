@@ -36,7 +36,7 @@ export default async function Navbar({ className }: NavbarProps) {
                 height={32}
               />
               {/* <div className="bg-muted-foreground h-[45%] rotate-[25deg] w-[2px]" /> */}
-              <h2 className="font-bold font-oswald text-lg dark:text-[#FEF2E6] text-[#A7866A]">
+              <h2 className="font-bold font-bold text-lg dark:text-[#FEF2E6] text-[#A7866A]">
                 {c.hackathonName}
               </h2>
             </Link>
