@@ -99,7 +99,7 @@ export default function Home() {
             <div className="text-white flex flex-col gap-4">
               <img
                   className="md:w-[350px] rounded-xl"
-                  src="https://sunhacks.io/assets/showcase1.jpg"
+                  src="img/showcase1.jpg"
               />
             </div>
             <div className="text-amber-400 md:w-1/2 text-2xl">
