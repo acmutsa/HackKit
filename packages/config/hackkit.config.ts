@@ -156,6 +156,7 @@ export const publicRoutes = ["/", /^\/schedule(\/.*)?$/, /^\/@/, /^\/user\//, "/
 // Generally it is reccomended to put your primary audience's university at the top of this list.
 
 export const schools = [
+	"Arizona State University",
 	"The University of Texas at San Antonio",
 	"Texas A&M University - San Antonio",
 	"American Heritage School",
@@ -163,7 +164,6 @@ export const schools = [
 	"American University, Washington, D.C.",
 	"Amherst College",
 	"Anna University",
-	"Arizona State University",
 	"Aston University",
 	"Atlanta Metropolitan State College",
 	"Auburn University",
