@@ -538,8 +538,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 													<SelectItem value="Sophomore">Sophomore</SelectItem>
 													<SelectItem value="Junior">Junior</SelectItem>
 													<SelectItem value="Senior">Senior</SelectItem>
+													<SelectItem value="Masters">Masters</SelectItem>
+													<SelectItem value="PhD">PhD</SelectItem>
 													<SelectItem value="Recent Grad">Recent Grad</SelectItem>
-													<SelectItem value="Other">Other</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>

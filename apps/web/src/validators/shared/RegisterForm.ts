@@ -74,7 +74,9 @@ export const RegisterFormValidator = z.object({
 		z.literal("Sophomore", defaultPrettyError),
 		z.literal("Junior", defaultPrettyError),
 		z.literal("Senior", defaultPrettyError),
-		z.literal("Other", defaultPrettyError),
+		z.literal("Masters", defaultPrettyError),
+		z.literal("PhD", defaultPrettyError),
+		z.literal("Recent Grad", defaultPrettyError)
 	]),
 	hackathonsAttended: z
 		.number()
