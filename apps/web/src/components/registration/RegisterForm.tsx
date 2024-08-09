@@ -561,7 +561,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									>
 										<FormLabel>{c.localUniversityShortIDName}</FormLabel>
 										<FormControl>
-											<Input placeholder={c.localUniversityShortIDName} {...field} />
+											<Input placeholder={"Enter ASURITE"} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>

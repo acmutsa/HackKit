@@ -4,13 +4,13 @@ export default {
 	hackathonName: "sunhacks",
 	itteration: "7.0",
 	siteUrl: "https://sunhacks.io", // Do not have a trailing slash
-	defaultMetaDataDescription:"Your Metadata Description Here",
+	defaultMetaDataDescription:"sunhacks 7.0 is coming this September 28th - 29th!",
 	botName: "sunhacks",
 	botParticipantRole: "SH25 Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: "Arizona State University",
-	localUniversityShortIDName: "ASU",
-	localUniversityShortIDMaxLength: 6,
+	localUniversityShortIDName: "ASURITE User ID",
+	localUniversityShortIDMaxLength: 15,
 	dietaryRestrictionOptions: [
 		"Vegan",
 		"Vegetarian",
