@@ -157,8 +157,6 @@ export const publicRoutes = ["/", /^\/schedule(\/.*)?$/, /^\/@/, /^\/user\//, "/
 
 export const schools = [
 	"Arizona State University",
-	"The University of Texas at San Antonio",
-	"Texas A&M University - San Antonio",
 	"American Heritage School",
 	"American River College, California",
 	"American University, Washington, D.C.",
@@ -526,6 +524,8 @@ export const schools = [
 	"The University of Zagreb",
 	"The University of the Pacific",
 	"The Université de Sherbrooke",
+	"The University of Texas at San Antonio",
+	"Texas A&M University - San Antonio",
 	"Thomas Edison State College",
 	"Trent University",
 	"Trinity College",
