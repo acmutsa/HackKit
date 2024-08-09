@@ -1,3 +1,4 @@
+import Link from 'next/link';
 
 import Navbar from '@/components/shared/Navbar';
 
@@ -74,11 +75,20 @@ export default function Home() {
               </a>
             </h2>
             <div className="flex flex-col gap-2 items-center justify-center">
-              <button
-                  className="text-lg text-white text-center mt-4 bg-black hover:bg-white hover:text-black py-2 px-4 rounded-md">
-                Apply by 09/09!
-              </button>
-              <button className="underline">Become a volunteer</button>
+              <Link href="/dash">
+                <button
+                    className="text-lg text-white text-center mt-4 bg-black hover:bg-white hover:text-black py-2 px-4 rounded-md">
+                  Apply by 09/09!
+                </button>
+              </Link>
+              <a
+                  href="https://w5ru2nqvo59.typeform.com/to/ExX56F2a"
+                  className="underline hover:text-gray-300 transition-colors duration-200"
+                  target="_blank"
+                  rel="noopener noreferrer"
+              >
+                Become a volunteer
+              </a>
             </div>
           </div>
         </section>
