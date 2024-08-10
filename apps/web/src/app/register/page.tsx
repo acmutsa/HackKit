@@ -46,7 +46,7 @@ export default async function Page() {
 							complete your registration for {c.hackathonName}.
 						</p>
 						<p className="pt-5 pb-10 text-xs">
-							Psttt... Running into a issue? Please let us know on{" "}
+							Psst... Running into a issue? Please let us know on{" "}
 							<Link className="underline" href={c.links.discord}>
 								Discord
 							</Link>
