@@ -66,7 +66,7 @@ export default function Home() {
               sunhacks<span className="text-2xl"> 7.0</span>
             </h1>
             <h2 className="text-2xl text-center mt-3 text-black font-extrabold">
-              <div>Coming September 28th - 29th</div>
+              <div>September 28th - 29th 2024</div>
               <div className="mt-2">
 
                   Arizona State University
