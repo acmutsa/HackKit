@@ -77,7 +77,7 @@ export default function Home() {
               <Link href="/dash">
                 <button
                     className="text-lg text-white text-center mt-4 bg-black hover:bg-white hover:text-black py-2 px-4 rounded-md">
-                  Apply by 09/09!
+                  Priority Registration Open Now!
                 </button>
               </Link>
               <a
