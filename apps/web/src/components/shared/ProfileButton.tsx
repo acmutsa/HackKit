@@ -164,7 +164,7 @@ export default async function ProfileButton() {
 					{user.role === "admin" ||
 						(user.role === "super_admin" && (
 							<Link href={`/admin`}>
-								<DropdownMenuItem className="cursor-pointer hover:!bg-amber-600">
+								<DropdownMenuItem className="cursor-pointer text-hackathon">
 									Admin
 								</DropdownMenuItem>
 							</Link>
