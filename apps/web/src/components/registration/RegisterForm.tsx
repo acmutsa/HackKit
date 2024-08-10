@@ -59,8 +59,6 @@ interface RegisterFormProps {
 export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const { isLoaded, userId } = useAuth();
 	const router = useRouter();
-	
-
 
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
@@ -101,7 +99,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
-	
+
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
@@ -131,7 +129,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 
 		let resume: string = c.noResumeProvidedURL;
-		
+
 		if (uploadedFile) {
 			const fileLocation = `${c.hackathonName}/resume/${uploadedFile.name}`;
 			const newBlob = await put(fileLocation, uploadedFile, {
@@ -511,7 +509,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
 										<FormLabel>University</FormLabel>
-										<Popover >
+										<Popover>
 											<PopoverTrigger asChild>
 												<FormControl>
 													<Button
@@ -592,7 +590,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
 										<FormLabel>Major</FormLabel>
-										<Popover >
+										<Popover>
 											<PopoverTrigger asChild>
 												<FormControl>
 													<Button
