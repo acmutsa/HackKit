@@ -153,4 +153,18 @@
 		}
 	}
 
+	@media (max-width: 480px) {
+		.parallax-effect-img {
+			transform: perspective(300px) translateY(-30%);
+		}
+
+		.event-pass-img {
+			transform: translateZ(10px);
+		}
+
+		.parallax-layer {
+			top: 300px;
+			height: 70vh;
+		}
+	}
 }
