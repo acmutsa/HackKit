@@ -1,11 +1,11 @@
 import UserInfoSection from "@/components/admin/users/UserInfoSection";
-import type { UserWithAllData } from "@/lib/utils/server/types";
+import type { Hacker } from "db/types";
 import { titleCase } from "title-case";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { clerkClient } from "@clerk/nextjs";
 
-export function PersonalInfo({ user }: { user: UserWithAllData }) {
+export function PersonalInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Personal Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
@@ -24,7 +24,7 @@ export function PersonalInfo({ user }: { user: UserWithAllData }) {
 	);
 }
 
-export function ProfileInfo({ user }: { user: UserWithAllData }) {
+export function ProfileInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Profile Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
@@ -56,7 +56,7 @@ export function ProfileInfo({ user }: { user: UserWithAllData }) {
 	);
 }
 
-export async function AccountInfo({ user }: { user: UserWithAllData }) {
+export async function AccountInfo({ user }: { user: Hacker }) {
 	const clerkUser = await clerkClient.users
 		.getUser(user.clerkID)
 		.catch(() => {});
@@ -79,7 +79,7 @@ export async function AccountInfo({ user }: { user: UserWithAllData }) {
 	);
 }
 
-export function TeamInfo({ user }: { user: UserWithAllData }) {
+export function TeamInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Team Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5 pb-5">

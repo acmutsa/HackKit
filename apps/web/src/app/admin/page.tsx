@@ -10,7 +10,7 @@ import { db } from "db";
 import { eq, desc } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
-import type { userType } from "@/lib/utils/shared/types";
+import type { User } from "db/types";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
 
@@ -140,7 +140,7 @@ export default async function Page() {
 	);
 }
 
-function getRecentRegistrationData(users: userType[]) {
+function getRecentRegistrationData(users: User[]) {
 	type DateNumberMap = { [key: string]: number };
 
 	let rsvpCount = 0;

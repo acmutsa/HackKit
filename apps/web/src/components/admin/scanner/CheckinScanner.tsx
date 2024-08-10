@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
-import { getScan, checkInUser } from "@/actions/admin/scanner-admin-actions";
-import { useAction, useOptimisticAction } from "next-safe-action/hook";
+import { checkInUser } from "@/actions/admin/scanner-admin-actions";
+import { useAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
-import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
+import type { User } from "db/types";
 
 import {
 	Drawer,
@@ -15,10 +15,8 @@ import {
 	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
-	DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
 import { Button } from "@/components/shadcn/ui/button";
-import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -33,16 +31,13 @@ scan: the scan object that has been scanned. If they have not scanned before sca
 */
 
 interface CheckinScannerProps {
-	// event: eventType;
 	hasScanned: boolean;
-	// scan: scansType | null;
 	checkedIn: boolean | null;
-	scanUser: userType | null;
+	scanUser: User | null;
 	hasRSVP: boolean | null;
 }
 
 export default function CheckinScanner({
-	// event,
 	hasScanned,
 	checkedIn,
 	scanUser,
@@ -113,7 +108,7 @@ export default function CheckinScanner({
 							}}
 						/>
 					</div>
-					{/* <div className="w-screen max-w-[500px] flex justify-center gap-x-2 overflow-hidden mx-auto">
+					{/* <div className="mx-auto flex w-screen max-w-[500px] justify-center gap-x-2 overflow-hidden">
             <Link href={"/admin/events"}>
               <Button>Return To Events</Button>
             </Link>
