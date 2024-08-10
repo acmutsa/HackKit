@@ -65,14 +65,13 @@ export default function Home() {
             <h1 className="text-8xl font-bold text-center">
               sunhacks<span className="text-2xl"> 7.0</span>
             </h1>
-            <h2 className="text-lg text-center mt-4 text-slate-700">
-              Coming Fall 2024 at{' '}
-              <a
-                  href="https://asu.edu"
-                  className="font-bold text-black underline"
-              >
-                Arizona State University
-              </a>
+            <h2 className="text-2xl text-center mt-3 text-black font-extrabold">
+              <div>Coming September 28th - 29th</div>
+              <div className="mt-2">
+
+                  Arizona State University
+
+              </div>
             </h2>
             <div className="flex flex-col gap-2 items-center justify-center">
               <Link href="/dash">
