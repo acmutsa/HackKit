@@ -66,7 +66,7 @@ export default async function Navbar({ className }: NavbarProps) {
                 </>
               ) : (
                 <>
-                  <Link href={"/sign-in"}>
+                  <Link href={"/register"}>
                     <Button
                       variant={"outline"}
                       className="bg-nav hover:bg-background">
