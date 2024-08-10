@@ -49,7 +49,7 @@ const faqItems = [
 export default function Home() {
   return (
     <div className={`w-full overflow-x-hidden `}>
-      <Navbar />
+      {/*<Navbar />*/}
       <MLHBadge />
 
       <main className="min-h-screen relative">
@@ -62,7 +62,7 @@ export default function Home() {
                 alt="Sunhacks logo"
                 className="w-32 h-32 invert mt-16"
             />
-            <h1 className="text-8xl font-bold text-center">
+            <h1 className="text-6xl md:text-8xl font-bold text-center">
               sunhacks<span className="text-2xl"> 7.0</span>
             </h1>
             <h2 className="text-2xl text-center mt-3 text-black font-extrabold">
