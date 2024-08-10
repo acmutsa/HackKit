@@ -1,16 +1,16 @@
 'use server';
 import { adminAction } from "@/lib/safe-action";
-import { newEventSchema } from "@/validators/shared/newEvent";
+import { newEventFormSchema } from "@/validators/event";
 import { eventInsertType } from "@/lib/types/events";
-import { createEventStatement } from "@/lib/queries/events";
+import { createNewEvent } from "@/lib/queries/events";
 
 export const createEvent = adminAction(
-	newEventSchema,
+	newEventFormSchema,
 	async (
     eventDetails: eventInsertType,
 	) => {
     try{
-      const eventID = await createEventStatement(eventDetails);
+      const eventID = await createNewEvent(eventDetails);
     }
     catch(e){
       console.log(e);

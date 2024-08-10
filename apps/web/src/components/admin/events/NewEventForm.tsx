@@ -25,29 +25,22 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import c from "config";
 import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
 import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
-import { newEventSchema } from "@/validators/shared/newEvent";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { useState } from "react";
-import { Shell } from "lucide-react";
+import { LoaderPinwheel } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants/shared";
+import { NewEventFormProps } from "@/lib/types/events";
+import { newEventFormSchema } from "@/validators/event";
 import { useAction } from "next-safe-action/hook";
-interface NewEventFormProps {
-	defaultDate: Date;
-}
-
-const formSchema = newEventSchema.merge(
-	z.object({
-		type: z.enum(Object.keys(c.eventTypes) as any),
-	}),
-);
+import { eventType } from "@/lib/utils/shared/types";
 
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof newEventFormSchema>>({
+		resolver: zodResolver(newEventFormSchema),
 		defaultValues: {
 			title: "",
 			description: "",
@@ -58,13 +51,13 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof newEventFormSchema>) {
 		setLoading(true);
 		const res = await zpostSafe({
 			url: "/api/admin/events/create",
 			body: values,
 			superReq: true,
-			vReq: formSchema,
+			vReq: newEventFormSchema,
 			vRes: BasicRedirValidator,
 		});
 		setLoading(false);
@@ -232,7 +225,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 				</div>
 				{loading ? (
 					<p className="flex justify-center gap-x-1">
-						Creating Event <Shell className="animate-spin" />
+						Creating Event <LoaderPinwheel className="animate-spin" />
 					</p>
 				) : (
 					<Button type="submit">Create Event</Button>

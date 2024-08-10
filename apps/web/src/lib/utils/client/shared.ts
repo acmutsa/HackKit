@@ -9,33 +9,44 @@ export function convertDateToUtc(date: Date){
 	return date.toISOString();
 };
 
+export function getLocaleStringWithTimeZone(
+	date: Date,
+	timeZone: string,
+	locales?: Intl.LocalesArgument,
+	options?: Intl.DateTimeFormatOptions,
+) {
+	return date.toLocaleString(locales, {
+		...options,
+		timeZone,
+	});
+}
+
 export function getDateAndTimeWithTimeZoneString(date: Date, timeZone: string){
-	return date.toLocaleString(undefined, {
+	return getLocaleStringWithTimeZone(date, timeZone, undefined, {
 		hourCycle: "h12",
 		dateStyle: "medium",
 		timeStyle: "short",
-		timeZone: timeZone,
 	});
 };
 
 export function getDateInUserTimeZone(date: Date, timeZone: string){
-	return date.toLocaleDateString(undefined, {
+	return getLocaleStringWithTimeZone(date, timeZone, undefined, {
 		month: "long",
 		day: "numeric",
 		year: "numeric",
-		timeZone: timeZone,
 	});
 }
 
 export function getTimeWithTimeZoneString(date: Date, timeZone: string){
-	return date.toLocaleString(undefined, {
+	return getLocaleStringWithTimeZone(date, timeZone, undefined, {
 		hourCycle: "h12",
 		hour: "numeric",
 		minute: "2-digit",
 		timeZone: timeZone,
-		timeZoneName: "short",
 	});
 }
+
+
 
 export function getUTCDate(){
 	const currentDate = new Date();

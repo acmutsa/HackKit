@@ -1,12 +1,13 @@
-import { db } from "db";
 import { DataTable } from "@/components/admin/events/EventDataTable";
 import { columns } from "@/components/admin/events/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-
+import { getAllEvents } from "@/lib/queries/events";
 export default async function Page() {
-	const events = await db.query.events.findMany();
+	const events = await getAllEvents();
+
+	console.log(events);
 
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">
@@ -17,7 +18,7 @@ export default async function Page() {
 							Events
 						</h2>
 						<p className="text-sm text-muted-foreground">
-							{events.length} Event{events.length != 1 ? "s" : ""}
+							{events.length} Event{events.length != 1 && "s"}
 						</p>
 					</div>
 				</div>
