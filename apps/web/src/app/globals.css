@@ -91,79 +91,66 @@
 }
 @layer utilities{
 	.arrow_animate {
-			animation: arrow 2s infinite;
+		animation: arrow 2s infinite;
+	}
+
+	.parallax-effect-img {
+		transform-style: preserve-3d;
+		transform: perspective(1000px);
+		transition: transform 0.5s ease-in-out;
+	}
+
+	.event-pass-img {
+		transform: translateZ(40px);
+		transition: transform 0.5s ease-in-out;
+	}
+
+	@keyframes arrow {
+		0% {
+			transform: translate(0px);
 		}
-}
-@keyframes arrow {
-	0% {
-
-		transform: translate(0px);
+		50% {
+			transform: translate(20px);
+		}
+		100% {
+			transform: translate(0px);
+		}
 	}
 
-	50% {
-		transform: translate(20px);
+	.no-select {
+		user-drag: none;
+		-webkit-user-drag: none;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
 	}
 
-	100% {
-		transform: translate(0px);
+	.parallax-layer {
+		position: absolute;
+		top: 150px;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		object-fit: cover;
+		overflow: hidden;
+	}
+
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.parallax-effect-img {
+			transform: perspective(500px) translateY(-20%);
+		}
+
+		.event-pass-img {
+			transform: translateZ(20px);
+		}
+
+		.parallax-layer {
+			top: 200px;
+			height: 80vh;
+		}
 	}
 
 }
-
-.no-select {
-	user-drag: none;
-	-webkit-user-drag: none;
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-}
-
-.parallax-effect-img {
-	transform-style: preserve-3d;
-	transform: perspective(1000px);
-}
-
-.event-pass-img {
-	transform: translateZ(40px);
-}
-
-/*!* Chrome, Safari and Opera *!*/
-/*.no-scrollbar::-webkit-scrollbar {*/
-/*	display: none;*/
-/*}*/
-
-/*.no-scrollbar {*/
-/*	-ms-overflow-style: none;*/
-/*	!* IE and Edge *!*/
-/*	scrollbar-width: none;*/
-/*	!* Firefox *!*/
-/*}*/
-/*.arrow_animate {*/
-/*	animation: arrow 2s infinite;*/
-/*}*/
-
-/*@keyframes arrow {*/
-/*	0% {*/
-
-/*		transform: translate(0px);*/
-/*	}*/
-
-/*	50% {*/
-/*		transform: translate(20px);*/
-/*	}*/
-
-/*	100% {*/
-/*		transform: translate(0px);*/
-/*	}*/
-/*}*/
-
-/*.parallax-layer {*/
-/*    position: absolute;*/
-/*    top: 150px;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    height: 100vh; !* Full viewport height *!*/
-/*    object-fit: cover; !* Ensure the img covers the entire area *!*/
-/*    overflow: hidden;*/
-/*  }*/
