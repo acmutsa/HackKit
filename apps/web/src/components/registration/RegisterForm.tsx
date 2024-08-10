@@ -196,7 +196,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>First Name</FormLabel>
 										<FormControl>
-											<Input placeholder="Some" {...field} />
+											<Input placeholder="First Name" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -209,7 +209,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Last Name</FormLabel>
 										<FormControl>
-											<Input placeholder="One" {...field} />
+											<Input placeholder="Last Name" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -740,9 +740,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="github"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>GitHub Username</FormLabel>
+										<FormLabel>GitHub Link</FormLabel>
 										<FormControl>
-											<Input placeholder="Username" {...field} />
+											<Input placeholder="Github Link" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -753,9 +753,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="linkedin"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Linkedin Username</FormLabel>
+										<FormLabel>Linkedin Link</FormLabel>
 										<FormControl>
-											<Input placeholder="Username" {...field} />
+											<Input placeholder="Linkedin Link" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
