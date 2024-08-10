@@ -32,6 +32,7 @@ import {
 	CommandGroup,
 	CommandInput,
 	CommandItem,
+	CommandList,
 } from "@/components/shadcn/ui/command";
 import {
 	Popover,
@@ -58,6 +59,9 @@ interface RegisterFormProps {
 export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const { isLoaded, userId } = useAuth();
 	const router = useRouter();
+	
+
+
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
@@ -95,10 +99,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [skills, setSkills] = useState<Tag[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
-
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
-
+	
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
@@ -128,9 +131,10 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 
 		let resume: string = c.noResumeProvidedURL;
-
+		
 		if (uploadedFile) {
-			const newBlob = await put(uploadedFile.name, uploadedFile, {
+			const fileLocation = `${c.hackathonName}/resume/${uploadedFile.name}`;
+			const newBlob = await put(fileLocation, uploadedFile, {
 				access: "public",
 				handleBlobUploadUrl: "/api/upload/resume/register",
 			});
@@ -507,7 +511,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
 										<FormLabel>University</FormLabel>
-										<Popover>
+										<Popover >
 											<PopoverTrigger asChild>
 												<FormControl>
 													<Button
@@ -522,7 +526,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														{field.value
 															? schools.find(
 																	(school) =>
-																		school.toLowerCase() ===
+																		school ===
 																		field.value,
 																)
 															: "Select a University"}
@@ -533,40 +537,48 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search university..." />
-													<CommandEmpty>
-														No university found.
-													</CommandEmpty>
-													<CommandGroup>
-														{schools.map(
-															(school) => (
-																<CommandItem
-																	value={
-																		school
-																	}
-																	key={school}
-																	onSelect={(
-																		value,
-																	) => {
-																		form.setValue(
-																			"university",
+													<CommandList>
+														<CommandEmpty>
+															No university found.
+														</CommandEmpty>
+														<CommandGroup>
+															{schools.map(
+																(school) => (
+																	<CommandItem
+																		value={
+																			school
+																		}
+																		key={
+																			school
+																		}
+																		onSelect={(
 																			value,
-																		);
-																	}}
-																	className="cursor-pointer"
-																>
-																	<Check
-																		className={`mr-2 h-4 w-4 ${
-																			school.toLowerCase() ===
-																			field.value
-																				? "block"
-																				: "hidden"
-																		} `}
-																	/>
-																	{school}
-																</CommandItem>
-															),
-														)}
-													</CommandGroup>
+																		) => {
+																			console.log(
+																				"value changed to: ",
+																				value,
+																			);
+																			form.setValue(
+																				"university",
+																				value,
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 ${
+																				school.toLowerCase() ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{school}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
 												</Command>
 											</PopoverContent>
 										</Popover>
@@ -580,7 +592,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
 										<FormLabel>Major</FormLabel>
-										<Popover>
+										<Popover >
 											<PopoverTrigger asChild>
 												<FormControl>
 													<Button
@@ -595,7 +607,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														{field.value
 															? majors.find(
 																	(major) =>
-																		major.toLowerCase() ===
+																		major ===
 																		field.value,
 																)
 															: "Select a Major"}
@@ -606,36 +618,44 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search major..." />
-													<CommandEmpty>
-														No major found.
-													</CommandEmpty>
-													<CommandGroup>
-														{majors.map((major) => (
-															<CommandItem
-																value={major}
-																key={major}
-																onSelect={(
-																	value,
-																) => {
-																	form.setValue(
-																		"major",
-																		value,
-																	);
-																}}
-																className="cursor-pointer"
-															>
-																<Check
-																	className={`mr-2 h-4 w-4 overflow-hidden ${
-																		major.toLowerCase() ===
-																		field.value
-																			? "block"
-																			: "hidden"
-																	} `}
-																/>
-																{major}
-															</CommandItem>
-														))}
-													</CommandGroup>
+													<CommandList>
+														<CommandEmpty>
+															No major found.
+														</CommandEmpty>
+														<CommandGroup>
+															{majors.map(
+																(major) => (
+																	<CommandItem
+																		value={
+																			major
+																		}
+																		key={
+																			major
+																		}
+																		onSelect={(
+																			value,
+																		) => {
+																			form.setValue(
+																				"major",
+																				value,
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 overflow-hidden ${
+																				major.toLowerCase() ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{major}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
 												</Command>
 											</PopoverContent>
 										</Popover>
