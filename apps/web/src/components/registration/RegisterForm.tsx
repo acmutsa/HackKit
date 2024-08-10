@@ -327,81 +327,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 						</div>
 					</FormGroupWrapper>
-					<FormGroupWrapper title="MLH">
-						<FormField
-							control={form.control}
-							name="acceptsMLHCodeOfConduct"
-							render={({ field }) => (
-								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-									<FormControl>
-										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
-									</FormControl>
-									<div className="space-y-1 leading-none">
-										<FormLabel>
-											I accept the{" "}
-											<Link
-												target="_blank"
-												className="underline"
-												href={"https://mlh.io/code-of-conduct"}
-											>
-												MLH Code of Conduct
-											</Link>
-										</FormLabel>
-										<FormDescription>This is required of all attendees.</FormDescription>
-									</div>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="shareDataWithMLH"
-							render={({ field }) => (
-								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-									<FormControl>
-										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
-									</FormControl>
-									<div className="space-y-1 leading-none">
-										<FormLabel>
-											I authorize you to share my application/registration information with Major
-											League Hacking for event administration, ranking, and MLH administration
-											in-line with the MLH Privacy Policy. I further agree to the terms of both the{" "}
-											<Link
-												target="_blank"
-												className="underline"
-												href={"https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"}
-											>
-												MLH Contest Terms and Conditions
-											</Link>{" "}
-											and the{" "}
-											<Link target="_blank" className="underline" href={"https://mlh.io/privacy"}>
-												MLH Privacy Policy
-											</Link>
-											.
-										</FormLabel>
-										<FormDescription>This is required of all attendees.</FormDescription>
-									</div>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="wantsToReceiveMLHEmails"
-							render={({ field }) => (
-								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-									<FormControl>
-										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
-									</FormControl>
-									<div className="space-y-1 leading-none">
-										<FormLabel>
-											I authorize MLH to send me an email where I can further opt into the MLH
-											Hacker, Events, or Organizer Newsletters and other communications from MLH.
-										</FormLabel>
-										<FormDescription>This is optional.</FormDescription>
-									</div>
-								</FormItem>
-							)}
-						/>
-					</FormGroupWrapper>
+
 					<FormGroupWrapper title="University Info">
 						<div
 							className={`grid ${
@@ -645,7 +571,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="shirtSize"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Shirt Size</FormLabel>
+										<FormLabel>Shirt Size (Unisex)</FormLabel>
 										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
 												<SelectTrigger className="placeholder:text-muted-foreground w-full">
@@ -815,7 +741,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="hackerTag"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>HackerTag</FormLabel>
+										<FormLabel>Create HackerTag</FormLabel>
 										<FormControl>
 											<div className="flex">
 												<div className="bg-accent text-primary flex h-10 w-10 items-center justify-center rounded-l text-lg font-light">
@@ -924,6 +850,81 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											Hackers will still be able to view your profile and invite you to teams if
 											they have your link.
 										</FormDescription>
+									</div>
+								</FormItem>
+							)}
+						/>
+					</FormGroupWrapper>
+					<FormGroupWrapper title="MLH">
+						<FormField
+							control={form.control}
+							name="acceptsMLHCodeOfConduct"
+							render={({ field }) => (
+								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+									<FormControl>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+									</FormControl>
+									<div className="space-y-1 leading-none">
+										<FormLabel>
+											I accept the{" "}
+											<Link
+												target="_blank"
+												className="underline"
+												href={"https://mlh.io/code-of-conduct"}
+											>
+												MLH Code of Conduct
+											</Link>
+										</FormLabel>
+										<FormDescription>This is required of all attendees.</FormDescription>
+									</div>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="shareDataWithMLH"
+							render={({ field }) => (
+								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+									<FormControl>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+									</FormControl>
+									<div className="space-y-1 leading-none">
+										<FormLabel>
+											I authorize you to share my application/registration information with Major
+											League Hacking for event administration, ranking, and MLH administration
+											in-line with the MLH Privacy Policy. I further agree to the terms of both the{" "}
+											<Link
+												target="_blank"
+												className="underline"
+												href={"https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"}
+											>
+												MLH Contest Terms and Conditions
+											</Link>{" "}
+											and the{" "}
+											<Link target="_blank" className="underline" href={"https://mlh.io/privacy"}>
+												MLH Privacy Policy
+											</Link>
+											.
+										</FormLabel>
+										<FormDescription>This is required of all attendees.</FormDescription>
+									</div>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="wantsToReceiveMLHEmails"
+							render={({ field }) => (
+								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+									<FormControl>
+										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+									</FormControl>
+									<div className="space-y-1 leading-none">
+										<FormLabel>
+											I authorize MLH to send me an email where I can further opt into the MLH
+											Hacker, Events, or Organizer Newsletters and other communications from MLH.
+										</FormLabel>
+										<FormDescription>This is optional.</FormDescription>
 									</div>
 								</FormItem>
 							)}
