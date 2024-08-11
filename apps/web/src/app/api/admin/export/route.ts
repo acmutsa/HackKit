@@ -1,7 +1,6 @@
 import { db } from "db";
-import { eq } from "db/drizzle";
-import { userCommonData } from "db/schema";
 import { auth } from "@clerk/nextjs";
+import { getUser } from "db/functions";
 
 function escape(value: any) {
 	if (value === null) return "None";
@@ -37,14 +36,8 @@ export async function GET() {
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-	});
-
-	if (
-		!reqUserRecord ||
-		(reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")
-	) {
+	const reqUserRecord = await getUser(userId);
+	if (!reqUserRecord || (reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 

@@ -1,27 +1,21 @@
 import { auth } from "@clerk/nextjs";
-import { eq } from "db/drizzle";
 import { db } from "db";
-import { userCommonData, events } from "db/schema";
+import { events } from "db/schema";
 import { newEventValidator } from "@/validators/shared/newEvent";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import superjson from "superjson";
 import c from "config";
+import { getUser } from "db/functions";
 
 export async function POST(req: Request) {
 	const { userId } = auth();
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-	});
-
-	if (
-		!reqUserRecord ||
-		(reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")
-	) {
+	const reqUserRecord = await getUser(userId);
+	if (!reqUserRecord || (reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 

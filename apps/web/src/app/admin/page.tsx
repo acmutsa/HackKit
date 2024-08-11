@@ -7,31 +7,19 @@ import {
 	CardDescription,
 } from "@/components/shadcn/ui/card";
 import { db } from "db";
-import { eq, desc } from "db/drizzle";
-import { userCommonData } from "db/schema";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { User } from "db/types";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
+import { getUser } from "db/functions";
 
 export default async function Page() {
-	// const getCachedUsers = unstable_cache(getUsers, [`global_users_${env.INTERNAL_AUTH_KEY}`], {
-	// 	revalidate: 30,
-	// });
 
 	const { userId } = auth();
-
 	if (!userId) return notFound();
 
-	const adminUser = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-		orderBy: desc(userCommonData.signupTime),
-	});
-
-	if (
-		!adminUser ||
-		(adminUser.role !== "admin" && adminUser.role !== "super_admin")
-	) {
+	const adminUser = await getUser(userId);
+	if (!adminUser || (adminUser.role !== "admin" && adminUser.role !== "super_admin")) {
 		return notFound();
 	}
 
