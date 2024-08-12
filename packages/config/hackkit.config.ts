@@ -592,6 +592,8 @@ export const schools = [
 ] as const;
 
 export const majors = [
+	"Computer Science",
+	"Cyber Security",
 	"Accounting",
 	"Accounting Technician",
 	"Actuarial Science",
@@ -625,13 +627,11 @@ export const majors = [
 	"Computer & Information Sciences, General",
 	"Computer Engineering",
 	"Computer Networking/Telecommunications",
-	"Computer Science",
 	"Computer Software & Media Applications",
 	"Computer System Administration",
 	"Construction Engineering/Management",
 	"Creative Writing",
 	"Criminology",
-	"Cyber Security",
 	"Data Management Technology",
 	"Dental Assisting",
 	"Design & Visual Communications, General",

@@ -94,6 +94,10 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		},
 	});
 
+	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
+
+	const hasErrors = !isSubmitSuccessful && isSubmitted;
+
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [skills, setSkills] = useState<Tag[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -110,7 +114,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		setIsLoading(true);
-		console.log("Submision Clicked");
 		if (!userId || !isLoaded) {
 			setIsLoading(false);
 			return alert(
@@ -179,10 +182,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 				);
 			}
 			if (acceptedFiles.length > 0) {
-				console.log(
-					`Got accepted file! The length of the array is ${acceptedFiles.length}.`,
-				);
-				console.log(acceptedFiles[0]);
 				setUploadedFile(acceptedFiles[0]);
 			}
 		},
@@ -552,10 +551,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																		onSelect={(
 																			value,
 																		) => {
-																			console.log(
-																				"value changed to: ",
-																				value,
-																			);
 																			form.setValue(
 																				"university",
 																				value,
@@ -1212,6 +1207,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 					</FormGroupWrapper>
 					<Button type="submit">Submit</Button>
+					{hasErrors && (
+						<p className="text-red-800">
+							Something doesn't look right. Please check your
+							inputs.
+						</p>
+					)}
 				</form>
 			</Form>
 		</div>
