@@ -104,6 +104,7 @@ export async function POST(req: Request) {
 			acceptedMLHCodeOfConduct: body.acceptsMLHCodeOfConduct,
 			accommodationNote: body.accommodationNote || null,
 			age: body.age,
+			phoneNumber: body.phoneNumber,
 			dietRestrictions: body.dietaryRestrictions,
 			ethnicity: body.ethnicity,
 			gender: body.gender,

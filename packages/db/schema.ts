@@ -20,6 +20,7 @@ import {
 	pgEnum,
 	primaryKey,
 	pgTable,
+	bigint
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -86,6 +87,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
 export const registrationData = pgTable("registration_data", {
 	clerkID: varchar("clerk_id", { length: 255 }).notNull().primaryKey().unique(),
 	age: integer("age").notNull(),
+	phoneNumber : bigint("phone_number", {mode:"number"}).notNull().default(0),
 	gender: varchar("gender", { length: 50 }).notNull(),
 	race: varchar("race", { length: 75 }).notNull(),
 	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),

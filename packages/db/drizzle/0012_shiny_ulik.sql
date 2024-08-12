@@ -1,0 +1,1 @@
+ALTER TABLE "registration_data" ADD COLUMN "phone_number" integer DEFAULT 0 NOT NULL;

@@ -21,6 +21,21 @@ export const RegisterFormValidator = z.object({
 			message: "Email must be a valid email (eg: someone@example.com).",
 		})
 		.max(255, { message: "Email must be less than 255 characters." }),
+
+
+	phoneNumber: z
+		.number()
+		.positive({ message: "Value must be positive" })
+		.int({ message: "Value must be an integer" })
+		.or(z.string())
+		.pipe(
+			z.coerce
+				.number()
+				.positive({ message: "Value must be positive" })
+				.int({ message: "Value must be an integer" })
+		),
+
+
 	age: z
 		.number()
 		.min(18, { message: "You must be at least 18 years old to register." })
