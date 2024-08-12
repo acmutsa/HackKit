@@ -94,14 +94,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		},
 	});
 
-	const { isSubmitSuccessful, isSubmitted, errors} = form.formState;
+	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
 
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
-
-	useEffect(() => {
-		console.log("errors are", errors);
-	},[errors]);
-
 
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [skills, setSkills] = useState<Tag[]>([]);
@@ -109,7 +104,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
 
-	//  wtf is this
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
@@ -557,7 +551,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																		onSelect={(
 																			value,
 																		) => {
-
 																			form.setValue(
 																				"university",
 																				value,
@@ -1214,11 +1207,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 					</FormGroupWrapper>
 					<Button type="submit">Submit</Button>
-					{
-						hasErrors && (
-							<p className="text-red-800">Something doesn't look right. Please check your inputs.</p>
-						)
-					}
+					{hasErrors && (
+						<p className="text-red-800">
+							Something doesn't look right. Please check your
+							inputs.
+						</p>
+					)}
 				</form>
 			</Form>
 		</div>
