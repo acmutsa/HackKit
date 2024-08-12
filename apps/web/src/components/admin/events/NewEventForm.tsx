@@ -35,10 +35,14 @@ import { NewEventFormProps } from "@/lib/types/events";
 import { newEventFormSchema } from "@/validators/event";
 import { useAction } from "next-safe-action/hook";
 import { eventType } from "@/lib/utils/shared/types";
+import { useEffect } from "react";
+
 
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
+	const userLocalTimeZone = getLocalTimeZone();
+
 	const form = useForm<z.infer<typeof newEventFormSchema>>({
 		resolver: zodResolver(newEventFormSchema),
 		defaultValues: {
@@ -169,18 +173,29 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 										!!field.value
 											? parseAbsolute(
 													field.value.toISOString(),
-													getLocalTimeZone(),
+													userLocalTimeZone,
 												)
 											: null
 									}
 									onChange={(date) => {
-										field.onChange(
-											!!date
+										const newDate = !!date
 												? date.toDate(
-														getLocalTimeZone(),
+														userLocalTimeZone,
 													)
-												: null,
+												: null;
+										field.onChange(
+											newDate,
 										);
+										const isEventStartBeforeEnd = newDate && newDate > form.getValues("endTime")
+										if (isEventStartBeforeEnd) {
+											form.setValue(
+												"endTime",
+												new Date(
+													newDate.getTime() +
+														ONE_HOUR_IN_MILLISECONDS,
+												),
+											);
+										}
 									}}
 									shouldCloseOnSelect={false}
 									granularity={"minute"}
@@ -201,18 +216,27 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 										!!field.value
 											? parseAbsolute(
 													field.value.toISOString(),
-													getLocalTimeZone(),
+													userLocalTimeZone,
 												)
 											: null
 									}
 									onChange={(date) => {
+										const newDate = !!date
+											? date.toDate(userLocalTimeZone)
+											: null;
 										field.onChange(
-											!!date
-												? date.toDate(
-														getLocalTimeZone(),
-													)
-												: null,
+											newDate
 										);
+										const isEventEndBeforeStart = newDate && newDate < form.getValues("startTime");
+										if (isEventEndBeforeStart) {
+											form.setValue(
+												"startTime",
+												new Date(
+													newDate.getTime() -
+														ONE_HOUR_IN_MILLISECONDS,
+												),
+											);
+										}
 									}}
 									shouldCloseOnSelect={false}
 									granularity={"minute"}
