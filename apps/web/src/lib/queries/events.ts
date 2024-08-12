@@ -1,4 +1,4 @@
-import { db } from "db";
+import { db,asc,desc } from "db";
 import { eventInsertType } from "../types/events";
 import { events } from "db/schema";
 
@@ -11,6 +11,10 @@ export function createNewEvent(event: eventInsertType) {
   });
 }
 
-export function getAllEvents(){
-  return db.query.events.findMany();
+export function getAllEvents(descending = false){
+
+  const orderByClause = descending ? [desc(events.startTime)] : [asc(events.startTime)]
+  return db.query.events.findMany({
+    orderBy:orderByClause,
+  });
 }
