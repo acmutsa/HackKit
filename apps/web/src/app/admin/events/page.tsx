@@ -1,14 +1,12 @@
-import { DataTable } from "@/components/admin/events/EventDataTable";
+import { EventDataTable } from "@/components/admin/events/EventDataTable";
 import { columns } from "@/components/admin/events/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { getAllEvents } from "@/lib/queries/events";
 export default async function Page() {
-	const events = await getAllEvents();
-
-	console.log(events);
-
+	const events = await getAllEvents(true);
+	const currentDate = new Date();
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">
 			<div className="mb-5 grid w-full grid-cols-2">
@@ -31,7 +29,7 @@ export default async function Page() {
 					</Link>
 				</div>
 			</div>
-			<DataTable columns={columns} data={events} />
+			<EventDataTable columns={columns} data={events} />
 		</div>
 	);
 }
