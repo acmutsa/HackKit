@@ -4,8 +4,9 @@ import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
+import { getClientTimeZone } from "@/lib/utils/client/shared";
 
-export default function EventFull({
+export default function EventDetails({
 	event,
 }: {
 	event: InferModel<typeof events>;
