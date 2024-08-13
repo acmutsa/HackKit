@@ -405,8 +405,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						<div
 							className={`grid ${
 								universityValue === c.localUniversityName.toLowerCase()
-									? "md:grid-cols-6 grid-cols-1"
-									: "md:grid-cols-5 grid-cols-1"
+									? "md:grid-cols-7 grid-cols-1"
+									: "md:grid-cols-6 grid-cols-1"
 							} gap-x-2 gap-y-4`}
 						>
 							<FormField
@@ -523,7 +523,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="levelOfStudy"
 								render={({ field }) => (
-									<FormItem className="flex flex-col col-span-2 md:col-span-1">
+									<FormItem className="flex flex-col col-span-2">
 										<FormLabel>Level of Study</FormLabel>
 										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
