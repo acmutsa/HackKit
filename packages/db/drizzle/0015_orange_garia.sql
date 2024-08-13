@@ -6,7 +6,7 @@ ALTER TABLE "registration_data" RENAME TO "user_hacker_data"; --> statement-brea
 
 -- Rename Columns
 
-ALTER TABLE "user_hacker_data" RENAME COLUMN "short_id"                     TO "schoolID";                 --> statement-breakpoint
+ALTER TABLE "user_hacker_data" RENAME COLUMN "short_id"                     TO "school_id";                --> statement-breakpoint
 ALTER TABLE "user_hacker_data" RENAME COLUMN "accepted_mlh_code_of_conduct" TO "has_accepted_mlh_coc";     --> statement-breakpoint
 ALTER TABLE "user_hacker_data" RENAME COLUMN "shared_data_with_mlh"         TO "has_shared_data_with_mlh"; --> statement-breakpoint
 ALTER TABLE "user_hacker_data" RENAME COLUMN "wants_to_receive_mlh_emails"  TO "is_emailable";             --> statement-breakpoint

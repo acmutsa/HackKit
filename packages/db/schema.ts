@@ -115,7 +115,7 @@ export const userHackerData = pgTable("user_hacker_data", {
 	// data
 	university: varchar("university", { length: 200 }).notNull(),
 	major: varchar("major", { length: 200 }).notNull(),
-	schoolID: varchar("schoolID", { length: 50 }).notNull(),
+	schoolID: varchar("school_id", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
 	hackathonsAttended: integer("hackathons_attended").notNull(),
 	softwareExperience: varchar("software_experience", {
