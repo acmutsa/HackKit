@@ -478,13 +478,17 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Freshman">Freshman</SelectItem>
-													<SelectItem value="Sophomore">Sophomore</SelectItem>
-													<SelectItem value="Junior">Junior</SelectItem>
-													<SelectItem value="Senior">Senior</SelectItem>
-													<SelectItem value="Masters">Masters</SelectItem>
-													<SelectItem value="PhD">PhD</SelectItem>
-													<SelectItem value="Recent Grad">Recent Grad</SelectItem>
+													<SelectItem value="Less than Secondary / High School">Less than Secondary / High School</SelectItem>
+													<SelectItem value="Secondary / High School">Secondary / High School</SelectItem>
+													<SelectItem value="Undergraduate University (2 year - community college or similar)">Undergraduate University (2 year - community college or similar)</SelectItem>
+													<SelectItem value="Undergraduate University (3+ year)">Undergraduate University (3+ year)</SelectItem>
+													<SelectItem value="Graduate University (Masters, Professional, Doctoral, etc)">Graduate University (Masters, Professional, Doctoral, etc)</SelectItem>
+													<SelectItem value="Code School / Bootcamp">Code School / Bootcamp</SelectItem>
+													<SelectItem value="Other Vocational / Trade Program or Apprenticeship">Other Vocational / Trade Program or Apprenticeship</SelectItem>
+													<SelectItem value="Post Doctorate">Post Doctorate</SelectItem>
+													<SelectItem value="Other">Other</SelectItem>
+													<SelectItem value="I’m not currently a student">I’m not currently a student</SelectItem>
+													<SelectItem value="Prefer not to answer">Prefer not to answer</SelectItem>
 												</SelectGroup>
 											</SelectContent>
 										</Select>

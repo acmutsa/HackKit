@@ -85,13 +85,17 @@ export const RegisterFormValidator = z.object({
 		})
 		.or(z.literal("NOT_LOCAL_SCHOOL")),
 	levelOfStudy: z.union([
-		z.literal("Freshman", defaultPrettyError),
-		z.literal("Sophomore", defaultPrettyError),
-		z.literal("Junior", defaultPrettyError),
-		z.literal("Senior", defaultPrettyError),
-		z.literal("Masters", defaultPrettyError),
-		z.literal("PhD", defaultPrettyError),
-		z.literal("Recent Grad", defaultPrettyError)
+		z.literal("Less than Secondary / High School", defaultPrettyError),
+		z.literal("Secondary / High School", defaultPrettyError),
+		z.literal("Undergraduate University (2 year - community college or similar)", defaultPrettyError),
+		z.literal("Undergraduate University (3+ year)", defaultPrettyError),
+		z.literal("Graduate University (Masters, Professional, Doctoral, etc)", defaultPrettyError),
+		z.literal("Code School / Bootcamp", defaultPrettyError),
+		z.literal("Other Vocational / Trade Program or Apprenticeship", defaultPrettyError),
+		z.literal("Post Doctorate", defaultPrettyError),
+		z.literal("Other", defaultPrettyError),
+		z.literal("I’m not currently a student ", defaultPrettyError),
+		z.literal("Prefer not to answer", defaultPrettyError)
 	]),
 	hackathonsAttended: z
 		.number()
