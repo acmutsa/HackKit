@@ -13,7 +13,7 @@ export function createNewEvent(event: eventInsertType) {
 			eventID: events.id,
 		});
 }
-
+// Throw in some options for this later on
 export function getAllEvents(descending = false) {
 	const orderByClause = descending
 		? [desc(events.startTime)]

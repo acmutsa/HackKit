@@ -36,6 +36,8 @@ import { newEventFormSchema } from "@/validators/event";
 import { useAction } from "next-safe-action/hook";
 import { eventType } from "@/lib/utils/shared/types";
 import { useEffect } from "react";
+import { ThreeCircles } from "react-loader-spinner";
+
 
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
@@ -247,7 +249,15 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 				{loading ? (
 					<p className="flex justify-center gap-x-1">
 						Creating Event{" "}
-						<LoaderPinwheel className="animate-spin" />
+						<ThreeCircles
+							visible={true}
+							height="20"
+							width="20"
+							color="#4fa94d"
+							ariaLabel="three-circles-loading"
+							wrapperStyle={{}}
+							wrapperClass=""
+						/>
 					</p>
 				) : (
 					<Button type="submit">Create Event</Button>
