@@ -1,5 +1,5 @@
-import { EventDataTable } from "@/components/admin/events/EventDataTable";
-import { columns } from "@/components/admin/events/EventColumns";
+import { EventDataTable } from "@/components/events/shared/EventDataTable";
+import { columns } from "@/components/events/shared/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
