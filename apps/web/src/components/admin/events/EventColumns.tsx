@@ -7,7 +7,6 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
 
-
 export const columns: ColumnDef<eventTableValidatorType>[] = [
 	{
 		accessorKey: "title",

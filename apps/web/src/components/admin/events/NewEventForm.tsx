@@ -37,7 +37,6 @@ import { useAction } from "next-safe-action/hook";
 import { eventType } from "@/lib/utils/shared/types";
 import { useEffect } from "react";
 
-
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
@@ -102,9 +101,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 						<FormItem>
 							<FormLabel>Description</FormLabel>
 							<FormControl>
-								<Textarea
-									{...field}
-								/>
+								<Textarea {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -119,7 +116,8 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<FormLabel>Event Type</FormLabel>
 								<Select
 									onValueChange={field.onChange}
-									defaultValue={field.value}>
+									defaultValue={field.value}
+								>
 									<FormControl>
 										<SelectTrigger className="w-full">
 											<SelectValue placeholder="Select a Event Type" />
@@ -179,14 +177,12 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 									}
 									onChange={(date) => {
 										const newDate = !!date
-												? date.toDate(
-														userLocalTimeZone,
-													)
-												: null;
-										field.onChange(
-											newDate,
-										);
-										const isEventStartBeforeEnd = newDate && newDate > form.getValues("endTime")
+											? date.toDate(userLocalTimeZone)
+											: null;
+										field.onChange(newDate);
+										const isEventStartBeforeEnd =
+											newDate &&
+											newDate > form.getValues("endTime");
 										if (isEventStartBeforeEnd) {
 											form.setValue(
 												"endTime",
@@ -224,10 +220,11 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 										const newDate = !!date
 											? date.toDate(userLocalTimeZone)
 											: null;
-										field.onChange(
-											newDate
-										);
-										const isEventEndBeforeStart = newDate && newDate < form.getValues("startTime");
+										field.onChange(newDate);
+										const isEventEndBeforeStart =
+											newDate &&
+											newDate <
+												form.getValues("startTime");
 										if (isEventEndBeforeStart) {
 											form.setValue(
 												"startTime",
@@ -249,7 +246,8 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 				</div>
 				{loading ? (
 					<p className="flex justify-center gap-x-1">
-						Creating Event <LoaderPinwheel className="animate-spin" />
+						Creating Event{" "}
+						<LoaderPinwheel className="animate-spin" />
 					</p>
 				) : (
 					<Button type="submit">Create Event</Button>

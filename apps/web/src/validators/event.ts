@@ -1,7 +1,7 @@
 import { createInsertSchema } from "drizzle-zod";
 import { events } from "db/schema";
 import { createSelectSchema } from "drizzle-zod";
-import z from "zod"
+import z from "zod";
 import c from "config";
 
 export const newEventFormSchema = createInsertSchema(events, {
@@ -14,7 +14,6 @@ export const newEventFormSchema = createInsertSchema(events, {
 }).refine(({ startTime, endTime }) => startTime < endTime, {
 	message: "Start time must be before end time",
 	path: ["startTime"],
-	
 });
 
 export const eventDataTableValidator = createSelectSchema(events);

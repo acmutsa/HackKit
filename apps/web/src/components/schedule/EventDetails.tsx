@@ -7,12 +7,7 @@ import { EventType } from "@/lib/types/events";
 import { headers } from "next/headers";
 import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants/shared";
 
-export default function EventDetails({
-	event,
-}: {
-	event: EventType;
-}) {
-
+export default function EventDetails({ event }: { event: EventType }) {
 	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
 
 	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);

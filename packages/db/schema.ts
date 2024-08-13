@@ -159,7 +159,6 @@ export const events = pgTable("events", {
 	// checkinEndTime: timestamp("checkin_end_time").notNull(),
 	// location: varchar("location", { length: 255 }).notNull(),
 	// points: integer("points").notNull().default(0),
-	// adminId: varchar("admin_id", { length: 255 }).notNull(),
 	description: text("description").notNull(),
 	type: varchar("type", { length: 50 }).notNull(),
 	host: varchar("host", { length: 255 }),
