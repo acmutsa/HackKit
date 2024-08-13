@@ -1,0 +1,1 @@
+ALTER TABLE "registration_data" ALTER COLUMN "level_of_study" SET DATA TYPE varchar(200);
