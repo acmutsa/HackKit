@@ -91,6 +91,7 @@ export const registrationData = pgTable("registration_data", {
 	gender: varchar("gender", { length: 50 }).notNull(),
 	race: varchar("race", { length: 75 }).notNull(),
 	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
+	country: varchar("country", { length: 200 }).notNull().default("United States"),
 	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
 	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
 	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),

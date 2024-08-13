@@ -107,6 +107,7 @@ export async function POST(req: Request) {
 			phoneNumber: body.phoneNumber,
 			dietRestrictions: body.dietaryRestrictions,
 			ethnicity: body.ethnicity,
+			country: body.country,
 			gender: body.gender,
 			hackathonsAttended: body.hackathonsAttended,
 			heardFrom: body.heardAboutEvent || null,

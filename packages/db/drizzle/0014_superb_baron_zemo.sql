@@ -1,0 +1,1 @@
+ALTER TABLE "registration_data" ADD COLUMN "country" varchar(200) DEFAULT 'United States' NOT NULL;

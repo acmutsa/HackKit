@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import Link from "next/link";
-import c, { schools, majors } from "config";
+import c, { schools, majors, countries } from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -72,6 +72,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			age: 0,
 			phoneNumber: "" as any,
 			ethnicity: "" as any,
+			country: "",
 			gender: "" as any,
 			major: "",
 			github: "",
@@ -243,11 +244,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									</FormItem>
 								)}
 							/>
-
-
-
 						</div>
-						<div className="grid md:grid-cols-7 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
+						<div className="grid md:grid-cols-9 grid-cols-1 md:gap-y-0 gap-y-2 gap-x-2">
 							<FormField
 								control={form.control}
 								name="age"
@@ -339,6 +337,63 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												</SelectGroup>
 											</SelectContent>
 										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="country"
+								render={({ field }) => (
+									// what does flex flex-col added to className do?
+									<FormItem className="col-span-2">
+										<FormLabel>Country of Residence</FormLabel>
+										<Popover>
+											<PopoverTrigger asChild>
+												<FormControl>
+													<Button
+														variant="outline"
+														role="combobox"
+														className={cn(
+															"w-full justify-between",
+															!field.value && "text-muted-foreground"
+														)}
+													>
+														{field.value
+															? countries.find((country) => country.toLowerCase() === field.value)
+															: "Select a Country"}
+														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+													</Button>
+												</FormControl>
+											</PopoverTrigger>
+											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+												<Command>
+													<CommandInput placeholder="Search country..." />
+													<CommandEmpty>No university found.</CommandEmpty>
+													<CommandGroup>
+														{countries.map((country) => (
+															<CommandItem
+																value={country}
+																key={country}
+																onSelect={(value) => {
+																	form.setValue("country", value);
+																}}
+																className="cursor-pointer"
+															>
+																<Check
+																	className={`mr-2 h-4 w-4 ${
+																		country.toLowerCase() === field.value ? "block" : "hidden"
+																	}
+																	`}
+																/>
+																{country}
+															</CommandItem>
+														))}
+													</CommandGroup>
+												</Command>
+											</PopoverContent>
+										</Popover>
 										<FormMessage />
 									</FormItem>
 								)}

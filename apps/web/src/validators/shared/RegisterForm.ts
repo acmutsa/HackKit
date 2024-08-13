@@ -68,6 +68,7 @@ export const RegisterFormValidator = z.object({
 		z.literal("Hispanic or Latino", defaultPrettyError),
 		z.literal("Not Hispanic or Latino", defaultPrettyError),
 	]),
+	country: z.string().min(1).max(200),
 	acceptsMLHCodeOfConduct: z.boolean().refine((val) => val === true, {
 		message: "You must accept the MLH Code of Conduct.",
 	}),
