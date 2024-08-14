@@ -57,26 +57,21 @@ export function ProfileInfo({ user }: { user: UserWithAllData }) {
 }
 
 export async function AccountInfo({ user }: { user: UserWithAllData }) {
-	const clerkUser = await clerkClient.users.getUser(user.clerkID);
-	if (!clerkUser) return null;
-
-	// const signInMethods = clerkUser.externalAccounts.map((account) =>
-	// 	titleCase(account.provider.split("_").slice(-1)[0])
-	// );
-
-	// if (clerkUser.passwordEnabled) {
-	// 	signInMethods.push("Password");
-	// }
+	const clerkUser = await clerkClient.users.getUser(user.clerkID).catch(() => {});
 
 	return (
 		<UserInfoSection title="Account Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
-				<Cell title="Email" value={user.email} />
-				<Cell title="Clerk ID" value={user.clerkID} />
-				{/* <Cell
-					title={`Sign-in Method${signInMethods.length > 1 ? "s" : ""}`}
-					value={signInMethods.join(", ")}
-				/> */}
+				{ clerkUser ?
+                    <>
+                        <Cell title="Email" value={user.email} />
+				        <Cell title="Clerk ID" value={user.clerkID} />
+                    </>
+                    :
+                    <div className="text-yellow-500">
+                        Failed to find Clerk authentication data.
+                    </div>
+                }
 			</div>
 		</UserInfoSection>
 	);
