@@ -36,54 +36,55 @@ export default async function Page({
 	}
 
 	if (searchParams.user) {
-		const [scan, scanUser] = await db.transaction(async (tx) => {
-			const scanUser = await tx.query.userCommonData.findFirst({
-				where: eq(userCommonData.clerkID, searchParams.user!),
-				with: {
-					hackerData: {
-						with: {
-							team: true,
-						},
-					},
-				},
-			});
-			if (!scanUser) {
-				return [null, null];
-			}
-			const scan = await tx.query.scans.findFirst({
-				where: and(
-					eq(scans.eventID, event.id),
-					eq(scans.userID, scanUser.clerkID),
-				),
-			});
-			if (scan) {
-				return [scan, scanUser];
-			} else {
-				return [null, scanUser];
-			}
-		});
-		return (
-			<div>
-				<PassScanner
-					event={event}
-					hasScanned={true}
-					scan={scan}
-					scanUser={scanUser}
-				/>
-			</div>
-		);
-	}
-
-	return (
-		<div>
-			<PassScanner
-				event={event}
-				hasScanned={false}
-				scan={null}
-				scanUser={null}
-			/>
-		</div>
-	);
+        return (
+            <div>
+                <PassScanner
+                    event={event}
+                    hasScanned={false}
+                    scan={null}
+                    scanUser={null}
+                />
+            </div>
+        );
+    }
+    
+    const [scan, scanUser] = await db.transaction(async (tx) => {
+        const scanUser = await tx.query.userCommonData.findFirst({
+            where: eq(userCommonData.clerkID, searchParams.user!),
+            with: {
+                hackerData: {
+                    with: {
+                        team: true,
+                    },
+                },
+            },
+        });
+        if (!scanUser) {
+            return [null, null];
+        }
+        const scan = await tx.query.scans.findFirst({
+            where: and(
+                eq(scans.eventID, event.id),
+                eq(scans.userID, scanUser.clerkID),
+            ),
+        });
+        if (scan) {
+            return [scan, scanUser];
+        } else {
+            return [null, scanUser];
+        }
+    });
+    
+    return (
+        <div>
+            <PassScanner
+                event={event}
+                hasScanned={true}
+                scan={scan}
+                scanUser={scanUser}
+            />
+        </div>
+    );
 }
 
 export const runtime = "edge";
