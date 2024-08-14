@@ -4,31 +4,35 @@ import { Badge } from "../shadcn/ui/badge";
 import { formatInTimeZone } from "date-fns-tz";
 import c from "config";
 
-export default function EventItem({ event,userTimeZone }: {event:EventType,userTimeZone:string}) {
-  const startTimeFormatted = formatInTimeZone(
-    event.startTime,
-    userTimeZone,
-    "EEEE, hh:mm a",
-    {
-      useAdditionalDayOfYearTokens: true,
-    }
-  );
+export default function EventItem({
+	event,
+	userTimeZone,
+}: {
+	event: EventType;
+	userTimeZone: string;
+}) {
+	const startTimeFormatted = formatInTimeZone(
+		event.startTime,
+		userTimeZone,
+		"EEEE, hh:mm a",
+		{
+			useAdditionalDayOfYearTokens: true,
+		},
+	);
 
-  const endTimeFormatted = formatInTimeZone(
+	const endTimeFormatted = formatInTimeZone(
 		event.endTime,
 		userTimeZone,
 		"h:mm a",
-  );
-  const href=`/schedule/${event.id}`
+	);
+	const href = `/schedule/${event.id}`;
 	return (
-		<Link
-			target="_blank"
-			href={href}
-			className="m-0 w-full p-0"
-		>
-			<div className="grid h-24 md:h-16 w-full cursor-pointer grid-cols-5 rounded-xl px-2 hover:bg-white/[0.08] md:grid-cols-3">
-				<div className="col-span-3 flex h-full flex-col justify-center md:col-span-2">
-					<p className="text-sm md:text-2xl md:font-bold">{event.title}</p>
+		<Link target="_blank" href={href} className="m-0 w-full p-0">
+			<div className="flex h-full w-full cursor-pointer flex-col items-center space-y-6 rounded-lg border-b-2 border-muted px-2 py-4 hover:bg-white/[0.08] md:border-t-0 lg:flex-row lg:justify-between lg:space-y-0 lg:py-7">
+				<div className="flex h-full w-full flex-col items-center justify-center space-y-4 lg:w-auto lg:flex-row lg:gap-3 lg:space-y-0">
+					<h3 className="text-center text-lg font-bold md:text-2xl">
+						{event.title}
+					</h3>
 					<div>
 						<Badge
 							variant={"outline"}
@@ -39,12 +43,12 @@ export default function EventItem({ event,userTimeZone }: {event:EventType,userT
 									] || c.eventTypes.Other,
 							}}
 						>
-							{event.type}
+							<p className="text-sm">{event.type}</p>
 						</Badge>
 					</div>
 				</div>
-				<div className="md:text-md col-span-2 flex items-center justify-end text-sm md:col-span-1">
-					<p>{`${startTimeFormatted} - ${endTimeFormatted}`}</p>
+				<div className="-pt-6 flex h-full flex-row items-center justify-end p-0">
+					<p className="lg:text-2zl md:text-lg">{`${startTimeFormatted} - ${endTimeFormatted}`}</p>
 				</div>
 			</div>
 		</Link>

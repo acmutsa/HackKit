@@ -38,7 +38,6 @@ import { eventType } from "@/lib/utils/shared/types";
 import { useEffect } from "react";
 import { ThreeCircles } from "react-loader-spinner";
 
-
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
