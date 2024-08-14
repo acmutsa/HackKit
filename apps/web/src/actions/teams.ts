@@ -21,10 +21,7 @@ export const leaveTeam = authenticatedAction(
 			throw new Error("User not found");
 		}
 
-		if (
-			user.hackerData.teamID === null ||
-			user.hackerData.teamID === undefined
-		) {
+		if (!user.hackerData.teamID) {
 			revalidatePath("/dash/team");
 			return {
 				success: false,
@@ -38,7 +35,7 @@ export const leaveTeam = authenticatedAction(
 				.set({ teamID: null })
 				.where(eq(userHackerData.clerkID, user.clerkID));
 			const team = await tx.query.teams.findFirst({
-				where: eq(teams.id, user.hackerData.teamID as string), // Added null check for user.hackerData.teamID. Converted to string since TS does not realise for some reason that we checked above.
+				where: eq(teams.id, user.hackerData.teamID as string), // Converted to string since TS does not realise for some reason that we checked above.
 				with: {
 					members: {
 						with: {
