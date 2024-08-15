@@ -60,7 +60,7 @@ export const RegisterFormValidator = z.object({
 		z.literal("Native American", defaultPrettyError),
 		z.literal("Asian / Pacific Islander", defaultPrettyError),
 		z.literal("Black or African American", defaultPrettyError),
-		z.literal("White / Caucasion", defaultPrettyError),
+		z.literal("White / Caucasian", defaultPrettyError),
 		z.literal("Multiple / Other", defaultPrettyError),
 		z.literal("Prefer not to say", defaultPrettyError),
 	]),
