@@ -52,16 +52,17 @@ export async function GET() {
 		with: { hackerData: true },
 	});
 
-	const columed = userTableData.map((user) => {
+	const flattenedUsers = userTableData.map((user) => {
 		// TODO: Have to use any here to avoid type errors as we reshape the data. Could be fixed with a better type definition.
 		let toRet: any = {
 			...user,
 			...user.hackerData,
 		};
+        delete toRet.hackerData;
 		return toRet;
 	});
 
-	const csv = jsonToCSV(columed);
+	const csv = jsonToCSV(flattenedUsers);
 
 	return new Response(csv, {
 		headers: {
