@@ -49,9 +49,7 @@ export async function POST(req: Request) {
 			});
 			await tx
 				.update(userHackerData)
-				.set({
-					teamID,
-				})
+				.set({teamID})
 				.where(eq(userHackerData.clerkID, userId));
 		});
 		return NextResponse.json({
