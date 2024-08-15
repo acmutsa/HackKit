@@ -63,7 +63,7 @@ export default function Home() {
                 className="w-32 h-32 invert mt-16"
             />
             <h1 className="text-6xl md:text-8xl font-bold text-center">
-              sunhacks<span className="text-2xl"> 7.0</span>
+              sunhacks
             </h1>
             <h2 className="text-2xl text-center mt-3 text-black font-extrabold">
               <div>September 28th - 29th 2024</div>
