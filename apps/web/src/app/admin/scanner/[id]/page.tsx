@@ -35,7 +35,7 @@ export default async function Page({
 		);
 	}
 
-	if (searchParams.user) {
+	if (!searchParams.user) {
         return (
             <div>
                 <PassScanner
@@ -74,7 +74,7 @@ export default async function Page({
             return [null, scanUser];
         }
     });
-    
+
     return (
         <div>
             <PassScanner
