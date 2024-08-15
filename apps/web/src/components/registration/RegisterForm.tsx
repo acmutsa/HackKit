@@ -564,7 +564,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									>
 										<FormLabel>{c.localUniversityShortIDName}</FormLabel>
 										<FormControl>
-											<Input placeholder={"Enter ASURITE"} {...field} />
+											<Input placeholder={"sparky1"} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -745,7 +745,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>GitHub Link</FormLabel>
 										<FormControl>
-											<Input placeholder="Github Link" {...field} />
+											<Input placeholder="https://github.com/example" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -758,7 +758,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem>
 										<FormLabel>Linkedin Link</FormLabel>
 										<FormControl>
-											<Input placeholder="Linkedin Link" {...field} />
+											<Input placeholder="https://www.linkedin.com/in/example" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
