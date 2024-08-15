@@ -23,7 +23,7 @@ export default function Day({ title, subtitle, events }: DayProps) {
 				{title}
 			</h1>
 			<h2 className="mb-5 text-lg text-muted-foreground">{subtitle}</h2>
-			<div className="flex w-full flex-col items-center px-2">
+			<div className="flex w-full flex-col items-center px-2 space-y-4">
 				{events.map((event) => (
 					<EventItem
 						key={event.id}

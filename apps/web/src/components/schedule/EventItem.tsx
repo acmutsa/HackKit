@@ -25,10 +25,16 @@ export default function EventItem({
 		userTimeZone,
 		"h:mm a",
 	);
+
 	const href = `/schedule/${event.id}`;
+
+	const eventTypeColor =
+		(c.eventTypes as Record<string, string>)[event.type] ||
+		c.eventTypes.Other;
+
 	return (
 		<Link target="_blank" href={href} className="m-0 w-full p-0">
-			<div className="flex h-full w-full cursor-pointer flex-col items-center space-y-6 rounded-lg border-b-2 border-muted px-2 py-4 hover:bg-white/[0.08] md:border-t-0 lg:flex-row lg:justify-between lg:space-y-0 lg:py-7">
+			<div className="flex h-full w-full cursor-pointer flex-col items-center space-y-6 rounded-xl border border-b-4 lg:border-0 border-muted px-2 py-4 shadow-md  hover:bg-white/[0.08] dark:shadow-lg lg:shadow-none lg:flex-row lg:justify-between lg:space-y-0 lg:py-7">
 				<div className="flex h-full w-full flex-col items-center justify-center space-y-4 lg:w-auto lg:flex-row lg:gap-3 lg:space-y-0">
 					<h3 className="text-center text-lg font-bold md:text-2xl">
 						{event.title}
@@ -37,10 +43,7 @@ export default function EventItem({
 						<Badge
 							variant={"outline"}
 							style={{
-								borderColor:
-									(c.eventTypes as Record<string, string>)[
-										event.type
-									] || c.eventTypes.Other,
+								borderColor: eventTypeColor,
 							}}
 						>
 							<p className="text-sm">{event.type}</p>
