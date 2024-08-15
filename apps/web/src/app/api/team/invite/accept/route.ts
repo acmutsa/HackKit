@@ -82,6 +82,7 @@ export async function POST(
 		.update(userHackerData)
 		.set({ teamID: user.invites[0].teamID })
 		.where(eq(userHackerData.clerkID, userId));
+    
 	// TODO: would be interesting to see if the and() could be removed here in favor of directly looking up the composite key.
 	await db
 		.update(invites)
