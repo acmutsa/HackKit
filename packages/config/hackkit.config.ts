@@ -9,7 +9,7 @@ export default {
 	botParticipantRole: "SH25 Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: "Arizona State University",
-	localUniversityShortIDName: "ASURITE User ID",
+	localUniversityShortIDName: "ASURITE Username",
 	localUniversityShortIDMaxLength: 15,
 	dietaryRestrictionOptions: [
 		"Vegan",
