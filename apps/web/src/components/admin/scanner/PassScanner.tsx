@@ -6,7 +6,7 @@ import superjson from "superjson";
 import { createScan } from "@/actions/admin/scanner-admin-actions";
 import { useAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
-import type { Scan, Event } from "db/types";
+import type { Scan, Event, Hacker } from "db/types";
 import c from "config";
 
 import {
@@ -21,7 +21,6 @@ import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { Hacker } from "db/types";
 
 /*
 
