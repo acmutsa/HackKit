@@ -27,6 +27,6 @@ const _getHackerAlone = db.query.userCommonData
         with: { hackerData: true }
     }).prepare("getHacker");
 
-export function getHacker(clerkID: string, withTeam: boolean = false) : Promise<Hacker | undefined> {
+export function getHacker(clerkID: string, withTeam: boolean) : Promise<Hacker | undefined> {
     return (withTeam) ? _getHackerWithTeam.execute({_clerkID: clerkID}) : _getHackerAlone.execute({_clerkID: clerkID});
 }
