@@ -134,7 +134,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		let resume: string = c.noResumeProvidedURL;
 
 		if (uploadedFile) {
-			const fileLocation = `${c.hackathonName}/resume/${uploadedFile.name}`;
+			const fileLocation = `${c.hackathonName}/${c.itteration}/resume/${uploadedFile.name}`;
 			const newBlob = await put(fileLocation, uploadedFile, {
 				access: "public",
 				handleBlobUploadUrl: "/api/upload/resume/register",
