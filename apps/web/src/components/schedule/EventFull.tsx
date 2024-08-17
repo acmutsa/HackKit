@@ -1,14 +1,13 @@
-import { events } from "db/schema";
-import { InferModel } from "db/drizzle";
 import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
+import { Event } from "db/types";
 
 export default function EventFull({
 	event,
 }: {
-	event: InferModel<typeof events>;
+	event: Event;
 }) {
 	return (
 		<div className="relative w-screen">

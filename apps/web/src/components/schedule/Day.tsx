@@ -1,19 +1,18 @@
-import { events } from "db/schema";
-import { InferModel } from "db/drizzle";
-import { format, compareAsc } from "date-fns";
+import { compareAsc } from "date-fns";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
+import { Event } from "db/types";
 
 interface DayProps {
 	title: string;
 	subtitle: string;
-	events: InferModel<typeof events>[];
+	events: Event[];
 }
 
 interface EventItemProps {
-	event: InferModel<typeof events>;
+	event: Event;
 }
 
 export default function Day({ title, subtitle, events }: DayProps) {

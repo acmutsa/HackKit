@@ -1,7 +1,5 @@
 import QRCode from "react-qr-code";
 import { currentUser } from "@clerk/nextjs";
-import { InferModel } from "db/drizzle";
-import { userCommonData } from "db/schema";
 import Image from "next/image";
 import c from "config";
 import { format } from "date-fns";
@@ -13,9 +11,10 @@ import {
 	DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
 import { getHacker } from "db/functions";
+import { Hacker } from "db/types";
 
 interface EventPassProps {
-	user: InferModel<typeof userCommonData>;
+	user: Hacker;
 	clerk: NonNullable<Awaited<ReturnType<typeof currentUser>>>;
 	qrPayload: string;
 	guild: string;
