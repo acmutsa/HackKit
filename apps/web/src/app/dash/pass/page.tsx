@@ -1,7 +1,6 @@
 import QRCode from "react-qr-code";
 import { currentUser } from "@clerk/nextjs";
-import { db } from "db";
-import { eq, InferModel } from "db/drizzle";
+import { InferModel } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import Image from "next/image";
 import c from "config";
@@ -13,6 +12,7 @@ import {
 	DrawerContent,
 	DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
+import { getHacker } from "db/functions";
 
 interface EventPassProps {
 	user: InferModel<typeof userCommonData>;
@@ -25,11 +25,7 @@ export default async function Page() {
 	const user = await currentUser();
 	if (!user) return null;
 
-	const userDbRecord = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, user.id),
-		with: { hackerData: true },
-	});
-
+	const userDbRecord = await getHacker(user.id, false);
 	if (!userDbRecord) return null;
 
 	const qrPayload = createQRpayload({

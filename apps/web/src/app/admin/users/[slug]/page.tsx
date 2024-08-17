@@ -1,6 +1,3 @@
-import { db } from "db";
-import { userCommonData } from "db/schema";
-import { eq } from "db/drizzle";
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
@@ -18,7 +15,7 @@ import { notFound } from "next/navigation";
 import { isUserAdmin } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
 import c from "config";
-import { getUser } from "db/functions";
+import { getHacker, getUser } from "db/functions";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 	const { userId } = auth();
@@ -28,10 +25,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const admin = await getUser(userId);
 	if (!admin || !isUserAdmin(admin)) return notFound();
 
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, params.slug),
-		with: { hackerData: { with: { team: true } } },
-	});
+	const user = await getHacker(params.slug, true);
 
 	if (!user) {
 		return <p className="text-center font-bold">User Not Found</p>;
