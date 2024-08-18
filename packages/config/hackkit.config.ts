@@ -1,6 +1,6 @@
 const defaultTheme = "dark";
 
-const c =  {
+const c = {
 	hackathonName: "HackKit",
 	itteration: "I",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
@@ -709,4 +709,11 @@ const majors = [
 ] as const;
 
 export default c;
-export { defaultTheme, bucket_resume_upload_base_url as bucket_upload_base_url, perms,publicRoutes,schools,majors}
+export {
+	defaultTheme,
+	bucket_resume_upload_base_url as bucket_upload_base_url,
+	perms,
+	publicRoutes,
+	schools,
+	majors,
+};
