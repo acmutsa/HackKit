@@ -55,7 +55,7 @@ export default function TeamMember({person}:{person:Person}) {
 
     const [src,setSrc] = useState(person.imgLink);
     const [styling, setStyling] = useState(
-      "max-w-[110px] md:max-w-[140px] lg:max-w-[160px] 2xl:max-w-[200px] h-auto rounded-lg"
+      "max-w-[150px] md:max-w-[170px] lg:max-w-[190px] 2xl:max-w-[200px] h-auto rounded-lg"
     );
 
     const FallBackStyling = "max-w-[105px] md:max-w-[132px] lg:max-w-[150px] xl:max-w-[151px] 2xl:max-w-[188px] rounded-lg";
@@ -63,14 +63,14 @@ export default function TeamMember({person}:{person:Person}) {
       
     return (
       <Card
-        className={`w-full flex items-center justify-center ${oswald.className} bg-transparent border-transparent shadow-none  text-[#FEF2E6] hover:scale-[1.15] duration-300`}>
-        <div className="text-[#FEF2E6]">
+        className={`flex items-center justify-center ${oswald.className} bg-transparent border-transparent shadow-none hover:scale-[1.15] duration-300 basis-1/2 md:basis-auto`}>
+        <div>
           <CardHeader className="items-center">
             <CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">
               <h1 className="font-bold">{`${person.fname}\u00A0${person.lname}`}</h1>
             </CardTitle>
             <CardDescription>
-              <h2 className="text-[#FEF2E6] text-sm">{person.role}</h2>
+              <h2 className="text-sm">{person.role}</h2>
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center">

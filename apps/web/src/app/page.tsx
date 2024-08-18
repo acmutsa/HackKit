@@ -10,6 +10,8 @@ import FAQ from './FAQ';  // We'll create this component separately
 
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPaperPlane } from 'react-icons/fa';
 
+import Team from '@/components/landing/Team';
+
 
 const faqItems = [
   {
@@ -192,7 +194,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-
+          <Team />
 
         </div>
 
