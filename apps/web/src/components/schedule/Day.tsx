@@ -5,7 +5,7 @@ import c from "config";
 import { headers } from "next/headers";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
 import EventItem from "./EventItem";
-import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants/shared";
+import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
 interface DayProps {
 	title: string;
 	subtitle: string;
