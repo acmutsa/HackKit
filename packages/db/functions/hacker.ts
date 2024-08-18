@@ -2,19 +2,38 @@ import { db, eq, sql } from "..";
 import { userCommonData } from "../schema";
 import { Hacker } from "../types";
 
+// ID
 
-const _getHackerWithTeam = db.query.userCommonData
+const _getHackerByIDWithTeam = db.query.userCommonData
     .findFirst({
         where: eq(userCommonData.clerkID, sql.placeholder('_clerkID')),
         with: { hackerData: { with: { team: true } } }
-    }).prepare("getHackerWithTeam");
+    }).prepare("getHackerByIDWithTeam");
 
-const _getHackerAlone = db.query.userCommonData
+const _getHackerByIDAlone = db.query.userCommonData
     .findFirst({
         where: eq(userCommonData.clerkID, sql.placeholder('_clerkID')),
         with: { hackerData: true }
-    }).prepare("getHacker");
+    }).prepare("getHackerByID");
 
 export function getHacker(clerkID: string, withTeam: boolean) : Promise<Hacker | undefined> {
-    return (withTeam) ? _getHackerWithTeam.execute({_clerkID: clerkID}) : _getHackerAlone.execute({_clerkID: clerkID});
+    return (withTeam) ? _getHackerByIDWithTeam.execute({_clerkID: clerkID}) : _getHackerByIDAlone.execute({_clerkID: clerkID});
+}
+
+// Tag
+
+const _getHackerByTagWithTeam = db.query.userCommonData
+    .findFirst({
+        where: eq(userCommonData.hackerTag, sql.placeholder('_hackerTag')),
+        with: { hackerData: { with: { team: true } } }
+    }).prepare("getHackerByTagWithTeam");
+
+const _getHackerByTagAlone = db.query.userCommonData
+    .findFirst({
+        where: eq(userCommonData.hackerTag, sql.placeholder('_hackerTag')),
+        with: { hackerData: true }
+    }).prepare("getHackerByTag");
+
+export function getHackerByTag(hackerTag: string, withTeam: boolean) : Promise<Hacker | undefined> {
+    return (withTeam) ? _getHackerByTagWithTeam.execute({_hackerTag: hackerTag}) : _getHackerByTagAlone.execute({_hackerTag: hackerTag});
 }
