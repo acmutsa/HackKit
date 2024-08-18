@@ -49,7 +49,7 @@ function createPerson(
  * 
  */
 function CreateImgLink(firstname: string):string {
-  return `/img/people/${firstname}.png`;
+  return `/img/people/${firstname.toLowerCase()}.png`;
 }
 
 // Insert whatever roles that you want here and add them to the roles object
