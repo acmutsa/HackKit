@@ -1,4 +1,4 @@
-import { db,asc,desc } from "..";
+import { db, asc, desc } from "..";
 import { eventInsertType } from "../../../apps/web/src/lib/types/events";
 import { events } from "../schema";
 
