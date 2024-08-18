@@ -2,6 +2,7 @@ import PassScanner from "@/components/admin/scanner/PassScanner";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
+import { getHacker } from "db/functions";
 import { events, userCommonData, scans } from "db/schema";
 
 export default async function Page({
@@ -48,40 +49,23 @@ export default async function Page({
 		);
 	}
 
-	const [scan, scanUser] = await db.transaction(async (tx) => {
-		const scanUser = await tx.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, searchParams.user!),
-			with: {
-				hackerData: {
-					with: {
-						team: true,
-					},
-				},
-			},
-		});
-		if (!scanUser) {
-			return [null, null];
-		}
-		const scan = await tx.query.scans.findFirst({
-			where: and(
-				eq(scans.eventID, event.id),
-				eq(scans.userID, scanUser.clerkID),
-			),
-		});
-		if (scan) {
-			return [scan, scanUser];
-		} else {
-			return [null, scanUser];
-		}
-	});
+    const scanUser = await getHacker(searchParams.user, false);
+
+    const scan = (!scanUser) ? null :
+        await db.query.scans.findFirst({
+            where: and(
+                eq(scans.eventID, event.id),
+                eq(scans.userID, scanUser.clerkID),
+            ),
+        });
 
 	return (
 		<div>
 			<PassScanner
 				event={event}
 				hasScanned={true}
-				scan={scan}
-				scanUser={scanUser}
+				scan={scan ?? null}
+				scanUser={scanUser ?? null}
 			/>
 		</div>
 	);
