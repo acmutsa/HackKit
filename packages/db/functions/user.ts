@@ -2,6 +2,13 @@ import { db, eq, sql } from "..";
 import { userCommonData } from "../schema";
 import { User } from "../types";
 
+
+const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
+
+export function getAllUsers(): Promise<User[] | undefined> {
+    return _getAllUsers.execute();
+}
+
 // ID
 
 const _getUser = db.query.userCommonData
