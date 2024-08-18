@@ -12,6 +12,8 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPaperPlane } from 're
 
 import Team from '@/components/landing/Team';
 
+import Partners from '@/components/landing/Partners';
+
 
 const faqItems = [
   {
@@ -195,6 +197,7 @@ export default function Home() {
             </div>
           </section>
           <Team />
+          <Partners />
 
         </div>
 

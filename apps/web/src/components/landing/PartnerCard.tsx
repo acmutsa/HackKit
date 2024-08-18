@@ -60,8 +60,8 @@ function PartnerCard({partner,is_title}:{partner:Partner,is_title:boolean}) {
         className={`flex items-center justify-center w-full ${height} shadow-none bg-[#d2b48c] bg-opacity-45 rounded-lg p-3`}>
         <Image
           src={`/img/partner-logos/${partner?.logo}`}
-          width={0}
-          height={0}
+          width={300}
+          height={300}
           quality={100}
           priority={true}
           alt={`${partner?.name} logo`}
