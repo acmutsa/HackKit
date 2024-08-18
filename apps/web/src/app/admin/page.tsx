@@ -6,12 +6,11 @@ import {
 	CardTitle,
 	CardDescription,
 } from "@/components/shadcn/ui/card";
-import { db } from "db";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { User } from "db/types";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
-import { getUser } from "db/functions";
+import { getAllUsers, getUser } from "db/functions";
 
 export default async function Page() {
 
@@ -23,7 +22,7 @@ export default async function Page() {
 		return notFound();
 	}
 
-	const allUsers = await getUsers();
+	const allUsers = await getAllUsers() ?? [];
 
 	const { rsvpCount, checkinCount, recentSignupCount } =
 		getRecentRegistrationData(allUsers);
@@ -157,11 +156,6 @@ function getRecentRegistrationData(users: User[]) {
 	}
 
 	return { rsvpCount, checkinCount, recentSignupCount };
-}
-
-async function getUsers() {
-	const usersReq = await db.query.userCommonData.findMany();
-	return usersReq;
 }
 
 export const runtime = "edge";

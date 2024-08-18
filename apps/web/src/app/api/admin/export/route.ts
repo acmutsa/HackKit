@@ -1,6 +1,5 @@
-import { db } from "db";
 import { auth } from "@clerk/nextjs";
-import { getUser } from "db/functions";
+import { getAllHackers, getUser } from "db/functions";
 
 function escape(value: any) {
 	if (value === null) return "None";
@@ -41,9 +40,7 @@ export async function GET() {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	const userTableData = await db.query.userCommonData.findMany({
-		with: { hackerData: true },
-	});
+	const userTableData = await getAllHackers() ?? [];
 
 	const flattenedUsers = userTableData.map((user) => {
 		// TODO: Have to use any here to avoid type errors as we reshape the data. Could be fixed with a better type definition.
