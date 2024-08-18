@@ -2,6 +2,15 @@ import { db, eq, sql } from "..";
 import { userCommonData } from "../schema";
 import { Hacker } from "../types";
 
+
+const _getAllHackers = db.query.userCommonData.findMany({
+        with: { hackerData: true }
+    }).prepare("getAllHackers");
+
+export function getAllHackers(): Promise<Hacker[] | undefined> {
+    return _getAllHackers.execute();
+}
+
 // ID
 
 const _getHackerByIDWithTeam = db.query.userCommonData
