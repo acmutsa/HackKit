@@ -1,64 +1,42 @@
 import CheckinScanner from "@/components/admin/scanner/CheckinScanner";
-import { db } from "db";
-import { eq } from "db/drizzle";
-import { userCommonData } from "db/schema";
+import { getUser } from "db/functions";
 
 export default async function Page({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	// Check for missing searchParams
-	if (!searchParams.user) {
-		return (
-			<div>
-				<CheckinScanner
-					hasScanned={false}
-					checkedIn={null}
-					scanUser={null}
-					hasRSVP={null}
-				/>
-			</div>
-		);
-	}
 
-	const [isChecked, scanUser, hasRSVPed] = await db.transaction(
-		async (tx) => {
-			const scanUser = await tx.query.userCommonData.findFirst({
-				where: eq(
-					userCommonData.clerkID,
-					searchParams.user ?? "unknown",
-				),
-			});
-			if (!scanUser) {
-				return [null, null, null];
-			}
-			const scan = await tx
-				.select({
-					checkinTimestamp: userCommonData.checkinTimestamp,
-					hasRSVPed: userCommonData.isRSVPed,
-				})
-				.from(userCommonData)
-				.where(eq(userCommonData.clerkID, searchParams.user!));
-			if (scan) {
-				return [
-					scan[0].checkinTimestamp != null,
-					scanUser,
-					scan[0].hasRSVPed,
-				];
-			} else {
-				return [null, scanUser, null];
-			}
-		},
-	);
+	if (!searchParams.user) return (
+        <div>
+            <CheckinScanner
+                hasScanned={false}
+                checkedIn={null}
+                scanUser={null}
+                hasRSVP={null}
+            />
+        </div>
+    );
+
+    const scanUser = await getUser(searchParams.user);
+	if (!scanUser) return (
+        <div>
+            <CheckinScanner
+                hasScanned={true}
+                checkedIn={null}
+                scanUser={null}
+                hasRSVP={null}
+            />
+        </div>
+    );
 
 	return (
 		<div>
 			<CheckinScanner
-				checkedIn={isChecked}
 				hasScanned={true}
+				checkedIn={scanUser.checkinTimestamp != null}
 				scanUser={scanUser}
-				hasRSVP={hasRSVPed}
+				hasRSVP={scanUser.isRSVPed}
 			/>
 		</div>
 	);
