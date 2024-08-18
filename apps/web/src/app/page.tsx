@@ -118,7 +118,7 @@ export default function Home() {
         </section>
 
         <div className="relative">
-          <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-0 left-0 w-full">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
               <path
                   fill="#2F0007"
