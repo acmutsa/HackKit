@@ -1,6 +1,6 @@
-import { db, asc, desc } from "db";
-import { eventInsertType } from "../types/events";
-import { events } from "db/schema";
+import { db,asc,desc } from "..";
+import { eventInsertType } from "../../../apps/web/src/lib/types/events";
+import { events } from "../schema";
 
 // Server action should also convert the dates to UTC
 export function createNewEvent(event: eventInsertType) {

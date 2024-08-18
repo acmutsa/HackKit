@@ -1,4 +1,4 @@
-import { getAllEvents } from "@/lib/queries/events";
+import { getAllEvents } from "db/functions";
 import Day from "@/components/schedule/Day";
 import c from "config";
 export default async function UserScheduleView() {
@@ -6,7 +6,7 @@ export default async function UserScheduleView() {
 
 	const { hackathonName, itteration } = c;
 
-	// Idea for tomorrow: we use tabs to sort our data by day
+	// Idea for later: we use tabs to sort our data by day
 	return (
 		<main className="mx-auto my-4 flex min-h-[70%] w-full max-w-5xl flex-col items-center 2xl:max-w-6xl">
 			<Day
