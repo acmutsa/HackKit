@@ -111,6 +111,14 @@ let team: Array<Person> = [
     // "https://www.google.com/",
     // "https://www.github.com/"
   ),
+  createPerson(
+    "Satya",
+    "Neriyanuru",
+    roles.industry,
+    // "https://www.linkedin.com/",
+    // "https://www.google.com/",
+    // "https://www.github.com/"
+  ),
   // createPerson(
   //   "Keerthana",
   //   "Gontu",
