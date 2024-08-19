@@ -904,7 +904,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											/>
 										</FormControl>
 										<FormDescription className="!mt-0">
-											These skills can be listed on your profile and help with the team finding
+											Type and then press enter to add a skill. These skills can be listed on your profile and help with the team finding
 											process! Enter anything you think is relevant, including non-technical skills!
 										</FormDescription>
 										<FormMessage />
