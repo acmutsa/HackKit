@@ -179,6 +179,10 @@ export default function Home() {
             </div>
           </section>
 
+
+          <Partners/>
+          <Team/>
+
           <section className="bg-[#FFF4B8] min-h-screen z-50 py-16 relative">
             <div className="container mx-auto px-4">
               <h2 className="text-[#2F0007] text-6xl font-bold text-center mb-12">Frequently Asked Questions</h2>
@@ -196,9 +200,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <Team />
-          <Partners />
-
         </div>
 
         <footer className="bg-[#2F0007] text-white py-8">
@@ -241,4 +242,4 @@ export default function Home() {
 
 
 export const runtime = 'edge';
-export const revalidate = '30';
+export const revalidate = 30;
