@@ -63,7 +63,7 @@ export default function Home() {
               className="flex flex-col items-center justify-center min-h-screen w-full py-12 relative z-20 -translate-y-44">
             <img
                 src="/logo.png"
-                alt="Sunhacks logo"
+                alt="sunhacks logo"
                 className="w-32 h-32 invert mt-16"
             />
             <h1 className="text-6xl md:text-8xl font-bold text-center">

@@ -34,37 +34,37 @@ function Parallax() {
     <div ref={containerRef}>
       <img
         src={'/landing_images/layer1.png'}
-        alt="Sunhacks"
+        alt="sunhacks"
         className="w-full h-full absolute z-10 parallax-layer"
         data-depth="0.1"
       />
       <img
         src={'/landing_images/layer2.png'}
-        alt="Sunhacks"
+        alt="sunhacks"
         className="w-full h-full absolute z-[9] parallax-layer"
         data-depth="0.2"
       />
       <img
         src={'/landing_images/layer3.png'}
-        alt="Sunhacks"
+        alt="sunhacks"
         className="w-full h-full absolute z-[8] parallax-layer"
         data-depth="0.3"
       />
       <img
         src={'/landing_images/layer4.png'}
-        alt="Sunhacks"
+        alt="sunhacks"
         className="w-full h-full absolute z-[7] parallax-layer"
         data-depth="0.4"
       />
       <img
         src={'/landing_images/layer5.png'}
-        alt="Sunhacks"
+        alt="sunhacks"
         className="w-full h-full absolute z-[6] parallax-layer"
         data-depth="0.5"
       />
       <img
         src={'/landing_images/layer6.png'}
-        alt="Sunhacks"
+        alt="sunhacks"
         className="w-full h-full absolute z-[5] parallax-layer"
         data-depth="0.8"
       />
