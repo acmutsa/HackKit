@@ -36,7 +36,7 @@ export const modifyAccountSettings = authenticatedAction(
 	async ({ firstName, lastName }, { userId }) => {
 		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
-        
+
 		await db
 			.update(userCommonData)
 			.set({ firstName, lastName })

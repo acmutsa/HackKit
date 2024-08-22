@@ -36,11 +36,14 @@ export async function GET() {
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
 	const reqUserRecord = await getUser(userId);
-	if (!reqUserRecord || (reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")) {
+	if (
+		!reqUserRecord ||
+		(reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")
+	) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	const userTableData = await getAllHackers() ?? [];
+	const userTableData = (await getAllHackers()) ?? [];
 
 	const flattenedUsers = userTableData.map((user) => {
 		// TODO: Have to use any here to avoid type errors as we reshape the data. Could be fixed with a better type definition.

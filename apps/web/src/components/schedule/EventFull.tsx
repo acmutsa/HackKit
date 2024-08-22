@@ -4,11 +4,7 @@ import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";
 
-export default function EventFull({
-	event,
-}: {
-	event: Event;
-}) {
+export default function EventFull({ event }: { event: Event }) {
 	return (
 		<div className="relative w-screen">
 			<div

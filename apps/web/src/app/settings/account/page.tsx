@@ -5,7 +5,7 @@ import { getHacker } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();
-    if (!userId) return redirect("/sign-in");
+	if (!userId) return redirect("/sign-in");
 
 	const user = await getHacker(userId, false);
 	if (!user) return redirect("/sign-in");

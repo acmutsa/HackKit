@@ -13,16 +13,18 @@ import { notFound } from "next/navigation";
 import { getAllUsers, getUser } from "db/functions";
 
 export default async function Page() {
-
 	const { userId } = auth();
 	if (!userId) return notFound();
 
 	const adminUser = await getUser(userId);
-	if (!adminUser || (adminUser.role !== "admin" && adminUser.role !== "super_admin")) {
+	if (
+		!adminUser ||
+		(adminUser.role !== "admin" && adminUser.role !== "super_admin")
+	) {
 		return notFound();
 	}
 
-	const allUsers = await getAllUsers() ?? [];
+	const allUsers = (await getAllUsers()) ?? [];
 
 	const { rsvpCount, checkinCount, recentSignupCount } =
 		getRecentRegistrationData(allUsers);

@@ -6,29 +6,30 @@ export default async function Page({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
+	if (!searchParams.user)
+		return (
+			<div>
+				<CheckinScanner
+					hasScanned={false}
+					checkedIn={null}
+					scanUser={null}
+					hasRSVP={null}
+				/>
+			</div>
+		);
 
-	if (!searchParams.user) return (
-        <div>
-            <CheckinScanner
-                hasScanned={false}
-                checkedIn={null}
-                scanUser={null}
-                hasRSVP={null}
-            />
-        </div>
-    );
-
-    const scanUser = await getUser(searchParams.user);
-	if (!scanUser) return (
-        <div>
-            <CheckinScanner
-                hasScanned={true}
-                checkedIn={null}
-                scanUser={null}
-                hasRSVP={null}
-            />
-        </div>
-    );
+	const scanUser = await getUser(searchParams.user);
+	if (!scanUser)
+		return (
+			<div>
+				<CheckinScanner
+					hasScanned={true}
+					checkedIn={null}
+					scanUser={null}
+					hasRSVP={null}
+				/>
+			</div>
+		);
 
 	return (
 		<div>

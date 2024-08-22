@@ -49,15 +49,16 @@ export default async function Page({
 		);
 	}
 
-    const scanUser = await getHacker(searchParams.user, false);
+	const scanUser = await getHacker(searchParams.user, false);
 
-    const scan = (!scanUser) ? null :
-        await db.query.scans.findFirst({
-            where: and(
-                eq(scans.eventID, event.id),
-                eq(scans.userID, scanUser.clerkID),
-            ),
-        });
+	const scan = !scanUser
+		? null
+		: await db.query.scans.findFirst({
+				where: and(
+					eq(scans.eventID, event.id),
+					eq(scans.userID, scanUser.clerkID),
+				),
+			});
 
 	return (
 		<div>
