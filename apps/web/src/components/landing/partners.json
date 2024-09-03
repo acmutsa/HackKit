@@ -5,7 +5,13 @@
       "name": "State Farm",
       "logo": "statefarm.png",
       "url": "https://www.statefarm.com/careers",
-      "tier":"Moon Sponsor"
-    }
+      "tier":"Moon"
+    },
+    {
+      "name": "Amazon",
+      "logo": "amazon.png",
+      "url": "https://amazon.jobs",
+      "tier": "Planet"
+  }
   ]
 }

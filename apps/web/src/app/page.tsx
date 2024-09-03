@@ -12,7 +12,8 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPaperPlane } from 're
 
 import Team from '@/components/landing/Team';
 
-import Partners from '@/components/landing/Partners';
+import { DesertSponsorsSection } from '@/components/landing/desert-sponsors-section';
+import { MeetTheTeam } from '@/components/landing/meet-the-team';
 
 
 const faqItems = [
@@ -180,8 +181,8 @@ export default function Home() {
           </section>
 
 
-          <Partners/>
-          <Team/>
+          <DesertSponsorsSection/>
+          <MeetTheTeam/>
 
           <section className="bg-[#FFF4B8] min-h-screen z-50 py-16 relative">
             <div className="container mx-auto px-4">
