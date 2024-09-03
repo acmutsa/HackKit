@@ -2,9 +2,34 @@
 
 import { Alata } from 'next/font/google'
 import { Sun } from 'lucide-react'
-import partners from "@/components/landing/partners.json"
+import Image from 'next/image'
+import Link from 'next/link'
 
 const alata = Alata({ subsets: ['latin'], weight: ['400'] })
+
+const partners = [{
+  "name": "Devils invent",
+  "logo": "devils-invent.png",
+  "url": "https://students.engineering.asu.edu/devils-invent/",
+  "tier":"Star"
+},{
+  "name": "Amazon",
+  "logo": "amazon.png",
+  "url": "https://amazon.jobs",
+  "tier": "Planet"
+},{
+      "name": "State Farm",
+      "logo": "statefarm.png",
+      "url": "https://www.statefarm.com/careers",
+      "tier":"Moon"
+    },{
+      "name": "GDMS",
+      "logo": "gdms.png",
+      "url": "https://gdmissionsystems.com/careers",
+      "tier":"Comet"
+    }
+    ]
+  
 
 export function DesertSponsorsSection() {
   return (
@@ -16,31 +41,43 @@ export function DesertSponsorsSection() {
         
         <div className="space-y-12">
           <div className="space-y-6">
-            <h3 className="text-3xl md:text-4xl font-semibold text-center text-orange-600">
-              Planet Sponsors
-            </h3>
-            <div className="flex justify-center items-center space-x-8">
-              {[1, 2].map((sponsor, index) => (
-                <div key={index} className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-orange-200">
-                  <Sun className="w-24 h-24 text-orange-400" />
-                </div>
+            <div className="flex justify-center items-center space-x-8 scale-125">
+              {partners?.map((sponsor, index) => (
+                // <div key={index} className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-orange-200">
+                  <Link className='hover:scale-105' href={sponsor.url}>
+                    <Image key={index} unoptimized width={200} height={200} alt={sponsor.name} src={!sponsor.logo.startsWith("http") ? `/img/partner-logos/${sponsor.logo}`: sponsor.logo}/>
+                  </Link>
+                // </div>
               ))}
             </div>
           </div>
           
-          <div className="space-y-6">
+          {/* <div className="space-y-6">
             <h3 className="text-2xl md:text-3xl font-semibold text-center text-yellow-600">
               Moon Sponsors
             </h3>
             <div className="flex flex-wrap justify-center items-center gap-6">
-              {[1, 2, 3].map((sponsor, index) => (
-                <div key={index} className="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-md border-2 border-yellow-200">
-                  <Sun className="w-16 h-16 text-yellow-400" />
+            {partners.filter(i => i.tier === "Moon")?.map((sponsor, index) => (
+                <div key={index} className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-orange-200">
+                  <Image width={200} height={200} alt={sponsor.name} src={!sponsor.logo.startsWith("http") ? `/img/partner-logos/${sponsor.logo}`: sponsor.logo}/>
                 </div>
               ))}
             </div>
           </div>
         </div>
+          <div className="space-y-6 scale-75">
+            <h3 className="text-2xl md:text-3xl font-semibold text-center text-yellow-600">
+              Star Sponsors
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-6">
+            {partners.filter(i => i.tier === "Star")?.map((sponsor, index) => (
+                // <div key={index} className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-orange-200">
+                  <Image key={index} className='rounded-xl' unoptimized width={200} height={200} alt={sponsor.name} src={!sponsor.logo.startsWith("http") ? `/img/partner-logos/${sponsor.logo}`: sponsor.logo}/>
+                // </div>
+              ))}
+            </div>
+          </div> */}
+          </div>
       </div>
       
       {/* Subtle desert-themed background elements */}
