@@ -1,7 +1,7 @@
 "use server";
 
 import { authenticatedAction } from "@/lib/safe-action";
-import { undefined, z } from "zod";
+import { z } from "zod";
 import { db } from "db";
 import { users, profileData, registrationData } from "db/schema";
 import { eq } from "db/drizzle";

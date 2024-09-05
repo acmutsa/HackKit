@@ -25,7 +25,7 @@ interface AccountSettingsProps {
 export default function AccountSettings({ user }: AccountSettingsProps) {
 	const [newFirstName, setNewFirstName] = useState(user.firstName);
 	const [newLastName, setNewLastName] = useState(user.lastName);
-	const [newEmail, setNewEmail] = useState(user.email);
+	//const [newEmail, setNewEmail] = useState(user.email);
 	const [newHackerTag, setNewHackerTag] = useState(user.hackerTag);
 	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(user.hasSearchableProfile);
 	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false)

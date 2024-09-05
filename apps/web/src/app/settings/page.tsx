@@ -1,5 +1,5 @@
 import AccountSettings from "@/components/settings/AccountSettings";
-import { registrationData, users } from "db/schema";
+import { users } from "db/schema";
 import { eq } from "db/drizzle";
 import { auth } from "@clerk/nextjs";
 import { db } from "db";
@@ -35,7 +35,7 @@ export default async function Page() {
 			<Header tag="Profile" />
 			<ProfileSettings profile={user.profileData}/>
 			<Header tag={"Registration"} />
-			<RegistrationSettings data={user.registrationData}/>
+			<RegistrationSettings />
 		</div>
 	);
 }
