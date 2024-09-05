@@ -33,12 +33,12 @@ export default async function ({ children }: { children: ReactNode }) {
 						</div>
 					</div>
 				</div>
-				<div>
+				<aside className="sticky top-20 h-screen">
 					{/* <SettingsSection name="Settings" path="/settings" /> */}
-					<SettingsSection name="Account" path="/settings/account" />
-					<SettingsSection name="Profile" path="/settings/profile" />
-				</div>
-				<div className="col-span-4">{children}</div>
+					<SettingsSection name="Account" path="/settings#account" />
+					<SettingsSection name="Profile" path="/settings#profile" />
+				</aside>
+				<div className="col-span-4 mb-20">{children}</div>
 			</div>
 		</>
 	);
