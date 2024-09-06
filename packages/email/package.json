@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "email-dev": "email dev -p 3001",
-    "email-export": "email export"
+    "dev": "email dev -p 3001",
+    "export": "email export"
   },
   "keywords": [],
   "author": "",
