@@ -1,0 +1,19 @@
+{
+  "name": "email",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "email dev -p 3001",
+    "export": "email export"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-email/components": "^0.0.25",
+    "@types/node": "20.14.11",
+    "@types/react": "18.3.3",
+    "react": "18.3.1",
+    "react-email": "^3.0.1"
+  }
+}
