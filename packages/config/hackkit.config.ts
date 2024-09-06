@@ -1,5 +1,4 @@
 const defaultTheme = "dark";
-
 const c = {
 	hackathonName: "HackKit",
 	itteration: "I",
@@ -153,7 +152,7 @@ const c = {
 	},
 } as const;
 
-const bucket_resume_upload_base_url = `${c.hackathonName}/${c.itteration}/resume`;
+const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resume`;
 
 // Its important that this is kept in sync with the database schema.
 
@@ -711,7 +710,7 @@ const majors = [
 export default c;
 export {
 	defaultTheme,
-	bucket_resume_upload_base_url as bucket_upload_base_url,
+	bucketResumeBaseUploadUrl,
 	perms,
 	publicRoutes,
 	schools,
