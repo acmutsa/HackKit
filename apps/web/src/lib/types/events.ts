@@ -14,3 +14,7 @@ export type eventTableValidatorType = Pick<
 export interface NewEventFormProps {
 	defaultDate: Date;
 }
+
+export interface getAllEventsOptions {
+	ascending?: boolean;
+}
