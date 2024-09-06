@@ -30,7 +30,7 @@ import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { useState } from "react";
 import { LoaderPinwheel } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants/shared";
+import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants";
 import { NewEventFormProps } from "@/lib/types/events";
 import { newEventFormSchema } from "@/validators/event";
 import { useAction } from "next-safe-action/hook";

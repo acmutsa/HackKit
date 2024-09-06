@@ -51,7 +51,7 @@ import { FileRejection, useDropzone } from "react-dropzone";
 import { put, type PutBlobResult } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
-import { bucket_upload_base_url } from "config";
+import { bucketResumeBaseUploadUrl } from "config";
 interface RegisterFormProps {
 	defaultEmail: string;
 }
@@ -134,7 +134,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		let resume: string = c.noResumeProvidedURL;
 
 		if (uploadedFile) {
-			const fileLocation = `${bucket_upload_base_url}/${uploadedFile.name}`;
+			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
 			const newBlob = await put(fileLocation, uploadedFile, {
 				access: "public",
 				handleBlobUploadUrl: "/api/upload/resume/register",

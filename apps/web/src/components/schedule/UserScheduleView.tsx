@@ -2,9 +2,7 @@ import { getAllEvents } from "db/functions";
 import Day from "@/components/schedule/Day";
 import c from "config";
 export default async function UserScheduleView() {
-	const events = await getAllEvents(true);
-
-	const { hackathonName, itteration } = c;
+	const events = await getAllEvents();
 
 	// Idea for later: we use tabs to sort our data by day
 	return (
@@ -12,7 +10,7 @@ export default async function UserScheduleView() {
 			<Day
 				events={events}
 				title="Event Schedule"
-				subtitle={`${hackathonName} ${itteration}`}
+				subtitle={`${c.hackathonName} ${c.itteration}`}
 			/>
 		</main>
 	);
