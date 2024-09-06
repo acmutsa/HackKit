@@ -3,10 +3,10 @@ import { columns } from "@/components/events/shared/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { getAllEvents } from "@/lib/queries/events";
+import { getAllEvents } from "db/functions";
 export default async function Page() {
-	const events = await getAllEvents(true);
-	const currentDate = new Date();
+	const events = await getAllEvents();
+
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">
 			<div className="mb-5 grid w-full grid-cols-2">
