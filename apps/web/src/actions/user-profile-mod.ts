@@ -23,13 +23,13 @@ export const modifyRegistrationData = authenticatedAction(
 		shortID: z.string(),
 		hackathonsAttended: z.number(),
 		softwareExperience: z.string(),
-		heardFrom: z.string(),
+		heardFrom: z.string().nullish(),
 		shirtSize: z.string(),
 		dietRestrictions: z.string().array(),
-		accommodationNote: z.string(),
-		GitHub: z.string(),
-		LinkedIn: z.string(),
-		PersonalWebsite: z.string()
+		accommodationNote: z.string().nullish(),
+		GitHub: z.string().nullish(),
+		LinkedIn: z.string().nullish(),
+		PersonalWebsite: z.string().nullish(),
 	}),
 	async ({ age, gender, race, ethnicity, wantsToReceiveMLHEmails, university, major, levelOfStudy, shortID, hackathonsAttended, softwareExperience, heardFrom, shirtSize, dietRestrictions, accommodationNote, GitHub, LinkedIn, PersonalWebsite }, { userId }) => {
 		const user = await db.query.users.findFirst({

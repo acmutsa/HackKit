@@ -64,14 +64,14 @@ interface RegistrationData {
 	shortID: string;
 	levelOfStudy: string;
 	hackathonsAttended: number;
-	softwareExperience: "Beginner" | "Intermediate" | "Advanced" | "Expert" | undefined;
+	softwareExperience: string;
 	heardFrom: string | null;
-	shirtSize: "S" | "M" | "L" | "XL" | "2XL" | "3XL" | undefined;
-	dietRestrictions: string[];
+	shirtSize: string;
+	dietRestrictions: string[] | unknown;
 	accommodationNote: string | null;
 	GitHub: string | null;
 	LinkedIn: string | null;
-	PersonalWebsite: string;
+	PersonalWebsite: string | null;
 	resume: string;
 }
 
@@ -80,8 +80,6 @@ interface RegisterFormSettingsProps {
 }
 
 export default function RegisterForm({ data }: RegisterFormSettingsProps) {
-	const { isLoaded, userId } = useAuth();
-	const router = useRouter();
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
