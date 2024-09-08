@@ -64,14 +64,14 @@ interface RegistrationData {
 	shortID: string;
 	levelOfStudy: string;
 	hackathonsAttended: number;
-	softwareExperience: string;
-	heardFrom: string | null;
-	shirtSize: string;
-	dietRestrictions: string[] | unknown;
+	softwareExperience: any;
+	heardFrom: any;
+	shirtSize: any;
+	dietRestrictions: any;
 	accommodationNote: string | null;
 	GitHub: string | null;
 	LinkedIn: string | null;
-	PersonalWebsite: string | null;
+	PersonalWebsite: any;
 	resume: string;
 }
 
@@ -80,6 +80,7 @@ interface RegisterFormSettingsProps {
 }
 
 export default function RegisterForm({ data }: RegisterFormSettingsProps) {
+	if (data.heardFrom === null) data.heardFrom = undefined
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
