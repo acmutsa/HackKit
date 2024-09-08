@@ -1,7 +1,7 @@
 "use server";
 
 import { authenticatedAction } from "@/lib/safe-action";
-import { z } from "zod";
+import { string, z } from "zod";
 import { db } from "db";
 import { users, profileData, registrationData } from "db/schema";
 import { eq } from "db/drizzle";
@@ -16,42 +16,74 @@ export const modifyRegistrationData = authenticatedAction(
 		gender: z.string(),
 		race: z.string(),
 		ethnicity: z.string(),
+		wantsToReceiveMLHEmails: z.boolean(),
+		university: z.string(),
+		major: z.string(),
+		levelOfStudy: z.string(),
+		shortID: z.string(),
+		hackathonsAttended: z.number(),
+		softwareExperience: z.string(),
+		heardFrom: z.string(),
+		shirtSize: z.string(),
+		dietRestrictions: z.string().array(),
+		accommodationNote: z.string(),
+		GitHub: z.string(),
+		LinkedIn: z.string(),
+		PersonalWebsite: z.string()
 	}),
-	async ({ age, gender, race, ethnicity }, { userId }) => {
+	async ({ age, gender, race, ethnicity, wantsToReceiveMLHEmails, university, major, levelOfStudy, shortID, hackathonsAttended, softwareExperience, heardFrom, shirtSize, dietRestrictions, accommodationNote, GitHub, LinkedIn, PersonalWebsite }, { userId }) => {
 		const user = await db.query.users.findFirst({
 			where: eq(users.clerkID, userId),
 		});
 		if (!user) throw new Error("User not found");
+		console.log(dietRestrictions);
 		await db
 			.update(registrationData)
-			.set({ age, gender, race, ethnicity })
+			.set({ age, gender, race, ethnicity, wantsToReceiveMLHEmails, university, major, levelOfStudy, shortID, hackathonsAttended, softwareExperience, heardFrom, shirtSize, dietRestrictions, accommodationNote, GitHub, LinkedIn, PersonalWebsite })
 			.where(eq(registrationData.clerkID, user.clerkID));
 		return {
 			success: true,
 			newAge: age,
 			newGender: gender,
 			newRace: race,
-			newEthnicity: ethnicity };
+			newEthnicity: ethnicity,
+			newWantsToReceiveMLHEmails: wantsToReceiveMLHEmails,
+			newUniversity: university,
+			newMajor: major,
+			newLevelOfStudy: levelOfStudy,
+			newShortID: shortID,
+			newHackathonsAttended: hackathonsAttended,
+			newSoftwareExperience: softwareExperience,
+			newHeardFrom: heardFrom,
+			newShirtSize: shirtSize,
+			newDietaryRestrictions: dietRestrictions,
+			newAccommodationNote: accommodationNote,
+			newGitHub: GitHub,
+			newLinkedIn: LinkedIn,
+			newPersonalWebsite: PersonalWebsite
+		};
 	},
 );
 
 export const modifyProfileData = authenticatedAction(
 	z.object({
+		pronouns: z.string(),
 		bio: z.string(),
 		skills: z.string().array(),
 		discordUsername: z.string(),
 	}),
-	async ({ bio, skills, discordUsername }, { userId }) => {
+	async ({ pronouns, bio, skills, discordUsername }, { userId }) => {
 		const user = await db.select().from(users).leftJoin(profileData, eq(users.hackerTag, profileData.hackerTag)).where(eq(users.clerkID, userId));
 		if (!user || !user[0].profile_data) {
 			throw new Error("User not found");
 		}
 		await db
 			.update(profileData)
-			.set({ bio, skills, discordUsername })
+			.set({ pronouns, bio, skills, discordUsername })
 			.where(eq(profileData.hackerTag, user[0].profile_data.hackerTag))
 		return {
 			success: true,
+			newPronouns: pronouns,
 			newBio: bio,
 			newSkills: skills,
 			newDiscord: discordUsername,

@@ -16,6 +16,7 @@ import { encodeFileAsBase64 } from "@/lib/utils/shared/files";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 
 interface ProfileData {
+	pronouns: string;
 	bio: string;
 	skills: string[];
 	discordUsername: string;
@@ -26,6 +27,7 @@ interface ProfileSettingsProps {
 }
 
 export default function ProfileSettings({ profile }: ProfileSettingsProps) {
+	const [newPronouns, setNewPronouns] = useState<string>(profile.pronouns);
 	const [newBio, setNewBio] = useState(profile.bio);
 	const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
 	let curSkills: Tag[] = [];
@@ -114,7 +116,16 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 			</div>
 			<div className="mt-5 rounded-lg border-2 border-muted px-5 py-10">
 				<h2 className="pb-5 text-3xl font-semibold">Profile Data</h2>
-				<div className="max-w-[500px] space-y-4">
+				<div>
+					<Label htmlFor={"pronouns"}>Pronouns</Label>
+					<Input
+						className={"mt-2 max-w-[500px]"}
+						name={"pronouns"}
+						value={newPronouns}
+						onChange={(e) => setNewPronouns(e.target.value)}
+					/>
+				</div>
+				<div className="max-w-[500px] space-y-2">
 					<div>
 						<Label htmlFor="bio">Bio</Label>
 						<Textarea
@@ -130,7 +141,7 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							inputFieldPostion="top"
 							placeholder="Type and then press enter to add a skill..."
 							tags={newSkills}
-							className="sm:min-w-[450px]"
+							className="sm:min-w-[450px] mt-2"
 							setTags={(newTags) => {
 								setNewSkills(newTags);
 							}}
@@ -155,6 +166,7 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 								duration: 0,
 							});
 							runModifyProfileData({
+								pronouns: newPronouns,
 								bio: newBio,
 								skills: newSkills.map((v) => v.text.toLowerCase()),
 								discordUsername: newDiscord
