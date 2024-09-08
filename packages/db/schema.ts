@@ -12,7 +12,6 @@ import {
 	bigserial,
 	text,
 	varchar,
-	uniqueIndex,
 	boolean,
 	timestamp,
 	integer,
@@ -20,7 +19,6 @@ import {
 	pgEnum,
 	primaryKey,
 	pgTable,
-	serial,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -101,7 +99,6 @@ export const userCommonRelations = relations(
 		}),
 		files: many(files),
 		scans: many(scans),
-		invites: many(invites),
 		tickets: many(ticketsToUsers),
 		chats: many(chatsToUsers),
 		messages: many(chatMessages),
@@ -138,16 +135,20 @@ export const userHackerData = pgTable("user_hacker_data", {
 	isEmailable: boolean("is_emailable").notNull(),
 });
 
-export const userHackerRelations = relations(userHackerData, ({ one }) => ({
-	commonData: one(userCommonData, {
-		fields: [userHackerData.clerkID],
-		references: [userCommonData.clerkID],
+export const userHackerRelations = relations(
+	userHackerData,
+	({ one, many }) => ({
+		commonData: one(userCommonData, {
+			fields: [userHackerData.clerkID],
+			references: [userCommonData.clerkID],
+		}),
+		team: one(teams, {
+			fields: [userHackerData.teamID],
+			references: [teams.id],
+		}),
+		invites: many(invites),
 	}),
-	team: one(teams, {
-		fields: [userHackerData.teamID],
-		references: [teams.id],
-	}),
-}));
+);
 
 export const events = pgTable("events", {
 	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),
@@ -234,9 +235,9 @@ export const invites = pgTable(
 );
 
 export const invitesRelations = relations(invites, ({ one }) => ({
-	invitee: one(userCommonData, {
+	invitee: one(userHackerData, {
 		fields: [invites.inviteeID],
-		references: [userCommonData.clerkID],
+		references: [userHackerData.clerkID],
 	}),
 	team: one(teams, {
 		fields: [invites.teamID],

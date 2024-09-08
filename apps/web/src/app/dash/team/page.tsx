@@ -20,11 +20,6 @@ export default async function Page() {
 	const user = await db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, userId),
 		with: {
-			invites: {
-				with: {
-					team: true,
-				},
-			},
 			hackerData: {
 				with: {
 					team: {
@@ -34,6 +29,11 @@ export default async function Page() {
 									commonData: true,
 								},
 							},
+						},
+					},
+					invites: {
+						with: {
+							team: true,
 						},
 					},
 				},
@@ -74,8 +74,8 @@ export default async function Page() {
 						<h2 className="font-xl mb-5 text-2xl font-bold">
 							Invitations
 						</h2>
-						{user.invites.length > 0 ? (
-							user.invites.map((invite) => (
+						{user.hackerData.invites.length > 0 ? (
+							user.hackerData.invites.map((invite) => (
 								<div
 									className="grid h-16 w-full grid-cols-3 rounded-xl px-2"
 									key={invite.teamID}
