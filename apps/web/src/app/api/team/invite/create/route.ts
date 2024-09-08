@@ -55,10 +55,10 @@ export async function POST(
 			hackerData: {
 				with: {
 					team: true,
+                    invites: {
+                        where: eq(invites.teamID, user.hackerData.teamID),
+                    },
 				},
-			},
-			invites: {
-				where: eq(invites.teamID, user.hackerData.teamID),
 			},
 		},
 	});
@@ -71,7 +71,7 @@ export async function POST(
 		});
 	}
 
-	if (invitee.invites.length > 0) {
+	if (invitee.hackerData.invites.length > 0) {
 		return NextResponse.json({
 			success: false,
 			message: "That user already has an invite.",
