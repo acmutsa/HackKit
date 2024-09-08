@@ -32,12 +32,12 @@ export async function POST(
 		where: eq(userCommonData.clerkID, userId),
 		with: {
 			hackerData: {
-                with: {
-                    invites: {
-                        where: eq(invites.teamID, body.data.teamInviteID),
-                    },
-                }
-            },
+				with: {
+					invites: {
+						where: eq(invites.teamID, body.data.teamInviteID),
+					},
+				},
+			},
 		},
 	});
 	if (!user) return NextResponse.json("Unauthorized", { status: 401 });

@@ -135,17 +135,20 @@ export const userHackerData = pgTable("user_hacker_data", {
 	isEmailable: boolean("is_emailable").notNull(),
 });
 
-export const userHackerRelations = relations(userHackerData, ({ one, many }) => ({
-	commonData: one(userCommonData, {
-		fields: [userHackerData.clerkID],
-		references: [userCommonData.clerkID],
+export const userHackerRelations = relations(
+	userHackerData,
+	({ one, many }) => ({
+		commonData: one(userCommonData, {
+			fields: [userHackerData.clerkID],
+			references: [userCommonData.clerkID],
+		}),
+		team: one(teams, {
+			fields: [userHackerData.teamID],
+			references: [teams.id],
+		}),
+		invites: many(invites),
 	}),
-	team: one(teams, {
-		fields: [userHackerData.teamID],
-		references: [teams.id],
-	}),
-    invites: many(invites),
-}));
+);
 
 export const events = pgTable("events", {
 	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),

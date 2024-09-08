@@ -31,11 +31,11 @@ export default async function Page() {
 							},
 						},
 					},
-                    invites: {
-                        with: {
-                            team: true,
-                        },
-                    },
+					invites: {
+						with: {
+							team: true,
+						},
+					},
 				},
 			},
 		},

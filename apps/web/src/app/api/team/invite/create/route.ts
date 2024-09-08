@@ -55,9 +55,9 @@ export async function POST(
 			hackerData: {
 				with: {
 					team: true,
-                    invites: {
-                        where: eq(invites.teamID, user.hackerData.teamID),
-                    },
+					invites: {
+						where: eq(invites.teamID, user.hackerData.teamID),
+					},
 				},
 			},
 		},
