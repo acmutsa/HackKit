@@ -12,7 +12,6 @@ import {
 	bigserial,
 	text,
 	varchar,
-	uniqueIndex,
 	boolean,
 	timestamp,
 	integer,
@@ -20,7 +19,6 @@ import {
 	pgEnum,
 	primaryKey,
 	pgTable,
-	serial,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
