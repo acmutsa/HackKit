@@ -28,3 +28,19 @@ export const updateRole = adminAction(
 		return { success: true };
 	},
 );
+
+export const setUserApproval = adminAction(
+	z.object({
+		userIDToUpdate: z.string().min(1),
+		approved: z.boolean(),
+	}),
+
+	async ({ userIDToUpdate, approved }, { user, userId }) => {
+		await db
+			.update(users)
+			.set({ approved })
+			.where(eq(users.clerkID, userIDToUpdate));
+		revalidatePath(`/admin/users/${userIDToUpdate}`);
+		return { success: true };
+	},
+);

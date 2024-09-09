@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "approved" boolean DEFAULT false NOT NULL;

@@ -37,6 +37,14 @@ export default async function RsvpPage({
 		return redirect("/register");
 	}
 
+	if (
+		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
+		user.approved === false &&
+		user.role === "hacker"
+	) {
+		return redirect("/i/approval");
+	}
+
 	const rsvpEnabled = await kv.get("config:registration:allowRSVPs");
 
 	// TODO: fix type jank here
