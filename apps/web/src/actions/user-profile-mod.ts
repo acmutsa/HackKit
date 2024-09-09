@@ -1,7 +1,7 @@
 "use server";
 
 import { authenticatedAction } from "@/lib/safe-action";
-import { string, z } from "zod";
+import { z } from "zod";
 import { db } from "db";
 import { users, profileData, registrationData } from "db/schema";
 import { eq } from "db/drizzle";
@@ -36,7 +36,6 @@ export const modifyRegistrationData = authenticatedAction(
 			where: eq(users.clerkID, userId),
 		});
 		if (!user) throw new Error("User not found");
-		console.log(dietRestrictions);
 		await db
 			.update(registrationData)
 			.set({ age, gender, race, ethnicity, wantsToReceiveMLHEmails, university, major, levelOfStudy, shortID, hackathonsAttended, softwareExperience, heardFrom, shirtSize, dietRestrictions, accommodationNote, GitHub, LinkedIn, PersonalWebsite })
@@ -60,7 +59,27 @@ export const modifyRegistrationData = authenticatedAction(
 			newAccommodationNote: accommodationNote,
 			newGitHub: GitHub,
 			newLinkedIn: LinkedIn,
-			newPersonalWebsite: PersonalWebsite
+			newPersonalWebsite: PersonalWebsite,
+		};
+	},
+);
+
+export const modifyResume = authenticatedAction(
+	z.object({
+		resume: z.string(),
+	}),
+	async ({ resume }, { userId }) => {
+		const user = await db.query.users.findFirst({
+			where: eq(users.clerkID, userId),
+		});
+		if (!user) throw new Error("User not found");
+		await db
+			.update(registrationData)
+			.set({ resume })
+			.where(eq(registrationData.clerkID, user.clerkID));
+		return {
+			success: true,
+			newResume: resume
 		};
 	},
 );

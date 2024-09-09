@@ -46,11 +46,11 @@ import { useAuth } from "@clerk/nextjs";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { put, type PutBlobResult } from "@vercel/blob";
+import { put } from "@vercel/blob";
 import CreatingRegistration from "@/components/registration/CreatingRegistration";
 import { data } from "autoprefixer";
 import { useAction } from "next-safe-action/hook";
-import { modifyAccountSettings, modifyRegistrationData } from "@/actions/user-profile-mod";
+import { modifyAccountSettings, modifyRegistrationData, modifyResume } from "@/actions/user-profile-mod";
 import { toast } from "sonner";
 
 interface RegistrationData {
@@ -105,8 +105,17 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 			university: data.university,
 		},
 	});
+	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+	const resumeLink: string = data.resume ?? "https://static.acmutsa.org/No%20Resume%20Provided.pdf";
+	// @ts-ignore
+	let f = new File([data.resume], resumeLink.split('/').pop());
+	useEffect(() => {
+		if (resumeLink === "https://static.acmutsa.org/No%20Resume%20Provided.pdf")
+			setUploadedFile(null)
+		else
+			setUploadedFile(f)
+	}, []);
 
-	const [uploadedFile, setUploadedFile] = useState<File | null>(null); // not sure how to get resume
 	const [isLoading, setIsLoading] = useState(false);
 
 	const universityValue = form.watch("university");
@@ -132,6 +141,18 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 			},
 		},
 	);
+
+	const { execute: runModifyResume } = useAction(
+		modifyResume,
+		{
+			onSuccess: ({ success }) => {
+			},
+			onError: () => {
+				toast.dismiss();
+				toast.error("An error occurred while uploading resume!");
+			}
+		}
+	)
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		console.log(data);
@@ -328,7 +349,8 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 							control={form.control}
 							name="wantsToReceiveMLHEmails"
 							render={({ field }) => (
-								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+								<FormItem
+									className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
 										<Checkbox
 											checked={field.value}
@@ -389,7 +411,8 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 													</Button>
 												</FormControl>
 											</PopoverTrigger>
-											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+											<PopoverContent
+												className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search university..." />
 													<CommandEmpty>
@@ -462,7 +485,8 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 													</Button>
 												</FormControl>
 											</PopoverTrigger>
-											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+											<PopoverContent
+												className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search major..." />
 													<CommandEmpty>
@@ -901,28 +925,39 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 						/>
 					</FormGroupWrapper>
 					<Button
-					onClick={() => {
-						runModifyRegistrationData({
-							age: +form.watch("age"),
-							gender: form.watch("gender"),
-							race: form.watch("race"),
-							ethnicity: form.watch("ethnicity"),
-							wantsToReceiveMLHEmails: form.watch("wantsToReceiveMLHEmails"),
-							university: form.watch("university"),
-							major: form.watch("major"),
-							levelOfStudy: form.watch("levelOfStudy"),
-							shortID: form.watch("shortID"),
-							hackathonsAttended: +form.watch("hackathonsAttended"),
-							softwareExperience: form.watch("softwareBuildingExperience"),
-							heardFrom: form.watch("heardAboutEvent"),
-							shirtSize: form.watch("shirtSize"),
-							dietRestrictions: form.watch("dietaryRestrictions"),
-							accommodationNote: form.watch("accommodationNote"),
-							GitHub: form.watch("github"),
-							LinkedIn: form.watch("linkedin"),
-							PersonalWebsite: form.watch("personalWebsite")
-						});
-					}}>Update</Button>
+						onClick={ async () => {
+							let resume: string = c.noResumeProvidedURL
+							if (uploadedFile) {
+								const newBlob = await put(uploadedFile.name, uploadedFile, {
+									access: "public",
+									handleBlobUploadUrl: "/api/upload/resume/register",
+								});
+								resume = newBlob.url;
+							}
+							runModifyRegistrationData({
+								age: +form.watch("age"),
+								gender: form.watch("gender"),
+								race: form.watch("race"),
+								ethnicity: form.watch("ethnicity"),
+								wantsToReceiveMLHEmails: form.watch("wantsToReceiveMLHEmails"),
+								university: form.watch("university"),
+								major: form.watch("major"),
+								levelOfStudy: form.watch("levelOfStudy"),
+								shortID: form.watch("shortID"),
+								hackathonsAttended: +form.watch("hackathonsAttended"),
+								softwareExperience: form.watch("softwareBuildingExperience"),
+								heardFrom: form.watch("heardAboutEvent"),
+								shirtSize: form.watch("shirtSize"),
+								dietRestrictions: form.watch("dietaryRestrictions"),
+								accommodationNote: form.watch("accommodationNote"),
+								GitHub: form.watch("github"),
+								LinkedIn: form.watch("linkedin"),
+								PersonalWebsite: form.watch("personalWebsite"),
+							});
+							runModifyResume({
+								resume
+							});
+						}}>Update</Button>
 				</form>
 			</Form>
 		</div>
