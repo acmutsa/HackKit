@@ -81,7 +81,7 @@ export default function Home() {
               <Link href="/register">
                 <button
                     className="text-lg text-white text-center mt-4 bg-black hover:bg-white hover:text-black py-2 px-4 rounded-md">
-                  Priority Registration Open
+                  Registration Open
                 </button>
               </Link>
               <a
