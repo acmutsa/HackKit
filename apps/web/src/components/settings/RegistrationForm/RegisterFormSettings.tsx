@@ -41,16 +41,11 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import { zpostSafe } from "@/lib/utils/client/zfetch";
-import { useAuth } from "@clerk/nextjs";
-import { BasicServerValidator } from "@/validators/shared/basic";
-import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
 import CreatingRegistration from "@/components/registration/CreatingRegistration";
-import { data } from "autoprefixer";
 import { useAction } from "next-safe-action/hook";
-import { modifyAccountSettings, modifyRegistrationData, modifyResume } from "@/actions/user-profile-mod";
+import { modifyRegistrationData, modifyResume } from "@/actions/user-profile-mod";
 import { toast } from "sonner";
 
 interface RegistrationData {
