@@ -1,4 +1,4 @@
-import RegisterFormSettings from "@/components/settings/RegistrationForm/RegisterFormSettings"
+import RegisterFormSettings from "@/components/settings/RegistrationForm/RegisterFormSettings";
 import { auth } from "@clerk/nextjs";
 import { db } from "db";
 import { eq } from "db/drizzle";
@@ -6,7 +6,6 @@ import { users } from "db/schema";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-
 	const { userId } = auth();
 	if (!userId) throw new Error("User not found");
 	const user = await db.query.users.findFirst({
@@ -18,7 +17,5 @@ export default async function Page() {
 	});
 	if (!user) return redirect("/sign-in");
 
-	return (
-		<RegisterFormSettings data={user.registrationData} />
-	)
+	return <RegisterFormSettings data={user.registrationData} />;
 }

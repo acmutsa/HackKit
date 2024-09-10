@@ -502,7 +502,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									: "grid-cols-1 md:grid-cols-5"
 							} gap-x-2 gap-y-4`}
 						>
-
 							<FormField
 								control={form.control}
 								name="university"

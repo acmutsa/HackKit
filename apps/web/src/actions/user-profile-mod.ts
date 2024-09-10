@@ -31,14 +31,55 @@ export const modifyRegistrationData = authenticatedAction(
 		LinkedIn: z.string().nullish(),
 		PersonalWebsite: z.string().nullish(),
 	}),
-	async ({ age, gender, race, ethnicity, wantsToReceiveMLHEmails, university, major, levelOfStudy, shortID, hackathonsAttended, softwareExperience, heardFrom, shirtSize, dietRestrictions, accommodationNote, GitHub, LinkedIn, PersonalWebsite }, { userId }) => {
+	async (
+		{
+			age,
+			gender,
+			race,
+			ethnicity,
+			wantsToReceiveMLHEmails,
+			university,
+			major,
+			levelOfStudy,
+			shortID,
+			hackathonsAttended,
+			softwareExperience,
+			heardFrom,
+			shirtSize,
+			dietRestrictions,
+			accommodationNote,
+			GitHub,
+			LinkedIn,
+			PersonalWebsite,
+		},
+		{ userId },
+	) => {
 		const user = await db.query.users.findFirst({
 			where: eq(users.clerkID, userId),
 		});
 		if (!user) throw new Error("User not found");
 		await db
 			.update(registrationData)
-			.set({ age, gender, race, ethnicity, wantsToReceiveMLHEmails, university, major, levelOfStudy, shortID, hackathonsAttended, softwareExperience, heardFrom, shirtSize, dietRestrictions, accommodationNote, GitHub, LinkedIn, PersonalWebsite })
+			.set({
+				age,
+				gender,
+				race,
+				ethnicity,
+				wantsToReceiveMLHEmails,
+				university,
+				major,
+				levelOfStudy,
+				shortID,
+				hackathonsAttended,
+				softwareExperience,
+				heardFrom,
+				shirtSize,
+				dietRestrictions,
+				accommodationNote,
+				GitHub,
+				LinkedIn,
+				PersonalWebsite,
+			})
 			.where(eq(registrationData.clerkID, user.clerkID));
 		return {
 			success: true,
@@ -79,7 +120,7 @@ export const modifyResume = authenticatedAction(
 			.where(eq(registrationData.clerkID, user.clerkID));
 		return {
 			success: true,
-			newResume: resume
+			newResume: resume,
 		};
 	},
 );
@@ -92,21 +133,25 @@ export const modifyProfileData = authenticatedAction(
 		discordUsername: z.string(),
 	}),
 	async ({ pronouns, bio, skills, discordUsername }, { userId }) => {
-		const user = await db.select().from(users).leftJoin(profileData, eq(users.hackerTag, profileData.hackerTag)).where(eq(users.clerkID, userId));
+		const user = await db
+			.select()
+			.from(users)
+			.leftJoin(profileData, eq(users.hackerTag, profileData.hackerTag))
+			.where(eq(users.clerkID, userId));
 		if (!user || !user[0].profile_data) {
 			throw new Error("User not found");
 		}
 		await db
 			.update(profileData)
 			.set({ pronouns, bio, skills, discordUsername })
-			.where(eq(profileData.hackerTag, user[0].profile_data.hackerTag))
+			.where(eq(profileData.hackerTag, user[0].profile_data.hackerTag));
 		return {
 			success: true,
 			newPronouns: pronouns,
 			newBio: bio,
 			newSkills: skills,
 			newDiscord: discordUsername,
-		}
+		};
 	},
 );
 
@@ -116,9 +161,12 @@ export const modifyAccountSettings = authenticatedAction(
 		lastName: z.string().min(1).max(50),
 		//email: z.string().min(1).max(50),
 		hackerTag: z.string().min(1).max(50),
-		hasSearchableProfile: z.boolean()
+		hasSearchableProfile: z.boolean(),
 	}),
-	async ({ firstName, lastName, hackerTag, hasSearchableProfile }, { userId }) => {
+	async (
+		{ firstName, lastName, hackerTag, hasSearchableProfile },
+		{ userId },
+	) => {
 		const user = await db.query.users.findFirst({
 			where: eq(users.clerkID, userId),
 		});
@@ -132,7 +180,7 @@ export const modifyAccountSettings = authenticatedAction(
 				return {
 					success: false,
 					message: "hackertag_not_unique",
-				}
+				};
 			}
 		}
 		await db
@@ -142,7 +190,7 @@ export const modifyAccountSettings = authenticatedAction(
 		await db
 			.update(profileData) // see above comment
 			.set({ hackerTag })
-			.where(eq(profileData.hackerTag, oldHackerTag))
+			.where(eq(profileData.hackerTag, oldHackerTag));
 		return {
 			success: true,
 			newFirstName: firstName,

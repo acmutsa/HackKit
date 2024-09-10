@@ -28,8 +28,10 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 	const [newLastName, setNewLastName] = useState(user.lastName);
 	//const [newEmail, setNewEmail] = useState(user.email);
 	const [newHackerTag, setNewHackerTag] = useState(user.hackerTag);
-	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(user.hasSearchableProfile);
-	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false)
+	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(
+		user.hasSearchableProfile,
+	);
+	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -37,17 +39,21 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 		modifyAccountSettings,
 		{
 			onSuccess: ({ success, message }) => {
-				setIsLoading(false)
+				setIsLoading(false);
 				toast.dismiss();
 				if (!success) {
-					if (message == "hackertag_not_unique") {toast.error("Hackertag already exists"); setHackerTagTakenAlert(true);}
-				} else
-					toast.success("Account updated successfully!");
+					if (message == "hackertag_not_unique") {
+						toast.error("Hackertag already exists");
+						setHackerTagTakenAlert(true);
+					}
+				} else toast.success("Account updated successfully!");
 			},
 			onError: () => {
-				setIsLoading(false)
+				setIsLoading(false);
 				toast.dismiss();
-				toast.error("An error occurred while updating your account settings!");
+				toast.error(
+					"An error occurred while updating your account settings!",
+				);
 			},
 		},
 	);
@@ -67,9 +73,11 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 							value={newFirstName}
 							onChange={(e) => setNewFirstName(e.target.value)}
 						/>
-						{(!newFirstName) ?
-							<div className={"mt-1 text-sm text-red-500"}>This field can't be empty!</div> : null
-						}
+						{!newFirstName ? (
+							<div className={"mt-1 text-sm text-red-500"}>
+								This field can't be empty!
+							</div>
+						) : null}
 					</div>
 					<div>
 						<Label htmlFor={"lastname"}>Last Name</Label>
@@ -79,9 +87,11 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 							value={newLastName}
 							onChange={(e) => setNewLastName(e.target.value)}
 						/>
-						{(!newLastName) ?
-							<div className={"mt-1 text-sm text-red-500"}>This field can't be empty!</div> : null
-						}
+						{!newLastName ? (
+							<div className={"mt-1 text-sm text-red-500"}>
+								This field can't be empty!
+							</div>
+						) : null}
 					</div>
 					{/*<div className={"col-span-full"}>*/}
 					{/*	<Label htmlFor="email">Email</Label>*/}
@@ -97,15 +107,14 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 					{/*	}*/}
 					{/*</div>*/}
 				</div>
-				<h2 className="pt-7 pb-5 text-3xl font-semibold">
+				<h2 className="pb-5 pt-7 text-3xl font-semibold">
 					Public Information
 				</h2>
 				<div className="grid max-w-[500px] grid-cols-1 gap-x-2 gap-y-2">
 					<div>
 						<Label htmlFor="hackertag">HackerTag</Label>
-						<div className="flex mt-2">
-							<div
-								className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
+						<div className="mt-2 flex">
+							<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
 								@
 							</div>
 							<Input
@@ -113,30 +122,40 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 								placeholder={`${c.hackathonName.toLowerCase()}`}
 								value={newHackerTag}
 								onChange={(e) => {
-									setNewHackerTag(e.target.value)
-									setHackerTagTakenAlert(false)
+									setNewHackerTag(e.target.value);
+									setHackerTagTakenAlert(false);
 								}}
 							/>
 						</div>
-						{(hackerTagTakenAlert) ?
-							<div
-								className={"text-sm text-red-500"}
-							>
+						{hackerTagTakenAlert ? (
+							<div className={"text-sm text-red-500"}>
 								HackerTag is already taken!
 							</div>
-							:
+						) : (
 							""
-						}
-						{(!newHackerTag) ?
-							<div className={"mt-1 text-sm text-red-500"}>This field can't be empty!</div> : null
-						}
+						)}
+						{!newHackerTag ? (
+							<div className={"mt-1 text-sm text-red-500"}>
+								This field can't be empty!
+							</div>
+						) : null}
 					</div>
-					<div className={"flex max-w-[600px] flex-row items-start space-x-3 space-y-0 rounded-md border p-4"}>
+					<div
+						className={
+							"flex max-w-[600px] flex-row items-start space-x-3 space-y-0 rounded-md border p-4"
+						}
+					>
 						<Checkbox
 							checked={newIsProfileSearchable}
-							onCheckedChange={() => setNewIsProfileSearchable(!newIsProfileSearchable)}
+							onCheckedChange={() =>
+								setNewIsProfileSearchable(
+									!newIsProfileSearchable,
+								)
+							}
 						/>
-						<Label htmlFor="profileIsSearchable">Make my profile searchable by other Hackers</Label>
+						<Label htmlFor="profileIsSearchable">
+							Make my profile searchable by other Hackers
+						</Label>
 					</div>
 				</div>
 				<Button
@@ -156,7 +175,7 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 				>
 					{isLoading ? (
 						<>
-							<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+							<Loader2 className={"mr-2 h-4 w-4 animate-spin"} />
 							<div>Updating</div>
 						</>
 					) : (

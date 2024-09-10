@@ -6,7 +6,7 @@ import { Label } from "@/components/shadcn/ui/label";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import {
 	modifyProfileData,
-	updateProfileImage
+	updateProfileImage,
 } from "@/actions/user-profile-mod";
 import { useUser } from "@clerk/nextjs";
 import { useAction } from "next-safe-action/hook";
@@ -38,32 +38,31 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 		let t: Tag = {
 			id: profile.skills[i],
 			text: profile.skills[i],
-		}
+		};
 		curSkills.push(t);
 	}
 	const [newSkills, setNewSkills] = useState<Tag[]>(curSkills);
 	const [newDiscord, setNewDiscord] = useState(profile.discordUsername);
 
-	const [isProfilePictureLoading, setIsProfilePictureLoading] = useState(false);
-	const [isProfileSettingsLoading, setIsProfileSettingsLoading] = useState(false);
+	const [isProfilePictureLoading, setIsProfilePictureLoading] =
+		useState(false);
+	const [isProfileSettingsLoading, setIsProfileSettingsLoading] =
+		useState(false);
 
 	const { user } = useUser();
 
-	const { execute: runModifyProfileData } = useAction(
-		modifyProfileData,
-		{
-			onSuccess: () => {
-				setIsProfileSettingsLoading(false);
-				toast.dismiss();
-				toast.success("Profile updated successfully!");
-			},
-			onError: () => {
-				setIsProfileSettingsLoading(false);
-				toast.dismiss();
-				toast.error("An error occurred while updating your profile!");
-			},
+	const { execute: runModifyProfileData } = useAction(modifyProfileData, {
+		onSuccess: () => {
+			setIsProfileSettingsLoading(false);
+			toast.dismiss();
+			toast.success("Profile updated successfully!");
 		},
-	);
+		onError: () => {
+			setIsProfileSettingsLoading(false);
+			toast.dismiss();
+			toast.error("An error occurred while updating your profile!");
+		},
+	});
 
 	const { execute: runUpdateProfileImage } = useAction(updateProfileImage, {
 		onSuccess: async () => {
@@ -130,7 +129,9 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 					>
 						{isProfilePictureLoading ? (
 							<>
-								<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+								<Loader2
+									className={"mr-2 h-4 w-4 animate-spin"}
+								/>
 								<div>Updating</div>
 							</>
 						) : (
@@ -166,7 +167,7 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							inputFieldPostion="top"
 							placeholder="Type and then press enter to add a skill..."
 							tags={newSkills}
-							className="sm:min-w-[450px] mt-2"
+							className="mt-2 sm:min-w-[450px]"
 							setTags={(newTags) => {
 								setNewSkills(newTags);
 							}}
@@ -181,9 +182,11 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							value={newDiscord}
 							onChange={(e) => setNewDiscord(e.target.value)}
 						/>
-						{(!newDiscord) ?
-							<div className={"mt-1 text-sm text-red-500"}>This field can't be empty!</div> : null
-						}
+						{!newDiscord ? (
+							<div className={"mt-1 text-sm text-red-500"}>
+								This field can't be empty!
+							</div>
+						) : null}
 					</div>
 					<Button
 						onClick={() => {
@@ -194,8 +197,10 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							runModifyProfileData({
 								pronouns: newPronouns,
 								bio: newBio,
-								skills: newSkills.map((v) => v.text.toLowerCase()),
-								discordUsername: newDiscord
+								skills: newSkills.map((v) =>
+									v.text.toLowerCase(),
+								),
+								discordUsername: newDiscord,
 							});
 						}}
 						className="mt-5"
@@ -203,7 +208,9 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 					>
 						{isProfileSettingsLoading ? (
 							<>
-								<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+								<Loader2
+									className={"mr-2 h-4 w-4 animate-spin"}
+								/>
 								<div>Updating</div>
 							</>
 						) : (

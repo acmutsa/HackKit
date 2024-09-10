@@ -30,7 +30,8 @@ import {
 	CommandEmpty,
 	CommandGroup,
 	CommandInput,
-	CommandItem, CommandList
+	CommandItem,
+	CommandList,
 } from "@/components/shadcn/ui/command";
 import {
 	Popover,
@@ -44,10 +45,13 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
 import { useAction } from "next-safe-action/hook";
-import { modifyRegistrationData, modifyResume } from "@/actions/user-profile-mod";
+import {
+	modifyRegistrationData,
+	modifyResume,
+} from "@/actions/user-profile-mod";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react";
 
 interface RegistrationData {
 	age: number;
@@ -72,11 +76,11 @@ interface RegistrationData {
 }
 
 interface RegisterFormSettingsProps {
-	data: RegistrationData
+	data: RegistrationData;
 }
 
 export default function RegisterForm({ data }: RegisterFormSettingsProps) {
-	if (data.heardFrom === null) data.heardFrom = undefined
+	if (data.heardFrom === null) data.heardFrom = undefined;
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
@@ -104,12 +108,10 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
 	// @ts-ignore
-	let f = new File([data.resume], resumeLink.split('/').pop());
+	let f = new File([data.resume], resumeLink.split("/").pop());
 	useEffect(() => {
-		if (resumeLink === c.noResumeProvidedURL)
-			setUploadedFile(null)
-		else
-			setUploadedFile(f)
+		if (resumeLink === c.noResumeProvidedURL) setUploadedFile(null);
+		else setUploadedFile(f);
 	}, []);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -136,29 +138,27 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 		modifyRegistrationData,
 		{
 			onSuccess: ({ success }) => {
-				setIsLoading(false)
+				setIsLoading(false);
 				toast.dismiss();
 				toast.success("Account updated successfully!");
 			},
 			onError: () => {
-				setIsLoading(false)
+				setIsLoading(false);
 				toast.dismiss();
-				toast.error("An error occurred while updating your account settings!");
+				toast.error(
+					"An error occurred while updating your account settings!",
+				);
 			},
 		},
 	);
 
-	const { execute: runModifyResume } = useAction(
-		modifyResume,
-		{
-			onSuccess: ({ success }) => {
-			},
-			onError: () => {
-				toast.dismiss();
-				toast.error("An error occurred while uploading resume!");
-			}
-		}
-	)
+	const { execute: runModifyResume } = useAction(modifyResume, {
+		onSuccess: ({ success }) => {},
+		onError: () => {
+			toast.dismiss();
+			toast.error("An error occurred while uploading resume!");
+		},
+	});
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		console.log(data);
@@ -213,11 +213,16 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 
 	return (
 		<div>
-			<Button variant={"secondary"} className={"mb-3"} disabled={goBackLoading} onClick={() => setGoBackLoading(true)}>
+			<Button
+				variant={"secondary"}
+				className={"mb-3"}
+				disabled={goBackLoading}
+				onClick={() => setGoBackLoading(true)}
+			>
 				<Link href={"/settings"}>
 					{goBackLoading ? (
 						<div className={"flex"}>
-							<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+							<Loader2 className={"mr-2 h-4 w-4 animate-spin"} />
 						</div>
 					) : (
 						<Link href={"/settings"}>Back</Link>
@@ -363,8 +368,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 							control={form.control}
 							name="wantsToReceiveMLHEmails"
 							render={({ field }) => (
-								<FormItem
-									className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
 										<Checkbox
 											checked={field.value}
@@ -411,15 +415,15 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 														className={cn(
 															"w-full justify-between",
 															!field.value &&
-															"text-muted-foreground",
+																"text-muted-foreground",
 														)}
 													>
 														{field.value
 															? schools.find(
-																(school) =>
-																	school ===
-																	field.value,
-															)
+																	(school) =>
+																		school ===
+																		field.value,
+																)
 															: "Select a University"}
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 													</Button>
@@ -488,15 +492,15 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 														className={cn(
 															"w-full justify-between",
 															!field.value &&
-															"text-muted-foreground",
+																"text-muted-foreground",
 														)}
 													>
 														{field.value
 															? majors.find(
-																(major) =>
-																	major ===
-																	field.value,
-															)
+																	(major) =>
+																		major ===
+																		field.value,
+																)
 															: "Select a Major"}
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 													</Button>
@@ -805,20 +809,20 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 																		) => {
 																			return checked
 																				? field.onChange(
-																					[
-																						...field.value,
-																						item,
-																					],
-																				)
-																				: field.onChange(
-																					field.value?.filter(
-																						(
-																							value,
-																						) =>
-																							value !==
+																						[
+																							...field.value,
 																							item,
-																					),
-																				);
+																						],
+																					)
+																				: field.onChange(
+																						field.value?.filter(
+																							(
+																								value,
+																							) =>
+																								value !==
+																								item,
+																						),
+																					);
 																		}}
 																	/>
 																</FormControl>
@@ -925,14 +929,24 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 										>
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
-												{uploadedFile
-													? oldFile
-														? <Link href={resumeLink}>{uploadedFile.name} ({Math.round(uploadedFile.size)}kb)</Link>
-														: `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
-
-													: isDragActive
-														? "Drop your resume here..."
-														: "Drag 'n' drop your resume here, or click to select a file"}
+												{uploadedFile ? (
+													oldFile ? (
+														<Link href={resumeLink}>
+															{uploadedFile.name}{" "}
+															(
+															{Math.round(
+																uploadedFile.size,
+															)}
+															kb)
+														</Link>
+													) : (
+														`${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+													)
+												) : isDragActive ? (
+													"Drop your resume here..."
+												) : (
+													"Drag 'n' drop your resume here, or click to select a file"
+												)}
 											</p>
 											{uploadedFile ? (
 												<Button
@@ -940,9 +954,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 													onClick={() => {
 														setUploadedFile(null);
 														setOldFile(false);
-													}
-
-													}
+													}}
 												>
 													Remove
 												</Button>
@@ -955,14 +967,19 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 						/>
 					</FormGroupWrapper>
 					<Button
-						onClick={ async () => {
-							setIsLoading(true)
-							let resume: string = c.noResumeProvidedURL
+						onClick={async () => {
+							setIsLoading(true);
+							let resume: string = c.noResumeProvidedURL;
 							if (uploadedFile) {
-								const newBlob = await put(uploadedFile.name, uploadedFile, {
-									access: "public",
-									handleBlobUploadUrl: "/api/upload/resume/register",
-								});
+								const newBlob = await put(
+									uploadedFile.name,
+									uploadedFile,
+									{
+										access: "public",
+										handleBlobUploadUrl:
+											"/api/upload/resume/register",
+									},
+								);
 								resume = newBlob.url;
 							}
 							runModifyRegistrationData({
@@ -970,30 +987,40 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 								gender: form.watch("gender"),
 								race: form.watch("race"),
 								ethnicity: form.watch("ethnicity"),
-								wantsToReceiveMLHEmails: form.watch("wantsToReceiveMLHEmails"),
+								wantsToReceiveMLHEmails: form.watch(
+									"wantsToReceiveMLHEmails",
+								),
 								university: form.watch("university"),
 								major: form.watch("major"),
 								levelOfStudy: form.watch("levelOfStudy"),
 								shortID: form.watch("shortID"),
-								hackathonsAttended: +form.watch("hackathonsAttended"),
-								softwareExperience: form.watch("softwareBuildingExperience"),
+								hackathonsAttended:
+									+form.watch("hackathonsAttended"),
+								softwareExperience: form.watch(
+									"softwareBuildingExperience",
+								),
 								heardFrom: form.watch("heardAboutEvent"),
 								shirtSize: form.watch("shirtSize"),
-								dietRestrictions: form.watch("dietaryRestrictions"),
-								accommodationNote: form.watch("accommodationNote"),
+								dietRestrictions: form.watch(
+									"dietaryRestrictions",
+								),
+								accommodationNote:
+									form.watch("accommodationNote"),
 								GitHub: form.watch("github"),
 								LinkedIn: form.watch("linkedin"),
 								PersonalWebsite: form.watch("personalWebsite"),
 							});
 							runModifyResume({
-								resume
+								resume,
 							});
 						}}
 						disabled={isLoading}
 					>
 						{isLoading ? (
 							<>
-								<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+								<Loader2
+									className={"mr-2 h-4 w-4 animate-spin"}
+								/>
 								<div>Updating</div>
 							</>
 						) : (
