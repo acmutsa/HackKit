@@ -12,10 +12,10 @@
 
 ## Technologies Used
 
-- TypeScript
-- Next.js
-- Drizzle ORM
-- Tailwind CSS
+-   TypeScript
+-   Next.js
+-   Drizzle ORM
+-   Tailwind CSS
 
 [![Vercel](https://static.rowdyhacks.org/img/powered-by-vercel.svg)](https://vercel.com/?utm_source=ACM%20UTSA&utm_campaign=oss)
 

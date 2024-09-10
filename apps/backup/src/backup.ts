@@ -25,7 +25,7 @@ const uploadToS3 = async ({ name, path }: { name: string; path: string }) => {
 			Bucket: bucket,
 			Key: name,
 			Body: createReadStream(path),
-		})
+		}),
 	);
 
 	console.log("Backup uploaded to S3...");
@@ -35,14 +35,17 @@ const dumpToFile = async (path: string) => {
 	console.log("Dumping DB to file...");
 
 	await new Promise((resolve, reject) => {
-		exec(`pg_dump ${env.BACKUP_DATABASE_URL} -F t | gzip > ${path}`, (error, stdout, stderr) => {
-			if (error) {
-				reject({ error: JSON.stringify(error), stderr });
-				return;
-			}
+		exec(
+			`pg_dump ${env.BACKUP_DATABASE_URL} -F t | gzip > ${path}`,
+			(error, stdout, stderr) => {
+				if (error) {
+					reject({ error: JSON.stringify(error), stderr });
+					return;
+				}
 
-			resolve(undefined);
-		});
+				resolve(undefined);
+			},
+		);
 	});
 
 	console.log("DB dumped to file...");

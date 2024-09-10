@@ -10,7 +10,8 @@ export const newTeamValidator = z.object({
 			message: "Team name must be less than 50 characters long",
 		})
 		.regex(/^[a-zA-Z0-9 ]+$/, {
-			message: "Team name must be alphanumeric and have no special characters",
+			message:
+				"Team name must be alphanumeric and have no special characters",
 		}),
 	bio: z.string().max(200, {
 		message: "Team bio must be less than 200 characters long",

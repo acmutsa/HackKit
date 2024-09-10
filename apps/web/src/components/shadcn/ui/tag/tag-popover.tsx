@@ -1,5 +1,9 @@
 import React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/ui/popover";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/shadcn/ui/popover";
 import { type Tag as TagType } from "./tag-input";
 import { TagList, TagListProps } from "./tag-list";
 
@@ -20,12 +24,18 @@ export const TagPopover: React.FC<TagPopoverProps> = ({
 			<PopoverTrigger asChild>{children}</PopoverTrigger>
 			<PopoverContent className="w-full max-w-[450px] space-y-3">
 				<div className="space-y-1">
-					<h4 className="text-sm font-medium leading-none">Entered Tags</h4>
-					<p className="text-sm text-muted-foreground text-left">
+					<h4 className="text-sm font-medium leading-none">
+						Entered Tags
+					</h4>
+					<p className="text-left text-sm text-muted-foreground">
 						These are the tags you&apos;ve entered.
 					</p>
 				</div>
-				<TagList tags={tags} customTagRenderer={customTagRenderer} {...tagProps} />
+				<TagList
+					tags={tags}
+					customTagRenderer={customTagRenderer}
+					{...tagProps}
+				/>
 			</PopoverContent>
 		</Popover>
 	);

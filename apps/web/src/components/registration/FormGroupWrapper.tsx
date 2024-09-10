@@ -9,7 +9,7 @@ export default function FormGroupWrapper({
 }: FormGroupWrapperProps) {
 	return (
 		<div className="relative rounded-lg border border-white p-5">
-			<p className="bg-background absolute top-0 z-10 -translate-y-[10px] px-2 text-sm">
+			<p className="absolute top-0 z-10 -translate-y-[10px] bg-background px-2 text-sm">
 				{title}
 			</p>
 			<div className="relative top-0 space-y-6">{children}</div>

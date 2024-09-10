@@ -23,8 +23,8 @@ export default function FooterLinks({
             <h1 className="text-xl text-orange-500">{title}</h1>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white">
-            {data.map(({ name, link }) => (
-              <DropdownMenuItem>
+            {data.map(({ name, link }, idx) => (
+              <DropdownMenuItem key={idx}>
                 <Link
                   className="text-sm font-semibold text-orange-500 block"
                   href={link}
@@ -38,8 +38,12 @@ export default function FooterLinks({
       </div>
       <div className="flex-col lg:flex hidden">
         <h1 className="font-bold text-2xl mb-2 text-orange-500">{title}</h1>
-        {data.map(({ link, name }) => (
-          <Link href={link} className="text-sm text-zinc-950 hover:underline">
+        {data.map(({ link, name }, idx) => (
+          <Link
+            href={link}
+            className="text-sm text-zinc-950 hover:underline"
+            key={idx}
+          >
             <h1 className="font-semibold">{name}</h1>
           </Link>
         ))}

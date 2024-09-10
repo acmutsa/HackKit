@@ -43,6 +43,14 @@ export default async function Page({
 		return redirect("/register");
 	}
 
+	if (
+		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
+		user.approved === false &&
+		user.role === "hacker"
+	) {
+		return redirect("/i/approval");
+	}
+
 	if (user.discordVerification) {
 		await db
 			.update(discordVerification)
@@ -54,7 +62,10 @@ export default async function Page({
 	const verification = await db.query.discordVerification.findFirst({
 		where: and(
 			eq(discordVerification.code, passedCode),
-			or(eq(discordVerification.status, "pending"), eq(discordVerification.status, "expired"))
+			or(
+				eq(discordVerification.status, "pending"),
+				eq(discordVerification.status, "expired"),
+			),
 		),
 	});
 
@@ -71,10 +82,10 @@ export default async function Page({
 			.set({ status: "expired" })
 			.where(eq(discordVerification.code, passedCode));
 		return (
-			<main className="min-h-screen flex items-center justify-center">
+			<main className="flex min-h-screen items-center justify-center">
 				<p className="text-center">
-					This verification link has expired. Please click the verify button in discord again to
-					generate a new one.
+					This verification link has expired. Please click the verify
+					button in discord again to generate a new one.
 				</p>
 			</main>
 		);
@@ -87,14 +98,14 @@ export default async function Page({
 	return (
 		<>
 			<ClientToast />
-			<main className="min-h-screen w-screen flex items-center justify-center">
-				<div className="aspect-square border border-muted w-full max-w-[500px] rounded-xl flex flex-col items-center justify-center">
+			<main className="flex min-h-screen w-screen items-center justify-center">
+				<div className="flex aspect-square w-full max-w-[500px] flex-col items-center justify-center rounded-xl border border-muted">
 					<div className="flex items-center gap-x-5 pb-10">
 						<Image
 							height={100}
 							width={100}
 							alt="Discord Profile Photo"
-							className="rounded-full aspect-square max-w-[75px]"
+							className="aspect-square max-w-[75px] rounded-full"
 							src={`https://cdn.discordapp.com/avatars/${verification.discordUserID}/${verification.discordProfilePhoto}.png`}
 						/>
 						<MoveRight />
@@ -102,11 +113,11 @@ export default async function Page({
 							height={100}
 							width={100}
 							alt="Discord Profile Photo"
-							className="rounded-full aspect-square max-w-[75px]"
+							className="aspect-square max-w-[75px] rounded-full"
 							src={c.icon.md}
 						/>
 					</div>
-					<h1 className="text-2xl font-bold text-center pb-16">
+					<h1 className="pb-16 text-center text-2xl font-bold">
 						<Balancer>
 							Link @{verification.discordName} to your
 							<br />

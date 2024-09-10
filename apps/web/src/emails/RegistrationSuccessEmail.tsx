@@ -20,27 +20,34 @@ import c from "config";
 
 interface RegistrationSuccessProps extends DefaultEmailTemplateProps {}
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
+const baseUrl = process.env.VERCEL_URL
+	? `https://${process.env.VERCEL_URL}`
+	: "";
 
-export default function RegistrationSuccessEmail({ firstName }: RegistrationSuccessProps) {
+export default function RegistrationSuccessEmail({
+	firstName,
+}: RegistrationSuccessProps) {
 	return (
 		<div>
 			<Tailwind>
-				<Body className="bg-white my-auto mx-auto font-sans">
-					<Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
+				<Body className="mx-auto my-auto bg-white font-sans">
+					<Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
 						<Section className="mt-[32px]">
 							<Img
 								src={`${baseUrl}${c.icon.md}`}
 								width="40"
 								height="37"
 								alt={`${c.hackathonName} logo`}
-								className="my-0 mx-auto"
+								className="mx-auto my-0"
 							/>
 						</Section>
-						<Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-							You are now registered for {c.hackathonName} ${c.itteration}!
+						<Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
+							You are now registered for {c.hackathonName} $
+							{c.itteration}!
 						</Heading>
-						<Text className="text-black text-[14px] leading-[24px]">Hello {firstName},</Text>
+						<Text className="text-[14px] leading-[24px] text-black">
+							Hello {firstName},
+						</Text>
 						{/* <Text className="text-black text-[14px] leading-[24px]">
               <strong>bukinoshita</strong> (
               <Link
