@@ -10,7 +10,7 @@ import { Hacker } from "../types";
 
 export function getAllHackers(): Promise<Hacker[] | undefined> {
 	// return _getAllHackers.execute();
-    return db.query.userCommonData.findMany({
+	return db.query.userCommonData.findMany({
 		with: { hackerData: true },
 	});
 }
@@ -38,10 +38,10 @@ export function getHacker(
 	// return withTeam
 	// 	? _getHackerByIDWithTeam.execute({ _clerkID: clerkID })
 	// 	: _getHackerByIDAlone.execute({ _clerkID: clerkID });
-    return db.query.userCommonData.findFirst({
-        where: eq(userCommonData.clerkID, clerkID),
-        with: { hackerData: (withTeam) ? { with: { team: true } } : true }
-    });
+	return db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, clerkID),
+		with: { hackerData: withTeam ? { with: { team: true } } : true },
+	});
 }
 
 // Tag
@@ -67,8 +67,8 @@ export function getHackerByTag(
 	// return withTeam
 	// 	? _getHackerByTagWithTeam.execute({ _hackerTag: hackerTag })
 	// 	: _getHackerByTagAlone.execute({ _hackerTag: hackerTag });
-    return db.query.userCommonData.findFirst({
+	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.hackerTag, hackerTag),
-		with: { hackerData: (withTeam) ? { with: { team: true } } : true },
+		with: { hackerData: withTeam ? { with: { team: true } } : true },
 	});
 }

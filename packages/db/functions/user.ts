@@ -6,7 +6,7 @@ import { User } from "../types";
 
 export function getAllUsers(): Promise<User[] | undefined> {
 	// return _getAllUsers.execute();
-    return db.query.userCommonData.findMany();
+	return db.query.userCommonData.findMany();
 }
 
 // ID
@@ -19,7 +19,7 @@ export function getAllUsers(): Promise<User[] | undefined> {
 
 export function getUser(clerkID: string): Promise<User | undefined> {
 	// return _getUser.execute({ _clerkID: clerkID });
-    return db.query.userCommonData.findFirst({
+	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, clerkID),
 	});
 }
@@ -34,7 +34,7 @@ export function getUser(clerkID: string): Promise<User | undefined> {
 
 export function getUserByTag(hackerTag: string): Promise<User | undefined> {
 	// return _getUserByTag.execute({ _hackerTag: hackerTag });
-    return db.query.userCommonData.findFirst({
+	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.hackerTag, hackerTag),
-	})
+	});
 }
