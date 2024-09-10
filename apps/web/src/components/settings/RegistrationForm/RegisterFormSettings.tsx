@@ -189,10 +189,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 	return (
 		<div>
 			<Link href={"/settings"}>
-				<Button
-					variant={"secondary"}
-					className={"mb-3"}
-				>
+				<Button variant={"secondary"} className={"mb-3"}>
 					Back
 				</Button>
 			</Link>
