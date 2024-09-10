@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
 	const { userId } = auth();
-	if (!userId) return redirect("/sign-in")
+	if (!userId) return redirect("/sign-in");
 	const user = await db.query.users.findFirst({
 		with: {
 			registrationData: true,

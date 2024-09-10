@@ -206,9 +206,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 				</Link>
 			</Button>
 			<Form {...form}>
-				<form
-					className="space-y-6"
-				>
+				<form className="space-y-6">
 					<FormGroupWrapper title="General">
 						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7 md:gap-y-0">
 							<FormField
