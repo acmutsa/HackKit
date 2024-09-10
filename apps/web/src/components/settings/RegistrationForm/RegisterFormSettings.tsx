@@ -160,30 +160,6 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 		},
 	});
 
-	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
-		console.log(data);
-		// setIsLoading(true);
-		// console.log("Submision Clicked");
-		// console.log(data);
-		// if (!userId || !isLoaded) {
-		// 	setIsLoading(false);
-		// 	return alert(
-		// 		`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
-		// 	);
-		// }
-		//
-		// let resume: string = c.noResumeProvidedURL;
-		//
-		// if (uploadedFile) {
-		// 	const newBlob = await put(uploadedFile.name, uploadedFile, {
-		// 		access: "public",
-		// 		handleBlobUploadUrl: "/api/upload/resume/register",
-		// 	});
-		// 	resume = newBlob.url;
-		// }
-		// //runModifyRegistrationData()
-	}
-
 	const onDrop = useCallback(
 		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
 			if (fileRejections.length > 0) {
@@ -231,7 +207,6 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 			</Button>
 			<Form {...form}>
 				<form
-					onSubmit={form.handleSubmit(onSubmit)}
 					className="space-y-6"
 				>
 					<FormGroupWrapper title="General">

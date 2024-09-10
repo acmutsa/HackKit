@@ -579,7 +579,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									</FormItem>
 								)}
 							/>
-
 							<FormField
 								control={form.control}
 								name="major"

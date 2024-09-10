@@ -9,7 +9,7 @@ import RegistrationSettings from "@/components/settings/RegistrationSettings";
 
 export default async function Page() {
 	const { userId } = auth();
-	if (!userId) throw new Error("User not found");
+	if (!userId) return redirect("/sign-in");
 	const user = await db.query.users.findFirst({
 		with: {
 			registrationData: true,
