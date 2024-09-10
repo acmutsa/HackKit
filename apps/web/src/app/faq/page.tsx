@@ -3,16 +3,31 @@ import Footer from "@/components/landing/Footer";
 import Navbar from "@/components/shared/Navbar";
 import FAQItem from "@/components/faq/FAQItem";
 import Link from "next/link";
+import { Accordion } from "@/components/shadcn/ui/accordion";
+import Image from "next/image";
 
 export default function Page() {
 	return (
 		<>
 			<Navbar />
-			<div className="flex flex-col min-h-96 gap-10">
-				<div className="flex items-center justify-center h-32 bg-white border-orange-500 border-2">
-					<h1 className="text-6xl text-orange-500">Hackathon FAQ</h1>
+			<div className="flex flex-col justify-center min-h-96 lg:gap-6 gap-4 bg-[#1A3A9E] md:px-10 px-2 py-4 font-oswald">
+				<div className="flex md:gap-6 gap-3 justify-center items-center border-[#ea580c] border-4 py-4 rounded-lg bg-white">
+					<Image
+						src="/img/logo/rhbttf.svg"
+						alt="RowdyHacks Logo"
+						className="md:w-32 w-20"
+						width={100}
+						height={50}
+					/>
+					<h1 className="md:text-7xl sm:text-5xl text-4xl text-[#ea580c] font-extrabold text-center">
+						Hackathon FAQ
+					</h1>
 				</div>
-				<div className="grid grid-cols-2 px-20 gap-10 justify-center items-start mb-20 bg-[]">
+				<Accordion
+					type="single"
+					collapsible
+					className="lg:grid-cols-2 grid-cols-1 grid lg:gap-6 gap-4 font-bold"
+				>
 					<FAQItem title="What is a hackathon?">
 						A hackathon is a weekend-long event where students form teams and
 						collaborate on a software or hardware project to learn new skills,
@@ -105,14 +120,14 @@ export default function Page() {
 						haven't coded before) or the General Track (for those with moderate
 						to advanced skills). In addition to submitting projects to a
 						competition track, hackers can also submit their project for Best
-						Retro Hack, Best Hardware Hack, Cybersecurity, or Partners
+						Retro Hack, Best Hardware Hack, Cybersecurity, or Partners.
 					</FAQItem>
 					<FAQItem title="What if this FAQ didn't answer my question?">
 						Please e-mail{" "}
 						<Link href="mailto:team@rowdyhacks.org">team@rowdyhacks.org. </Link>{" "}
 						We’ll be happy to answer any questions you have.
 					</FAQItem>
-				</div>
+				</Accordion>
 			</div>
 			<Footer />
 		</>

@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { cn } from "@/lib/utils/client/cn";
+import {
+	AccordionItem,
+	AccordionContent,
+	AccordionTrigger,
+} from "../shadcn/ui/accordion";
 import type { PropsWithChildren } from "react";
 
 interface Props {
@@ -9,22 +12,17 @@ interface Props {
 }
 
 export default function FAQItem({ title, children }: PropsWithChildren<Props>) {
-	const [shown, setShown] = useState(false);
-
 	return (
-		<div
-			className="border-orange-500 flex flex-col justify-center items-center border-2 rounded-sm text-orange-500 bg-white cursor-pointer overflow-hidden justify-self-center py-3 px-5 container"
-			onClick={() => setShown(!shown)}
+		<AccordionItem
+			className="border-orange-500 flex flex-col justify-center items-center border-4 rounded-lg text-orange-500 bg-white px-2 self-start lg:max-w-[600px]"
+			value={`item-${title}`}
 		>
-			<h1 className="text-4xl text-center">{title}</h1>
-			<p
-				className={cn(
-					!shown ? "max-h-0" : "max-h-[1000px]",
-					"duration-300 transition-[max-height] relative top-2 ease-linear"
-				)}
-			>
-				{children}
-			</p>
-		</div>
+			<AccordionTrigger className="sm:text-3xl text-2xl font-bold text-center w-full font-oswald">
+				{title}
+			</AccordionTrigger>
+			<AccordionContent className="px-6">
+				<p className="text-xl font-mono">{children}</p>
+			</AccordionContent>
+		</AccordionItem>
 	);
 }
