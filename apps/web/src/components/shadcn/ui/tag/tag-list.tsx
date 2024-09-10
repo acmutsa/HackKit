@@ -9,10 +9,15 @@ export type TagListProps = {
 	direction?: TagProps["direction"];
 } & Omit<TagProps, "tagObj">;
 
-export const TagList: FC<TagListProps> = ({ tags, customTagRenderer, direction, ...tagProps }) => {
+export const TagList: FC<TagListProps> = ({
+	tags,
+	customTagRenderer,
+	direction,
+	...tagProps
+}) => {
 	return (
 		<div
-			className={cn("rounded-md max-w-[450px]", {
+			className={cn("max-w-[450px] rounded-md", {
 				"flex flex-wrap gap-2": direction === "row",
 				"flex flex-col gap-2": direction === "column",
 			})}
@@ -22,7 +27,7 @@ export const TagList: FC<TagListProps> = ({ tags, customTagRenderer, direction, 
 					customTagRenderer(tagObj)
 				) : (
 					<Tag key={tagObj.id} tagObj={tagObj} {...tagProps} />
-				)
+				),
 			)}
 		</div>
 	);

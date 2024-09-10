@@ -12,11 +12,12 @@ import QRCode from "react-qr-code";
 
 export function Questions() {
 	return (
-		<div className="border border-muted rounded-xl p-5 h-full w-full min-h-[150px] flex flex-col justify-between">
+		<div className="flex h-full min-h-[150px] w-full flex-col justify-between rounded-xl border border-border p-5">
 			<div>
 				<h1 className="font-bold">Have a question?</h1>
-				<p className="text-muted-foreground text-xs">
-					We're here to help! Feel free to reach out to us via email or on Discord.
+				<p className="text-xs text-muted-foreground">
+					We're here to help! Feel free to reach out to us via email
+					or on Discord.
 				</p>
 			</div>
 			<div className="flex items-end gap-2">
@@ -33,12 +34,15 @@ export function Questions() {
 
 export function TitleBubble() {
 	return (
-		<div className="border relative border-hackathon overflow-hidden rounded-xl h-full p-5 w-full sm:col-span-2 sm:row-span-2 lg:!row-start-auto lg:!col-start-auto !row-start-1 !col-start-1 col-span-1 aspect-video lg:aspect-auto">
+		<div className="relative col-span-1 !col-start-1 !row-start-1 aspect-video h-full w-full overflow-hidden rounded-xl border border-hackathon p-5 sm:col-span-2 sm:row-span-2 lg:!col-start-auto lg:!row-start-auto lg:aspect-auto">
 			<GradientHero />
-			<div className="w-full rounded-xl h-full flex gap-y-2 flex-col items-center justify-center relative z-20">
-				<h1 className="font-black text-7xl text-white">{c.hackathonName}</h1>
-				<h2 className="font-mono text-xs sm:text-sm text-white text-center">
-					{`${format(c.startDate, "h:mma, MMM d, yyyy")}`} @ {c.prettyLocation}
+			<div className="relative z-20 flex h-full w-full flex-col items-center justify-center gap-y-2 rounded-xl">
+				<h1 className="text-7xl font-black text-white">
+					{c.hackathonName}
+				</h1>
+				<h2 className="text-center font-mono text-xs text-white sm:text-sm">
+					{`${format(c.startDate, "h:mma, MMM d, yyyy")}`} @{" "}
+					{c.prettyLocation}
 				</h2>
 			</div>
 		</div>
@@ -49,10 +53,10 @@ export function QuickQR({ qrPayload }: { qrPayload: string }) {
 	return (
 		<Link
 			href={"/dash/pass"}
-			className="border border-muted rounded-xl row-span-2 flex flex-col items-center justify-center gap-y-2"
+			className="row-span-2 flex flex-col items-center justify-center gap-y-2 rounded-xl border border-border"
 		>
 			<p className="font-bold">Quick QR</p>
-			<div className="h-[50%] aspect-square overflow-x-hidden flex items-center justify-center border-dashed border-muted border-2 p-2 rounded-xl">
+			<div className="flex aspect-square h-[50%] items-center justify-center overflow-x-hidden rounded-xl border-2 border-dashed border-muted p-2">
 				<QRCode
 					className="h-full"
 					bgColor="hsl(var(--background))"
@@ -60,7 +64,9 @@ export function QuickQR({ qrPayload }: { qrPayload: string }) {
 					value={qrPayload}
 				/>
 			</div>
-			<p className="text-xs text-muted-foreground">Click / Tap To Open Event Pass</p>
+			<p className="text-xs text-muted-foreground">
+				Click / Tap To Open Event Pass
+			</p>
 		</Link>
 	);
 }

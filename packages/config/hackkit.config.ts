@@ -74,6 +74,7 @@ export default {
 			Schedule: "/dash/schedule",
 			"Event Pass": "/dash/pass",
 			// Team: "/dash/team",
+			// Tickets: "/dash/tickets",
 		},
 		admin: {
 			Overview: "/admin",
@@ -100,7 +101,8 @@ export default {
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
 	eventPassBgImage: "/img/dash/pass/bg.png",
-	noResumeProvidedURL: "https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	noResumeProvidedURL:
+		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
 	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
 	prettyLocation: "Location of Hackathon",
@@ -143,6 +145,11 @@ export default {
 		},
 	},
 	maxTeamSize: 4,
+	featureFlags: {
+		core: {
+			requireUsersApproval: false,
+		},
+	},
 	footerLinkItems: {
 		resources: [
 			{ name: "Register", link: "/register" },
@@ -612,6 +619,8 @@ export const schools = [
 ] as const;
 
 export const majors = [
+	"Computer Science",
+	"Cyber Security",
 	"Accounting",
 	"Accounting Technician",
 	"Actuarial Science",
@@ -645,13 +654,11 @@ export const majors = [
 	"Computer & Information Sciences, General",
 	"Computer Engineering",
 	"Computer Networking/Telecommunications",
-	"Computer Science",
 	"Computer Software & Media Applications",
 	"Computer System Administration",
 	"Construction Engineering/Management",
 	"Creative Writing",
 	"Criminology",
-	"Cyber Security",
 	"Data Management Technology",
 	"Dental Assisting",
 	"Design & Visual Communications, General",

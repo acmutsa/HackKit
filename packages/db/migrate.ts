@@ -12,7 +12,10 @@ const runMigrations = async () => {
 	const start = Date.now();
 
 	// TODO: Change this to use t3-env instead of dotenv for type checking
-	const sql = postgres((process.env.POSTGRES_URL as string) + "?sslmode=require", { max: 1 });
+	const sql = postgres(
+		(process.env.POSTGRES_URL as string) + "?sslmode=require",
+		{ max: 1 },
+	);
 	const db = drizzle(sql);
 
 	await migrate(db, { migrationsFolder: "drizzle" });

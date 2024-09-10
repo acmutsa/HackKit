@@ -5,7 +5,7 @@ import { z } from "zod";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
 import { discordVerification } from "db/schema";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export const confirmVerifyDiscord = authenticatedAction(
 	z.object({
@@ -13,7 +13,10 @@ export const confirmVerifyDiscord = authenticatedAction(
 	}),
 	async ({ code }, { userId }) => {
 		const verification = await db.query.discordVerification.findFirst({
-			where: and(eq(discordVerification.code, code), eq(discordVerification.status, "pending")),
+			where: and(
+				eq(discordVerification.code, code),
+				eq(discordVerification.status, "pending"),
+			),
 		});
 		if (!verification) {
 			return {
@@ -29,14 +32,16 @@ export const confirmVerifyDiscord = authenticatedAction(
 			.where(eq(discordVerification.code, code));
 
 		const res = await fetch(
-			env.BOT_API_URL + "/api/checkDiscordVerification?access=" + env.INTERNAL_AUTH_KEY,
+			env.BOT_API_URL +
+				"/api/checkDiscordVerification?access=" +
+				env.INTERNAL_AUTH_KEY,
 			{
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({ code }),
-			}
+			},
 		);
 		let resJson = await res.json();
 		console.log(resJson);
@@ -44,5 +49,5 @@ export const confirmVerifyDiscord = authenticatedAction(
 		return {
 			success: true,
 		};
-	}
+	},
 );

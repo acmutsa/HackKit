@@ -23,8 +23,11 @@ export default function TeamInvite() {
 	const [hackerTag, setHackerTag] = useState<string | null>(null);
 
 	async function createInvite() {
-		if (!hackerTag || hackerTag.length <= 1) return alert("Please enter a valid HackerTag.");
-		const tagToPost = hackerTag.startsWith("@") ? hackerTag.slice(1) : hackerTag;
+		if (!hackerTag || hackerTag.length <= 1)
+			return alert("Please enter a valid HackerTag.");
+		const tagToPost = hackerTag.startsWith("@")
+			? hackerTag.slice(1)
+			: hackerTag;
 		const res = await zpostSafe({
 			url: "/api/team/invite/create",
 			vReq: newInviteValidator,
@@ -35,7 +38,7 @@ export default function TeamInvite() {
 		});
 		if (!res.success) {
 			return alert(
-				`An unknown error occured. Please try again later. If this issue persists, please contact ${c.issueEmail}.`
+				`An unknown error occured. Please try again later. If this issue persists, please contact ${c.issueEmail}.`,
 			);
 		}
 		if (!res.data.success) return alert(res.data.message);
@@ -53,7 +56,9 @@ export default function TeamInvite() {
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Invite Members</DialogTitle>
-					<DialogDescription>Invite members to your team using their HackerTag.</DialogDescription>
+					<DialogDescription>
+						Invite members to your team using their HackerTag.
+					</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="grid grid-cols-4 items-center gap-4">
