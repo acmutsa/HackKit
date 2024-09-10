@@ -119,7 +119,6 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 
 	const universityValue = form.watch("university").toLowerCase();
 	const shortID = form.watch("shortID").toLowerCase();
-	const [goBackLoading, setGoBackLoading] = useState(false);
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
@@ -189,22 +188,15 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 
 	return (
 		<div>
-			<Button
-				variant={"secondary"}
-				className={"mb-3"}
-				disabled={goBackLoading}
-				onClick={() => setGoBackLoading(true)}
-			>
-				<Link href={"/settings"}>
-					{goBackLoading ? (
-						<div className={"flex"}>
-							<Loader2 className={"mr-2 h-4 w-4 animate-spin"} />
-						</div>
-					) : (
-						<Link href={"/settings"}>Back</Link>
-					)}
-				</Link>
-			</Button>
+			<Link href={"/settings"}>
+				<Button
+					variant={"secondary"}
+					className={"mb-3"}
+				>
+					Back
+				</Button>
+			</Link>
+
 			<Form {...form}>
 				<form className="space-y-6">
 					<FormGroupWrapper title="General">
