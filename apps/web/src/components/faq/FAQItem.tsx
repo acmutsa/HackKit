@@ -14,7 +14,7 @@ interface Props {
 export default function FAQItem({ title, children }: PropsWithChildren<Props>) {
 	return (
 		<AccordionItem
-			className="border-orange-500 flex flex-col justify-center items-center border-4 rounded-lg justify-self-center text-orange-500 bg-white px-2 self-start lg:max-w-[600px] w-[100%]"
+			className="border-orange-500 flex flex-col justify-center items-center border-4 rounded-lg justify-self-center text-orange-500 bg-white px-2 self-start w-[100%]"
 			value={`item-${title}`}
 		>
 			<AccordionTrigger className="sm:text-3xl text-2xl font-bold text-center w-full font-oswald">
