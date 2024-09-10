@@ -7,12 +7,18 @@ export default authMiddleware({
 	beforeAuth: (req) => {
 		if (req.nextUrl.pathname.startsWith("/@")) {
 			return NextResponse.rewrite(
-				new URL(`/user/${req.nextUrl.pathname.replace("/@", "")}`, req.url)
+				new URL(
+					`/user/${req.nextUrl.pathname.replace("/@", "")}`,
+					req.url,
+				),
 			);
 		}
 		if (req.nextUrl.pathname.startsWith("/~")) {
 			return NextResponse.rewrite(
-				new URL(`/team/${req.nextUrl.pathname.replace("/~", "")}`, req.url)
+				new URL(
+					`/team/${req.nextUrl.pathname.replace("/~", "")}`,
+					req.url,
+				),
 			);
 		}
 		return NextResponse.next();

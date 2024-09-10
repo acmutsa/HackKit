@@ -22,7 +22,9 @@ export default function LeaveTeamButton({ issueEmail }: LeaveTeamButtonProps) {
 		},
 		onError: (error) => {
 			toast.dismiss();
-			toast.error(`An unknown error occured. If this persists, please email ${issueEmail}.`);
+			toast.error(
+				`An unknown error occured. If this persists, please email ${issueEmail}.`,
+			);
 			console.error("Fetch Error: ", error.fetchError);
 			console.error("Server Error: ", error.serverError);
 			console.error("Validation Error: ", error.validationError);

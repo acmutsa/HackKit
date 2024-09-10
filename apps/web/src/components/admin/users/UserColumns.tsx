@@ -13,14 +13,20 @@ const userValidator = createSelectSchema(users).merge(
 		profileData: createSelectSchema(profileData).merge(
 			z.object({
 				skills: z.array(z.string()),
-			})
+			}),
 		),
-	})
+	}),
 );
 
 export type userValidatorType = Pick<
 	z.infer<typeof userValidator>,
-	"clerkID" | "createdAt" | "firstName" | "lastName" | "profileData" | "email" | "role"
+	| "clerkID"
+	| "createdAt"
+	| "firstName"
+	| "lastName"
+	| "profileData"
+	| "email"
+	| "role"
 >;
 
 export const columns: ColumnDef<userValidatorType>[] = [

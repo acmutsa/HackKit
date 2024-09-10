@@ -10,9 +10,9 @@ import { sendEmail } from "@/lib/utils/server/ses";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
-	const parsedBody = RegisterFormValidator.merge(z.object({ resume: z.string().url() })).safeParse(
-		rawBody
-	);
+	const parsedBody = RegisterFormValidator.merge(
+		z.object({ resume: z.string().url() }),
+	).safeParse(rawBody);
 
 	if (!parsedBody.success) {
 		return NextResponse.json(
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 				success: false,
 				message: "Malformed request body.",
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 				success: false,
 				message: "You must be logged in to register.",
 			},
-			{ status: 401 }
+			{ status: 401 },
 		);
 	}
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 				success: false,
 				message: "You are already registered.",
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
 				success: false,
 				message: "You are already registered.",
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -83,7 +83,8 @@ export async function POST(req: Request) {
 	if (!body.acceptsMLHCodeOfConduct || !body.shareDataWithMLH) {
 		return NextResponse.json({
 			success: false,
-			message: "You must accept the MLH Code of Conduct and Privacy Policy.",
+			message:
+				"You must accept the MLH Code of Conduct and Privacy Policy.",
 		});
 	}
 
@@ -146,7 +147,10 @@ export async function POST(req: Request) {
 	// 	subject: `You are now registered for ${c.hackathonName} ${c.itteration}!`,
 	// });
 
-	return NextResponse.json({ success: true, message: "Successfully created registration!" });
+	return NextResponse.json({
+		success: true,
+		message: "Successfully created registration!",
+	});
 }
 
 export const runtime = "edge";
