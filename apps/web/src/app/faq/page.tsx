@@ -26,7 +26,7 @@ export default function Page() {
 				<Accordion
 					type="single"
 					collapsible
-					className="lg:grid-cols-2 grid-cols-1 grid lg:gap-6 gap-4 font-bold"
+					className="lg:grid-cols-2 grid-cols-1 grid self-center lg:gap-6 gap-4 font-bold"
 				>
 					<FAQItem title="What is a hackathon?">
 						A hackathon is a weekend-long event where students form teams and
