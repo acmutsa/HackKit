@@ -10,8 +10,13 @@ export default function Page() {
 	return (
 		<>
 			<Navbar />
-			<div className="flex flex-col justify-center min-h-96 lg:gap-6 gap-4 bg-[#1A3A9E] md:px-10 px-2 py-4 font-oswald">
-				<div className="flex md:gap-6 gap-3 justify-center items-center border-[#ea580c] border-4 py-4 rounded-lg bg-white">
+			<div className="min-h-96 lg:gap-6 gap-4 bg-[#1A3A9E] md:px-10 px-2 py-4 font-oswald">
+				<Accordion
+					type="single"
+					collapsible
+					className="lg:grid-cols-2 grid-cols-1 grid lg:gap-6 gap-4 font-bold"
+				>
+				<div className="lg:col-span-2 flex md:gap-6 gap-3 justify-center items-center border-[#ea580c] border-4 py-4 rounded-lg bg-white mb-4">
 					<Image
 						src="/img/logo/rhbttf.svg"
 						alt="RowdyHacks Logo"
@@ -23,11 +28,6 @@ export default function Page() {
 						Hackathon FAQ
 					</h1>
 				</div>
-				<Accordion
-					type="single"
-					collapsible
-					className="lg:grid-cols-2 grid-cols-1 grid self-center lg:gap-6 gap-4 font-bold"
-				>
 					<FAQItem title="What is a hackathon?">
 						A hackathon is a weekend-long event where students form teams and
 						collaborate on a software or hardware project to learn new skills,
