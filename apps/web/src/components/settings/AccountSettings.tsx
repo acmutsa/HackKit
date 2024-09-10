@@ -9,6 +9,7 @@ import { useAction } from "next-safe-action/hook";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import c from "config";
+import { Loader2 } from "lucide-react";
 
 interface UserProps {
 	firstName: string;
@@ -30,10 +31,13 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(user.hasSearchableProfile);
 	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false)
 
+	const [isLoading, setIsLoading] = useState(false);
+
 	const { execute: runModifyAccountSettings } = useAction(
 		modifyAccountSettings,
 		{
 			onSuccess: ({ success, message }) => {
+				setIsLoading(false)
 				toast.dismiss();
 				if (!success) {
 					if (message == "hackertag_not_unique") {toast.error("Hackertag already exists"); setHackerTagTakenAlert(true);}
@@ -41,6 +45,7 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 					toast.success("Account updated successfully!");
 			},
 			onError: () => {
+				setIsLoading(false)
 				toast.dismiss();
 				toast.error("An error occurred while updating your account settings!");
 			},
@@ -137,6 +142,7 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 				<Button
 					className="mt-5"
 					onClick={() => {
+						setIsLoading(true);
 						toast.loading("Updating settings...");
 						runModifyAccountSettings({
 							firstName: newFirstName,
@@ -146,8 +152,16 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 							hasSearchableProfile: newIsProfileSearchable,
 						});
 					}}
+					disabled={isLoading}
 				>
-					Update
+					{isLoading ? (
+						<>
+							<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+							<div>Updating</div>
+						</>
+					) : (
+						"Update"
+					)}
 				</Button>
 			</div>
 		</main>

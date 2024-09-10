@@ -14,12 +14,15 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { encodeFileAsBase64 } from "@/lib/utils/shared/files";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
+import { Loader2 } from "lucide-react";
+import { Avatar, AvatarImage } from "@/components/shadcn/ui/avatar";
 
 interface ProfileData {
 	pronouns: string;
 	bio: string;
 	skills: string[];
 	discordUsername: string;
+	profilePhoto: string;
 }
 
 interface ProfileSettingsProps {
@@ -41,16 +44,21 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 	const [newSkills, setNewSkills] = useState<Tag[]>(curSkills);
 	const [newDiscord, setNewDiscord] = useState(profile.discordUsername);
 
+	const [isProfilePictureLoading, setIsProfilePictureLoading] = useState(false);
+	const [isProfileSettingsLoading, setIsProfileSettingsLoading] = useState(false);
+
 	const { user } = useUser();
 
 	const { execute: runModifyProfileData } = useAction(
 		modifyProfileData,
 		{
 			onSuccess: () => {
+				setIsProfileSettingsLoading(false);
 				toast.dismiss();
 				toast.success("Profile updated successfully!");
 			},
 			onError: () => {
+				setIsProfileSettingsLoading(false);
 				toast.dismiss();
 				toast.error("An error occurred while updating your profile!");
 			},
@@ -59,11 +67,13 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 
 	const { execute: runUpdateProfileImage } = useAction(updateProfileImage, {
 		onSuccess: async () => {
+			setIsProfilePictureLoading(false);
 			toast.dismiss();
 			await user?.setProfileImage({ file: newProfileImage });
 			toast.success("Profile Photo updated successfully!");
 		},
 		onError: (err) => {
+			setIsProfilePictureLoading(false);
 			toast.dismiss();
 			toast.error("An error occurred while updating your profile photo!");
 			console.error(err);
@@ -81,7 +91,12 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 				<h2 className="pb-5 text-3xl font-semibold">Profile Photo</h2>
 				<div className="max-w-[500px] space-y-4">
 					<div>
-						<Label htmlFor="photo">Profile Photo</Label>
+						<Avatar className={"h-24 w-24"}>
+							<AvatarImage
+								src={profile.profilePhoto}
+								alt={"@shadcn"}
+							></AvatarImage>
+						</Avatar>
 						<Input
 							accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
 							type="file"
@@ -92,8 +107,10 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 					</div>
 					<Button
 						onClick={async () => {
+							setIsProfilePictureLoading(true);
 							console.log("Button clicked");
 							if (!newProfileImage) {
+								setIsProfilePictureLoading(false);
 								return toast.error(
 									"Please select a Profile Photo to upload!",
 								);
@@ -109,8 +126,16 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							});
 						}}
 						className="mt-5"
+						disabled={isProfilePictureLoading}
 					>
-						Update
+						{isProfilePictureLoading ? (
+							<>
+								<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+								<div>Updating</div>
+							</>
+						) : (
+							"Update"
+						)}
 					</Button>
 				</div>
 			</div>
@@ -162,6 +187,7 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 					</div>
 					<Button
 						onClick={() => {
+							setIsProfileSettingsLoading(true);
 							toast.loading("Updating Profile...", {
 								duration: 0,
 							});
@@ -173,8 +199,16 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							});
 						}}
 						className="mt-5"
+						disabled={isProfileSettingsLoading}
 					>
-						Update
+						{isProfileSettingsLoading ? (
+							<>
+								<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+								<div>Updating</div>
+							</>
+						) : (
+							"Update"
+						)}
 					</Button>
 				</div>
 			</div>

@@ -30,7 +30,7 @@ import {
 	CommandEmpty,
 	CommandGroup,
 	CommandInput,
-	CommandItem,
+	CommandItem, CommandList
 } from "@/components/shadcn/ui/command";
 import {
 	Popover,
@@ -43,10 +43,11 @@ import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
-import CreatingRegistration from "@/components/registration/CreatingRegistration";
 import { useAction } from "next-safe-action/hook";
 import { modifyRegistrationData, modifyResume } from "@/actions/user-profile-mod";
 import { toast } from "sonner";
+import Link from "next/link";
+import { Loader2 } from "lucide-react"
 
 interface RegistrationData {
 	age: number;
@@ -101,25 +102,33 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 		},
 	});
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-	const resumeLink: string = data.resume ?? "https://static.acmutsa.org/No%20Resume%20Provided.pdf";
+	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
 	// @ts-ignore
 	let f = new File([data.resume], resumeLink.split('/').pop());
 	useEffect(() => {
-		if (resumeLink === "https://static.acmutsa.org/No%20Resume%20Provided.pdf")
+		if (resumeLink === c.noResumeProvidedURL)
 			setUploadedFile(null)
 		else
 			setUploadedFile(f)
 	}, []);
 
 	const [isLoading, setIsLoading] = useState(false);
+	const [oldFile, setOldFile] = useState(true);
 
-	const universityValue = form.watch("university");
+	const universityValue = form.watch("university").toLowerCase();
+	const shortID = form.watch("shortID").toLowerCase();
+	const [goBackLoading, setGoBackLoading] = useState(false);
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
+			console.log(1);
 		} else {
-			form.setValue("shortID", data.shortID);
+			if (shortID === "NOT_LOCAL_SCHOOL") {
+				form.setValue("shortID", data.shortID);
+			} else {
+				form.setValue("shortID", "");
+			}
 		}
 	}, [universityValue]);
 
@@ -127,10 +136,12 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 		modifyRegistrationData,
 		{
 			onSuccess: ({ success }) => {
+				setIsLoading(false)
 				toast.dismiss();
 				toast.success("Account updated successfully!");
 			},
 			onError: () => {
+				setIsLoading(false)
 				toast.dismiss();
 				toast.error("An error occurred while updating your account settings!");
 			},
@@ -186,6 +197,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 				);
 				console.log(acceptedFiles[0]);
 				setUploadedFile(acceptedFiles[0]);
+				setOldFile(false);
 			}
 		},
 		[],
@@ -199,12 +211,19 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 		noDrag: uploadedFile != null,
 	});
 
-	if (isLoading) {
-		return <CreatingRegistration />;
-	}
-
 	return (
 		<div>
+			<Button variant={"secondary"} className={"mb-3"} disabled={goBackLoading} onClick={() => setGoBackLoading(true)}>
+				<Link href={"/settings"}>
+					{goBackLoading ? (
+						<div className={"flex"}>
+							<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+						</div>
+					) : (
+						<Link href={"/settings"}>Back</Link>
+					)}
+				</Link>
+			</Button>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
@@ -398,7 +417,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 														{field.value
 															? schools.find(
 																(school) =>
-																	school.toLowerCase() ===
+																	school ===
 																	field.value,
 															)
 															: "Select a University"}
@@ -406,44 +425,47 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 													</Button>
 												</FormControl>
 											</PopoverTrigger>
-											<PopoverContent
-												className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search university..." />
-													<CommandEmpty>
-														No university found.
-													</CommandEmpty>
-													<CommandGroup>
-														{schools.map(
-															(school) => (
-																<CommandItem
-																	value={
-																		school
-																	}
-																	key={school}
-																	onSelect={(
-																		value,
-																	) => {
-																		form.setValue(
-																			"university",
+													<CommandList>
+														<CommandEmpty>
+															No university found.
+														</CommandEmpty>
+														<CommandGroup>
+															{schools.map(
+																(school) => (
+																	<CommandItem
+																		value={
+																			school
+																		}
+																		key={
+																			school
+																		}
+																		onSelect={(
 																			value,
-																		);
-																	}}
-																	className="cursor-pointer"
-																>
-																	<Check
-																		className={`mr-2 h-4 w-4 ${
-																			school.toLowerCase() ===
-																			field.value
-																				? "block"
-																				: "hidden"
-																		} `}
-																	/>
-																	{school}
-																</CommandItem>
-															),
-														)}
-													</CommandGroup>
+																		) => {
+																			form.setValue(
+																				"university",
+																				value,
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 ${
+																				school ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{school}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
 												</Command>
 											</PopoverContent>
 										</Popover>
@@ -472,7 +494,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 														{field.value
 															? majors.find(
 																(major) =>
-																	major.toLowerCase() ===
+																	major ===
 																	field.value,
 															)
 															: "Select a Major"}
@@ -480,40 +502,47 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 													</Button>
 												</FormControl>
 											</PopoverTrigger>
-											<PopoverContent
-												className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search major..." />
-													<CommandEmpty>
-														No major found.
-													</CommandEmpty>
-													<CommandGroup>
-														{majors.map((major) => (
-															<CommandItem
-																value={major}
-																key={major}
-																onSelect={(
-																	value,
-																) => {
-																	form.setValue(
-																		"major",
-																		value,
-																	);
-																}}
-																className="cursor-pointer"
-															>
-																<Check
-																	className={`mr-2 h-4 w-4 overflow-hidden ${
-																		major.toLowerCase() ===
-																		field.value
-																			? "block"
-																			: "hidden"
-																	} `}
-																/>
-																{major}
-															</CommandItem>
-														))}
-													</CommandGroup>
+													<CommandList>
+														<CommandEmpty>
+															No major found.
+														</CommandEmpty>
+														<CommandGroup>
+															{majors.map(
+																(major) => (
+																	<CommandItem
+																		value={
+																			major
+																		}
+																		key={
+																			major
+																		}
+																		onSelect={(
+																			value,
+																		) => {
+																			form.setValue(
+																				"major",
+																				value,
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 overflow-hidden ${
+																				major ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{major}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
 												</Command>
 											</PopoverContent>
 										</Popover>
@@ -569,7 +598,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 								render={({ field }) => (
 									<FormItem
 										className={`${
-											universityValue ===
+											universityValue.toLowerCase() ===
 											c.localUniversityName.toLowerCase()
 												? "col-span-2 flex flex-col md:col-span-1"
 												: "hidden"
@@ -897,7 +926,10 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
 												{uploadedFile
-													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+													? oldFile
+														? <Link href={resumeLink}>{uploadedFile.name} ({Math.round(uploadedFile.size)}kb)</Link>
+														: `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+
 													: isDragActive
 														? "Drop your resume here..."
 														: "Drag 'n' drop your resume here, or click to select a file"}
@@ -905,8 +937,11 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 											{uploadedFile ? (
 												<Button
 													className="mt-4"
-													onClick={() =>
-														setUploadedFile(null)
+													onClick={() => {
+														setUploadedFile(null);
+														setOldFile(false);
+													}
+
 													}
 												>
 													Remove
@@ -921,6 +956,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 					</FormGroupWrapper>
 					<Button
 						onClick={ async () => {
+							setIsLoading(true)
 							let resume: string = c.noResumeProvidedURL
 							if (uploadedFile) {
 								const newBlob = await put(uploadedFile.name, uploadedFile, {
@@ -952,7 +988,18 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 							runModifyResume({
 								resume
 							});
-						}}>Update</Button>
+						}}
+						disabled={isLoading}
+					>
+						{isLoading ? (
+							<>
+								<Loader2 className={"mr-2 h-4 w-4 animate-spin"}/>
+								<div>Updating</div>
+							</>
+						) : (
+							"Update"
+						)}
+					</Button>
 				</form>
 			</Form>
 		</div>

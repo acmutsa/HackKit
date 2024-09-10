@@ -21,7 +21,7 @@ export default async function Page() {
 
 	function Header({ tag }: { tag: string }) {
 		return (
-			<h1 id={tag} className="mt-10 pb-5 text-4xl font-bold">
+			<h1 id={tag.toLowerCase()} className="mt-10 pb-5 text-4xl font-bold">
 				{tag}
 			</h1>
 		);
@@ -31,7 +31,6 @@ export default async function Page() {
 		<div>
 			<Header tag="Account" />
 			<AccountSettings user={user} />
-
 			<Header tag="Profile" />
 			<ProfileSettings profile={user.profileData}/>
 			<Header tag={"Registration"} />
