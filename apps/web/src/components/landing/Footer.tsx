@@ -22,8 +22,8 @@ export default function Footer() {
             <br></br>&future&gt;
           </h1>
         </div>
-        {Object.entries(c.footerLinkItems).map(([title, data]) => (
-          <FooterLinks title={camelCaseToWords(title)} data={data} />
+        {Object.entries(c.footerLinkItems).map(([title, data], idx) => (
+          <FooterLinks title={camelCaseToWords(title)} data={data} key={idx} />
         ))}
         <div className="col-span-2 lg:col-span-1 justify-self-center">
           <Link href="https://vercel.com">
