@@ -1,11 +1,12 @@
 import { currentUser, clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "db";
-import { eq, sql } from "db/drizzle";
+import { sql } from "db/drizzle";
 import { userCommonData, userHackerData } from "db/schema";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "config";
 import { z } from "zod";
+import { getUser, getUserByTag } from "db/functions";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
@@ -48,11 +49,9 @@ export async function POST(req: Request) {
 		);
 	}
 
-	// TODO: Might be removable? Not sure if this is needed. In every case, the sure should have a peice of metadata that says if they are registered or not.
+	// TODO: Might be removable? Not sure if this is needed. In every case, the sure should have a piece of metadata that says if they are registered or not.
 
-	const lookupByUserID = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, user.id),
-	});
+	const lookupByUserID = await getUser(user.id);
 
 	if (lookupByUserID) {
 		return NextResponse.json(
@@ -64,9 +63,7 @@ export async function POST(req: Request) {
 		);
 	}
 
-	const lookupByHackerTag = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.hackerTag, body.hackerTag.toLowerCase()),
-	});
+	const lookupByHackerTag = await getUserByTag(body.hackerTag.toLowerCase());
 
 	if (lookupByHackerTag) {
 		return NextResponse.json({

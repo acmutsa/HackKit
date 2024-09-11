@@ -8,6 +8,7 @@ import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
+import { getUser } from "db/functions";
 
 // TODO: Add skill updating
 export const modifyRegistrationData = authenticatedAction(
@@ -16,10 +17,9 @@ export const modifyRegistrationData = authenticatedAction(
 		skills: z.string().max(100),
 	}),
 	async ({ bio, skills }, { userId }) => {
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-		});
+		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
+
 		await db
 			.update(userCommonData)
 			.set({ bio })
@@ -34,10 +34,9 @@ export const modifyAccountSettings = authenticatedAction(
 		lastName: z.string().min(1).max(50),
 	}),
 	async ({ firstName, lastName }, { userId }) => {
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-		});
+		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
+
 		await db
 			.update(userCommonData)
 			.set({ firstName, lastName })
@@ -54,9 +53,7 @@ export const updateProfileImage = authenticatedAction(
 	z.object({ fileBase64: z.string(), fileName: z.string() }),
 	async ({ fileBase64, fileName }, { userId }) => {
 		const image = await decodeBase64AsFile(fileBase64, fileName);
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-		});
+		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
 
 		const blobUpload = await put(image.name, image, { access: "public" });

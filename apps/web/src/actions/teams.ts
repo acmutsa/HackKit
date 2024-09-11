@@ -5,21 +5,16 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { userCommonData, userHackerData, teams, invites } from "db/schema";
+import { userHackerData, teams, invites } from "db/schema";
 import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
+import { getHacker } from "db/functions";
 
 export const leaveTeam = authenticatedAction(
 	z.null(),
 	async (_, { userId }) => {
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-			with: { hackerData: true },
-		});
-
-		if (!user) {
-			throw new Error("User not found");
-		}
+		const user = await getHacker(userId, false);
+		if (!user) throw new Error("User not found");
 
 		if (!user.hackerData.teamID) {
 			revalidatePath("/dash/team");

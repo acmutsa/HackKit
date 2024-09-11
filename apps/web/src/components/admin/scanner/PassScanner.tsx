@@ -6,7 +6,7 @@ import superjson from "superjson";
 import { createScan } from "@/actions/admin/scanner-admin-actions";
 import { useAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
-import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
+import type { Scan, Event, Hacker } from "db/types";
 import c from "config";
 
 import {
@@ -21,7 +21,6 @@ import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { UserWithAllData } from "@/lib/utils/server/types";
 
 /*
 
@@ -34,10 +33,10 @@ scan: the scan object that has been scanned. If they have not scanned before sca
 */
 
 interface PassScannerProps {
-	event: eventType;
+	event: Event;
 	hasScanned: boolean;
-	scan: scansType | null;
-	scanUser: UserWithAllData | null;
+	scan: Scan | null;
+	scanUser: Hacker | null;
 }
 
 export default function PassScanner({

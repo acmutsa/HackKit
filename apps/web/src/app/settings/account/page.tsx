@@ -1,16 +1,13 @@
 import AccountSettings from "@/components/settings/AccountSettings";
-import { userCommonData } from "db/schema";
-import { eq } from "db/drizzle";
 import { auth } from "@clerk/nextjs";
-import { db } from "db";
 import { redirect } from "next/navigation";
+import { getHacker } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();
-	const user = await db.query.userCommonData.findFirst({
-		with: { hackerData: true },
-		where: eq(userCommonData.clerkID, userId!),
-	});
+	if (!userId) return redirect("/sign-in");
+
+	const user = await getHacker(userId, false);
 	if (!user) return redirect("/sign-in");
 	return <AccountSettings user={user} />;
 }

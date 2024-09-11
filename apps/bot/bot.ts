@@ -15,7 +15,8 @@ import { serve } from "bun";
 import c from "config";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { discordVerification, userCommonData } from "db/schema";
+import { discordVerification } from "db/schema";
+import { getHacker } from "db/functions";
 import { nanoid } from "nanoid";
 
 /* DISCORD BOT */
@@ -198,10 +199,8 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		return h.json({ success: false });
 	}
 	console.log("got here 2");
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, verification.clerkID),
-		with: { hackerData: true },
-	});
+
+	const user = await getHacker(verification.clerkID, false);
 	console.log("got here 2 with user", user);
 	if (!user) {
 		console.log("failed cause of no user in db");

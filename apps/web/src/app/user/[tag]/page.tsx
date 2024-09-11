@@ -1,6 +1,3 @@
-import { db } from "db";
-import { userCommonData } from "db/schema";
-import { eq } from "db/drizzle";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import RoleBadge from "@/components/dash/shared/RoleBadge";
@@ -8,15 +5,12 @@ import { Balancer } from "react-wrap-balancer";
 import Link from "next/link";
 import { Github, Linkedin, Globe } from "lucide-react";
 import Navbar from "@/components/shared/Navbar";
+import { getHackerByTag } from "db/functions";
 
 export default async function ({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
 
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.hackerTag, params.tag),
-		with: { hackerData: true },
-	});
-
+	const user = await getHackerByTag(params.tag, false);
 	if (!user) return notFound();
 
 	return (

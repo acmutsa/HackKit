@@ -1,7 +1,4 @@
 import { auth } from "@clerk/nextjs";
-import { db } from "db";
-import { userCommonData } from "db/schema";
-import { eq } from "db/drizzle";
 import c from "config";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 
@@ -13,13 +10,12 @@ import {
 	TitleBubble,
 	QuickQR,
 } from "@/components/dash/overview/ServerBubbles";
+import { getUser } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();
 	if (!userId) return null;
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-	});
+	const user = await getUser(userId);
 	if (!user) return null;
 
 	const qrPayload = createQRpayload({

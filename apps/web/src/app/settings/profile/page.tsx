@@ -1,16 +1,12 @@
 import ProfileSettings from "@/components/settings/ProfileSettings";
-import { db } from "db";
-import { userCommonData } from "db/schema";
-import { eq } from "db/drizzle";
 import { auth } from "@clerk/nextjs";
+import { getHacker } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();
 	if (!userId) throw new Error("User not found");
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-		with: { hackerData: true },
-	});
+
+	const user = await getHacker(userId, false);
 	if (!user) throw new Error("User not found");
 	return (
 		<ProfileSettings
