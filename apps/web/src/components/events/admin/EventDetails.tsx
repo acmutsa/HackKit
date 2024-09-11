@@ -5,7 +5,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
 import { EventType } from "@/lib/types/events";
 import { headers } from "next/headers";
-import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants/shared";
+import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
 
 export default function EventDetails({ event }: { event: EventType }) {
 	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
