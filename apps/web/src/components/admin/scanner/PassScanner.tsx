@@ -21,7 +21,6 @@ import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { UserWithAllData } from "@/lib/utils/server/types";
 
 /*
 
