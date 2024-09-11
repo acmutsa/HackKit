@@ -42,9 +42,7 @@ export default function Page() {
 						sure you’re prepared!
 						<br />
 						<br /> We encourage you to bring a change of clothes and
-						any hygiene items you might need. With COVID still
-						ongoing, we also encourage our hackers to mask up during
-						the event.
+						any hygiene items you might need.
 						<br />
 						<br /> Any hardware you plan on using for the project --
 						your laptop, charger, portable mouse, phone, Raspberry
@@ -71,10 +69,11 @@ export default function Page() {
 						No worries! RowdyHacks is for everyone from all coding
 						and non-coding backgrounds! We will have plenty of
 						mentors, resources, and workshops to help you learn
-						throughout the event.
+						throughout the event. We also accept hardware
+						submissions for hackers who are interested.
 					</FAQItem>
 					<FAQItem title="How big can my teams be?">
-						Teams can consist of up to 4 students! We encourage
+						Teams can consist of up to 4 hackers! We encourage
 						hackers to participate as part of a team. Don't have a
 						team? No worries, we will have an opportunity before the
 						event for you to meet other hackers and form teams!
@@ -85,7 +84,8 @@ export default function Page() {
 					</FAQItem>
 					<FAQItem title="Who can attend?">
 						Any university, college, or vocational student 18 or
-						older can attend!
+						older can attend! We also welcome mentors and volunteers
+						for those not interested in hacking!
 					</FAQItem>
 					<FAQItem title="What can my project be?">
 						Anything! You can make a new social media website, a
@@ -122,6 +122,10 @@ export default function Page() {
 						years old. We're so excited to see students from all
 						over collaborating and innovating together at this
 						year's event!!
+						<br />
+						<br />
+						Just make sure to put that you're traveling in the
+						accomodation note during registration!
 					</FAQItem>
 					<FAQItem title="What competition tracks will be offered this year?">
 						Hackers can submit their projects to either the Learners
@@ -131,6 +135,10 @@ export default function Page() {
 						addition to submitting projects to a competition track,
 						hackers can also submit their project for Best Retro
 						Hack, Best Hardware Hack, Cybersecurity, or Partners.
+						<br />
+						<br />
+						More information about competition tracks will be given
+						the closer the date gets.
 					</FAQItem>
 					<FAQItem title="What if this FAQ didn't answer my question?">
 						Please e-mail{" "}
