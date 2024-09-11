@@ -1,31 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
-import { createSelectSchema } from "drizzle-zod";
-import { events } from "db/schema";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
-
-// const userValidator = createSelectSchema(users).merge(
-// 	z.object({
-// 		registrationData: createSelectSchema(registrationData),
-// 		profileData: createSelectSchema(profileData).merge(
-// 			z.object({
-// 				skills: z.array(z.string()),
-// 			})
-// 		),
-// 	})
-// );
-
-const eventValidator = createSelectSchema(events);
-
-export type eventTableValidatorType = Pick<
-	z.infer<typeof eventValidator>,
-	"title" | "startTime" | "endTime" | "id" | "type"
->;
+import { eventTableValidatorType } from "@/lib/types/events";
 
 export const columns: ColumnDef<eventTableValidatorType>[] = [
 	{
@@ -49,28 +29,11 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 			</span>
 		),
 	},
-	// {
-	// 	accessorKey: "email",
-	// 	header: "Email",
-	// },
-	// {
-	// 	accessorKey: "profileData.hackerTag",
-	// 	header: "Hacker Tag",
-	// 	cell: ({ row }) => `@${row.original.profileData.hackerTag}`,
-	// },
-	// {
-	// 	accessorKey: "clerkID",
-	// 	header: "Account ID",
-	// },
-	// {
-	// 	accessorKey: "role",
-	// 	header: "Role",
-	// },
 	{
 		accessorKey: "startTime",
 		header: "Start",
 		cell: ({ row }) => (
-			<span suppressHydrationWarning={true}>
+			<span>
 				{new Date(row.original.startTime).toLocaleDateString() + " "}
 				{new Date(row.original.startTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
@@ -83,7 +46,7 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 		accessorKey: "endTime",
 		header: "End",
 		cell: ({ row }) => (
-			<span suppressHydrationWarning={true}>
+			<span>
 				{new Date(row.original.endTime).toLocaleDateString() + " "}
 				{new Date(row.original.endTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",

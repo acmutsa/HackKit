@@ -2,7 +2,7 @@ import { db } from "db";
 import { eq } from "db/drizzle";
 import { events } from "db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
-import EventFull from "@/components/schedule/EventFull";
+import EventDetails from "@/components/events/admin/EventDetails";
 import Navbar from "@/components/shared/Navbar";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 	return (
 		<>
 			<Navbar />
-			<EventFull event={event} />
+			<EventDetails event={event} />
 		</>
 	);
 }

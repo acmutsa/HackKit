@@ -125,6 +125,7 @@ export default {
 			foreground: "#ffffff",
 			checked: false,
 		},
+		// Why is the checked set to a color?
 		mlh: {
 			title: "MLH",
 			color: "#ffffff",
@@ -179,9 +180,11 @@ export default {
 	},
 } as const;
 
+const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resume`;
+
 // Its important that this is kept in sync with the database schema.
 
-export const perms = [
+const perms = [
 	"hacker",
 	"volunteer",
 	"mentor",
@@ -192,7 +195,7 @@ export const perms = [
 
 // These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
 
-export const publicRoutes = [
+const publicRoutes = [
 	"/",
 	/^\/schedule(\/.*)?$/,
 	/^\/@/,
@@ -204,7 +207,7 @@ export const publicRoutes = [
 
 // Generally it is reccomended to put your primary audience's university at the top of this list.
 
-export const schools = [
+const schools = [
 	"The University of Texas at San Antonio",
 	"Texas A&M University - San Antonio",
 	"American Heritage School",
@@ -619,7 +622,7 @@ export const schools = [
 	"Other",
 ] as const;
 
-export const majors = [
+const majors = [
 	"Computer Science",
 	"Cyber Security",
 	"Accounting",
@@ -732,3 +735,13 @@ export const majors = [
 	"Webpage Design",
 	"Other",
 ] as const;
+
+export default c;
+export {
+	defaultTheme,
+	bucketResumeBaseUploadUrl,
+	perms,
+	publicRoutes,
+	schools,
+	majors,
+};
