@@ -91,6 +91,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			shirtSize: "" as any,
 			schoolID: "",
 			university: "",
+			phoneNumber:"",
 		},
 	});
 
@@ -105,7 +106,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const bioValue = form.watch("bio");
 
 	useEffect(() => {
-		if (universityValue != c.localUniversityName.toLowerCase()) {
+		if (universityValue != c.localUniversityName) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
 			form.setValue("schoolID", "");
@@ -168,6 +169,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			}
 		} else {
 			setIsLoading(false);
+			alert(
+				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+			)
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);
@@ -208,7 +212,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 					className="space-y-6"
 				>
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="grid grid-cols-1 gap-x-2 md:grid-cols-2 gap-y-4">
 							<FormField
 								control={form.control}
 								name="firstName"
@@ -217,7 +221,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										<FormLabel>First Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="Some"
+												placeholder="John"
 												{...field}
 											/>
 										</FormControl>
@@ -233,7 +237,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										<FormLabel>Last Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="One"
+												placeholder="Doe"
 												{...field}
 											/>
 										</FormControl>
@@ -252,6 +256,22 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												readOnly={
 													defaultEmail.length > 0
 												}
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="phoneNumber"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Phone Number</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="555-555-5555"
 												{...field}
 											/>
 										</FormControl>
@@ -698,7 +718,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem
 										className={`${
 											universityValue ===
-											c.localUniversityName.toLowerCase()
+											c.localUniversityName
 												? "col-span-2 flex flex-col md:col-span-1"
 												: "hidden"
 										}`}

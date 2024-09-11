@@ -104,6 +104,7 @@ export async function POST(req: Request) {
 			skills: body.skills.map((v) => v.text.toLowerCase()),
 			profilePhoto: user.imageUrl,
 			isFullyRegistered: true,
+			phoneNumber:body.phoneNumber,
 			isSearchable: body.profileIsSearchable,
 		});
 

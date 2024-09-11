@@ -70,11 +70,13 @@ export const userCommonData = pgTable("user_common_data", {
 	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
 	dietRestrictions: json("diet_restrictions").notNull(),
 	accommodationNote: text("accommodation_note"),
-	discord: varchar("discord", { length: 60 }).notNull(),
+	discord: varchar("discord", { length: 60 }),
 	pronouns: varchar("pronouns", { length: 20 }).notNull(),
 	bio: text("bio").notNull(),
 	skills: json("skills").notNull().$type<string[]>().default([]),
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
+	phoneNumber: varchar("phone_number", { length: 30 }).notNull(),
+	// countryOfResidence
 
 	// metadata
 	isFullyRegistered: boolean("is_fully_registered").notNull().default(false),

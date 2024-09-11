@@ -781,7 +781,7 @@ const c = {
 	botName: "HackKit",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
-	localUniversityName: "The University of Texas at San Antonio",
+	localUniversityName: schools[0],
 	localUniversitySchoolIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
 	registration:{
