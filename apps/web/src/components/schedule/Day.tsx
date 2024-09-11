@@ -24,13 +24,21 @@ export default function Day({ title, subtitle, events }: DayProps) {
 			</h1>
 			<h2 className="mb-5 text-lg text-muted-foreground">{subtitle}</h2>
 			<div className="flex w-full flex-col items-center space-y-4 px-2">
-				{events.map((event) => (
-					<EventItem
-						key={event.id}
-						event={event}
-						userTimeZone={userTimeZone}
-					/>
-				))}
+				{events.length > 0 ? (
+					events.map((event) => (
+						<EventItem
+							key={event.id}
+							event={event}
+							userTimeZone={userTimeZone}
+						/>
+					))
+				) : (
+					<div className="flex w-full items-center justify-center h-[30vh]">
+						<h1 className="text-center text-3xl">
+							No events scheduled at this time.
+						</h1>
+					</div>
+				)}
 			</div>
 		</div>
 	);
