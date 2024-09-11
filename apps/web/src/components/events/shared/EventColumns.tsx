@@ -1,20 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
-import { createSelectSchema } from "drizzle-zod";
-import { events } from "db/schema";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
-
-const eventValidator = createSelectSchema(events);
-
-export type eventTableValidatorType = Pick<
-	z.infer<typeof eventValidator>,
-	"title" | "startTime" | "endTime" | "id" | "type"
->;
+import { eventTableValidatorType } from "@/lib/types/events";
 
 export const columns: ColumnDef<eventTableValidatorType>[] = [
 	{
@@ -42,7 +33,7 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 		accessorKey: "startTime",
 		header: "Start",
 		cell: ({ row }) => (
-			<span suppressHydrationWarning={true}>
+			<span>
 				{new Date(row.original.startTime).toLocaleDateString() + " "}
 				{new Date(row.original.startTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
@@ -55,7 +46,7 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 		accessorKey: "endTime",
 		header: "End",
 		cell: ({ row }) => (
-			<span suppressHydrationWarning={true}>
+			<span>
 				{new Date(row.original.endTime).toLocaleDateString() + " "}
 				{new Date(row.original.endTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",

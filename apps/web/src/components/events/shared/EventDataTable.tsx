@@ -16,15 +16,12 @@ import {
 	TableRow,
 } from "@/components/shadcn/ui/table";
 
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
-
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function EventDataTable<TData, TValue>({
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {

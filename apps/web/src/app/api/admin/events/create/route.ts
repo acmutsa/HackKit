@@ -9,6 +9,7 @@ import superjson from "superjson";
 import c from "config";
 import { getUser } from "db/functions";
 
+// Make this a server action
 export async function POST(req: Request) {
 	const { userId } = auth();
 
@@ -22,9 +23,8 @@ export async function POST(req: Request) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	// console.log(await req.json());
 	const body = superjson.parse(await req.text());
-	const parsedBody = newEventValidator.safeParse(body);
+	const parsedBody = newEventFormSchema.safeParse(body);
 
 	if (!parsedBody.success) {
 		return new Response("Malformed request body.", { status: 400 });

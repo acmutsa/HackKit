@@ -32,13 +32,13 @@ export default function EventFull({ event }: { event: Event }) {
 					</Badge>
 					<p className="text-xs font-bold md:text-sm">{`${formatInTimeZone(
 						event.startTime,
-						c.hackathonTimezone,
+						userTimeZone,
 						"EEEE MMMM do",
 					)}, ${formatInTimeZone(
 						event.startTime,
-						c.hackathonTimezone,
+						userTimeZone,
 						"h:mm a",
-					)} - ${formatInTimeZone(event.endTime, c.hackathonTimezone, "h:mm a")}`}</p>
+					)} - ${formatInTimeZone(event.endTime, userTimeZone, "h:mm a")}`}</p>
 				</div>
 
 				<h1 className="mb-2 text-7xl font-black">
