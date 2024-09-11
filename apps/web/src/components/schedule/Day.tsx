@@ -33,7 +33,7 @@ export default function Day({ title, subtitle, events }: DayProps) {
 						/>
 					))
 				) : (
-					<div className="flex w-full items-center justify-center h-[30vh]">
+					<div className="flex h-[30vh] w-full items-center justify-center">
 						<h1 className="text-center text-3xl">
 							No events scheduled at this time.
 						</h1>
