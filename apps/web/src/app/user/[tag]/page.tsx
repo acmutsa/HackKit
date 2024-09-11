@@ -1,6 +1,3 @@
-import { db } from "db";
-import { users } from "db/schema";
-import { eq } from "db/drizzle";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import RoleBadge from "@/components/dash/shared/RoleBadge";
@@ -8,15 +5,12 @@ import { Balancer } from "react-wrap-balancer";
 import Link from "next/link";
 import { Github, Linkedin, Globe } from "lucide-react";
 import Navbar from "@/components/shared/Navbar";
+import { getHackerByTag } from "db/functions";
 
 export default async function ({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.hackerTag, params.tag),
-		with: { profileData: true, registrationData: true },
-	});
-
+	const user = await getHackerByTag(params.tag, false);
 	if (!user) return notFound();
 
 	return (
@@ -29,7 +23,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 						<div className="relative aspect-square w-full overflow-hidden rounded-full">
 							<Image
 								fill
-								src={user.profileData.profilePhoto}
+								src={user.profilePhoto}
 								alt={`@${user.hackerTag}'s Profile Photo`}
 								className="object-cover"
 							/>
@@ -43,53 +37,50 @@ export default async function ({ params }: { params: { tag: string } }) {
 							</h2>
 							<RoleBadge role={user.role} />
 						</div>
-						{user.registrationData.GitHub &&
-							user.registrationData.GitHub.length > 0 && (
+						{user.hackerData.GitHub &&
+							user.hackerData.GitHub.length > 0 && (
 								<Link
 									href={
 										"https://github.com/" +
-										user.registrationData.GitHub
+										user.hackerData.GitHub
 									}
 									className="mt-10 flex items-center gap-x-2 leading-none hover:underline"
 								>
 									<Github className="text-xl" />
-									{user.registrationData.GitHub}
+									{user.hackerData.GitHub}
 								</Link>
 							)}
-						{user.registrationData.LinkedIn &&
-							user.registrationData.LinkedIn.length > 0 && (
+						{user.hackerData.LinkedIn &&
+							user.hackerData.LinkedIn.length > 0 && (
 								<Link
 									href={
 										"https://linkedin.com/in/" +
-										user.registrationData.LinkedIn
+										user.hackerData.LinkedIn
 									}
 									className="mt-3 flex items-center gap-x-2 leading-none hover:underline"
 								>
 									<Linkedin className="text-xl" />
-									{user.registrationData.LinkedIn}
+									{user.hackerData.LinkedIn}
 								</Link>
 							)}
-						{user.registrationData.PersonalWebsite &&
-							user.registrationData.PersonalWebsite.length >
-								0 && (
+						{user.hackerData.PersonalWebsite &&
+							user.hackerData.PersonalWebsite.length > 0 && (
 								<Link
 									href={
-										user.registrationData.PersonalWebsite.startsWith(
+										user.hackerData.PersonalWebsite.startsWith(
 											"http",
 										) ||
-										user.registrationData.PersonalWebsite.startsWith(
+										user.hackerData.PersonalWebsite.startsWith(
 											"https",
 										)
-											? user.registrationData
-													.PersonalWebsite
+											? user.hackerData.PersonalWebsite
 											: "https://" +
-												user.registrationData
-													.PersonalWebsite
+												user.hackerData.PersonalWebsite
 									}
 									className="mt-3 flex items-center gap-x-2 leading-none hover:underline"
 								>
 									<Globe className="text-xl" />
-									{user.registrationData.PersonalWebsite.replace(
+									{user.hackerData.PersonalWebsite.replace(
 										"https://",
 										"",
 									).replace("http://", "")}
@@ -99,17 +90,12 @@ export default async function ({ params }: { params: { tag: string } }) {
 					<div className="col-span-4 flex flex-col justify-center pl-5">
 						<h3 className="font-bold">About</h3>
 						<p>
-							<Balancer>{user.profileData.bio}</Balancer>
+							<Balancer>{user.bio}</Balancer>
 						</p>
-						{user.profileData.skills &&
-						(user.profileData.skills as string[]).length > 0 ? (
+						{user.skills && (user.skills as string[]).length > 0 ? (
 							<>
 								<h3 className="mt-4 font-bold">Skills</h3>
-								<p>
-									{(user.profileData.skills as string[]).join(
-										", ",
-									)}
-								</p>
+								<p>{(user.skills as string[]).join(", ")}</p>
 							</>
 						) : null}
 					</div>

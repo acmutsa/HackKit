@@ -3,21 +3,19 @@
 import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
-import { getScan, createScan } from "@/actions/admin/scanner-admin-actions";
-import { useAction, useOptimisticAction } from "next-safe-action/hook";
+import { createScan } from "@/actions/admin/scanner-admin-actions";
+import { useAction } from "next-safe-action/hook";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
-import type { scansType, userType, eventType } from "@/lib/utils/shared/types";
+import type { Scan, Event, Hacker } from "db/types";
 import c from "config";
 
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
 	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
-	DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
@@ -35,10 +33,10 @@ scan: the scan object that has been scanned. If they have not scanned before sca
 */
 
 interface PassScannerProps {
-	event: eventType;
+	event: Event;
 	hasScanned: boolean;
-	scan: scansType | null;
-	scanUser: userType | null;
+	scan: Scan | null;
+	scanUser: Hacker | null;
 }
 
 export default function PassScanner({
@@ -60,8 +58,11 @@ export default function PassScanner({
 	const path = usePathname();
 	const router = useRouter();
 
-	const register = scanUser?.checkedIn ? "Checked in!" : "Not Checked In";
-	const guild = Object.keys(c.groups)[scanUser?.group || 0] ?? "None";
+	const register = scanUser?.checkinTimestamp
+		? "Checked in!"
+		: "Not Checked In";
+	const guild =
+		Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
 	const role = scanUser?.role ? scanUser?.role : "Not Found";
 
 	function handleScanCreate() {

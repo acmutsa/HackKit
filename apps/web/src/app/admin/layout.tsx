@@ -1,18 +1,15 @@
 import c from "config";
 import Image from "next/image";
-import { db } from "db";
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
-import { eq } from "db/drizzle";
-import { users } from "db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import ProfileButton from "@/components/shared/ProfileButton";
 import { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
 import { redirect } from "next/navigation";
-import NavBarLinksGrouper from "@/components/shared/NavBarLinksGrouper";
+import { getUser } from "db/functions";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -25,9 +22,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 		return redirect("/sign-in");
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
+	const user = await getUser(userId);
 
 	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
 		console.log("Denying admin access to user", user);

@@ -4,14 +4,14 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import ClientToast from "@/components/shared/ClientToast";
 import { SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 import { kv } from "@vercel/kv";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
-import { CheckCircleIcon } from "lucide-react";
+import { getUser } from "db/functions";
 
 export default async function RsvpPage({
 	searchParams,
@@ -29,17 +29,12 @@ export default async function RsvpPage({
 		);
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
-
-	if (!user) {
-		return redirect("/register");
-	}
+	const user = await getUser(userId);
+	if (!user) return redirect("/register");
 
 	if (
 		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
-		user.approved === false &&
+		user.isApproved === false &&
 		user.role === "hacker"
 	) {
 		return redirect("/i/approval");
@@ -53,7 +48,7 @@ export default async function RsvpPage({
 			rsvpEnabled as string | boolean | null | undefined,
 			true,
 		) === true ||
-		user.rsvp === true
+		user.isRSVPed === true
 	) {
 		return (
 			<>
@@ -66,7 +61,7 @@ export default async function RsvpPage({
 					<h1 className="mb-10 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
 						RSVP
 					</h1>
-					<ConfirmDialogue hasRsvped={user.rsvp} />
+					<ConfirmDialogue hasRsvped={user.isRSVPed} />
 				</main>
 			</>
 		);

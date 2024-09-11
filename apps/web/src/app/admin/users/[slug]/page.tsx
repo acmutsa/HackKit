@@ -1,11 +1,7 @@
-import { db } from "db";
-import { users } from "db/schema";
-import { eq } from "db/drizzle";
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { Info } from "lucide-react";
-
 import Link from "next/link";
 import UpdateRoleDialog from "@/components/admin/users/UpdateRoleDialog";
 import {
@@ -19,26 +15,17 @@ import { notFound } from "next/navigation";
 import { isUserAdmin } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
 import c from "config";
+import { getHacker, getUser } from "db/functions";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 	const { userId } = auth();
 
 	if (!userId) return notFound();
 
-	const admin = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
-
+	const admin = await getUser(userId);
 	if (!admin || !isUserAdmin(admin)) return notFound();
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, params.slug),
-		with: {
-			profileData: true,
-			registrationData: true,
-			team: true,
-		},
-	});
+	const user = await getHacker(params.slug, true);
 
 	if (!user) {
 		return <p className="text-center font-bold">User Not Found</p>;
@@ -70,7 +57,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					{(c.featureFlags.core.requireUsersApproval as boolean) && (
 						<ApproveUserButton
 							userIDToUpdate={user.clerkID}
-							currentApproval={user.approved}
+							currentApproval={user.isApproved}
 						/>
 					)}
 				</div>
@@ -81,7 +68,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<Image
 							className="object-cover object-center"
 							fill
-							src={user.profileData.profilePhoto}
+							src={user.profilePhoto}
 							alt={`Profile Photo for ${user.firstName} ${user.lastName}`}
 						/>
 					</div>
@@ -91,11 +78,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<h2 className="font-mono text-muted-foreground">
 						@{user.hackerTag}
 					</h2>
-					{/* <p className="text-sm mt-5">{team.bio}</p> */}
+					{/* <p className="mt-5 text-sm">{team.bio}</p> */}
 					<div className="mt-5 flex gap-x-2">
 						<Badge className="no-select">
 							Joined{" "}
-							{user.createdAt
+							{user.signupTime
 								.toDateString()
 								.split(" ")
 								.slice(1)

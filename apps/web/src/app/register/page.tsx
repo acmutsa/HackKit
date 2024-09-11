@@ -1,32 +1,23 @@
 import c from "config";
 import RegisterForm from "@/components/registration/RegisterForm";
 import { auth, currentUser } from "@clerk/nextjs";
-import { db } from "db";
-import { users } from "db/schema";
-import { eq } from "db/drizzle";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
 import { kv } from "@vercel/kv";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import { Button } from "@/components/shadcn/ui/button";
+import { getUser } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();
-
 	if (!userId) return redirect("/sign-up");
 
 	const user = await currentUser();
-
 	if (!user) return redirect("/sign-up");
 
-	const registration = await db.query.users.findFirst({
-		where: eq(users.clerkID, user.id),
-	});
-
-	if (registration) {
-		return redirect("/dash");
-	}
+	const registration = await getUser(userId);
+	if (registration) return redirect("/dash");
 
 	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled]: (
 		| string

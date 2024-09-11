@@ -1,25 +1,24 @@
 import { auth } from "@clerk/nextjs";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { NextResponse } from "next/server";
 import { newInviteValidator } from "@/validators/shared/team";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { invites } from "db/schema";
+import { getHacker } from "db/functions";
 import type { serverZodResponse } from "@/lib/utils/server/types";
 
 export async function POST(
 	req: Request,
 ): serverZodResponse<typeof BasicServerValidator> {
-	const { userId } = await auth();
+	const { userId } = auth();
 	if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-		with: { team: true },
-	});
+
+	const user = await getHacker(userId, true);
 	if (!user) return NextResponse.json("Unauthorized", { status: 401 });
 
-	if (!user.teamID || !user.team) {
+	if (!user.hackerData.teamID || !user.hackerData.team) {
 		return NextResponse.json(
 			{
 				success: false,
@@ -30,7 +29,7 @@ export async function POST(
 		);
 	}
 
-	if (user.team.ownerID !== userId) {
+	if (user.hackerData.team.ownerID !== userId) {
 		return NextResponse.json(
 			{
 				success: false,
@@ -49,12 +48,16 @@ export async function POST(
 		});
 	}
 
-	const invitee = await db.query.users.findFirst({
-		where: eq(users.hackerTag, body.data.inviteeTag),
+	const invitee = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.hackerTag, body.data.inviteeTag),
 		with: {
-			team: true,
-			invites: {
-				where: eq(invites.teamID, user.teamID),
+			hackerData: {
+				with: {
+					team: true,
+					invites: {
+						where: eq(invites.teamID, user.hackerData.teamID),
+					},
+				},
 			},
 		},
 	});
@@ -67,7 +70,7 @@ export async function POST(
 		});
 	}
 
-	if (invitee.invites.length > 0) {
+	if (invitee.hackerData.invites.length > 0) {
 		return NextResponse.json({
 			success: false,
 			message: "That user already has an invite.",
@@ -77,7 +80,7 @@ export async function POST(
 
 	await db.insert(invites).values({
 		inviteeID: invitee.clerkID,
-		teamID: user.teamID,
+		teamID: user.hackerData.teamID,
 	});
 
 	return NextResponse.json({

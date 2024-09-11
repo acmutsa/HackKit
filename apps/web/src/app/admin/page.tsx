@@ -6,30 +6,17 @@ import {
 	CardTitle,
 	CardDescription,
 } from "@/components/shadcn/ui/card";
-import { db } from "db";
-import { eq, desc } from "db/drizzle";
-import { users } from "db/schema";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
-import type { userType } from "@/lib/utils/shared/types";
-import { unstable_cache } from "next/cache";
-import { env } from "@/env";
+import type { User } from "db/types";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
+import { getAllUsers, getUser } from "db/functions";
 
 export default async function Page() {
-	// const getCachedUsers = unstable_cache(getUsers, [`global_users_${env.INTERNAL_AUTH_KEY}`], {
-	// 	revalidate: 30,
-	// });
-
 	const { userId } = auth();
-
 	if (!userId) return notFound();
 
-	const adminUser = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-		orderBy: desc(users.createdAt),
-	});
-
+	const adminUser = await getUser(userId);
 	if (
 		!adminUser ||
 		(adminUser.role !== "admin" && adminUser.role !== "super_admin")
@@ -37,7 +24,7 @@ export default async function Page() {
 		return notFound();
 	}
 
-	const allUsers = await getUsers();
+	const allUsers = (await getAllUsers()) ?? [];
 
 	const { rsvpCount, checkinCount, recentSignupCount } =
 		getRecentRegistrationData(allUsers);
@@ -142,7 +129,7 @@ export default async function Page() {
 	);
 }
 
-function getRecentRegistrationData(users: userType[]) {
+function getRecentRegistrationData(users: User[]) {
 	type DateNumberMap = { [key: string]: number };
 
 	let rsvpCount = 0;
@@ -162,20 +149,15 @@ function getRecentRegistrationData(users: userType[]) {
 	}
 
 	for (const user of users) {
-		if (user.rsvp) rsvpCount++;
-		if (user.checkedIn) checkinCount++;
+		if (user.isRSVPed) rsvpCount++;
+		if (user.checkinTimestamp) checkinCount++;
 
-		const stamp = user.createdAt.toISOString().split("T")[0];
+		const stamp = user.signupTime.toISOString().split("T")[0];
 
 		if (recentSignupCount[stamp] != undefined) recentSignupCount[stamp]++;
 	}
 
 	return { rsvpCount, checkinCount, recentSignupCount };
-}
-
-async function getUsers() {
-	const usersReq = await db.query.users.findMany();
-	return usersReq;
 }
 
 export const runtime = "edge";

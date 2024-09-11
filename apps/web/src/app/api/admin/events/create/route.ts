@@ -1,13 +1,13 @@
 import { auth } from "@clerk/nextjs";
-import { eq } from "db/drizzle";
 import { db } from "db";
-import { users, events } from "db/schema";
+import { events } from "db/schema";
 import { newEventFormSchema } from "@/validators/event";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import superjson from "superjson";
 import c from "config";
+import { getUser } from "db/functions";
 
 // Make this a server action
 export async function POST(req: Request) {
@@ -15,10 +15,7 @@ export async function POST(req: Request) {
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
-
+	const reqUserRecord = await getUser(userId);
 	if (
 		!reqUserRecord ||
 		(reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")

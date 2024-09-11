@@ -9,6 +9,8 @@ const defaultPrettyError = {
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
 
+const countryCodesArray = c.registration.countries.map(countryObject => countryObject.code);
+
 export const RegisterFormValidator = z.object({
 	firstName: z
 		.string()
@@ -47,32 +49,48 @@ export const RegisterFormValidator = z.object({
 		z.literal("PREFERNOTSAY", defaultPrettyError),
 	]),
 	race: z.union([
-		z.literal("Native American", defaultPrettyError),
-		z.literal("Asian / Pacific Islander", defaultPrettyError),
-		z.literal("Black or African American", defaultPrettyError),
-		z.literal("White / Caucasion", defaultPrettyError),
-		z.literal("Multiple / Other", defaultPrettyError),
-		z.literal("Prefer not to say", defaultPrettyError),
+		z.literal("Asian Indian",defaultPrettyError),
+		z.literal("Asian (Other)",defaultPrettyError),
+		z.literal("Black or African",defaultPrettyError),
+		z.literal("Chinese",defaultPrettyError),
+		z.literal("Filipino",defaultPrettyError),
+		z.literal("Guamanian or Chamorro",defaultPrettyError),
+		z.literal("Hispanic / Latino / Spanish Origin",defaultPrettyError),
+		z.literal("Japanese",defaultPrettyError),
+		z.literal("Korean",defaultPrettyError),
+		z.literal("Middle Eastern",defaultPrettyError),
+		z.literal("Native American or Alaskan Native",defaultPrettyError),
+		z.literal("Native Hawaiian",defaultPrettyError),
+		z.literal("Samoan",defaultPrettyError),
+		z.literal("Vietnamese",defaultPrettyError),
+		z.literal("White",defaultPrettyError),
+		z.literal("Other Asian (Thai, Cambodian, etc)",defaultPrettyError),
+		z.literal("Other Pacific Islander",defaultPrettyError),
+		z.literal("Other",defaultPrettyError),
+		z.literal("Prefer Not to Answer",defaultPrettyError),
 	]),
 	ethnicity: z.union([
 		z.literal("Hispanic or Latino", defaultPrettyError),
 		z.literal("Not Hispanic or Latino", defaultPrettyError),
 	]),
-	acceptsMLHCodeOfConduct: z.boolean().refine((val) => val === true, {
+	phoneNumber: z.string().min(10).max(30, {
+		message: "Phone number must be less than 15 characters",
+	}),
+	countryOfResidence: z.string().length(2),
+	hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
 		message: "You must accept the MLH Code of Conduct.",
 	}),
-	shareDataWithMLH: z.boolean().refine((val) => val === true, {
+	hasSharedDataWithMLH: z.boolean().refine((val) => val === true, {
 		message:
 			"You must accept the MLH Terms & Conditions and Privacy Policy.",
 	}),
-	wantsToReceiveMLHEmails: z.boolean(),
+	isEmailable: z.boolean(),
 	university: z.string().min(1).max(200),
 	major: z.string().min(1).max(200),
-	shortID: z
+	schoolID: z
 		.string()
-		.min(1)
-		.max(c.localUniversityShortIDMaxLength, {
-			message: `Short ID must be less than ${c.localUniversityShortIDMaxLength} characters.`,
+		.length(c.localUniversityShortIDMaxLength, {
+			message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
 		})
 		.or(z.literal("NOT_LOCAL_SCHOOL")),
 	levelOfStudy: z.union([
@@ -147,8 +165,7 @@ export const RegisterFormValidator = z.object({
 		.refine(noProfanityValidator, noProfanityMessage),
 	profileDiscordName: z
 		.string()
-		.min(2, { message: "Please enter a valid Discord Username" })
-		.max(50, { message: "Please enter a valid Discord Username" }),
+		.max(40, { message: "Username should not be longer than 40 characters" }),
 	pronouns: z.string().min(1).max(15),
 	bio: z
 		.string()
