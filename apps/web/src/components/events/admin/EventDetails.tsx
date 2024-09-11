@@ -3,8 +3,13 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";
-
+import { headers } from "next/headers";
+import { getClientTimeZone } from "@/lib/utils/client/shared";
+import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
 export default function EventFull({ event }: { event: Event }) {
+	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
+
+	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 	return (
 		<div className="relative w-screen">
 			<div
