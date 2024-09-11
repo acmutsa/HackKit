@@ -188,7 +188,6 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 
 	return (
 		<div>
-
 			<Form {...form}>
 				<form className="space-y-6">
 					<FormGroupWrapper title="General">
