@@ -162,7 +162,7 @@ export default {
 		links: [
 			{
 				name: "Open Source",
-				link: "https://github.com/acmutsa/CodeQuantum2023",
+				link: "https://github.com/acmutsa/RowdyHacksX",
 			},
 		],
 		otherHackathons: [
