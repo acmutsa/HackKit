@@ -9,6 +9,7 @@ import MLHBadge from "@/components/landing/MLHBadge";
 
 import { Oswald } from "next/font/google";
 import WorkWithUs from "@/components/landing/WorkWithUs";
+import TrailerSection from "@/components/landing/TrailerSection";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -26,6 +27,7 @@ export default function Home() {
 				<About />
 				<Partners />
 				<WorkWithUs />
+				<TrailerSection />
 				<Footer />
 			</main>
 		</div>
