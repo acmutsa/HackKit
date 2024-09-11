@@ -1,6 +1,6 @@
-export const defaultTheme = "dark";
+const defaultTheme = "dark";
 
-export default {
+const c =  {
 	hackathonName: "RowdyHacks",
 	itteration: "X",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
