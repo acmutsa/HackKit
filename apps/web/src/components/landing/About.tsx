@@ -22,7 +22,7 @@ export default function About() {
 
 	return (
 		<section
-			className="relative z-10 min-h-screen w-full bg-[#1A3A9E] bg-[url('/img/landing/About_background.svg')] bg-cover bg-no-repeat px-5 py-20"
+			className="relative z-10 min-h-screen w-full bg-cover bg-no-repeat px-5 py-20"
 			id="About"
 		>
 			<div className="container mx-auto grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2">

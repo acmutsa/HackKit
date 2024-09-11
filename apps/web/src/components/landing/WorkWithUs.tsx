@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function WorkWithUs() {
 	return (
-		<section className="flex min-h-screen w-full flex-col items-center justify-center border-y-2 border-muted-foreground bg-white">
+		<section className="flex min-h-screen w-full flex-col items-center justify-center">
 			<div className="container mx-auto grid grid-cols-1 gap-x-10 gap-y-8 py-4 md:grid-cols-2">
 				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 hover:scale-105">
 					<h1 className="text-center font-oswald text-3xl font-bold italic text-[#ea580c] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">

@@ -2,7 +2,7 @@ export default function TrailerSection() {
 	return (
 		<section
 			className={
-				"flex min-h-[50vh] w-full items-center justify-center border-t-2 border-muted-foreground bg-white p-1 py-8 sm:p-8 md:px-10"
+				"flex min-h-[50vh] w-full items-center justify-center p-1 py-8 sm:p-8 md:px-10"
 			}
 		>
 			<div>
