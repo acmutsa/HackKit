@@ -22,9 +22,8 @@ import { Button } from "@/components/shadcn/ui/button";
 import { z } from "zod";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormGroupWrapper from "./FormGroupWrapper";
+import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import Link from "next/link";
 import c, { schools, majors } from "config";
 import {
 	Command,
@@ -43,136 +42,122 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import { zpostSafe } from "@/lib/utils/client/zfetch";
-import { useAuth } from "@clerk/nextjs";
-import { BasicServerValidator } from "@/validators/shared/basic";
-import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { put, type PutBlobResult } from "@vercel/blob";
-import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
-import CreatingRegistration from "./CreatingRegistration";
-import { bucketResumeBaseUploadUrl } from "config";
-interface RegisterFormProps {
-	defaultEmail: string;
+import { put } from "@vercel/blob";
+import { useAction } from "next-safe-action/hook";
+import {
+	modifyRegistrationData,
+	modifyResume,
+} from "@/actions/user-profile-mod";
+import { toast } from "sonner";
+import Link from "next/link";
+import { Loader2 } from "lucide-react";
+
+interface RegistrationData {
+	age: number;
+	gender: string;
+	race: string;
+	ethnicity: string;
+	wantsToReceiveMLHEmails: boolean;
+	university: string;
+	major: string;
+	shortID: string;
+	levelOfStudy: string;
+	hackathonsAttended: number;
+	softwareExperience: any;
+	heardFrom: any;
+	shirtSize: any;
+	dietRestrictions: any;
+	accommodationNote: string | null;
+	GitHub: string | null;
+	LinkedIn: string | null;
+	PersonalWebsite: any;
+	resume: string;
 }
 
-export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
-	const { isLoaded, userId } = useAuth();
-	const router = useRouter();
+interface RegisterFormSettingsProps {
+	data: RegistrationData;
+}
 
+export default function RegisterForm({ data }: RegisterFormSettingsProps) {
+	if (data.heardFrom === null) data.heardFrom = undefined;
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
-			email: defaultEmail,
-			hackathonsAttended: 0,
-			dietaryRestrictions: [],
-			profileIsSearchable: true,
-			bio: "",
-			wantsToReceiveMLHEmails: false,
+			hackathonsAttended: data.hackathonsAttended || 0,
+			dietaryRestrictions: data.dietRestrictions || [],
+			wantsToReceiveMLHEmails: data.wantsToReceiveMLHEmails,
 			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
-			acceptsMLHCodeOfConduct: false,
-			shareDataWithMLH: false,
-			accommodationNote: "",
-			firstName: "",
-			lastName: "",
-			age: 0,
-			ethnicity: "" as any,
-			gender: "" as any,
-			major: "",
-			github: "",
-			hackerTag: "",
-			heardAboutEvent: "" as any,
-			levelOfStudy: "" as any,
-			linkedin: "",
-			personalWebsite: "",
-			profileDiscordName: "",
-			pronouns: "",
-			race: "" as any,
-			shirtSize: "" as any,
-			shortID: "",
-			university: "",
+			accommodationNote: data.accommodationNote || "",
+			age: data.age,
+			ethnicity: data.ethnicity as any,
+			gender: data.gender as any,
+			major: data.major,
+			github: data.GitHub as any,
+			heardAboutEvent: data.heardFrom,
+			levelOfStudy: data.levelOfStudy as any,
+			linkedin: data.LinkedIn as any,
+			personalWebsite: data.PersonalWebsite,
+			race: data.race as any,
+			shirtSize: data.shirtSize,
+			shortID: data.shortID,
+			softwareBuildingExperience: data.softwareExperience,
+			university: data.university,
 		},
 	});
-
-	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
-
-	const hasErrors = !isSubmitSuccessful && isSubmitted;
-
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-	const [skills, setSkills] = useState<Tag[]>([]);
+	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
+	// @ts-ignore
+	let f = new File([data.resume], resumeLink.split("/").pop());
+	useEffect(() => {
+		if (resumeLink === c.noResumeProvidedURL) setUploadedFile(null);
+		else setUploadedFile(f);
+	}, []);
+
 	const [isLoading, setIsLoading] = useState(false);
-	const universityValue = form.watch("university");
-	const bioValue = form.watch("bio");
+	const [oldFile, setOldFile] = useState(true);
+
+	const universityValue = form.watch("university").toLowerCase();
+	const shortID = form.watch("shortID").toLowerCase();
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
+			console.log(1);
 		} else {
-			form.setValue("shortID", "");
+			if (shortID === "NOT_LOCAL_SCHOOL") {
+				form.setValue("shortID", data.shortID);
+			} else {
+				form.setValue("shortID", "");
+			}
 		}
 	}, [universityValue]);
 
-	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
-		setIsLoading(true);
-		if (!userId || !isLoaded) {
-			setIsLoading(false);
-			return alert(
-				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
-			);
-		}
-
-		if (
-			data.acceptsMLHCodeOfConduct !== true ||
-			data.shareDataWithMLH !== true
-		) {
-			setIsLoading(false);
-			return alert(
-				"You must accept the MLH Code of Conduct and Privacy Policy to continue.",
-			);
-		}
-
-		let resume: string = c.noResumeProvidedURL;
-
-		if (uploadedFile) {
-			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
-			const newBlob = await put(fileLocation, uploadedFile, {
-				access: "public",
-				handleBlobUploadUrl: "/api/upload/resume/register",
-			});
-			resume = newBlob.url;
-		}
-
-		const res = await zpostSafe({
-			url: "/api/registration/create",
-			body: { ...data, resume },
-			vRes: BasicServerValidator,
-		});
-
-		if (res.success) {
-			if (res.data.success) {
-				alert(
-					"Registration successfully created! Redirecting to the dashboard.",
-				);
-				router.push("/dash");
-			} else {
-				if (res.data.message == "hackertag_not_unique") {
-					setIsLoading(false);
-					return alert(
-						"The HackerTag you chose has already been taken. Please change it and then resubmit the form.",
-					);
-				}
+	const { execute: runModifyRegistrationData } = useAction(
+		modifyRegistrationData,
+		{
+			onSuccess: ({ success }) => {
 				setIsLoading(false);
-				return alert(
-					`Registration not created. Error message: \n\n ${res.data.message} \n\n Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+				toast.dismiss();
+				toast.success("Account updated successfully!");
+			},
+			onError: () => {
+				setIsLoading(false);
+				toast.dismiss();
+				toast.error(
+					`An error occurred. Please contact ${c.issueEmail} for help.`,
 				);
-			}
-		} else {
-			setIsLoading(false);
-			return console.log(
-				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			);
-		}
-	}
+			},
+		},
+	);
+
+	const { execute: runModifyResume } = useAction(modifyResume, {
+		onSuccess: ({ success }) => {},
+		onError: () => {
+			toast.dismiss();
+			toast.error("An error occurred while uploading resume!");
+		},
+	});
 
 	const onDrop = useCallback(
 		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -182,7 +167,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 				);
 			}
 			if (acceptedFiles.length > 0) {
+				console.log(
+					`Got accepted file! The length of the array is ${acceptedFiles.length}.`,
+				);
+				console.log(acceptedFiles[0]);
 				setUploadedFile(acceptedFiles[0]);
+				setOldFile(false);
 			}
 		},
 		[],
@@ -196,70 +186,11 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		noDrag: uploadedFile != null,
 	});
 
-	if (isLoading) {
-		return <CreatingRegistration />;
-	}
-
 	return (
 		<div>
 			<Form {...form}>
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className="space-y-6"
-				>
+				<form className="space-y-6">
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
-							<FormField
-								control={form.control}
-								name="firstName"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>First Name</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Some"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="lastName"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Last Name</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="One"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Email</FormLabel>
-										<FormControl>
-											<Input
-												readOnly={
-													defaultEmail.length > 0
-												}
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
 						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7 md:gap-y-0">
 							<FormField
 								control={form.control}
@@ -391,83 +322,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 					<FormGroupWrapper title="MLH">
 						<FormField
 							control={form.control}
-							name="acceptsMLHCodeOfConduct"
-							render={({ field }) => (
-								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
-									</FormControl>
-									<div className="space-y-1 leading-none">
-										<FormLabel>
-											I accept the{" "}
-											<Link
-												target="_blank"
-												className="underline"
-												href={
-													"https://mlh.io/code-of-conduct"
-												}
-											>
-												MLH Code of Conduct
-											</Link>
-										</FormLabel>
-										<FormDescription>
-											This is required of all attendees.
-										</FormDescription>
-									</div>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="shareDataWithMLH"
-							render={({ field }) => (
-								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
-									</FormControl>
-									<div className="space-y-1 leading-none">
-										<FormLabel>
-											I authorize you to share my
-											application/registration information
-											with Major League Hacking for event
-											administration, ranking, and MLH
-											administration in-line with the MLH
-											Privacy Policy. I further agree to
-											the terms of both the{" "}
-											<Link
-												target="_blank"
-												className="underline"
-												href={
-													"https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
-												}
-											>
-												MLH Contest Terms and Conditions
-											</Link>{" "}
-											and the{" "}
-											<Link
-												target="_blank"
-												className="underline"
-												href={"https://mlh.io/privacy"}
-											>
-												MLH Privacy Policy
-											</Link>
-											.
-										</FormLabel>
-										<FormDescription>
-											This is required of all attendees.
-										</FormDescription>
-									</div>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
 							name="wantsToReceiveMLHEmails"
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
@@ -560,7 +414,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																	>
 																		<Check
 																			className={`mr-2 h-4 w-4 ${
-																				school.toLowerCase() ===
+																				school ===
 																				field.value
 																					? "block"
 																					: "hidden"
@@ -637,7 +491,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																	>
 																		<Check
 																			className={`mr-2 h-4 w-4 overflow-hidden ${
-																				major.toLowerCase() ===
+																				major ===
 																				field.value
 																					? "block"
 																					: "hidden"
@@ -656,7 +510,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									</FormItem>
 								)}
 							/>
-
 							<FormField
 								control={form.control}
 								name="levelOfStudy"
@@ -705,7 +558,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem
 										className={`${
-											universityValue ===
+											universityValue.toLowerCase() ===
 											c.localUniversityName.toLowerCase()
 												? "col-span-2 flex flex-col md:col-span-1"
 												: "hidden"
@@ -1017,7 +870,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 						<FormField
 							control={form.control}
-							name="personalWebsite"
+							name={"personalWebsite"}
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Resume</FormLabel>
@@ -1032,18 +885,32 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										>
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
-												{uploadedFile
-													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
-													: isDragActive
-														? "Drop your resume here..."
-														: "Drag 'n' drop your resume here, or click to select a file"}
+												{uploadedFile ? (
+													oldFile ? (
+														<Link href={resumeLink}>
+															{uploadedFile.name}{" "}
+															(
+															{Math.round(
+																uploadedFile.size,
+															)}
+															kb)
+														</Link>
+													) : (
+														`${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+													)
+												) : isDragActive ? (
+													"Drop your resume here..."
+												) : (
+													"Drag 'n' drop your resume here, or click to select a file"
+												)}
 											</p>
 											{uploadedFile ? (
 												<Button
 													className="mt-4"
-													onClick={() =>
-														setUploadedFile(null)
-													}
+													onClick={() => {
+														setUploadedFile(null);
+														setOldFile(false);
+													}}
 												>
 													Remove
 												</Button>
@@ -1055,165 +922,67 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							)}
 						/>
 					</FormGroupWrapper>
-					<FormGroupWrapper title="Hacker Profile">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
-							<FormField
-								control={form.control}
-								name="hackerTag"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>HackerTag</FormLabel>
-										<FormControl>
-											<div className="flex">
-												<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
-													@
-												</div>
-												<Input
-													className="rounded-l-none"
-													placeholder={`${c.hackathonName.toLowerCase()}`}
-													{...field}
-												/>
-											</div>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="profileDiscordName"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Discord Username</FormLabel>
-										<FormControl>
-											<Input
-												placeholder={`${c.hackathonName.toLowerCase()} or ${c.hackathonName.toLowerCase()}#1234`}
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="pronouns"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Pronouns</FormLabel>
-										<FormControl>
-											<Input {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2 md:gap-y-0">
-							<FormField
-								control={form.control}
-								name="bio"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Bio</FormLabel>
-										<FormControl>
-											<Textarea
-												placeholder="Hello! I'm..."
-												className="resize-none"
-												{...field}
-											/>
-										</FormControl>
-										<FormDescription>
-											<span
-												className={
-													bioValue.length > 500
-														? "text-red-500"
-														: ""
-												}
-											>
-												{bioValue.length} / 500
-												Characters
-											</span>
-										</FormDescription>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="skills"
-								render={({ field }) => (
-									<FormItem className="flex flex-col items-start">
-										<FormLabel className="pb-2 text-left">
-											Skills
-										</FormLabel>
-										<FormControl className="min-h-[80px]">
-											<TagInput
-												inputFieldPostion="top"
-												{...field}
-												placeholder="Type and then press enter to add a skill..."
-												tags={skills}
-												className="sm:min-w-[450px]"
-												setTags={(newTags) => {
-													setSkills(newTags);
-													form.setValue(
-														"skills",
-														newTags as [
-															Tag,
-															...Tag[],
-														],
-													);
-												}}
-											/>
-										</FormControl>
-										<FormDescription className="!mt-0">
-											These skills can be listed on your
-											profile and help with the team
-											finding process! Enter anything you
-											think is relevant, including
-											non-technical skills!
-										</FormDescription>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
-						<FormField
-							control={form.control}
-							name="profileIsSearchable"
-							render={({ field }) => (
-								<FormItem className="mx-auto flex max-w-[600px] flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-									<FormControl>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={field.onChange}
-										/>
-									</FormControl>
-									<div className="space-y-1 leading-none">
-										<FormLabel>
-											Make my profile searchable by other
-											Hackers
-										</FormLabel>
-										<FormDescription>
-											This will allow other Hackers to
-											look you up by your name or
-											HackerTag. Other Hackers will still
-											be able to view your profile and
-											invite you to teams if they have
-											your link.
-										</FormDescription>
-									</div>
-								</FormItem>
-							)}
-						/>
-					</FormGroupWrapper>
-					<Button type="submit">Submit</Button>
-					{hasErrors && (
-						<p className="text-red-800">
-							Something doesn't look right. Please check your
-							inputs.
-						</p>
-					)}
+					<Button
+						onClick={async () => {
+							setIsLoading(true);
+							let resume: string = c.noResumeProvidedURL;
+							if (uploadedFile) {
+								const newBlob = await put(
+									uploadedFile.name,
+									uploadedFile,
+									{
+										access: "public",
+										handleBlobUploadUrl:
+											"/api/upload/resume/register",
+									},
+								);
+								resume = newBlob.url;
+							}
+							runModifyRegistrationData({
+								age: +form.watch("age"),
+								gender: form.watch("gender"),
+								race: form.watch("race"),
+								ethnicity: form.watch("ethnicity"),
+								wantsToReceiveMLHEmails: form.watch(
+									"wantsToReceiveMLHEmails",
+								),
+								university: form.watch("university"),
+								major: form.watch("major"),
+								levelOfStudy: form.watch("levelOfStudy"),
+								shortID: form.watch("shortID"),
+								hackathonsAttended:
+									+form.watch("hackathonsAttended"),
+								softwareExperience: form.watch(
+									"softwareBuildingExperience",
+								),
+								heardFrom: form.watch("heardAboutEvent"),
+								shirtSize: form.watch("shirtSize"),
+								dietRestrictions: form.watch(
+									"dietaryRestrictions",
+								),
+								accommodationNote:
+									form.watch("accommodationNote"),
+								GitHub: form.watch("github"),
+								LinkedIn: form.watch("linkedin"),
+								PersonalWebsite: form.watch("personalWebsite"),
+							});
+							runModifyResume({
+								resume,
+							});
+						}}
+						disabled={isLoading}
+					>
+						{isLoading ? (
+							<>
+								<Loader2
+									className={"mr-2 h-4 w-4 animate-spin"}
+								/>
+								<div>Updating</div>
+							</>
+						) : (
+							"Update"
+						)}
+					</Button>
 				</form>
 			</Form>
 		</div>
