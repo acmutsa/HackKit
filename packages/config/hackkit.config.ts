@@ -892,9 +892,9 @@ const c = {
 		Other: "#795548",
 	},
 	days: {
-		Saturday: new Date(2023, 6, 15),
+		Saturday: new Date(2024, 10, 26),
 	},
-	Sunday: new Date(2023, 6, 16),
+	Sunday: new Date(2024, 10, 27),
 	maxResumeSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
@@ -903,7 +903,7 @@ const c = {
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
 	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
-	prettyLocation: "Location of Hackathon",
+	prettyLocation: "San Pedro I",
 	roleBadges: {
 		hacker: {
 			title: "Hacker",
