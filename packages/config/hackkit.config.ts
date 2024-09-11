@@ -1,8 +1,8 @@
 export const defaultTheme = "dark";
 
 export default {
-	hackathonName: "HackKit",
-	itteration: "Your Iteration Here",
+	hackathonName: "RowdyHacks",
+	itteration: "X",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	botName: "HackKit",
@@ -63,10 +63,10 @@ export default {
 		guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit.svg",
-		md: "/img/logo/hackkit-md.png",
-		lg: "/img/logo/hackkit-lg.png",
-		svg: "/img/logo/hackkit.svg",
+		sm: "/img/logo/rhbttf.svg",
+		md: "/img/logo/rhbttf.svg",
+		lg: "/img/logo/rhbttf.svg",
+		svg: "/img/logo/rhbttf.svg",
 	},
 	dashPaths: {
 		dash: {
@@ -94,18 +94,18 @@ export default {
 		Other: "#795548",
 	},
 	days: {
-		Saturday: new Date(2023, 6, 15),
+		Saturday: new Date(2024, 10, 26),
 	},
-	Sunday: new Date(2023, 6, 16),
+	Sunday: new Date(2024, 10, 27),
 	maxResumeSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
-	eventPassBgImage: "/img/dash/pass/bg.png",
+	eventPassBgImage: "/img/logo/rhbttf.svg",
 	noResumeProvidedURL:
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
-	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
-	prettyLocation: "Location of Hackathon",
+	startDate: new Date(2024, 9, 26, 9),
+	prettyLocation: "UTSA San Pedro I",
 	roleBadges: {
 		hacker: {
 			title: "Hacker",

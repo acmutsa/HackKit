@@ -10,6 +10,8 @@ import MLHBadge from "@/components/landing/MLHBadge";
 import { Oswald } from "next/font/google";
 import WorkWithUs from "@/components/landing/WorkWithUs";
 import TrailerSection from "@/components/landing/TrailerSection";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/shadcn/ui/skeleton";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -19,13 +21,14 @@ const oswald = Oswald({
 export default function Home() {
 	return (
 		<div className={`${oswald.variable} w-full overflow-x-hidden`}>
+			<Suspense fallback={<Skeleton className="w-screen h-16" />}>
 			<Navbar />
+			</Suspense>
 			<MLHBadge />
 			<main className="overflow-x-hidden">
 				<Hero />
-
 				<About />
-				<Partners />
+				{/* <Partners /> */}
 				<WorkWithUs />
 				<TrailerSection />
 				<Footer />
