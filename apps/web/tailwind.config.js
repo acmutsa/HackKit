@@ -80,7 +80,7 @@ module.exports = {
 			},
 			fontFamily: {
 				oswald: ["var(--font-oswald)"],
-				bttf: ["var(--font-bttf)"]
+				bttf: ["var(--font-bttf)"],
 			},
 		},
 	},

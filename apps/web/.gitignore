@@ -36,3 +36,6 @@ next-env.d.ts
 
 # react-email
 .react-email/
+
+# Jetbrains
+.idea/
