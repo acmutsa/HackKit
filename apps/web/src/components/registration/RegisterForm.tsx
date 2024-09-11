@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import Link from "next/link";
-import c, { schools, majors } from "config";
+import c from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -330,25 +330,18 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Native American">
-														Native American
-													</SelectItem>
-													<SelectItem value="Asian / Pacific Islander">
-														Asian / Pacific Islander
-													</SelectItem>
-													<SelectItem value="Black or African American">
-														Black or African
-														American
-													</SelectItem>
-													<SelectItem value="White / Caucasion">
-														White / Caucasion
-													</SelectItem>
-													<SelectItem value="Multiple / Other">
-														Multiple / Other
-													</SelectItem>
-													<SelectItem value="Prefer not to say">
-														Prefer not to say
-													</SelectItem>
+													{
+														c.registration.raceOptions.map(
+															(option) => (
+																<SelectItem
+																	value={option}
+																	key={option}
+																>
+																	{option}
+																</SelectItem>
+															),
+														)
+													}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -521,7 +514,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														)}
 													>
 														{field.value
-															? schools.find(
+															? c.registration.schools.find(
 																	(school) =>
 																		school ===
 																		field.value,
@@ -539,7 +532,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 															No university found.
 														</CommandEmpty>
 														<CommandGroup>
-															{schools.map(
+															{c.registration.schools.map(
 																(school) => (
 																	<CommandItem
 																		value={
@@ -598,7 +591,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														)}
 													>
 														{field.value
-															? majors.find(
+															? c.registration.majors.find(
 																	(major) =>
 																		major ===
 																		field.value,
@@ -616,7 +609,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 															No major found.
 														</CommandEmpty>
 														<CommandGroup>
-															{majors.map(
+															{c.registration.majors.map(
 																(major) => (
 																	<CommandItem
 																		value={
@@ -889,7 +882,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												event!
 											</FormDescription>
 										</div>
-										{c.dietaryRestrictionOptions.map(
+										{c.registration.dietaryRestrictionOptions.map(
 											(item) => (
 												<FormField
 													key={item}
@@ -1019,7 +1012,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							name="personalWebsite"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Resume</FormLabel>
+									<FormLabel >Resume</FormLabel>
 									<FormControl>
 										<div
 											{...getRootProps()}
