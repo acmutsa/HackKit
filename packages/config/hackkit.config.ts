@@ -784,13 +784,40 @@ const c = {
 	localUniversityName: schools[0],
 	localUniversitySchoolIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
-	registration:{
+	registration: {
 		schools,
 		majors,
 		levelsOfStudy,
 		dietaryRestrictionOptions,
 		countries,
 		raceOptions,
+	},
+	footerLinkItems: {
+		resources: [
+			{ name: "Register", link: "/register" },
+			{ name: "FAQ", link: "/faq" },
+			{ name: "Code of Conduct", link: "/conduct" },
+			{ name: "Contact Us", link: "/contact" },
+			{ name: "ACM-W", link: "https://acmutsa.org/suborg_acmw" },
+			{ name: "ACM UTSA", link: "https://acmutsa.org/" },
+		],
+		links: [
+			{
+				name: "Open Source",
+				link: "https://github.com/acmutsa/CodeQuantum2023",
+			},
+		],
+		otherHackathons: [
+			{ name: "CodeQuantum", link: "https://cqhacks.org/" },
+			{ name: "RowdyDatathon", link: "https://www.rowdydatathon.org/" },
+			{ name: "TAMUHack", link: "https://tamuhack.com/" },
+			{ name: "WEHack", link: "https://wehackutd.com/" },
+			{ name: "HackUTD", link: "https://hackutd.co/" },
+			{ name: "HackTX", link: "https://hacktx.com/" },
+			{ name: "HackUNT", link: "https://unthackathon.com/#/" },
+			{ name: "HackUTA", link: "https://hackuta.org/" },
+			{ name: "Hacklahoma", link: "https://hacklahoma.org/" },
+		],
 	},
 	groups: {
 		"Guild A | Group A": {
