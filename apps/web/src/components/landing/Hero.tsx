@@ -7,30 +7,33 @@ export default function Home() {
 			<div
 				className={`z-20 mx-4 flex flex-col items-center space-y-3 md:flex-row md:space-y-0`}
 			>
-				<ShinyLogo />
+				<ShinyLogo/>
 				<h1 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text p-5 pl-2 font-bttf text-5xl text-transparent sm:text-7xl lg:text-8xl">
 					<span className="text-7xl sm:text-8xl md:text-[length:inherit]">
 						{"HACK<"}
 					</span>
-					<br />
+					<br/>
 					{"&future>"}
 				</h1>
 			</div>
 			<p className="z-20 mx-2 mb-6 text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 xl:mb-8 2xl:text-3xl">
 				October 26th - 27th 2024
 			</p>
-			<Link
-				href="/register"
-				className="z-20 flex items-center justify-center rounded-md border-8 border-white bg-white text-center font-bttf text-xl drop-shadow-md md:text-2xl 2xl:text-3xl"
-				target="_blank"
-			>
-				<h1 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text px-2 font-bttf text-5xl text-transparent mb-4 lg:mt-5">
-					<span className="text-xl sm:text-6xl ">
-						{"register now"}
-					</span>
-				</h1>
-			</Link>
-			<Overlay />
+			<div className="w-full relative hover:scale-125 ease-in-out duration-150">
+				<Link href={'/register'}>
+					<div className="relative max-w-[250px] lg:max-w-[475px] mx-auto my-10">
+						<div
+							className="absolute z-[5] h-[64px] w-full max-w-[500px] hover:cursor-pointer bg-white mx-auto flex items-center justify-center register-clip">
+							<h2 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text px-2 font-bttf text-2xl lg:text-5xl text-transparent lg:mt-3">
+								register
+							</h2>
+						</div>
+						<div
+							className="translate-y-2 absolute h-[64px] w-full max-w-[500px] hover:cursor-pointer bg-orange-400 mx-auto flex items-center justify-center register-clip"></div>
+					</div>
+				</Link>
+			</div>
+			<Overlay/>
 		</main>
 	);
 }

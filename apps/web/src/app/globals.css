@@ -137,3 +137,7 @@
 		0 0;
 	transition-duration: 3.2s;
 }
+
+.register-clip {
+	clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+}

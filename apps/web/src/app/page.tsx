@@ -26,8 +26,6 @@ export default function Home() {
 				<Navbar />
 			</Suspense>
 			<MLHBadge />
-			{/*<main className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#1A3A9E]">*/}
-			{/*<div className="absolute left-0 top-0 h-screen w-screen overflow-hidden">*/}
 			<main className="overflow-x-hidden relative flex flex-col min-h-full">
 					<div className="fixed inset-0 w-screen h-screen -z-10 overflow-hidden">
 						<WavyBackground
