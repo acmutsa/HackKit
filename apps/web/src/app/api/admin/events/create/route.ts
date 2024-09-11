@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { db } from "db";
 import { events } from "db/schema";
-import { newEventValidator } from "@/validators/shared/newEvent";
+import { newEventFormSchema } from "@/validators/event";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
 import { z } from "zod";
