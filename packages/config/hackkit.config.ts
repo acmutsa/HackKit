@@ -902,7 +902,7 @@ const c = {
 	noResumeProvidedURL:
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
-	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
+	startDate: new Date(new Date(2024, 10, 26).setHours(9)),
 	prettyLocation: "San Pedro I",
 	roleBadges: {
 		hacker: {
