@@ -106,6 +106,7 @@ export async function POST(req: Request) {
 			isFullyRegistered: true,
 			phoneNumber:body.phoneNumber,
 			isSearchable: body.profileIsSearchable,
+			countryOfResidence:body.countryOfResidence,
 		});
 
 		await tx.insert(userHackerData).values({

@@ -76,7 +76,7 @@ export const userCommonData = pgTable("user_common_data", {
 	skills: json("skills").notNull().$type<string[]>().default([]),
 	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
 	phoneNumber: varchar("phone_number", { length: 30 }).notNull(),
-	// countryOfResidence
+	countryOfResidence: varchar("country_of_residence", { length: 3 }).notNull(),
 
 	// metadata
 	isFullyRegistered: boolean("is_fully_registered").notNull().default(false),

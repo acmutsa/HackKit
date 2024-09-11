@@ -9,6 +9,8 @@ const defaultPrettyError = {
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
 
+const countryCodesArray = c.registration.countries.map(countryObject => countryObject.code);
+
 export const RegisterFormValidator = z.object({
 	firstName: z
 		.string()
@@ -74,6 +76,7 @@ export const RegisterFormValidator = z.object({
 	phoneNumber: z.string().min(10).max(30, {
 		message: "Phone number must be less than 15 characters",
 	}),
+	countryOfResidence: z.string().length(2),
 	hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
 		message: "You must accept the MLH Code of Conduct.",
 	}),
