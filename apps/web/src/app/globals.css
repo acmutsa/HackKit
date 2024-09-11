@@ -112,20 +112,28 @@
 	border-radius: 150px;
 
 	background-repeat: no-repeat;
-	background-position: -100% 0, 0 0;
+	background-position:
+		-100% 0,
+		0 0;
 
-	background-image: linear-gradient(var(--shine-deg),
-			transparent 20%,
-			transparent 40%,
-			rgba(170, 170, 170, 0.2) 50%,
-			rgba(114, 114, 114, 0.2) 55%,
-			transparent 70%,
-			transparent 100%);
-	background-size: 250% 250%, 100% 100%;
+	background-image: linear-gradient(
+		var(--shine-deg),
+		transparent 20%,
+		transparent 40%,
+		rgba(170, 170, 170, 0.2) 50%,
+		rgba(114, 114, 114, 0.2) 55%,
+		transparent 70%,
+		transparent 100%
+	);
+	background-size:
+		250% 250%,
+		100% 100%;
 	transition: background-position 0s ease;
 }
 
 .card-shine-effect-active {
-	background-position: 200%0, 0 0;
+	background-position:
+		200%0,
+		0 0;
 	transition-duration: 3.2s;
 }

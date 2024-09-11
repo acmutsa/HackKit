@@ -43,14 +43,14 @@ export default function Home() {
 			</p>
 			<Link
 				href="/register"
-				className="z-20 rounded-md text-center font-bttf text-xl md:text-2xl 2xl:text-3xl bg-white flex justify-center items-center border-white border-8 drop-shadow-md"
+				className="z-20 flex items-center justify-center rounded-md border-8 border-white bg-white text-center font-bttf text-xl drop-shadow-md md:text-2xl 2xl:text-3xl"
 				target="_blank"
 			>
-				<h1 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text p-2 font-bttf text-5xl text-transparent sm:text-7xl lg:text-8xl mb-3 lg:mt-3 lg:mb-0">
+				<h1 className="mb-3 bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text p-2 font-bttf text-5xl text-transparent sm:text-7xl lg:mb-0 lg:mt-3 lg:text-8xl">
 					<span className="text-2xl sm:text-8xl md:text-[length:inherit]">
 						{"register now"}
 					</span>
-					</h1>
+				</h1>
 			</Link>
 			<Overlay />
 		</main>

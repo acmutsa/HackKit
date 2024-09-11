@@ -21,8 +21,8 @@ const oswald = Oswald({
 export default function Home() {
 	return (
 		<div className={`${oswald.variable} w-full overflow-x-hidden`}>
-			<Suspense fallback={<Skeleton className="w-screen h-16" />}>
-			<Navbar />
+			<Suspense fallback={<Skeleton className="h-16 w-screen" />}>
+				<Navbar />
 			</Suspense>
 			<MLHBadge />
 			<main className="overflow-x-hidden">
