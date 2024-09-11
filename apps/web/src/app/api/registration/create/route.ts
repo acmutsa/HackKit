@@ -2,11 +2,10 @@ import { currentUser, clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "db";
 import { eq, sql } from "db/drizzle";
-import { users, registrationData, profileData } from "db/schema";
+import { userCommonData, userHackerData } from "db/schema";
 import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "config";
 import { z } from "zod";
-import { sendEmail } from "@/lib/utils/server/ses";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
@@ -51,8 +50,8 @@ export async function POST(req: Request) {
 
 	// TODO: Might be removable? Not sure if this is needed. In every case, the sure should have a peice of metadata that says if they are registered or not.
 
-	const lookupByUserID = await db.query.users.findFirst({
-		where: eq(users.clerkID, user.id),
+	const lookupByUserID = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, user.id),
 	});
 
 	if (lookupByUserID) {
@@ -65,8 +64,8 @@ export async function POST(req: Request) {
 		);
 	}
 
-	const lookupByHackerTag = await db.query.users.findFirst({
-		where: eq(users.hackerTag, body.hackerTag.toLowerCase()),
+	const lookupByHackerTag = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.hackerTag, body.hackerTag.toLowerCase()),
 	});
 
 	if (lookupByHackerTag) {
@@ -78,9 +77,9 @@ export async function POST(req: Request) {
 
 	const totalUserCount = await db
 		.select({ count: sql<number>`count(*)`.mapWith(Number) })
-		.from(users);
+		.from(userCommonData);
 
-	if (!body.acceptsMLHCodeOfConduct || !body.shareDataWithMLH) {
+	if (!body.hasAcceptedMLHCoC || !body.hasSharedDataWithMLH) {
 		return NextResponse.json({
 			success: false,
 			message:
@@ -89,49 +88,45 @@ export async function POST(req: Request) {
 	}
 
 	await db.transaction(async (tx) => {
-		await tx.insert(users).values({
+		await tx.insert(userCommonData).values({
 			clerkID: user.id,
 			firstName: body.firstName,
 			lastName: body.lastName,
 			email: body.email,
 			hackerTag: body.hackerTag.toLowerCase(),
-			registrationComplete: true,
-			group: totalUserCount[0].count % Object.keys(c.groups).length,
-			hasSearchableProfile: body.profileIsSearchable,
+			age: body.age,
+			gender: body.gender,
+			race: body.race,
+			ethnicity: body.ethnicity,
+			shirtSize: body.shirtSize,
+			dietRestrictions: body.dietaryRestrictions,
+			accommodationNote: body.accommodationNote || null,
+			discord: body.profileDiscordName,
+			pronouns: body.pronouns,
+			bio: body.bio,
+			skills: body.skills.map((v) => v.text.toLowerCase()),
+			profilePhoto: user.imageUrl,
+			isFullyRegistered: true,
+			isSearchable: body.profileIsSearchable,
 		});
 
-		await tx.insert(registrationData).values({
+		await tx.insert(userHackerData).values({
 			clerkID: user.id,
-			acceptedMLHCodeOfConduct: body.acceptsMLHCodeOfConduct,
-			accommodationNote: body.accommodationNote || null,
-			age: body.age,
-			dietRestrictions: body.dietaryRestrictions,
-			ethnicity: body.ethnicity,
-			gender: body.gender,
-			hackathonsAttended: body.hackathonsAttended,
-			heardFrom: body.heardAboutEvent || null,
-			levelOfStudy: body.levelOfStudy,
-			major: body.major,
-			race: body.race,
-			sharedDataWithMLH: body.shareDataWithMLH,
-			shirtSize: body.shirtSize,
-			shortID: body.shortID,
-			softwareExperience: body.softwareBuildingExperience,
 			university: body.university,
-			wantsToReceiveMLHEmails: body.wantsToReceiveMLHEmails,
+			major: body.major,
+			schoolID: body.schoolID,
+			levelOfStudy: body.levelOfStudy,
+			hackathonsAttended: body.hackathonsAttended,
+			softwareExperience: body.softwareBuildingExperience,
+			heardFrom: body.heardAboutEvent || null,
 			GitHub: body.github,
 			LinkedIn: body.linkedin,
 			PersonalWebsite: body.personalWebsite,
 			resume: body.resume,
-		});
-
-		await tx.insert(profileData).values({
-			bio: body.bio,
-			discordUsername: body.profileDiscordName,
-			hackerTag: body.hackerTag.toLowerCase(),
-			profilePhoto: user.imageUrl,
-			pronouns: body.pronouns,
-			skills: body.skills.map((v) => v.text.toLowerCase()),
+			group: totalUserCount[0].count % Object.keys(c.groups).length,
+			hasAcceptedMLHCoC: body.hasAcceptedMLHCoC,
+			hasSharedDataWithMLH: body.hasSharedDataWithMLH,
+			isEmailable: body.isEmailable,
 		});
 	});
 

@@ -1,5 +1,5 @@
 import { db } from "db";
-import { discordVerification, users } from "db/schema";
+import { discordVerification, userCommonData } from "db/schema";
 import { eq, and, or } from "db/drizzle";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
@@ -7,7 +7,6 @@ import c from "config";
 import Balancer from "react-wrap-balancer";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
-import { Button } from "@/components/shadcn/ui/button";
 import ClientToast from "@/components/shared/ClientToast";
 import DiscordVerifyButton from "@/components/settings/DiscordVerifyButton";
 
@@ -32,8 +31,8 @@ export default async function Page({
 		return redirect("/sign-in");
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 		with: {
 			discordVerification: true,
 		},
@@ -45,7 +44,7 @@ export default async function Page({
 
 	if (
 		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
-		user.approved === false &&
+		user.isApproved === false &&
 		user.role === "hacker"
 	) {
 		return redirect("/i/approval");

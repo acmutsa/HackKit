@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "db";
-import { users, invites, teams } from "db/schema";
+import { userCommonData, invites } from "db/schema";
 import { eq, and } from "db/drizzle";
 
 const inviteDeclineValidator = z.object({
@@ -23,17 +23,23 @@ export async function POST(req: Request) {
 		});
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	// TODO(xander): adjust logic here. null check shouldnt require a join, and invite can be queried directly
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 		with: {
-			invites: {
-				where: eq(invites.teamID, body.data.teamInviteID),
+			hackerData: {
+				with: {
+					invites: {
+						where: eq(invites.teamID, body.data.teamInviteID),
+					},
+				},
 			},
 		},
 	});
 
 	if (!user) return NextResponse.json("Unauthorized", { status: 401 });
 
+	// TODO(xander): get invite using body data here to avoid joins above
 	await db
 		.update(invites)
 		.set({
@@ -41,7 +47,7 @@ export async function POST(req: Request) {
 		})
 		.where(
 			and(
-				eq(invites.teamID, user.invites[0].teamID),
+				eq(invites.teamID, user.hackerData.invites[0].teamID),
 				eq(invites.inviteeID, userId),
 			),
 		);

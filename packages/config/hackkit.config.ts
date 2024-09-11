@@ -8,7 +8,7 @@ const c = {
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: "The University of Texas at San Antonio",
-	localUniversityShortIDName: "ABC123",
+	localUniversitySchoolIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
 	dietaryRestrictionOptions: [
 		"Vegan",

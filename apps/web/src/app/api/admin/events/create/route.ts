@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { eq } from "db/drizzle";
 import { db } from "db";
-import { users, events } from "db/schema";
+import { userCommonData, events } from "db/schema";
 import { newEventFormSchema } from "@/validators/event";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
@@ -15,8 +15,8 @@ export async function POST(req: Request) {
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const reqUserRecord = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 	});
 
 	if (
