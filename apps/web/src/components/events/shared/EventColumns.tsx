@@ -7,13 +7,6 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
 
-const eventValidator = createSelectSchema(events);
-
-export type eventTableValidatorType = Pick<
-	z.infer<typeof eventValidator>,
-	"title" | "startTime" | "endTime" | "id" | "type"
->;
-
 export const columns: ColumnDef<eventTableValidatorType>[] = [
 	{
 		accessorKey: "title",
