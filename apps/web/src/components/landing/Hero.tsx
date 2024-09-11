@@ -46,8 +46,8 @@ export default function Home() {
 				className="z-20 flex items-center justify-center rounded-md border-8 border-white bg-white text-center font-bttf text-xl drop-shadow-md md:text-2xl 2xl:text-3xl"
 				target="_blank"
 			>
-				<h1 className="mb-3 bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text p-2 font-bttf text-5xl text-transparent sm:text-7xl lg:mb-0 lg:mt-3 lg:text-8xl">
-					<span className="text-2xl sm:text-8xl md:text-[length:inherit]">
+				<h1 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text px-2 font-bttf text-5xl text-transparent mb-4 lg:mt-5">
+					<span className="text-xl sm:text-6xl ">
 						{"register now"}
 					</span>
 				</h1>
