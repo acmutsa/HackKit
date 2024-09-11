@@ -774,8 +774,8 @@ const raceOptions = [
 ];
 
 const c = {
-	hackathonName: "HackKit",
-	itteration: "I",
+	hackathonName: "RowdyHacks",
+	itteration: "X",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	botName: "HackKit",
