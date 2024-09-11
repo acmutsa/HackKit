@@ -33,7 +33,7 @@ export function ProfileInfo({ user }: { user: Hacker }) {
 					title="Team"
 					value={user.hackerData.team ? "Yes" : "No"}
 				/>
-				<Cell title="Discord" value={user.discord} />
+				<Cell title="Discord" value={user.discord ?? "N/A"} />
 				<Cell
 					title="Linkedin"
 					value={user.hackerData.LinkedIn || "N/A"}
