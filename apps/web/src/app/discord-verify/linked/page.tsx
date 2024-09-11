@@ -19,7 +19,7 @@ export default function Page() {
 					To unlink, go to your {c.hackathonName} account settings to
 					unlink before linking a new one.
 				</p>
-				<Link href="/settings">
+				<Link href="/settings/account">
 					<Button>Account Settings</Button>
 				</Link>
 			</div>

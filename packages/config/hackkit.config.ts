@@ -882,7 +882,6 @@ const c = {
 			"Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
-		// TODO: Can remove days? Pretty sure they're dynamic now.
 	},
 	eventTypes: {
 		Meal: "#FFC107",
