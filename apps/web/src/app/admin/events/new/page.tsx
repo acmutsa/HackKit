@@ -1,4 +1,4 @@
-import NewEventForm from "@/components/admin/events/NewEventForm";
+import NewEventForm from "@/components/events/admin/NewEventForm";
 
 export default function Page() {
 	const defaultDate = new Date();
