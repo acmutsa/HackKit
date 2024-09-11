@@ -145,7 +145,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 				setIsLoading(false);
 				toast.dismiss();
 				toast.error(
-					"An error occurred while updating your account settings!",
+					`An error occurred. Please contact ${c.issueEmail} for help.`,
 				);
 			},
 		},
@@ -188,11 +188,6 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 
 	return (
 		<div>
-			<Link href={"/settings"}>
-				<Button variant={"secondary"} className={"mb-3"}>
-					Back
-				</Button>
-			</Link>
 
 			<Form {...form}>
 				<form className="space-y-6">
