@@ -25,45 +25,40 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import c from "config";
 import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
 import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
-import { newEventValidator } from "@/validators/shared/newEvent";
 import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { useState } from "react";
-import { Shell } from "lucide-react";
+import { LoaderPinwheel } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-interface NewEventFormProps {
-	defaultDate: Date;
-}
-
-const formSchema = newEventValidator.merge(
-	z.object({
-		type: z.enum(Object.keys(c.eventTypes) as any),
-	}),
-);
+import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants";
+import { NewEventFormProps } from "@/lib/types/events";
+import { newEventFormSchema } from "@/validators/event";
+import { ThreeCircles } from "react-loader-spinner";
 
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const userLocalTimeZone = getLocalTimeZone();
+
+	const form = useForm<z.infer<typeof newEventFormSchema>>({
+		resolver: zodResolver(newEventFormSchema),
 		defaultValues: {
 			title: "",
 			description: "",
 			type: "" as any,
 			host: "",
 			startTime: defaultDate,
-			endTime: defaultDate,
+			endTime: new Date(defaultDate.getTime() + ONE_HOUR_IN_MILLISECONDS),
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof newEventFormSchema>) {
 		setLoading(true);
 		const res = await zpostSafe({
 			url: "/api/admin/events/create",
 			body: values,
 			superReq: true,
-			vReq: formSchema,
+			vReq: newEventFormSchema,
 			vRes: BasicRedirValidator,
 		});
 		setLoading(false);
@@ -91,8 +86,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<Input {...field} />
 							</FormControl>
 							<FormDescription>
-								Generally its best to keep this short and
-								consise
+								Keep title short and concise
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -105,10 +99,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 						<FormItem>
 							<FormLabel>Description</FormLabel>
 							<FormControl>
-								<Textarea
-									placeholder="You can also include any resources / links that would be helpful for the event here!"
-									{...field}
-								/>
+								<Textarea {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -178,18 +169,27 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 										!!field.value
 											? parseAbsolute(
 													field.value.toISOString(),
-													getLocalTimeZone(),
+													userLocalTimeZone,
 												)
 											: null
 									}
 									onChange={(date) => {
-										field.onChange(
-											!!date
-												? date.toDate(
-														getLocalTimeZone(),
-													)
-												: null,
-										);
+										const newDate = !!date
+											? date.toDate(userLocalTimeZone)
+											: null;
+										field.onChange(newDate);
+										const isEventStartBeforeEnd =
+											newDate &&
+											newDate > form.getValues("endTime");
+										if (isEventStartBeforeEnd) {
+											form.setValue(
+												"endTime",
+												new Date(
+													newDate.getTime() +
+														ONE_HOUR_IN_MILLISECONDS,
+												),
+											);
+										}
 									}}
 									shouldCloseOnSelect={false}
 									granularity={"minute"}
@@ -210,18 +210,28 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 										!!field.value
 											? parseAbsolute(
 													field.value.toISOString(),
-													getLocalTimeZone(),
+													userLocalTimeZone,
 												)
 											: null
 									}
 									onChange={(date) => {
-										field.onChange(
-											!!date
-												? date.toDate(
-														getLocalTimeZone(),
-													)
-												: null,
-										);
+										const newDate = !!date
+											? date.toDate(userLocalTimeZone)
+											: null;
+										field.onChange(newDate);
+										const isEventEndBeforeStart =
+											newDate &&
+											newDate <
+												form.getValues("startTime");
+										if (isEventEndBeforeStart) {
+											form.setValue(
+												"startTime",
+												new Date(
+													newDate.getTime() -
+														ONE_HOUR_IN_MILLISECONDS,
+												),
+											);
+										}
 									}}
 									shouldCloseOnSelect={false}
 									granularity={"minute"}
@@ -234,7 +244,16 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 				</div>
 				{loading ? (
 					<p className="flex justify-center gap-x-1">
-						Creating Event <Shell className="animate-spin" />
+						Creating Event{" "}
+						<ThreeCircles
+							visible={true}
+							height="20"
+							width="20"
+							color="#4fa94d"
+							ariaLabel="three-circles-loading"
+							wrapperStyle={{}}
+							wrapperClass=""
+						/>
 					</p>
 				) : (
 					<Button type="submit">Create Event</Button>

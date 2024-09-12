@@ -1,0 +1,1 @@
+ALTER TABLE "user_common_data" ADD COLUMN "phone_number" varchar(15) NOT NULL;

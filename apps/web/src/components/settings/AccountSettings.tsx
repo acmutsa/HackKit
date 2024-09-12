@@ -5,8 +5,6 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Label } from "@/components/shadcn/ui/label";
 import { toast } from "sonner";
 import { useState } from "react";
-import { users } from "db/schema";
-import { z } from "zod";
 import { useAction } from "next-safe-action/hook";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
 

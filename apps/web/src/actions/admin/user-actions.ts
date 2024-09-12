@@ -3,7 +3,7 @@
 import { adminAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { perms } from "config";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { db } from "db";
 import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
@@ -21,9 +21,9 @@ export const updateRole = adminAction(
 			throw new Error("You are not allowed to do this");
 		}
 		await db
-			.update(users)
+			.update(userCommonData)
 			.set({ role: roleToSet })
-			.where(eq(users.clerkID, userIDToUpdate));
+			.where(eq(userCommonData.clerkID, userIDToUpdate));
 		revalidatePath(`/admin/users/${userIDToUpdate}`);
 		return { success: true };
 	},
@@ -37,9 +37,9 @@ export const setUserApproval = adminAction(
 
 	async ({ userIDToUpdate, approved }, { user, userId }) => {
 		await db
-			.update(users)
-			.set({ approved })
-			.where(eq(users.clerkID, userIDToUpdate));
+			.update(userCommonData)
+			.set({ isApproved: approved })
+			.where(eq(userCommonData.clerkID, userIDToUpdate));
 		revalidatePath(`/admin/users/${userIDToUpdate}`);
 		return { success: true };
 	},

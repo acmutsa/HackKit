@@ -2,7 +2,7 @@ import { serverZodResponse } from "@/lib/utils/server/types";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
-import { users, invites, teams } from "db/schema";
+import { userCommonData, userHackerData, invites, teams } from "db/schema";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -28,18 +28,21 @@ export async function POST(
 		});
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 		with: {
-			team: true,
-			invites: {
-				where: eq(invites.teamID, body.data.teamInviteID),
+			hackerData: {
+				with: {
+					invites: {
+						where: eq(invites.teamID, body.data.teamInviteID),
+					},
+				},
 			},
 		},
 	});
 	if (!user) return NextResponse.json("Unauthorized", { status: 401 });
 
-	if (user.team) {
+	if (user.hackerData.teamID) {
 		return NextResponse.json({
 			success: false,
 			message: "You are already on a team.",
@@ -47,7 +50,7 @@ export async function POST(
 		});
 	}
 
-	if (user.invites.length === 0) {
+	if (user.hackerData.invites.length === 0) {
 		return NextResponse.json({
 			success: false,
 			message: "You have not been invited to this team.",
@@ -56,7 +59,7 @@ export async function POST(
 	}
 
 	const team = await db.query.teams.findFirst({
-		where: eq(teams.id, user.invites[0].teamID),
+		where: eq(teams.id, user.hackerData.invites[0].teamID),
 		with: {
 			members: true,
 		},
@@ -79,16 +82,17 @@ export async function POST(
 	}
 
 	await db
-		.update(users)
-		.set({ teamID: user.invites[0].teamID })
-		.where(eq(users.clerkID, userId));
-	// TODO: would be interesting to see if the and() could be reomved here in favor of directly looking up the composite key.
+		.update(userHackerData)
+		.set({ teamID: user.hackerData.invites[0].teamID })
+		.where(eq(userHackerData.clerkID, userId));
+
+	// TODO: would be interesting to see if the and() could be removed here in favor of directly looking up the composite key.
 	await db
 		.update(invites)
 		.set({ status: "accepted" })
 		.where(
 			and(
-				eq(invites.teamID, user.invites[0].teamID),
+				eq(invites.teamID, user.hackerData.invites[0].teamID),
 				eq(invites.inviteeID, userId),
 			),
 		);

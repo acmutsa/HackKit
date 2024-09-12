@@ -1,11 +1,11 @@
 import UserInfoSection from "@/components/admin/users/UserInfoSection";
-import type { UserWithAllData } from "@/lib/utils/server/types";
+import type { Hacker } from "db/types";
 import { titleCase } from "title-case";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { clerkClient } from "@clerk/nextjs";
 
-export function PersonalInfo({ user }: { user: UserWithAllData }) {
+export function PersonalInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Personal Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
@@ -13,96 +13,94 @@ export function PersonalInfo({ user }: { user: UserWithAllData }) {
 				<Cell title="Last Name" value={user.lastName} />
 				<Cell
 					title="Gender"
-					value={titleCase(
-						user.registrationData.gender.toLowerCase(),
-					)}
+					value={titleCase(user.gender.toLowerCase())}
 				/>
-				<Cell title="Pronouns" value={user.profileData.pronouns} />
-				<Cell title="Race" value={user.registrationData.race} />
-				<Cell
-					title="Ethnicity"
-					value={user.registrationData.ethnicity}
-				/>
-				<Cell title="Age" value={user.registrationData.age} />
+				<Cell title="Pronouns" value={user.pronouns} />
+				<Cell title="Race" value={user.race} />
+				<Cell title="Ethnicity" value={user.ethnicity} />
+				<Cell title="Age" value={user.age} />
 			</div>
 		</UserInfoSection>
 	);
 }
 
-export function ProfileInfo({ user }: { user: UserWithAllData }) {
+export function ProfileInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Profile Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="Hacker Tag" value={`@${user.hackerTag}`} />
-				<Cell title="Team" value={user.teamID ? "Yes" : "No"} />
 				<Cell
-					title="Discord"
-					value={user.profileData.discordUsername}
+					title="Team"
+					value={user.hackerData.team ? "Yes" : "No"}
 				/>
+				<Cell title="Discord" value={user.discord ?? "N/A"} />
 				<Cell
 					title="Linkedin"
-					value={user.registrationData.LinkedIn || "N/A"}
+					value={user.hackerData.LinkedIn || "N/A"}
 				/>
-				<Cell
-					title="Github"
-					value={user.registrationData.GitHub || "N/A"}
-				/>
+				<Cell title="Github" value={user.hackerData.GitHub || "N/A"} />
 				<Cell
 					title="Website"
-					value={user.registrationData.PersonalWebsite || "N/A"}
+					value={user.hackerData.PersonalWebsite || "N/A"}
 				/>
 				<Cell
 					title="Profile is Searchable"
-					value={user.hasSearchableProfile ? "Yes" : "No"}
+					value={user.isSearchable ? "Yes" : "No"}
 				/>
 			</div>
 			<div className="flex flex-col gap-y-5 pt-5">
 				<Cell title="Skills" value={"Coming soon..."} />
-				<Cell title="Bio" value={user.profileData.bio} />
+				<Cell title="Bio" value={user.bio} />
 			</div>
 		</UserInfoSection>
 	);
 }
 
-export async function AccountInfo({ user }: { user: UserWithAllData }) {
-	const clerkUser = await clerkClient.users.getUser(user.clerkID);
-	if (!clerkUser) return null;
-
-	// const signInMethods = clerkUser.externalAccounts.map((account) =>
-	// 	titleCase(account.provider.split("_").slice(-1)[0])
-	// );
-
-	// if (clerkUser.passwordEnabled) {
-	// 	signInMethods.push("Password");
-	// }
+export async function AccountInfo({ user }: { user: Hacker }) {
+	const clerkUser = await clerkClient.users
+		.getUser(user.clerkID)
+		.catch(() => {});
 
 	return (
 		<UserInfoSection title="Account Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
-				<Cell title="Email" value={user.email} />
-				<Cell title="Clerk ID" value={user.clerkID} />
-				{/* <Cell
-					title={`Sign-in Method${signInMethods.length > 1 ? "s" : ""}`}
-					value={signInMethods.join(", ")}
-				/> */}
+				{clerkUser ? (
+					<>
+						<Cell title="Email" value={user.email} />
+						<Cell title="Clerk ID" value={user.clerkID} />
+					</>
+				) : (
+					<div className="text-yellow-500">
+						Failed to find Clerk authentication data.
+					</div>
+				)}
 			</div>
 		</UserInfoSection>
 	);
 }
 
-export function TeamInfo({ user }: { user: UserWithAllData }) {
+export function TeamInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Team Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5 pb-5">
-				<Cell title="Is in Team" value={user.team ? "Yes" : "No"} />
-				{user.team ? (
+				<Cell
+					title="Is in Team"
+					value={user.hackerData.team ? "Yes" : "No"}
+				/>
+				{user.hackerData.team ? (
 					<>
-						<Cell title="Team Name" value={user.team.name} />
-						<Cell title="Team Tag" value={`~${user.team.tag}`} />
+						<Cell
+							title="Team Name"
+							value={user.hackerData.team.name}
+						/>
+						<Cell
+							title="Team Tag"
+							value={`~${user.hackerData.team.tag}`}
+						/>
 						<Cell
 							title="Is owner"
 							value={
-								user.team.ownerID === user.clerkID
+								user.hackerData.team.ownerID === user.clerkID
 									? "Yes"
 									: "No"
 							}
@@ -110,8 +108,8 @@ export function TeamInfo({ user }: { user: UserWithAllData }) {
 					</>
 				) : null}
 			</div>
-			{user.team ? (
-				<Link href={`/~${user.team.tag}`}>
+			{user.hackerData.team ? (
+				<Link href={`/~${user.hackerData.team.tag}`}>
 					<Button>View Team</Button>
 				</Link>
 			) : null}

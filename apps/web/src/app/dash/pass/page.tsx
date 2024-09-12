@@ -1,9 +1,5 @@
 import QRCode from "react-qr-code";
 import { currentUser } from "@clerk/nextjs";
-import superjson from "superjson";
-import { db } from "db";
-import { eq, InferModel } from "db/drizzle";
-import { users } from "db/schema";
 import Image from "next/image";
 import c from "config";
 import { format } from "date-fns";
@@ -11,17 +7,14 @@ import TiltWrapper from "@/components/dash/shared/TiltWrapper";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
-	DrawerDescription,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
+import { getHacker } from "db/functions";
+import { Hacker } from "db/types";
 
 interface EventPassProps {
-	user: InferModel<typeof users>;
+	user: Hacker;
 	clerk: NonNullable<Awaited<ReturnType<typeof currentUser>>>;
 	qrPayload: string;
 	guild: string;
@@ -31,17 +24,14 @@ export default async function Page() {
 	const user = await currentUser();
 	if (!user) return null;
 
-	const userDbRecord = await db.query.users.findFirst({
-		where: eq(users.clerkID, user.id),
-	});
-
+	const userDbRecord = await getHacker(user.id, false);
 	if (!userDbRecord) return null;
 
 	const qrPayload = createQRpayload({
 		userID: user.id,
 		createdAt: new Date(),
 	});
-	const guild = Object.keys(c.groups)[userDbRecord.group];
+	const guild = Object.keys(c.groups)[userDbRecord.hackerData.group];
 
 	return (
 		<div className="flex min-h-[calc(100vh-7rem)] items-center justify-center bg-nav">

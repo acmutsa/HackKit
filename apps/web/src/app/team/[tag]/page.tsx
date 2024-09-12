@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { tag: string } }) {
 		with: {
 			members: {
 				with: {
-					profileData: true,
+					commonData: true,
 				},
 			},
 		},
@@ -41,21 +41,22 @@ export default async function Page({ params }: { params: { tag: string } }) {
 				)}
 				<div className="mt-2 w-full max-w-[350px] border-t-2 border-t-primary/[0.09] pt-2">
 					{team.members.map((member) => (
-						<Link href={`/@${member.hackerTag}`}>
+						<Link href={`/@${member.commonData.hackerTag}`}>
 							<div className="flex h-[60px] cursor-pointer items-center rounded-xl px-2 backdrop-blur hover:dark:bg-white/[0.08]">
 								<Image
-									src={member.profileData.profilePhoto}
-									alt={`${member.hackerTag}'s Profile Photo`}
+									src={member.commonData.profilePhoto}
+									alt={`${member.commonData.hackerTag}'s Profile Photo`}
 									height={40}
 									width={40}
 									className="rounded-full"
 								/>
 								<div className="ml-2 space-y-1">
 									<p className="leading-none">
-										{member.firstName} {member.lastName}
+										{member.commonData.firstName}{" "}
+										{member.commonData.lastName}
 									</p>
 									<p className="font-mono text-xs leading-none text-muted-foreground">
-										@{member.hackerTag}
+										@{member.commonData.hackerTag}
 									</p>
 								</div>
 							</div>

@@ -1,7 +1,5 @@
-import { db } from "db";
-import { eq } from "db/drizzle";
-import { users } from "db/schema";
 import { auth } from "@clerk/nextjs";
+import { getAllHackers, getUser } from "db/functions";
 
 function escape(value: any) {
 	if (value === null) return "None";
@@ -37,10 +35,7 @@ export async function GET() {
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
-
+	const reqUserRecord = await getUser(userId);
 	if (
 		!reqUserRecord ||
 		(reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")
@@ -48,26 +43,19 @@ export async function GET() {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	const userTableData = await db.query.users.findMany({
-		with: {
-			registrationData: true,
-			profileData: true,
-		},
-	});
+	const userTableData = (await getAllHackers()) ?? [];
 
-	const columed = userTableData.map((user) => {
+	const flattenedUsers = userTableData.map((user) => {
 		// TODO: Have to use any here to avoid type errors as we reshape the data. Could be fixed with a better type definition.
 		let toRet: any = {
 			...user,
-			...user.registrationData,
-			...user.profileData,
+			...user.hackerData,
 		};
-		delete toRet.registrationData;
-		delete toRet.profileData;
+		delete toRet.hackerData;
 		return toRet;
 	});
 
-	const csv = jsonToCSV(columed);
+	const csv = jsonToCSV(flattenedUsers);
 
 	return new Response(csv, {
 		headers: {

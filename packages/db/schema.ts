@@ -12,7 +12,6 @@ import {
 	bigserial,
 	text,
 	varchar,
-	uniqueIndex,
 	boolean,
 	timestamp,
 	integer,
@@ -55,106 +54,113 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 	"rejected",
 ]);
 
-export const users = pgTable("users", {
-	clerkID: varchar("clerk_id", { length: 255 })
-		.notNull()
-		.primaryKey()
-		.unique(),
+export const userCommonData = pgTable("user_common_data", {
+	// id
+	clerkID: varchar("clerk_id", { length: 255 }).primaryKey(),
+
+	// data
 	firstName: varchar("first_name", { length: 50 }).notNull(),
 	lastName: varchar("last_name", { length: 50 }).notNull(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
 	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().unique(),
-	registrationComplete: boolean("registration_complete")
-		.notNull()
-		.default(false),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	hasSearchableProfile: boolean("has_searchable_profile")
-		.notNull()
-		.default(true),
-	group: integer("group").notNull(),
-	role: roles("role").notNull().default("hacker"),
-	checkinTimestamp: timestamp("checkin_timestamp"),
-	teamID: varchar("team_id", { length: 50 }),
-	points: integer("points").notNull().default(0),
-	checkedIn: boolean("checked_in").notNull().default(false),
-	rsvp: boolean("rsvp").notNull().default(false),
-	approved: boolean("approved").notNull().default(false),
-});
-
-export const userRelations = relations(users, ({ one, many }) => ({
-	registrationData: one(registrationData, {
-		fields: [users.clerkID],
-		references: [registrationData.clerkID],
-	}),
-	discordVerification: one(discordVerification, {
-		fields: [users.clerkID],
-		references: [discordVerification.clerkID],
-	}),
-	profileData: one(profileData, {
-		fields: [users.hackerTag],
-		references: [profileData.hackerTag],
-	}),
-	files: many(files),
-	scans: many(scans),
-	team: one(teams, {
-		fields: [users.teamID],
-		references: [teams.id],
-	}),
-	invites: many(invites),
-	tickets: many(ticketsToUsers),
-	chats: many(chatsToUsers),
-	messages: many(chatMessages),
-}));
-
-export const registrationData = pgTable("registration_data", {
-	clerkID: varchar("clerk_id", { length: 255 })
-		.notNull()
-		.primaryKey()
-		.unique(),
 	age: integer("age").notNull(),
 	gender: varchar("gender", { length: 50 }).notNull(),
 	race: varchar("race", { length: 75 }).notNull(),
 	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
-	acceptedMLHCodeOfConduct: boolean("accepted_mlh_code_of_conduct").notNull(),
-	sharedDataWithMLH: boolean("shared_data_with_mlh").notNull(),
-	wantsToReceiveMLHEmails: boolean("wants_to_receive_mlh_emails").notNull(),
+	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
+	dietRestrictions: json("diet_restrictions").notNull(),
+	accommodationNote: text("accommodation_note"),
+	discord: varchar("discord", { length: 60 }),
+	pronouns: varchar("pronouns", { length: 20 }).notNull(),
+	bio: text("bio").notNull(),
+	skills: json("skills").notNull().$type<string[]>().default([]),
+	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
+	phoneNumber: varchar("phone_number", { length: 30 }).notNull(),
+	countryOfResidence: varchar("country_of_residence", { length: 3 }).notNull(),
+
+	// metadata
+	isFullyRegistered: boolean("is_fully_registered").notNull().default(false),
+	signupTime: timestamp("signup_time").notNull().defaultNow(),
+	isSearchable: boolean("is_searchable").notNull().default(true),
+	role: roles("role").notNull().default("hacker"),
+	checkinTimestamp: timestamp("checkin_timestamp"),
+	isRSVPed: boolean("is_rsvped").notNull().default(false),
+	isApproved: boolean("is_approved").notNull().default(false),
+});
+
+export const userCommonRelations = relations(
+	userCommonData,
+	({ one, many }) => ({
+		hackerData: one(userHackerData, {
+			fields: [userCommonData.clerkID],
+			references: [userHackerData.clerkID],
+		}),
+		discordVerification: one(discordVerification, {
+			fields: [userCommonData.clerkID],
+			references: [discordVerification.clerkID],
+		}),
+		files: many(files),
+		scans: many(scans),
+		tickets: many(ticketsToUsers),
+		chats: many(chatsToUsers),
+		messages: many(chatMessages),
+	}),
+);
+
+export const userHackerData = pgTable("user_hacker_data", {
+	// id
+	clerkID: varchar("clerk_id", { length: 255 }).primaryKey(),
+
+	// data
 	university: varchar("university", { length: 200 }).notNull(),
 	major: varchar("major", { length: 200 }).notNull(),
-	shortID: varchar("short_id", { length: 50 }).notNull(),
+	schoolID: varchar("school_id", { length: 50 }).notNull(),
 	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
 	hackathonsAttended: integer("hackathons_attended").notNull(),
 	softwareExperience: varchar("software_experience", {
 		length: 25,
 	}).notNull(),
 	heardFrom: varchar("heard_from", { length: 50 }),
-	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
-	dietRestrictions: json("diet_restrictions").notNull(),
-	accommodationNote: text("accommodation_note"),
 	GitHub: varchar("github", { length: 100 }),
 	LinkedIn: varchar("linkedin", { length: 100 }),
 	PersonalWebsite: varchar("personal_website", { length: 100 }),
 	resume: varchar("resume", { length: 255 })
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
+
+	// metadata
+	group: integer("group").notNull(),
+	teamID: varchar("team_id", { length: 50 }),
+	points: integer("points").notNull().default(0),
+	hasAcceptedMLHCoC: boolean("has_accepted_mlh_coc").notNull(),
+	hasSharedDataWithMLH: boolean("has_shared_data_with_mlh").notNull(),
+	isEmailable: boolean("is_emailable").notNull(),
 });
 
-export const profileData = pgTable("profile_data", {
-	hackerTag: varchar("hacker_tag", { length: 50 })
-		.notNull()
-		.primaryKey()
-		.unique(),
-	discordUsername: varchar("discord_username", { length: 60 }).notNull(),
-	pronouns: varchar("pronouns", { length: 20 }).notNull(),
-	bio: text("bio").notNull(),
-	skills: json("skills").notNull().$type<string[]>().default([]),
-	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
-});
+export const userHackerRelations = relations(
+	userHackerData,
+	({ one, many }) => ({
+		commonData: one(userCommonData, {
+			fields: [userHackerData.clerkID],
+			references: [userCommonData.clerkID],
+		}),
+		team: one(teams, {
+			fields: [userHackerData.teamID],
+			references: [teams.id],
+		}),
+		invites: many(invites),
+	}),
+);
 
 export const events = pgTable("events", {
 	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),
 	title: varchar("name", { length: 255 }).notNull(),
 	startTime: timestamp("start_time").notNull(),
 	endTime: timestamp("end_time").notNull(),
+	// checkinStartTime: timestamp("checkin_start_time").notNull(),
+	// checkinEndTime: timestamp("checkin_end_time").notNull(),
+	// location: varchar("location", { length: 255 }).notNull(),
+	// points: integer("points").notNull().default(0),
 	description: text("description").notNull(),
 	type: varchar("type", { length: 50 }).notNull(),
 	host: varchar("host", { length: 255 }),
@@ -175,9 +181,9 @@ export const files = pgTable("files", {
 });
 
 export const filesRelations = relations(files, ({ one }) => ({
-	owner: one(users, {
+	owner: one(userCommonData, {
 		fields: [files.ownerID],
-		references: [users.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
 
@@ -195,9 +201,9 @@ export const scans = pgTable(
 );
 
 export const scansRelations = relations(scans, ({ one }) => ({
-	user: one(users, {
+	user: one(userCommonData, {
 		fields: [scans.userID],
-		references: [users.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 	event: one(events, {
 		fields: [scans.eventID],
@@ -217,7 +223,7 @@ export const teams = pgTable("teams", {
 });
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
-	members: many(users),
+	members: many(userHackerData),
 	invites: many(invites),
 }));
 
@@ -235,9 +241,9 @@ export const invites = pgTable(
 );
 
 export const invitesRelations = relations(invites, ({ one }) => ({
-	invitee: one(users, {
+	invitee: one(userHackerData, {
 		fields: [invites.inviteeID],
-		references: [users.clerkID],
+		references: [userHackerData.clerkID],
 	}),
 	team: one(teams, {
 		fields: [invites.teamID],
@@ -311,9 +317,9 @@ export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
 		fields: [chatMessages.chatID],
 		references: [chats.id],
 	}),
-	author: one(users, {
+	author: one(userCommonData, {
 		fields: [chatMessages.authorID],
-		references: [users.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
 
@@ -325,7 +331,7 @@ export const ticketsToUsers = pgTable(
 			.references(() => tickets.id),
 		userID: text("user_id")
 			.notNull()
-			.references(() => users.clerkID),
+			.references(() => userCommonData.clerkID),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
@@ -337,9 +343,9 @@ export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
 		fields: [ticketsToUsers.ticketID],
 		references: [tickets.id],
 	}),
-	user: one(users, {
+	user: one(userCommonData, {
 		fields: [ticketsToUsers.userID],
-		references: [users.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));
 
@@ -351,7 +357,7 @@ export const chatsToUsers = pgTable(
 			.references(() => chats.id),
 		userID: text("user_id")
 			.notNull()
-			.references(() => users.clerkID),
+			.references(() => userCommonData.clerkID),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userID, t.chatID] }),
@@ -363,8 +369,8 @@ export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
 		fields: [chatsToUsers.chatID],
 		references: [chats.id],
 	}),
-	user: one(users, {
+	user: one(userCommonData, {
 		fields: [chatsToUsers.userID],
-		references: [users.clerkID],
+		references: [userCommonData.clerkID],
 	}),
 }));

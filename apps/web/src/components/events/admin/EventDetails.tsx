@@ -1,15 +1,15 @@
-import { events } from "db/schema";
-import { InferModel } from "db/drizzle";
 import c from "config";
 import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
+import { Event } from "db/types";
+import { headers } from "next/headers";
+import { getClientTimeZone } from "@/lib/utils/client/shared";
+import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
+export default function EventFull({ event }: { event: Event }) {
+	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
 
-export default function EventFull({
-	event,
-}: {
-	event: InferModel<typeof events>;
-}) {
+	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 	return (
 		<div className="relative w-screen">
 			<div
@@ -37,13 +37,13 @@ export default function EventFull({
 					</Badge>
 					<p className="text-xs font-bold md:text-sm">{`${formatInTimeZone(
 						event.startTime,
-						c.hackathonTimezone,
+						userTimeZone,
 						"EEEE MMMM do",
 					)}, ${formatInTimeZone(
 						event.startTime,
-						c.hackathonTimezone,
+						userTimeZone,
 						"h:mm a",
-					)} - ${formatInTimeZone(event.endTime, c.hackathonTimezone, "h:mm a")}`}</p>
+					)} - ${formatInTimeZone(event.endTime, userTimeZone, "h:mm a")}`}</p>
 				</div>
 
 				<h1 className="mb-2 text-7xl font-black">

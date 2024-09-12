@@ -5,9 +5,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { FolderInput } from "lucide-react";
 import { DefaultPagination } from "@/components/admin/users/DefaultPagination";
 import SearchBar from "@/components/admin/users/SearchBar";
-import Filters from "../../../components/admin/users/Filters";
-import { users } from "db/schema";
-import { parseCheckBoxParams } from "@/lib/utils/shared/pageParams";
+import { userCommonData } from "db/schema";
 
 export default async function Page({
 	searchParams,
@@ -27,15 +25,12 @@ export default async function Page({
 	const end = maxPerPage + start;
 
 	//   Might want to work with cache in prod to see if this will be plausible to do
-	const userData = await db.query.users.findMany({
-		with: {
-			registrationData: true,
-			profileData: true,
-		},
+	const userData = await db.query.userCommonData.findMany({
+		with: { hackerData: true },
 		where: and(
 			or(
-				ilike(users.firstName, `%${user}%`),
-				ilike(users.lastName, `%${user}%`),
+				ilike(userCommonData.firstName, `%${user}%`),
+				ilike(userCommonData.lastName, `%${user}%`),
 			),
 		),
 	});

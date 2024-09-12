@@ -1,212 +1,7 @@
-export const defaultTheme = "dark";
+const defaultTheme = "dark";
 
-export default {
-	hackathonName: "RowdyHacks",
-	itteration: "X",
-	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-	defaultMetaDataDescription: "Your Metadata Description Here",
-	botName: "HackKit",
-	botParticipantRole: "RH25 Participant",
-	hackathonTimezone: "America/Chicago",
-	localUniversityName: "The University of Texas at San Antonio",
-	localUniversityShortIDName: "ABC123",
-	localUniversityShortIDMaxLength: 6,
-	dietaryRestrictionOptions: [
-		"Vegan",
-		"Vegetarian",
-		"Nuts",
-		"Fish",
-		"Wheat",
-		"Dairy",
-		"Eggs",
-		"Halal",
-	],
-	groups: {
-		"Guild A | Group A": {
-			discordRole: "Guild A Role",
-		},
-		"Guild A | Group B": {
-			discordRole: "Guild A Role",
-		},
-		"Guild B | Group A": {
-			discordRole: "Guild B Role",
-		},
-		"Guild B | Group B": {
-			discordRole: "Guild B Role",
-		},
-		"Guild C | Group A": {
-			discordRole: "Guild C Role	",
-		},
-		"Guild C | Group B": {
-			discordRole: "Guild C Role",
-		},
-		"Guild D | Group A": {
-			discordRole: "Guild D Role",
-		},
-		"Guild D | Group B": {
-			discordRole: "Guild D Role",
-		},
-		"Guild E | Group A": {
-			discordRole: "Guild E Role",
-		},
-		"Guild E | Group B": {
-			discordRole: "Guild E Role",
-		},
-	},
-	issueEmail: "team@rowdyhacks.org",
-	links: {
-		discord: "https://go.rowdyhacks.org/discord",
-		instagram: "https://instagram.com/rowdyhacks",
-		facebook: "https://facebook.com/rowdyhacks",
-		twitter: "https://twitter.com/rowdyhacks",
-		github: "https://github.com/acmutsa",
-		guide: "https://go.rowdyhacks.org/discord",
-	},
-	icon: {
-		sm: "/img/logo/rhbttf.svg",
-		md: "/img/logo/rhbttf.svg",
-		lg: "/img/logo/rhbttf.svg",
-		svg: "/img/logo/rhbttf.svg",
-	},
-	dashPaths: {
-		dash: {
-			Overview: "/dash",
-			Schedule: "/dash/schedule",
-			"Event Pass": "/dash/pass",
-			// Team: "/dash/team",
-			// Tickets: "/dash/tickets",
-		},
-		admin: {
-			Overview: "/admin",
-			Users: "/admin/users",
-			Events: "/admin/events",
-			Points: "/admin/points",
-			"Check-in": "/admin/check-in",
-			Toggles: "/admin/toggles",
-		},
-		// TODO: Can remove days? Pretty sure they're dynamic now.
-	},
-	eventTypes: {
-		Meal: "#FFC107",
-		Workshop: "#10b981",
-		Ceremony: "#9C27B0",
-		Social: "#2196F3",
-		Other: "#795548",
-	},
-	days: {
-		Saturday: new Date(2024, 10, 26),
-	},
-	Sunday: new Date(2024, 10, 27),
-	maxResumeSizeInBytes: 4194304,
-	maxProfilePhotoSizeInBytes: 3145728,
-	maxFileSizeInBytes: 4194304,
-	eventPassBgImage: "/img/logo/rhbttf.svg",
-	noResumeProvidedURL:
-		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
-	// Come in and change this date to whenever the hackathon starts
-	startDate: new Date(2024, 9, 26, 9),
-	prettyLocation: "UTSA San Pedro I",
-	roleBadges: {
-		hacker: {
-			title: "Hacker",
-			color: "hsl(var(--hackathon-primary))",
-			foreground: "#ffffff",
-			checked: false,
-		},
-		volunteer: {
-			title: "Volunteer",
-			foreground: "#ffffff",
-			checked: false,
-			color: "#4CAF50",
-		},
-		mentor: {
-			title: "Mentor",
-			color: "#9C27B0",
-			foreground: "#ffffff",
-			checked: false,
-		},
-		mlh: {
-			title: "MLH",
-			color: "#ffffff",
-			foreground: "#E73426",
-			checked: "#E73426",
-		},
-		admin: {
-			title: "Organizer",
-			color: "#f59e0b",
-			foreground: "#ffffff",
-			checked: true,
-		},
-		super_admin: {
-			title: "Organizer",
-			foreground: "#ffffff",
-			color: "#f59e0b",
-			checked: true,
-		},
-	},
-	maxTeamSize: 4,
-	featureFlags: {
-		core: {
-			requireUsersApproval: false,
-		},
-	},
-	footerLinkItems: {
-		resources: [
-			{ name: "Register", link: "/register" },
-			{ name: "FAQ", link: "/faq" },
-			{ name: "Code of Conduct", link: "/conduct" },
-			{ name: "Contact Us", link: "/contact" },
-			{ name: "ACM-W", link: "https://acmutsa.org/suborg_acmw" },
-			{ name: "ACM UTSA", link: "https://acmutsa.org/" },
-		],
-		links: [
-			{
-				name: "Open Source",
-				link: "https://github.com/acmutsa/RowdyHacksX",
-			},
-		],
-		otherHackathons: [
-			{ name: "CodeQuantum", link: "https://cqhacks.org/" },
-			{ name: "RowdyDatathon", link: "https://www.rowdydatathon.org/" },
-			{ name: "TAMUHack", link: "https://tamuhack.com/" },
-			{ name: "WEHack", link: "https://wehackutd.com/" },
-			{ name: "HackUTD", link: "https://hackutd.co/" },
-			{ name: "HackTX", link: "https://hacktx.com/" },
-			{ name: "HackUNT", link: "https://unthackathon.com/#/" },
-			{ name: "HackUTA", link: "https://hackuta.org/" },
-			{ name: "Hacklahoma", link: "https://hacklahoma.org/" },
-		],
-	},
-} as const;
-
-// Its important that this is kept in sync with the database schema.
-
-export const perms = [
-	"hacker",
-	"volunteer",
-	"mentor",
-	"mlh",
-	"admin",
-	"super_admin",
-] as const;
-
-// These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
-
-export const publicRoutes = [
-	"/",
-	/^\/schedule(\/.*)?$/,
-	/^\/@/,
-	/^\/user\//,
-	"/404",
-	"/bugreport",
-	"/faq",
-];
-
-// Generally it is reccomended to put your primary audience's university at the top of this list.
-
-export const schools = [
+const schools = [
 	"The University of Texas at San Antonio",
-	"Texas A&M University - San Antonio",
 	"American Heritage School",
 	"American River College, California",
 	"American University, Washington, D.C.",
@@ -434,6 +229,7 @@ export const schools = [
 	"Texas A&M University - Central Texas",
 	"Texas A&M University - Corpus Christi",
 	"Texas A&M University - Kingsville",
+	"Texas A&M University - San Antonio",
 	"Texas Christian University",
 	"Texas Southern University",
 	"Texas Southmost College",
@@ -619,9 +415,8 @@ export const schools = [
 	"Other",
 ] as const;
 
-export const majors = [
+const majors = [
 	"Computer Science",
-	"Cyber Security",
 	"Accounting",
 	"Accounting Technician",
 	"Actuarial Science",
@@ -660,6 +455,7 @@ export const majors = [
 	"Construction Engineering/Management",
 	"Creative Writing",
 	"Criminology",
+	"Cyber Security",
 	"Data Management Technology",
 	"Dental Assisting",
 	"Design & Visual Communications, General",
@@ -732,3 +528,461 @@ export const majors = [
 	"Webpage Design",
 	"Other",
 ] as const;
+
+const levelsOfStudy = [
+	"Less than Secondary / High School",
+	"Secondary / High School",
+	"Undergraduate University (2 year - community college or similar)",
+	"Undergraduate University (3+ year)",
+	"Graduate University (Masters, Professional, Doctoral, etc)",
+	"Code School / Bootcamp",
+	"Other Vocational / Trade Program or Apprenticeship",
+	"Post Doctorate",
+	"Other",
+	"I’m not currently a student",
+	"Prefer not to answer",
+];
+
+const dietaryRestrictionOptions = [
+	"Vegan",
+	"Vegetarian",
+	"Nuts",
+	"Fish",
+	"Wheat",
+	"Dairy",
+	"Eggs",
+	"Halal",
+	"Kosher",
+	"Gluten-Free",
+	"Soy",
+];
+
+const countries = [
+	{ name: "United States", code: "US" },
+	{ name: "Afghanistan", code: "AF" },
+	{ name: "Albania", code: "AL" },
+	{ name: "Algeria", code: "DZ" },
+	{ name: "Andorra", code: "AD" },
+	{ name: "Angola", code: "AO" },
+	{ name: "Argentina", code: "AR" },
+	{ name: "Armenia", code: "AM" },
+	{ name: "Australia", code: "AU" },
+	{ name: "Austria", code: "AT" },
+	{ name: "Azerbaijan", code: "AZ" },
+	{ name: "Bahamas", code: "BS" },
+	{ name: "Bahrain", code: "BH" },
+	{ name: "Bangladesh", code: "BD" },
+	{ name: "Barbados", code: "BB" },
+	{ name: "Belarus", code: "BY" },
+	{ name: "Belgium", code: "BE" },
+	{ name: "Belize", code: "BZ" },
+	{ name: "Benin", code: "BJ" },
+	{ name: "Bhutan", code: "BT" },
+	{ name: "Bolivia", code: "BO" },
+	{ name: "Bosnia and Herzegovina", code: "BA" },
+	{ name: "Botswana", code: "BW" },
+	{ name: "Brazil", code: "BR" },
+	{ name: "Brunei", code: "BN" },
+	{ name: "Bulgaria", code: "BG" },
+	{ name: "Burkina Faso", code: "BF" },
+	{ name: "Burundi", code: "BI" },
+	{ name: "Cabo Verde", code: "CV" },
+	{ name: "Cambodia", code: "KH" },
+	{ name: "Cameroon", code: "CM" },
+	{ name: "Canada", code: "CA" },
+	{ name: "Central African Republic", code: "CF" },
+	{ name: "Chad", code: "TD" },
+	{ name: "Chile", code: "CL" },
+	{ name: "China", code: "CN" },
+	{ name: "Colombia", code: "CO" },
+	{ name: "Comoros", code: "KM" },
+	{ name: "Congo (Congo-Brazzaville)", code: "CG" },
+	{ name: "Congo (Democratic Republic of)", code: "CD" },
+	{ name: "Costa Rica", code: "CR" },
+	{ name: "Croatia", code: "HR" },
+	{ name: "Cuba", code: "CU" },
+	{ name: "Cyprus", code: "CY" },
+	{ name: "Czech Republic", code: "CZ" },
+	{ name: "Denmark", code: "DK" },
+	{ name: "Djibouti", code: "DJ" },
+	{ name: "Dominica", code: "DM" },
+	{ name: "Dominican Republic", code: "DO" },
+	{ name: "Ecuador", code: "EC" },
+	{ name: "Egypt", code: "EG" },
+	{ name: "El Salvador", code: "SV" },
+	{ name: "Equatorial Guinea", code: "GQ" },
+	{ name: "Eritrea", code: "ER" },
+	{ name: "Estonia", code: "EE" },
+	{ name: "Eswatini", code: "SZ" },
+	{ name: "Ethiopia", code: "ET" },
+	{ name: "Fiji", code: "FJ" },
+	{ name: "Finland", code: "FI" },
+	{ name: "France", code: "FR" },
+	{ name: "Gabon", code: "GA" },
+	{ name: "Gambia", code: "GM" },
+	{ name: "Georgia", code: "GE" },
+	{ name: "Germany", code: "DE" },
+	{ name: "Ghana", code: "GH" },
+	{ name: "Greece", code: "GR" },
+	{ name: "Grenada", code: "GD" },
+	{ name: "Guatemala", code: "GT" },
+	{ name: "Guinea", code: "GN" },
+	{ name: "Guinea-Bissau", code: "GW" },
+	{ name: "Guyana", code: "GY" },
+	{ name: "Haiti", code: "HT" },
+	{ name: "Honduras", code: "HN" },
+	{ name: "Hungary", code: "HU" },
+	{ name: "Iceland", code: "IS" },
+	{ name: "India", code: "IN" },
+	{ name: "Indonesia", code: "ID" },
+	{ name: "Iran", code: "IR" },
+	{ name: "Iraq", code: "IQ" },
+	{ name: "Ireland", code: "IE" },
+	{ name: "Israel", code: "IL" },
+	{ name: "Italy", code: "IT" },
+	{ name: "Jamaica", code: "JM" },
+	{ name: "Japan", code: "JP" },
+	{ name: "Jordan", code: "JO" },
+	{ name: "Kazakhstan", code: "KZ" },
+	{ name: "Kenya", code: "KE" },
+	{ name: "Kiribati", code: "KI" },
+	{ name: "Kuwait", code: "KW" },
+	{ name: "Kyrgyzstan", code: "KG" },
+	{ name: "Laos", code: "LA" },
+	{ name: "Latvia", code: "LV" },
+	{ name: "Lebanon", code: "LB" },
+	{ name: "Lesotho", code: "LS" },
+	{ name: "Liberia", code: "LR" },
+	{ name: "Libya", code: "LY" },
+	{ name: "Liechtenstein", code: "LI" },
+	{ name: "Lithuania", code: "LT" },
+	{ name: "Luxembourg", code: "LU" },
+	{ name: "Madagascar", code: "MG" },
+	{ name: "Malawi", code: "MW" },
+	{ name: "Malaysia", code: "MY" },
+	{ name: "Maldives", code: "MV" },
+	{ name: "Mali", code: "ML" },
+	{ name: "Malta", code: "MT" },
+	{ name: "Marshall Islands", code: "MH" },
+	{ name: "Mauritania", code: "MR" },
+	{ name: "Mauritius", code: "MU" },
+	{ name: "Mexico", code: "MX" },
+	{ name: "Micronesia", code: "FM" },
+	{ name: "Moldova", code: "MD" },
+	{ name: "Monaco", code: "MC" },
+	{ name: "Mongolia", code: "MN" },
+	{ name: "Montenegro", code: "ME" },
+	{ name: "Morocco", code: "MA" },
+	{ name: "Mozambique", code: "MZ" },
+	{ name: "Myanmar (Burma)", code: "MM" },
+	{ name: "Namibia", code: "NA" },
+	{ name: "Nauru", code: "NR" },
+	{ name: "Nepal", code: "NP" },
+	{ name: "Netherlands", code: "NL" },
+	{ name: "New Zealand", code: "NZ" },
+	{ name: "Nicaragua", code: "NI" },
+	{ name: "Niger", code: "NE" },
+	{ name: "Nigeria", code: "NG" },
+	{ name: "North Korea", code: "KP" },
+	{ name: "North Macedonia", code: "MK" },
+	{ name: "Norway", code: "NO" },
+	{ name: "Oman", code: "OM" },
+	{ name: "Pakistan", code: "PK" },
+	{ name: "Palau", code: "PW" },
+	{ name: "Panama", code: "PA" },
+	{ name: "Papua New Guinea", code: "PG" },
+	{ name: "Paraguay", code: "PY" },
+	{ name: "Peru", code: "PE" },
+	{ name: "Philippines", code: "PH" },
+	{ name: "Poland", code: "PL" },
+	{ name: "Portugal", code: "PT" },
+	{ name: "Qatar", code: "QA" },
+	{ name: "Romania", code: "RO" },
+	{ name: "Russia", code: "RU" },
+	{ name: "Rwanda", code: "RW" },
+	{ name: "Saint Kitts and Nevis", code: "KN" },
+	{ name: "Saint Lucia", code: "LC" },
+	{ name: "Saint Vincent and the Grenadines", code: "VC" },
+	{ name: "Samoa", code: "WS" },
+	{ name: "San Marino", code: "SM" },
+	{ name: "Sao Tome and Principe", code: "ST" },
+	{ name: "Saudi Arabia", code: "SA" },
+	{ name: "Senegal", code: "SN" },
+	{ name: "Serbia", code: "RS" },
+	{ name: "Seychelles", code: "SC" },
+	{ name: "Sierra Leone", code: "SL" },
+	{ name: "Singapore", code: "SG" },
+	{ name: "Slovakia", code: "SK" },
+	{ name: "Slovenia", code: "SI" },
+	{ name: "Solomon Islands", code: "SB" },
+	{ name: "Somalia", code: "SO" },
+	{ name: "South Africa", code: "ZA" },
+	{ name: "South Korea", code: "KR" },
+	{ name: "South Sudan", code: "SS" },
+	{ name: "Spain", code: "ES" },
+	{ name: "Sri Lanka", code: "LK" },
+	{ name: "Sudan", code: "SD" },
+	{ name: "Suriname", code: "SR" },
+	{ name: "Sweden", code: "SE" },
+	{ name: "Switzerland", code: "CH" },
+	{ name: "Syria", code: "SY" },
+	{ name: "Taiwan", code: "TW" },
+	{ name: "Tajikistan", code: "TJ" },
+	{ name: "Tanzania", code: "TZ" },
+	{ name: "Thailand", code: "TH" },
+	{ name: "Togo", code: "TG" },
+	{ name: "Tonga", code: "TO" },
+	{ name: "Trinidad and Tobago", code: "TT" },
+	{ name: "Tunisia", code: "TN" },
+	{ name: "Turkey", code: "TR" },
+	{ name: "Turkmenistan", code: "TM" },
+	{ name: "Tuvalu", code: "TV" },
+	{ name: "Uganda", code: "UG" },
+	{ name: "Ukraine", code: "UA" },
+	{ name: "United Arab Emirates", code: "AE" },
+	{ name: "United Kingdom", code: "GB" },
+	{ name: "Uruguay", code: "UY" },
+	{ name: "Uzbekistan", code: "UZ" },
+	{ name: "Vanuatu", code: "VU" },
+	{ name: "Vatican City", code: "VA" },
+	{ name: "Venezuela", code: "VE" },
+	{ name: "Vietnam", code: "VN" },
+	{ name: "Yemen", code: "YE" },
+	{ name: "Zambia", code: "ZM" },
+	{ name: "Zimbabwe", code: "ZW" },
+];
+
+const raceOptions = [
+	"Asian Indian",
+	"Black or African",
+	"Chinese",
+	"Filipino",
+	"Guamanian or Chamorro",
+	"Hispanic / Latino / Spanish Origin",
+	"Japanese",
+	"Korean",
+	"Middle Eastern",
+	"Native American or Alaskan Native",
+	"Native Hawaiian",
+	"Samoan",
+	"Vietnamese",
+	"White",
+	"Other Asian (Thai, Cambodian, etc)",
+	"Other Pacific Islander",
+	"Other",
+	"Prefer Not to Answer",
+];
+
+const c = {
+	hackathonName: "RowdyHacks",
+	itteration: "X",
+	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
+	defaultMetaDataDescription: "Your Metadata Description Here",
+	botName: "HackKit",
+	botParticipantRole: "Participant",
+	hackathonTimezone: "America/Chicago",
+	localUniversityName: schools[0],
+	localUniversitySchoolIDName: "ABC123",
+	localUniversityShortIDMaxLength: 6,
+	registration: {
+		schools,
+		majors,
+		levelsOfStudy,
+		dietaryRestrictionOptions,
+		countries,
+		raceOptions,
+	},
+	footerLinkItems: {
+		resources: [
+			{ name: "Register", link: "/register" },
+			{ name: "FAQ", link: "/faq" },
+			{ name: "Code of Conduct", link: "/conduct" },
+			{ name: "Contact Us", link: "/contact" },
+			{ name: "ACM-W", link: "https://acmutsa.org/suborg_acmw" },
+			{ name: "ACM UTSA", link: "https://acmutsa.org/" },
+		],
+		links: [
+			{
+				name: "Open Source",
+				link: "https://github.com/acmutsa/CodeQuantum2023",
+			},
+		],
+		otherHackathons: [
+			{ name: "CodeQuantum", link: "https://cqhacks.org/" },
+			{ name: "RowdyDatathon", link: "https://www.rowdydatathon.org/" },
+			{ name: "TAMUHack", link: "https://tamuhack.com/" },
+			{ name: "WEHack", link: "https://wehackutd.com/" },
+			{ name: "HackUTD", link: "https://hackutd.co/" },
+			{ name: "HackTX", link: "https://hacktx.com/" },
+			{ name: "HackUNT", link: "https://unthackathon.com/#/" },
+			{ name: "HackUTA", link: "https://hackuta.org/" },
+			{ name: "Hacklahoma", link: "https://hacklahoma.org/" },
+		],
+	},
+	groups: {
+		"Guild A | Group A": {
+			discordRole: "Guild A Role",
+		},
+		"Guild A | Group B": {
+			discordRole: "Guild A Role",
+		},
+		"Guild B | Group A": {
+			discordRole: "Guild B Role",
+		},
+		"Guild B | Group B": {
+			discordRole: "Guild B Role",
+		},
+		"Guild C | Group A": {
+			discordRole: "Guild C Role	",
+		},
+		"Guild C | Group B": {
+			discordRole: "Guild C Role",
+		},
+		"Guild D | Group A": {
+			discordRole: "Guild D Role",
+		},
+		"Guild D | Group B": {
+			discordRole: "Guild D Role",
+		},
+		"Guild E | Group A": {
+			discordRole: "Guild E Role",
+		},
+		"Guild E | Group B": {
+			discordRole: "Guild E Role",
+		},
+	},
+	issueEmail: "team@rowdyhacks.org",
+	links: {
+		discord: "https://go.rowdyhacks.org/discord",
+		instagram: "https://instagram.com/rowdyhacks",
+		facebook: "https://facebook.com/rowdyhacks",
+		twitter: "https://twitter.com/rowdyhacks",
+		github: "https://github.com/acmutsa",
+		guide: "https://go.rowdyhacks.org/discord",
+	},
+	icon: {
+		sm: "/img/logo/hackkit.svg",
+		md: "/img/logo/hackkit-md.png",
+		lg: "/img/logo/hackkit-lg.png",
+		svg: "/img/logo/hackkit.svg",
+	},
+	dashPaths: {
+		dash: {
+			Overview: "/dash",
+			Schedule: "/dash/schedule",
+			"Event Pass": "/dash/pass",
+			// Team: "/dash/team",
+			// Tickets: "/dash/tickets",
+		},
+		admin: {
+			Overview: "/admin",
+			Users: "/admin/users",
+			Events: "/admin/events",
+			Points: "/admin/points",
+			"Check-in": "/admin/check-in",
+			Toggles: "/admin/toggles",
+		},
+	},
+	eventTypes: {
+		Meal: "#FFC107",
+		Workshop: "#10b981",
+		Ceremony: "#9C27B0",
+		Social: "#2196F3",
+		Other: "#795548",
+	},
+	days: {
+		Saturday: new Date(2024, 10, 26),
+	},
+	Sunday: new Date(2024, 10, 27),
+	maxResumeSizeInBytes: 4194304,
+	maxProfilePhotoSizeInBytes: 3145728,
+	maxFileSizeInBytes: 4194304,
+	eventPassBgImage: "/img/dash/pass/bg.png",
+	noResumeProvidedURL:
+		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
+	// Come in and change this date to whenever the hackathon starts
+	startDate: new Date(new Date(2024, 9, 26).setHours(9)),
+	prettyLocation: "San Pedro I",
+	roleBadges: {
+		hacker: {
+			title: "Hacker",
+			color: "hsl(var(--hackathon-primary))",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		volunteer: {
+			title: "Volunteer",
+			foreground: "#ffffff",
+			checked: false,
+			color: "#4CAF50",
+		},
+		mentor: {
+			title: "Mentor",
+			color: "#9C27B0",
+			foreground: "#ffffff",
+			checked: false,
+		},
+		// Why is the checked set to a color?
+		mlh: {
+			title: "MLH",
+			color: "#ffffff",
+			foreground: "#E73426",
+			checked: "#E73426",
+		},
+		admin: {
+			title: "Organizer",
+			color: "#f59e0b",
+			foreground: "#ffffff",
+			checked: true,
+		},
+		super_admin: {
+			title: "Organizer",
+			foreground: "#ffffff",
+			color: "#f59e0b",
+			checked: true,
+		},
+	},
+	maxTeamSize: 4,
+	featureFlags: {
+		core: {
+			requireUsersApproval: false,
+		},
+	},
+} as const;
+
+const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resume`;
+
+// Its important that this is kept in sync with the database schema.
+
+const perms = [
+	"hacker",
+	"volunteer",
+	"mentor",
+	"mlh",
+	"admin",
+	"super_admin",
+] as const;
+
+// These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
+
+const publicRoutes = [
+	"/",
+	/^\/schedule(\/.*)?$/,
+	/^\/@/,
+	/^\/user\//,
+	"/404",
+	"/bugreport",
+];
+
+// Generally it is reccomended to put your primary audience's university at the top of this list.
+
+
+
+
+export default c;
+export {
+	defaultTheme,
+	bucketResumeBaseUploadUrl,
+	perms,
+	publicRoutes,
+};

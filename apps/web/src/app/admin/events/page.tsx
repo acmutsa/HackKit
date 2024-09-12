@@ -1,12 +1,11 @@
-import { db } from "db";
-import { DataTable } from "@/components/admin/events/EventDataTable";
-import { columns } from "@/components/admin/events/EventColumns";
+import { EventDataTable } from "@/components/events/shared/EventDataTable";
+import { columns } from "@/components/events/shared/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-
+import { getAllEvents } from "db/functions";
 export default async function Page() {
-	const events = await db.query.events.findMany();
+	const events = await getAllEvents();
 
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">
@@ -17,7 +16,7 @@ export default async function Page() {
 							Events
 						</h2>
 						<p className="text-sm text-muted-foreground">
-							{events.length} Event{events.length != 1 ? "s" : ""}
+							{events.length} Event{events.length != 1 && "s"}
 						</p>
 					</div>
 				</div>
@@ -30,7 +29,7 @@ export default async function Page() {
 					</Link>
 				</div>
 			</div>
-			<DataTable columns={columns} data={events} />
+			<EventDataTable columns={columns} data={events} />
 		</div>
 	);
 }

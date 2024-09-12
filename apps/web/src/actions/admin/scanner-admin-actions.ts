@@ -2,8 +2,8 @@
 
 import { adminAction } from "@/lib/safe-action";
 import { z } from "zod";
-import { db } from "db";
-import { scans, users } from "db/schema";
+import { db, sql } from "db";
+import { scans, userCommonData } from "db/schema";
 import { eq, and } from "db/drizzle";
 export const createScan = adminAction(
 	z.object({
@@ -46,22 +46,10 @@ export const getScan = adminAction(
 	},
 );
 
-export const checkInUser = adminAction(
-	z.string(),
-	async (user, { userId: adminUserID }) => {
-		// Check if scanner is an admin
-		const isAdmin = ["admin", "super_admin"].includes(
-			(
-				await db
-					.select({ role: users.role })
-					.from(users)
-					.where(eq(users.clerkID, adminUserID))
-			)[0].role,
-		);
-		// Set checkedIn to true
-		return await db
-			.update(users)
-			.set({ checkedIn: true })
-			.where(eq(users.clerkID, user));
-	},
-);
+export const checkInUser = adminAction(z.string(), async (user) => {
+	// Set checkinTimestamp
+	return await db
+		.update(userCommonData)
+		.set({ checkinTimestamp: sql`now()` })
+		.where(eq(userCommonData.clerkID, user));
+});

@@ -3,28 +3,19 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 import { createSelectSchema } from "drizzle-zod";
-import { users, registrationData, profileData } from "db/schema";
+import { userCommonData } from "db/schema";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 
-const userValidator = createSelectSchema(users).merge(
-	z.object({
-		registrationData: createSelectSchema(registrationData),
-		profileData: createSelectSchema(profileData).merge(
-			z.object({
-				skills: z.array(z.string()),
-			}),
-		),
-	}),
-);
+const userValidator = createSelectSchema(userCommonData);
 
 export type userValidatorType = Pick<
 	z.infer<typeof userValidator>,
 	| "clerkID"
-	| "createdAt"
+	| "signupTime"
 	| "firstName"
 	| "lastName"
-	| "profileData"
+	| "hackerTag"
 	| "email"
 	| "role"
 >;
@@ -40,9 +31,9 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		header: "Email",
 	},
 	{
-		accessorKey: "profileData.hackerTag",
+		accessorKey: "hackerTag",
 		header: "Hacker Tag",
-		cell: ({ row }) => `@${row.original.profileData.hackerTag}`,
+		cell: ({ row }) => `@${row.original.hackerTag}`,
 	},
 	{
 		accessorKey: "clerkID",
@@ -53,12 +44,12 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		header: "Role",
 	},
 	{
-		accessorKey: "createdAt",
+		accessorKey: "signupTime",
 		header: "Signup Date",
 		cell: ({ row }) => (
 			<span suppressHydrationWarning={true}>
-				{new Date(row.original.createdAt).toLocaleDateString() + " "}
-				{new Date(row.original.createdAt).toLocaleTimeString("en-US", {
+				{new Date(row.original.signupTime).toLocaleDateString() + " "}
+				{new Date(row.original.signupTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
 				})}

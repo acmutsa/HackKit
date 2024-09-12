@@ -1,13 +1,5 @@
-// import { SignOutButton } from "@clerk/nextjs";
-// import { Button } from "@/components/shadcn/ui/button";
-// import { Suspense } from "react";
-// import Loading from "@/components/shared/Loading";
 import { auth } from "@clerk/nextjs";
-import { db } from "db";
-import { users } from "db/schema";
-import { eq } from "db/drizzle";
 import c from "config";
-import superjson from "superjson";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 
 // HackKit Bubbles
@@ -18,13 +10,12 @@ import {
 	TitleBubble,
 	QuickQR,
 } from "@/components/dash/overview/ServerBubbles";
+import { getUser } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();
 	if (!userId) return null;
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
+	const user = await getUser(userId);
 	if (!user) return null;
 
 	const qrPayload = createQRpayload({

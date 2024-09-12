@@ -15,9 +15,9 @@ import { serve } from "bun";
 import c from "config";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { discordVerification, users } from "db/schema";
+import { discordVerification } from "db/schema";
+import { getHacker } from "db/functions";
 import { nanoid } from "nanoid";
-import { z } from "zod";
 
 /* DISCORD BOT */
 
@@ -199,9 +199,8 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		return h.json({ success: false });
 	}
 	console.log("got here 2");
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, verification.clerkID),
-	});
+
+	const user = await getHacker(verification.clerkID, false);
 	console.log("got here 2 with user", user);
 	if (!user) {
 		console.log("failed cause of no user in db");
@@ -210,7 +209,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 
 	const { discordRole: userGroupRoleName } = (
 		c.groups as Record<string, { discordRole: string }>
-	)[Object.keys(c.groups)[user.group]];
+	)[Object.keys(c.groups)[user.hackerData.group]];
 
 	const guild = client.guilds.cache.get(verification.guild);
 	if (!guild) {
@@ -228,7 +227,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	if (!role || !userGroupRole) {
 		console.log(
 			"failed cause could not find a role, was looking for group " +
-				user.group +
+				user.hackerData.group +
 				" called " +
 				userGroupRoleName,
 		);

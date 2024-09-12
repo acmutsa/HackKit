@@ -2,22 +2,21 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { users, teams, errorLog } from "db/schema";
+import { userHackerData, teams } from "db/schema";
+import { getHacker } from "db/functions";
 import { newTeamValidator } from "@/validators/shared/team";
 import { nanoid } from "nanoid";
 import c from "config";
 import { logError } from "@/lib/utils/server/logError";
 
 export async function POST(req: Request) {
-	const { userId } = await auth();
+	const { userId } = auth();
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-	});
+	const user = await getHacker(userId, false);
 	if (!user) return new Response("Unauthorized", { status: 401 });
 
-	if (user.teamID) {
+	if (user.hackerData.teamID) {
 		return NextResponse.json({
 			success: false,
 			message:
@@ -47,11 +46,9 @@ export async function POST(req: Request) {
 				ownerID: userId,
 			});
 			await tx
-				.update(users)
-				.set({
-					teamID,
-				})
-				.where(eq(users.clerkID, userId));
+				.update(userHackerData)
+				.set({ teamID })
+				.where(eq(userHackerData.clerkID, userId));
 		});
 		return NextResponse.json({
 			success: true,
