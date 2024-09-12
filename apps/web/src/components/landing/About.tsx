@@ -6,13 +6,15 @@ import Balancer from "react-wrap-balancer";
 export default function About() {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const buttonRef = useRef<HTMLButtonElement>(null);
+	const firstLoad = useRef(false);
 
 	const toggleExpand = () => {
+		if (!firstLoad.current) firstLoad.current = true;
 		setIsExpanded(!isExpanded);
 	};
 
 	useEffect(() => {
-		if (!isExpanded && buttonRef.current) {
+		if (!isExpanded && buttonRef.current && firstLoad.current) {
 			buttonRef.current.scrollIntoView({
 				behavior: "smooth",
 				block: "end",
