@@ -33,9 +33,6 @@ import { useRouter } from "next/navigation";
 import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants";
 import { NewEventFormProps } from "@/lib/types/events";
 import { newEventFormSchema } from "@/validators/event";
-import { useAction } from "next-safe-action/hook";
-import { eventType } from "@/lib/utils/shared/types";
-import { useEffect } from "react";
 import { ThreeCircles } from "react-loader-spinner";
 
 export default function NewEventForm({ defaultDate }: NewEventFormProps) {

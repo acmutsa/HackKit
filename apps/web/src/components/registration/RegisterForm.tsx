@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import Link from "next/link";
-import c, { schools, majors } from "config";
+import c from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -52,6 +52,7 @@ import { put, type PutBlobResult } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
 import { bucketResumeBaseUploadUrl } from "config";
+import { count } from "console";
 interface RegisterFormProps {
 	defaultEmail: string;
 }
@@ -91,6 +92,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			shirtSize: "" as any,
 			schoolID: "",
 			university: "",
+			phoneNumber:"",
+			countryOfResidence:"",
 		},
 	});
 
@@ -103,16 +106,23 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
+	const countryValue = form.watch("countryOfResidence");
 
 	useEffect(() => {
-		if (universityValue != c.localUniversityName.toLowerCase()) {
+		if (universityValue != c.localUniversityName) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
 			form.setValue("schoolID", "");
 		}
 	}, [universityValue]);
 
+
+	useEffect(()=>{
+		console.log(countryValue)
+	},[countryValue])
+
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
+		console.log(data);
 		setIsLoading(true);
 		if (!userId || !isLoaded) {
 			setIsLoading(false);
@@ -168,6 +178,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			}
 		} else {
 			setIsLoading(false);
+			alert(
+				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+			)
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);
@@ -208,7 +221,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 					className="space-y-6"
 				>
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
 							<FormField
 								control={form.control}
 								name="firstName"
@@ -217,7 +230,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										<FormLabel>First Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="Some"
+												placeholder="John"
 												{...field}
 											/>
 										</FormControl>
@@ -233,7 +246,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										<FormLabel>Last Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="One"
+												placeholder="Doe"
 												{...field}
 											/>
 										</FormControl>
@@ -259,8 +272,24 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									</FormItem>
 								)}
 							/>
+							<FormField
+								control={form.control}
+								name="phoneNumber"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Phone Number</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="555-555-5555"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 						</div>
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7 md:gap-y-0">
+						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
 							<FormField
 								control={form.control}
 								name="age"
@@ -278,7 +307,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="gender"
 								render={({ field }) => (
-									<FormItem className="col-span-2">
+									<FormItem className="">
 										<FormLabel>Gender</FormLabel>
 										<Select
 											onValueChange={field.onChange}
@@ -317,7 +346,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="race"
 								render={({ field }) => (
-									<FormItem className="col-span-2">
+									<FormItem className="">
 										<FormLabel>Race</FormLabel>
 										<Select
 											onValueChange={field.onChange}
@@ -330,25 +359,16 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Native American">
-														Native American
-													</SelectItem>
-													<SelectItem value="Asian / Pacific Islander">
-														Asian / Pacific Islander
-													</SelectItem>
-													<SelectItem value="Black or African American">
-														Black or African
-														American
-													</SelectItem>
-													<SelectItem value="White / Caucasion">
-														White / Caucasion
-													</SelectItem>
-													<SelectItem value="Multiple / Other">
-														Multiple / Other
-													</SelectItem>
-													<SelectItem value="Prefer not to say">
-														Prefer not to say
-													</SelectItem>
+													{c.registration.raceOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -360,7 +380,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="ethnicity"
 								render={({ field }) => (
-									<FormItem className="col-span-2">
+									<FormItem className="">
 										<FormLabel>Ethnicity</FormLabel>
 										<Select
 											onValueChange={field.onChange}
@@ -382,6 +402,103 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												</SelectGroup>
 											</SelectContent>
 										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="countryOfResidence"
+								render={({ field }) => (
+									<FormItem className="grid-cols-2">
+										<FormLabel>
+											Country of Residence
+										</FormLabel>
+										<div className="flex w-full items-center justify-center">
+											<Popover>
+												<PopoverTrigger asChild>
+													<FormControl>
+														<Button
+															variant="outline"
+															role="combobox"
+															className={cn(
+																"w-full justify-between",
+																!field.value &&
+																	"text-muted-foreground",
+															)}
+														>
+															{field.value
+																? c.registration.countries.find(
+																		(
+																			selectedCountry,
+																		) =>
+																			selectedCountry.code ===
+																			field.value,
+																	)?.name
+																: "Select a Country"}
+															<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+														</Button>
+													</FormControl>
+												</PopoverTrigger>
+												<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+													<Command>
+														<CommandInput placeholder="Search countries..." />
+														<CommandList>
+															<CommandEmpty>
+																No country
+																found.
+															</CommandEmpty>
+															<CommandGroup>
+																{c.registration.countries.map(
+																	(
+																		country,
+																	) => (
+																		<CommandItem
+																			value={
+																				country.name
+																			}
+																			key={
+																				country.name
+																			}
+																			onSelect={(
+																				_,
+																			) => {
+																				const countryResult =
+																					c.registration.countries.find(
+																						(
+																							countryObject,
+																						) =>
+																							countryObject.name ===
+																							country.name,
+																					);
+																				form.setValue(
+																					"countryOfResidence",
+																					countryResult?.code ??
+																						"00",
+																				);
+																			}}
+																			className="cursor-pointer"
+																		>
+																			<Check
+																				className={`mr-2 h-4 w-4 ${
+																					country.name.toLowerCase() ===
+																					field.value
+																						? "block"
+																						: "hidden"
+																				} `}
+																			/>
+																			{
+																				country.name
+																			}
+																		</CommandItem>
+																	),
+																)}
+															</CommandGroup>
+														</CommandList>
+													</Command>
+												</PopoverContent>
+											</Popover>
+										</div>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -521,7 +638,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														)}
 													>
 														{field.value
-															? schools.find(
+															? c.registration.schools.find(
 																	(school) =>
 																		school ===
 																		field.value,
@@ -539,7 +656,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 															No university found.
 														</CommandEmpty>
 														<CommandGroup>
-															{schools.map(
+															{c.registration.schools.map(
 																(school) => (
 																	<CommandItem
 																		value={
@@ -598,7 +715,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 														)}
 													>
 														{field.value
-															? majors.find(
+															? c.registration.majors.find(
 																	(major) =>
 																		major ===
 																		field.value,
@@ -616,7 +733,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 															No major found.
 														</CommandEmpty>
 														<CommandGroup>
-															{majors.map(
+															{c.registration.majors.map(
 																(major) => (
 																	<CommandItem
 																		value={
@@ -656,7 +773,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									</FormItem>
 								)}
 							/>
-
 							<FormField
 								control={form.control}
 								name="levelOfStudy"
@@ -706,7 +822,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 									<FormItem
 										className={`${
 											universityValue ===
-											c.localUniversityName.toLowerCase()
+											c.localUniversityName
 												? "col-span-2 flex flex-col md:col-span-1"
 												: "hidden"
 										}`}
@@ -890,7 +1006,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												event!
 											</FormDescription>
 										</div>
-										{c.dietaryRestrictionOptions.map(
+										{c.registration.dietaryRestrictionOptions.map(
 											(item) => (
 												<FormField
 													key={item}

@@ -10,9 +10,7 @@ import ProfileButton from "@/components/shared/ProfileButton";
 import ClientToast from "@/components/shared/ClientToast";
 
 import { TRPCReactProvider } from "@/trpc/react";
-import { db } from "db";
-import { eq } from "db/drizzle";
-import { userCommonData } from "db/schema";
+import { getUser } from "db/functions";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
@@ -21,14 +19,11 @@ interface DashLayoutProps {
 export default async function DashLayout({ children }: DashLayoutProps) {
 	const clerkUser = await currentUser();
 
-	if (!clerkUser || !clerkUser.publicMetadata.registrationComplete) {
+	if (!clerkUser || (await getUser(clerkUser.id)) == undefined) {
 		return redirect("/register");
 	}
 
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, clerkUser.id),
-	});
-
+	const user = await getUser(clerkUser.id);
 	if (!user) return redirect("/register");
 
 	if (

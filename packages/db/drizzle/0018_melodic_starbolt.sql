@@ -1,0 +1,1 @@
+ALTER TABLE "user_common_data" ADD COLUMN "country_of_residence" varchar(3) NOT NULL;

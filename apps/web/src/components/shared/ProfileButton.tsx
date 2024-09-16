@@ -14,13 +14,11 @@ import {
 } from "@/components/shadcn/ui/avatar";
 import { Button } from "@/components/shadcn/ui/button";
 import { auth, SignOutButton } from "@clerk/nextjs";
-import { db } from "db";
-import { userCommonData } from "db/schema";
-import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import DefaultDropdownTrigger from "../dash/shared/DefaultDropDownTrigger";
 import MobileNavBarLinks from "./MobileNavBarLinks";
+import { getUser } from "db/functions";
 
 export default async function ProfileButton() {
 	const clerkUser = await auth();
@@ -69,9 +67,7 @@ export default async function ProfileButton() {
 	}
 
 	// Make request with the clerk data that we may or may not have
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-	});
+	const user = await getUser(userId);
 
 	// If we do not have a fully fledged user, encourage them to complete registration
 	if (!user) {

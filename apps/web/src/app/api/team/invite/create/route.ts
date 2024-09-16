@@ -6,17 +6,16 @@ import { NextResponse } from "next/server";
 import { newInviteValidator } from "@/validators/shared/team";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { invites } from "db/schema";
+import { getHacker } from "db/functions";
 import type { serverZodResponse } from "@/lib/utils/server/types";
 
 export async function POST(
 	req: Request,
 ): serverZodResponse<typeof BasicServerValidator> {
-	const { userId } = await auth();
+	const { userId } = auth();
 	if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-		with: { hackerData: { with: { team: true } } },
-	});
+
+	const user = await getHacker(userId, true);
 	if (!user) return NextResponse.json("Unauthorized", { status: 401 });
 
 	if (!user.hackerData.teamID || !user.hackerData.team) {

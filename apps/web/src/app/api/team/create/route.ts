@@ -2,20 +2,18 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { userCommonData, userHackerData, teams, errorLog } from "db/schema";
+import { userHackerData, teams } from "db/schema";
+import { getHacker } from "db/functions";
 import { newTeamValidator } from "@/validators/shared/team";
 import { nanoid } from "nanoid";
 import c from "config";
 import { logError } from "@/lib/utils/server/logError";
 
 export async function POST(req: Request) {
-	const { userId } = await auth();
+	const { userId } = auth();
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-		with: { hackerData: true },
-	});
+	const user = await getHacker(userId, false);
 	if (!user) return new Response("Unauthorized", { status: 401 });
 
 	if (user.hackerData.teamID) {

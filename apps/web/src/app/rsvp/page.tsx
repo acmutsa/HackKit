@@ -11,6 +11,7 @@ import { kv } from "@vercel/kv";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
+import { getUser } from "db/functions";
 
 export default async function RsvpPage({
 	searchParams,
@@ -28,13 +29,8 @@ export default async function RsvpPage({
 		);
 	}
 
-	const user = await db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, userId),
-	});
-
-	if (!user) {
-		return redirect("/register");
-	}
+	const user = await getUser(userId);
+	if (!user) return redirect("/register");
 
 	if (
 		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
