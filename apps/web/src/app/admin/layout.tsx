@@ -6,13 +6,12 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { eq } from "db/drizzle";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import ProfileButton from "@/components/shared/ProfileButton";
 import { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
 import { redirect } from "next/navigation";
-import NavBarLinksGrouper from "@/components/shared/NavBarLinksGrouper";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -25,8 +24,8 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 		return redirect("/sign-in");
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 	});
 
 	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {

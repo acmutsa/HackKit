@@ -58,17 +58,17 @@ export const RegisterFormValidator = z.object({
 		z.literal("Hispanic or Latino", defaultPrettyError),
 		z.literal("Not Hispanic or Latino", defaultPrettyError),
 	]),
-	acceptsMLHCodeOfConduct: z.boolean().refine((val) => val === true, {
+	hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
 		message: "You must accept the MLH Code of Conduct.",
 	}),
-	shareDataWithMLH: z.boolean().refine((val) => val === true, {
+	hasSharedDataWithMLH: z.boolean().refine((val) => val === true, {
 		message:
 			"You must accept the MLH Terms & Conditions and Privacy Policy.",
 	}),
-	wantsToReceiveMLHEmails: z.boolean(),
+	isEmailable: z.boolean(),
 	university: z.string().min(1).max(200),
 	major: z.string().min(1).max(200),
-	shortID: z
+	schoolID: z
 		.string()
 		.min(1)
 		.max(c.localUniversityShortIDMaxLength, {

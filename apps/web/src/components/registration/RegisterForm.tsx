@@ -51,7 +51,7 @@ import { FileRejection, useDropzone } from "react-dropzone";
 import { put, type PutBlobResult } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
-
+import { bucketResumeBaseUploadUrl } from "config";
 interface RegisterFormProps {
 	defaultEmail: string;
 }
@@ -68,10 +68,10 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			dietaryRestrictions: [],
 			profileIsSearchable: true,
 			bio: "",
-			wantsToReceiveMLHEmails: false,
+			isEmailable: false,
 			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
-			acceptsMLHCodeOfConduct: false,
-			shareDataWithMLH: false,
+			hasAcceptedMLHCoC: false,
+			hasSharedDataWithMLH: false,
 			accommodationNote: "",
 			firstName: "",
 			lastName: "",
@@ -89,7 +89,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			pronouns: "",
 			race: "" as any,
 			shirtSize: "" as any,
-			shortID: "",
+			schoolID: "",
 			university: "",
 		},
 	});
@@ -106,9 +106,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
-			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
+			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
-			form.setValue("shortID", "");
+			form.setValue("schoolID", "");
 		}
 	}, [universityValue]);
 
@@ -122,8 +122,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 
 		if (
-			data.acceptsMLHCodeOfConduct !== true ||
-			data.shareDataWithMLH !== true
+			data.hasAcceptedMLHCoC !== true ||
+			data.hasSharedDataWithMLH !== true
 		) {
 			setIsLoading(false);
 			return alert(
@@ -134,7 +134,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		let resume: string = c.noResumeProvidedURL;
 
 		if (uploadedFile) {
-			const fileLocation = `${c.hackathonName}/resume/${uploadedFile.name}`;
+			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
 			const newBlob = await put(fileLocation, uploadedFile, {
 				access: "public",
 				handleBlobUploadUrl: "/api/upload/resume/register",
@@ -391,7 +391,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 					<FormGroupWrapper title="MLH">
 						<FormField
 							control={form.control}
-							name="acceptsMLHCodeOfConduct"
+							name="hasAcceptedMLHCoC"
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
@@ -422,7 +422,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 						<FormField
 							control={form.control}
-							name="shareDataWithMLH"
+							name="hasSharedDataWithMLH"
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
@@ -468,7 +468,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 						<FormField
 							control={form.control}
-							name="wantsToReceiveMLHEmails"
+							name="isEmailable"
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
@@ -701,7 +701,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="shortID"
+								name="schoolID"
 								render={({ field }) => (
 									<FormItem
 										className={`${
@@ -712,12 +712,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										}`}
 									>
 										<FormLabel>
-											{c.localUniversityShortIDName}
+											{c.localUniversitySchoolIDName}
 										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder={
-													c.localUniversityShortIDName
+													c.localUniversitySchoolIDName
 												}
 												{...field}
 											/>

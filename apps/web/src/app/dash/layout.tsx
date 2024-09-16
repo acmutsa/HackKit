@@ -12,7 +12,7 @@ import ClientToast from "@/components/shared/ClientToast";
 import { TRPCReactProvider } from "@/trpc/react";
 import { db } from "db";
 import { eq } from "db/drizzle";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
@@ -25,15 +25,15 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 		return redirect("/register");
 	}
 
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, clerkUser.id),
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, clerkUser.id),
 	});
 
 	if (!user) return redirect("/register");
 
 	if (
 		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
-		user.approved === false &&
+		user.isApproved === false &&
 		user.role === "hacker"
 	) {
 		return redirect("/i/approval");
@@ -45,12 +45,15 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 				<ClientToast />
 				<div className="grid h-16 w-full grid-cols-2 bg-nav px-5">
 					<div className="flex items-center gap-x-4">
-						<Image
-							src={c.icon.svg}
-							alt={c.hackathonName + " Logo"}
-							width={32}
-							height={32}
-						/>
+						<Link href="/">
+							<Image
+								src={c.icon.svg}
+								alt={c.hackathonName + " Logo"}
+								width={32}
+								height={32}
+							/>
+						</Link>
+
 						<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
 						<h2 className="font-bold tracking-tight">Dashboard</h2>
 					</div>
@@ -81,7 +84,9 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 						</Link>
 						<ProfileButton />
 					</div>
-					<div className="flex items-center justify-end gap-x-4 md:hidden"></div>
+					<div className="flex items-center justify-end gap-x-4 md:hidden">
+						<ProfileButton />
+					</div>
 				</div>
 				<div className="flex h-12 w-full border-b border-b-border bg-nav px-5">
 					{Object.entries(c.dashPaths.dash).map(([name, path]) => (

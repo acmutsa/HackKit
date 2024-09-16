@@ -3,7 +3,7 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { users, profileData, registrationData } from "db/schema";
+import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
@@ -31,6 +31,9 @@ export const modifyRegistrationData = authenticatedAction(
 		LinkedIn: z.string().nullish(),
 		PersonalWebsite: z.string().nullish(),
 	}),
+	async ({ bio, skills }, { userId }) => {
+		const user = await db.query.userCommonData.findFirst({
+			where: eq(userCommonData.clerkID, userId),
 	async (
 		{
 			age,
@@ -142,6 +145,10 @@ export const modifyProfileData = authenticatedAction(
 			throw new Error("User not found");
 		}
 		await db
+			.update(userCommonData)
+			.set({ bio })
+			.where(eq(userCommonData.clerkID, user.clerkID));
+		return { success: true, newbio: bio };
 			.update(profileData)
 			.set({ pronouns, bio, skills, discordUsername })
 			.where(eq(profileData.hackerTag, user[0].profile_data.hackerTag));
@@ -169,6 +176,9 @@ export const modifyAccountSettings = authenticatedAction(
 	) => {
 		const user = await db.query.users.findFirst({
 			where: eq(users.clerkID, userId),
+	async ({ firstName, lastName }, { userId }) => {
+		const user = await db.query.userCommonData.findFirst({
+			where: eq(userCommonData.clerkID, userId),
 		});
 		if (!user) throw new Error("User not found");
 		let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
@@ -184,6 +194,9 @@ export const modifyAccountSettings = authenticatedAction(
 			}
 		}
 		await db
+			.update(userCommonData)
+			.set({ firstName, lastName })
+			.where(eq(userCommonData.clerkID, userId));
 			.update(users)
 			.set({ firstName, lastName, hackerTag, hasSearchableProfile })
 			.where(eq(users.clerkID, userId));
@@ -206,16 +219,16 @@ export const updateProfileImage = authenticatedAction(
 	z.object({ fileBase64: z.string(), fileName: z.string() }),
 	async ({ fileBase64, fileName }, { userId }) => {
 		const image = await decodeBase64AsFile(fileBase64, fileName);
-		const user = await db.query.users.findFirst({
-			where: eq(users.clerkID, userId),
+		const user = await db.query.userCommonData.findFirst({
+			where: eq(userCommonData.clerkID, userId),
 		});
 		if (!user) throw new Error("User not found");
 
 		const blobUpload = await put(image.name, image, { access: "public" });
 		await db
-			.update(profileData)
+			.update(userCommonData)
 			.set({ profilePhoto: blobUpload.url })
-			.where(eq(profileData.hackerTag, user.hackerTag));
+			.where(eq(userCommonData.clerkID, user.clerkID));
 		revalidatePath("/settings/profile");
 		return { success: true };
 	},

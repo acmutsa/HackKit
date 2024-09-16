@@ -8,11 +8,9 @@ import {
 } from "@/components/shadcn/ui/card";
 import { db } from "db";
 import { eq, desc } from "db/drizzle";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { userType } from "@/lib/utils/shared/types";
-import { unstable_cache } from "next/cache";
-import { env } from "@/env";
 import { auth } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
 
@@ -25,9 +23,9 @@ export default async function Page() {
 
 	if (!userId) return notFound();
 
-	const adminUser = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-		orderBy: desc(users.createdAt),
+	const adminUser = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
+		orderBy: desc(userCommonData.signupTime),
 	});
 
 	if (
@@ -162,10 +160,10 @@ function getRecentRegistrationData(users: userType[]) {
 	}
 
 	for (const user of users) {
-		if (user.rsvp) rsvpCount++;
-		if (user.checkedIn) checkinCount++;
+		if (user.isRSVPed) rsvpCount++;
+		if (user.checkinTimestamp) checkinCount++;
 
-		const stamp = user.createdAt.toISOString().split("T")[0];
+		const stamp = user.signupTime.toISOString().split("T")[0];
 
 		if (recentSignupCount[stamp] != undefined) recentSignupCount[stamp]++;
 	}
@@ -174,7 +172,7 @@ function getRecentRegistrationData(users: userType[]) {
 }
 
 async function getUsers() {
-	const usersReq = await db.query.users.findMany();
+	const usersReq = await db.query.userCommonData.findMany();
 	return usersReq;
 }
 

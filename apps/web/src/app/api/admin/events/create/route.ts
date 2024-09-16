@@ -1,21 +1,22 @@
 import { auth } from "@clerk/nextjs";
 import { eq } from "db/drizzle";
 import { db } from "db";
-import { users, events } from "db/schema";
-import { newEventValidator } from "@/validators/shared/newEvent";
+import { userCommonData, events } from "db/schema";
+import { newEventFormSchema } from "@/validators/event";
 import { BasicRedirValidator } from "@/validators/shared/basicRedir";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import superjson from "superjson";
 import c from "config";
 
+// Make this a server action
 export async function POST(req: Request) {
 	const { userId } = auth();
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
+	const reqUserRecord = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 	});
 
 	if (
@@ -25,9 +26,8 @@ export async function POST(req: Request) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	// console.log(await req.json());
 	const body = superjson.parse(await req.text());
-	const parsedBody = newEventValidator.safeParse(body);
+	const parsedBody = newEventFormSchema.safeParse(body);
 
 	if (!parsedBody.success) {
 		return new Response("Malformed request body.", { status: 400 });

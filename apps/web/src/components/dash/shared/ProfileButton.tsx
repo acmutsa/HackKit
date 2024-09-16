@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { auth, SignOutButton } from "@clerk/nextjs";
 import { db } from "db";
-import { users } from "db/schema";
+import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
@@ -25,9 +25,8 @@ export default async function ProfileButton() {
 	const clerkUser = await auth();
 	const { userId } = clerkUser;
 	if (!userId) return null;
-	const user = await db.query.users.findFirst({
-		where: eq(users.clerkID, userId),
-		with: { profileData: true },
+	const user = await db.query.userCommonData.findFirst({
+		where: eq(userCommonData.clerkID, userId),
 	});
 
 	if (!user && !userId) return null;
@@ -92,10 +91,7 @@ export default async function ProfileButton() {
 					className="relative h-8 w-8 rounded-full"
 				>
 					<Avatar className="h-8 w-8">
-						<AvatarImage
-							src={user.profileData.profilePhoto}
-							alt="@shadcn"
-						/>
+						<AvatarImage src={user.profilePhoto} alt="@shadcn" />
 						<AvatarFallback>
 							{user.firstName.charAt(0) + user.lastName.charAt(0)}
 						</AvatarFallback>
