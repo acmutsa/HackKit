@@ -959,4 +959,7 @@ export {
 	bucketResumeBaseUploadUrl,
 	perms,
 	publicRoutes,
+	schools,
+	majors,
+	dietaryRestrictionOptions,
 };
