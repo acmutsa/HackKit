@@ -24,7 +24,7 @@ import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c, { schools, majors } from "config";
+import c, { schools, majors, dietaryRestrictionOptions } from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -38,7 +38,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/shadcn/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
@@ -52,56 +52,37 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
+import { Hacker, HackerData, User } from "db/types";
+import { userHackerData } from "db/schema";
+import IntrinsicAttributes = React.JSX.IntrinsicAttributes;
 
-interface RegistrationData {
-	age: number;
-	gender: string;
-	race: string;
-	ethnicity: string;
-	wantsToReceiveMLHEmails: boolean;
-	university: string;
-	major: string;
-	shortID: string;
-	levelOfStudy: string;
-	hackathonsAttended: number;
-	softwareExperience: any;
-	heardFrom: any;
-	shirtSize: any;
-	dietRestrictions: any;
-	accommodationNote: string | null;
-	GitHub: string | null;
-	LinkedIn: string | null;
-	PersonalWebsite: any;
-	resume: string;
+interface RegistrationFormSettingsProps {
+	user: User;
+	data: HackerData;
 }
 
-interface RegisterFormSettingsProps {
-	data: RegistrationData;
-}
-
-export default function RegisterForm({ data }: RegisterFormSettingsProps) {
-	if (data.heardFrom === null) data.heardFrom = undefined;
+export default function RegisterFormSettings({ user, data }: RegistrationFormSettingsProps) {
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
 			hackathonsAttended: data.hackathonsAttended || 0,
-			dietaryRestrictions: data.dietRestrictions || [],
-			wantsToReceiveMLHEmails: data.wantsToReceiveMLHEmails,
+			dietaryRestrictions: user.dietRestrictions as any,
+			isEmailable: data.isEmailable,
 			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
-			accommodationNote: data.accommodationNote || "",
-			age: data.age,
-			ethnicity: data.ethnicity as any,
-			gender: data.gender as any,
+			accommodationNote: user.accommodationNote || "",
+			age: user.age,
+			ethnicity: user.ethnicity as any,
+			gender: user.gender as any,
 			major: data.major,
-			github: data.GitHub as any,
-			heardAboutEvent: data.heardFrom,
+			github: data.GitHub ?? "",
+			heardAboutEvent: data.heardFrom as any,
 			levelOfStudy: data.levelOfStudy as any,
-			linkedin: data.LinkedIn as any,
-			personalWebsite: data.PersonalWebsite,
-			race: data.race as any,
-			shirtSize: data.shirtSize,
-			shortID: data.shortID,
-			softwareBuildingExperience: data.softwareExperience,
+			linkedin: data.LinkedIn ?? "",
+			personalWebsite: data.PersonalWebsite ?? "",
+			race: user.race as any,
+			shirtSize: user.shirtSize as any,
+			schoolID: data.schoolID,
+			softwareBuildingExperience: data.softwareExperience as any,
 			university: data.university,
 		},
 	});
@@ -118,17 +99,17 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 	const [oldFile, setOldFile] = useState(true);
 
 	const universityValue = form.watch("university").toLowerCase();
-	const shortID = form.watch("shortID").toLowerCase();
+	const shortID = form.watch("schoolID").toLowerCase();
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
-			form.setValue("shortID", "NOT_LOCAL_SCHOOL");
+			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 			console.log(1);
 		} else {
 			if (shortID === "NOT_LOCAL_SCHOOL") {
-				form.setValue("shortID", data.shortID);
+				form.setValue("schoolID", data.schoolID);
 			} else {
-				form.setValue("shortID", "");
+				form.setValue("schoolID", "");
 			}
 		}
 	}, [universityValue]);
@@ -136,7 +117,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 	const { execute: runModifyRegistrationData } = useAction(
 		modifyRegistrationData,
 		{
-			onSuccess: ({ success }) => {
+			onSuccess: () => {
 				setIsLoading(false);
 				toast.dismiss();
 				toast.success("Account updated successfully!");
@@ -152,7 +133,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 	);
 
 	const { execute: runModifyResume } = useAction(modifyResume, {
-		onSuccess: ({ success }) => {},
+		onSuccess: () => {},
 		onError: () => {
 			toast.dismiss();
 			toast.error("An error occurred while uploading resume!");
@@ -322,7 +303,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 					<FormGroupWrapper title="MLH">
 						<FormField
 							control={form.control}
-							name="wantsToReceiveMLHEmails"
+							name="isEmailable"
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
@@ -376,7 +357,9 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 													>
 														{field.value
 															? schools.find(
-																	(school) =>
+																	(
+																		school: string,
+																	) =>
 																		school ===
 																		field.value,
 																)
@@ -554,7 +537,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="shortID"
+								name="schoolID"
 								render={({ field }) => (
 									<FormItem
 										className={`${
@@ -565,12 +548,12 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 										}`}
 									>
 										<FormLabel>
-											{c.localUniversityShortIDName}
+											{c.localUniversitySchoolIDName}
 										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder={
-													c.localUniversityShortIDName
+													c.localUniversitySchoolIDName
 												}
 												{...field}
 											/>
@@ -743,7 +726,7 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 												event!
 											</FormDescription>
 										</div>
-										{c.dietaryRestrictionOptions.map(
+										{dietaryRestrictionOptions.map(
 											(item) => (
 												<FormField
 													key={item}
@@ -943,13 +926,11 @@ export default function RegisterForm({ data }: RegisterFormSettingsProps) {
 								gender: form.watch("gender"),
 								race: form.watch("race"),
 								ethnicity: form.watch("ethnicity"),
-								wantsToReceiveMLHEmails: form.watch(
-									"wantsToReceiveMLHEmails",
-								),
+								isEmailable: form.watch("isEmailable"),
 								university: form.watch("university"),
 								major: form.watch("major"),
 								levelOfStudy: form.watch("levelOfStudy"),
-								shortID: form.watch("shortID"),
+								schoolID: form.watch("schoolID"),
 								hackathonsAttended:
 									+form.watch("hackathonsAttended"),
 								softwareExperience: form.watch(

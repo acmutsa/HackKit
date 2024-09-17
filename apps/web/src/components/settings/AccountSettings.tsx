@@ -16,7 +16,7 @@ interface UserProps {
 	lastName: string;
 	email: string;
 	hackerTag: string;
-	hasSearchableProfile: boolean;
+	isSearchable: boolean;
 }
 
 interface AccountSettingsProps {
@@ -29,7 +29,7 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 	//const [newEmail, setNewEmail] = useState(user.email);
 	const [newHackerTag, setNewHackerTag] = useState(user.hackerTag);
 	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(
-		user.hasSearchableProfile,
+		user.isSearchable,
 	);
 	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false);
 

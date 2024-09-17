@@ -21,7 +21,7 @@ interface ProfileData {
 	pronouns: string;
 	bio: string;
 	skills: string[];
-	discordUsername: string;
+	discord: string | null;
 	profilePhoto: string;
 }
 
@@ -42,7 +42,7 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 		curSkills.push(t);
 	}
 	const [newSkills, setNewSkills] = useState<Tag[]>(curSkills);
-	const [newDiscord, setNewDiscord] = useState(profile.discordUsername);
+	const [newDiscord, setNewDiscord] = useState(profile.discord || "");
 
 	const [isProfilePictureLoading, setIsProfilePictureLoading] =
 		useState(false);
@@ -200,7 +200,7 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 								skills: newSkills.map((v) =>
 									v.text.toLowerCase(),
 								),
-								discordUsername: newDiscord,
+								discord: newDiscord,
 							});
 						}}
 						className="mt-5"

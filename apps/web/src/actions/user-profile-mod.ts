@@ -3,11 +3,12 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { userCommonData } from "db/schema";
+import {userCommonData, userHackerData} from "db/schema";
 import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
+import {getUser, getUserByTag} from "db/functions";
 
 // TODO: Add skill updating
 export const modifyRegistrationData = authenticatedAction(
@@ -16,11 +17,11 @@ export const modifyRegistrationData = authenticatedAction(
 		gender: z.string(),
 		race: z.string(),
 		ethnicity: z.string(),
-		wantsToReceiveMLHEmails: z.boolean(),
+		isEmailable: z.boolean(),
 		university: z.string(),
 		major: z.string(),
 		levelOfStudy: z.string(),
-		shortID: z.string(),
+		schoolID: z.string(),
 		hackathonsAttended: z.number(),
 		softwareExperience: z.string(),
 		heardFrom: z.string().nullish(),
@@ -31,70 +32,69 @@ export const modifyRegistrationData = authenticatedAction(
 		LinkedIn: z.string().nullish(),
 		PersonalWebsite: z.string().nullish(),
 	}),
-	async ({ bio, skills }, { userId }) => {
+	async ({
+		age,
+		gender,
+		race,
+		ethnicity,
+		isEmailable,
+		university,
+		major,
+		levelOfStudy,
+		schoolID,
+		hackathonsAttended,
+		softwareExperience,
+		heardFrom,
+		shirtSize,
+		dietRestrictions,
+		accommodationNote,
+		GitHub,
+		LinkedIn,
+		PersonalWebsite,
+		   }, { userId }) => {
 		const user = await db.query.userCommonData.findFirst({
 			where: eq(userCommonData.clerkID, userId),
-	async (
-		{
-			age,
-			gender,
-			race,
-			ethnicity,
-			wantsToReceiveMLHEmails,
-			university,
-			major,
-			levelOfStudy,
-			shortID,
-			hackathonsAttended,
-			softwareExperience,
-			heardFrom,
-			shirtSize,
-			dietRestrictions,
-			accommodationNote,
-			GitHub,
-			LinkedIn,
-			PersonalWebsite,
-		},
-		{ userId },
-	) => {
-		const user = await db.query.users.findFirst({
-			where: eq(users.clerkID, userId),
-		});
+		})
 		if (!user) throw new Error("User not found");
 		await db
-			.update(registrationData)
+			.update(userCommonData)
 			.set({
 				age,
 				gender,
 				race,
 				ethnicity,
-				wantsToReceiveMLHEmails,
-				university,
-				major,
-				levelOfStudy,
-				shortID,
-				hackathonsAttended,
-				softwareExperience,
-				heardFrom,
 				shirtSize,
 				dietRestrictions,
 				accommodationNote,
+			})
+			.where(eq(userCommonData.clerkID, user.clerkID));
+		await db
+			.update(userHackerData)
+			.set({
+				isEmailable,
+				university,
+				major,
+				levelOfStudy,
+				schoolID,
+				hackathonsAttended,
+				softwareExperience,
+				heardFrom,
 				GitHub,
 				LinkedIn,
 				PersonalWebsite,
 			})
-			.where(eq(registrationData.clerkID, user.clerkID));
+			.where(eq(userHackerData.clerkID, user.clerkID));
 		return {
 			success: true,
 			newAge: age,
 			newGender: gender,
 			newRace: race,
 			newEthnicity: ethnicity,
-			newWantsToReceiveMLHEmails: wantsToReceiveMLHEmails,
+			newWantsToReceiveMLHEmails: isEmailable,
 			newUniversity: university,
 			newMajor: major,
 			newLevelOfStudy: levelOfStudy,
-			newShortID: shortID,
+			newSchoolID: schoolID,
 			newHackathonsAttended: hackathonsAttended,
 			newSoftwareExperience: softwareExperience,
 			newHeardFrom: heardFrom,
@@ -113,14 +113,14 @@ export const modifyResume = authenticatedAction(
 		resume: z.string(),
 	}),
 	async ({ resume }, { userId }) => {
-		const user = await db.query.users.findFirst({
-			where: eq(users.clerkID, userId),
+		const user = await db.query.userHackerData.findFirst({
+			where: eq(userHackerData.clerkID, userId),
 		});
 		if (!user) throw new Error("User not found");
 		await db
-			.update(registrationData)
+			.update(userHackerData)
 			.set({ resume })
-			.where(eq(registrationData.clerkID, user.clerkID));
+			.where(eq(userHackerData.clerkID, userId));
 		return {
 			success: true,
 			newResume: resume,
@@ -133,31 +133,23 @@ export const modifyProfileData = authenticatedAction(
 		pronouns: z.string(),
 		bio: z.string(),
 		skills: z.string().array(),
-		discordUsername: z.string(),
+		discord: z.string(),
 	}),
-	async ({ pronouns, bio, skills, discordUsername }, { userId }) => {
-		const user = await db
-			.select()
-			.from(users)
-			.leftJoin(profileData, eq(users.hackerTag, profileData.hackerTag))
-			.where(eq(users.clerkID, userId));
-		if (!user || !user[0].profile_data) {
+	async ({ pronouns, bio, skills, discord }, { userId }) => {
+		const user = await getUser(userId);
+		if (!user) {
 			throw new Error("User not found");
 		}
 		await db
 			.update(userCommonData)
-			.set({ bio })
+			.set({ pronouns, bio, skills, discord })
 			.where(eq(userCommonData.clerkID, user.clerkID));
-		return { success: true, newbio: bio };
-			.update(profileData)
-			.set({ pronouns, bio, skills, discordUsername })
-			.where(eq(profileData.hackerTag, user[0].profile_data.hackerTag));
 		return {
 			success: true,
 			newPronouns: pronouns,
 			newBio: bio,
 			newSkills: skills,
-			newDiscord: discordUsername,
+			newDiscord: discord,
 		};
 	},
 );
@@ -174,36 +166,20 @@ export const modifyAccountSettings = authenticatedAction(
 		{ firstName, lastName, hackerTag, hasSearchableProfile },
 		{ userId },
 	) => {
-		const user = await db.query.users.findFirst({
-			where: eq(users.clerkID, userId),
-	async ({ firstName, lastName }, { userId }) => {
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-		});
+		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
 		let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
-		if (oldHackerTag != hackerTag) {
-			const lookupByHackerTag = await db.query.users.findFirst({
-				where: eq(users.hackerTag, hackerTag.toLowerCase()),
-			}); // copied from /api/registration/create
-			if (lookupByHackerTag) {
+		if (oldHackerTag != hackerTag) //if hackertag changed
+			// copied from /api/registration/create
+			if (await getUserByTag(hackerTag))
 				return {
 					success: false,
 					message: "hackertag_not_unique",
 				};
-			}
-		}
 		await db
 			.update(userCommonData)
-			.set({ firstName, lastName })
+			.set({firstName, lastName, hackerTag, isSearchable: hasSearchableProfile})
 			.where(eq(userCommonData.clerkID, userId));
-			.update(users)
-			.set({ firstName, lastName, hackerTag, hasSearchableProfile })
-			.where(eq(users.clerkID, userId));
-		await db
-			.update(profileData) // see above comment
-			.set({ hackerTag })
-			.where(eq(profileData.hackerTag, oldHackerTag));
 		return {
 			success: true,
 			newFirstName: firstName,
