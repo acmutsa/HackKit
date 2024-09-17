@@ -38,7 +38,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/shadcn/ui/popover";
-import { Check, ChevronsUpDown, Linkedin } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
@@ -52,9 +52,7 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
-import { Hacker, HackerData, User } from "db/types";
-import { userHackerData } from "db/schema";
-import IntrinsicAttributes = React.JSX.IntrinsicAttributes;
+import { HackerData, User } from "db/types";
 
 interface RegistrationFormSettingsProps {
 	user: User;

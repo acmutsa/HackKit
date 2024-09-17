@@ -1,7 +1,5 @@
 import AccountSettings from "@/components/settings/AccountSettings";
-import { eq } from "db/drizzle";
 import { auth } from "@clerk/nextjs";
-import { db } from "db";
 import { redirect } from "next/navigation";
 import ProfileSettings from "@/components/settings/ProfileSettings";
 import RegistrationSettings from "@/components/settings/RegistrationSettings";
