@@ -87,6 +87,7 @@ export default function RegisterFormSettings({
 			university: data.university,
 		},
 	});
+	console.log(form.watch("schoolID"));
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
 	// @ts-ignore
@@ -105,12 +106,11 @@ export default function RegisterFormSettings({
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
-			console.log(1);
 		} else {
 			if (shortID === "NOT_LOCAL_SCHOOL") {
-				form.setValue("schoolID", data.schoolID);
-			} else {
 				form.setValue("schoolID", "");
+			} else {
+				form.setValue("schoolID", data.schoolID);
 			}
 		}
 	}, [universityValue]);
