@@ -240,25 +240,17 @@ export default function RegisterFormSettings({ user, data }: RegistrationFormSet
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Native American">
-														Native American
-													</SelectItem>
-													<SelectItem value="Asian / Pacific Islander">
-														Asian / Pacific Islander
-													</SelectItem>
-													<SelectItem value="Black or African American">
-														Black or African
-														American
-													</SelectItem>
-													<SelectItem value="White / Caucasion">
-														White / Caucasion
-													</SelectItem>
-													<SelectItem value="Multiple / Other">
-														Multiple / Other
-													</SelectItem>
-													<SelectItem value="Prefer not to say">
-														Prefer not to say
-													</SelectItem>
+													{c.registration.raceOptions.map(
+															(option) => (
+																<SelectItem
+																	value={option}
+																	key={option}
+																>
+																	{option}
+																</SelectItem>
+															)
+														)
+													}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
