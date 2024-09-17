@@ -3,12 +3,12 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import {userCommonData, userHackerData} from "db/schema";
+import { userCommonData, userHackerData } from "db/schema";
 import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
-import {getUser, getUserByTag} from "db/functions";
+import { getUser, getUserByTag } from "db/functions";
 
 // TODO: Add skill updating
 export const modifyRegistrationData = authenticatedAction(
@@ -32,29 +32,32 @@ export const modifyRegistrationData = authenticatedAction(
 		LinkedIn: z.string().nullish(),
 		PersonalWebsite: z.string().nullish(),
 	}),
-	async ({
-		age,
-		gender,
-		race,
-		ethnicity,
-		isEmailable,
-		university,
-		major,
-		levelOfStudy,
-		schoolID,
-		hackathonsAttended,
-		softwareExperience,
-		heardFrom,
-		shirtSize,
-		dietRestrictions,
-		accommodationNote,
-		GitHub,
-		LinkedIn,
-		PersonalWebsite,
-		   }, { userId }) => {
+	async (
+		{
+			age,
+			gender,
+			race,
+			ethnicity,
+			isEmailable,
+			university,
+			major,
+			levelOfStudy,
+			schoolID,
+			hackathonsAttended,
+			softwareExperience,
+			heardFrom,
+			shirtSize,
+			dietRestrictions,
+			accommodationNote,
+			GitHub,
+			LinkedIn,
+			PersonalWebsite,
+		},
+		{ userId },
+	) => {
 		const user = await db.query.userCommonData.findFirst({
 			where: eq(userCommonData.clerkID, userId),
-		})
+		});
 		if (!user) throw new Error("User not found");
 		await db
 			.update(userCommonData)
@@ -169,16 +172,22 @@ export const modifyAccountSettings = authenticatedAction(
 		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
 		let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
-		if (oldHackerTag != hackerTag) //if hackertag changed
-			// copied from /api/registration/create
+		if (oldHackerTag != hackerTag)
 			if (await getUserByTag(hackerTag))
+				//if hackertag changed
+				// copied from /api/registration/create
 				return {
 					success: false,
 					message: "hackertag_not_unique",
 				};
 		await db
 			.update(userCommonData)
-			.set({firstName, lastName, hackerTag, isSearchable: hasSearchableProfile})
+			.set({
+				firstName,
+				lastName,
+				hackerTag,
+				isSearchable: hasSearchableProfile,
+			})
 			.where(eq(userCommonData.clerkID, userId));
 		return {
 			success: true,

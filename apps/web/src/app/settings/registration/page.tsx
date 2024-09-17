@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import RegistrationFormSettings from "@/components/settings/RegistrationForm/RegisterFormSettings";
-import {getHackerData, getUser} from "db/functions";
+import { getHackerData, getUser } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();

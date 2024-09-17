@@ -784,7 +784,7 @@ const c = {
 	localUniversityName: schools[0],
 	localUniversitySchoolIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
-	registration:{
+	registration: {
 		schools,
 		majors,
 		levelsOfStudy,
@@ -949,9 +949,6 @@ const publicRoutes = [
 ];
 
 // Generally it is reccomended to put your primary audience's university at the top of this list.
-
-
-
 
 export default c;
 export {

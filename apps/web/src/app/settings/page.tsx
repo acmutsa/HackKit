@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import ProfileSettings from "@/components/settings/ProfileSettings";
 import RegistrationSettings from "@/components/settings/RegistrationSettings";
-import {getUser} from "db/functions";
+import { getUser } from "db/functions";
 
 export default async function Page() {
 	const { userId } = auth();

@@ -59,7 +59,10 @@ interface RegistrationFormSettingsProps {
 	data: HackerData;
 }
 
-export default function RegisterFormSettings({ user, data }: RegistrationFormSettingsProps) {
+export default function RegisterFormSettings({
+	user,
+	data,
+}: RegistrationFormSettingsProps) {
 	const form = useForm<z.infer<typeof RegisterFormValidator>>({
 		resolver: zodResolver(RegisterFormValidator),
 		defaultValues: {
@@ -241,16 +244,15 @@ export default function RegisterFormSettings({ user, data }: RegistrationFormSet
 											<SelectContent>
 												<SelectGroup>
 													{c.registration.raceOptions.map(
-															(option) => (
-																<SelectItem
-																	value={option}
-																	key={option}
-																>
-																	{option}
-																</SelectItem>
-															)
-														)
-													}
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
