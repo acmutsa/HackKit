@@ -12,6 +12,7 @@ import {
 import { Oswald } from "next/font/google";
 import Image from "next/image";
 import { useState } from "react";
+import c from "config";
 const oswald = Oswald({
 	variable: "--font-oswald",
 	subsets: ["latin"],
@@ -99,7 +100,7 @@ export default function TeamMember({ person }: { person: Person }) {
 						priority={true}
 						alt="Person Placeholder"
 						onError={(e) => {
-							setSrc("/img/logo/hackkit.svg");
+							setSrc(`${c.icon.svg}`);
 							setStyling(FallBackStyling);
 						}}
 					/>

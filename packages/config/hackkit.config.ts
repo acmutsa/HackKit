@@ -861,10 +861,10 @@ const c = {
 		guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit.svg",
+		sm: "/img/logo/rhbttf.svg",
 		md: "/img/logo/hackkit-md.png",
 		lg: "/img/logo/hackkit-lg.png",
-		svg: "/img/logo/hackkit.svg",
+		svg: "/img/logo/rhbttf.svg",
 	},
 	dashPaths: {
 		dash: {
@@ -897,12 +897,12 @@ const c = {
 	maxResumeSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
-	eventPassBgImage: "/img/dash/pass/bg.png",
+	eventPassBgImage: "/img/logo/rhbttf.svg",
 	noResumeProvidedURL:
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
 	startDate: new Date(new Date(2024, 9, 26).setHours(9)),
-	prettyLocation: "San Pedro I",
+	prettyLocation: "UTSA San Pedro I",
 	roleBadges: {
 		hacker: {
 			title: "Hacker",
@@ -974,11 +974,6 @@ const publicRoutes = [
 	"/bugreport",
 	"/faq"
 ];
-
-// Generally it is reccomended to put your primary audience's university at the top of this list.
-
-
-
 
 export default c;
 export {

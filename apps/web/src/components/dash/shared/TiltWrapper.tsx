@@ -18,7 +18,7 @@ export default function TiltWrapper({ children }: { children: ReactNode }) {
 				tiltReverse={true}
 				glareEnable={doTilt}
 				glareMaxOpacity={0.2}
-				glareColor="hsl(var(--hackathon-primary))"
+				glareColor="#94a3b8"
 				glarePosition="all"
 				glareBorderRadius="1.5rem"
 				tiltEnable={doTilt}

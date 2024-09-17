@@ -42,12 +42,7 @@ function Overlay() {
 	return (
 		<div className="pointer-events-none fixed left-0 top-0 z-50 h-full w-screen select-none p-5 pt-16">
 			<div className="relative h-full w-full">
-				{/* Start Corners */}
-				{/* <div className="absolute left-0 top-0 h-[15px] w-[15px] border-l-2 border-t-2 border-orange-400"/>
-				<div className="absolute right-0 top-0 h-[15px] w-[15px] border-r-2 border-t-2 border-orange-400"/>
-				<div className="absolute bottom-0 left-0 h-[15px] w-[15px] border-b-2 border-l-2 border-orange-400"/>
-				<div className="absolute bottom-0 right-0 h-[15px] w-[15px] border-b-2 border-r-2 border-orange-400"/> */}
-				{/* End Corners */}
+
 				<p className="absolute bottom-0 left-0 w-full text-center font-mono text-orange-400">
 					ROWDYHACKS X · SAN PEDRO I, UTSA
 				</p>

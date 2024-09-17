@@ -21,39 +21,41 @@ const oswald = Oswald({
 
 export default function Home() {
 	return (
-		<div className={`${oswald.variable} w-full overflow-x-hidden`}>
+		<div
+			className={`${oswald.variable} w-full overflow-x-hidden bg-[#1A3A9E]`}
+		>
 			<Suspense fallback={<Skeleton className="h-16 w-screen" />}>
 				<Navbar />
 			</Suspense>
 			<MLHBadge />
-			<main className="overflow-x-hidden relative flex flex-col min-h-full">
-					<div className="fixed inset-0 w-screen h-screen -z-10 overflow-hidden">
-						<WavyBackground
-							backgroundFill="#1A3A9E"
-							colors={[
-								"#1D41AE",
-								"#1A3A9E",
-								"#17338E",
-								"#1D41AE",
-								"#1A3A9E",
-								"#1D41AE",
-								"#1A3A9E",
-								"#17338E",
-								"#1D41AE",
-								"#1A3A9E",
-							]}
-							speed="fast"
-							waveOpacity={1}
-							waveWidth={300}
-							containerClassName="scale-x-125 scale-y-[2] h-full"
-						/>
-					</div>
-				<Hero/>
-				<About/>
+			<main className="relative flex min-h-full flex-col overflow-x-hidden bg-[#1A3A9E]">
+				<div className="fixed inset-0 -z-10 h-screen w-screen overflow-hidden">
+					<WavyBackground
+						backgroundFill="#1A3A9E"
+						colors={[
+							"#1D41AE",
+							"#1A3A9E",
+							"#17338E",
+							"#1D41AE",
+							"#1A3A9E",
+							"#1D41AE",
+							"#1A3A9E",
+							"#17338E",
+							"#1D41AE",
+							"#1A3A9E",
+						]}
+						speed="fast"
+						waveOpacity={1}
+						waveWidth={300}
+						containerClassName="scale-x-125 scale-y-[2] h-full"
+					/>
+				</div>
+				<Hero />
+				<About />
 				{/* <Partners /> */}
-				<WorkWithUs/>
-				<TrailerSection/>
-				<Footer/>
+				<WorkWithUs />
+				<TrailerSection />
+				<Footer />
 			</main>
 		</div>
 	);
