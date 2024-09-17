@@ -7,6 +7,7 @@ import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "config";
 import { z } from "zod";
 import { getUser, getUserByTag } from "db/functions";
+import { plunk, render } from "email/sender";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
@@ -91,9 +92,9 @@ export async function POST(req: Request) {
 			skills: body.skills.map((v) => v.text.toLowerCase()),
 			profilePhoto: user.imageUrl,
 			isFullyRegistered: true,
-			phoneNumber:body.phoneNumber,
+			phoneNumber: body.phoneNumber,
 			isSearchable: body.profileIsSearchable,
-			countryOfResidence:body.countryOfResidence,
+			countryOfResidence: body.countryOfResidence,
 		});
 
 		await tx.insert(userHackerData).values({
@@ -115,11 +116,6 @@ export async function POST(req: Request) {
 			isEmailable: body.isEmailable,
 		});
 	});
-
-	// sendEmail({
-	// 	to: body.email,
-	// 	subject: `You are now registered for ${c.hackathonName} ${c.itteration}!`,
-	// });
 
 	return NextResponse.json({
 		success: true,
