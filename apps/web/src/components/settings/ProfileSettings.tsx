@@ -182,11 +182,6 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 							value={newDiscord}
 							onChange={(e) => setNewDiscord(e.target.value)}
 						/>
-						{!newDiscord ? (
-							<div className={"mt-1 text-sm text-red-500"}>
-								This field can't be empty!
-							</div>
-						) : null}
 					</div>
 					<Button
 						onClick={() => {
