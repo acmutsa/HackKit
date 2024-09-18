@@ -118,7 +118,7 @@ export async function POST(req: Request) {
 		});
 	});
 
-	const regSucBody = await render(
+	const regSucEmailBody = await render(
 		<RegistrationSuccessEmail
 			email={body.email}
 			firstName={body.firstName}
@@ -130,7 +130,7 @@ export async function POST(req: Request) {
 	plunk.emails.send({
 		to: body.email,
 		subject: `You're registered for ${c.hackathonName} ${c.itteration}!`,
-		body: regSucBody,
+		body: regSucEmailBody,
 	});
 
 	return NextResponse.json({
