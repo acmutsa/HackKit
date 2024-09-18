@@ -22,13 +22,13 @@ const oswald = Oswald({
 export default function Home() {
 	return (
 		<div
-			className={`${oswald.variable} w-full overflow-x-hidden bg-[#1A3A9E]`}
+			className={`${oswald.variable} -z-20 w-full overflow-x-hidden bg-[#1A3A9E]`}
 		>
 			<Suspense fallback={<Skeleton className="h-16 w-screen" />}>
 				<Navbar />
 			</Suspense>
 			<MLHBadge />
-			<main className="relative flex min-h-full flex-col overflow-x-hidden bg-[#1A3A9E]">
+			<main className="relative z-10 flex min-h-full flex-col gap-16 overflow-x-hidden">
 				<div className="fixed inset-0 -z-10 h-screen w-screen overflow-hidden">
 					<WavyBackground
 						backgroundFill="#1A3A9E"

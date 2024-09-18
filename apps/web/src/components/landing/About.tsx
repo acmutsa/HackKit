@@ -24,12 +24,12 @@ export default function About() {
 
 	return (
 		<section
-			className="relative z-10 min-h-screen w-full bg-cover bg-no-repeat px-5 py-20"
+			className="relative z-10 min-h-screen w-full bg-cover bg-no-repeat"
 			id="About"
 		>
-			<div className="container mx-auto grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2">
+			<div className="container mx-auto grid grid-cols-1 gap-x-10 gap-y-16 py-4 md:grid-cols-2">
 				{/* ABOUT US Section */}
-				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 hover:scale-105">
+				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 md:hover:scale-105">
 					<h1 className="text-center font-oswald text-3xl font-bold italic text-[#ea580c] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
 						ABOUT US
 					</h1>
@@ -45,7 +45,7 @@ export default function About() {
 				</div>
 
 				{/* WHO CAN ATTEND Section */}
-				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 hover:scale-105">
+				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 md:hover:scale-105">
 					<h1 className="text-center font-oswald text-3xl font-bold italic text-[#ea580c] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
 						WHO CAN ATTEND?
 					</h1>
@@ -62,7 +62,7 @@ export default function About() {
 
 			{/* Celebrating 10 Years Section */}
 			<div className="container mx-auto mt-16 grid grid-cols-1 gap-y-16 md:grid-cols-1">
-				<div className="flex transform flex-col justify-center gap-y-10 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 hover:scale-105">
+				<div className="flex transform flex-col justify-center gap-y-10 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 md:hover:scale-105">
 					<h1 className="text-center font-oswald text-3xl font-bold italic text-[#ea580c] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
 						CELEBRATING 10 YEARS
 						<br />
@@ -71,9 +71,7 @@ export default function About() {
 					{/* Mobile: Truncated content with read more */}
 					<div className="block text-center font-mono text-lg font-bold text-[#ea580c] md:hidden">
 						{/* Animation for scrolling. Has to have exact heights so it knows where to animate to and from*/}
-						<Balancer
-							className={`transition-all duration-300 ${isExpanded ? "max-h-[2250px]" : "max-h-[330px]"} overflow-hidden`}
-						>
+						<Balancer>
 							<>
 								{isExpanded
 									? "This year marks a significant milestone for RowdyHacks, as we celebrate 10 years of fostering creativity, collaboration, and mentorship right here at UTSA! Since our inception, RowdyHacks has brought together students, developers, and tech enthusiasts from all walks of life to engage in healthy competition, collaborate on innovative projects, and learn new skills they might not encounter in a traditional classroom setting. Over the past decade, we've witnessed incredible growth. We take pride in our inclusive community-building and empowering the next generation of tech leaders. Together, we've created an ecosystem where innovation thrives, friendships are formed, and the future is built, one hack at a time. As we celebrate this remarkable journey, we look forward to what the next 10 years hold for RowdyHacks. Whether you've been with us from the start or are joining us for the first time, let's make this milestone year one to remember. Let's hack, create, and shape the future—together!"

@@ -16,9 +16,12 @@ export default function Home() {
 					{"&future>"}
 				</h1>
 			</div>
-			<p className="z-20 mx-2 mb-6 text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 xl:mb-8 2xl:text-3xl">
+			<p className="z-20 mx-2 mb-4 text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 2xl:text-3xl">
 				October 26th - 27th 2024
 			</p>
+			<h1 className="w-full text-center font-mono text-orange-400 md:text-lg">
+				SAN PEDRO I, UTSA
+			</h1>
 			<div className="relative w-full duration-150 ease-in-out hover:scale-125">
 				<Link href={"/register"}>
 					<div className="relative mx-auto my-10 max-w-[250px] lg:max-w-[475px]">
@@ -28,10 +31,10 @@ export default function Home() {
 							</h2>
 						</div>
 						<div className="register-clip absolute mx-auto flex h-[64px] w-full max-w-[500px] translate-y-2 items-center justify-center bg-orange-400 hover:cursor-pointer"></div>
+						<div className="register-clip absolute mx-auto flex h-[64px] w-full max-w-[500px] translate-y-2 items-center justify-center bg-orange-400 hover:cursor-pointer"></div>
 					</div>
 				</Link>
 			</div>
-			<Overlay />
 		</main>
 	);
 }
