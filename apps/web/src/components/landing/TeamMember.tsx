@@ -9,13 +9,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "../shadcn/ui/card";
-import { Oswald } from "next/font/google";
 import Image from "next/image";
 import { useState } from "react";
-const oswald = Oswald({
-	variable: "--font-oswald",
-	subsets: ["latin"],
-});
 
 // Using the raw svg tag is inefficient. Will need to change later
 function LinkedIn({ fillColor }: { fillColor: string }) {
@@ -75,7 +70,7 @@ export default function TeamMember({ person }: { person: Person }) {
 
 	return (
 		<Card
-			className={`flex w-full items-center justify-center ${oswald.className} border-transparent bg-transparent text-[#FEF2E6] shadow-none duration-300 hover:scale-[1.15]`}
+			className={`flex w-full items-center justify-center border-transparent bg-transparent text-[#FEF2E6] shadow-none duration-300 hover:scale-[1.15]`}
 		>
 			<div className="text-[#FEF2E6]">
 				<CardHeader className="items-center">
