@@ -8,6 +8,7 @@ import c from "config";
 import { z } from "zod";
 import { getUser, getUserByTag } from "db/functions";
 import { plunk, render } from "email/sender";
+import { RegistrationSuccessEmail } from "email/templates/registration";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
@@ -115,6 +116,21 @@ export async function POST(req: Request) {
 			hasSharedDataWithMLH: body.hasSharedDataWithMLH,
 			isEmailable: body.isEmailable,
 		});
+	});
+
+	const regSucBody = await render(
+		<RegistrationSuccessEmail
+			email={body.email}
+			firstName={body.firstName}
+			lastName={body.lastName}
+			hackertag={body.hackerTag}
+		/>,
+	);
+
+	plunk.emails.send({
+		to: body.email,
+		subject: `You're registered for ${c.hackathonName} ${c.itteration}!`,
+		body: regSucBody,
 	});
 
 	return NextResponse.json({

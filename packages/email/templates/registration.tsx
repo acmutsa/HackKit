@@ -18,7 +18,7 @@ import {
 import * as React from "react";
 import c from "config";
 
-interface VercelInviteUserEmailProps {
+interface RegistrationSuccessEmailProps {
 	firstName: string;
 	lastName: string;
 	hackertag: string;
@@ -27,12 +27,12 @@ interface VercelInviteUserEmailProps {
 
 const baseUrl = process.env.VERCEL_ENV != "development" ? c.siteUrl : "";
 
-export const RegistrationSuccessEmail = ({
+export function RegistrationSuccessEmail({
 	firstName = "Hacker",
 	lastName = "Person",
 	hackertag = "thehacker",
 	email = "name@example.com",
-}: VercelInviteUserEmailProps) => {
+}: RegistrationSuccessEmailProps) {
 	const previewText = `You're registered for ${c.hackathonName} ${c.itteration}! We look forward to seeing you there!`;
 
 	return (
@@ -153,6 +153,4 @@ export const RegistrationSuccessEmail = ({
 			</Tailwind>
 		</Html>
 	);
-};
-
-export default RegistrationSuccessEmail;
+}
