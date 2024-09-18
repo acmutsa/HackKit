@@ -66,7 +66,7 @@ export default function Footer() {
 				<p className="col-span-2 self-center justify-self-center text-center font-mono text-xs text-orange-500 sm:col-start-2 md:py-0 lg:col-span-3 lg:col-start-2 lg:row-start-2 lg:w-11/12">
 					Made with &lt;/&gt; &amp; ♥ @ RowdyHacks
 					<br />© RowdyHacks &amp; Association of Computing Machinery
-					at UTSA2024. All Rights Reserved.
+					at UTSA 2024. All Rights Reserved.
 				</p>
 			</div>
 		</section>

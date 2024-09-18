@@ -20,7 +20,7 @@ interface NavbarProps {
 export default async function Navbar({ className }: NavbarProps) {
 	const user = await currentUser();
 	return (
-		<div className="z-50 w-screen dark:bg-black bg-white">
+		<div className="z-50 w-screen bg-white dark:bg-black">
 			<div
 				className={cn(
 					`relative top-0 z-50 h-16 w-screen border-b border-b-border bg-nav ${oswald.variable}`,

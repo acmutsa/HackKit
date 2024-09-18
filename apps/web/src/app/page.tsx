@@ -12,7 +12,7 @@ import WorkWithUs from "@/components/landing/WorkWithUs";
 import TrailerSection from "@/components/landing/TrailerSection";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/shadcn/ui/skeleton";
-import {WavyBackground} from "@/components/landing/WavyBackground";
+import { WavyBackground } from "@/components/landing/WavyBackground";
 
 const oswald = Oswald({
 	variable: "--font-oswald",

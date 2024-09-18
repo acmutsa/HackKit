@@ -74,7 +74,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 				</div>
 				<div className="event-pass-img relative flex h-full w-full flex-col items-center justify-evenly">
 					<div className="absolute left-1/2 top-1/2 aspect-square w-[200px] -translate-x-1/2 -translate-y-[65%] bg-slate-400 opacity-60 blur-[50px] will-change-transform"></div>
-					<div className="relative flex w-full items-center justify-center h-[65%]">
+					<div className="relative flex h-[65%] w-full items-center justify-center">
 						<Image
 							src={c.eventPassBgImage}
 							alt={""}

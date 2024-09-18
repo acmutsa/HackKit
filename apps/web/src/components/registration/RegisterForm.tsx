@@ -92,8 +92,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			shirtSize: "" as any,
 			schoolID: "",
 			university: "",
-			phoneNumber:"",
-			countryOfResidence:"",
+			phoneNumber: "",
+			countryOfResidence: "",
 		},
 	});
 
@@ -116,10 +116,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 	}, [universityValue]);
 
-
-	useEffect(()=>{
-		console.log(countryValue)
-	},[countryValue])
+	useEffect(() => {
+		console.log(countryValue);
+	}, [countryValue]);
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		console.log(data);
@@ -180,7 +179,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			setIsLoading(false);
 			alert(
 				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			)
+			);
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);

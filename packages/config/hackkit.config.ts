@@ -972,13 +972,8 @@ const publicRoutes = [
 	/^\/user\//,
 	"/404",
 	"/bugreport",
-	"/faq"
+	"/faq",
 ];
 
 export default c;
-export {
-	defaultTheme,
-	bucketResumeBaseUploadUrl,
-	perms,
-	publicRoutes,
-};
+export { defaultTheme, bucketResumeBaseUploadUrl, perms, publicRoutes };
