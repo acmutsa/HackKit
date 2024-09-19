@@ -165,11 +165,9 @@ export const RegisterFormValidator = z.object({
 		})
 		.toLowerCase()
 		.refine(noProfanityValidator, noProfanityMessage),
-	profileDiscordName: z
-		.string()
-		.max(40, {
-			message: "Username should not be longer than 40 characters",
-		}),
+	profileDiscordName: z.string().max(40, {
+		message: "Username should not be longer than 40 characters",
+	}),
 	pronouns: z.string().min(1).max(15),
 	bio: z
 		.string()
