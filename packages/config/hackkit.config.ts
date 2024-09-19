@@ -796,7 +796,7 @@ const c = {
 		resources: [
 			{ name: "Register", link: "/register" },
 			{ name: "FAQ", link: "/faq" },
-			{ name: "Code of Conduct", link: "/conduct" },
+			{ name: "Code of Conduct", link: "https://go.rowdyhacks.org/coc" },
 			{ name: "Contact Us", link: "/contact" },
 			{ name: "ACM-W", link: "https://acmutsa.org/suborg_acmw" },
 			{ name: "ACM UTSA", link: "https://acmutsa.org/" },
