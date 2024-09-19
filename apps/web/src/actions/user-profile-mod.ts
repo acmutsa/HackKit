@@ -31,6 +31,8 @@ export const modifyRegistrationData = authenticatedAction(
 		GitHub: z.string().nullish(),
 		LinkedIn: z.string().nullish(),
 		PersonalWebsite: z.string().nullish(),
+		phoneNumber: z.string(),
+		countryOfResidence: z.string(),
 	}),
 	async (
 		{
@@ -52,6 +54,8 @@ export const modifyRegistrationData = authenticatedAction(
 			GitHub,
 			LinkedIn,
 			PersonalWebsite,
+			phoneNumber,
+			countryOfResidence,
 		},
 		{ userId },
 	) => {
@@ -69,6 +73,8 @@ export const modifyRegistrationData = authenticatedAction(
 				shirtSize,
 				dietRestrictions,
 				accommodationNote,
+				phoneNumber,
+				countryOfResidence,
 			})
 			.where(eq(userCommonData.clerkID, user.clerkID));
 		await db
@@ -107,6 +113,8 @@ export const modifyRegistrationData = authenticatedAction(
 			newGitHub: GitHub,
 			newLinkedIn: LinkedIn,
 			newPersonalWebsite: PersonalWebsite,
+			newPhoneNumber: phoneNumber,
+			newCountryOfResidence: countryOfResidence,
 		};
 	},
 );

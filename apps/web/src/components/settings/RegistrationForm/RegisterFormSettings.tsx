@@ -85,9 +85,10 @@ export default function RegisterFormSettings({
 			schoolID: data.schoolID,
 			softwareBuildingExperience: data.softwareExperience as any,
 			university: data.university,
+			phoneNumber: user.phoneNumber,
+			countryOfResidence: user.countryOfResidence,
 		},
 	});
-	console.log(form.watch("schoolID"));
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
 	// @ts-ignore
@@ -173,7 +174,7 @@ export default function RegisterFormSettings({
 			<Form {...form}>
 				<form className="space-y-6">
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7 md:gap-y-0">
+						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7">
 							<FormField
 								control={form.control}
 								name="age"
@@ -286,6 +287,116 @@ export default function RegisterFormSettings({
 												</SelectGroup>
 											</SelectContent>
 										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="phoneNumber"
+								render={({ field }) => (
+									<FormItem className={"col-span-3"}>
+										<FormLabel>Phone Number</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="countryOfResidence"
+								render={({ field }) => (
+									<FormItem className="col-span-4 grid-cols-2">
+										<FormLabel>
+											Country of Residence
+										</FormLabel>
+										<div className="flex w-full items-center justify-center">
+											<Popover>
+												<PopoverTrigger asChild>
+													<FormControl>
+														<Button
+															variant="outline"
+															role="combobox"
+															className={cn(
+																"w-full justify-between",
+																!field.value &&
+																	"text-muted-foreground",
+															)}
+														>
+															{field.value
+																? c.registration.countries.find(
+																		(
+																			selectedCountry,
+																		) =>
+																			selectedCountry.code ===
+																			field.value,
+																	)?.name
+																: "Select a Country"}
+															<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+														</Button>
+													</FormControl>
+												</PopoverTrigger>
+												<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+													<Command>
+														<CommandInput placeholder="Search countries..." />
+														<CommandList>
+															<CommandEmpty>
+																No country
+																found.
+															</CommandEmpty>
+															<CommandGroup>
+																{c.registration.countries.map(
+																	(
+																		country,
+																	) => (
+																		<CommandItem
+																			value={
+																				country.name
+																			}
+																			key={
+																				country.name
+																			}
+																			onSelect={(
+																				_,
+																			) => {
+																				const countryResult =
+																					c.registration.countries.find(
+																						(
+																							countryObject,
+																						) =>
+																							countryObject.name ===
+																							country.name,
+																					);
+																				form.setValue(
+																					"countryOfResidence",
+																					countryResult?.code ??
+																						"00",
+																				);
+																			}}
+																			className="cursor-pointer"
+																		>
+																			<Check
+																				className={`mr-2 h-4 w-4 ${
+																					country.name.toLowerCase() ===
+																					field.value
+																						? "block"
+																						: "hidden"
+																				} `}
+																			/>
+																			{
+																				country.name
+																			}
+																		</CommandItem>
+																	),
+																)}
+															</CommandGroup>
+														</CommandList>
+													</Command>
+												</PopoverContent>
+											</Popover>
+										</div>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -901,6 +1012,26 @@ export default function RegisterFormSettings({
 						onClick={async () => {
 							setIsLoading(true);
 							let resume: string = c.noResumeProvidedURL;
+							if (!form.watch("phoneNumber")) {
+								setIsLoading(false);
+								toast.dismiss();
+								toast.error("Phone number can't be empty!");
+								return;
+							}
+							if (`${form.watch("phoneNumber")}`.length > 30) {
+								setIsLoading(false);
+								toast.dismiss();
+								toast.error(
+									"Phone number must be less than 15 characters",
+								);
+								return;
+							}
+							if (`${form.watch("phoneNumber")}`.length < 10) {
+								setIsLoading(false);
+								toast.dismiss();
+								toast.error("Phone number must be valid");
+								return;
+							}
 							if (uploadedFile) {
 								const newBlob = await put(
 									uploadedFile.name,
@@ -938,6 +1069,9 @@ export default function RegisterFormSettings({
 								GitHub: form.watch("github"),
 								LinkedIn: form.watch("linkedin"),
 								PersonalWebsite: form.watch("personalWebsite"),
+								phoneNumber: `${form.watch("phoneNumber")}`,
+								countryOfResidence:
+									form.watch("countryOfResidence"),
 							});
 							runModifyResume({
 								resume,
