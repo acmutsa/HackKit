@@ -803,7 +803,7 @@ const c = {
 		],
 		links: [
 			{
-				name: "Open Source",
+				name: "Source Code",
 				link: "https://github.com/acmutsa/HackKit",
 			},
 		],
