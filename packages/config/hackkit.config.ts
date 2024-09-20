@@ -773,7 +773,7 @@ const raceOptions = [
 	"Prefer Not to Answer",
 ] as const;
 
-const genderOptions = ["MALE", "FEMALE", "NON-BINARY", "OTHER", "PREFERNOTSAY"] as const;
+const genderOptions = ["Male", "Female", "Non-binary", "Other", "Prefer Not To Say"] as const;
 
 const ethnicityOptions = [
 	"Hispanic or Latino",
@@ -816,7 +816,7 @@ const c = {
 	localUniversityName: schoolOptions[0],
 	localUniversitySchoolIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
-	registration:{
+	registration: {
 		schools: schoolOptions,
 		majors: majorOptions,
 		levelsOfStudy,
@@ -830,9 +830,12 @@ const c = {
 		softwareExperienceOptions,
 		minRequiredAge: 18,
 	},
-	zod:{
-		defaultPrettyError: {
+	zod: {
+		defaultSelectPrettyError: {
 			errorMap: () => ({ message: "Please select a value" }),
+		},
+		defaultInputPrettyError: {
+			message: "Please enter a value",
 		},
 	},
 	groups: {
