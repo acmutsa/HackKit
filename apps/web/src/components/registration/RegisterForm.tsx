@@ -52,22 +52,23 @@ import { put, type PutBlobResult } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
 import { bucketResumeBaseUploadUrl } from "config";
-import { count } from "console";
-interface RegisterFormProps {
-	defaultEmail: string;
-}
+import { hackerRegistrationFormValidator } from "@/validators/shared/registration";
+import { formatRegistrationField } from "@/lib/utils/client/shared";
+import clsx from "clsx";
+import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 
-export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
+
+export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 	const { isLoaded, userId } = useAuth();
 	const router = useRouter();
 
-	const form = useForm<z.infer<typeof RegisterFormValidator>>({
-		resolver: zodResolver(RegisterFormValidator),
+	const form = useForm<z.infer<typeof hackerRegistrationFormValidator>>({
+		resolver: zodResolver(hackerRegistrationFormValidator),
 		defaultValues: {
 			email: defaultEmail,
 			hackathonsAttended: 0,
-			dietaryRestrictions: [],
-			profileIsSearchable: true,
+			dietRestrictions: [],
+			isSearchable: true,
 			bio: "",
 			isEmailable: false,
 			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
@@ -79,23 +80,25 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			age: 0,
 			ethnicity: "" as any,
 			gender: "" as any,
-			major: "",
-			github: "",
+			major: "" as any,
+			GitHub: "",
 			hackerTag: "",
-			heardAboutEvent: "" as any,
+			heardFrom: "" as any,
 			levelOfStudy: "" as any,
-			linkedin: "",
-			personalWebsite: "",
-			profileDiscordName: "",
+			LinkedIn: "",
+			PersonalWebsite: "",
+			discord: "",
 			pronouns: "",
 			race: "" as any,
 			shirtSize: "" as any,
 			schoolID: "",
-			university: "",
+			university: "" as any,
 			phoneNumber:"",
 			countryOfResidence:"",
+			softwareExperience:"" as any,
 		},
 	});
+
 
 	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
 
@@ -106,7 +109,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
-	const countryValue = form.watch("countryOfResidence");
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName) {
@@ -116,12 +118,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 	}, [universityValue]);
 
-
-	useEffect(()=>{
-		console.log(countryValue)
-	},[countryValue])
-
-	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
+	async function onSubmit(data: z.infer<typeof hackerRegistrationFormValidator>) {
 		console.log(data);
 		setIsLoading(true);
 		if (!userId || !isLoaded) {
@@ -143,6 +140,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 
 		let resume: string = c.noResumeProvidedURL;
 
+
+		// What happens when this fails?
+		// throw new Error("test");
 		if (uploadedFile) {
 			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
 			const newBlob = await put(fileLocation, uploadedFile, {
@@ -213,6 +213,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		return <CreatingRegistration />;
 	}
 
+
+
 	return (
 		<div>
 			<Form {...form}>
@@ -227,7 +229,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="firstName"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>First Name</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"First Name",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="John"
@@ -243,7 +252,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="lastName"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Last Name</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Last Name",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Doe"
@@ -259,7 +275,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="email"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Email</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Email",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												readOnly={
@@ -277,7 +300,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="phoneNumber"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Phone Number</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Phone Number",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="555-555-5555"
@@ -295,7 +325,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="age"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Age</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Age",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input type="number" {...field} />
 										</FormControl>
@@ -308,14 +345,34 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="gender"
 								render={({ field }) => (
 									<FormItem className="">
-										<FormLabel>Gender</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Gender",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
-											defaultValue={field.value}
+											value={field.value}
 										>
 											<FormControl>
 												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select a Gender" />
+													<SelectValue>
+														<p
+															className={clsx(
+																"",
+																{
+																	"text-muted-foreground":
+																		!field.value,
+																},
+															)}
+														>
+															{field.value ||
+																`Select a ${capitalizeFirstLetter(field.name)}`}
+														</p>
+													</SelectValue>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -347,14 +404,34 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="race"
 								render={({ field }) => (
 									<FormItem className="">
-										<FormLabel>Race</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Race",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
 										>
 											<FormControl>
 												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select a Race" />
+													<SelectValue>
+														<p
+															className={clsx(
+																"",
+																{
+																	"text-muted-foreground":
+																		!field.value,
+																},
+															)}
+														>
+															{field.value ||
+																`Select a ${capitalizeFirstLetter(field.name)}`}
+														</p>
+													</SelectValue>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -381,14 +458,34 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="ethnicity"
 								render={({ field }) => (
 									<FormItem className="">
-										<FormLabel>Ethnicity</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Ethnicity",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue placeholder="Select a Ethnicity" />
+													<SelectValue>
+														<p
+															className={clsx(
+																"",
+																{
+																	"text-muted-foreground":
+																		!field.value,
+																},
+															)}
+														>
+															{field.value ||
+																`Select an ${capitalizeFirstLetter(field.name)}`}
+														</p>
+													</SelectValue>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -412,7 +509,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem className="grid-cols-2">
 										<FormLabel>
-											Country of Residence
+											{formatRegistrationField(
+												"Country of Residence",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<div className="flex w-full items-center justify-center">
 											<Popover>
@@ -529,10 +631,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											>
 												MLH Code of Conduct
 											</Link>
+											{" *"}
 										</FormLabel>
-										<FormDescription>
-											This is required of all attendees.
-										</FormDescription>
 									</div>
 								</FormItem>
 							)}
@@ -574,11 +674,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											>
 												MLH Privacy Policy
 											</Link>
-											.
+											. *
 										</FormLabel>
-										<FormDescription>
-											This is required of all attendees.
-										</FormDescription>
 									</div>
 								</FormItem>
 							)}
@@ -602,9 +699,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											Newsletters and other communications
 											from MLH.
 										</FormLabel>
-										<FormDescription>
-											This is optional.
-										</FormDescription>
 									</div>
 								</FormItem>
 							)}
@@ -624,7 +718,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="university"
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
-										<FormLabel>University</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"University",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Popover>
 											<PopoverTrigger asChild>
 												<FormControl>
@@ -670,7 +771,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																		) => {
 																			form.setValue(
 																				"university",
-																				value,
+																				value as any,
 																			);
 																		}}
 																		className="cursor-pointer"
@@ -701,7 +802,14 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="major"
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
-										<FormLabel>Major</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Major",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Popover>
 											<PopoverTrigger asChild>
 												<FormControl>
@@ -747,7 +855,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 																		) => {
 																			form.setValue(
 																				"major",
-																				value,
+																				value as any,
 																			);
 																		}}
 																		className="cursor-pointer"
@@ -778,36 +886,48 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								name="levelOfStudy"
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col md:col-span-1">
-										<FormLabel>Level of Study</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Level of Study",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue placeholder="Level of Study" />
+													<SelectValue>
+														<p
+															className={clsx(
+																"",
+																{
+																	"text-muted-foreground":
+																		!field.value,
+																},
+															)}
+														>
+															{field.value ||
+																`Select a Level`}
+														</p>
+													</SelectValue>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Freshman">
-														Freshman
-													</SelectItem>
-													<SelectItem value="Sophomore">
-														Sophomore
-													</SelectItem>
-													<SelectItem value="Junior">
-														Junior
-													</SelectItem>
-													<SelectItem value="Senior">
-														Senior
-													</SelectItem>
-													<SelectItem value="Recent Grad">
-														Recent Grad
-													</SelectItem>
-													<SelectItem value="Other">
-														Other
-													</SelectItem>
+													{c.registration.levelsOfStudy.map(
+														(level) => (
+															<SelectItem
+																value={level}
+																key={level}
+															>
+																{level}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -828,7 +948,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										}`}
 									>
 										<FormLabel>
-											{c.localUniversitySchoolIDName}
+											{formatRegistrationField(
+												`${c.localUniversitySchoolIDName}`,
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -852,7 +977,12 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											# of Hackathons Attended
+											{formatRegistrationField(
+												"# of hackathons attended",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<FormControl>
 											<Input type="number" {...field} />
@@ -863,7 +993,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="softwareBuildingExperience"
+								name="softwareExperience"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
@@ -880,18 +1010,16 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Beginner">
-														Beginner
-													</SelectItem>
-													<SelectItem value="Intermediate">
-														Intermediate
-													</SelectItem>
-													<SelectItem value="Advanced">
-														Advanced
-													</SelectItem>
-													<SelectItem value="Expert">
-														Expert
-													</SelectItem>
+													{c.registration.softwareExperienceOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -901,7 +1029,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="heardAboutEvent"
+								name="heardFrom"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
@@ -914,7 +1042,20 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue placeholder="Heard From..." />
+													<SelectValue>
+														<p
+															className={clsx(
+																"",
+																{
+																	"text-muted-foreground":
+																		!field.value,
+																},
+															)}
+														>
+															{field.value ||
+																`Select an option`}
+														</p>
+													</SelectValue>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -960,29 +1101,34 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue placeholder="Shirt Size" />
+													<SelectValue>
+														<p
+															className={clsx(
+																"",
+																{
+																	"text-muted-foreground":
+																		!field.value,
+																},
+															)}
+														>
+															{field.value ||
+																`Select a Shirt Size`}
+														</p>
+													</SelectValue>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="S">
-														S
-													</SelectItem>
-													<SelectItem value="M">
-														M
-													</SelectItem>
-													<SelectItem value="L">
-														L
-													</SelectItem>
-													<SelectItem value="XL">
-														XL
-													</SelectItem>
-													<SelectItem value="2XL">
-														2XL
-													</SelectItem>
-													<SelectItem value="3XL">
-														3XL
-													</SelectItem>
+													{c.registration.shirtSizeOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -992,7 +1138,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="dietaryRestrictions"
+								name="dietRestrictions"
 								render={() => (
 									<FormItem className="row-span-2">
 										<div className="mb-4">
@@ -1002,7 +1148,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<FormDescription>
 												Please select which dietary
 												restrictions you have so we can
-												best accomodate you at the
+												best accommodate you at the
 												event!
 											</FormDescription>
 										</div>
@@ -1011,7 +1157,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												<FormField
 													key={item}
 													control={form.control}
-													name="dietaryRestrictions"
+													name="dietRestrictions"
 													render={({ field }) => {
 														return (
 															<FormItem
@@ -1072,6 +1218,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 												placeholder="List any accessibility concerns here..."
 												className="h-[80%] resize-none"
 												{...field}
+												// This feels jank
+												value={field.value ?? undefined}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -1084,7 +1232,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-2">
 							<FormField
 								control={form.control}
-								name="github"
+								name="GitHub"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>GitHub Username</FormLabel>
@@ -1092,6 +1240,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<Input
 												placeholder="Username"
 												{...field}
+												value={field.value ?? undefined}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -1100,7 +1249,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="linkedin"
+								name="LinkedIn"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Linkedin Username</FormLabel>
@@ -1108,6 +1257,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<Input
 												placeholder="Username"
 												{...field}
+												value={field.value ?? undefined}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -1116,7 +1266,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="personalWebsite"
+								name="PersonalWebsite"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Personal Website</FormLabel>
@@ -1124,6 +1274,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<Input
 												placeholder="https://example.com/"
 												{...field}
+												value={field.value ?? undefined}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -1133,7 +1284,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 						<FormField
 							control={form.control}
-							name="personalWebsite"
+							name="PersonalWebsite"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Resume</FormLabel>
@@ -1197,7 +1348,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="profileDiscordName"
+								name="discord"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Discord Username</FormLabel>
@@ -1205,6 +1356,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 											<Input
 												placeholder={`${c.hackathonName.toLowerCase()} or ${c.hackathonName.toLowerCase()}#1234`}
 												{...field}
+												value={field.value ?? undefined}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -1296,7 +1448,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 						<FormField
 							control={form.control}
-							name="profileIsSearchable"
+							name="isSearchable"
 							render={({ field }) => (
 								<FormItem className="mx-auto flex max-w-[600px] flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>
