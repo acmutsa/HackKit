@@ -2,9 +2,13 @@ import z from "zod";
 import { userWithHackerDataInsertSchema } from "db/zod";
 import c from "config";
 import { isProfane } from "no-profanity";
-const defaultPrettyError = c.zod.defaultPrettyError;
+
+
+const defaultSelectPrettyError = c.zod.defaultSelectPrettyError;
+const defaultInputPrettyError = c.zod.defaultInputPrettyError;
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
+
 
 const countryList = Object.freeze(
 	c.registration.countries.map((countryObject) => countryObject.code),
@@ -13,25 +17,28 @@ const countryList = Object.freeze(
 export const hackerRegistrationFormValidator = z
 	.object({
 		...userWithHackerDataInsertSchema.shape,
-		email: z.string().email({
-			message: "Email must be a valid email (eg: me@example.com",
-		}).max(255, {
-			message: "Email must be less than 255 characters.",
-		}
-		),
 		// Test if this has a max on it from the schema
-		firstName: z.string().min(1).max(50, {
+		firstName: z.string().min(1, defaultInputPrettyError).max(50, {
 			message: "First name must be between 1 and 50 characters",
 		}),
-		lastName: z.string().min(1).max(50, {
+		lastName: z.string().min(1, defaultInputPrettyError).max(50, {
 			message: "Last name must be between 1 and 50 characters",
 		}),
+		email: z
+			.string()
+			.email({
+				message: "Email must be a valid email (eg: me@example.com",
+			})
+			.max(255, {
+				message: "Email must be less than 255 characters.",
+			}),
 		age: z
 			.number()
 			.min(18, {
 				message: "You must be at least 18 years old to register.",
-			}).max(100, {
-				message: "You must be less than 100 years old to register"
+			})
+			.max(100, {
+				message: "You must be less than 100 years old to register",
 			})
 			.positive({ message: "Value must be positive" })
 			.int({ message: "Value must be an integer" })
@@ -43,16 +50,23 @@ export const hackerRegistrationFormValidator = z
 						message:
 							"You must be at least 18 years old to register.",
 					})
+					.max(100, {
+						message:
+							"You must be less than 100 years old to register",
+					})
 					.positive({ message: "Value must be positive" })
 					.int({ message: "Value must be an integer" }),
 			),
-		gender: z.enum(c.registration.genderOptions, defaultPrettyError),
-		race: z.enum(c.registration.raceOptions, defaultPrettyError),
-		ethnicity: z.enum(c.registration.ethnicityOptions, defaultPrettyError),
+		gender: z.enum(c.registration.genderOptions, defaultSelectPrettyError),
+		race: z.enum(c.registration.raceOptions, defaultSelectPrettyError),
+		ethnicity: z.enum(
+			c.registration.ethnicityOptions,
+			defaultSelectPrettyError,
+		),
 		phoneNumber: z.string().min(10).max(30, {
 			message: "Phone number must be between 10 and 30 characters",
 		}),
-		countryOfResidence: z.enum(countryList, defaultPrettyError),
+		countryOfResidence: z.enum(countryList, defaultSelectPrettyError),
 		hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
 			message: "You must accept the MLH Code of Conduct.",
 		}),
@@ -60,24 +74,36 @@ export const hackerRegistrationFormValidator = z
 			message:
 				"You must accept the MLH Terms & Conditions and Privacy Policy.",
 		}),
-		university: z.enum(c.registration.schools, defaultPrettyError),
+		university: z.enum(c.registration.schools, defaultSelectPrettyError),
 		schoolID: z
 			.string()
 			.length(c.localUniversityShortIDMaxLength, {
 				message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
 			})
 			.or(z.literal("NOT_LOCAL_SCHOOL")),
-		softwareExperience: z.enum(c.registration.softwareExperienceOptions, defaultPrettyError),
-		levelOfStudy: z.enum(c.registration.levelsOfStudy, defaultPrettyError),
-		heardFrom: z.enum(c.registration.heardFromOptions, defaultPrettyError),
-		shirtSize: z.enum(c.registration.shirtSizeOptions, defaultPrettyError),
+		softwareExperience: z.enum(
+			c.registration.softwareExperienceOptions,
+			defaultSelectPrettyError,
+		),
+		levelOfStudy: z.enum(
+			c.registration.levelsOfStudy,
+			defaultSelectPrettyError,
+		),
+		heardFrom: z.enum(
+			c.registration.heardFromOptions,
+			defaultSelectPrettyError,
+		),
+		shirtSize: z.enum(
+			c.registration.shirtSizeOptions,
+			defaultSelectPrettyError,
+		),
 		dietRestrictions: z.array(
 			z.enum(
 				c.registration.dietaryRestrictionOptions,
-				defaultPrettyError,
+				defaultSelectPrettyError,
 			),
 		),
-		major:z.enum(c.registration.majors,defaultPrettyError),
+		major: z.enum(c.registration.majors, defaultSelectPrettyError),
 		hackerTag: z
 			.string()
 			.min(3, {
@@ -101,7 +127,6 @@ export const hackerRegistrationFormValidator = z
 				id: z.string(),
 				text: z.string(),
 			}),
-
 		),
 	})
 	.omit({
