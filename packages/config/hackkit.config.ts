@@ -1,6 +1,6 @@
 const defaultTheme = "dark";
 
-const schools = [
+const schoolOptions = [
 	"The University of Texas at San Antonio",
 	"American Heritage School",
 	"American River College, California",
@@ -415,7 +415,7 @@ const schools = [
 	"Other",
 ] as const;
 
-const majors = [
+const majorOptions = [
 	"Computer Science",
 	"Accounting",
 	"Accounting Technician",
@@ -541,7 +541,7 @@ const levelsOfStudy = [
 	"Other",
 	"I’m not currently a student",
 	"Prefer not to answer",
-];
+] as const;
 
 const dietaryRestrictionOptions = [
 	"Vegan",
@@ -555,9 +555,10 @@ const dietaryRestrictionOptions = [
 	"Kosher",
 	"Gluten-Free",
 	"Soy",
-];
+] as const;
 
-const countries = [
+const countryOptions = [
+	{ name: "United States", code: "US" },
 	{ name: "Afghanistan", code: "AF" },
 	{ name: "Albania", code: "AL" },
 	{ name: "Algeria", code: "DZ" },
@@ -740,7 +741,6 @@ const countries = [
 	{ name: "Ukraine", code: "UA" },
 	{ name: "United Arab Emirates", code: "AE" },
 	{ name: "United Kingdom", code: "GB" },
-	{ name: "United States", code: "US" },
 	{ name: "Uruguay", code: "UY" },
 	{ name: "Uzbekistan", code: "UZ" },
 	{ name: "Vanuatu", code: "VU" },
@@ -750,7 +750,7 @@ const countries = [
 	{ name: "Yemen", code: "YE" },
 	{ name: "Zambia", code: "ZM" },
 	{ name: "Zimbabwe", code: "ZW" },
-];
+] as const;
 
 const raceOptions = [
 	"Asian Indian",
@@ -771,7 +771,39 @@ const raceOptions = [
 	"Other Pacific Islander",
 	"Other",
 	"Prefer Not to Answer",
-];
+] as const;
+
+const genderOptions = ["MALE", "FEMALE", "NON-BINARY", "OTHER", "PREFERNOTSAY"] as const;
+
+const ethnicityOptions = [
+	"Hispanic or Latino",
+	"Not Hispanic or Latino",
+] as const;
+
+const heardFromOptions = [
+	"Instagram",
+	"Class Presentation",
+	"Twitter",
+	"Event Site",
+	"Friend",
+	"Other",
+] as const;
+
+const shirtSizeOptions = [
+	"S",
+	"M",
+	"L",
+	"XL",
+	"2XL",
+	"3XL",
+] as const;
+
+const softwareExperienceOptions = [
+	"Beginner",
+	"Intermediate",
+	"Advanced",
+	"Expert",
+] as const;
 
 const c = {
 	hackathonName: "HackKit",
@@ -781,16 +813,27 @@ const c = {
 	botName: "HackKit",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
-	localUniversityName: schools[0],
+	localUniversityName: schoolOptions[0],
 	localUniversitySchoolIDName: "ABC123",
 	localUniversityShortIDMaxLength: 6,
 	registration:{
-		schools,
-		majors,
+		schools: schoolOptions,
+		majors: majorOptions,
 		levelsOfStudy,
 		dietaryRestrictionOptions,
-		countries,
+		countries: countryOptions,
 		raceOptions,
+		genderOptions,
+		ethnicityOptions,
+		heardFromOptions,
+		shirtSizeOptions,
+		softwareExperienceOptions,
+		minRequiredAge: 18,
+	},
+	zod:{
+		defaultPrettyError: {
+			errorMap: () => ({ message: "Please select a value" }),
+		},
 	},
 	groups: {
 		"Guild A | Group A": {
