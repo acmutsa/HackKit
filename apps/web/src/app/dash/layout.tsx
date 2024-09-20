@@ -19,7 +19,7 @@ interface DashLayoutProps {
 export default async function DashLayout({ children }: DashLayoutProps) {
 	const clerkUser = await currentUser();
 
-	if (!clerkUser || !clerkUser.publicMetadata.registrationComplete) {
+	if (!clerkUser || (await getUser(clerkUser.id)) == undefined) {
 		return redirect("/register");
 	}
 
