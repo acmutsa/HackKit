@@ -20,7 +20,6 @@ import {
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { z } from "zod";
-import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
@@ -377,21 +376,18 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="MALE">
-														Male
-													</SelectItem>
-													<SelectItem value="FEMALE">
-														Female
-													</SelectItem>
-													<SelectItem value="NON-BINARY">
-														Non-binary
-													</SelectItem>
-													<SelectItem value="OTHER">
-														Other
-													</SelectItem>
-													<SelectItem value="PREFERNOTSAY">
-														Prefer not to say
-													</SelectItem>
+													{
+														c.registration.genderOptions.map(
+															(option) => (
+																<SelectItem
+																	value={option}
+																	key={option}
+																>
+																	{option}
+																</SelectItem>
+															),
+														)
+													}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -490,12 +486,16 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Hispanic or Latino">
-														Hispanic or Latino
-													</SelectItem>
-													<SelectItem value="Not Hispanic or Latino">
-														Not Hispanic or Latino
-													</SelectItem>
+													{c.registration.ethnicityOptions.map(
+														(option) => (
+															<SelectItem
+															
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														))}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -997,7 +997,12 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Software Building Experience
+											{formatRegistrationField(
+												"Coding Experience",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
@@ -1033,8 +1038,12 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Where did you hear about{" "}
-											{c.hackathonName}?
+											{formatRegistrationField(
+												`Where did you hear about ${c.hackathonName}?`,
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
@@ -1060,24 +1069,18 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Instagram">
-														Instagram
-													</SelectItem>
-													<SelectItem value="Class Presentation">
-														Class Presentation
-													</SelectItem>
-													<SelectItem value="Twitter">
-														Twitter
-													</SelectItem>
-													<SelectItem value="Event Site">
-														Event Site
-													</SelectItem>
-													<SelectItem value="Friend">
-														Friend
-													</SelectItem>
-													<SelectItem value="Other">
-														Other
-													</SelectItem>
+													{
+														c.registration.heardFromOptions.map(
+															(option) => (
+																<SelectItem
+																	value={option}
+																	key={option}
+																>
+																	{option}
+																</SelectItem>
+															),
+														)
+													}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -1094,7 +1097,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="shirtSize"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Shirt Size</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Shirt Size",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
@@ -1139,11 +1149,16 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 							<FormField
 								control={form.control}
 								name="dietRestrictions"
-								render={() => (
+								render={({ field }) => (
 									<FormItem className="row-span-2">
 										<div className="mb-4">
 											<FormLabel className="text-base">
-												Dietary Restrictions
+												{formatRegistrationField(
+													"Dietary Restrictions",
+													hackerRegistrationFormValidator.shape[
+														field.name
+													].isOptional(),
+												)}
 											</FormLabel>
 											<FormDescription>
 												Please select which dietary
@@ -1210,8 +1225,12 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Anything else we can do to better
-											accommodate you at our hackathon?
+											{formatRegistrationField(
+												"Anything else we can do to better accommodate you at our hackathon?",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<FormControl>
 											<Textarea
@@ -1235,7 +1254,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="GitHub"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>GitHub Username</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"GitHub Username",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Username"
@@ -1252,7 +1278,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="LinkedIn"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Linkedin Username</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"LinkedIn Username",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Username"
@@ -1269,7 +1302,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="PersonalWebsite"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Personal Website</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Personal Website",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="https://example.com/"
@@ -1287,7 +1327,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 							name="PersonalWebsite"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Resume</FormLabel>
+									<FormLabel>
+										{formatRegistrationField(
+											"Resume",
+											hackerRegistrationFormValidator.shape[
+												field.name
+											].isOptional(),
+										)}
+									</FormLabel>
 									<FormControl>
 										<div
 											{...getRootProps()}
@@ -1305,7 +1352,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 														? "Drop your resume here..."
 														: "Drag 'n' drop your resume here, or click to select a file"}
 											</p>
-											{uploadedFile ? (
+											{uploadedFile && (
 												<Button
 													className="mt-4"
 													onClick={() =>
@@ -1314,7 +1361,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 												>
 													Remove
 												</Button>
-											) : null}
+											)}
 										</div>
 									</FormControl>
 									<FormMessage />
@@ -1329,7 +1376,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="hackerTag"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>HackerTag</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"HackerTag",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<div className="flex">
 												<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
@@ -1351,7 +1405,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="discord"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Discord Username</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Discord UserName",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input
 												placeholder={`${c.hackathonName.toLowerCase()} or ${c.hackathonName.toLowerCase()}#1234`}
@@ -1368,7 +1429,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="pronouns"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Pronouns</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Pronouns",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Input {...field} />
 										</FormControl>
@@ -1383,7 +1451,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								name="bio"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Bio</FormLabel>
+										<FormLabel>
+											{formatRegistrationField(
+												"Bio",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
 										<FormControl>
 											<Textarea
 												placeholder="Hello! I'm..."
@@ -1413,7 +1488,12 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								render={({ field }) => (
 									<FormItem className="flex flex-col items-start">
 										<FormLabel className="pb-2 text-left">
-											Skills
+											{formatRegistrationField(
+												"Skills",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<FormControl className="min-h-[80px]">
 											<TagInput
@@ -1459,8 +1539,13 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 									</FormControl>
 									<div className="space-y-1 leading-none">
 										<FormLabel>
-											Make my profile searchable by other
-											Hackers
+											
+											{formatRegistrationField(
+												"Make my profile searchable by other Hackers",
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
 										</FormLabel>
 										<FormDescription>
 											This will allow other Hackers to
