@@ -65,6 +65,8 @@ export const hackerRegistrationFormValidator = z
 		),
 		phoneNumber: z.string().min(10).max(30, {
 			message: "Phone number must be between 10 and 30 characters",
+		}).refine((val) => val.match(c.registration.phoneNumberRegex), {
+			message: "Phone number must be a valid phone number",
 		}),
 		countryOfResidence: z.enum(countryList, defaultSelectPrettyError),
 		hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
@@ -112,7 +114,7 @@ export const hackerRegistrationFormValidator = z
 			.max(20, {
 				message: "Your HackerTag must be less than 20 characters long",
 			})
-			.regex(/^[a-zA-Z0-9]+$/, {
+			.regex(c.registration.hackerTagRegex, {
 				message: "HackerTag must be alphanumeric and have no spaces",
 			})
 			.toLowerCase()
@@ -120,14 +122,19 @@ export const hackerRegistrationFormValidator = z
 		bio: z
 			.string()
 			.min(1)
-			.max(500, { message: "Bio must be less than 500 characters." })
+			.max(c.registration.maxBioSize, { message: `Bio must be less than ${c.registration.maxBioSize} characters.` })
 			.refine(noProfanityValidator, noProfanityMessage),
 		skills: z.array(
 			z.object({
 				id: z.string(),
 				text: z.string(),
-			}),
-		),
+			})
+		).refine((val) => val.length <= c.registration.maxNumberOfSkills, {
+			message: `You can only have up to ${c.registration.maxNumberOfSkills} skills`,
+		}),
+		accommodationNote: z.string().max(c.registration.maxaccommodationNoteSize, {
+			message: `Accommodation note must be less than ${c.registration.maxaccommodationNoteSize} characters.`,
+		}),
 	})
 	.omit({
 		clerkID: true,
@@ -138,6 +145,6 @@ export const hackerRegistrationFormValidator = z
 		isApproved: true,
 		group: true,
 		points: true,
-	});
+	})
 
 

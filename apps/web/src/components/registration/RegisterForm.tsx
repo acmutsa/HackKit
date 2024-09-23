@@ -57,8 +57,8 @@ import clsx from "clsx";
 import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 
 
-export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
-	const { isLoaded, userId } = useAuth();
+export default function RegisterForm({ defaultEmail, userId }: { defaultEmail: string, userId: string }) {
+	const { isLoaded } = useAuth();
 	const router = useRouter();
 
 	const form = useForm<z.infer<typeof hackerRegistrationFormValidator>>({
@@ -92,12 +92,11 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 			shirtSize: "" as any,
 			schoolID: "",
 			university: "" as any,
-			phoneNumber:"",
-			countryOfResidence:"",
-			softwareExperience:"" as any,
+			phoneNumber: "",
+			countryOfResidence: "",
+			softwareExperience: "" as any,
 		},
 	});
-
 
 	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
 
@@ -110,35 +109,26 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 	const bioValue = form.watch("bio");
 
 	useEffect(() => {
-		if (universityValue != c.localUniversityName) {
+		if (universityValue !== c.localUniversityName) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
 			form.setValue("schoolID", "");
 		}
 	}, [universityValue]);
 
-	async function onSubmit(data: z.infer<typeof hackerRegistrationFormValidator>) {
+	async function onSubmit(
+		data: z.infer<typeof hackerRegistrationFormValidator>,
+	) {
 		console.log(data);
 		setIsLoading(true);
-		if (!userId || !isLoaded) {
+		if (!isLoaded) {
 			setIsLoading(false);
 			return alert(
 				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
 			);
 		}
 
-		if (
-			data.hasAcceptedMLHCoC !== true ||
-			data.hasSharedDataWithMLH !== true
-		) {
-			setIsLoading(false);
-			return alert(
-				"You must accept the MLH Code of Conduct and Privacy Policy to continue.",
-			);
-		}
-
 		let resume: string = c.noResumeProvidedURL;
-
 
 		// What happens when this fails?
 		// throw new Error("test");
@@ -164,7 +154,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 				);
 				router.push("/dash");
 			} else {
-				if (res.data.message == "hackertag_not_unique") {
+				if (res.data.message === "hackertag_not_unique") {
 					setIsLoading(false);
 					return alert(
 						"The HackerTag you chose has already been taken. Please change it and then resubmit the form.",
@@ -179,7 +169,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 			setIsLoading(false);
 			alert(
 				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			)
+			);
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);
@@ -211,8 +201,6 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 	if (isLoading) {
 		return <CreatingRegistration />;
 	}
-
-
 
 	return (
 		<div>
@@ -358,36 +346,34 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 										>
 											<FormControl>
 												<SelectTrigger className="w-full">
-													<SelectValue>
-														<p
-															className={clsx(
-																"",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
-															)}
-														>
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
 															{field.value ||
 																`Select a ${capitalizeFirstLetter(field.name)}`}
 														</p>
-													</SelectValue>
+													</div>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													{
-														c.registration.genderOptions.map(
-															(option) => (
-																<SelectItem
-																	value={option}
-																	key={option}
-																>
-																	{option}
-																</SelectItem>
-															),
-														)
-													}
+													{c.registration.genderOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -413,25 +399,25 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											defaultValue={field.value}
 										>
 											<FormControl>
-												<SelectTrigger className="w-full">
-													<SelectValue>
-														<p
-															className={clsx(
-																"",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
-															)}
-														>
+												<SelectTrigger className="w-full placeholder:text-muted-foreground">
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
 															{field.value ||
 																`Select a ${capitalizeFirstLetter(field.name)}`}
 														</p>
-													</SelectValue>
+													</div>
 												</SelectTrigger>
 											</FormControl>
-											<SelectContent>
-												<SelectGroup>
+											<SelectContent className="">
+												<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)] overflow-y-scroll">
 													{c.registration.raceOptions.map(
 														(option) => (
 															<SelectItem
@@ -468,20 +454,20 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue>
-														<p
-															className={clsx(
-																"",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
-															)}
-														>
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
 															{field.value ||
-																`Select an ${capitalizeFirstLetter(field.name)}`}
+																`Select a ${capitalizeFirstLetter(field.name)}`}
 														</p>
-													</SelectValue>
+													</div>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -489,13 +475,13 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 													{c.registration.ethnicityOptions.map(
 														(option) => (
 															<SelectItem
-															
 																value={option}
 																key={option}
 															>
 																{option}
 															</SelectItem>
-														))}
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -516,19 +502,19 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 												].isOptional(),
 											)}
 										</FormLabel>
-										<div className="flex w-full items-center justify-center">
-											<Popover>
-												<PopoverTrigger asChild>
-													<FormControl>
-														<Button
-															variant="outline"
-															role="combobox"
-															className={cn(
-																"w-full justify-between",
-																!field.value &&
-																	"text-muted-foreground",
-															)}
-														>
+										<Popover>
+											<PopoverTrigger asChild>
+												<FormControl>
+													<Button
+														variant="outline"
+														role="combobox"
+														className={cn(
+															"w-full justify-between",
+															!field.value &&
+																"text-muted-foreground",
+														)}
+													>
+														<p className="truncate whitespace-nowrap">
 															{field.value
 																? c.registration.countries.find(
 																		(
@@ -538,69 +524,67 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 																			field.value,
 																	)?.name
 																: "Select a Country"}
-															<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-														</Button>
-													</FormControl>
-												</PopoverTrigger>
-												<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
-													<Command>
-														<CommandInput placeholder="Search countries..." />
-														<CommandList>
-															<CommandEmpty>
-																No country
-																found.
-															</CommandEmpty>
-															<CommandGroup>
-																{c.registration.countries.map(
-																	(
-																		country,
-																	) => (
-																		<CommandItem
-																			value={
-																				country.name
-																			}
-																			key={
-																				country.name
-																			}
-																			onSelect={(
-																				_,
-																			) => {
-																				const countryResult =
-																					c.registration.countries.find(
-																						(
-																							countryObject,
-																						) =>
-																							countryObject.name ===
-																							country.name,
-																					);
-																				form.setValue(
-																					"countryOfResidence",
-																					countryResult?.code ??
-																						"00",
+														</p>
+
+														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+													</Button>
+												</FormControl>
+											</PopoverTrigger>
+											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+												<Command>
+													<CommandInput placeholder="Search countries..." />
+													<CommandList>
+														<CommandEmpty>
+															No country found.
+														</CommandEmpty>
+														<CommandGroup>
+															{c.registration.countries.map(
+																(country) => (
+																	<CommandItem
+																		value={
+																			country.name
+																		}
+																		key={
+																			country.name
+																		}
+																		onSelect={(
+																			_,
+																		) => {
+																			const countryResult =
+																				c.registration.countries.find(
+																					(
+																						countryObject,
+																					) =>
+																						countryObject.name ===
+																						country.name,
 																				);
-																			}}
-																			className="cursor-pointer"
-																		>
-																			<Check
-																				className={`mr-2 h-4 w-4 ${
-																					country.name.toLowerCase() ===
-																					field.value
-																						? "block"
-																						: "hidden"
-																				} `}
-																			/>
-																			{
-																				country.name
-																			}
-																		</CommandItem>
-																	),
-																)}
-															</CommandGroup>
-														</CommandList>
-													</Command>
-												</PopoverContent>
-											</Popover>
-										</div>
+																			form.setValue(
+																				"countryOfResidence",
+																				countryResult?.code ??
+																					"00",
+																			);
+																		}}
+																		className="cursor-pointer"
+																	>
+																		<Check
+																			className={`mr-2 h-4 w-4 ${
+																				country.name.toLowerCase() ===
+																				field.value
+																					? "block"
+																					: "hidden"
+																			} `}
+																		/>
+																		{
+																			country.name
+																		}
+																	</CommandItem>
+																),
+															)}
+														</CommandGroup>
+													</CommandList>
+												</Command>
+											</PopoverContent>
+										</Popover>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -706,12 +690,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 					</FormGroupWrapper>
 					<FormGroupWrapper title="University Info">
 						<div
-							className={`grid ${
-								universityValue ===
-								c.localUniversityName.toLowerCase()
-									? "grid-cols-1 md:grid-cols-6"
-									: "grid-cols-1 md:grid-cols-5"
-							} gap-x-2 gap-y-4`}
+							className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-6`}
 						>
 							<FormField
 								control={form.control}
@@ -738,13 +717,18 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 																"text-muted-foreground",
 														)}
 													>
-														{field.value
-															? c.registration.schools.find(
-																	(school) =>
-																		school ===
-																		field.value,
-																)
-															: "Select a University"}
+														<p className="truncate whitespace-nowrap">
+															{field.value
+																? c.registration.schools.find(
+																		(
+																			school,
+																		) =>
+																			school ===
+																			field.value,
+																	)
+																: "Select a University"}
+														</p>
+
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 													</Button>
 												</FormControl>
@@ -799,6 +783,38 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 							/>
 							<FormField
 								control={form.control}
+								name="schoolID"
+								render={({ field }) => (
+									<FormItem
+										className={`${
+											universityValue ===
+											c.localUniversityName
+												? "col-span-2 flex flex-col md:col-span-1"
+												: "hidden"
+										}`}
+									>
+										<FormLabel>
+											{formatRegistrationField(
+												`${c.localUniversitySchoolIDName}`,
+												hackerRegistrationFormValidator.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
+										<FormControl>
+											<Input
+												placeholder={
+													c.localUniversitySchoolIDName
+												}
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
 								name="major"
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col">
@@ -822,13 +838,18 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 																"text-muted-foreground",
 														)}
 													>
-														{field.value
-															? c.registration.majors.find(
-																	(major) =>
-																		major ===
-																		field.value,
-																)
-															: "Select a Major"}
+														<p className="truncate whitespace-nowrap">
+															{field.value
+																? c.registration.majors.find(
+																		(
+																			major,
+																		) =>
+																			major ===
+																			field.value,
+																	)
+																: "Select a Major"}
+														</p>
+
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 													</Button>
 												</FormControl>
@@ -836,7 +857,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
 												<Command>
 													<CommandInput placeholder="Search major..." />
-													<CommandList>
+													<CommandList className="">
 														<CommandEmpty>
 															No major found.
 														</CommandEmpty>
@@ -885,7 +906,9 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 								control={form.control}
 								name="levelOfStudy"
 								render={({ field }) => (
-									<FormItem className="col-span-2 flex flex-col md:col-span-1">
+									<FormItem
+										className={`col-span-2 md:${universityValue === c.localUniversityName ? "col-span-1" : "col-span-2"} flex flex-col`}
+									>
 										<FormLabel>
 											{formatRegistrationField(
 												"Level of Study",
@@ -900,24 +923,24 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue>
-														<p
-															className={clsx(
-																"",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
-															)}
-														>
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
 															{field.value ||
-																`Select a Level`}
+																`Select an Option`}
 														</p>
-													</SelectValue>
+													</div>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectGroup>
+												<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+2rem)] overflow-y-scroll">
 													{c.registration.levelsOfStudy.map(
 														(level) => (
 															<SelectItem
@@ -931,38 +954,6 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 												</SelectGroup>
 											</SelectContent>
 										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="schoolID"
-								render={({ field }) => (
-									<FormItem
-										className={`${
-											universityValue ===
-											c.localUniversityName
-												? "col-span-2 flex flex-col md:col-span-1"
-												: "hidden"
-										}`}
-									>
-										<FormLabel>
-											{formatRegistrationField(
-												`${c.localUniversitySchoolIDName}`,
-												hackerRegistrationFormValidator.shape[
-													field.name
-												].isOptional(),
-											)}
-										</FormLabel>
-										<FormControl>
-											<Input
-												placeholder={
-													c.localUniversitySchoolIDName
-												}
-												{...field}
-											/>
-										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -1009,12 +1000,25 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											defaultValue={field.value}
 										>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue placeholder="Experience Level" />
+												<SelectTrigger className="placeholder:text-muted-foreground">
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
+															{field.value ||
+																`Select an Option`}
+														</p>
+													</div>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectGroup>
+												<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
 													{c.registration.softwareExperienceOptions.map(
 														(option) => (
 															<SelectItem
@@ -1051,36 +1055,34 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 										>
 											<FormControl>
 												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue>
-														<p
-															className={clsx(
-																"",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
-															)}
-														>
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
 															{field.value ||
-																`Select an option`}
+																`Select an Option`}
 														</p>
-													</SelectValue>
+													</div>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectGroup>
-													{
-														c.registration.heardFromOptions.map(
-															(option) => (
-																<SelectItem
-																	value={option}
-																	key={option}
-																>
-																	{option}
-																</SelectItem>
-															),
-														)
-													}
+												<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
+													{c.registration.heardFromOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -1091,7 +1093,7 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Day of Event">
-						<div className="grid grid-cols-1 gap-x-4 gap-y-2 pb-5 md:grid-cols-2 md:gap-y-0">
+						<div className="mt-0 grid grid-cols-1 gap-x-4 gap-y-2 pb-10 md:grid-cols-2 md:gap-y-0">
 							<FormField
 								control={form.control}
 								name="shirtSize"
@@ -1110,21 +1112,21 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 											defaultValue={field.value}
 										>
 											<FormControl>
-												<SelectTrigger className="w-full placeholder:text-muted-foreground">
-													<SelectValue>
-														<p
-															className={clsx(
-																"",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
-															)}
-														>
+												<SelectTrigger className="w-full">
+													<div
+														className={clsx(
+															"flex w-[95%] justify-start",
+															{
+																"text-muted-foreground":
+																	!field.value,
+															},
+														)}
+													>
+														<p className="overflow-hidden text-ellipsis whitespace-nowrap">
 															{field.value ||
 																`Select a Shirt Size`}
 														</p>
-													</SelectValue>
+													</div>
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -1241,6 +1243,25 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 												value={field.value ?? undefined}
 											/>
 										</FormControl>
+										<FormDescription>
+											<span
+												className={
+													field.value.length >
+													c.registration
+														.maxaccommodationNoteSize
+														? "text-red-500"
+														: ""
+												}
+											>
+												{field.value.length} /{" "}
+												{
+													c.registration
+														.maxaccommodationNoteSize
+												}{" "}
+												{""}
+												Characters
+											</span>
+										</FormDescription>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -1469,12 +1490,14 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 										<FormDescription>
 											<span
 												className={
-													bioValue.length > 500
+													bioValue.length >
+													c.registration.maxBioSize
 														? "text-red-500"
 														: ""
 												}
 											>
-												{bioValue.length} / 500
+												{bioValue.length} /{" "}
+												{c.registration.maxBioSize} {""}
 												Characters
 											</span>
 										</FormDescription>
@@ -1539,7 +1562,6 @@ export default function RegisterForm({ defaultEmail }: {defaultEmail:string}) {
 									</FormControl>
 									<div className="space-y-1 leading-none">
 										<FormLabel>
-											
 											{formatRegistrationField(
 												"Make my profile searchable by other Hackers",
 												hackerRegistrationFormValidator.shape[
