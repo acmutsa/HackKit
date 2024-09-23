@@ -9,11 +9,13 @@ import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
 import { getUser } from "db/functions";
+import c from "config";
+
 
 // TODO: Add skill updating
 export const modifyRegistrationData = authenticatedAction(
 	z.object({
-		bio: z.string().max(500),
+		bio: z.string().max(c.registration.maxBioSize),
 		skills: z.string().max(100),
 	}),
 	async ({ bio, skills }, { userId }) => {
