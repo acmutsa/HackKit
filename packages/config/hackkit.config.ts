@@ -829,6 +829,12 @@ const c = {
 		shirtSizeOptions,
 		softwareExperienceOptions,
 		minRequiredAge: 18,
+		phoneNumberRegex:
+			/^(\+\d{1,2}\s?)?\(?\d{3}\)?\s?[\s.-]?\s?\d{3}\s?[\s.-]?\s?\d{4}$/gm,
+		hackerTagRegex: /^[a-zA-Z0-9]+$/,
+		maxNumberOfSkills: 20,
+		maxBioSize: 500,
+		maxaccommodationNoteSize: 1500,
 	},
 	zod: {
 		defaultSelectPrettyError: {
