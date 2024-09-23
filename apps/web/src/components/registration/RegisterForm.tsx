@@ -116,10 +116,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 	}, [universityValue]);
 
-	useEffect(() => {
-		console.log(countryValue);
-	}, [countryValue]);
-
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		console.log(data);
 		setIsLoading(true);

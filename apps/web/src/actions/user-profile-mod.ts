@@ -10,7 +10,6 @@ import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
 import { getUser, getUserByTag } from "db/functions";
 
-// TODO: Add skill updating
 export const modifyRegistrationData = authenticatedAction(
 	z.object({
 		age: z.number(),

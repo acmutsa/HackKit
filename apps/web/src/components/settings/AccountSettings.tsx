@@ -19,11 +19,7 @@ interface UserProps {
 	isSearchable: boolean;
 }
 
-interface AccountSettingsProps {
-	user: UserProps;
-}
-
-export default function AccountSettings({ user }: AccountSettingsProps) {
+export default function AccountSettings({ user }: { user: UserProps }) {
 	const [newFirstName, setNewFirstName] = useState(user.firstName);
 	const [newLastName, setNewLastName] = useState(user.lastName);
 	//const [newEmail, setNewEmail] = useState(user.email);
@@ -33,13 +29,9 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 	);
 	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false);
 
-	const [isLoading, setIsLoading] = useState(false);
-
-	const { execute: runModifyAccountSettings } = useAction(
-		modifyAccountSettings,
-		{
+	const { execute: runModifyAccountSettings, status: loadingState } =
+		useAction(modifyAccountSettings, {
 			onSuccess: ({ success, message }) => {
-				setIsLoading(false);
 				toast.dismiss();
 				if (!success) {
 					if (message == "hackertag_not_unique") {
@@ -49,14 +41,12 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 				} else toast.success("Account updated successfully!");
 			},
 			onError: () => {
-				setIsLoading(false);
 				toast.dismiss();
 				toast.error(
 					"An error occurred while updating your account settings!",
 				);
 			},
-		},
-	);
+		});
 
 	return (
 		<main>
@@ -161,7 +151,6 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 				<Button
 					className="mt-5"
 					onClick={() => {
-						setIsLoading(true);
 						toast.loading("Updating settings...");
 						runModifyAccountSettings({
 							firstName: newFirstName,
@@ -171,9 +160,9 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
 							hasSearchableProfile: newIsProfileSearchable,
 						});
 					}}
-					disabled={isLoading}
+					disabled={loadingState === "executing"}
 				>
-					{isLoading ? (
+					{loadingState === "executing" ? (
 						<>
 							<Loader2 className={"mr-2 h-4 w-4 animate-spin"} />
 							<div>Updating</div>
