@@ -3,12 +3,10 @@ import { userWithHackerDataInsertSchema } from "db/zod";
 import c from "config";
 import { isProfane } from "no-profanity";
 
-
 const defaultSelectPrettyError = c.zod.defaultSelectPrettyError;
 const defaultInputPrettyError = c.zod.defaultInputPrettyError;
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
-
 
 const countryList = Object.freeze(
 	c.registration.countries.map((countryObject) => countryObject.code),
@@ -63,11 +61,15 @@ export const hackerRegistrationFormValidator = z
 			c.registration.ethnicityOptions,
 			defaultSelectPrettyError,
 		),
-		phoneNumber: z.string().min(10).max(30, {
-			message: "Phone number must be between 10 and 30 characters",
-		}).refine((val) => val.match(c.registration.phoneNumberRegex), {
-			message: "Phone number must be a valid phone number",
-		}),
+		phoneNumber: z
+			.string()
+			.min(10)
+			.max(30, {
+				message: "Phone number must be between 10 and 30 characters",
+			})
+			.refine((val) => val.match(c.registration.phoneNumberRegex), {
+				message: "Phone number must be a valid phone number",
+			}),
 		countryOfResidence: z.enum(countryList, defaultSelectPrettyError),
 		hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
 			message: "You must accept the MLH Code of Conduct.",
@@ -122,19 +124,25 @@ export const hackerRegistrationFormValidator = z
 		bio: z
 			.string()
 			.min(1)
-			.max(c.registration.maxBioSize, { message: `Bio must be less than ${c.registration.maxBioSize} characters.` })
-			.refine(noProfanityValidator, noProfanityMessage),
-		skills: z.array(
-			z.object({
-				id: z.string(),
-				text: z.string(),
+			.max(c.registration.maxBioSize, {
+				message: `Bio must be less than ${c.registration.maxBioSize} characters.`,
 			})
-		).refine((val) => val.length <= c.registration.maxNumberOfSkills, {
-			message: `You can only have up to ${c.registration.maxNumberOfSkills} skills`,
-		}),
-		accommodationNote: z.string().max(c.registration.maxaccommodationNoteSize, {
-			message: `Accommodation note must be less than ${c.registration.maxaccommodationNoteSize} characters.`,
-		}),
+			.refine(noProfanityValidator, noProfanityMessage),
+		skills: z
+			.array(
+				z.object({
+					id: z.string(),
+					text: z.string(),
+				}),
+			)
+			.refine((val) => val.length <= c.registration.maxNumberOfSkills, {
+				message: `You can only have up to ${c.registration.maxNumberOfSkills} skills`,
+			}),
+		accommodationNote: z
+			.string()
+			.max(c.registration.maxaccommodationNoteSize, {
+				message: `Accommodation note must be less than ${c.registration.maxaccommodationNoteSize} characters.`,
+			}),
 	})
 	.omit({
 		clerkID: true,
@@ -145,6 +153,4 @@ export const hackerRegistrationFormValidator = z
 		isApproved: true,
 		group: true,
 		points: true,
-	})
-
-
+	});

@@ -56,8 +56,13 @@ import { formatRegistrationField } from "@/lib/utils/client/shared";
 import clsx from "clsx";
 import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 
-
-export default function RegisterForm({ defaultEmail, userId }: { defaultEmail: string, userId: string }) {
+export default function RegisterForm({
+	defaultEmail,
+	userId,
+}: {
+	defaultEmail: string;
+	userId: string;
+}) {
 	const { isLoaded } = useAuth();
 	const router = useRouter();
 

@@ -773,7 +773,13 @@ const raceOptions = [
 	"Prefer Not to Answer",
 ] as const;
 
-const genderOptions = ["Male", "Female", "Non-binary", "Other", "Prefer Not To Say"] as const;
+const genderOptions = [
+	"Male",
+	"Female",
+	"Non-binary",
+	"Other",
+	"Prefer Not To Say",
+] as const;
 
 const ethnicityOptions = [
 	"Hispanic or Latino",
@@ -789,14 +795,7 @@ const heardFromOptions = [
 	"Other",
 ] as const;
 
-const shirtSizeOptions = [
-	"S",
-	"M",
-	"L",
-	"XL",
-	"2XL",
-	"3XL",
-] as const;
+const shirtSizeOptions = ["S", "M", "L", "XL", "2XL", "3XL"] as const;
 
 const softwareExperienceOptions = [
 	"Beginner",
@@ -1002,13 +1001,5 @@ const publicRoutes = [
 
 // Generally it is reccomended to put your primary audience's university at the top of this list.
 
-
-
-
 export default c;
-export {
-	defaultTheme,
-	bucketResumeBaseUploadUrl,
-	perms,
-	publicRoutes,
-};
+export { defaultTheme, bucketResumeBaseUploadUrl, perms, publicRoutes };
