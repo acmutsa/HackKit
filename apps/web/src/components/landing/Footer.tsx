@@ -4,6 +4,7 @@ import { Instagram, Facebook, Twitter, Github } from "lucide-react";
 import c from "config";
 import { camelCaseToWords } from "@/lib/utils/shared/camelCaseToWords";
 import FooterLinks from "./FooterLinks";
+import ManagedByHackkit from "./ManagedWithHackkit";
 
 export default function Footer() {
 	return (
@@ -29,7 +30,7 @@ export default function Footer() {
 						key={idx}
 					/>
 				))}
-				<div className="col-span-2 justify-self-center lg:col-span-1">
+				<div className="col-span-2 justify-self-center lg:col-span-1 flex flex-col gap-y-3">
 					<Link href="https://vercel.com">
 						<Image
 							className="select-none"
@@ -38,6 +39,9 @@ export default function Footer() {
 							width={200}
 							height={10}
 						/>
+					</Link>
+					<Link href="https://github.com/acmutsa/HackKit">
+					<ManagedByHackkit/>
 					</Link>
 				</div>
 				<div className="col-span-2 flex h-[41px] w-[200px] items-center justify-between gap-2 justify-self-center rounded-lg bg-black px-2 lg:col-span-1 lg:col-start-5">
