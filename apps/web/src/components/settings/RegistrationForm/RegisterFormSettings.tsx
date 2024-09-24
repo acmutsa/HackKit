@@ -1012,6 +1012,12 @@ export default function RegisterFormSettings({
 						onClick={async () => {
 							setIsLoading(true);
 							let resume: string = c.noResumeProvidedURL;
+							if (+form.watch("age") < 18) {
+								setIsLoading(false);
+								toast.dismiss();
+								toast.error("Age must not be less than 18");
+								return;
+							}
 							if (!form.watch("phoneNumber")) {
 								setIsLoading(false);
 								toast.dismiss();
