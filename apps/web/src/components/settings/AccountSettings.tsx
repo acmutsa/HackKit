@@ -10,6 +10,7 @@ import { modifyAccountSettings } from "@/actions/user-profile-mod";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import c from "config";
 import { Loader2 } from "lucide-react";
+import { isProfane } from "no-profanity";
 
 interface UserProps {
 	firstName: string;
@@ -151,6 +152,11 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 				<Button
 					className="mt-5"
 					onClick={() => {
+						if (isProfane(newHackerTag)) {
+							toast.dismiss();
+							toast.error("Profanity is not allowed");
+							return;
+						}
 						toast.loading("Updating settings...");
 						runModifyAccountSettings({
 							firstName: newFirstName,
