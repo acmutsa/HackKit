@@ -7,6 +7,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
 import { Open_Sans } from "next/font/google";
 import { cn } from "@/lib/utils/client/cn";
+import { getUser } from "db/functions";
 
 const openSans = Open_Sans({
 	variable: "--font-open-sans",
@@ -19,6 +20,8 @@ interface NavbarProps {
 
 export default async function Navbar({ className }: NavbarProps) {
 	const user = await currentUser();
+	const registrationIsComplete =
+		user != null && (await getUser(user.id)) != undefined;
 	return (
 		<div className="z-50 w-screen">
 			<div
@@ -57,8 +60,7 @@ export default async function Navbar({ className }: NavbarProps) {
 								<>
 									<Link
 										href={
-											user.publicMetadata
-												.registrationComplete
+											registrationIsComplete
 												? "/dash"
 												: "/register"
 										}
@@ -67,8 +69,7 @@ export default async function Navbar({ className }: NavbarProps) {
 											variant={"outline"}
 											className="bg-nav hover:bg-background"
 										>
-											{user.publicMetadata
-												.registrationComplete
+											{registrationIsComplete
 												? "Dashboard"
 												: "Complete Registration"}
 										</Button>

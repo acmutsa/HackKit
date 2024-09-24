@@ -5,6 +5,7 @@ import SettingsSection from "@/components/settings/SettingsSection";
 import Navbar from "@/components/shared/Navbar";
 import { Settings } from "lucide-react";
 import ClientToast from "@/components/shared/ClientToast";
+import { getUser } from "db/functions/user";
 
 export default async function ({ children }: { children: ReactNode }) {
 	const { userId } = await auth();
@@ -14,7 +15,7 @@ export default async function ({ children }: { children: ReactNode }) {
 		return redirect("/sign-in");
 	}
 
-	if (!user.publicMetadata.registrationComplete) {
+	if ((await getUser(userId)) == undefined) {
 		return redirect("/register");
 	}
 
