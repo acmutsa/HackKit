@@ -42,12 +42,12 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import { zpostSafe, } from "@/lib/utils/client/zfetch";
+import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { useAuth } from "@clerk/nextjs";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { put,} from "@vercel/blob";
+import { put } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
 import { bucketResumeBaseUploadUrl } from "config";
@@ -113,7 +113,7 @@ export default function RegisterForm({
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasSuccess, setHasSuccess] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	
+
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
 	const isLocalUniversitySelected = universityValue === c.localUniversityName;
@@ -132,10 +132,10 @@ export default function RegisterForm({
 		setErrorMessage(null);
 		setIsLoading(true);
 		if (!isLoaded) {
-					setErrorMessage(
-						`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`
-					);
-					return;
+			setErrorMessage(
+				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
+			);
+			return;
 		}
 
 		let resume: string = c.noResumeProvidedURL;
@@ -166,7 +166,7 @@ export default function RegisterForm({
 			} else {
 				if (res.data.message === "hackertag_not_unique") {
 					setErrorMessage(
-						`HackerTag '@${form.getValues().hackerTag ?? 'Not Provided'}' has already been taken. Please change it and then resubmit the form.`,
+						`HackerTag '@${form.getValues().hackerTag ?? "Not Provided"}' has already been taken. Please change it and then resubmit the form.`,
 					);
 					return;
 				}
@@ -175,7 +175,9 @@ export default function RegisterForm({
 				);
 			}
 		} else {
-			setErrorMessage(`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`);
+			setErrorMessage(
+				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+			);
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);
@@ -1335,7 +1337,9 @@ export default function RegisterForm({
 														className="h-[80%] resize-none"
 														{...field}
 														value={field.value}
-														onChange={field.onChange}
+														onChange={
+															field.onChange
+														}
 													/>
 												</FormControl>
 												<FormDescription>

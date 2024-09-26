@@ -15,15 +15,15 @@ import { CircleAlert } from "lucide-react";
 interface RegistrationFeedbackAlertProps {
 	hasError: boolean;
 	messasge: string;
-  className?: string;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+	className?: string;
+	setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function RegistrationFeedbackAlert(
 	props: RegistrationFeedbackAlertProps,
 ) {
-  const { hasError, messasge, className,setIsLoading } = props;
-  return (
+	const { hasError, messasge, className, setIsLoading } = props;
+	return (
 		<AlertDialog
 			onOpenChange={(_) => {
 				setIsLoading(false);
@@ -39,19 +39,19 @@ export default function RegistrationFeedbackAlert(
 			<AlertDialogContent className="w-[90%] sm:w-3/4">
 				<AlertDialogHeader>
 					<AlertDialogTitle asChild>
-						<div className="flex items-center flex-row gap-2">
-							<CircleAlert
-								color="red"
-							/>
+						<div className="flex flex-row items-center gap-2">
+							<CircleAlert color="red" />
 							<p>{"An Error Occured."}</p>
 						</div>
 					</AlertDialogTitle>
-					<AlertDialogDescription className="w-full text-start">{messasge}</AlertDialogDescription>
+					<AlertDialogDescription className="w-full text-start">
+						{messasge}
+					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Back to Form</AlertDialogCancel>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
-  );
+	);
 }

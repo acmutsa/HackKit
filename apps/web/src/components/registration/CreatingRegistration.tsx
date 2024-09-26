@@ -6,14 +6,10 @@ interface CreatingRegistrationProps {
 	isLoading: boolean;
 }
 export default function CreatingRegistration(props: CreatingRegistrationProps) {
-	const {
-		hasSuccess,
-		isLoading,
-	} = props;
+	const { hasSuccess, isLoading } = props;
 
 	const isLoadingState = isLoading && !hasSuccess;
 	const hasSuccessState = hasSuccess && isLoading;
-	
 
 	const message = isLoadingState
 		? "Creating Your Registration..."
@@ -21,15 +17,14 @@ export default function CreatingRegistration(props: CreatingRegistrationProps) {
 			? "Registration successfully created! Redirecting to the dashboard..."
 			: "Something Went Wrong. Please Try Again.";
 
-
 	return (
 		<main className="absolute bottom-0 left-0 z-10 flex min-h-screen w-screen flex-col items-center justify-center gap-y-20 bg-background">
 			<h1 className="w-full text-center text-3xl font-black">
 				{message}
 			</h1>
-			{ hasSuccessState ? (
+			{hasSuccessState ? (
 				<CircleCheckBig size={80} color="#16a34a" />
-			):(
+			) : (
 				<ThreeCircles
 					height="80"
 					width="80"

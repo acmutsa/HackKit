@@ -83,7 +83,8 @@ export const hackerRegistrationFormValidator = z
 			.string()
 			.length(c.localUniversityShortIDMaxLength, {
 				message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
-			}).refine((val) => val.match(c.registration.universityShortIDRegex), {
+			})
+			.refine((val) => val.match(c.registration.universityShortIDRegex), {
 				message: "School ID must be a valid school ID",
 			})
 			.or(z.literal("NOT_LOCAL_SCHOOL")),
@@ -116,14 +117,16 @@ export const hackerRegistrationFormValidator = z
 			c.registration.shirtSizeOptions,
 			defaultSelectPrettyError,
 		),
-		dietRestrictions: z.array(
-			z.enum(
-				c.registration.dietaryRestrictionOptions,
-				defaultSelectPrettyError,
-			),
-		).optional(),
-		pronouns:z.string().min(1).max(20,{
-			message: "Pronouns must be between 1 and 20 characters"
+		dietRestrictions: z
+			.array(
+				z.enum(
+					c.registration.dietaryRestrictionOptions,
+					defaultSelectPrettyError,
+				),
+			)
+			.optional(),
+		pronouns: z.string().min(1).max(20, {
+			message: "Pronouns must be between 1 and 20 characters",
 		}),
 		major: z.enum(c.registration.majors, defaultSelectPrettyError),
 		hackerTag: z
@@ -160,7 +163,8 @@ export const hackerRegistrationFormValidator = z
 			.string()
 			.max(c.registration.maxaccommodationNoteSize, {
 				message: `Accommodation note must be less than ${c.registration.maxaccommodationNoteSize} characters.`,
-			}).optional(),
+			})
+			.optional(),
 	})
 	.omit({
 		clerkID: true,
@@ -171,5 +175,5 @@ export const hackerRegistrationFormValidator = z
 		isApproved: true,
 		group: true,
 		points: true,
-		profilePhoto:true,
+		profilePhoto: true,
 	});
