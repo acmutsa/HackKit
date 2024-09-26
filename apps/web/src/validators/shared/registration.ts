@@ -93,6 +93,17 @@ export const hackerRegistrationFormValidator = z
 			c.registration.levelsOfStudy,
 			defaultSelectPrettyError,
 		),
+		hackathonsAttended: z
+			.number()
+			.min(0, { message: "Value must be positive or zero" })
+			.int({ message: "Value must be an integer" })
+			.or(z.string())
+			.pipe(
+				z.coerce
+					.number()
+					.min(0, { message: "Value must be positive or zero" })
+					.int({ message: "Value must be an integer" }),
+			),
 		heardFrom: z.enum(
 			c.registration.heardFromOptions,
 			defaultSelectPrettyError,
@@ -153,4 +164,5 @@ export const hackerRegistrationFormValidator = z
 		isApproved: true,
 		group: true,
 		points: true,
+		profilePhoto:true,
 	});
