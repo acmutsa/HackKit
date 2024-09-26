@@ -83,6 +83,8 @@ export const hackerRegistrationFormValidator = z
 			.string()
 			.length(c.localUniversityShortIDMaxLength, {
 				message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
+			}).refine((val) => val.match(c.registration.universityShortIDRegex), {
+				message: "School ID must be a valid school ID",
 			})
 			.or(z.literal("NOT_LOCAL_SCHOOL")),
 		softwareExperience: z.enum(
@@ -96,12 +98,14 @@ export const hackerRegistrationFormValidator = z
 		hackathonsAttended: z
 			.number()
 			.min(0, { message: "Value must be positive or zero" })
+			.max(200, { message: "Value must be less than 200" })
 			.int({ message: "Value must be an integer" })
 			.or(z.string())
 			.pipe(
 				z.coerce
 					.number()
 					.min(0, { message: "Value must be positive or zero" })
+					.max(200, { message: "Value must be less than 200" })
 					.int({ message: "Value must be an integer" }),
 			),
 		heardFrom: z.enum(
@@ -117,7 +121,10 @@ export const hackerRegistrationFormValidator = z
 				c.registration.dietaryRestrictionOptions,
 				defaultSelectPrettyError,
 			),
-		),
+		).optional(),
+		pronouns:z.string().min(1).max(20,{
+			message: "Pronouns must be between 1 and 20 characters"
+		}),
 		major: z.enum(c.registration.majors, defaultSelectPrettyError),
 		hackerTag: z
 			.string()
@@ -153,7 +160,7 @@ export const hackerRegistrationFormValidator = z
 			.string()
 			.max(c.registration.maxaccommodationNoteSize, {
 				message: `Accommodation note must be less than ${c.registration.maxaccommodationNoteSize} characters.`,
-			}),
+			}).optional(),
 	})
 	.omit({
 		clerkID: true,
