@@ -813,7 +813,7 @@ const c = {
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schoolOptions[0],
-	localUniversitySchoolIDName: "ABC123",
+	localUniversitySchoolIDName: "UTSA id (abc123)",
 	localUniversityShortIDMaxLength: 6,
 	registration: {
 		schools: schoolOptions,
@@ -831,6 +831,7 @@ const c = {
 		phoneNumberRegex:
 			/^(\+\d{1,2}\s?)?\(?\d{3}\)?\s?[\s.-]?\s?\d{3}\s?[\s.-]?\s?\d{4}$/gm,
 		hackerTagRegex: /^[a-zA-Z0-9]+$/,
+		universityShortIDRegex:/^[a-z]{3}[0-9]{3}$/,
 		maxNumberOfSkills: 20,
 		maxBioSize: 500,
 		maxaccommodationNoteSize: 1500,
