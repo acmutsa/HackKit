@@ -7,9 +7,8 @@ import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import { getUser } from "db/functions";
 
-export const rsvpMyself = authenticatedAction(
-	z.any(),
-	async (_, { userId }) => {
+export const rsvpMyself = authenticatedAction.action(
+	async ({ ctx: { userId } }) => {
 		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
 

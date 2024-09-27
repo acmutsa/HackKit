@@ -3,7 +3,7 @@
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import { leaveTeam } from "@/actions/teams";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 
 interface LeaveTeamButtonProps {

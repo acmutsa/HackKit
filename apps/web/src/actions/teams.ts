@@ -10,9 +10,8 @@ import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
 import { getHacker } from "db/functions";
 
-export const leaveTeam = authenticatedAction(
-	z.null(),
-	async (_, { userId }) => {
+export const leaveTeam = authenticatedAction.action(
+	async ({ ctx: { userId } }) => {
 		const user = await getHacker(userId, false);
 		if (!user) throw new Error("User not found");
 
