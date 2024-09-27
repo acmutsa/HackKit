@@ -24,7 +24,7 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { useAction, useOptimisticAction } from "next-safe-action/hook";
+import { useAction, useOptimisticAction } from "next-safe-action/hooks";
 import {
 	setItem,
 	removeItem,
