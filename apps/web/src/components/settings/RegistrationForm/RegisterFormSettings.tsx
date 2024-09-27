@@ -20,7 +20,6 @@ import {
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { z } from "zod";
-import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
@@ -53,6 +52,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { HackerData, User } from "db/types";
+import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
 
 interface RegistrationFormSettingsProps {
 	user: User;
@@ -63,13 +63,12 @@ export default function RegisterFormSettings({
 	user,
 	data,
 }: RegistrationFormSettingsProps) {
-	const form = useForm<z.infer<typeof RegisterFormValidator>>({
-		resolver: zodResolver(RegisterFormValidator),
+	const form = useForm<z.infer<typeof RegistrationSettingsFormValidator>>({
+		resolver: zodResolver(RegistrationSettingsFormValidator),
 		defaultValues: {
-			hackathonsAttended: data.hackathonsAttended || 0,
+			hackathonsAttended: data.hackathonsAttended,
 			dietaryRestrictions: user.dietRestrictions as any,
 			isEmailable: data.isEmailable,
-			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
 			accommodationNote: user.accommodationNote || "",
 			age: user.age,
 			ethnicity: user.ethnicity as any,
@@ -89,6 +88,9 @@ export default function RegisterFormSettings({
 			countryOfResidence: user.countryOfResidence,
 		},
 	});
+
+	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
+	const hasErrors = !isSubmitSuccessful && isSubmitted;
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
 	// @ts-ignore
@@ -98,7 +100,6 @@ export default function RegisterFormSettings({
 		else setUploadedFile(f);
 	}, []);
 
-	const [isLoading, setIsLoading] = useState(false);
 	const [oldFile, setOldFile] = useState(true);
 
 	const universityValue = form.watch("university").toLowerCase();
@@ -116,23 +117,59 @@ export default function RegisterFormSettings({
 		}
 	}, [universityValue]);
 
-	const { execute: runModifyRegistrationData } = useAction(
-		modifyRegistrationData,
-		{
+	async function onSubmit(
+		data: z.infer<typeof RegistrationSettingsFormValidator>,
+	) {
+		let resume: string = c.noResumeProvidedURL;
+
+		if (uploadedFile) {
+			const newBlob = await put(uploadedFile.name, uploadedFile, {
+				access: "public",
+				handleBlobUploadUrl: "/api/upload/resume/register",
+			});
+			resume = newBlob.url;
+		}
+
+		const res = runModifyRegistrationData({
+			age: data.age,
+			gender: data.gender,
+			race: data.race,
+			ethnicity: data.ethnicity,
+			isEmailable: data.isEmailable,
+			university: data.university,
+			major: data.major,
+			levelOfStudy: data.levelOfStudy,
+			schoolID: data.schoolID,
+			hackathonsAttended: data.hackathonsAttended,
+			softwareBuildingExperience: data.softwareBuildingExperience,
+			heardAboutEvent: data.heardAboutEvent,
+			shirtSize: data.shirtSize,
+			dietaryRestrictions: data.dietaryRestrictions,
+			accommodationNote: data.accommodationNote,
+			github: data.github,
+			linkedin: data.linkedin,
+			personalWebsite: data.personalWebsite,
+			phoneNumber: data.phoneNumber,
+			countryOfResidence: data.countryOfResidence,
+		});
+
+		runModifyResume({ resume });
+		console.log(res);
+	}
+
+	const { execute: runModifyRegistrationData, status: loadingState } =
+		useAction(modifyRegistrationData, {
 			onSuccess: () => {
-				setIsLoading(false);
 				toast.dismiss();
-				toast.success("Account updated successfully!");
+				toast.success("Data updated successfully!");
 			},
 			onError: () => {
-				setIsLoading(false);
 				toast.dismiss();
 				toast.error(
 					`An error occurred. Please contact ${c.issueEmail} for help.`,
 				);
 			},
-		},
-	);
+		});
 
 	const { execute: runModifyResume } = useAction(modifyResume, {
 		onSuccess: () => {},
@@ -172,7 +209,10 @@ export default function RegisterFormSettings({
 	return (
 		<div>
 			<Form {...form}>
-				<form className="space-y-6">
+				<form
+					className="space-y-6"
+					onSubmit={form.handleSubmit(onSubmit)}
+				>
 					<FormGroupWrapper title="General">
 						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7">
 							<FormField
@@ -1009,83 +1049,10 @@ export default function RegisterFormSettings({
 						/>
 					</FormGroupWrapper>
 					<Button
-						onClick={async () => {
-							setIsLoading(true);
-							let resume: string = c.noResumeProvidedURL;
-							if (+form.watch("age") < 18) {
-								setIsLoading(false);
-								toast.dismiss();
-								toast.error("Age must not be less than 18");
-								return;
-							}
-							if (!form.watch("phoneNumber")) {
-								setIsLoading(false);
-								toast.dismiss();
-								toast.error("Phone number can't be empty!");
-								return;
-							}
-							if (`${form.watch("phoneNumber")}`.length > 30) {
-								setIsLoading(false);
-								toast.dismiss();
-								toast.error(
-									"Phone number must be less than 15 characters",
-								);
-								return;
-							}
-							if (`${form.watch("phoneNumber")}`.length < 10) {
-								setIsLoading(false);
-								toast.dismiss();
-								toast.error("Phone number must be valid");
-								return;
-							}
-							if (uploadedFile) {
-								const newBlob = await put(
-									uploadedFile.name,
-									uploadedFile,
-									{
-										access: "public",
-										handleBlobUploadUrl:
-											"/api/upload/resume/register",
-									},
-								);
-								resume = newBlob.url;
-							}
-							runModifyRegistrationData({
-								age: +form.watch("age"),
-								gender: form.watch("gender"),
-								race: form.watch("race"),
-								ethnicity: form.watch("ethnicity"),
-								isEmailable: form.watch("isEmailable"),
-								university: form.watch("university"),
-								major: form.watch("major"),
-								levelOfStudy: form.watch("levelOfStudy"),
-								schoolID: form.watch("schoolID"),
-								hackathonsAttended:
-									+form.watch("hackathonsAttended"),
-								softwareExperience: form.watch(
-									"softwareBuildingExperience",
-								),
-								heardFrom: form.watch("heardAboutEvent"),
-								shirtSize: form.watch("shirtSize"),
-								dietRestrictions: form.watch(
-									"dietaryRestrictions",
-								),
-								accommodationNote:
-									form.watch("accommodationNote"),
-								GitHub: form.watch("github"),
-								LinkedIn: form.watch("linkedin"),
-								PersonalWebsite: form.watch("personalWebsite"),
-								phoneNumber: `${form.watch("phoneNumber")}`,
-								countryOfResidence:
-									form.watch("countryOfResidence"),
-							});
-							runModifyResume({
-								resume,
-							});
-						}}
-						disabled={isLoading}
+						type={"submit"}
+						disabled={loadingState === "executing"}
 					>
-						{isLoading ? (
+						{loadingState === "executing" ? (
 							<>
 								<Loader2
 									className={"mr-2 h-4 w-4 animate-spin"}
@@ -1096,6 +1063,12 @@ export default function RegisterFormSettings({
 							"Update"
 						)}
 					</Button>
+					{hasErrors && (
+						<p className={"text-red-800"}>
+							Something doesn't look right. Please check your
+							inputs.
+						</p>
+					)}
 				</form>
 			</Form>
 		</div>
