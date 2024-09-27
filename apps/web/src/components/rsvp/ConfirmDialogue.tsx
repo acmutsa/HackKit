@@ -62,7 +62,7 @@ export default function ConfirmDialogue({ hasRsvped }: { hasRsvped: boolean }) {
 					</p>
 					<Button
 						onClick={() => {
-							execute(null);
+							execute();
 							toast.loading("Confirming your RSVP...", {
 								duration: 0,
 							});

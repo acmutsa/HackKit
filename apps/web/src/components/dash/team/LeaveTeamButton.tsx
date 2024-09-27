@@ -12,22 +12,29 @@ interface LeaveTeamButtonProps {
 
 export default function LeaveTeamButton({ issueEmail }: LeaveTeamButtonProps) {
 	const { execute: runLeaveTeam, status } = useAction(leaveTeam, {
-		onSuccess: ({ success, message }) => {
-			toast.dismiss();
-			if (success) {
-				toast.success(message);
+		onSuccess: ({ data }) => {
+			if (data) {
+				if (data.success) {
+					toast.success(data.message);
+				} else {
+					toast.error(data.message);
+				}
 			} else {
-				toast.error(message);
+				toast.dismiss();
+				toast.error(
+					`An unknown error occured. If this persists, please email ${issueEmail}.`,
+				);
 			}
+			toast.dismiss();
 		},
-		onError: (error) => {
+		onError: ({ error }) => {
 			toast.dismiss();
 			toast.error(
 				`An unknown error occured. If this persists, please email ${issueEmail}.`,
 			);
-			console.error("Fetch Error: ", error.fetchError);
+			// console.error("Fetch Error: ", error.fetchError);
 			console.error("Server Error: ", error.serverError);
-			console.error("Validation Error: ", error.validationError);
+			console.error("Validation Error: ", error.validationErrors);
 		},
 	});
 
@@ -35,7 +42,7 @@ export default function LeaveTeamButton({ issueEmail }: LeaveTeamButtonProps) {
 		toast.loading("Leaving team...", {
 			duration: 0,
 		});
-		runLeaveTeam(null);
+		runLeaveTeam();
 	}
 
 	return (
