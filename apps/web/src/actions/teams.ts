@@ -9,11 +9,13 @@ import { userHackerData, teams, invites } from "db/schema";
 import { eq } from "db/drizzle";
 import { revalidatePath } from "next/cache";
 import { getHacker } from "db/functions";
+import { returnValidationErrors } from "next-safe-action";
 
 export const leaveTeam = authenticatedAction.action(
 	async ({ ctx: { userId } }) => {
 		const user = await getHacker(userId, false);
-		if (!user) throw new Error("User not found");
+		if (!user)
+			returnValidationErrors(z.null(), { _errors: ["User not found"] });
 
 		if (!user.hackerData.teamID) {
 			revalidatePath("/dash/team");

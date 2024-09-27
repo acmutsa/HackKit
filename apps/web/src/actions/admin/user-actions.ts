@@ -1,6 +1,7 @@
 "use server";
 
 import { adminAction } from "@/lib/safe-action";
+import { returnValidationErrors } from "next-safe-action";
 import { z } from "zod";
 import { perms } from "config";
 import { userCommonData } from "db/schema";
@@ -24,7 +25,9 @@ export const updateRole = adminAction
 				user.role !== "super_admin" &&
 				(roleToSet === "super_admin" || roleToSet === "admin")
 			) {
-				throw new Error("You are not allowed to do this");
+				returnValidationErrors(z.null(), {
+					_errors: ["You are not allowed to do this!"],
+				});
 			}
 			await db
 				.update(userCommonData)

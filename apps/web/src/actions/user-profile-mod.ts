@@ -7,6 +7,7 @@ import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
+import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 import { getUser } from "db/functions";
 
@@ -20,7 +21,8 @@ export const modifyRegistrationData = authenticatedAction
 	)
 	.action(async ({ parsedInput: { bio, skills }, ctx: { userId } }) => {
 		const user = await getUser(userId);
-		if (!user) throw new Error("User not found");
+		if (!user)
+			returnValidationErrors(z.null(), { _errors: ["User not found"] });
 
 		await db
 			.update(userCommonData)
@@ -59,7 +61,10 @@ export const updateProfileImage = authenticatedAction
 		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
 			const image = await decodeBase64AsFile(fileBase64, fileName);
 			const user = await getUser(userId);
-			if (!user) throw new Error("User not found");
+			if (!user)
+				returnValidationErrors(z.null(), {
+					_errors: ["User not found"],
+				});
 
 			const blobUpload = await put(image.name, image, {
 				access: "public",
