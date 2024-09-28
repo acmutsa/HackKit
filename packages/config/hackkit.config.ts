@@ -806,7 +806,7 @@ const c = {
 			discordRole: "Guild B Role",
 		},
 		"Guild C | Group A": {
-			discordRole: "Guild C Role	",
+			discordRole: "Guild C Role",
 		},
 		"Guild C | Group B": {
 			discordRole: "Guild C Role",
