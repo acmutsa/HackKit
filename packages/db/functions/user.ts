@@ -1,6 +1,6 @@
 import { db, eq } from "..";
-import { userCommonData } from "../schema";
-import { User } from "../types";
+import { userCommonData, userHackerData } from "../schema";
+import { HackerData, User } from "../types";
 
 // const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
 
@@ -21,6 +21,14 @@ export function getUser(clerkID: string): Promise<User | undefined> {
 	// return _getUser.execute({ _clerkID: clerkID });
 	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, clerkID),
+	});
+}
+
+export function getHackerData(
+	clerkID: string,
+): Promise<HackerData | undefined> {
+	return db.query.userHackerData.findFirst({
+		where: eq(userHackerData.clerkID, clerkID),
 	});
 }
 

@@ -1,33 +1,15 @@
 import { z } from "zod";
 import c from "config";
-import { isProfane } from "no-profanity";
 
 const defaultPrettyError = {
 	errorMap: () => ({ message: "Please select a value" }),
 };
 
-const noProfanityValidator = (val: any) => !isProfane(val);
-const noProfanityMessage = "Profanity is not allowed";
-
 const countryCodesArray = c.registration.countries.map(
 	(countryObject) => countryObject.code,
 );
 
-export const RegisterFormValidator = z.object({
-	firstName: z
-		.string()
-		.min(1, { message: "Firstname must be at least one character" })
-		.max(50, { message: "Firstname must be less than 50 characters" }),
-	lastName: z
-		.string()
-		.min(1, { message: "Lastname must be at least 1 character" })
-		.max(50, { message: "Lastname must be less than 50 characters" }),
-	email: z
-		.string()
-		.email({
-			message: "Email must be a valid email (eg: someone@example.com).",
-		})
-		.max(255, { message: "Email must be less than 255 characters." }),
+export const RegistrationSettingsFormValidator = z.object({
 	age: z
 		.number()
 		.min(18, { message: "You must be at least 18 years old to register." })
@@ -79,13 +61,6 @@ export const RegisterFormValidator = z.object({
 		message: "Phone number must be less than 15 characters",
 	}),
 	countryOfResidence: z.string().length(2),
-	hasAcceptedMLHCoC: z.boolean().refine((val) => val === true, {
-		message: "You must accept the MLH Code of Conduct.",
-	}),
-	hasSharedDataWithMLH: z.boolean().refine((val) => val === true, {
-		message:
-			"You must accept the MLH Terms & Conditions and Privacy Policy.",
-	}),
 	isEmailable: z.boolean(),
 	university: z.string().min(1).max(200),
 	major: z.string().min(1).max(200),
@@ -152,33 +127,4 @@ export const RegisterFormValidator = z.object({
 		.string()
 		.max(100, { message: "URL must be less than 100 characters" })
 		.optional(),
-	hackerTag: z
-		.string()
-		.min(3, {
-			message: "Your HackerTag must be more than 3 characters long",
-		})
-		.max(20, {
-			message: "Your HackerTag must be less than 20 characters long",
-		})
-		.regex(/^[a-zA-Z0-9]+$/, {
-			message: "HackerTag must be alphanumeric and have no spaces",
-		})
-		.toLowerCase()
-		.refine(noProfanityValidator, noProfanityMessage),
-	profileDiscordName: z.string().max(40, {
-		message: "Username should not be longer than 40 characters",
-	}),
-	pronouns: z.string().min(1).max(15),
-	bio: z
-		.string()
-		.min(1)
-		.max(500, { message: "Bio must be less than 500 characters." })
-		.refine(noProfanityValidator, noProfanityMessage),
-	skills: z.array(
-		z.object({
-			id: z.string(),
-			text: z.string(),
-		}),
-	), // TODO: impliment a max length
-	profileIsSearchable: z.boolean(),
 });
