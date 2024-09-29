@@ -38,40 +38,40 @@ export const modifyRegistrationData = authenticatedAction(
 		},
 		{ userId },
 	) => {
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-		});
+		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
-		await db
-			.update(userCommonData)
-			.set({
-				age,
-				gender,
-				race,
-				ethnicity,
-				shirtSize,
-				dietRestrictions: dietaryRestrictions,
-				accommodationNote,
-				phoneNumber,
-				countryOfResidence,
-			})
-			.where(eq(userCommonData.clerkID, user.clerkID));
-		await db
-			.update(userHackerData)
-			.set({
-				isEmailable,
-				university,
-				major,
-				levelOfStudy,
-				schoolID,
-				hackathonsAttended,
-				softwareExperience: softwareBuildingExperience,
-				heardFrom: heardAboutEvent,
-				GitHub: github,
-				LinkedIn: linkedin,
-				PersonalWebsite: personalWebsite,
-			})
-			.where(eq(userHackerData.clerkID, user.clerkID));
+		await Promise.all([
+			db
+				.update(userCommonData)
+				.set({
+					age,
+					gender,
+					race,
+					ethnicity,
+					shirtSize,
+					dietRestrictions: dietaryRestrictions,
+					accommodationNote,
+					phoneNumber,
+					countryOfResidence,
+				})
+				.where(eq(userCommonData.clerkID, user.clerkID)),
+			db
+				.update(userHackerData)
+				.set({
+					isEmailable,
+					university,
+					major,
+					levelOfStudy,
+					schoolID,
+					hackathonsAttended,
+					softwareExperience: softwareBuildingExperience,
+					heardFrom: heardAboutEvent,
+					GitHub: github,
+					LinkedIn: linkedin,
+					PersonalWebsite: personalWebsite,
+				})
+				.where(eq(userHackerData.clerkID, user.clerkID)),
+		]);
 		return {
 			success: true,
 			newAge: age,
@@ -103,10 +103,6 @@ export const modifyResume = authenticatedAction(
 		resume: z.string(),
 	}),
 	async ({ resume }, { userId }) => {
-		const user = await db.query.userHackerData.findFirst({
-			where: eq(userHackerData.clerkID, userId),
-		});
-		if (!user) throw new Error("User not found");
 		await db
 			.update(userHackerData)
 			.set({ resume })

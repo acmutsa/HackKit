@@ -34,13 +34,19 @@ export default function ProfileSettings({ profile }: ProfileSettingsProps) {
 	const [newBio, setNewBio] = useState(profile.bio);
 	const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
 	let curSkills: Tag[] = [];
-	for (let i = 0; i < profile.skills.length; i++) {
-		let t: Tag = {
-			id: profile.skills[i],
-			text: profile.skills[i],
-		};
-		curSkills.push(t);
-	}
+	// for (let i = 0; i < profile.skills.length; i++) {
+	// 	let t: Tag = {
+	// 		id: profile.skills[i],
+	// 		text: profile.skills[i],
+	// 	};
+	// 	curSkills.push(t);
+	// }
+	profile.skills.map((skill) => {
+		curSkills.push({
+			id: skill,
+			text: skill,
+		});
+	});
 	const [newSkills, setNewSkills] = useState<Tag[]>(curSkills);
 	const [newDiscord, setNewDiscord] = useState(profile.discord || "");
 
