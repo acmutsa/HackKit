@@ -92,8 +92,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			shirtSize: "" as any,
 			schoolID: "",
 			university: "",
-			phoneNumber:"",
-			countryOfResidence:"",
+			phoneNumber: "",
+			countryOfResidence: "",
 		},
 	});
 
@@ -116,10 +116,9 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 		}
 	}, [universityValue]);
 
-
-	useEffect(()=>{
-		console.log(countryValue)
-	},[countryValue])
+	useEffect(() => {
+		console.log(countryValue);
+	}, [countryValue]);
 
 	async function onSubmit(data: z.infer<typeof RegisterFormValidator>) {
 		console.log(data);
@@ -180,7 +179,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			setIsLoading(false);
 			alert(
 				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			)
+			);
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);
@@ -1148,11 +1147,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										>
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
-												{uploadedFile
-													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
-													: isDragActive
-														? "Drop your resume here..."
-														: "Drag 'n' drop your resume here, or click to select a file"}
+												{uploadedFile ? (
+													`${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+												) : isDragActive ? (
+													"Drop your resume here..."
+												) : (
+													<div>
+														Drag 'n' drop your
+														resume here, or click to
+														select a file
+														<br />
+														Accepted files: PDF
+													</div>
+												)}
 											</p>
 											{uploadedFile ? (
 												<Button
