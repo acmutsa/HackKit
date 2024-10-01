@@ -7,6 +7,8 @@ import { RegisterFormValidator } from "@/validators/shared/RegisterForm";
 import c from "config";
 import { z } from "zod";
 import { getUser, getUserByTag } from "db/functions";
+import { plunk, render } from "email/sender";
+import { RegistrationSuccessEmail } from "email/templates/registration";
 
 export async function POST(req: Request) {
 	const rawBody = await req.json();
@@ -91,9 +93,9 @@ export async function POST(req: Request) {
 			skills: body.skills.map((v) => v.text.toLowerCase()),
 			profilePhoto: user.imageUrl,
 			isFullyRegistered: true,
-			phoneNumber:body.phoneNumber,
+			phoneNumber: body.phoneNumber,
 			isSearchable: body.profileIsSearchable,
-			countryOfResidence:body.countryOfResidence,
+			countryOfResidence: body.countryOfResidence,
 		});
 
 		await tx.insert(userHackerData).values({
@@ -116,10 +118,20 @@ export async function POST(req: Request) {
 		});
 	});
 
-	// sendEmail({
-	// 	to: body.email,
-	// 	subject: `You are now registered for ${c.hackathonName} ${c.itteration}!`,
-	// });
+	const regSucEmailBody = await render(
+		<RegistrationSuccessEmail
+			email={body.email}
+			firstName={body.firstName}
+			lastName={body.lastName}
+			hackertag={body.hackerTag}
+		/>,
+	);
+
+	plunk.emails.send({
+		to: body.email,
+		subject: `You're registered for ${c.hackathonName} ${c.itteration}!`,
+		body: regSucEmailBody,
+	});
 
 	return NextResponse.json({
 		success: true,

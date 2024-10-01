@@ -1,0 +1,22 @@
+{
+  "name": "email",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "email-dev": "email dev --dir templates --port 3001",
+    "email-export": "email export --dir templates"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@plunk/node": "^3.0.2",
+    "@react-email/components": "^0.0.25",
+    "@react-email/render": "^1.0.1",
+    "@types/node": "20.14.11",
+    "@types/react": "18.3.3",
+    "react": "18.3.1",
+    "react-email": "^3.0.1",
+    "config": "workspace:*"
+  }
+}

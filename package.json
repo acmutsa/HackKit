@@ -12,7 +12,9 @@
     "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
     "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
     "format": "prettier --write .",
-    "format-check": "prettier --check ."
+    "format-check": "prettier --check .",
+    "email-dev": "pnpm --filter=email email-dev",
+    "email-export": "pnpm --filter=email email-export"
   },
   "devDependencies": {
     "@turbo/gen": "^2.0.9",

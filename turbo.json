@@ -37,7 +37,8 @@
         "POSTGRES_URL",
         "POSTGRES_URL_NON_POOLING",
         "POSTGRES_URL_NO_SSL",
-        "POSTGRES_USER"
+        "POSTGRES_USER",
+        "PLUNK_API_KEY"
       ],
 	"tasks": {
 		"build": {

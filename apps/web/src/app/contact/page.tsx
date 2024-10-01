@@ -1,24 +1,18 @@
 import Navbar from "@/components/shared/Navbar";
-import { Oswald } from "next/font/google";
 import c from "config";
 import { Instagram, Facebook, Twitter, Github } from "lucide-react";
 import Link from "next/link";
-
-const oswald = Oswald({
-	variable: "--font-oswald",
-	subsets: ["latin"],
-});
 
 export default function Page() {
 	return (
 		<>
 			<Navbar className="border-b-0 bg-[#818F44]" />
 			<main
-				className={`bg-[#818F44] ${oswald.variable} flex min-h-screen items-center justify-center pt-16`}
+				className={`bg-[#818F44]flex min-h-screen items-center justify-center pt-16`}
 			>
 				<div className="mx-auto grid w-full max-w-6xl grid-cols-6 gap-4">
 					<div className="col-span-4 flex flex-col items-center justify-center gap-y-4">
-						<h1 className="font-oswald text-8xl font-black text-[#3E5A31]">
+						<h1 className="text-8xl font-black text-[#3E5A31]">
 							Contact Us
 						</h1>
 						<p className="max-w-[500px] text-center font-mono">
