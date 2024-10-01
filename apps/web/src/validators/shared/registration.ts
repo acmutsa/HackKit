@@ -2,6 +2,7 @@ import z from "zod";
 import { userWithHackerDataInsertSchema } from "db/zod";
 import c from "config";
 import { isProfane } from "no-profanity";
+import { PHONE_NUMBER_REGEX } from "@/lib/constants";
 
 const defaultSelectPrettyError = c.zod.defaultSelectPrettyError;
 const defaultInputPrettyError = c.zod.defaultInputPrettyError;
@@ -67,7 +68,7 @@ export const hackerRegistrationFormValidator = z
 			.max(30, {
 				message: "Phone number must be between 10 and 30 characters",
 			})
-			.refine((val) => val.match(c.registration.phoneNumberRegex), {
+			.refine((val) => val.match(PHONE_NUMBER_REGEX), {
 				message: "Phone number must be a valid phone number",
 			}),
 		countryOfResidence: z.enum(countryList, defaultSelectPrettyError),
