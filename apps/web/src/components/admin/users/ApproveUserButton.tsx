@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/shadcn/ui/button";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { setUserApproval } from "@/actions/admin/user-actions";
 import { toast } from "sonner";
 

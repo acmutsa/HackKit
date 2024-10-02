@@ -9,7 +9,7 @@ import {
 	updateProfileImage,
 } from "@/actions/user-profile-mod";
 import { useUser } from "@clerk/nextjs";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { useState } from "react";
 import { encodeFileAsBase64 } from "@/lib/utils/shared/files";
@@ -18,7 +18,6 @@ interface ProfileSettingsProps {
 	bio: string;
 	university: string;
 }
-
 export default function ProfileSettings({
 	bio,
 	university,

@@ -4,7 +4,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
 import { Switch } from "@/components/shadcn/ui/switch";
-import { useOptimisticAction } from "next-safe-action/hook";
+import { useOptimisticAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import {
 	toggleRegistrationEnabled,
@@ -26,36 +26,36 @@ export function RegistrationToggles({
 }: RegistrationTogglesProps) {
 	const {
 		execute: executeToggleSecretRegistrationEnabled,
-		optimisticData: ToggleSecretRegistrationEnabledOptimisticData,
-	} = useOptimisticAction(
-		toggleSecretRegistrationEnabled,
-		{ success: true, statusSet: defaultSecretRegistrationEnabled },
-		(state, { enabled }) => {
+		optimisticState: ToggleSecretRegistrationEnabledOptimisticData,
+	} = useOptimisticAction(toggleSecretRegistrationEnabled, {
+		currentState: {
+			success: true,
+			statusSet: defaultSecretRegistrationEnabled,
+		},
+		updateFn: (state, { enabled }) => {
 			return { statusSet: enabled, success: true };
 		},
-	);
+	});
 
 	const {
 		execute: executeToggleRSVPs,
-		optimisticData: toggleRSVPsOptimisticData,
-	} = useOptimisticAction(
-		toggleRSVPs,
-		{ success: true, statusSet: defaultRSVPsEnabled },
-		(state, { enabled }) => {
+		optimisticState: toggleRSVPsOptimisticData,
+	} = useOptimisticAction(toggleRSVPs, {
+		currentState: { success: true, statusSet: defaultRSVPsEnabled },
+		updateFn: (state, { enabled }) => {
 			return { statusSet: enabled, success: true };
 		},
-	);
+	});
 
 	const {
 		execute: executeToggleRegistrationEnabled,
-		optimisticData: ToggleRegistrationEnabledOptimisticData,
-	} = useOptimisticAction(
-		toggleRegistrationEnabled,
-		{ success: true, statusSet: defaultRegistrationEnabled },
-		(state, { enabled }) => {
+		optimisticState: ToggleRegistrationEnabledOptimisticData,
+	} = useOptimisticAction(toggleRegistrationEnabled, {
+		currentState: { success: true, statusSet: defaultRegistrationEnabled },
+		updateFn: (state, { enabled }) => {
 			return { statusSet: enabled, success: true };
 		},
-	);
+	});
 
 	return (
 		<>
