@@ -548,7 +548,6 @@ const dietaryRestrictionOptions = [
 	"Vegetarian",
 	"Nuts",
 	"Fish",
-	"Wheat",
 	"Dairy",
 	"Eggs",
 	"Halal",
