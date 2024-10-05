@@ -178,6 +178,7 @@ export default function RegisterForm({
 			setErrorMessage(
 				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);
+			);
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
 			);

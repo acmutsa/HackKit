@@ -24,7 +24,7 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { useAction, useOptimisticAction } from "next-safe-action/hook";
+import { useAction, useOptimisticAction } from "next-safe-action/hooks";
 import {
 	setItem,
 	removeItem,
@@ -108,17 +108,16 @@ function ToggleSwitch({
 }) {
 	const initialData = { itemStatus }; // Initial data matching the shape of toggleItem's return type
 
-	const { execute, optimisticData } = useOptimisticAction(
-		toggleItem,
-		initialData,
-		(state, { statusToSet }) => {
+	const { execute, optimisticState } = useOptimisticAction(toggleItem, {
+		currentState: initialData,
+		updateFn: (state, { statusToSet }) => {
 			return { itemStatus: statusToSet };
 		},
-	);
+	});
 
 	return (
 		<Switch
-			checked={optimisticData.itemStatus}
+			checked={optimisticState.itemStatus}
 			onCheckedChange={(checked) =>
 				execute({ name, statusToSet: checked })
 			}
