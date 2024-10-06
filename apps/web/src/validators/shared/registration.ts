@@ -177,4 +177,6 @@ export const hackerRegistrationFormValidator = z
 		group: true,
 		points: true,
 		profilePhoto: true,
+		checkinTimestamp:true,
+		teamID:true,
 	});

@@ -140,8 +140,7 @@ export default function RegisterForm({
 
 		let resume: string = c.noResumeProvidedURL;
 
-		// What happens when this fails?
-		// throw new Error("test");
+		
 		if (uploadedFile) {
 			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
 			const newBlob = await put(fileLocation, uploadedFile, {
@@ -177,7 +176,6 @@ export default function RegisterForm({
 		} else {
 			setErrorMessage(
 				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			);
 			);
 			return console.log(
 				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
