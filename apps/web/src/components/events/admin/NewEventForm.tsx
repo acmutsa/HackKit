@@ -48,6 +48,8 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 			type: "" as any,
 			host: "",
 			startTime: defaultDate,
+			points: 0,
+			location: "TBD",
 			endTime: new Date(defaultDate.getTime() + ONE_HOUR_IN_MILLISECONDS),
 		},
 	});
@@ -92,6 +94,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 						</FormItem>
 					)}
 				/>
+
 				<FormField
 					control={form.control}
 					name="description"
@@ -101,6 +104,25 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 							<FormControl>
 								<Textarea {...field} />
 							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="location"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Location</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									value={field.value ?? "TBD"}
+								/>
+							</FormControl>
+							{/* <FormDescription>
+								Keep title short and concise
+							</FormDescription> */}
 							<FormMessage />
 						</FormItem>
 					)}
@@ -166,7 +188,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 								<FormLabel>Event Start</FormLabel>
 								<DateTimePicker
 									value={
-										!!field.value
+										field.value
 											? parseAbsolute(
 													field.value.toISOString(),
 													userLocalTimeZone,
@@ -174,7 +196,7 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 											: null
 									}
 									onChange={(date) => {
-										const newDate = !!date
+										const newDate = date
 											? date.toDate(userLocalTimeZone)
 											: null;
 										field.onChange(newDate);
