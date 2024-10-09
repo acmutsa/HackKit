@@ -34,9 +34,9 @@ export default function EventItem({
 
 	return (
 		<Link href={href} className="m-0 w-full p-0">
-			<div className="flex h-full w-full cursor-pointer flex-col items-center space-y-6 rounded-xl border-[3px] border-b-[6px] border-muted px-2 py-4 lg:flex-row lg:justify-between lg:space-y-0 lg:border-0 lg:px-4 lg:py-7 lg:hover:bg-white/[0.08]">
-				<div className="flex h-full w-full flex-col items-center justify-center space-y-4 lg:w-auto lg:flex-row lg:gap-3 lg:space-y-0">
-					<h3 className="text-center text-lg font-bold md:text-2xl">
+			<div className="lg:flex-row lg:justify-between lg:space-y-0 lg:border-0 lg:px-4 lg:py-7 lg:hover:bg-white/[0.08] flex h-full w-full cursor-pointer flex-col items-center space-y-6 rounded-xl border-[3px] border-b-[6px] border-muted px-2 py-4">
+				<div className="lg:w-auto lg:flex-row lg:gap-3 lg:space-y-0 flex h-full w-full flex-col items-center justify-center space-y-4">
+					<h3 className="md:text-2xl text-center text-lg font-bold">
 						{event.title}
 					</h3>
 					<div>

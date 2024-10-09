@@ -35,7 +35,7 @@ export default function EventFull({ event }: { event: Event }) {
 					>
 						{event.type}
 					</Badge>
-					<p className="text-xs font-bold md:text-sm">{`${formatInTimeZone(
+					<p className="md:text-sm text-xs font-bold">{`${formatInTimeZone(
 						event.startTime,
 						userTimeZone,
 						"EEEE MMMM do",

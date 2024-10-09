@@ -33,7 +33,7 @@ export default async function Page() {
 				<Navbar />
 				<main className="dark:bg-zinc-950">
 					<div className="mx-auto min-h-screen max-w-5xl px-5 pb-10 pt-[20vh] font-sans dark:text-white">
-						<h1 className="text-6xl font-black md:text-8xl">
+						<h1 className="md:text-8xl text-6xl font-black">
 							Register
 						</h1>
 						<p className="mt-5 font-medium">
@@ -64,7 +64,7 @@ export default async function Page() {
 			<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform" />
 			<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
 			{/* Why is this not a component? This same code is in here and insideo of sign-up */}
-			<h1 className="mb-10 pb-5 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
+			<h1 className="md:text-8xl mb-10 pb-5 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent">
 				Registration
 			</h1>
 			<div className="relative z-10 flex aspect-video w-full max-w-[500px] flex-col items-center justify-center gap-y-4 rounded-xl bg-white px-5 py-4 backdrop-blur transition dark:bg-white/[0.08]">

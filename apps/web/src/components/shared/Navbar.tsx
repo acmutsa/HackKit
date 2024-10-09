@@ -30,7 +30,7 @@ export default async function Navbar({ className }: NavbarProps) {
 					className,
 				)}
 			>
-				<div className="mx-auto grid h-full w-full max-w-7xl grid-flow-col grid-cols-2 px-2 sm:px-6 lg:max-w-full lg:px-8">
+				<div className="sm:px-6 lg:max-w-full lg:px-8 mx-auto grid h-full w-full max-w-7xl grid-flow-col grid-cols-2 px-2">
 					<div className="col-span-2 flex items-center justify-start gap-x-5">
 						<Link
 							href={"/"}
@@ -49,13 +49,13 @@ export default async function Navbar({ className }: NavbarProps) {
 								{c.hackathonName}
 							</h2>
 						</Link>
-						<div className="col-span-2 hidden items-center justify-start gap-x-5 md:flex">
+						<div className="md:flex col-span-2 hidden items-center justify-start gap-x-5">
 							<NavBarLinksGrouper />
 						</div>
 					</div>
 
-					<div className="flex items-center justify-between space-x-2 md:justify-center">
-						<div className="hidden gap-x-4 md:flex">
+					<div className="md:justify-center flex items-center justify-between space-x-2">
+						<div className="md:flex hidden gap-x-4">
 							{user ? (
 								<>
 									<Link

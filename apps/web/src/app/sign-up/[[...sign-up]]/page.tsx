@@ -29,7 +29,7 @@ export default async function Page() {
 		<main className="flex min-h-screen flex-col items-center justify-center px-2">
 			<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform" />
 			<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
-			<h1 className="mb-10 pb-5 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
+			<h1 className="md:text-8xl mb-10 pb-5 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent">
 				Registration
 			</h1>
 			<div className="relative z-10 flex aspect-video w-full max-w-[500px] flex-col items-center justify-center gap-y-4 rounded-xl bg-white px-5 backdrop-blur transition dark:bg-white/[0.08]">

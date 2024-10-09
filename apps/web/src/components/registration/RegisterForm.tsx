@@ -220,7 +220,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 					className="space-y-6"
 				>
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
+						<div className="md:grid-cols-2 grid grid-cols-1 gap-x-2 gap-y-4">
 							<FormField
 								control={form.control}
 								name="firstName"
@@ -288,7 +288,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
+						<div className="md:grid-cols-2 grid grid-cols-1 gap-x-2 gap-y-4">
 							<FormField
 								control={form.control}
 								name="age"
@@ -614,8 +614,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 							className={`grid ${
 								universityValue ===
 								c.localUniversityName.toLowerCase()
-									? "grid-cols-1 md:grid-cols-6"
-									: "grid-cols-1 md:grid-cols-5"
+									? "md:grid-cols-6 grid-cols-1"
+									: "md:grid-cols-5 grid-cols-1"
 							} gap-x-2 gap-y-4`}
 						>
 							<FormField
@@ -776,7 +776,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								control={form.control}
 								name="levelOfStudy"
 								render={({ field }) => (
-									<FormItem className="col-span-2 flex flex-col md:col-span-1">
+									<FormItem className="md:col-span-1 col-span-2 flex flex-col">
 										<FormLabel>Level of Study</FormLabel>
 										<Select
 											onValueChange={field.onChange}
@@ -822,7 +822,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										className={`${
 											universityValue ===
 											c.localUniversityName
-												? "col-span-2 flex flex-col md:col-span-1"
+												? "md:col-span-1 col-span-2 flex flex-col"
 												: "hidden"
 										}`}
 									>
@@ -844,7 +844,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hackathon Experience">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="md:grid-cols-3 md:gap-y-0 grid grid-cols-1 gap-x-2 gap-y-2">
 							<FormField
 								control={form.control}
 								name="hackathonsAttended"
@@ -946,7 +946,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Day of Event">
-						<div className="grid grid-cols-1 gap-x-4 gap-y-2 pb-5 md:grid-cols-2 md:gap-y-0">
+						<div className="md:grid-cols-2 md:gap-y-0 grid grid-cols-1 gap-x-4 gap-y-2 pb-5">
 							<FormField
 								control={form.control}
 								name="shirtSize"
@@ -1080,7 +1080,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Career Info">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-2">
+						<div className="md:grid-cols-3 md:gap-y-2 grid grid-cols-1 gap-x-2 gap-y-2">
 							<FormField
 								control={form.control}
 								name="github"
@@ -1171,7 +1171,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 						/>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="Hacker Profile">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-0">
+						<div className="md:grid-cols-3 md:gap-y-0 grid grid-cols-1 gap-x-2 gap-y-2">
 							<FormField
 								control={form.control}
 								name="hackerTag"
@@ -1224,7 +1224,7 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 								)}
 							/>
 						</div>
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2 md:gap-y-0">
+						<div className="md:grid-cols-2 md:gap-y-0 grid grid-cols-1 gap-x-2 gap-y-4">
 							<FormField
 								control={form.control}
 								name="bio"

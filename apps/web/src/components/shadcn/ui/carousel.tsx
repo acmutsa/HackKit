@@ -218,7 +218,7 @@ const CarouselPrevious = React.forwardRef<
 			{...props}
 		>
 			<ArrowLeft
-				className="h-4 w-4 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8"
+				className="md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8 h-4 w-4"
 				color="#FEF2E6"
 			/>
 			<span className="sr-only">Previous slide</span>
@@ -250,7 +250,7 @@ const CarouselNext = React.forwardRef<
 			{...props}
 		>
 			<ArrowRight
-				className="h-4 w-4 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8"
+				className="md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8 h-4 w-4"
 				color="#FEF2E6"
 			/>
 			<span className="sr-only">Next slide</span>

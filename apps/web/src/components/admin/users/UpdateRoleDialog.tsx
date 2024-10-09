@@ -110,7 +110,7 @@ export default function UpdateRoleDialog({
 				</div>
 				<DialogFooter>
 					{roleToSet !== currPermision ? (
-						<div className="flex h-full w-full items-center justify-center gap-x-2 self-end sm:justify-start">
+						<div className="sm:justify-start flex h-full w-full items-center justify-center gap-x-2 self-end">
 							<Badge>
 								{titleCase(currPermision.replace("_", " "))}
 							</Badge>

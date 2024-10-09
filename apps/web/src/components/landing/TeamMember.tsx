@@ -80,7 +80,7 @@ export default function TeamMember({ person }: { person: Person }) {
 		>
 			<div className="text-[#FEF2E6]">
 				<CardHeader className="items-center">
-					<CardTitle className="text-xl sm:text-2xl md:text-xl 2xl:text-3xl">
+					<CardTitle className="sm:text-2xl md:text-xl 2xl:text-3xl text-xl">
 						<h1 className="font-bold">{`${person.fname}\u00A0${person.lname}`}</h1>
 					</CardTitle>
 					<CardDescription>
