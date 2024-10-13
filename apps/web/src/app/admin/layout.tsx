@@ -48,7 +48,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 					<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
 					<h2 className="font-bold tracking-tight">Admin</h2>
 				</div>
-				<div className="md:flex hidden items-center justify-end gap-x-4">
+				<div className="hidden items-center justify-end gap-x-4 md:flex">
 					<Link href={"/"}>
 						<Button
 							variant={"outline"}
@@ -75,7 +75,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 					</Link>
 					<ProfileButton />
 				</div>
-				<div className="md:hidden flex items-center justify-end gap-x-4"></div>
+				<div className="flex items-center justify-end gap-x-4 md:hidden"></div>
 			</div>
 			<div className="fixed z-20 mt-16 flex h-12 w-full border-b border-b-border bg-nav px-5">
 				{Object.entries(c.dashPaths.admin).map(([name, path]) => (

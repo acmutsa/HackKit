@@ -8,7 +8,7 @@ export default async function MobileNavBarLinks() {
 	const navLinks = await getAllNavItems();
 
 	return (
-		<div className="md:hidden cursor-pointer">
+		<div className="cursor-pointer md:hidden">
 			{navLinks.items.map((nav, key) => {
 				return (
 					<div key={nav.name}>

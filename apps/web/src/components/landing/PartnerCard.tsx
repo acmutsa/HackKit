@@ -59,7 +59,7 @@ function PartnerCard({
 			}`}
 		>
 			<div
-				className={`flex w-full items-center justify-center ${height} bg-opacity-45 rounded-lg bg-[#d2b48c] p-3 shadow-none`}
+				className={`flex w-full items-center justify-center ${height} rounded-lg bg-[#d2b48c] bg-opacity-45 p-3 shadow-none`}
 			>
 				<Image
 					src={`/img/partner-logos/${partner?.logo}`}
@@ -72,13 +72,13 @@ function PartnerCard({
 				/>
 			</div>
 			<h2
-				className={`w-full text-center transition duration-300 delay-100 ease-in-out ${
+				className={`w-full text-center transition delay-100 duration-300 ease-in-out ${
 					is_title ? "pb-8" : "pb-4"
 				} invisible group-hover:visible group-hover:translate-y-4`}
 			>
 				{partner?.name}
 			</h2>
-			<h2 className="invisible w-full pb-4 text-center transition duration-300 delay-75 ease-in-out group-hover:visible group-hover:translate-y-4">
+			<h2 className="invisible w-full pb-4 text-center transition delay-75 duration-300 ease-in-out group-hover:visible group-hover:translate-y-4">
 				{partner?.tier}
 			</h2>
 		</Link>

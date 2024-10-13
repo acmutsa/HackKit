@@ -52,7 +52,7 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 						<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
 						<h2 className="font-bold tracking-tight">Dashboard</h2>
 					</div>
-					<div className="md:flex hidden items-center justify-end gap-x-4">
+					<div className="hidden items-center justify-end gap-x-4 md:flex">
 						<Link href={"/"}>
 							<Button
 								variant={"outline"}
@@ -79,7 +79,7 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 						</Link>
 						<ProfileButton />
 					</div>
-					<div className="md:hidden flex items-center justify-end gap-x-4">
+					<div className="flex items-center justify-end gap-x-4 md:hidden">
 						<ProfileButton />
 					</div>
 				</div>

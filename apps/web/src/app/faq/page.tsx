@@ -9,21 +9,21 @@ export default function Page() {
 	return (
 		<>
 			<Navbar />
-			<div className="min-h-96 md:px-10 lg:gap-6 gap-4 bg-[#1A3A9E] px-2 pb-48 pt-12 font-oswald">
+			<div className="min-h-96 gap-4 bg-[#1A3A9E] px-2 pb-48 pt-12 font-oswald md:px-10 lg:gap-6">
 				<Accordion
 					type="single"
 					collapsible
-					className="lg:grid-cols-2 lg:gap-6 grid grid-cols-1 gap-4 font-bold"
+					className="grid grid-cols-1 gap-4 font-bold lg:grid-cols-2 lg:gap-6"
 				>
-					<div className="md:gap-6 lg:col-span-2 mb-8 flex items-center justify-center gap-3 rounded-lg border-4 border-[#ea580c] bg-white py-4">
+					<div className="mb-8 flex items-center justify-center gap-3 rounded-lg border-4 border-[#ea580c] bg-white py-4 md:gap-6 lg:col-span-2">
 						<Image
 							src="/img/logo/rhbttf.svg"
 							alt="RowdyHacks Logo"
-							className="md:w-32 w-20"
+							className="w-20 md:w-32"
 							width={100}
 							height={50}
 						/>
-						<h1 className="sm:text-5xl md:text-7xl text-center text-4xl font-extrabold text-[#ea580c]">
+						<h1 className="text-center text-4xl font-extrabold text-[#ea580c] sm:text-5xl md:text-7xl">
 							Hackathon FAQ
 						</h1>
 					</div>

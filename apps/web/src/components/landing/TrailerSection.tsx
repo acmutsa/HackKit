@@ -2,13 +2,13 @@ export default function TrailerSection() {
 	return (
 		<section
 			className={
-				"sm:p-8 md:px-10 flex min-h-[50vh] w-full items-center justify-center p-1 py-8"
+				"flex min-h-[50vh] w-full items-center justify-center p-1 py-8 sm:p-8 md:px-10"
 			}
 		>
 			<div>
 				<h1
 					className={
-						"to-orange600 sm:text-4xl mb-4 flex justify-center bg-gradient-to-b from-orange-600 via-yellow-300 bg-clip-text pl-0 pr-2 font-bttf text-4xl text-transparent"
+						"to-orange600 mb-4 flex justify-center bg-gradient-to-b from-orange-600 via-yellow-300 bg-clip-text pl-0 pr-2 font-bttf text-4xl text-transparent sm:text-4xl"
 					}
 				>
 					trailer

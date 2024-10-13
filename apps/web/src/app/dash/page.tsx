@@ -31,7 +31,7 @@ export default async function Page() {
 					{user.firstName}
 				</h1>
 			</div>
-			<div className="rows-[] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 grid w-full grid-cols-1 gap-2 px-2 pt-10">
+			<div className="rows-[] grid w-full grid-cols-1 gap-2 px-2 pt-10 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
 				<QuickQR qrPayload={qrPayload} />
 				<TitleBubble />
 				<Countdown

@@ -17,7 +17,7 @@ export default function FooterLinks({
 }) {
 	return (
 		<>
-			<div className="lg:col-span-1 lg:hidden col-span-2 flex w-full">
+			<div className="col-span-2 flex w-full lg:col-span-1 lg:hidden">
 				<DropdownMenu>
 					<DropdownMenuTrigger className="text-md mx-auto font-bold">
 						<h1 className="text-xl text-orange-500">{title}</h1>
@@ -36,7 +36,7 @@ export default function FooterLinks({
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
-			<div className="lg:flex hidden flex-col">
+			<div className="hidden flex-col lg:flex">
 				<h1 className="mb-2 text-2xl font-bold text-orange-500">
 					{title}
 				</h1>

@@ -4,13 +4,13 @@ import Link from "next/link";
 
 export default function WorkWithUs() {
 	return (
-		<section className="lg:my-32 my-2 w-full">
-			<div className="md:grid-cols-2 container mx-auto grid grid-cols-1 gap-x-10 gap-y-16">
-				<div className="md:hover:scale-105 flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300">
-					<h1 className="sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center font-oswald text-3xl font-bold italic text-[#ea580c]">
+		<section className="my-2 w-full lg:my-32">
+			<div className="container mx-auto grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2">
+				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 md:hover:scale-105">
+					<h1 className="text-center font-oswald text-3xl font-bold italic text-[#ea580c] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
 						Volunteers/Mentors
 					</h1>
-					<div className="md:text-center text-center font-mono text-lg font-bold text-[#ea580c]">
+					<div className="text-center font-mono text-lg font-bold text-[#ea580c] md:text-center">
 						<Balancer>
 							We are always looking for volunteers and mentors to
 							help us make RowdyHacks the best hackathon around!
@@ -20,7 +20,7 @@ export default function WorkWithUs() {
 						<div className={"mt-2 flex justify-center gap-x-3"}>
 							<Button
 								className={
-									"min-h-16 lg:min-h-0 rounded-md border-2 border-[#ea580c] bg-orange-300"
+									"min-h-16 rounded-md border-2 border-[#ea580c] bg-orange-300 lg:min-h-0"
 								}
 							>
 								<Link href={"https://tally.so/r/wodDNN"}>
@@ -29,7 +29,7 @@ export default function WorkWithUs() {
 							</Button>
 							<Button
 								className={
-									"min-h-16 lg:min-h-0 rounded-md border-2 border-[#ea580c] bg-orange-300"
+									"min-h-16 rounded-md border-2 border-[#ea580c] bg-orange-300 lg:min-h-0"
 								}
 							>
 								<Link href={"https://tally.so/r/nPY0ae"}>
@@ -40,11 +40,11 @@ export default function WorkWithUs() {
 					</div>
 				</div>
 
-				<div className="md:hover:scale-105 flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300">
-					<h1 className="sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center font-oswald text-3xl font-bold italic text-[#ea580c]">
+				<div className="flex transform flex-col justify-center gap-y-6 rounded-xl border-4 border-[#ea580c] bg-white p-8 transition-transform duration-300 md:hover:scale-105">
+					<h1 className="text-center font-oswald text-3xl font-bold italic text-[#ea580c] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
 						Partners
 					</h1>
-					<div className="md:text-center text-center font-mono text-lg font-bold text-[#ea580c]">
+					<div className="text-center font-mono text-lg font-bold text-[#ea580c] md:text-center">
 						<Balancer>
 							RowdyHacks would not be possible without our
 							incredible partners! If you or a group you represent

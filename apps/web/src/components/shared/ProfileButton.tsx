@@ -37,7 +37,7 @@ export default async function ProfileButton() {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent
-					className="sm:w-40 lg:w-52 mt-2 w-32 bg-[rgb(247,240,232)] dark:bg-black"
+					className="mt-2 w-32 bg-[rgb(247,240,232)] dark:bg-black sm:w-40 lg:w-52"
 					align="end"
 					forceMount
 				>
@@ -82,7 +82,7 @@ export default async function ProfileButton() {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent
-					className="sm:w-40 lg:w-52 mt-2 w-32 bg-[rgb(247,240,232)] dark:bg-black"
+					className="mt-2 w-32 bg-[rgb(247,240,232)] dark:bg-black sm:w-40 lg:w-52"
 					align="end"
 					forceMount
 				>
@@ -128,7 +128,7 @@ export default async function ProfileButton() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				className="sm:w-40 lg:w-52 mt-2 w-32"
+				className="mt-2 w-32 sm:w-40 lg:w-52"
 				align="end"
 				forceMount
 			>
@@ -148,7 +148,7 @@ export default async function ProfileButton() {
 						</DropdownMenuItem>
 					</Link>
 					<Link href={`/dash`}>
-						<DropdownMenuItem className="md:hidden cursor-pointer">
+						<DropdownMenuItem className="cursor-pointer md:hidden">
 							Dashboard
 						</DropdownMenuItem>
 					</Link>

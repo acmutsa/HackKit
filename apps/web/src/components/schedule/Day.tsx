@@ -18,7 +18,7 @@ export default function Day({ title, subtitle, events }: DayProps) {
 	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 
 	return (
-		<div className="lg:w-full flex min-h-[60vh] w-[92%] flex-col items-center rounded-xl bg-white px-2 pb-4 backdrop-blur transition dark:bg-white/[0.08]">
+		<div className="flex min-h-[60vh] w-[92%] flex-col items-center rounded-xl bg-white px-2 pb-4 backdrop-blur transition dark:bg-white/[0.08] lg:w-full">
 			<h1 className="mt-5 text-4xl font-extrabold text-hackathon dark:text-primary">
 				{title}
 			</h1>
