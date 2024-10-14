@@ -13,12 +13,12 @@ module.exports = {
 		container: {
 			center: true,
 			padding: "2rem",
-			screens: {
-				"xs":'465px',
-				"2xl": "1400px",
-			},
 		},
 		extend: {
+			screens: {
+				xs: "465px",
+				"2xl": "1400px",
+			},
 			backgroundImage: {
 				"gradient-radial":
 					"radial-gradient(ellipse_at_center, var(--gradient-color-stops))",
