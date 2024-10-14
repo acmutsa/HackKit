@@ -30,6 +30,11 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 		),
 	},
 	{
+		accessorKey: "location",
+		header: "Location",
+		cell: ({ row }) => <span>{row.original.location}</span>,
+	},
+	{
 		accessorKey: "startTime",
 		header: "Start",
 		cell: ({ row }) => (

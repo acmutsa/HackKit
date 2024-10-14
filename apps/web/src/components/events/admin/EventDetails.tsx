@@ -52,6 +52,11 @@ export default function EventFull({ event }: { event: Event }) {
 				<h2 className="mb-20 text-lg font-bold">
 					Hosted by {event.host}
 				</h2>
+				<h3 className="mb-2 font-bold">
+					Location:{" "}
+					<span className="font-normal">{event.location}</span>
+				</h3>
+
 				<h3 className="mb-2 font-bold">Description:</h3>
 				<p>
 					<Balancer>{event.description}</Balancer>
