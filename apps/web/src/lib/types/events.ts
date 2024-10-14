@@ -16,5 +16,5 @@ export interface NewEventFormProps {
 }
 
 export interface getAllEventsOptions {
-	ascending?: boolean;
+	descending?: boolean;
 }
