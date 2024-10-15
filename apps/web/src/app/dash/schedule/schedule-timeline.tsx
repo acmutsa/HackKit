@@ -1,11 +1,12 @@
 "use client";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { type EventType as Event } from "@/lib/types/events";
+import { cn } from "@/lib/utils/client/cn";
 import c from "config";
 import { formatInTimeZone } from "date-fns-tz";
 import { headers } from "next/headers";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 const daysOfWeek = [
 	"Sunday",
@@ -41,35 +42,37 @@ export default function ScheduleTimeline({
 	return (
 		<div className="mx-auto mt-5 w-3/4">
 			<table className="p-4">
-				{Array.from(splitByDay(schedule).entries()).map(
-					([dayName, arr]): ReactNode => (
-						<>
-							<tr key={dayName + " title"} className="py-8">
-								<td></td>
-								<td
-									className="w-1"
-									style={{
-										// background: `radial-gradient(circle, hsl(var(--background)) 0%, hsl(var(--secondary)) 90%)`,
-										backgroundColor: `hsl(var(--secondary))`,
-									}}
-								></td>
-								<td>
-									<h2 className="w-full pl-16 text-4xl font-black">
-										{dayName}
-									</h2>
-								</td>
-							</tr>
-							{arr?.map(
-								(event): ReactNode => (
-									<EventRow
-										event={event}
-										userTimeZone={timezone}
-									/>
-								),
-							)}
-						</>
-					),
-				)}
+				<tbody>
+					{Array.from(splitByDay(schedule).entries()).map(
+						([dayName, arr]): ReactNode => (
+							<>
+								<tr key={dayName + " title"} className="py-8">
+									<td></td>
+									<td
+										className="w-1"
+										style={{
+											// background: `radial-gradient(circle, hsl(var(--background)) 0%, hsl(var(--secondary)) 90%)`,
+											backgroundColor: `hsl(var(--secondary))`,
+										}}
+									></td>
+									<td>
+										<h2 className="w-full pl-16 text-4xl font-black">
+											{dayName}
+										</h2>
+									</td>
+								</tr>
+								{arr?.map(
+									(event): ReactNode => (
+										<EventRow
+											event={event}
+											userTimeZone={timezone}
+										/>
+									),
+								)}
+							</>
+						),
+					)}
+				</tbody>
 			</table>
 		</div>
 	);
@@ -104,13 +107,15 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 				<td
 					className={"relative h-20 w-1"}
 					style={{
-						background: `radial-gradient(circle, ${color} 0%, hsl(var(--secondary)) 90%)`,
+						background: `radial-gradient(circle, ${color} 0%, hsl(var(--secondary)) 99%)`,
 						// backgroundColor: color,
 					}}
 				>
 					{isLive ? (
 						<div
-							className="pulsatingDot absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full"
+							className={cn(
+								"pulsatingDot absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full",
+							)}
 							style={{
 								backgroundColor: color,
 							}}
@@ -127,7 +132,7 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 					)}
 				</td>
 				<td className="pl-16">
-					<p className="text-left text-3xl">
+					<div className="flex flex-wrap items-center justify-start gap-x-2 text-left text-3xl">
 						{event.title}{" "}
 						<Badge
 							variant={"outline"}
@@ -138,7 +143,7 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 						>
 							<p className="text-sm">{event.type}</p>
 						</Badge>
-					</p>
+					</div>
 				</td>
 			</tr>
 		</Link>
