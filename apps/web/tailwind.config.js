@@ -16,7 +16,7 @@ module.exports = {
 		},
 		extend: {
 			screens: {
-				xs: "465px",
+				xs: "480px",
 				"2xl": "1400px",
 			},
 			backgroundImage: {
