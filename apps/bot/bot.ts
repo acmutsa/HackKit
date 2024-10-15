@@ -224,6 +224,9 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		(role) => role.name === userGroupRoleName,
 	);
 
+	console.log('role is: ', role);
+	console.log('userGroupRole is: ', userGroupRole);
+
 	if (!role || !userGroupRole) {
 		console.log(
 			"failed cause could not find a role, was looking for group " +
