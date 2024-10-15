@@ -1,14 +1,34 @@
 "use client";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
 import { type EventType as Event } from "@/lib/types/events";
-import { cn } from "@/lib/utils/client/cn";
-import { getClientTimeZone } from "@/lib/utils/client/shared";
 import c from "config";
 import { formatInTimeZone } from "date-fns-tz";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { ReactNode } from "react";
+
+const daysOfWeek = [
+	"Sunday",
+	"Monday",
+	"Tuesday",
+	"Wednesday",
+	"Thursday",
+	"Friday",
+	"Saturday",
+];
+
+function splitByDay(schedule: Event[]) {
+	const days: Map<string, Event[]> = new Map<string, Event[]>();
+	schedule.forEach((event) => {
+		const day = daysOfWeek[event.startTime.getDay()];
+		if (days.get(day)) {
+			days.get(day)?.push(event);
+		} else {
+			days.set(day, [event]);
+		}
+	});
+	return days;
+}
 
 type ScheduleTimelineProps = {
 	schedule: Event[];
@@ -21,9 +41,35 @@ export default function ScheduleTimeline({
 	return (
 		<div className="mx-auto mt-5 w-3/4">
 			<table className="p-4">
-				{schedule.map((e) => (
-					<EventRow key={e.id} event={e} userTimeZone={timezone} />
-				))}
+				{Array.from(splitByDay(schedule).entries()).map(
+					([dayName, arr]): ReactNode => (
+						<>
+							<tr key={dayName + " title"} className="py-8">
+								<td></td>
+								<td
+									className="w-1"
+									style={{
+										// background: `radial-gradient(circle, hsl(var(--background)) 0%, hsl(var(--secondary)) 90%)`,
+										backgroundColor: `hsl(var(--secondary))`,
+									}}
+								></td>
+								<td>
+									<h2 className="w-full pl-16 text-4xl font-black">
+										{dayName}
+									</h2>
+								</td>
+							</tr>
+							{arr?.map(
+								(event): ReactNode => (
+									<EventRow
+										event={event}
+										userTimeZone={timezone}
+									/>
+								),
+							)}
+						</>
+					),
+				)}
 			</table>
 		</div>
 	);
@@ -34,7 +80,7 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 	const startTimeFormatted = formatInTimeZone(
 		event.startTime,
 		userTimeZone,
-		"EEEE, hh:mm a",
+		"hh:mm a",
 		{
 			useAdditionalDayOfYearTokens: true,
 		},
@@ -64,7 +110,7 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 				>
 					{isLive ? (
 						<div
-							className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full"
+							className="pulsatingDot absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full"
 							style={{
 								backgroundColor: color,
 							}}
@@ -81,8 +127,8 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 					)}
 				</td>
 				<td className="pl-16">
-					<div className="flex items-center gap-x-4">
-						<p className="text-left text-3xl">{event.title}</p>
+					<p className="text-left text-3xl">
+						{event.title}{" "}
 						<Badge
 							variant={"outline"}
 							className="h-fit"
@@ -92,7 +138,7 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 						>
 							<p className="text-sm">{event.type}</p>
 						</Badge>
-					</div>
+					</p>
 				</td>
 			</tr>
 		</Link>
