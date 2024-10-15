@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, authedProcedure } from "@/server/api/trpc";
-import { chats, tickets } from "db/schema";
+import { chats, tickets, ticketsToUsers } from "db/schema";
 import { nanoid } from "nanoid";
 
 export const ticketsRouter = createTRPCRouter({
@@ -37,16 +37,21 @@ export const ticketsRouter = createTRPCRouter({
 		.mutation(async ({ ctx, input }) => {
 			const ticketID = nanoid();
 
-			const ticket = await ctx.db.insert(tickets).values({
+			await ctx.db.insert(tickets).values({
 				id: ticketID,
 				title: input.title,
 				description: input.description,
 				status: "awaiting",
 			});
 
+			await ctx.db.insert(ticketsToUsers).values({
+				ticketID: ticketID,
+				userID: ctx.userId,
+			});
+
 			const chatID = nanoid();
 
-			const chat = await ctx.db.insert(chats).values({
+			await ctx.db.insert(chats).values({
 				id: chatID,
 				type: "ticket",
 				ticketID: ticketID,
