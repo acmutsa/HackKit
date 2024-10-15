@@ -224,8 +224,8 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		(role) => role.name === userGroupRoleName,
 	);
 
-	console.log('role is: ', role);
-	console.log('userGroupRole is: ', userGroupRole);
+	// console.log('role is: ', role);
+	// console.log('userGroupRole is: ', userGroupRole);
 
 	if (!role || !userGroupRole) {
 		console.log(
@@ -243,7 +243,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		console.log("failed cause could not find member");
 		return h.json({ success: false });
 	}
-
+	// Holy waterfalling request
 	await member.roles.add(role);
 	await member.roles.add(userGroupRole);
 	await member.setNickname(user.firstName + " " + user.lastName);
