@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.616.0",
+    "@clerk/backend": "^1.13.8",
     "@clerk/nextjs": "^4.29.4",
     "@gsap/react": "^2.1.1",
     "@hookform/resolvers": "^3.9.0",
@@ -65,6 +66,9 @@
     "next": "14.2.5",
     "next-safe-action": "^5.2.3",
     "no-profanity": "^1.5.1",
+    "partykit": "^0.0.111",
+    "partyrpc": "^0.3.0",
+    "partysocket": "^1.0.2",
     "pg": "^8.12.0",
     "postcss": "8.4.39",
     "postgres": "^3.4.4",
@@ -94,6 +98,7 @@
     "typescript": "5.5.3",
     "use-debounce": "^10.0.1",
     "usehooks-ts": "^3.1.0",
+    "valibot": "^0.42.1",
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
