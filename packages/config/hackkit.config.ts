@@ -778,7 +778,7 @@ const c = {
 	itteration: "X",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
-	botName: "HackKit",
+	botName: "RowdyBot",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schools[0],
@@ -821,34 +821,34 @@ const c = {
 	},
 	groups: {
 		"Guild A | Group A": {
-			discordRole: "Guild A Role",
+			discordRole: "Doc Brown",
 		},
 		"Guild A | Group B": {
-			discordRole: "Guild A Role",
+			discordRole: "Doc Brown",
 		},
 		"Guild B | Group A": {
-			discordRole: "Guild B Role",
+			discordRole: "Marty",
 		},
 		"Guild B | Group B": {
-			discordRole: "Guild B Role",
+			discordRole: "Marty",
 		},
 		"Guild C | Group A": {
-			discordRole: "Guild C Role	",
+			discordRole: "Dr. Who",
 		},
 		"Guild C | Group B": {
-			discordRole: "Guild C Role",
+			discordRole: "Dr. Who",
 		},
 		"Guild D | Group A": {
-			discordRole: "Guild D Role",
+			discordRole: "Terminator",
 		},
 		"Guild D | Group B": {
-			discordRole: "Guild D Role",
+			discordRole: "Terminator",
 		},
 		"Guild E | Group A": {
-			discordRole: "Guild E Role",
+			discordRole: "Mr. Peabody and Sherman",
 		},
 		"Guild E | Group B": {
-			discordRole: "Guild E Role",
+			discordRole: "Mr. Peabody and Sherman",
 		},
 	},
 	issueEmail: "team@rowdyhacks.org",
@@ -878,8 +878,8 @@ const c = {
 			Overview: "/admin",
 			Users: "/admin/users",
 			Events: "/admin/events",
-			Points: "/admin/points",
-			"Check-in": "/admin/check-in",
+			// Points: "/admin/points",
+			"Hackathon Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
 	},
