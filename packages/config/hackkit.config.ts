@@ -778,7 +778,7 @@ const c = {
 	itteration: "X",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
-	botName: "HackKit",
+	botName: "RowdyBot",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schools[0],
