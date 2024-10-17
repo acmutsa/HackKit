@@ -779,7 +779,7 @@ const c = {
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	botName: "RowdyBot",
-	botParticipantRole: "Participant",
+	botParticipantRole: "RHX Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schools[0],
 	localUniversitySchoolIDName: "ABC123",
