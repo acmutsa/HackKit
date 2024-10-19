@@ -56,13 +56,13 @@ import { formatRegistrationField } from "@/lib/utils/client/shared";
 import clsx from "clsx";
 import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 import RegistrationFeedbackAlert from "./RegistrationFeedbackAlert";
+import { registerUser,uploadResume } from "@/actions/registration";
+import { useAction } from "next-safe-action/hooks";
 
 export default function RegisterForm({
 	defaultEmail,
-	userId,
 }: {
 	defaultEmail: string;
-	userId: string;
 }) {
 	const { isLoaded } = useAuth();
 	const router = useRouter();
@@ -101,86 +101,83 @@ export default function RegisterForm({
 			phoneNumber: "",
 			countryOfResidence: "",
 			softwareExperience: "" as any,
+			resumeFile: null,
 		},
 	});
 
-	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
+	const {
+		execute: runRegisterUser,
+		status: registerUserStatus,
+		reset: resetRegisterUser,
+	} = useAction(registerUser,{
+		onSuccess: ({ data}) => {
+			console.log("data is: ",data);
+			
+			if (data?.success){
+				// setHasSuccess(true);
+				// 	setTimeout(() => {
+				// 		router.push("/dash");
+				// 	}, 1000);
+			}
+			else{
+				console.error("Error data:",data);
+				setErrorMessage(data?.message ?? 'Unexpected error occured');
+			}
+		},
+		onError: ({ error })=>{
+			console.log("Error is: ",error);
+			resetRegisterUser();
+		}	
+	});
+
+	useEffect(() => {
+		const { unsubscribe } = form.watch((value) => {
+			console.log(value);
+		});
+		return () => unsubscribe();
+	}, [form.watch]);
+
+	const isLoading = registerUserStatus === 'executing';
+	
+	const { isSubmitSuccessful, isSubmitted, } = form.formState;
 
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [skills, setSkills] = useState<Tag[]>([]);
-	const [isLoading, setIsLoading] = useState(false);
 	const [hasSuccess, setHasSuccess] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
-	const isLocalUniversitySelected = universityValue === c.localUniversityName;
+	const classificationValue = form.watch("levelOfStudy");
+	const isLocalUniversitySelected =
+		universityValue === c.localUniversityName &&
+		classificationValue !== "Recent Grad";
+	
+	
 	useEffect(() => {
-		if (universityValue !== c.localUniversityName) {
+		if (universityValue !== c.localUniversityName || classificationValue === 'Recent Grad') {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
 			form.setValue("schoolID", "");
 		}
 	}, [universityValue]);
 
-	async function onSubmit(
+	function onSubmit(
 		data: z.infer<typeof hackerRegistrationFormValidator>,
 	) {
-		console.log(data);
-		setErrorMessage(null);
-		setIsLoading(true);
-		if (!isLoaded) {
-			setErrorMessage(
-				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
-			);
-			return;
-		}
-
-		let resume: string = c.noResumeProvidedURL;
-
-		
-		if (uploadedFile) {
-			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
-			const newBlob = await put(fileLocation, uploadedFile, {
-				access: "public",
-				handleBlobUploadUrl: "/api/upload/resume/register",
-			});
-			resume = newBlob.url;
-		}
-
-		const res = await zpostSafe({
-			url: "/api/registration/create",
-			body: { ...data, resume },
-			vRes: BasicServerValidator,
-		});
-
-		if (res.success) {
-			if (res.data.success) {
-				setHasSuccess(true);
-				setTimeout(() => {
-					router.push("/dash");
-				}, 1000);
-			} else {
-				if (res.data.message === "hackertag_not_unique") {
-					setErrorMessage(
-						`HackerTag '@${form.getValues().hackerTag ?? "Not Provided"}' has already been taken. Please change it and then resubmit the form.`,
-					);
-					return;
-				}
+			console.log(data);
+			setErrorMessage(null);
+			if (!isLoaded) {
 				setErrorMessage(
-					`Registration not created. Error message: \n\n ${res.data.message} \n\n Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
+					`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
 				);
+				return;
 			}
-		} else {
-			setErrorMessage(
-				`Something went wrong while attempting to register. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			);
-			return console.log(
-				`Recieved a unexpected response from the server. Please try again. If this is a continuing issue, please reach out to us at ${c.issueEmail}.`,
-			);
-		}
+			
+			runRegisterUser({...data});
+		
 	}
 
 	const onDrop = useCallback(
@@ -192,6 +189,7 @@ export default function RegisterForm({
 			}
 			if (acceptedFiles.length > 0) {
 				setUploadedFile(acceptedFiles[0]);
+				form.setValue('resumeFile',acceptedFiles[0]);
 			}
 		},
 		[],
@@ -207,7 +205,7 @@ export default function RegisterForm({
 
 	return (
 		<>
-			{isLoading ? (
+			{isLoading || hasSuccess ? (
 				<CreatingRegistration
 					hasSuccess={hasSuccess}
 					isLoading={isLoading}
@@ -216,7 +214,7 @@ export default function RegisterForm({
 				<div className="relative">
 					<Form {...form}>
 						<form
-							onSubmit={form.handleSubmit(onSubmit)}
+							onSubmit={form.handleSubmit(runRegisterUser)}
 							className="space-y-6"
 						>
 							<FormGroupWrapper title="General">
@@ -837,6 +835,68 @@ export default function RegisterForm({
 									/>
 									<FormField
 										control={form.control}
+										name="levelOfStudy"
+										render={({ field }) => (
+											<FormItem
+												className={`col-span-2 ${isLocalUniversitySelected ? "md:col-span-2" : "md:col-span-1 lg:col-span-2"} flex flex-col`}
+											>
+												<FormLabel>
+													{formatRegistrationField(
+														"Level of Study",
+														hackerRegistrationFormValidator.shape[
+															field.name
+														].isOptional(),
+													)}
+												</FormLabel>
+												<Select
+													onValueChange={
+														field.onChange
+													}
+													defaultValue={field.value}
+												>
+													<FormControl>
+														<SelectTrigger className="w-full placeholder:text-muted-foreground">
+															<div
+																className={clsx(
+																	"flex w-[95%] justify-start",
+																	{
+																		"text-muted-foreground":
+																			!field.value,
+																	},
+																)}
+															>
+																<p className="overflow-hidden text-ellipsis whitespace-nowrap">
+																	{field.value ||
+																		`Select an Option`}
+																</p>
+															</div>
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
+															{c.registration.levelsOfStudy.map(
+																(level) => (
+																	<SelectItem
+																		value={
+																			level
+																		}
+																		key={
+																			level
+																		}
+																	>
+																		{level}
+																	</SelectItem>
+																),
+															)}
+														</SelectGroup>
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
 										name="schoolID"
 										render={({ field }) => (
 											<FormItem
@@ -957,68 +1017,6 @@ export default function RegisterForm({
 														</Command>
 													</PopoverContent>
 												</Popover>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="levelOfStudy"
-										render={({ field }) => (
-											<FormItem
-												className={`col-span-2 ${isLocalUniversitySelected ? "md:col-span-2" : "md:col-span-1 lg:col-span-2"} flex flex-col`}
-											>
-												<FormLabel>
-													{formatRegistrationField(
-														"Level of Study",
-														hackerRegistrationFormValidator.shape[
-															field.name
-														].isOptional(),
-													)}
-												</FormLabel>
-												<Select
-													onValueChange={
-														field.onChange
-													}
-													defaultValue={field.value}
-												>
-													<FormControl>
-														<SelectTrigger className="w-full placeholder:text-muted-foreground">
-															<div
-																className={clsx(
-																	"flex w-[95%] justify-start",
-																	{
-																		"text-muted-foreground":
-																			!field.value,
-																	},
-																)}
-															>
-																<p className="overflow-hidden text-ellipsis whitespace-nowrap">
-																	{field.value ||
-																		`Select an Option`}
-																</p>
-															</div>
-														</SelectTrigger>
-													</FormControl>
-													<SelectContent>
-														<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
-															{c.registration.levelsOfStudy.map(
-																(level) => (
-																	<SelectItem
-																		value={
-																			level
-																		}
-																		key={
-																			level
-																		}
-																	>
-																		{level}
-																	</SelectItem>
-																),
-															)}
-														</SelectGroup>
-													</SelectContent>
-												</Select>
 												<FormMessage />
 											</FormItem>
 										)}
@@ -1455,7 +1453,7 @@ export default function RegisterForm({
 								</div>
 								<FormField
 									control={form.control}
-									name="PersonalWebsite"
+									name="resumeFile"
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>
@@ -1719,11 +1717,11 @@ export default function RegisterForm({
 				</div>
 			)}
 			<div className="relative">
-				{isLoading && !!errorMessage && (
+				{!!errorMessage && !hasSuccess && (
 					<RegistrationFeedbackAlert
 						hasError={hasErrors}
 						messasge={errorMessage}
-						setIsLoading={setIsLoading}
+						setErrorMessage={setErrorMessage}
 					/>
 				)}
 			</div>
