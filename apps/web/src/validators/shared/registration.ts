@@ -9,6 +9,10 @@ const defaultInputPrettyError = c.zod.defaultInputPrettyError;
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
 
+export const uploadResumeSchema = z.object({
+	resumeFile: z.instanceof(File),
+});
+
 const countryList = Object.freeze(
 	c.registration.countries.map((countryObject) => countryObject.code),
 ) as readonly [string, ...string[]];
@@ -68,7 +72,7 @@ export const hackerRegistrationFormValidator = z
 			.max(30, {
 				message: "Phone number must be between 10 and 30 characters",
 			})
-			.refine((val) => val.match(PHONE_NUMBER_REGEX), {
+			.regex(PHONE_NUMBER_REGEX, {
 				message: "Phone number must be a valid phone number",
 			}),
 		countryOfResidence: z.enum(countryList, defaultSelectPrettyError),
@@ -85,7 +89,7 @@ export const hackerRegistrationFormValidator = z
 			.length(c.localUniversityShortIDMaxLength, {
 				message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
 			})
-			.refine((val) => val.match(c.registration.universityShortIDRegex), {
+			.regex(c.registration.universityShortIDRegex, {
 				message: "School ID must be a valid school ID",
 			})
 			.or(z.literal("NOT_LOCAL_SCHOOL")),
@@ -167,6 +171,12 @@ export const hackerRegistrationFormValidator = z
 			})
 			.optional(),
 	})
+	.merge(
+		z.object({
+			...uploadResumeSchema.shape,
+			resumeFile: z.instanceof(File).nullable(),
+		}),
+	)
 	.omit({
 		clerkID: true,
 		isFullyRegistered: true,
@@ -177,6 +187,6 @@ export const hackerRegistrationFormValidator = z
 		group: true,
 		points: true,
 		profilePhoto: true,
-		checkinTimestamp:true,
-		teamID:true,
+		checkinTimestamp: true,
+		teamID: true,
 	});

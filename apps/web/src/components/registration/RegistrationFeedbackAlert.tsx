@@ -16,17 +16,17 @@ interface RegistrationFeedbackAlertProps {
 	hasError: boolean;
 	messasge: string;
 	className?: string;
-	setIsLoading: Dispatch<SetStateAction<boolean>>;
+	setErrorMessage: Dispatch<SetStateAction<string | null>>;
 }
 
 export default function RegistrationFeedbackAlert(
 	props: RegistrationFeedbackAlertProps,
 ) {
-	const { hasError, messasge, className, setIsLoading } = props;
+	const { hasError, messasge, className, setErrorMessage } = props;
 	return (
 		<AlertDialog
 			onOpenChange={(_) => {
-				setIsLoading(false);
+				setErrorMessage(null);
 			}}
 			open={true}
 		>

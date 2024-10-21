@@ -536,6 +536,7 @@ const levelsOfStudy = [
 	"Undergraduate University (3+ year)",
 	"Graduate University (Masters, Professional, Doctoral, etc)",
 	"Code School / Bootcamp",
+	"Recent Grad",
 	"Other Vocational / Trade Program or Apprenticeship",
 	"Post Doctorate",
 	"Other",
@@ -839,6 +840,14 @@ const c = {
 		},
 		defaultInputPrettyError: {
 			message: "Please enter a value",
+		},
+	},
+	db: {
+		UniqueKeyMapper: {
+			user_common_data_hacker_tag_unique:
+				"Hacker Tag is taken. Please use another one.",
+			user_common_data_email_unique: "Email is already in use",
+			users_clerk_id_unique:'You have already registered. Please login to your account',
 		},
 	},
 	groups: {

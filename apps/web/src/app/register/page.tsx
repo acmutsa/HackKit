@@ -52,7 +52,6 @@ export default async function Page() {
 							defaultEmail={
 								user.emailAddresses[0]?.emailAddress || ""
 							}
-							userId={userId}
 						/>
 					</div>
 				</main>
