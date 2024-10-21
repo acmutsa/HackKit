@@ -118,7 +118,7 @@
 	/* background-color: var(--pulsating-dot, #00BEFF); */
 	background-color: hsl(var(--hackathon-primary));
 	border-radius: 45px;
-	content: '';
+	content: "";
 	display: block;
 	height: 300%;
 	left: -100%;
@@ -129,7 +129,7 @@
 
 @keyframes pulseRing {
 	0% {
-		transform: scale(.5);
+		transform: scale(0.5);
 	}
 
 	80%,
@@ -139,7 +139,6 @@
 }
 
 @keyframes pulseDot {
-
 	0%,
 	100% {
 		transform: scale(1);
