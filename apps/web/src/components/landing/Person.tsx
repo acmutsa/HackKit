@@ -1,9 +1,21 @@
-export type Person = {
-	fname: string; //picture file name must match name with .png
-	lname: string;
-	imgLink: string;
-	role: string;
+type Picture = {
+	link: string;
+	zoom: number;
+	x: number;
+	y: number;
+};
+
+type Person = {
+	name: string;
+	nameSize: number;
+	team: string;
+	professionalPicture: Picture;
+	personalityPicture: Picture;
 	linkedin: string;
-	website: string;
 	github: string;
+	personal: string;
+};
+
+type Team = {
+	team: Person[];
 };

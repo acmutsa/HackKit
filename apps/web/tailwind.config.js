@@ -83,6 +83,15 @@ module.exports = {
 				oswald: ["var(--font-oswald)"],
 				bttf: ["var(--font-bttf)"],
 			},
+			fontSize: {
+				"1.5xl": [
+					"1.375rem",
+					{
+						lineHeight: "1.75rem",
+					},
+				],
+				"1.8xl": ["1.45rem", "1.9375rem"],
+			},
 		},
 	},
 	plugins: [

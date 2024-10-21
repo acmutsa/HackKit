@@ -17,8 +17,21 @@ export default function Home() {
 					{"&future>"}
 				</h1>
 			</div>
-			<div className={"z-20 mx-2 mb-4 flex items-center text-center font-mono text-xl font-bold italic text-orange-400 2xl:translate-x-[30px] -translate-y-4 md:mx-0 2xl:text-3xl"}>
-				<p className={"text-md mb-[6px] 2xl:mb-[15px] mr-3"}>Presented by </p><Image className={"w-[120px] 2xl:w-[220px]"} src={"/img/SWIVEL Knockout-w.svg"} alt={"Swivel Logo"} width={0} height={0}/>
+			<div
+				className={
+					"z-20 mx-2 mb-4 flex -translate-y-4 items-center text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 2xl:translate-x-[30px] 2xl:text-3xl"
+				}
+			>
+				<p className={"text-md mb-[6px] mr-3 2xl:mb-[15px]"}>
+					Presented by{" "}
+				</p>
+				<Image
+					className={"w-[120px] 2xl:w-[220px]"}
+					src={"/img/SWIVEL Knockout-w.svg"}
+					alt={"Swivel Logo"}
+					width={0}
+					height={0}
+				/>
 			</div>
 			<p className="z-20 mx-2 mb-4 text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 2xl:text-3xl">
 				October 26th - 27th 2024

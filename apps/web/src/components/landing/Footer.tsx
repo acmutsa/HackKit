@@ -30,7 +30,7 @@ export default function Footer() {
 						key={idx}
 					/>
 				))}
-				<div className="col-span-2 justify-self-center lg:col-span-1 flex flex-col gap-y-3">
+				<div className="col-span-2 flex flex-col gap-y-3 justify-self-center lg:col-span-1">
 					<Link href="https://vercel.com">
 						<Image
 							className="select-none"
@@ -41,7 +41,7 @@ export default function Footer() {
 						/>
 					</Link>
 					<Link href="https://github.com/acmutsa/HackKit">
-					<ManagedByHackkit/>
+						<ManagedByHackkit />
 					</Link>
 				</div>
 				<div className="col-span-2 flex h-[41px] w-[200px] items-center justify-between gap-2 justify-self-center rounded-lg bg-black px-2 lg:col-span-1 lg:col-start-5">
