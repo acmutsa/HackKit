@@ -4,9 +4,8 @@ import { type EventType as Event } from "@/lib/types/events";
 import { cn } from "@/lib/utils/client/cn";
 import c from "config";
 import { formatInTimeZone } from "date-fns-tz";
-import { headers } from "next/headers";
 import Link from "next/link";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode } from "react";
 
 const daysOfWeek = [
 	"Sunday",
@@ -56,7 +55,7 @@ export default function ScheduleTimeline({
 										}}
 									></td>
 									<td>
-										<h2 className="w-full pl-16 text-4xl font-black">
+										<h2 className="ml-16 w-full border-b py-4 text-6xl font-black">
 											{dayName}
 										</h2>
 									</td>
