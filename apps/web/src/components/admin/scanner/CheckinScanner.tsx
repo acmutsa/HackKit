@@ -47,20 +47,22 @@ export default function CheckinScanner({
 	const path = usePathname();
 	const router = useRouter();
 
-	const { execute: runCheckInUserToHackathon, result: checkInResult } =
-		useAction(checkInUserToHackathon);
+	function handleUseActionFeedback(hasErrored = false) {
+		toast.dismiss();
+		(hasErrored) ? toast.error("Failed to Check User Into Hackathon") : toast.success("Successfully Checked User Into Hackathon!");
+		router.replace(`${path}`);
+	}
 
-	useEffect(() => {
-		if (
-			checkInResult &&
-			checkInResult.data &&
-			!checkInResult.data.success
-		) {
-			alert(
-				`${checkInResult.data?.message ?? "Error checking in user To the hackathon"}`,
-			);
-		}
-	}, [checkInResult]);
+	const { execute: runCheckInUserToHackathon, result: checkInResult } =
+		useAction(checkInUserToHackathon,{
+			onSuccess: () => {
+				handleUseActionFeedback();
+			},
+			onError: () =>{
+				handleUseActionFeedback(true);
+			}
+		});
+
 	function handleScanCreate() {
 		const params = new URLSearchParams(searchParams.toString());
 		const timestamp = parseInt(params.get("createdAt") as string);
@@ -75,10 +77,10 @@ export default function CheckinScanner({
 		if (checkedIn) {
 			return alert("User Already Checked in!");
 		} else {
+			toast.loading('Checking User In');
 			runCheckInUserToHackathon(scanUser.clerkID);
 		}
-		toast.success("Successfully Scanned User In");
-		router.replace(`${path}`);
+		router.replace(path);
 	}
 
 	const drawerTitle = checkedIn

@@ -69,14 +69,9 @@ export const checkInUserToHackathon = adminAction
 	.schema(z.string())
 	.action(async ({ parsedInput: user }) => {
 		// Set checkinTimestamp
-		try {
 			await db
 				.update(userCommonData)
 				.set({ checkinTimestamp: sql`now()` })
 				.where(eq(userCommonData.clerkID, user));
-		} catch (e) {
-			console.log("Error updating checkinTimestamp: ", e);
-			return { success: false, message: "Error checking in the user!" };
 		}
-		return { success: true };
-	});
+	);
