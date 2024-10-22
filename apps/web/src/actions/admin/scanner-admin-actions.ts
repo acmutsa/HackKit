@@ -68,7 +68,6 @@ export const getScan = adminAction
 export const checkInUserToHackathon = adminAction
 	.schema(z.string())
 	.action(async ({ parsedInput: user }) => {
-		console.log('Made to server. User is: ', user);
 		// Set checkinTimestamp
 		try{
 			await db
