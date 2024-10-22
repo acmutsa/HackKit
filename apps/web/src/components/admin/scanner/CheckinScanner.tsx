@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
-import { checkInUser } from "@/actions/admin/scanner-admin-actions";
-import { useAction } from "next-safe-action/hooks";
+import { checkInUserToHackathon } from "@/actions/admin/scanner-admin-actions";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { User } from "db/types";
+import clsx from "clsx";
+import { useAction } from "next-safe-action/hooks";
 
 import {
 	Drawer,
@@ -19,16 +20,6 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-
-/*
-
-Pass Scanner Props:
-
-eventName: name of the event that the user is scanning into
-hasScanned: if the state has eventered one in which a QR has been scanned (whether that scan has scanned before or not)
-scan: the scan object that has been scanned. If they have not scanned before scan will be null leading to a new record or if they have then it will incriment the scan count.
-
-*/
 
 interface CheckinScannerProps {
 	hasScanned: boolean;
@@ -43,9 +34,10 @@ export default function CheckinScanner({
 	scanUser,
 	hasRSVP,
 }: CheckinScannerProps) {
+
+	console.log('scanner props is: ',hasScanned, checkedIn, scanUser, hasRSVP)
+
 	const [scanLoading, setScanLoading] = useState(false);
-	// const { execute: runScanAction } = useAction(checkInUser, {});
-	const [proceed, setProceed] = useState(hasRSVP);
 	useEffect(() => {
 		if (hasScanned) {
 			setScanLoading(false);
@@ -56,21 +48,47 @@ export default function CheckinScanner({
 	const path = usePathname();
 	const router = useRouter();
 
+	const {  execute:runCheckInUserToHackathon, result:checkInResult} = useAction(checkInUserToHackathon);
+
+	useEffect(() => {
+		if (checkInResult && checkInResult.data && !checkInResult.data.success){
+			alert(`${checkInResult.data?.message ?? 'Error checking in user To the hackathon'}`);
+		}
+
+	},[checkInResult]);
 	function handleScanCreate() {
 		const params = new URLSearchParams(searchParams.toString());
 		const timestamp = parseInt(params.get("createdAt") as string);
+
+		if (!scanUser) {
+			return alert("User Not Found");
+		}
+
 		if (isNaN(timestamp)) {
 			return alert("Invalid QR Code Data (Field: createdAt)");
 		}
 		if (checkedIn) {
 			return alert("User Already Checked in!");
 		} else {
-			// TODO: make this a little more typesafe
-			checkInUser(scanUser?.clerkID!);
+			runCheckInUserToHackathon(scanUser.clerkID);
+			
 		}
 		toast.success("Successfully Scanned User In");
 		router.replace(`${path}`);
 	}
+
+	const drawerTitle = checkedIn 
+			? "User Already Checked In" 
+			: !hasRSVP ? 'Warning!'
+			: "New Scan";
+	const drawerDescription = checkedIn 
+			? 'If this is a mistake, please talk to an admin' 
+			: !hasRSVP ? `${scanUser?.firstName} ${scanUser?.lastName} Is not RSVP'd`
+			: `New scan for ${scanUser?.firstName} ${scanUser?.lastName}`;
+	const drawerFooterButtonText = checkedIn 
+			? "Close" 
+			: !hasRSVP ? "Check In Anyways"
+			: "Scan User In";
 
 	return (
 		<>
@@ -108,29 +126,21 @@ export default function CheckinScanner({
 							}}
 						/>
 					</div>
-					{/* <div className="mx-auto flex w-screen max-w-[500px] justify-center gap-x-2 overflow-hidden">
-            <Link href={"/admin/events"}>
-              <Button>Return To Events</Button>
-            </Link>
-          </div> */}
 				</div>
 			</div>
 			<Drawer
 				onClose={() => router.replace(path)}
-				open={hasScanned || scanLoading}
-			>
+				open={hasScanned || scanLoading}>
 				<DrawerContent>
 					{scanLoading ? (
 						<>
 							<DrawerHeader>
 								<DrawerTitle>Loading Scan...</DrawerTitle>
-								{/* <DrawerDescription></DrawerDescription> */}
 							</DrawerHeader>
 							<DrawerFooter>
 								<Button
 									onClick={() => router.replace(path)}
-									variant="outline"
-								>
+									variant="outline">
 									Cancel
 								</Button>
 							</DrawerFooter>
@@ -138,80 +148,36 @@ export default function CheckinScanner({
 					) : (
 						<>
 							<DrawerHeader>
-								{checkedIn ? (
-									<DrawerTitle className="mx-auto">
-										User already checked in!
-									</DrawerTitle>
-								) : (
-									<>
-										{!proceed ? (
-											<>
-												<DrawerTitle className="text-red-500">
-													Warning!
-												</DrawerTitle>
-												<DrawerDescription>
-													{scanUser?.firstName}{" "}
-													{scanUser?.lastName} Is not
-													RSVP'd
-												</DrawerDescription>
-												<DrawerFooter>
-													Do you wish to proceed?
-													<Button
-														onClick={() => {
-															setProceed(true);
-														}}
-														variant="outline"
-													>
-														Proceed
-													</Button>
-													<Button
-														onClick={() =>
-															router.replace(path)
-														}
-														variant="outline"
-													>
-														Cancel
-													</Button>
-												</DrawerFooter>
-											</>
-										) : (
-											<>
-												<DrawerTitle>
-													New Scan
-												</DrawerTitle>
-												<DrawerDescription>
-													New scan for{" "}
-													{scanUser?.firstName}{" "}
-													{scanUser?.lastName}
-												</DrawerDescription>
-											</>
-										)}
-									</>
-								)}
+								<DrawerTitle
+									className={clsx("mx-auto", {
+										"text-red-500": !hasRSVP || checkedIn,
+									})}>
+									{drawerTitle}
+								</DrawerTitle>
 							</DrawerHeader>
-							{proceed ? (
-								<>
-									<DrawerFooter>
-										{!checkedIn && (
-											<Button
-												onClick={() =>
-													handleScanCreate()
-												}
-											>
-												{"Scan User In"}
-											</Button>
-										)}
-										<Button
-											onClick={() => router.replace(path)}
-											variant="outline"
-										>
-											Cancel
-										</Button>
-									</DrawerFooter>
-								</>
-							) : (
-								<></>
-							)}
+							<DrawerDescription className="mx-auto">
+								{drawerDescription}
+							</DrawerDescription>
+							<DrawerFooter>
+								{!hasRSVP && !checkedIn && (
+									<div className="mx-auto" >Do you wish to proceed?</div>
+								)}
+								{!checkedIn && (
+									<Button
+										onClick={() => {
+											handleScanCreate();
+										}}
+										variant="outline"
+									>
+										{drawerFooterButtonText}
+									</Button>
+								)}
+								<Button
+									onClick={() => router.replace(path)}
+									variant="outline">
+									Cancel
+								</Button>
+							</DrawerFooter>
 						</>
 					)}
 				</DrawerContent>

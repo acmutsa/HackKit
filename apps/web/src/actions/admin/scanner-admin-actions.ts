@@ -65,12 +65,20 @@ export const getScan = adminAction
 		},
 	);
 
-export const checkInUser = adminAction
+export const checkInUserToHackathon = adminAction
 	.schema(z.string())
 	.action(async ({ parsedInput: user }) => {
+		console.log('Made to server. User is: ', user);
 		// Set checkinTimestamp
-		return await db
+		try{
+			await db
 			.update(userCommonData)
 			.set({ checkinTimestamp: sql`now()` })
 			.where(eq(userCommonData.clerkID, user));
+		}
+		catch(e){
+			console.log('Error updating checkinTimestamp: ', e);
+			return { success: false, message: 'Error checking in the user!' };
+		}
+		return { success: true };
 	});

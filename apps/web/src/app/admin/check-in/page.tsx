@@ -19,7 +19,9 @@ export default async function Page({
 		);
 
 	const scanUser = await getUser(searchParams.user);
-	if (!scanUser)
+	console.log(scanUser);
+	if (!scanUser){
+		console.log("no scan user found");
 		return (
 			<div>
 				<CheckinScanner
@@ -30,7 +32,9 @@ export default async function Page({
 				/>
 			</div>
 		);
-
+	}
+		
+	console.log('using scanner case instead')
 	return (
 		<div>
 			<CheckinScanner

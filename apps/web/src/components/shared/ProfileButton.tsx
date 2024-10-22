@@ -19,6 +19,7 @@ import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import DefaultDropdownTrigger from "../dash/shared/DefaultDropDownTrigger";
 import MobileNavBarLinks from "./MobileNavBarLinks";
 import { getUser } from "db/functions";
+import { redirect } from "next/navigation";
 
 export default async function ProfileButton() {
 	const clerkUser = await auth();
