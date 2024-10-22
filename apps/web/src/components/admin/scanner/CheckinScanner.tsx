@@ -48,31 +48,37 @@ export default function CheckinScanner({
 	const path = usePathname();
 	const router = useRouter();
 
-	function handleUseActionFeedback(hasErrored=false,message="") {
+	function handleUseActionFeedback(hasErrored = false, message = "") {
 		console.log("called");
 		toast.dismiss();
 		hasErrored
 			? toast.error(message || "Failed to Check User Into Hackathon")
-			: toast.success(message || "Successfully Checked User Into Hackathon!");
+			: toast.success(
+					message || "Successfully Checked User Into Hackathon!",
+				);
 		router.replace(`${path}`);
 	}
 
-	const { execute: runCheckInUserToHackathon } =
-		useAction(checkInUserToHackathon, {
+	const { execute: runCheckInUserToHackathon } = useAction(
+		checkInUserToHackathon,
+		{
 			onSuccess: () => {
 				handleUseActionFeedback();
 			},
-			onError: ({error,input}) => {
+			onError: ({ error, input }) => {
 				console.log("error is: ", error);
 				console.log("input is: ", input);
-				if (error.validationErrors?.QRTimestamp?._errors){
-					handleUseActionFeedback(true,error.validationErrors.QRTimestamp._errors[0]);
-				}
-				else{
+				if (error.validationErrors?.QRTimestamp?._errors) {
+					handleUseActionFeedback(
+						true,
+						error.validationErrors.QRTimestamp._errors[0],
+					);
+				} else {
 					handleUseActionFeedback(true);
 				}
 			},
-		});
+		},
+	);
 
 	function handleScanCreate() {
 		const params = new URLSearchParams(searchParams.toString());
@@ -86,14 +92,19 @@ export default function CheckinScanner({
 			return alert("Invalid QR Code Data (Field: createdAt)");
 		}
 		if (Date.now() - timestamp > FIVE_MINUTES_IN_MILLISECONDS) {
-			return alert("QR Code has expired. Please refresh the QR Code");
+			return alert(
+				"QR Code has expired. Please tell user to refresh the QR Code",
+			);
 		}
 
 		if (checkedIn) {
 			return alert("User Already Checked in!");
 		} else {
 			toast.loading("Checking User In");
-			runCheckInUserToHackathon({userID:scanUser.clerkID, QRTimestamp: timestamp});
+			runCheckInUserToHackathon({
+				userID: scanUser.clerkID,
+				QRTimestamp: timestamp,
+			});
 		}
 		router.replace(path);
 	}
