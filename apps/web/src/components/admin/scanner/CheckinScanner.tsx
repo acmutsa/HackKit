@@ -34,8 +34,7 @@ export default function CheckinScanner({
 	scanUser,
 	hasRSVP,
 }: CheckinScannerProps) {
-
-	console.log('scanner props is: ',hasScanned, checkedIn, scanUser, hasRSVP)
+	console.log("scanner props is: ", hasScanned, checkedIn, scanUser, hasRSVP);
 
 	const [scanLoading, setScanLoading] = useState(false);
 	useEffect(() => {
@@ -48,14 +47,20 @@ export default function CheckinScanner({
 	const path = usePathname();
 	const router = useRouter();
 
-	const {  execute:runCheckInUserToHackathon, result:checkInResult} = useAction(checkInUserToHackathon);
+	const { execute: runCheckInUserToHackathon, result: checkInResult } =
+		useAction(checkInUserToHackathon);
 
 	useEffect(() => {
-		if (checkInResult && checkInResult.data && !checkInResult.data.success){
-			alert(`${checkInResult.data?.message ?? 'Error checking in user To the hackathon'}`);
+		if (
+			checkInResult &&
+			checkInResult.data &&
+			!checkInResult.data.success
+		) {
+			alert(
+				`${checkInResult.data?.message ?? "Error checking in user To the hackathon"}`,
+			);
 		}
-
-	},[checkInResult]);
+	}, [checkInResult]);
 	function handleScanCreate() {
 		const params = new URLSearchParams(searchParams.toString());
 		const timestamp = parseInt(params.get("createdAt") as string);
@@ -71,23 +76,25 @@ export default function CheckinScanner({
 			return alert("User Already Checked in!");
 		} else {
 			runCheckInUserToHackathon(scanUser.clerkID);
-			
 		}
 		toast.success("Successfully Scanned User In");
 		router.replace(`${path}`);
 	}
 
-	const drawerTitle = checkedIn 
-			? "User Already Checked In" 
-			: !hasRSVP ? 'Warning!'
+	const drawerTitle = checkedIn
+		? "User Already Checked In"
+		: !hasRSVP
+			? "Warning!"
 			: "New Scan";
-	const drawerDescription = checkedIn 
-			? 'If this is a mistake, please talk to an admin' 
-			: !hasRSVP ? `${scanUser?.firstName} ${scanUser?.lastName} Is not RSVP'd`
+	const drawerDescription = checkedIn
+		? "If this is a mistake, please talk to an admin"
+		: !hasRSVP
+			? `${scanUser?.firstName} ${scanUser?.lastName} Is not RSVP'd`
 			: `New scan for ${scanUser?.firstName} ${scanUser?.lastName}`;
-	const drawerFooterButtonText = checkedIn 
-			? "Close" 
-			: !hasRSVP ? "Check In Anyways"
+	const drawerFooterButtonText = checkedIn
+		? "Close"
+		: !hasRSVP
+			? "Check In Anyways"
 			: "Scan User In";
 
 	return (
@@ -130,7 +137,8 @@ export default function CheckinScanner({
 			</div>
 			<Drawer
 				onClose={() => router.replace(path)}
-				open={hasScanned || scanLoading}>
+				open={hasScanned || scanLoading}
+			>
 				<DrawerContent>
 					{scanLoading ? (
 						<>
@@ -140,7 +148,8 @@ export default function CheckinScanner({
 							<DrawerFooter>
 								<Button
 									onClick={() => router.replace(path)}
-									variant="outline">
+									variant="outline"
+								>
 									Cancel
 								</Button>
 							</DrawerFooter>
@@ -151,7 +160,8 @@ export default function CheckinScanner({
 								<DrawerTitle
 									className={clsx("mx-auto", {
 										"text-red-500": !hasRSVP || checkedIn,
-									})}>
+									})}
+								>
 									{drawerTitle}
 								</DrawerTitle>
 							</DrawerHeader>
@@ -160,7 +170,9 @@ export default function CheckinScanner({
 							</DrawerDescription>
 							<DrawerFooter>
 								{!hasRSVP && !checkedIn && (
-									<div className="mx-auto" >Do you wish to proceed?</div>
+									<div className="mx-auto">
+										Do you wish to proceed?
+									</div>
 								)}
 								{!checkedIn && (
 									<Button
@@ -174,7 +186,8 @@ export default function CheckinScanner({
 								)}
 								<Button
 									onClick={() => router.replace(path)}
-									variant="outline">
+									variant="outline"
+								>
 									Cancel
 								</Button>
 							</DrawerFooter>

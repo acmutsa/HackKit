@@ -20,7 +20,7 @@ export default async function Page({
 
 	const scanUser = await getUser(searchParams.user);
 	console.log(scanUser);
-	if (!scanUser){
+	if (!scanUser) {
 		return (
 			<div>
 				<CheckinScanner
@@ -32,7 +32,7 @@ export default async function Page({
 			</div>
 		);
 	}
-		
+
 	return (
 		<div>
 			<CheckinScanner
