@@ -8,7 +8,6 @@ import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { User } from "db/types";
 import clsx from "clsx";
 import { useAction } from "next-safe-action/hooks";
-
 import {
 	Drawer,
 	DrawerContent,
@@ -20,6 +19,8 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { FIVE_MINUTES_IN_MILLISECONDS } from "@/lib/constants";
+import { ValidationErrors } from "next-safe-action";
 
 interface CheckinScannerProps {
 	hasScanned: boolean;
@@ -47,20 +48,30 @@ export default function CheckinScanner({
 	const path = usePathname();
 	const router = useRouter();
 
-	function handleUseActionFeedback(hasErrored = false) {
+	function handleUseActionFeedback(hasErrored=false,message="") {
+		console.log("called");
 		toast.dismiss();
-		(hasErrored) ? toast.error("Failed to Check User Into Hackathon") : toast.success("Successfully Checked User Into Hackathon!");
+		hasErrored
+			? toast.error(message || "Failed to Check User Into Hackathon")
+			: toast.success(message || "Successfully Checked User Into Hackathon!");
 		router.replace(`${path}`);
 	}
 
-	const { execute: runCheckInUserToHackathon, result: checkInResult } =
-		useAction(checkInUserToHackathon,{
+	const { execute: runCheckInUserToHackathon } =
+		useAction(checkInUserToHackathon, {
 			onSuccess: () => {
 				handleUseActionFeedback();
 			},
-			onError: () =>{
-				handleUseActionFeedback(true);
-			}
+			onError: ({error,input}) => {
+				console.log("error is: ", error);
+				console.log("input is: ", input);
+				if (error.validationErrors?.QRTimestamp?._errors){
+					handleUseActionFeedback(true,error.validationErrors.QRTimestamp._errors[0]);
+				}
+				else{
+					handleUseActionFeedback(true);
+				}
+			},
 		});
 
 	function handleScanCreate() {
@@ -74,11 +85,15 @@ export default function CheckinScanner({
 		if (isNaN(timestamp)) {
 			return alert("Invalid QR Code Data (Field: createdAt)");
 		}
+		if (Date.now() - timestamp > FIVE_MINUTES_IN_MILLISECONDS) {
+			return alert("QR Code has expired. Please refresh the QR Code");
+		}
+
 		if (checkedIn) {
 			return alert("User Already Checked in!");
 		} else {
-			toast.loading('Checking User In');
-			runCheckInUserToHackathon(scanUser.clerkID);
+			toast.loading("Checking User In");
+			runCheckInUserToHackathon({userID:scanUser.clerkID, QRTimestamp: timestamp});
 		}
 		router.replace(path);
 	}

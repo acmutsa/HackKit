@@ -5,6 +5,8 @@ import { z } from "zod";
 import { db, sql } from "db";
 import { scans, userCommonData } from "db/schema";
 import { eq, and } from "db/drizzle";
+
+
 export const createScan = adminAction
 	.schema(
 		z.object({
@@ -65,13 +67,21 @@ export const getScan = adminAction
 		},
 	);
 
+// Schema will be moved over when rewrite of the other scanner happens
+const checkInUserSchema = z.object({
+	userID:z.string(),
+	QRTimestamp: z.number().positive().refine((timestamp) => {
+		return Date.now() - timestamp < 5 * 60 * 1000;
+		}, "QR Code has expired. Please refresh the QR Code"),
+})
+
 export const checkInUserToHackathon = adminAction
-	.schema(z.string())
-	.action(async ({ parsedInput: user }) => {
+	.schema(checkInUserSchema)
+	.action(async ({ parsedInput: {userID} }) => {
 		// Set checkinTimestamp
 			await db
 				.update(userCommonData)
 				.set({ checkinTimestamp: sql`now()` })
-				.where(eq(userCommonData.clerkID, user));
+				.where(eq(userCommonData.clerkID, userID));
 		}
 	);
