@@ -160,7 +160,7 @@ export const RegisterFormValidator = z.object({
 		.max(20, {
 			message: "Your HackerTag must be less than 20 characters long",
 		})
-		.regex(/^[a-zA-Z0-9]+$/, {
+		.regex(c.registration.hackerTagRegex, {
 			message: "HackerTag must be alphanumeric and have no spaces",
 		})
 		.toLowerCase()

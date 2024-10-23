@@ -10,6 +10,7 @@ import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 import { getUser } from "db/functions";
+import c from "config";
 
 // TODO: Add skill updating
 export const modifyRegistrationData = authenticatedAction

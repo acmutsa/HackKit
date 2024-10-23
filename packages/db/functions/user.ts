@@ -1,5 +1,5 @@
 import { db, eq } from "..";
-import { userCommonData } from "../schema";
+import { userCommonData, userHackerData } from "../schema";
 import { User } from "../types";
 
 // const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
@@ -37,4 +37,10 @@ export function getUserByTag(hackerTag: string): Promise<User | undefined> {
 	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.hackerTag, hackerTag),
 	});
+}
+
+export function updateUserResume(userID:string,url:string){
+	return db.update(userHackerData).set({
+		resume:url
+	}).where(eq(userHackerData.clerkID,userID));
 }
