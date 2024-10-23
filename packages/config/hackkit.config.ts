@@ -779,7 +779,7 @@ const c = {
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	botName: "RowdyBot",
-	botParticipantRole: "Participant",
+	botParticipantRole: "RHX Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schools[0],
 	localUniversitySchoolIDName: "ABC123",
@@ -820,34 +820,34 @@ const c = {
 		],
 	},
 	groups: {
-		"Guild A | Group A": {
+		"Doc Brown | Group A": {
 			discordRole: "Doc Brown",
 		},
-		"Guild A | Group B": {
+		"Doc Brown | Group B": {
 			discordRole: "Doc Brown",
 		},
-		"Guild B | Group A": {
+		"Marty | Group A": {
 			discordRole: "Marty",
 		},
-		"Guild B | Group B": {
+		"Marty | Group B": {
 			discordRole: "Marty",
 		},
-		"Guild C | Group A": {
+		"Dr. Who | Group A": {
 			discordRole: "Dr. Who",
 		},
-		"Guild C | Group B": {
+		"Dr. Who | Group B": {
 			discordRole: "Dr. Who",
 		},
-		"Guild D | Group A": {
+		"Terminator | Group A": {
 			discordRole: "Terminator",
 		},
-		"Guild D | Group B": {
+		"Terminator | Group B": {
 			discordRole: "Terminator",
 		},
-		"Guild E | Group A": {
+		"Mr. Peabody and Sherman | Group A": {
 			discordRole: "Mr. Peabody and Sherman",
 		},
-		"Guild E | Group B": {
+		"Mr. Peabody and Sherman | Group B": {
 			discordRole: "Mr. Peabody and Sherman",
 		},
 	},
