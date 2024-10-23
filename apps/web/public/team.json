@@ -1,0 +1,544 @@
+{
+  "team": [
+    {
+      "name": "Nathan Zuniga",
+      "nameSize": 3,
+      "team": "Director",
+      "professionalPicture": {
+        "link": "/img/team/professional/nathan-zuniga.jpg",
+        "zoom": 2.5,
+        "x": 15,
+        "y": 80
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/nathan-zuniga.jpg",
+        "zoom": 1.7,
+        "x": 0,
+        "y": 100
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Liam Murray",
+      "nameSize": 3,
+      "team": "Co-Director",
+      "professionalPicture": {
+        "link": "/img/team/professional/liam-murray.jpeg",
+        "zoom": 1.7,
+        "x": -20,
+        "y": 0
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/liam-murray.jpg",
+        "zoom": 2.4,
+        "x": 96,
+        "y": 80
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Mei Sullum",
+      "nameSize": 3,
+      "team": "Logistics",
+      "professionalPicture": {
+        "link": "/img/team/professional/mei-sullum.jpeg",
+        "zoom": 1.3,
+        "x": 0,
+        "y": 15
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/mei-sullum.jpeg",
+        "zoom": 1.1,
+        "x": 0,
+        "y": -15
+      },
+      "linkedin": "https://www.linkedin.com/in/meira-sullum-55198521b/",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Natasha Blussick",
+      "nameSize": 2,
+      "team": "Logistics / PR",
+      "professionalPicture": {
+        "link": "/img/team/professional/natasha-blussick.jpg",
+        "zoom": 1.4,
+        "x": 0,
+        "y": -10
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/natasha-blussick.jpeg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "https://www.linkedin.com/in/natasha-blussick/",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Alejandro Mugica",
+      "nameSize": 2,
+      "team": "Logistics",
+      "professionalPicture": {
+        "link": "/img/team/professional/alejandro-mugica.jpeg",
+        "zoom": 1.5,
+        "x": -28,
+        "y": 0
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/alejandro-mugica.jpg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "www.linkedin.com/in/alejandromugica",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Paolo Lay",
+      "nameSize": 3,
+      "team": "Logistics",
+      "professionalPicture": {
+        "link": "/img/team/professional/paolo-lay.jpg",
+        "zoom": 1.3,
+        "x": 30,
+        "y": 0
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/paolo-lay.jpg",
+        "zoom": 2.3,
+        "x": 5,
+        "y": 86
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Trae Ramirez",
+      "nameSize": 3,
+      "team": "Hacker Experience",
+      "professionalPicture": {
+        "link": "/img/team/professional/trae-ramirez.jpg",
+        "zoom": 2.3,
+        "x": 90,
+        "y": 80
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/trae-ramirez.jpg",
+        "zoom": 2.3,
+        "x": 90,
+        "y": 80
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Vivian Tran",
+      "nameSize": 3,
+      "team": "Hacker Experience",
+      "professionalPicture": {
+        "link": "/img/team/professional/vivian-tran.png",
+        "zoom": 2,
+        "x": 0,
+        "y": 8
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/vivian-tran.jpg",
+        "zoom": 2.3,
+        "x": -80,
+        "y": 90
+      },
+      "linkedin": "https://www.linkedin.com/in/vivtratx/",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Christian Walker",
+      "nameSize": 2,
+      "team": "Tech",
+      "professionalPicture": {
+        "link": "/img/team/professional/christian-walker.jpg",
+        "zoom": 2.6,
+        "x": 10,
+        "y": 70
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/christian-walker.jpg",
+        "zoom": 1.1,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Jacob Ellerbrock",
+      "nameSize": 2,
+      "team": "Tech / Logistics",
+      "professionalPicture": {
+        "link": "/img/team/professional/jacob-ellerbrock.jpg",
+        "zoom": 2,
+        "x": -10,
+        "y": 80
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/jacob-ellerbrock.jpg",
+        "zoom": 2.3,
+        "x": 70,
+        "y": 89
+      },
+      "linkedin": "https://www.linkedin.com/in/jacobellerbrock",
+      "github": "https://github.com/jacobellerbrock",
+      "personal": ""
+    },
+    {
+      "name": "Carter LaVigne",
+      "nameSize": 3,
+      "team": "Tech",
+      "professionalPicture": {
+        "link": "/img/team/professional/carter-lavigne.jpeg",
+        "zoom": 1.8,
+        "x": 55,
+        "y": 85
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/carter-lavigne.jpeg",
+        "zoom": 1.3,
+        "x": 30,
+        "y": 0
+      },
+      "linkedin": "https://www.linkedin.com/in/carter-m-lavigne",
+      "github": "https://github.com/spiderCSman",
+      "personal": ""
+    },
+    {
+      "name": "Alessandro Espinosa",
+      "nameSize": 1.8,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/alessandro-espinosa.jpg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 15
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/alessandro-espinosa.jpg",
+        "zoom": 1,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Daniel Ruiz",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/daniel-ruiz.jpg",
+        "zoom": 1.4,
+        "x": -40,
+        "y": 30
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/daniel-ruiz.jpg",
+        "zoom": 1,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Sean O'Toole",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/sean-otoole.JPG",
+        "zoom": 1.4,
+        "x": 20,
+        "y": -50
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/sean-otoole.jpg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 10
+      },
+      "linkedin": "https://www.linkedin.com/in/seanotoole04/",
+      "github": "https://github.com/SeanAidanOToole",
+      "personal": ""
+    },
+    {
+      "name": "Inor Wang",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/inor-wang.jpg",
+        "zoom": 1.4,
+        "x": 41,
+        "y": 40
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/inor-wang.jpg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "https://www.linkedin.com/in/inorwang",
+      "github": "https://github.com/inor-w",
+      "personal": ""
+    },
+    {
+      "name": "Sean Jauregui",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/sean-jauregui.jpeg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 10
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/sean-jauregui.jpg",
+        "zoom": 2.35,
+        "x": -33,
+        "y": 90
+      },
+      "linkedin": "https://www.linkedin.com/in/seanjauregui",
+      "github": "",
+      "personal": "https://www.instagram.com/scottish_artist3379/"
+    },
+    {
+      "name": "Jibril Pascua",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/jibril-pascua.jpg",
+        "zoom": 1.3,
+        "x": 0,
+        "y": 40
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/jibril-pascua.jpg",
+        "zoom": 1.3,
+        "x": 0,
+        "y": 30
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Atticus Ramirez",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/atticus-ramirez.jpg",
+        "zoom": 1.5,
+        "x": 0,
+        "y": 35
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/atticus-ramirez.jpg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Tosin Adefashe",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/tosin-adefashe.jpg",
+        "zoom": 1.7,
+        "x": 10,
+        "y": 0
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/tosin-adefashe.jpg",
+        "zoom": 1.5,
+        "x": 10,
+        "y": 40
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Alesia Tonegari",
+      "nameSize": 3,
+      "team": "Media",
+      "professionalPicture": {
+        "link": "/img/team/professional/alesia-tonegari.jpg",
+        "zoom": 1.4,
+        "x": -40,
+        "y": 30
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/alesia-tonegari.jpg",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 10
+      },
+      "linkedin": "https://www.linkedin.com/in/alesia-tonegari-436aa72b0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Kelinda Shen",
+      "nameSize": 3,
+      "team": "Public Relations",
+      "professionalPicture": {
+        "link": "/img/team/professional/kelinda-shen.jpg",
+        "zoom": 2.3,
+        "x": -70,
+        "y": 89
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/kelinda-shen.jpg",
+        "zoom": 2.3,
+        "x": -70,
+        "y": 89
+      },
+      "linkedin": "www.linkedin.com/in/reese-sylvester-234490242",
+      "github": "",
+      "personal": "https://www.instagram.com/sawinez/"
+    },
+    {
+      "name": "Kailey Perrino",
+      "nameSize": 3,
+      "team": "Public Relations",
+      "professionalPicture": {
+        "link": "/img/team/professional/kailey-perrino.jpg",
+        "zoom": 1.1,
+        "x": 0,
+        "y": 0
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/kailey-perrino.jpg",
+        "zoom": 2.3,
+        "x": 100,
+        "y": 90
+      },
+      "linkedin": "https://www.linkedin.com/in/kailey-perrino/",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Reese Sylvester",
+      "nameSize": 3,
+      "team": "Public Relations",
+      "professionalPicture": {
+        "link": "/img/team/professional/reese-sylvester.JPG",
+        "zoom": 2,
+        "x": 0,
+        "y": 20
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/reese-sylvester.JPG",
+        "zoom": 2.55,
+        "x": 0,
+        "y": 70
+      },
+      "linkedin": "https://www.linkedin.com/in/reese-sylvester-234490242",
+      "github": "",
+      "personal": "https://www.instagram.com/sawinez/"
+    },
+    {
+      "name": "Miguel Oseguera",
+      "nameSize": 2,
+      "team": "Public Relations",
+      "professionalPicture": {
+        "link": "/img/team/professional/miguel-oseguera.JPG",
+        "zoom": 1.2,
+        "x": 0,
+        "y": -25
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/miguel-oseguera.JPG",
+        "zoom": 1.2,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "https://www.linkedin.com/in/miguel-oseguera-0b5306281",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Kathy Nguyen",
+      "nameSize": 2,
+      "team": "Design",
+      "professionalPicture": {
+        "link": "/img/team/professional/kathy-nguyen.jpg",
+        "zoom": 1.5,
+        "x": 0,
+        "y": 13
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/kathy-nguyen.jpg",
+        "zoom": 2.4,
+        "x": 55,
+        "y": 82
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Rahul Paul",
+      "nameSize": 3,
+      "team": "Design",
+      "professionalPicture": {
+        "link": "/img/team/professional/rahul-paul.jpg",
+        "zoom": 1.3,
+        "x": 0,
+        "y": 10
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/rahul-paul.jpg",
+        "zoom": 1.5,
+        "x": 10,
+        "y": 30
+      },
+      "linkedin": "",
+      "github": "",
+      "personal": ""
+    },
+    {
+      "name": "Eddie Ortiz",
+      "nameSize": 3,
+      "team": "Outreach",
+      "professionalPicture": {
+        "link": "/img/team/professional/eddie-ortiz.jpeg",
+        "zoom": 1.3,
+        "x": 0,
+        "y": 0
+      },
+      "personalityPicture": {
+        "link": "/img/team/personality/eddie-ortiz.jpeg",
+        "zoom": 1,
+        "x": 0,
+        "y": 0
+      },
+      "linkedin": "http://linkedin.com/in/joseortiz-jeo",
+      "github": "https://github.com/Buffet936",
+      "personal": ""
+    }
+  ]
+}

@@ -1,68 +1,69 @@
-import Image from "next/image";
+import ShinyLogo from "./ShinyLogo";
 import Link from "next/link";
-import { Button } from "../shadcn/ui/button";
+import Image from "next/image";
 
-export default function Hero() {
+export default function Home() {
 	return (
-		<section className="grid w-full grid-cols-1 overflow-hidden">
-			<div className="relative flex min-h-screen w-full flex-col items-center justify-center">
-				<div className="absolute left-[20%] top-[-30vh] h-[110vh] w-[225px] -translate-x-5 -rotate-[50deg] bg-white opacity-20 blur-3xl"></div>
-				<div className="relative">
-					<div className="absolute h-full w-full rounded-3xl bg-hackathon opacity-10 blur-3xl"></div>
-					<div className="z-10 grid h-min grid-cols-2">
-						<div className="relative">
-							<Image
-								src="/img/logo/hackkit-md.png"
-								alt="HackKit Logo"
-								fill
-								className="object-contain"
-							/>
+		<main className="relative flex h-screen w-screen flex-col items-center justify-center">
+			<div
+				className={`z-20 mx-4 flex flex-col items-center space-y-3 md:flex-row md:space-y-0`}
+			>
+				<ShinyLogo />
+				<h1 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text p-5 pl-2 font-bttf text-5xl text-transparent sm:text-7xl lg:text-8xl">
+					<span className="text-7xl sm:text-8xl md:text-[length:inherit]">
+						{"HACK<"}
+					</span>
+					<br />
+					{"&future>"}
+				</h1>
+			</div>
+			<div
+				className={
+					"z-20 mx-2 mb-4 flex -translate-y-4 items-center text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 2xl:translate-x-[30px] 2xl:text-3xl"
+				}
+			>
+				<p className={"text-md mb-[6px] mr-3 2xl:mb-[15px]"}>
+					Presented by{" "}
+				</p>
+				<Image
+					className={"w-[120px] 2xl:w-[220px]"}
+					src={"/img/SWIVEL Knockout-w.svg"}
+					alt={"Swivel Logo"}
+					width={0}
+					height={0}
+				/>
+			</div>
+			<p className="z-20 mx-2 mb-4 text-center font-mono text-xl font-bold italic text-orange-400 md:mx-0 2xl:text-3xl">
+				October 26th - 27th 2024
+			</p>
+			<h1 className="w-full text-center font-mono text-orange-400 md:text-lg">
+				SAN PEDRO I, UTSA
+			</h1>
+			<div className="relative w-full duration-150 ease-in-out hover:scale-125">
+				<Link href={"/register"}>
+					<div className="relative mx-auto my-10 max-w-[250px] lg:max-w-[475px]">
+						<div className="register-clip absolute z-[5] mx-auto flex h-[64px] w-full max-w-[500px] items-center justify-center bg-white hover:cursor-pointer">
+							<h2 className="bg-gradient-to-b from-orange-600 via-yellow-300 to-orange-600 bg-clip-text px-2 font-bttf text-2xl text-transparent lg:mt-3 lg:text-5xl">
+								register
+							</h2>
 						</div>
-						<div className="z-10 flex py-5">
-							<h1 className="text-7xl font-black text-hackathon dark:bg-gradient-to-tl dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
-								Hack
-								<br />
-								Kit
-							</h1>
-						</div>
+						<div className="register-clip absolute mx-auto flex h-[64px] w-full max-w-[500px] translate-y-2 items-center justify-center bg-orange-400 hover:cursor-pointer"></div>
+						<div className="register-clip absolute mx-auto flex h-[64px] w-full max-w-[500px] translate-y-2 items-center justify-center bg-orange-400 hover:cursor-pointer"></div>
 					</div>
-					<p className="text-md pl-5 pt-10 text-center font-bold text-muted-foreground">
-						Feature-packed Hackathon managment software{" "}
-						<u>that just works</u>.
-					</p>
-				</div>
+				</Link>
 			</div>
-			<div className="absolute top-[80vh] flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						GitHub
-					</Button>
-				</Link>
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						Docs
-					</Button>
-				</Link>
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						Channel Log
-					</Button>
-				</Link>
-				<div className="h-0 basis-full" />
-				<div className="max-h-[50px] overflow-hidden">
-					<Link
-						href={
-							"https://vercel.com/?utm_source=ACM%20UTSA&utm_campaign=oss"
-						}
-					>
-						<img
-							src="/img/powered-by-vercel.svg"
-							alt="Powered by Vercel"
-							className="overflow-hidden rounded-lg border border-[#5D5D5D] bg-black"
-						/>
-					</Link>
-				</div>
+		</main>
+	);
+}
+
+function Overlay() {
+	return (
+		<div className="pointer-events-none fixed left-0 top-0 z-50 h-full w-screen select-none p-5 pt-16">
+			<div className="relative h-full w-full">
+				<p className="absolute bottom-0 left-0 w-full text-center font-mono text-orange-400">
+					ROWDYHACKS X · SAN PEDRO I, UTSA
+				</p>
 			</div>
-		</section>
+		</div>
 	);
 }
