@@ -558,6 +558,7 @@ const dietaryRestrictionOptions = [
 ];
 
 const countries = [
+	{ name: "United States", code: "US" },
 	{ name: "Afghanistan", code: "AF" },
 	{ name: "Albania", code: "AL" },
 	{ name: "Algeria", code: "DZ" },
@@ -740,7 +741,6 @@ const countries = [
 	{ name: "Ukraine", code: "UA" },
 	{ name: "United Arab Emirates", code: "AE" },
 	{ name: "United Kingdom", code: "GB" },
-	{ name: "United States", code: "US" },
 	{ name: "Uruguay", code: "UY" },
 	{ name: "Uzbekistan", code: "UZ" },
 	{ name: "Vanuatu", code: "VU" },
