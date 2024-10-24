@@ -23,7 +23,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c, { schools, majors, dietaryRestrictionOptions } from "config";
+import c from  "config";
 import {
 	Command,
 	CommandEmpty,
@@ -43,7 +43,7 @@ import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import {
 	modifyRegistrationData,
 	modifyResume,
@@ -499,7 +499,7 @@ export default function RegisterFormSettings({
 														)}
 													>
 														{field.value
-															? schools.find(
+															? c.registration.schools.find(
 																	(
 																		school: string,
 																	) =>
@@ -519,7 +519,7 @@ export default function RegisterFormSettings({
 															No university found.
 														</CommandEmpty>
 														<CommandGroup>
-															{schools.map(
+															{c.registration.schools.map(
 																(school) => (
 																	<CommandItem
 																		value={
@@ -578,7 +578,7 @@ export default function RegisterFormSettings({
 														)}
 													>
 														{field.value
-															? majors.find(
+															? c.registration.majors.find(
 																	(major) =>
 																		major ===
 																		field.value,
@@ -596,7 +596,7 @@ export default function RegisterFormSettings({
 															No major found.
 														</CommandEmpty>
 														<CommandGroup>
-															{majors.map(
+															{c.registration.majors.map(
 																(major) => (
 																	<CommandItem
 																		value={
@@ -869,7 +869,7 @@ export default function RegisterFormSettings({
 												event!
 											</FormDescription>
 										</div>
-										{dietaryRestrictionOptions.map(
+										{c.registration.dietaryRestrictionOptions.map(
 											(item) => (
 												<FormField
 													key={item}

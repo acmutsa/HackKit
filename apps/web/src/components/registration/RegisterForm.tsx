@@ -94,8 +94,6 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			university: "",
 			phoneNumber: "",
 			countryOfResidence: "",
-			phoneNumber: "",
-			countryOfResidence: "",
 		},
 	});
 

@@ -12,98 +12,100 @@ import { revalidatePath } from "next/cache";
 import { getUser, getUserByTag } from "db/functions";
 import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
 
-export const modifyRegistrationData = authenticatedAction(
-	RegistrationSettingsFormValidator,
-	async (
-		{
-			age,
-			gender,
-			race,
-			ethnicity,
-			isEmailable,
-			university,
-			major,
-			levelOfStudy,
-			schoolID,
-			hackathonsAttended,
-			softwareBuildingExperience,
-			heardAboutEvent,
-			shirtSize,
-			dietaryRestrictions,
-			accommodationNote,
-			github,
-			linkedin,
-			personalWebsite,
-			phoneNumber,
-			countryOfResidence,
+export const modifyRegistrationData = authenticatedAction
+	.schema(RegistrationSettingsFormValidator)
+	.action(
+		async ({
+			parsedInput: {
+				age,
+				gender,
+				race,
+				ethnicity,
+				isEmailable,
+				university,
+				major,
+				levelOfStudy,
+				schoolID,
+				hackathonsAttended,
+				softwareBuildingExperience,
+				heardAboutEvent,
+				shirtSize,
+				dietaryRestrictions,
+				accommodationNote,
+				github,
+				linkedin,
+				personalWebsite,
+				phoneNumber,
+				countryOfResidence,
+			},
+			ctx:{userId}
+		}) => {
+			const user = await getUser(userId);
+			if (!user) throw new Error("User not found");
+			await Promise.all([
+				db
+					.update(userCommonData)
+					.set({
+						age,
+						gender,
+						race,
+						ethnicity,
+						shirtSize,
+						dietRestrictions: dietaryRestrictions,
+						accommodationNote,
+						phoneNumber,
+						countryOfResidence,
+					})
+					.where(eq(userCommonData.clerkID, user.clerkID)),
+				db
+					.update(userHackerData)
+					.set({
+						isEmailable,
+						university,
+						major,
+						levelOfStudy,
+						schoolID,
+						hackathonsAttended,
+						softwareExperience: softwareBuildingExperience,
+						heardFrom: heardAboutEvent,
+						GitHub: github,
+						LinkedIn: linkedin,
+						PersonalWebsite: personalWebsite,
+					})
+					.where(eq(userHackerData.clerkID, user.clerkID)),
+			]);
+			return {
+				success: true,
+				newAge: age,
+				newGender: gender,
+				newRace: race,
+				newEthnicity: ethnicity,
+				newWantsToReceiveMLHEmails: isEmailable,
+				newUniversity: university,
+				newMajor: major,
+				newLevelOfStudy: levelOfStudy,
+				newSchoolID: schoolID,
+				newHackathonsAttended: hackathonsAttended,
+				newSoftwareExperience: softwareBuildingExperience,
+				newHeardFrom: heardAboutEvent,
+				newShirtSize: shirtSize,
+				newDietaryRestrictions: dietaryRestrictions,
+				newAccommodationNote: accommodationNote,
+				newGitHub: github,
+				newLinkedIn: linkedin,
+				newPersonalWebsite: personalWebsite,
+				newPhoneNumber: phoneNumber,
+				newCountryOfResidence: countryOfResidence,
+			};
 		},
-		{ userId },
-	) => {
-		const user = await getUser(userId);
-		if (!user) throw new Error("User not found");
-		await Promise.all([
-			db
-				.update(userCommonData)
-				.set({
-					age,
-					gender,
-					race,
-					ethnicity,
-					shirtSize,
-					dietRestrictions: dietaryRestrictions,
-					accommodationNote,
-					phoneNumber,
-					countryOfResidence,
-				})
-				.where(eq(userCommonData.clerkID, user.clerkID)),
-			db
-				.update(userHackerData)
-				.set({
-					isEmailable,
-					university,
-					major,
-					levelOfStudy,
-					schoolID,
-					hackathonsAttended,
-					softwareExperience: softwareBuildingExperience,
-					heardFrom: heardAboutEvent,
-					GitHub: github,
-					LinkedIn: linkedin,
-					PersonalWebsite: personalWebsite,
-				})
-				.where(eq(userHackerData.clerkID, user.clerkID)),
-		]);
-		return {
-			success: true,
-			newAge: age,
-			newGender: gender,
-			newRace: race,
-			newEthnicity: ethnicity,
-			newWantsToReceiveMLHEmails: isEmailable,
-			newUniversity: university,
-			newMajor: major,
-			newLevelOfStudy: levelOfStudy,
-			newSchoolID: schoolID,
-			newHackathonsAttended: hackathonsAttended,
-			newSoftwareExperience: softwareBuildingExperience,
-			newHeardFrom: heardAboutEvent,
-			newShirtSize: shirtSize,
-			newDietaryRestrictions: dietaryRestrictions,
-			newAccommodationNote: accommodationNote,
-			newGitHub: github,
-			newLinkedIn: linkedin,
-			newPersonalWebsite: personalWebsite,
-			newPhoneNumber: phoneNumber,
-			newCountryOfResidence: countryOfResidence,
-		};
-	},
-);
+	);
 
-export const modifyResume = authenticatedAction(
+export const modifyResume = authenticatedAction.schema(
 	z.object({
 		resume: z.string(),
 	}),
-	async ({ resume }, { userId }) => {
+).action(
+	async ( { parsedInput:{resume}, ctx:{userId}}) => {
 		await db
 			.update(userHackerData)
 			.set({ resume })
@@ -115,14 +117,15 @@ export const modifyResume = authenticatedAction(
 	},
 );
 
-export const modifyProfileData = authenticatedAction(
+export const modifyProfileData = authenticatedAction.schema(
 	z.object({
 		pronouns: z.string(),
 		bio: z.string(),
 		skills: z.string().array(),
 		discord: z.string(),
-	}),
-	async ({ pronouns, bio, skills, discord }, { userId }) => {
+	})
+).action(
+	async ({ parsedInput:{bio,discord,pronouns,skills}, ctx:{userId} }) => {
 		const user = await getUser(userId);
 		if (!user) {
 			throw new Error("User not found");
@@ -141,17 +144,17 @@ export const modifyProfileData = authenticatedAction(
 	},
 );
 
-export const modifyAccountSettings = authenticatedAction(
+// TODO: Fix after registration enhancements to allow for failure on conflict and return appropriate error message
+export const modifyAccountSettings = authenticatedAction.schema(
 	z.object({
 		firstName: z.string().min(1).max(50),
 		lastName: z.string().min(1).max(50),
-		//email: z.string().min(1).max(50),
 		hackerTag: z.string().min(1).max(50),
 		hasSearchableProfile: z.boolean(),
-	}),
+	})
+).action(
 	async (
-		{ firstName, lastName, hackerTag, hasSearchableProfile },
-		{ userId },
+		{ parsedInput: { firstName, lastName, hackerTag, hasSearchableProfile }, ctx:{ userId }},
 	) => {
 		const user = await getUser(userId);
 		if (!user) throw new Error("User not found");
@@ -177,21 +180,21 @@ export const modifyAccountSettings = authenticatedAction(
 			success: true,
 			newFirstName: firstName,
 			newLastName: lastName,
-			//newEmail: email,
 			newHackerTag: hackerTag,
 			newHasSearchableProfile: hasSearchableProfile,
 		};
 	},
 );
 
-export const updateProfileImage = authenticatedAction(
-	z.object({ fileBase64: z.string(), fileName: z.string() }),
-	async ({ fileBase64, fileName }, { userId }) => {
-		const image = await decodeBase64AsFile(fileBase64, fileName);
-		const user = await db.query.userCommonData.findFirst({
-			where: eq(userCommonData.clerkID, userId),
-		});
-		if (!user) throw new Error("User not found");
+export const updateProfileImage = authenticatedAction
+	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))
+	.action(
+		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
+			const image = await decodeBase64AsFile(fileBase64, fileName);
+			const user = await db.query.userCommonData.findFirst({
+				where: eq(userCommonData.clerkID, userId),
+			});
+			if (!user) throw new Error("User not found");
 
 			const blobUpload = await put(image.name, image, {
 				access: "public",

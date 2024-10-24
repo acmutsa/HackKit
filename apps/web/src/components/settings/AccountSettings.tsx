@@ -32,10 +32,10 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 
 	const { execute: runModifyAccountSettings, status: loadingState } =
 		useAction(modifyAccountSettings, {
-			onSuccess: ({ success, message }) => {
+			onSuccess: ({ data }) => {
 				toast.dismiss();
-				if (!success) {
-					if (message == "hackertag_not_unique") {
+				if (!data?.success) {
+					if (data?.message == "hackertag_not_unique") {
 						toast.error("Hackertag already exists");
 						setHackerTagTakenAlert(true);
 					}
