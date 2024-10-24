@@ -58,7 +58,8 @@ export default function ScheduleTimeline({
 										}}
 									></td>
 									<td>
-										<h2 className="ml-8 w-full border-b py-4 text-4xl font-black sm:text-6xl md:ml-16">
+										<h2 className="ml-8 w-full border-b py-4 text-4xl font-black md:text-6xl md:ml-16">
+
 											{dayName}
 										</h2>
 									</td>

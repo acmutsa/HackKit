@@ -151,7 +151,9 @@ app.get("/postMsgToServer", (h) => {
 			text: "Questions or issues? Contact an organizer :)",
 			iconURL: "https://static.acmutsa.org/Info_Simple.svg.png",
 		});
-
+	console.log(
+		`server type is: ${serverType}\nDev channel id is: ${process.env.DISCORD_DEV_VERIFY_CHANNEL_ID}\nProd channel id is: ${process.env.DISCORD_PROD_VERIFY_CHANNEL_ID}`,
+	);
 	const channel = client.channels.cache.get(
 		serverType === "dev"
 			? (process.env.DISCORD_DEV_VERIFY_CHANNEL_ID as string)
@@ -224,6 +226,9 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		(role) => role.name === userGroupRoleName,
 	);
 
+	// console.log('role is: ', role);
+	// console.log('userGroupRole is: ', userGroupRole);
+
 	if (!role || !userGroupRole) {
 		console.log(
 			"failed cause could not find a role, was looking for group " +
@@ -234,16 +239,25 @@ app.post("/api/checkDiscordVerification", async (h) => {
 		return h.json({ success: false });
 	}
 
+	console.log("attempting to get member...");
+
 	const member = guild.members.cache.get(verification.discordUserID);
 
 	if (!member) {
 		console.log("failed cause could not find member");
 		return h.json({ success: false });
 	}
-
+	console.log("got member");
+	// Holy waterfalling request
+	console.log("adding role");
 	await member.roles.add(role);
+	console.log("added role");
+	console.log("adding group role");
 	await member.roles.add(userGroupRole);
+	console.log("added group role");
+	console.log("setting nickname");
 	await member.setNickname(user.firstName + " " + user.lastName);
+	console.log("set nickname");
 
 	return h.json({ success: true });
 });

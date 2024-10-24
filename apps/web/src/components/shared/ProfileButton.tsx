@@ -147,6 +147,11 @@ export default async function ProfileButton() {
 							Profile
 						</DropdownMenuItem>
 					</Link>
+					<Link href={`/dash`}>
+						<DropdownMenuItem className="cursor-pointer md:hidden">
+							Dashboard
+						</DropdownMenuItem>
+					</Link>
 					<Link href={`/dash/pass`}>
 						<DropdownMenuItem className="cursor-pointer">
 							Event Pass
@@ -167,7 +172,7 @@ export default async function ProfileButton() {
 							Report a Bug
 						</DropdownMenuItem>
 					</Link>
-					<Link href={"/settings"}>
+					<Link href={"/settings/account"}>
 						<DropdownMenuItem className="cursor-pointer">
 							Settings
 						</DropdownMenuItem>

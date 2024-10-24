@@ -32,19 +32,18 @@ export const confirmVerifyDiscord = authenticatedAction
 			.update(discordVerification)
 			.set({ status: "accepted", clerkID: userId })
 			.where(eq(discordVerification.code, code));
-
-		const res = await fetch(
+		const url =
 			env.BOT_API_URL +
-				"/api/checkDiscordVerification?access=" +
-				env.INTERNAL_AUTH_KEY,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ code }),
+			"/api/checkDiscordVerification?access=" +
+			env.INTERNAL_AUTH_KEY;
+		console.log("url is: ", url);
+		const res = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
 			},
-		);
+			body: JSON.stringify({ code }),
+		});
 		let resJson = await res.json();
 		console.log(resJson);
 

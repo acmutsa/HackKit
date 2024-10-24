@@ -13,11 +13,12 @@ module.exports = {
 		container: {
 			center: true,
 			padding: "2rem",
-			screens: {
-				"2xl": "1400px",
-			},
 		},
 		extend: {
+			screens: {
+				xs: "480px",
+				"2xl": "1400px",
+			},
 			backgroundImage: {
 				"gradient-radial":
 					"radial-gradient(ellipse_at_center, var(--gradient-color-stops))",
@@ -80,6 +81,16 @@ module.exports = {
 			},
 			fontFamily: {
 				oswald: ["var(--font-oswald)"],
+				bttf: ["var(--font-bttf)"],
+			},
+			fontSize: {
+				"1.5xl": [
+					"1.375rem",
+					{
+						lineHeight: "1.75rem",
+					},
+				],
+				"1.8xl": ["1.45rem", "1.9375rem"],
 			},
 		},
 	},

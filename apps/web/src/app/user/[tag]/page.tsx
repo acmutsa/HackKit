@@ -18,7 +18,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 			<Navbar />
 			<div className="max-w-screen relative flex min-h-screen items-center justify-center bg-nav">
 				<div className="absolute top-0 h-[50vh] w-[60vw] -translate-y-[22vh] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[color-mix(in_hsl_longer_hue,hsl(var(--hackathon-primary))_80%,#fff)] via-hackathon to-transparent opacity-50 blur-[100px] will-change-transform" />
-				<div className="grid min-h-[45vh] w-full max-w-5xl grid-cols-5 gap-x-2">
+				<div className="flex min-h-[45vh] w-full max-w-5xl flex-col items-center justify-center gap-x-2 space-y-3 pl-2 md:grid md:grid-cols-5">
 					<div className="flex flex-col justify-center">
 						<div className="relative aspect-square w-full overflow-hidden rounded-full">
 							<Image
@@ -36,6 +36,23 @@ export default async function ({ params }: { params: { tag: string } }) {
 								@{user.hackerTag}
 							</h2>
 							<RoleBadge role={user.role} />
+						</div>
+						<div className="mt-10 flex flex-col space-y-3">
+							<div className="flex flex-row gap-x-1">
+								<h3 className="font-bold">About:</h3>
+								<p>
+									<Balancer>{user.bio}</Balancer>
+								</p>
+							</div>
+							{user.skills &&
+							(user.skills as string[]).length > 0 ? (
+								<div className="flex flex-row gap-x-1">
+									<h3 className="font-bold">Skills:</h3>
+									<p>
+										{(user.skills as string[]).join(", ")}
+									</p>
+								</div>
+							) : null}
 						</div>
 						{user.hackerData.GitHub &&
 							user.hackerData.GitHub.length > 0 && (
@@ -86,18 +103,6 @@ export default async function ({ params }: { params: { tag: string } }) {
 									).replace("http://", "")}
 								</Link>
 							)}
-					</div>
-					<div className="col-span-4 flex flex-col justify-center pl-5">
-						<h3 className="font-bold">About</h3>
-						<p>
-							<Balancer>{user.bio}</Balancer>
-						</p>
-						{user.skills && (user.skills as string[]).length > 0 ? (
-							<>
-								<h3 className="mt-4 font-bold">Skills</h3>
-								<p>{(user.skills as string[]).join(", ")}</p>
-							</>
-						) : null}
 					</div>
 				</div>
 			</div>
