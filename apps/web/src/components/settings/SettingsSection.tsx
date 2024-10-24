@@ -10,7 +10,7 @@ interface ToggleItemProps {
 
 export default function SettingsSection({ name, path }: ToggleItemProps) {
 	const currPath = usePathname();
-	// NOTE: usepathname hook does not include the fragment part such as #registration or #account so we will need to use the window to access this later 
+	// NOTE: usepathname hook does not include the fragment part such as #registration or #account so we will need to use the window to access this later
 	return (
 		<Link href={path}>
 			<div
