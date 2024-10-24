@@ -38,7 +38,7 @@ export const modifyRegistrationData = authenticatedAction
 				phoneNumber,
 				countryOfResidence,
 			},
-			ctx:{userId}
+			ctx: { userId },
 		}) => {
 			const user = await getUser(userId);
 			if (!user) throw new Error("User not found");
@@ -100,12 +100,13 @@ export const modifyRegistrationData = authenticatedAction
 		},
 	);
 
-export const modifyResume = authenticatedAction.schema(
-	z.object({
-		resume: z.string(),
-	}),
-).action(
-	async ( { parsedInput:{resume}, ctx:{userId}}) => {
+export const modifyResume = authenticatedAction
+	.schema(
+		z.object({
+			resume: z.string(),
+		}),
+	)
+	.action(async ({ parsedInput: { resume }, ctx: { userId } }) => {
 		await db
 			.update(userHackerData)
 			.set({ resume })
@@ -114,77 +115,89 @@ export const modifyResume = authenticatedAction.schema(
 			success: true,
 			newResume: resume,
 		};
-	},
-);
+	});
 
-export const modifyProfileData = authenticatedAction.schema(
-	z.object({
-		pronouns: z.string(),
-		bio: z.string(),
-		skills: z.string().array(),
-		discord: z.string(),
-	})
-).action(
-	async ({ parsedInput:{bio,discord,pronouns,skills}, ctx:{userId} }) => {
-		const user = await getUser(userId);
-		if (!user) {
-			throw new Error("User not found");
-		}
-		await db
-			.update(userCommonData)
-			.set({ pronouns, bio, skills, discord })
-			.where(eq(userCommonData.clerkID, user.clerkID));
-		return {
-			success: true,
-			newPronouns: pronouns,
-			newBio: bio,
-			newSkills: skills,
-			newDiscord: discord,
-		};
-	},
-);
+export const modifyProfileData = authenticatedAction
+	.schema(
+		z.object({
+			pronouns: z.string(),
+			bio: z.string(),
+			skills: z.string().array(),
+			discord: z.string(),
+		}),
+	)
+	.action(
+		async ({
+			parsedInput: { bio, discord, pronouns, skills },
+			ctx: { userId },
+		}) => {
+			const user = await getUser(userId);
+			if (!user) {
+				throw new Error("User not found");
+			}
+			await db
+				.update(userCommonData)
+				.set({ pronouns, bio, skills, discord })
+				.where(eq(userCommonData.clerkID, user.clerkID));
+			return {
+				success: true,
+				newPronouns: pronouns,
+				newBio: bio,
+				newSkills: skills,
+				newDiscord: discord,
+			};
+		},
+	);
 
 // TODO: Fix after registration enhancements to allow for failure on conflict and return appropriate error message
-export const modifyAccountSettings = authenticatedAction.schema(
-	z.object({
-		firstName: z.string().min(1).max(50),
-		lastName: z.string().min(1).max(50),
-		hackerTag: z.string().min(1).max(50),
-		hasSearchableProfile: z.boolean(),
-	})
-).action(
-	async (
-		{ parsedInput: { firstName, lastName, hackerTag, hasSearchableProfile }, ctx:{ userId }},
-	) => {
-		const user = await getUser(userId);
-		if (!user) throw new Error("User not found");
-		let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
-		if (oldHackerTag != hackerTag)
-			if (await getUserByTag(hackerTag))
-				//if hackertag changed
-				// copied from /api/registration/create
-				return {
-					success: false,
-					message: "hackertag_not_unique",
-				};
-		await db
-			.update(userCommonData)
-			.set({
+export const modifyAccountSettings = authenticatedAction
+	.schema(
+		z.object({
+			firstName: z.string().min(1).max(50),
+			lastName: z.string().min(1).max(50),
+			hackerTag: z.string().min(1).max(50),
+			hasSearchableProfile: z.boolean(),
+		}),
+	)
+	.action(
+		async ({
+			parsedInput: {
 				firstName,
 				lastName,
 				hackerTag,
-				isSearchable: hasSearchableProfile,
-			})
-			.where(eq(userCommonData.clerkID, userId));
-		return {
-			success: true,
-			newFirstName: firstName,
-			newLastName: lastName,
-			newHackerTag: hackerTag,
-			newHasSearchableProfile: hasSearchableProfile,
-		};
-	},
-);
+				hasSearchableProfile,
+			},
+			ctx: { userId },
+		}) => {
+			const user = await getUser(userId);
+			if (!user) throw new Error("User not found");
+			let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
+			if (oldHackerTag != hackerTag)
+				if (await getUserByTag(hackerTag))
+					//if hackertag changed
+					// copied from /api/registration/create
+					return {
+						success: false,
+						message: "hackertag_not_unique",
+					};
+			await db
+				.update(userCommonData)
+				.set({
+					firstName,
+					lastName,
+					hackerTag,
+					isSearchable: hasSearchableProfile,
+				})
+				.where(eq(userCommonData.clerkID, userId));
+			return {
+				success: true,
+				newFirstName: firstName,
+				newLastName: lastName,
+				newHackerTag: hackerTag,
+				newHasSearchableProfile: hasSearchableProfile,
+			};
+		},
+	);
 
 export const updateProfileImage = authenticatedAction
 	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))

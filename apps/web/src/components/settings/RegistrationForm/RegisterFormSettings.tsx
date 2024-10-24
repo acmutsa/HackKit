@@ -23,7 +23,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c from  "config";
+import c from "config";
 import {
 	Command,
 	CommandEmpty,
