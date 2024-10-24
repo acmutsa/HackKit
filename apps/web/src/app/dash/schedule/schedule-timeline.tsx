@@ -47,7 +47,7 @@ export default function ScheduleTimeline({
 							<>
 								<tr
 									key={dayName + " title"}
-									className="py-16 sm:py-8"
+									className="py-16 md:py-8"
 								>
 									<td></td>
 									<td
@@ -58,7 +58,7 @@ export default function ScheduleTimeline({
 										}}
 									></td>
 									<td>
-										<h2 className="ml-8 w-full border-b py-4 text-4xl font-black sm:ml-16 sm:text-6xl">
+										<h2 className="ml-8 w-full border-b py-4 text-4xl font-black sm:text-6xl md:ml-16">
 											{dayName}
 										</h2>
 									</td>
@@ -105,7 +105,7 @@ export function EventRow({ event, userTimeZone }: EventRowProps) {
 	return (
 		<Link href={href} legacyBehavior>
 			<tr className="cursor-pointer text-center text-xl text-foreground">
-				<td className="pr-8 sm:pr-16">{`${startTimeFormatted} - ${endTimeFormatted}`}</td>
+				<td className="pr-8 md:pr-16">{`${startTimeFormatted} - ${endTimeFormatted}`}</td>
 				<td
 					className={"relative h-20 w-1"}
 					style={{
