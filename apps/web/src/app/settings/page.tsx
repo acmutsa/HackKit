@@ -11,25 +11,22 @@ export default async function Page() {
 	const user = await getUser(userId);
 	if (!user) return redirect("/sign-in");
 
-	function Header({ tag }: { tag: string }) {
-		return (
-			<h1
-				id={tag.toLowerCase()}
-				className="mt-10 pb-5 text-4xl font-bold"
-			>
-				{tag}
-			</h1>
-		);
-	}
-
 	return (
-		<div>
+		<main>
 			<Header tag="Account" />
 			<AccountSettings user={user} />
 			<Header tag="Profile" />
 			<ProfileSettings profile={user} />
 			<Header tag={"Registration"} />
 			<RegistrationSettings />
-		</div>
+		</main>
+	);
+}
+
+function Header({ tag }: { tag: string }) {
+	return (
+		<h1 id={tag.toLowerCase()} className="mt-10 pb-5 text-4xl font-bold">
+			{tag}
+		</h1>
 	);
 }

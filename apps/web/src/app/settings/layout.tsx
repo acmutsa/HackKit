@@ -35,7 +35,6 @@ export default async function ({ children }: { children: ReactNode }) {
 					</div>
 				</div>
 				<aside className="sticky top-20 hidden h-screen md:block">
-					{/* <SettingsSection name="Settings" path="/settings" /> */}
 					<SettingsSection name="Account" path="/settings#account" />
 					<SettingsSection name="Profile" path="/settings#profile" />
 					<SettingsSection
