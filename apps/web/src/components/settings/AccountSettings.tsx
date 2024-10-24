@@ -84,19 +84,6 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 							</div>
 						) : null}
 					</div>
-					{/*<div className={"col-span-full"}>*/}
-					{/*	<Label htmlFor="email">Email</Label>*/}
-					{/*	<Input*/}
-					{/*		className="mt-2"*/}
-					{/*		name="email"*/}
-					{/*		type="email"*/}
-					{/*		value={newEmail}*/}
-					{/*		onChange={(e) => setNewEmail(e.target.value)}*/}
-					{/*	/>*/}
-					{/*	{(!newEmail) ?*/}
-					{/*		<div className={"mt-1 text-sm text-red-500"}>This field can't be empty!</div> : null*/}
-					{/*	}*/}
-					{/*</div>*/}
 				</div>
 				<h2 className="pb-5 pt-7 text-3xl font-semibold">
 					Public Information

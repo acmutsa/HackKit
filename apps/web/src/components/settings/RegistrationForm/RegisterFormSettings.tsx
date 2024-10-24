@@ -152,7 +152,7 @@ export default function RegisterFormSettings({
 			phoneNumber: data.phoneNumber,
 			countryOfResidence: data.countryOfResidence,
 		});
-
+		// Can be optimzed to run in the modify registratuib data action later.
 		runModifyResume({ resume });
 		console.log(res);
 	}
