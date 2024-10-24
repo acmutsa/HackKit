@@ -1,29 +1,32 @@
-import { createSafeActionClient } from "next-safe-action";
+import {
+	createSafeActionClient,
+	returnValidationErrors,
+} from "next-safe-action";
 import { auth } from "@clerk/nextjs";
 import { getUser } from "db/functions";
+import { z } from "zod";
 
 export const publicAction = createSafeActionClient();
 
-export const adminAction = createSafeActionClient({
-	async middleware() {
-		const { userId } = auth();
-		if (!userId) throw new Error("Unauthorized (No UserID)");
-
-		const user = await getUser(userId);
-		if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
-			throw new Error("Unauthorized (Not Admin)");
-		}
-
-		return { user, userId };
-	},
-});
-
-export const authenticatedAction = createSafeActionClient({
+export const authenticatedAction = publicAction.use(
 	// TODO: Add registration check here?
-	async middleware() {
+	async ({ next, ctx }) => {
 		const { userId } = auth();
-		if (!userId) throw new Error("Unauthorized");
+		if (!userId)
+			returnValidationErrors(z.null(), {
+				_errors: ["Unauthorized (No User ID)"],
+			});
 		// TODO: add check for registration
-		return { userId };
+		return next({ ctx: { userId } });
 	},
+);
+
+export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
+	const user = await getUser(ctx.userId);
+	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+		returnValidationErrors(z.null(), {
+			_errors: ["Unauthorized (Not Admin)"],
+		});
+	}
+	return next({ ctx: { user, ...ctx } });
 });

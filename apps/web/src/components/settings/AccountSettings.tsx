@@ -5,7 +5,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Label } from "@/components/shadcn/ui/label";
 import { toast } from "sonner";
 import { useState } from "react";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import c from "config";

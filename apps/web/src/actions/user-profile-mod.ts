@@ -7,6 +7,7 @@ import { userCommonData, userHackerData } from "db/schema";
 import { eq } from "db/drizzle";
 import { put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
+import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 import { getUser, getUserByTag } from "db/functions";
 import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
@@ -192,12 +193,14 @@ export const updateProfileImage = authenticatedAction(
 		});
 		if (!user) throw new Error("User not found");
 
-		const blobUpload = await put(image.name, image, { access: "public" });
-		await db
-			.update(userCommonData)
-			.set({ profilePhoto: blobUpload.url })
-			.where(eq(userCommonData.clerkID, user.clerkID));
-		revalidatePath("/settings/profile");
-		return { success: true };
-	},
-);
+			const blobUpload = await put(image.name, image, {
+				access: "public",
+			});
+			await db
+				.update(userCommonData)
+				.set({ profilePhoto: blobUpload.url })
+				.where(eq(userCommonData.clerkID, user.clerkID));
+			revalidatePath("/settings/profile");
+			return { success: true };
+		},
+	);

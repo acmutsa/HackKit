@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
 import { checkInUser } from "@/actions/admin/scanner-admin-actions";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { User } from "db/types";
 
@@ -44,7 +44,7 @@ export default function CheckinScanner({
 	hasRSVP,
 }: CheckinScannerProps) {
 	const [scanLoading, setScanLoading] = useState(false);
-	const { execute: runScanAction } = useAction(checkInUser, {});
+	// const { execute: runScanAction } = useAction(checkInUser, {});
 	const [proceed, setProceed] = useState(hasRSVP);
 	useEffect(() => {
 		if (hasScanned) {
@@ -66,7 +66,7 @@ export default function CheckinScanner({
 			return alert("User Already Checked in!");
 		} else {
 			// TODO: make this a little more typesafe
-			runScanAction(scanUser?.clerkID!);
+			checkInUser(scanUser?.clerkID!);
 		}
 		toast.success("Successfully Scanned User In");
 		router.replace(`${path}`);

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/shadcn/ui/button";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { confirmVerifyDiscord } from "@/actions/discord-verify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";

@@ -4,7 +4,7 @@ import { useWindowSize } from "usehooks-ts";
 import Confetti from "react-confetti";
 import { Button } from "@/components/shadcn/ui/button";
 import { useState, useEffect } from "react";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { rsvpMyself } from "@/actions/rsvp";
 import { CheckCircleIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -62,7 +62,7 @@ export default function ConfirmDialogue({ hasRsvped }: { hasRsvped: boolean }) {
 					</p>
 					<Button
 						onClick={() => {
-							execute(null);
+							execute();
 							toast.loading("Confirming your RSVP...", {
 								duration: 0,
 							});

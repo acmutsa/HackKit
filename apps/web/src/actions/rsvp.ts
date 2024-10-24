@@ -6,12 +6,13 @@ import { db } from "db";
 import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import { getUser } from "db/functions";
+import { returnValidationErrors } from "next-safe-action";
 
-export const rsvpMyself = authenticatedAction(
-	z.any(),
-	async (_, { userId }) => {
+export const rsvpMyself = authenticatedAction.action(
+	async ({ ctx: { userId } }) => {
 		const user = await getUser(userId);
-		if (!user) throw new Error("User not found");
+		if (!user)
+			returnValidationErrors(z.null(), { _errors: ["User not found"] });
 
 		await db
 			.update(userCommonData)

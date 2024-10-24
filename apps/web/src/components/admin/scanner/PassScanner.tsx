@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import superjson from "superjson";
 import { createScan } from "@/actions/admin/scanner-admin-actions";
-import { useAction } from "next-safe-action/hook";
+import { useAction } from "next-safe-action/hooks";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
 import type { Scan, Event, Hacker } from "db/types";
 import c from "config";

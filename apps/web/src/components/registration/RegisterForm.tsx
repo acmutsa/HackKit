@@ -94,6 +94,8 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 			university: "",
 			phoneNumber: "",
 			countryOfResidence: "",
+			phoneNumber: "",
+			countryOfResidence: "",
 		},
 	});
 
@@ -1143,11 +1145,19 @@ export default function RegisterForm({ defaultEmail }: RegisterFormProps) {
 										>
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
-												{uploadedFile
-													? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
-													: isDragActive
-														? "Drop your resume here..."
-														: "Drag 'n' drop your resume here, or click to select a file"}
+												{uploadedFile ? (
+													`${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
+												) : isDragActive ? (
+													"Drop your resume here..."
+												) : (
+													<div>
+														Drag 'n' drop your
+														resume here, or click to
+														select a file
+														<br />
+														Accepted files: PDF
+													</div>
+												)}
 											</p>
 											{uploadedFile ? (
 												<Button
