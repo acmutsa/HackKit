@@ -47,12 +47,14 @@ export const registerUser = authenticatedAction
     async ( { ctx:{ userId }, parsedInput}) =>{
       // Reccomended: Destructure out your unique constraints / primary keys ahead of time to ensure that they can be cause short circuit logic if a unique constraint is violated
       const { resumeFile, hackerTag, email,
-        university,major,schoolID,levelOfStudy,hackathonsAttended,softwareExperience, heardFrom,GitHub,LinkedIn,PersonalWebsite,resume,hasAcceptedMLHCoC,hasSharedDataWithMLH,isEmailable,
+        university,major,schoolID,levelOfStudy,hackathonsAttended,softwareExperience, heardFrom,GitHub,LinkedIn,PersonalWebsite,hasAcceptedMLHCoC,hasSharedDataWithMLH,isEmailable,
         ...userData
       }  = parsedInput;
 
       const currUser = await currentUser();
 
+      console.log('resume file is',resumeFile);
+      throw new Error('test');
 		if (!currUser) {
 			returnValidationErrors(z.null(), {
 				_errors: ["User does not exist"],
@@ -91,7 +93,7 @@ export const registerUser = authenticatedAction
               GitHub,
               LinkedIn,
               PersonalWebsite,
-              resume,
+              resume:undefined,
               group:
                 totalUserCount[0].count % Object.keys(c.groups).length,
               hasAcceptedMLHCoC,

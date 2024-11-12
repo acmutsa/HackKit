@@ -19,7 +19,7 @@ import {
 } from "@/components/shadcn/ui/select";
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
-import { z } from "zod";
+import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
@@ -104,7 +104,7 @@ export default function RegisterForm({
 			resumeFile: null,
 		},
 	});
-
+	
 	const {
 		execute: runRegisterUser,
 		status: registerUserStatus,
@@ -112,7 +112,7 @@ export default function RegisterForm({
 	} = useAction(registerUser,{
 		onSuccess: ({ data}) => {
 			console.log("data is: ",data);
-			
+			// Come back and uncoment after testing
 			if (data?.success){
 				// setHasSuccess(true);
 				// 	setTimeout(() => {
@@ -155,7 +155,6 @@ export default function RegisterForm({
 		universityValue === c.localUniversityName &&
 		classificationValue !== "Recent Grad";
 	
-	
 	useEffect(() => {
 		if (universityValue !== c.localUniversityName || classificationValue === 'Recent Grad') {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
@@ -175,11 +174,12 @@ export default function RegisterForm({
 				);
 				return;
 			}
-			
-			runRegisterUser({...data});
+			const stringiedUpload = JSON.stringify(uploadedFile);
+			console.log('stringiedUpload is',stringiedUpload);
+			runRegisterUser({...data,resumeFile:stringiedUpload});
 		
 	}
-
+	
 	const onDrop = useCallback(
 		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
 			if (fileRejections.length > 0) {
@@ -189,7 +189,7 @@ export default function RegisterForm({
 			}
 			if (acceptedFiles.length > 0) {
 				setUploadedFile(acceptedFiles[0]);
-				form.setValue('resumeFile',acceptedFiles[0]);
+				// form.setValue('resumeFile',acceptedFiles[0]);
 			}
 		},
 		[],
@@ -214,7 +214,7 @@ export default function RegisterForm({
 				<div className="relative">
 					<Form {...form}>
 						<form
-							onSubmit={form.handleSubmit(runRegisterUser)}
+							onSubmit={form.handleSubmit(onSubmit)}
 							className="space-y-6"
 						>
 							<FormGroupWrapper title="General">
@@ -835,6 +835,37 @@ export default function RegisterForm({
 									/>
 									<FormField
 										control={form.control}
+										name="schoolID"
+										render={({ field }) => (
+											<FormItem
+												className={`${
+													isLocalUniversitySelected
+														? "col-span-1 flex flex-col md:col-span-2 lg:col-span-1"
+														: "hidden"
+												}`}
+											>
+												<FormLabel>
+													{formatRegistrationField(
+														`${c.localUniversitySchoolIDName}`,
+														hackerRegistrationFormValidator.shape[
+															field.name
+														].isOptional(),
+													)}
+												</FormLabel>
+												<FormControl>
+													<Input
+														placeholder={
+															c.localUniversitySchoolIDName
+														}
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
 										name="levelOfStudy"
 										render={({ field }) => (
 											<FormItem
@@ -895,37 +926,7 @@ export default function RegisterForm({
 											</FormItem>
 										)}
 									/>
-									<FormField
-										control={form.control}
-										name="schoolID"
-										render={({ field }) => (
-											<FormItem
-												className={`${
-													isLocalUniversitySelected
-														? "col-span-1 flex flex-col md:col-span-2 lg:col-span-1"
-														: "hidden"
-												}`}
-											>
-												<FormLabel>
-													{formatRegistrationField(
-														`${c.localUniversitySchoolIDName}`,
-														hackerRegistrationFormValidator.shape[
-															field.name
-														].isOptional(),
-													)}
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder={
-															c.localUniversitySchoolIDName
-														}
-														{...field}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+
 									<FormField
 										control={form.control}
 										name="major"
@@ -1474,6 +1475,7 @@ export default function RegisterForm({
 													} flex min-h-[200px] flex-col items-center justify-center rounded-lg border-dashed border-white`}
 												>
 													<input
+													type="file"
 														{...getInputProps()}
 													/>
 													<p className="p-2 text-center">

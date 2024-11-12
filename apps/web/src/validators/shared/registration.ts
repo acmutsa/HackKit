@@ -20,7 +20,6 @@ const countryList = Object.freeze(
 export const hackerRegistrationFormValidator = z
 	.object({
 		...userWithHackerDataInsertSchema.shape,
-		// Test if this has a max on it from the schema
 		firstName: z.string().min(1, defaultInputPrettyError).max(50, {
 			message: "First name must be between 1 and 50 characters",
 		}),
@@ -174,7 +173,8 @@ export const hackerRegistrationFormValidator = z
 	.merge(
 		z.object({
 			...uploadResumeSchema.shape,
-			resumeFile: z.instanceof(File).nullable(),
+			resumeFile: z.any(),
+			//  z.instanceof(File).nullable(),
 		}),
 	)
 	.omit({
@@ -189,4 +189,5 @@ export const hackerRegistrationFormValidator = z
 		profilePhoto: true,
 		checkinTimestamp: true,
 		teamID: true,
+		resume: true,
 	});
