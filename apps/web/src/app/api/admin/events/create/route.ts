@@ -37,6 +37,7 @@ export async function POST(req: Request) {
 			description: parsedBody.data.description,
 			startTime: parsedBody.data.startTime,
 			endTime: parsedBody.data.endTime,
+			location: parsedBody.data.location,
 			type: parsedBody.data.type,
 			host:
 				parsedBody.data.host && parsedBody.data.host.length > 0

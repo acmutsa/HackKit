@@ -558,6 +558,7 @@ const dietaryRestrictionOptions = [
 ];
 
 const countries = [
+	{ name: "United States", code: "US" },
 	{ name: "Afghanistan", code: "AF" },
 	{ name: "Albania", code: "AL" },
 	{ name: "Algeria", code: "DZ" },
@@ -740,7 +741,6 @@ const countries = [
 	{ name: "Ukraine", code: "UA" },
 	{ name: "United Arab Emirates", code: "AE" },
 	{ name: "United Kingdom", code: "GB" },
-	{ name: "United States", code: "US" },
 	{ name: "Uruguay", code: "UY" },
 	{ name: "Uzbekistan", code: "UZ" },
 	{ name: "Vanuatu", code: "VU" },
@@ -852,7 +852,7 @@ const c = {
 			Users: "/admin/users",
 			Events: "/admin/events",
 			Points: "/admin/points",
-			"Check-in": "/admin/check-in",
+			"Hackathon Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
 		// TODO: Can remove days? Pretty sure they're dynamic now.
