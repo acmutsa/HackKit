@@ -5,12 +5,12 @@ import { z } from "zod";
 import { db } from "db";
 import { userCommonData, userHackerData } from "db/schema";
 import { eq } from "db/drizzle";
-import { put } from "@vercel/blob";
+import { del, put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
-import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 import { getUser, getUserByTag } from "db/functions";
 import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
+import c from "config";
 
 export const modifyRegistrationData = authenticatedAction
 	.schema(RegistrationSettingsFormValidator)
@@ -37,43 +37,58 @@ export const modifyRegistrationData = authenticatedAction
 				personalWebsite,
 				phoneNumber,
 				countryOfResidence,
+				uploadedFile,
 			},
 			ctx: { userId },
 		}) => {
 			const user = await getUser(userId);
 			if (!user) throw new Error("User not found");
-			await Promise.all([
-				db
-					.update(userCommonData)
-					.set({
-						age,
-						gender,
-						race,
-						ethnicity,
-						shirtSize,
-						dietRestrictions: dietaryRestrictions,
-						accommodationNote,
-						phoneNumber,
-						countryOfResidence,
-					})
-					.where(eq(userCommonData.clerkID, user.clerkID)),
-				db
-					.update(userHackerData)
-					.set({
-						isEmailable,
-						university,
-						major,
-						levelOfStudy,
-						schoolID,
-						hackathonsAttended,
-						softwareExperience: softwareBuildingExperience,
-						heardFrom: heardAboutEvent,
-						GitHub: github,
-						LinkedIn: linkedin,
-						PersonalWebsite: personalWebsite,
-					})
-					.where(eq(userHackerData.clerkID, user.clerkID)),
-			]);
+			await db.transaction(async (tx) => {
+				// Nested update into a db transaction
+				await Promise.all([
+					// attempts to update both tables with Promise.all
+					tx
+						.update(userCommonData)
+						.set({
+							age,
+							gender,
+							race,
+							ethnicity,
+							shirtSize,
+							dietRestrictions: dietaryRestrictions,
+							accommodationNote,
+							phoneNumber,
+							countryOfResidence,
+						})
+						.where(eq(userCommonData.clerkID, user.clerkID)),
+					tx
+						.update(userHackerData)
+						.set({
+							isEmailable,
+							university,
+							major,
+							levelOfStudy,
+							schoolID,
+							hackathonsAttended,
+							softwareExperience: softwareBuildingExperience,
+							heardFrom: heardAboutEvent,
+							GitHub: github,
+							LinkedIn: linkedin,
+							PersonalWebsite: personalWebsite,
+							resume: uploadedFile,
+						})
+						.where(eq(userHackerData.clerkID, user.clerkID)),
+				]).catch(async (err) => {
+					// If there's an error, it rollbacks and removes the resume from blob
+					console.log(
+						"There was an error. Attempting to undo " + err.message,
+					);
+					tx.rollback();
+					return {
+						success: false,
+					};
+				});
+			});
 			return {
 				success: true,
 				newAge: age,
@@ -96,25 +111,21 @@ export const modifyRegistrationData = authenticatedAction
 				newPersonalWebsite: personalWebsite,
 				newPhoneNumber: phoneNumber,
 				newCountryOfResidence: countryOfResidence,
+				newUploadedFile: uploadedFile,
 			};
 		},
 	);
 
-export const modifyResume = authenticatedAction
+export const deleteResume = authenticatedAction
 	.schema(
 		z.object({
-			resume: z.string(),
+			oldFileLink: z.string(),
 		}),
 	)
-	.action(async ({ parsedInput: { resume }, ctx: { userId } }) => {
-		await db
-			.update(userHackerData)
-			.set({ resume })
-			.where(eq(userHackerData.clerkID, userId));
-		return {
-			success: true,
-			newResume: resume,
-		};
+	.action(async ({ parsedInput: { oldFileLink } }) => {
+		console.log(oldFileLink);
+		if (oldFileLink === c.noResumeProvidedURL) return null;
+		await del(oldFileLink);
 	});
 
 export const modifyProfileData = authenticatedAction

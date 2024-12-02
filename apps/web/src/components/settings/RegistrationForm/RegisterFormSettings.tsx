@@ -42,11 +42,11 @@ import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { put } from "@vercel/blob";
+import { del, put } from "@vercel/blob";
 import { useAction } from "next-safe-action/hooks";
 import {
+	deleteResume,
 	modifyRegistrationData,
-	modifyResume,
 } from "@/actions/user-profile-mod";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -92,11 +92,10 @@ export default function RegisterFormSettings({
 	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
-	// @ts-ignore
-	let f = new File([data.resume], resumeLink.split("/").pop());
+	let oldResumeLink: string = data.resume ?? c.noResumeProvidedURL;
+	let f = new File([data.resume], oldResumeLink.split("/").pop()!);
 	useEffect(() => {
-		if (resumeLink === c.noResumeProvidedURL) setUploadedFile(null);
+		if (oldResumeLink === c.noResumeProvidedURL) setUploadedFile(null);
 		else setUploadedFile(f);
 	}, []);
 
@@ -117,17 +116,16 @@ export default function RegisterFormSettings({
 		}
 	}, [universityValue]);
 
+	let newResumeLink: string = c.noResumeProvidedURL;
 	async function onSubmit(
 		data: z.infer<typeof RegistrationSettingsFormValidator>,
 	) {
-		let resume: string = c.noResumeProvidedURL;
-
 		if (uploadedFile) {
 			const newBlob = await put(uploadedFile.name, uploadedFile, {
 				access: "public",
 				handleBlobUploadUrl: "/api/upload/resume/register",
 			});
-			resume = newBlob.url;
+			newResumeLink = newBlob.url;
 		}
 
 		const res = runModifyRegistrationData({
@@ -151,19 +149,22 @@ export default function RegisterFormSettings({
 			personalWebsite: data.personalWebsite,
 			phoneNumber: data.phoneNumber,
 			countryOfResidence: data.countryOfResidence,
+			uploadedFile: newResumeLink,
 		});
-		// Can be optimzed to run in the modify registratuib data action later.
-		runModifyResume({ resume });
-		console.log(res);
+
+		runDeleteResume({ oldFileLink: oldResumeLink });
 	}
 
 	const { execute: runModifyRegistrationData, status: loadingState } =
 		useAction(modifyRegistrationData, {
-			onSuccess: () => {
+			onSuccess: async () => {
+				oldResumeLink = newResumeLink;
 				toast.dismiss();
 				toast.success("Data updated successfully!");
 			},
-			onError: () => {
+			onError: async () => {
+				if (newResumeLink !== c.noResumeProvidedURL)
+					await del(newResumeLink); // If error, delete the blob write (of the attempted new resume)
 				toast.dismiss();
 				toast.error(
 					`An error occurred. Please contact ${c.issueEmail} for help.`,
@@ -171,13 +172,7 @@ export default function RegisterFormSettings({
 			},
 		});
 
-	const { execute: runModifyResume } = useAction(modifyResume, {
-		onSuccess: () => {},
-		onError: () => {
-			toast.dismiss();
-			toast.error("An error occurred while uploading resume!");
-		},
-	});
+	const { execute: runDeleteResume } = useAction(deleteResume);
 
 	const onDrop = useCallback(
 		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -1013,7 +1008,9 @@ export default function RegisterFormSettings({
 											<p className="p-2 text-center">
 												{uploadedFile ? (
 													oldFile ? (
-														<Link href={resumeLink}>
+														<Link
+															href={oldResumeLink}
+														>
 															{uploadedFile.name}{" "}
 															(
 															{Math.round(

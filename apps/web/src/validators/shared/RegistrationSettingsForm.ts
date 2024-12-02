@@ -127,4 +127,5 @@ export const RegistrationSettingsFormValidator = z.object({
 		.string()
 		.max(100, { message: "URL must be less than 100 characters" })
 		.optional(),
+	uploadedFile: z.string().optional(),
 });
