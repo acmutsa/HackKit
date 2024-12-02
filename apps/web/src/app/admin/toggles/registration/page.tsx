@@ -9,14 +9,16 @@ export default async function Page() {
 	pipe.get("config:registration:secretRegistrationEnabled");
 	// const result = await pipe.exec();
 
-	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled, defaultRSVPsEnabled, defaultRSVPLimit]: (
-		| string
-		| null
-	)[] = await kv.mget(
+	const [
+		defaultRegistrationEnabled,
+		defaultSecretRegistrationEnabled,
+		defaultRSVPsEnabled,
+		defaultRSVPLimit,
+	]: (string | null)[] = await kv.mget(
 		"config:registration:registrationEnabled",
 		"config:registration:secretRegistrationEnabled",
 		"config:registration:allowRSVPs",
-		"config:registration:maxRSVPs"
+		"config:registration:maxRSVPs",
 	);
 
 	return (
@@ -41,7 +43,7 @@ export default async function Page() {
 				)}
 				defaultRSVPLimit={parseRedisNumber(
 					defaultRSVPLimit,
-					c.rsvpDefaultLimit
+					c.rsvpDefaultLimit,
 				)}
 			/>
 		</div>

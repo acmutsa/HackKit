@@ -22,9 +22,9 @@ export function UpdateItemWithConfirmation({
 	const [value, setValue] = useState(defaultValue.toString());
 
 	return (
-		<div className="flex items-center gap-2 max-h-8">
+		<div className="flex max-h-8 items-center gap-2">
 			<Input
-				className="sm:w-40 w-24 text-center text-md font-bold"
+				className="text-md w-24 text-center font-bold sm:w-40"
 				value={value}
 				disabled={!enabled}
 				onChange={({ target: { value: updated } }) => {
@@ -39,7 +39,8 @@ export function UpdateItemWithConfirmation({
 					/* Avoid allowing the user to update the default value to itself.
 					 * Also disallow the user from sending a zero length input. */
 					setValueUpdated(
-						updated !== defaultValue.toString() && updated.length !== 0
+						updated !== defaultValue.toString() &&
+							updated.length !== 0,
 					);
 				}}
 			/>
