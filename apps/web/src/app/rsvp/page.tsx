@@ -41,7 +41,11 @@ export default async function RsvpPage({
 	}
 
 	const rsvpEnabled = parseRedisBoolean(
-		await kv.get("config:registration:allowRSVPs") as string | boolean | null | undefined,
+		(await kv.get("config:registration:allowRSVPs")) as
+			| string
+			| boolean
+			| null
+			| undefined,
 		true,
 	);
 
