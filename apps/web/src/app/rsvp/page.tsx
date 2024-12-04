@@ -40,24 +40,28 @@ export default async function RsvpPage({
 		return redirect("/i/approval");
 	}
 
-	const rsvpEnabled = await kv.get("config:registration:allowRSVPs");
-	const rsvpLimit = parseRedisNumber(
-		await kv.get("config:registration:maxRSVPs"),
-		c.rsvpDefaultLimit,
+	const rsvpEnabled = parseRedisBoolean(
+		await kv.get("config:registration:allowRSVPs") as string | boolean | null | undefined,
+		true,
 	);
-	const rsvpUserCount = await db
-		.select({ count: count() })
-		.from(userCommonData)
-		.where(eq(userCommonData.isRSVPed, true))
-		.limit(rsvpLimit)
-		.then((result) => result[0].count);
 
-	// TODO: fix type jank here
-	const isRsvpPossible =
-		parseRedisBoolean(
-			rsvpEnabled as string | boolean | null | undefined,
-			true,
-		) === true && rsvpUserCount < rsvpLimit;
+	let isRsvpPossible = false;
+
+	if (rsvpEnabled === true) {
+		const rsvpLimit = parseRedisNumber(
+			await kv.get("config:registration:maxRSVPs"),
+			c.rsvpDefaultLimit,
+		);
+
+		const rsvpUserCount = await db
+			.select({ count: count() })
+			.from(userCommonData)
+			.where(eq(userCommonData.isRSVPed, true))
+			.limit(rsvpLimit)
+			.then((result) => result[0].count);
+
+		isRsvpPossible = rsvpUserCount < rsvpLimit;
+	}
 
 	if (isRsvpPossible || user.isRSVPed === true) {
 		return (
