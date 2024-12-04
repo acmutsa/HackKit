@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { Info,CalendarCheck } from "lucide-react";
+import { Info, CalendarCheck } from "lucide-react";
 import Link from "next/link";
 import UpdateRoleDialog from "@/components/admin/users/UpdateRoleDialog";
 import {
