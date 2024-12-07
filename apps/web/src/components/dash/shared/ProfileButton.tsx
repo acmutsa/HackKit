@@ -17,6 +17,7 @@ import { auth, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import { getUser } from "db/functions";
+import { clientLogOut } from "@/lib/utils/client/shared";
 
 export default async function ProfileButton() {
 	const clerkUser = auth();
@@ -68,9 +69,9 @@ export default async function ProfileButton() {
 						</Link>
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
-					<SignOutButton>
+					<SignOutButton signOutCallback={clientLogOut}>
 						<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
-							Log out
+							Sign out
 						</DropdownMenuItem>
 					</SignOutButton>
 				</DropdownMenuContent>
@@ -122,9 +123,9 @@ export default async function ProfileButton() {
 					</Link>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<SignOutButton>
+				<SignOutButton signOutCallback={clientLogOut}>
 					<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
-						Log out
+						Sign out
 					</DropdownMenuItem>
 				</SignOutButton>
 			</DropdownMenuContent>
