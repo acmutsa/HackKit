@@ -39,28 +39,28 @@ type UserColumnType = Column<userValidatorType, unknown>;
 export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		accessorKey: "firstName",
-		header: ({column}) => {
-			return (
-				<SortColumnButton name="Name" column={column} />
-			)
+		header: ({ column }) => {
+			return <SortColumnButton name="Name" column={column} />;
 		},
 		cell: ({ row }) => `${row.original.firstName} ${row.original.lastName}`,
-		filterFn: (row, _columnId, filterValue) => {
-			return row.original.firstName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase()) || row.original.lastName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
-		}
+		// filterFn: (row, _columnId, filterValue) => {
+		// 	return row.original.firstName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase()) || row.original.lastName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
+		// },
+		filterFn: "fuzzy",
+		
 	},
 	{
 		accessorKey: "email",
 		header: ({ column }) => {
-      return (
-        <SortColumnButton name="Email" column={column} />
-      )
-    },
+			return <SortColumnButton name="Email" column={column} />;
+		},
+		filterFn: "fuzzy",
 	},
 	{
 		accessorKey: "hackerTag",
 		header: "Hacker Tag",
 		cell: ({ row }) => `@${row.original.hackerTag}`,
+		filterFn: "fuzzy",
 	},
 	{
 		accessorKey: "isRSVPed",
@@ -70,10 +70,8 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		accessorKey: "checkinTimestamp",
 		header: ({ column }) => {
-      return (
-        <SortColumnButton name="Checkin Time" column={column} />
-      )
-    },
+			return <SortColumnButton name="Checkin Time" column={column} />;
+		},
 		cell: ({ row }) => (
 			<span suppressHydrationWarning={true}>
 				{row.original.checkinTimestamp
@@ -98,10 +96,8 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		accessorKey: "signupTime",
 		header: ({ column }) => {
-      return (
-        <SortColumnButton name="Signup Time" column={column} />
-      )
-    },
+			return <SortColumnButton name="Signup Time" column={column} />;
+		},
 		cell: ({ row }) => (
 			<span suppressHydrationWarning={true}>
 				{new Date(row.original.signupTime).toLocaleDateString() + " "}

@@ -9,9 +9,9 @@ import {
 	getSortedRowModel,
 	getPaginationRowModel,
 	ColumnFiltersState,
-	getFilteredRowModel
+	getFilteredRowModel,
+	FilterFn
 } from "@tanstack/react-table";
-
 import {
 	Table,
 	TableBody,
@@ -23,11 +23,23 @@ import {
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { useEffect, useState } from "react";
+import { rankItem} from "@tanstack/match-sorter-utils"
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 }
+
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+	// Rank the item
+	const itemRank = rankItem(row.getValue(columnId), value);
+
+	// Store the itemRank info
+	addMeta({ itemRank });
+
+	// Return if the item should be filtered in/out
+	return itemRank.passed;
+};
 
 export function DataTable<TData, TValue>({
 	columns,
@@ -41,16 +53,19 @@ export function DataTable<TData, TValue>({
 	const table = useReactTable({
 		data,
 		columns,
+		filterFns:{
+			fuzzy:fuzzyFilter
+		},
+		globalFilterFn:'fuzzy',
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		onSortingChange:setSorting,
 		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: setColumnFilters,
 		getFilteredRowModel: getFilteredRowModel(),
 		state:{
 			sorting,
-			columnFilters
-		}
+		},
+		
 	});
 
 	useEffect(()=>{
@@ -59,7 +74,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="rounded-md border">
+			<div className="rounded-md border space-y-3">
 				<Input
 					placeholder="Filter users..."
 					value={
