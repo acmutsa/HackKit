@@ -10,8 +10,8 @@ export default async function Page() {
 		| string
 		| null
 	)[] = await kv.mget(
-		"config:registration:registrationEnabled",
-		"config:registration:secretRegistrationEnabled",
+		`${process.env.HK_ENV}_config:registration:registrationEnabled`,
+		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
 	);
 
 	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {

@@ -16,12 +16,18 @@ const navAdminPage = "/admin/toggles/landing";
 export const setItem = adminAction
 	.schema(metadataSchema)
 	.action(async ({ parsedInput: { name, url }, ctx: { user, userId } }) => {
-		await kv.sadd("config:navitemslist", encodeURIComponent(name));
-		await kv.hset(`config:navitems:${encodeURIComponent(name)}`, {
-			url,
-			name,
-			enabled: true,
-		});
+		await kv.sadd(
+			`${process.env.HK_ENV}_config:navitemslist`,
+			encodeURIComponent(name),
+		);
+		await kv.hset(
+			`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
+			{
+				url,
+				name,
+				enabled: true,
+			},
+		);
 		revalidatePath(navAdminPage);
 		return { success: true };
 	});
@@ -30,8 +36,13 @@ export const removeItem = adminAction
 	.schema(z.string())
 	.action(async ({ parsedInput: name, ctx: { user, userId } }) => {
 		const pipe = kv.pipeline();
-		pipe.srem("config:navitemslist", encodeURIComponent(name));
-		pipe.del(`config:navitems:${encodeURIComponent(name)}`);
+		pipe.srem(
+			`${process.env.HK_ENV}_config:navitemslist`,
+			encodeURIComponent(name),
+		);
+		pipe.del(
+			`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
+		);
 		await pipe.exec();
 		// await new Promise((resolve) => setTimeout(resolve, 1500));
 		revalidatePath(navAdminPage);
@@ -45,9 +56,12 @@ export const toggleItem = adminAction
 			parsedInput: { name, statusToSet },
 			ctx: { user, userId },
 		}) => {
-			await kv.hset(`config:navitems:${encodeURIComponent(name)}`, {
-				enabled: statusToSet,
-			});
+			await kv.hset(
+				`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
+				{
+					enabled: statusToSet,
+				},
+			);
 			revalidatePath(navAdminPage);
 			return { success: true, itemStatus: statusToSet };
 		},

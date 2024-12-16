@@ -16,7 +16,10 @@ const defaultRSVPLimitSchema = z.object({
 export const toggleRegistrationEnabled = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set("config:registration:registrationEnabled", enabled);
+		await kv.set(
+			`${process.env.HK_ENV}_config:registration:registrationEnabled`,
+			enabled,
+		);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
 	});
@@ -24,7 +27,10 @@ export const toggleRegistrationEnabled = adminAction
 export const toggleRegistrationMessageEnabled = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set("config:registration:registrationMessageEnabled", enabled);
+		await kv.set(
+			`${process.env.HK_ENV}_config:registration:registrationMessageEnabled`,
+			enabled,
+		);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
 	});
@@ -32,7 +38,10 @@ export const toggleRegistrationMessageEnabled = adminAction
 export const toggleSecretRegistrationEnabled = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set("config:registration:secretRegistrationEnabled", enabled);
+		await kv.set(
+			`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
+			enabled,
+		);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
 	});
@@ -40,7 +49,10 @@ export const toggleSecretRegistrationEnabled = adminAction
 export const toggleRSVPs = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set("config:registration:allowRSVPs", enabled);
+		await kv.set(
+			`${process.env.HK_ENV}_config:registration:allowRSVPs`,
+			enabled,
+		);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: enabled };
 	});
@@ -48,7 +60,10 @@ export const toggleRSVPs = adminAction
 export const setRSVPLimit = adminAction
 	.schema(defaultRSVPLimitSchema)
 	.action(async ({ parsedInput: { rsvpLimit }, ctx: { user, userId } }) => {
-		await kv.set("config:registration:maxRSVPs", rsvpLimit);
+		await kv.set(
+			`${process.env.HK_ENV}_config:registration:maxRSVPs`,
+			rsvpLimit,
+		);
 		revalidatePath("/admin/toggles/registration");
 		return { success: true, statusSet: rsvpLimit };
 	});

@@ -5,8 +5,10 @@ import c from "config";
 
 export default async function Page() {
 	const pipe = kv.pipeline();
-	pipe.get("config:registration:registrationEnabled");
-	pipe.get("config:registration:secretRegistrationEnabled");
+	pipe.get(`${process.env.HK_ENV}_config:registration:registrationEnabled`);
+	pipe.get(
+		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
+	);
 	// const result = await pipe.exec();
 
 	const [
@@ -15,10 +17,10 @@ export default async function Page() {
 		defaultRSVPsEnabled,
 		defaultRSVPLimit,
 	]: (string | null)[] = await kv.mget(
-		"config:registration:registrationEnabled",
-		"config:registration:secretRegistrationEnabled",
-		"config:registration:allowRSVPs",
-		"config:registration:maxRSVPs",
+		`${process.env.HK_ENV}_config:registration:registrationEnabled`,
+		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
+		`${process.env.HK_ENV}_config:registration:allowRSVPs`,
+		`${process.env.HK_ENV}_config:registration:maxRSVPs`,
 	);
 
 	return (
