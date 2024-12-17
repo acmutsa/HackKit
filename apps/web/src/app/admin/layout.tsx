@@ -39,10 +39,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 			<ClientToast />
 			<div className="fixed z-20 grid h-16 w-full grid-cols-2 bg-nav px-5">
 				<div className="flex items-center gap-x-4">
-					<Link 
-						href={"/"}
-						className="mr-5 flex items-center gap-x-2"
-					>
+					<Link href={"/"} className="mr-5 flex items-center gap-x-2">
 						<Image
 							src={c.icon.svg}
 							alt={c.hackathonName + " Logo"}
