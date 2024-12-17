@@ -14,11 +14,9 @@ export const env = createEnv({
 		AWS_SES_SECRET_ACCESS_KEY: stringOrUndefined,
 		AWS_REGION: stringOrUndefined,
 		AWS_SES_EMAIL_FROM: stringOrUndefined,
-		INTERNAL_AUTH_KEY: z
-			.string()
-			.min(64, {
-				message: "INTERNAL_AUTH_KEY must be at least 64 characters",
-			}),
+		INTERNAL_AUTH_KEY: z.string().min(64, {
+			message: "INTERNAL_AUTH_KEY must be at least 64 characters",
+		}),
 		BOT_API_URL: stringOrUndefined,
 		NODE_ENV: z
 			.enum(["development", "test", "production"])
