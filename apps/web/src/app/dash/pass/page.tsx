@@ -34,16 +34,18 @@ export default async function Page() {
 	const guild = Object.keys(c.groups)[userDbRecord.hackerData.group];
 
 	return (
-		<div className="flex min-h-[calc(100vh-7rem)] items-center justify-center bg-nav">
-			<TiltWrapper>
-				<EventPass
-					user={userDbRecord}
-					qrPayload={qrPayload}
-					clerk={user}
-					guild={guild}
-				/>
-			</TiltWrapper>
-		</div>
+			<div className="flex flex-col min-h-[calc(100vh-7rem)] items-center justify-around bg-nav">
+				<TiltWrapper>
+					<EventPass
+						user={userDbRecord}
+						qrPayload={qrPayload}
+						clerk={user}
+						guild={guild}
+					/>
+				</TiltWrapper>
+				<a href="/api/pass" download={"super_official_pass.txt"} className="p-5">Download</a>
+			</div>
+		
 	);
 }
 
@@ -130,6 +132,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 				</div>
 			</div>
 			<div className="absolute bottom-0 left-1/2 z-10 h-[75px] w-[75px] -translate-x-1/2 translate-y-[50%] rotate-45 rounded-full border-2 border-background border-l-muted border-t-muted bg-background dark:border" />
+			
 		</div>
 	);
 }
