@@ -49,7 +49,14 @@ export function ProfileInfo({ user }: { user: Hacker }) {
 				/>
 			</div>
 			<div className="flex flex-col gap-y-5 pt-5">
-				<Cell title="Skills" value={"Coming soon..."} />
+				<Cell
+					title="Skills"
+					value={
+						user.skills && (user.skills as string[]).length > 0
+							? (user.skills as string[]).join(", ")
+							: ""
+					}
+				/>
 				<Cell title="Bio" value={user.bio} />
 			</div>
 		</UserInfoSection>

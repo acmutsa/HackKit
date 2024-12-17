@@ -11,18 +11,22 @@ import {
 	toggleRegistrationMessageEnabled,
 	toggleSecretRegistrationEnabled,
 	toggleRSVPs,
+	setRSVPLimit,
 } from "@/actions/admin/registration-actions";
+import { UpdateItemWithConfirmation } from "./UpdateItemWithConfirmation";
 
 interface RegistrationTogglesProps {
 	defaultRegistrationEnabled: boolean;
 	defaultSecretRegistrationEnabled: boolean;
 	defaultRSVPsEnabled: boolean;
+	defaultRSVPLimit: number;
 }
 
 export function RegistrationToggles({
 	defaultSecretRegistrationEnabled,
 	defaultRegistrationEnabled,
 	defaultRSVPsEnabled,
+	defaultRSVPLimit,
 }: RegistrationTogglesProps) {
 	const {
 		execute: executeToggleSecretRegistrationEnabled,
@@ -54,6 +58,16 @@ export function RegistrationToggles({
 		currentState: { success: true, statusSet: defaultRegistrationEnabled },
 		updateFn: (state, { enabled }) => {
 			return { statusSet: enabled, success: true };
+		},
+	});
+
+	const {
+		execute: executeSetRSVPLimit,
+		optimisticState: SetRSVPLimitOptimisticData,
+	} = useOptimisticAction(setRSVPLimit, {
+		currentState: { success: true, statusSet: defaultRSVPLimit },
+		updateFn: (state, { rsvpLimit }) => {
+			return { statusSet: rsvpLimit, success: true };
 		},
 	});
 
@@ -113,6 +127,20 @@ export function RegistrationToggles({
 									`RSVPs ${checked ? "enabled" : "disabled"} successfully!`,
 								);
 								executeToggleRSVPs({ enabled: checked });
+							}}
+						/>
+					</div>
+					<div className="flex items-center border-b border-t border-t-muted py-4">
+						<p className="mr-auto text-sm font-bold">RSVP Limit</p>
+						<UpdateItemWithConfirmation
+							defaultValue={SetRSVPLimitOptimisticData.statusSet}
+							enabled={toggleRSVPsOptimisticData.statusSet}
+							type="number"
+							onSubmit={(newLimit) => {
+								toast.success(
+									`Hacker RSVP limit successfully changed to ${newLimit}!`,
+								);
+								executeSetRSVPLimit({ rsvpLimit: newLimit });
 							}}
 						/>
 					</div>
