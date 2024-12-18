@@ -10,7 +10,6 @@ import {
 	getPaginationRowModel,
 	ColumnFiltersState,
 	getFilteredRowModel,
-	FilterFn
 } from "@tanstack/react-table";
 import {
 	Table,
@@ -23,23 +22,11 @@ import {
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { useEffect, useState } from "react";
-import { rankItem} from "@tanstack/match-sorter-utils"
-
+import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 }
-
-const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-	// Rank the item
-	const itemRank = rankItem(row.getValue(columnId), value);
-
-	// Store the itemRank info
-	addMeta({ itemRank });
-
-	// Return if the item should be filtered in/out
-	return itemRank.passed;
-};
 
 export function DataTable<TData, TValue>({
 	columns,
@@ -49,23 +36,25 @@ export function DataTable<TData, TValue>({
 	const [sorting,setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] =
 		useState<ColumnFiltersState>([]);
+	const [globalFilter, setGlobalFilter] = useState("");
 
 	const table = useReactTable({
 		data,
 		columns,
-		filterFns:{
-			fuzzy:fuzzyFilter
+		filterFns: {
+			fuzzy: dataTableFuzzyFilter,
 		},
-		globalFilterFn:'fuzzy',
+		state: {
+			sorting,
+			columnFilters,
+			globalFilter,
+		},
+		globalFilterFn: dataTableFuzzyFilter,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
-		onSortingChange:setSorting,
+		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
-		state:{
-			sorting,
-		},
-		
 	});
 
 	useEffect(()=>{
@@ -78,20 +67,11 @@ export function DataTable<TData, TValue>({
 				<Input
 					placeholder="Filter users..."
 					value={
-						(table
-							.getColumn("firstName")
-							?.getFilterValue() as string) ?? ""
+						globalFilter
 					}
 					onChange={(event) => {
-						table
-							.getColumn("firstName")
-							?.setFilterValue(event.target.value);
-						table
-							.getColumn("email")
-							?.setFilterValue(event.target.value);
-						// table
-						// 	.getColumn("hackerTag")
-						// 	?.setFilterValue(event.target.value);
+						// we want to set our global filter
+						setGlobalFilter(event.target.value);
 					}
 						
 					}

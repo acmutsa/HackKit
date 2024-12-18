@@ -17,6 +17,7 @@ import {
 } from "../../shadcn/ui/dropdown-menu";
 import { MoreHorizontal,ArrowUpDown } from "lucide-react";
 import type { Column,Row } from "@tanstack/react-table";
+import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 
 const userValidator = createSelectSchema(userCommonData);
 
@@ -46,7 +47,7 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		// filterFn: (row, _columnId, filterValue) => {
 		// 	return row.original.firstName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase()) || row.original.lastName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
 		// },
-		filterFn: "fuzzy",
+		filterFn: "includesString",
 		
 	},
 	{
@@ -54,13 +55,13 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		header: ({ column }) => {
 			return <SortColumnButton name="Email" column={column} />;
 		},
-		filterFn: "fuzzy",
+		filterFn: dataTableFuzzyFilter,
 	},
 	{
 		accessorKey: "hackerTag",
 		header: "Hacker Tag",
 		cell: ({ row }) => `@${row.original.hackerTag}`,
-		filterFn: "fuzzy",
+		filterFn: dataTableFuzzyFilter,
 	},
 	{
 		accessorKey: "isRSVPed",
@@ -92,6 +93,7 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		accessorKey: "role",
 		header: "Role",
+		filterFn:"includesString"
 	},
 	{
 		accessorKey: "signupTime",
@@ -119,7 +121,6 @@ export const columns: ColumnDef<userValidatorType>[] = [
 
 function UserDropDownActions({row}:{row:Row<userValidatorType>}) {
 	const user = row.original;
-
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
