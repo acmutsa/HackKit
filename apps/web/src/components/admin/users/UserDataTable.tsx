@@ -49,6 +49,7 @@ export function DataTable<TData, TValue>({
 			columnFilters,
 			globalFilter,
 		},
+		onColumnFiltersChange: setColumnFilters,
 		globalFilterFn: dataTableFuzzyFilter,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
@@ -80,7 +81,7 @@ export function DataTable<TData, TValue>({
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
+							<TableRow key={headerGroup.id} className="hover:bg-inherit">
 								{headerGroup.headers.map((header) => {
 									return (
 										<TableHead key={header.id}>

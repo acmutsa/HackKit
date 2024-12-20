@@ -15,7 +15,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../../shadcn/ui/dropdown-menu";
-import { MoreHorizontal,ArrowUpDown } from "lucide-react";
+import { Input } from "@/components/shadcn/ui/input";
+import { MoreHorizontal,ArrowUpDown, User } from "lucide-react";
 import type { Column,Row } from "@tanstack/react-table";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 
@@ -39,40 +40,53 @@ type UserColumnType = Column<userValidatorType, unknown>;
 
 export const columns: ColumnDef<userValidatorType>[] = [
 	{
-		accessorKey: "firstName",
-		header: ({ column }) => {
-			return <SortColumnButton name="Name" column={column} />;
-		},
-		cell: ({ row }) => `${row.original.firstName} ${row.original.lastName}`,
+		
+		accessorFn: row => `${row.firstName} ${row.lastName}`,
+		id:"name",
+		header: ({ column }) => (
+			<UserTableHeader name="Name" column={column} hasFilter={true} />
+		),
+		cell: info => info.getValue(),
 		// filterFn: (row, _columnId, filterValue) => {
 		// 	return row.original.firstName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase()) || row.original.lastName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
 		// },
-		filterFn: "includesString",
+		filterFn: dataTableFuzzyFilter,
 		
 	},
 	{
 		accessorKey: "email",
-		header: ({ column }) => {
-			return <SortColumnButton name="Email" column={column} />;
-		},
-		filterFn: dataTableFuzzyFilter,
+		header: ({ column }) => (
+			<UserTableHeader name="Email" column={column} hasFilter={true} />
+		),
+		filterFn: "includesString",
+		cell:info => info.getValue(),
 	},
 	{
 		accessorKey: "hackerTag",
-		header: "Hacker Tag",
+		header:({column}) =>(
+			<UserTableHeader name="Hacker Tag" column={column} hasFilter={true} />
+		),
 		cell: ({ row }) => `@${row.original.hackerTag}`,
 		filterFn: dataTableFuzzyFilter,
 	},
 	{
 		accessorKey: "isRSVPed",
-		header: "RSVP Status",
+		header: ({ column }) => (
+			<div className="flex flex-row justify-center h-full">
+				RSVP Status
+				<SortColumnButton name="Checkin Time" column={column} />
+			</div>
+		),
 		cell: ({ row }) => (row.original.isRSVPed ? "RSVPed" : "Not RSVPed"),
 	},
 	{
 		accessorKey: "checkinTimestamp",
-		header: ({ column }) => {
-			return <SortColumnButton name="Checkin Time" column={column} />;
-		},
+		header: ({ column }) => (
+			<div className="flex flex-row items-center justify-center">
+				Checkin Time
+				<SortColumnButton name="Checkin Time" column={column} />
+			</div>
+		),
 		cell: ({ row }) => (
 			<span suppressHydrationWarning={true}>
 				{row.original.checkinTimestamp
@@ -92,14 +106,19 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	},
 	{
 		accessorKey: "role",
-		header: "Role",
+		header: ({ column }) => (
+			<UserTableHeader name="Role" column={column} hasFilter={true} />
+			),
 		filterFn:"includesString"
 	},
 	{
 		accessorKey: "signupTime",
-		header: ({ column }) => {
-			return <SortColumnButton name="Signup Time" column={column} />;
-		},
+		header: ({ column }) => (
+			<div className="flex flex-row items-center justify-center">
+				Signup Time
+				<SortColumnButton name="Checkin Time" column={column} />
+			</div>
+		),
 		cell: ({ row }) => (
 			<span suppressHydrationWarning={true}>
 				{new Date(row.original.signupTime).toLocaleDateString() + " "}
@@ -155,17 +174,42 @@ function UserDropDownActions({row}:{row:Row<userValidatorType>}) {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);
-		}
+}
+
+
+function UserTableHeader({
+	name,
+	column,
+	hasFilter,
+}: {
+	name: string;
+	column: UserColumnType;
+	hasFilter: boolean;
+}) {
+	return (
+		<div className="flex flex-col items-center">
+			<div className="flex flex-row items-center justify-between w-full">
+				{name}
+				{hasFilter && <SortColumnButton name={name} column={column} />}
+			</div>
+			<Input
+				value={(column.getFilterValue() ?? '') as string}
+				onChange={(e) => column.setFilterValue(e.target.value)}
+				placeholder="search..."
+			/>
+		</div>
+	);
+}
 
 function SortColumnButton({name,column}:{name:string,column:UserColumnType}) {
 	return (
 		<Button
 			variant="ghost"
-			onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-		>
-			{name}
-			<ArrowUpDown className="ml-2 h-4 w-4" />
+			onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} >
+			<ArrowUpDown className="h-4 w-4" />
 		</Button>
 	)
 }
+
+
 
