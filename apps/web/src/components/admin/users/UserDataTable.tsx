@@ -32,10 +32,8 @@ export function DataTable<TData, TValue>({
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {
-
-	const [sorting,setSorting] = useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] =
-		useState<ColumnFiltersState>([]);
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
 
 	const table = useReactTable({
@@ -58,33 +56,37 @@ export function DataTable<TData, TValue>({
 		getFilteredRowModel: getFilteredRowModel(),
 	});
 
-	useEffect(()=>{
-		console.log("column filters",columnFilters);
-	},[columnFilters]);
+	useEffect(() => {
+		console.log("column filters", columnFilters);
+	}, [columnFilters]);
 
 	return (
 		<div>
-			<div className="rounded-md border space-y-3">
-				<Input
-					placeholder="Filter users..."
-					value={
-						globalFilter
-					}
-					onChange={(event) => {
-						// we want to set our global filter
-						setGlobalFilter(event.target.value);
-					}
-						
-					}
-					className="max-w-sm"
-				/>
+			<div className="space-y-3 rounded-md border">
+				<div className="px-4 pt-4">
+					<Input
+						placeholder="Filter users..."
+						value={globalFilter}
+						onChange={(event) => {
+							// we want to set our global filter
+							setGlobalFilter(event.target.value);
+						}}
+						className="max-w-sm"
+					/>
+				</div>
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id} className="hover:bg-inherit">
+							<TableRow
+								key={headerGroup.id}
+								className="hover:bg-inherit"
+							>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead
+											key={header.id}
+											className="pb-4"
+										>
 											{header.isPlaceholder
 												? null
 												: flexRender(

@@ -16,13 +16,14 @@ import {
 	DropdownMenuTrigger,
 } from "../../shadcn/ui/dropdown-menu";
 import { Input } from "@/components/shadcn/ui/input";
-import { MoreHorizontal,ArrowUpDown, User } from "lucide-react";
-import type { Column,Row } from "@tanstack/react-table";
+import { MoreHorizontal, ArrowUpDown, User } from "lucide-react";
+import type { Column, Row } from "@tanstack/react-table";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
+import { Badge } from "@/components/shadcn/ui/badge";
 
 const userValidator = createSelectSchema(userCommonData);
 
-// default fuzzy search and add filters by each column if possible 
+// default fuzzy search and add filters by each column if possible
 export type userValidatorType = Pick<
 	z.infer<typeof userValidator>,
 	| "clerkID"
@@ -31,27 +32,25 @@ export type userValidatorType = Pick<
 	| "lastName"
 	| "email"
 	| "role"
-	| 'isRSVPed'
-	| 'hackerTag'
-	| 'checkinTimestamp'
+	| "isRSVPed"
+	| "hackerTag"
+	| "checkinTimestamp"
 >;
 
 type UserColumnType = Column<userValidatorType, unknown>;
 
 export const columns: ColumnDef<userValidatorType>[] = [
 	{
-		
-		accessorFn: row => `${row.firstName} ${row.lastName}`,
-		id:"name",
+		accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+		id: "name",
 		header: ({ column }) => (
 			<UserTableHeader name="Name" column={column} hasFilter={true} />
 		),
-		cell: info => info.getValue(),
+		cell: (info) => info.getValue(),
 		// filterFn: (row, _columnId, filterValue) => {
 		// 	return row.original.firstName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase()) || row.original.lastName.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
 		// },
 		filterFn: dataTableFuzzyFilter,
-		
 	},
 	{
 		accessorKey: "email",
@@ -59,12 +58,16 @@ export const columns: ColumnDef<userValidatorType>[] = [
 			<UserTableHeader name="Email" column={column} hasFilter={true} />
 		),
 		filterFn: "includesString",
-		cell:info => info.getValue(),
+		cell: (info) => info.getValue(),
 	},
 	{
 		accessorKey: "hackerTag",
-		header:({column}) =>(
-			<UserTableHeader name="Hacker Tag" column={column} hasFilter={true} />
+		header: ({ column }) => (
+			<UserTableHeader
+				name="Hacker Tag"
+				column={column}
+				hasFilter={true}
+			/>
 		),
 		cell: ({ row }) => `@${row.original.hackerTag}`,
 		filterFn: dataTableFuzzyFilter,
@@ -72,18 +75,26 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		accessorKey: "isRSVPed",
 		header: ({ column }) => (
-			<div className="flex flex-row justify-center h-full">
-				RSVP Status
+			<div className="flex h-full flex-row justify-center">
+				<span className="whitespace-nowrap py-2">RSVP Status</span>
 				<SortColumnButton name="Checkin Time" column={column} />
 			</div>
 		),
-		cell: ({ row }) => (row.original.isRSVPed ? "RSVPed" : "Not RSVPed"),
+		// row.original.isRSVPed ?
+		cell: ({ row }) => (
+			<Badge className="no-select border-2" variant="outline">
+				<div
+					className={`mx-0 h-2 w-2 rounded-full ${row.original.isRSVPed ? "bg-green-400" : "bg-red-400"}`}
+				/>
+				<span className="ml-2">isRSVP</span>
+			</Badge>
+		),
 	},
 	{
 		accessorKey: "checkinTimestamp",
 		header: ({ column }) => (
-			<div className="flex flex-row items-center justify-center">
-				Checkin Time
+			<div className="flex h-full flex-row justify-center">
+				<span className="whitespace-nowrap py-2">Checkin Time</span>
 				<SortColumnButton name="Checkin Time" column={column} />
 			</div>
 		),
@@ -108,14 +119,14 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		accessorKey: "role",
 		header: ({ column }) => (
 			<UserTableHeader name="Role" column={column} hasFilter={true} />
-			),
-		filterFn:"includesString"
+		),
+		filterFn: "includesString",
 	},
 	{
 		accessorKey: "signupTime",
 		header: ({ column }) => (
-			<div className="flex flex-row items-center justify-center">
-				Signup Time
+			<div className="flex h-full flex-row justify-center">
+				<span className="whitespace-nowrap py-2">Signup Time</span>
 				<SortColumnButton name="Checkin Time" column={column} />
 			</div>
 		),
@@ -138,44 +149,39 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	},
 ];
 
-function UserDropDownActions({row}:{row:Row<userValidatorType>}) {
+function UserDropDownActions({ row }: { row: Row<userValidatorType> }) {
 	const user = row.original;
-			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal size={20} />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem>
-							<Link href={`/admin/users/${user.clerkID}`}>
-								View User
-							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() =>
-								navigator.clipboard.writeText(user.clerkID)
-							}
-							className="cursor-pointer"
-						>
-							Copy Clerk ID
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Link
-								href={`mailto:${user.email}`}
-								target="_blank"
-								prefetch={false}
-							>
-								Email User
-							</Link>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			);
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost" className="h-8 w-8 p-0">
+					<span className="sr-only">Open menu</span>
+					<MoreHorizontal size={20} />
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				<DropdownMenuItem>
+					<Link href={`/admin/users/${user.clerkID}`}>View User</Link>
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={() => navigator.clipboard.writeText(user.clerkID)}
+					className="cursor-pointer"
+				>
+					Copy Clerk ID
+				</DropdownMenuItem>
+				<DropdownMenuItem>
+					<Link
+						href={`mailto:${user.email}`}
+						target="_blank"
+						prefetch={false}
+					>
+						Email User
+					</Link>
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
 }
-
 
 function UserTableHeader({
 	name,
@@ -188,12 +194,12 @@ function UserTableHeader({
 }) {
 	return (
 		<div className="flex flex-col items-center">
-			<div className="flex flex-row items-center justify-between w-full">
+			<div className="flex w-full flex-row items-center justify-between">
 				{name}
 				{hasFilter && <SortColumnButton name={name} column={column} />}
 			</div>
 			<Input
-				value={(column.getFilterValue() ?? '') as string}
+				value={(column.getFilterValue() ?? "") as string}
 				onChange={(e) => column.setFilterValue(e.target.value)}
 				placeholder="search..."
 			/>
@@ -201,15 +207,19 @@ function UserTableHeader({
 	);
 }
 
-function SortColumnButton({name,column}:{name:string,column:UserColumnType}) {
+function SortColumnButton({
+	name,
+	column,
+}: {
+	name: string;
+	column: UserColumnType;
+}) {
 	return (
 		<Button
 			variant="ghost"
-			onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} >
+			onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+		>
 			<ArrowUpDown className="h-4 w-4" />
 		</Button>
-	)
+	);
 }
-
-
-

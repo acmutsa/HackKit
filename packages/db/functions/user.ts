@@ -9,12 +9,12 @@ export function getAllUsers() {
 	return db.query.userCommonData.findMany();
 }
 
-export async function getAllUsersWithHackerData(){
+export async function getAllUsersWithHackerData() {
 	return db.query.userCommonData.findMany({
-		with:{
-			hackerData:true
-		}
-	})
+		with: {
+			hackerData: true,
+		},
+	});
 }
 
 // ID
