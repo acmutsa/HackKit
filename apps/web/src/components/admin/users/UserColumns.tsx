@@ -73,6 +73,13 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		filterFn: dataTableFuzzyFilter,
 	},
 	{
+		accessorKey: "role",
+		header: ({ column }) => (
+			<UserTableHeader name="Role" column={column} hasFilter={true} />
+		),
+		filterFn: "includesString",
+	},
+	{
 		accessorKey: "isRSVPed",
 		header: ({ column }) => (
 			<div className="flex h-full flex-row justify-center">
@@ -86,7 +93,9 @@ export const columns: ColumnDef<userValidatorType>[] = [
 				<div
 					className={`mx-0 h-2 w-2 rounded-full ${row.original.isRSVPed ? "bg-green-400" : "bg-red-400"}`}
 				/>
-				<span className="ml-2">isRSVP</span>
+				<span className="ml-2">
+					RSVP: {row.original.isRSVPed ? "Yes" : "No"}
+				</span>
 			</Badge>
 		),
 	},
@@ -115,13 +124,13 @@ export const columns: ColumnDef<userValidatorType>[] = [
 			</span>
 		),
 	},
-	{
-		accessorKey: "role",
-		header: ({ column }) => (
-			<UserTableHeader name="Role" column={column} hasFilter={true} />
-		),
-		filterFn: "includesString",
-	},
+	// {
+	// 	accessorKey: "role",
+	// 	header: ({ column }) => (
+	// 		<UserTableHeader name="Role" column={column} hasFilter={true} />
+	// 	),
+	// 	filterFn: "includesString",
+	// },
 	{
 		accessorKey: "signupTime",
 		header: ({ column }) => (
