@@ -1,6 +1,6 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { FilterFn } from "@tanstack/react-table";
-
+import { redirect } from "next/navigation";
 export function getClientTimeZone(vercelIPTimeZone: string | null) {
 	return vercelIPTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
@@ -24,3 +24,7 @@ export const dataTableFuzzyFilter: FilterFn<any> = (
 	}
 	return itemRank.passed;
 };
+export async function clientLogOut() {
+	"use server";
+	redirect("/");
+}
