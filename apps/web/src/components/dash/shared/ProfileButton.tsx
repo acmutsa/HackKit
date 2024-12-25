@@ -17,7 +17,7 @@ import { auth, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import { getUser } from "db/functions";
-import { clientLogOut } from "@/lib/utils/client/shared";
+import { clientLogOut } from "@/lib/utils/server/user";
 
 export default async function ProfileButton() {
 	const clerkUser = auth();

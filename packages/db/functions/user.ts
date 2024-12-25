@@ -4,9 +4,17 @@ import { HackerData, User } from "../types";
 
 // const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
 
-export function getAllUsers(): Promise<User[] | undefined> {
+export function getAllUsers() {
 	// return _getAllUsers.execute();
 	return db.query.userCommonData.findMany();
+}
+
+export async function getAllUsersWithHackerData() {
+	return db.query.userCommonData.findMany({
+		with: {
+			hackerData: true,
+		},
+	});
 }
 
 // ID
