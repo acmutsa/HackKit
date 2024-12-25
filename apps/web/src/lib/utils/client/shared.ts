@@ -24,7 +24,3 @@ export const dataTableFuzzyFilter: FilterFn<any> = (
 	}
 	return itemRank.passed;
 };
-export async function clientLogOut() {
-	"use server";
-	redirect("/");
-}
