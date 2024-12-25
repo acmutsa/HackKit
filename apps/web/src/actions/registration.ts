@@ -52,14 +52,6 @@ export const registerUser = authenticatedAction
       }  = parsedInput;
 
       const currUser = await currentUser();
-
-      console.log('resume file is',resumeFile);
-      throw new Error('test');
-		if (!currUser) {
-			returnValidationErrors(z.null(), {
-				_errors: ["User does not exist"],
-			});
-		}
       const totalUserCount = await db
 			.select({ count: sql<number>`count(*)`.mapWith(Number) })
 			.from(userCommonData);
@@ -73,7 +65,7 @@ export const registerUser = authenticatedAction
 				hackerTag: hackerTag.toLocaleLowerCase(),
 				email,
 				...userData,
-				profilePhoto: currUser.imageUrl,
+				profilePhoto: currUser!.imageUrl,
 				skills: userData.skills.map((v) => v.text.toLowerCase()),
 				isFullyRegistered: true,
 				dietRestrictions: userData.dietRestrictions,
@@ -105,29 +97,19 @@ export const registerUser = authenticatedAction
         // Catch duplicates because they will be based off of the error code 23505
         if (e instanceof DatabaseError && e.code  === DUPLICATE_KEY_ERROR_CODE){
           console.error(e);
-          const constraintKeyIndex = e.constraint as keyof typeof c.db.UniqueKeyMapper;
+          const constraintKeyIndex = e.constraint as keyof typeof c.db.uniqueKeyMapper;
           return {
 				success: false,
-				message: c.db.UniqueKeyMapper[constraintKeyIndex  ?? UNIQUE_KEY_MAPPER_DEFAULT_KEY] ?? e.detail,
+				message: c.db.uniqueKeyMapper[constraintKeyIndex  ?? UNIQUE_KEY_MAPPER_DEFAULT_KEY] ?? e.detail,
 			};
         }else{
           throw e;
         }
       }
       console.log('Contents of resumeFile',resumeFile);
-      // Determine upload stuff
-      // if (resumeFile){
-      //   console.log("Uploading blob");
-      //   const res = await uploadResume({resumeFile});
-      //   if (res?.serverError){
-      //     return {
-			// 	success: true,
-			// 	message:
-			// 		"Registration created successfully but there was an error uploading your resume.",
-			// };
-      //   }
+     
       // console.log("Success posting");
-      // }
+      
 
       return {
         success:true,

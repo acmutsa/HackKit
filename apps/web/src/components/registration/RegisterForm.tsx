@@ -147,6 +147,7 @@ export default function RegisterForm({
 	const [skills, setSkills] = useState<Tag[]>([]);
 	const [hasSuccess, setHasSuccess] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [isUploadResumeSelected, setIsUploadResumeSelected] = useState(true);
 
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
@@ -163,7 +164,7 @@ export default function RegisterForm({
 		}
 	}, [universityValue]);
 
-	function onSubmit(
+	async function onSubmit(
 		data: z.infer<typeof hackerRegistrationFormValidator>,
 	) {
 			console.log(data);
@@ -174,9 +175,19 @@ export default function RegisterForm({
 				);
 				return;
 			}
-			const stringiedUpload = JSON.stringify(uploadedFile);
-			console.log('stringiedUpload is',stringiedUpload);
-			runRegisterUser({...data,resumeFile:stringiedUpload});
+
+			let resume:string = c.noResumeProvidedURL;
+			if (uploadedFile && isUploadResumeSelected) {
+				const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
+				// test what happens when an error is thrown
+				const newBlob = await put(fileLocation, uploadedFile, {
+					access: "public",
+					handleBlobUploadUrl: "/api/upload/resume/register",
+				});
+				
+				resume = newBlob.url;
+			}
+			runRegisterUser({ ...data, resumeFile: resume });
 		
 	}
 	

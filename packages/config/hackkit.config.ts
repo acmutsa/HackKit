@@ -843,7 +843,7 @@ const c = {
 		},
 	},
 	db: {
-		UniqueKeyMapper: {
+		uniqueKeyMapper: {
 			user_common_data_hacker_tag_unique:
 				"Hacker Tag is taken. Please use another one.",
 			user_common_data_email_unique: "Email is already in use",
