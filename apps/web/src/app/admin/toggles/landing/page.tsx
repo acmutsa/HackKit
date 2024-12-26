@@ -1,6 +1,6 @@
 import {
 	NavItemsManager,
-	NavItemDialog,
+	AddNavItemDialog,
 } from "@/components/admin/toggles/NavItemsManager";
 import { getAllNavItems } from "@/lib/utils/server/redis";
 
@@ -13,7 +13,7 @@ export default async function Page() {
 					Navbar Items
 				</h2>
 				<div className="ml-auto">
-					<NavItemDialog />
+					<AddNavItemDialog />
 				</div>
 			</div>
 			<NavItemsManager
