@@ -164,7 +164,7 @@ export default function RegisterFormSettings({
 			},
 			onError: async () => {
 				if (newResumeLink !== c.noResumeProvidedURL)
-					await del(newResumeLink); // If error, delete the blob write (of the attempted new resume)
+					runDeleteResume({ oldFileLink: newResumeLink }); // If error, delete the blob write (of the attempted new resume)
 				toast.dismiss();
 				toast.error(
 					`An error occurred. Please contact ${c.issueEmail} for help.`,
