@@ -1,6 +1,7 @@
 import { RegistrationToggles } from "@/components/admin/toggles/RegistrationSettings";
 import { kv } from "@vercel/kv";
-import { parseRedisBoolean } from "@/lib/utils/server/redis";
+import { parseRedisBoolean, parseRedisNumber } from "@/lib/utils/server/redis";
+import c from "config";
 
 export default async function Page() {
 	const pipe = kv.pipeline();
@@ -12,10 +13,12 @@ export default async function Page() {
 		defaultRegistrationEnabled,
 		defaultSecretRegistrationEnabled,
 		defaultRSVPsEnabled,
+		defaultRSVPLimit,
 	]: (string | null)[] = await kv.mget(
 		"config:registration:registrationEnabled",
 		"config:registration:secretRegistrationEnabled",
 		"config:registration:allowRSVPs",
+		"config:registration:maxRSVPs",
 	);
 
 	return (
@@ -37,6 +40,10 @@ export default async function Page() {
 				defaultRSVPsEnabled={parseRedisBoolean(
 					defaultRSVPsEnabled,
 					true,
+				)}
+				defaultRSVPLimit={parseRedisNumber(
+					defaultRSVPLimit,
+					c.rsvpDefaultLimit,
 				)}
 			/>
 		</div>
