@@ -41,7 +41,6 @@ export const modifyRegistrationData = authenticatedAction
 			},
 			ctx: { userId },
 		}) => {
-			const user = (await getUser(userId))!;
 			await Promise.all([
 				// attempts to update both tables with Promise.all
 				db
@@ -57,7 +56,7 @@ export const modifyRegistrationData = authenticatedAction
 						phoneNumber,
 						countryOfResidence,
 					})
-					.where(eq(userCommonData.clerkID, user.clerkID)),
+					.where(eq(userCommonData.clerkID, userId)),
 				db
 					.update(userHackerData)
 					.set({
@@ -74,7 +73,7 @@ export const modifyRegistrationData = authenticatedAction
 						PersonalWebsite: personalWebsite,
 						resume: uploadedFile,
 					})
-					.where(eq(userHackerData.clerkID, user.clerkID)),
+					.where(eq(userHackerData.clerkID, userId)),
 			]).catch(async (err) => {
 				// If there's an error
 				return {
