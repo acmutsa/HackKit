@@ -43,51 +43,44 @@ export const modifyRegistrationData = authenticatedAction
 		}) => {
 			const user = await getUser(userId);
 			if (!user) throw new Error("User not found");
-			await db.transaction(async (tx) => {
-				// Nested update into a db transaction
-				await Promise.all([
-					// attempts to update both tables with Promise.all
-					tx
-						.update(userCommonData)
-						.set({
-							age,
-							gender,
-							race,
-							ethnicity,
-							shirtSize,
-							dietRestrictions: dietaryRestrictions,
-							accommodationNote,
-							phoneNumber,
-							countryOfResidence,
-						})
-						.where(eq(userCommonData.clerkID, user.clerkID)),
-					tx
-						.update(userHackerData)
-						.set({
-							isEmailable,
-							university,
-							major,
-							levelOfStudy,
-							schoolID,
-							hackathonsAttended,
-							softwareExperience: softwareBuildingExperience,
-							heardFrom: heardAboutEvent,
-							GitHub: github,
-							LinkedIn: linkedin,
-							PersonalWebsite: personalWebsite,
-							resume: uploadedFile,
-						})
-						.where(eq(userHackerData.clerkID, user.clerkID)),
-				]).catch(async (err) => {
-					// If there's an error, it rollbacks and removes the resume from blob
-					console.log(
-						"There was an error. Attempting to undo " + err.message,
-					);
-					tx.rollback();
-					return {
-						success: false,
-					};
-				});
+			await Promise.all([
+				// attempts to update both tables with Promise.all
+				db
+					.update(userCommonData)
+					.set({
+						age,
+						gender,
+						race,
+						ethnicity,
+						shirtSize,
+						dietRestrictions: dietaryRestrictions,
+						accommodationNote,
+						phoneNumber,
+						countryOfResidence,
+					})
+					.where(eq(userCommonData.clerkID, user.clerkID)),
+				db
+					.update(userHackerData)
+					.set({
+						isEmailable,
+						university,
+						major,
+						levelOfStudy,
+						schoolID,
+						hackathonsAttended,
+						softwareExperience: softwareBuildingExperience,
+						heardFrom: heardAboutEvent,
+						GitHub: github,
+						LinkedIn: linkedin,
+						PersonalWebsite: personalWebsite,
+						resume: uploadedFile,
+					})
+					.where(eq(userHackerData.clerkID, user.clerkID)),
+			]).catch(async (err) => {
+				// If there's an error
+				return {
+					success: false,
+				};
 			});
 			return {
 				success: true,
