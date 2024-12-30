@@ -41,8 +41,7 @@ export const modifyRegistrationData = authenticatedAction
 			},
 			ctx: { userId },
 		}) => {
-			const user = await getUser(userId);
-			if (!user) throw new Error("User not found");
+			const user = (await getUser(userId))!;
 			await Promise.all([
 				// attempts to update both tables with Promise.all
 				db
