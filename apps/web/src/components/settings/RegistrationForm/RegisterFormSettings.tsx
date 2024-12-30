@@ -23,7 +23,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c from "config";
+import { c, bucketResumeBaseUploadUrl } from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -121,10 +121,14 @@ export default function RegisterFormSettings({
 		data: z.infer<typeof RegistrationSettingsFormValidator>,
 	) {
 		if (uploadedFile) {
-			const newBlob = await put(uploadedFile.name, uploadedFile, {
-				access: "public",
-				handleBlobUploadUrl: "/api/upload/resume/register",
-			});
+			const newBlob = await put(
+				bucketResumeBaseUploadUrl + "/" + uploadedFile.name,
+				uploadedFile,
+				{
+					access: "public",
+					handleBlobUploadUrl: "/api/upload/resume/register",
+				},
+			);
 			newResumeLink = newBlob.url;
 		}
 
