@@ -205,7 +205,8 @@ export default function RegisterFormSettings({
 			<Form {...form}>
 				<form
 					className="space-y-6"
-					onSubmit={form.handleSubmit(onSubmit)}>
+					onSubmit={form.handleSubmit(onSubmit)}
+				>
 					<FormGroupWrapper title="General">
 						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7">
 							<FormField

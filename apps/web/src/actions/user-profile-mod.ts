@@ -14,7 +14,6 @@ import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
 import c from "config";
 import { DatabaseError } from "db/types";
 
-
 export const modifyRegistrationData = authenticatedAction
 	.schema(RegistrationSettingsFormValidator)
 	.action(
@@ -44,7 +43,6 @@ export const modifyRegistrationData = authenticatedAction
 			},
 			ctx: { userId },
 		}) => {
-
 			await Promise.all([
 				// attempts to update both tables with Promise.all
 				db
@@ -79,7 +77,9 @@ export const modifyRegistrationData = authenticatedAction
 					})
 					.where(eq(userHackerData.clerkID, userId)),
 			]).catch(async (err) => {
-				console.log(`Error occured at modify registration data: ${err}`);
+				console.log(
+					`Error occured at modify registration data: ${err}`,
+				);
 				// If there's an error
 				return {
 					success: false,
@@ -171,20 +171,21 @@ export const modifyAccountSettings = authenticatedAction
 			},
 			ctx: { userId },
 		}) => {
-			
-			try{
+			try {
 				await db
-				.update(userCommonData)
-				.set({
-					firstName,
-					lastName,
-					hackerTag,
-					isSearchable: hasSearchableProfile,
-				})
-				.where(eq(userCommonData.clerkID, userId));
-			}
-			catch(err){
-				if (err instanceof DatabaseError && err.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE) {
+					.update(userCommonData)
+					.set({
+						firstName,
+						lastName,
+						hackerTag,
+						isSearchable: hasSearchableProfile,
+					})
+					.where(eq(userCommonData.clerkID, userId));
+			} catch (err) {
+				if (
+					err instanceof DatabaseError &&
+					err.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE
+				) {
 					return {
 						success: false,
 						message: "hackertag_not_unique",
