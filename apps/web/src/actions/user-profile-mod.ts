@@ -10,7 +10,10 @@ import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
 import { getUser, getUserByTag } from "db/functions";
 import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
+import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
 import c from "config";
+import { DatabaseError } from "db/types";
+
 
 export const modifyRegistrationData = authenticatedAction
 	.schema(RegistrationSettingsFormValidator)
@@ -41,6 +44,7 @@ export const modifyRegistrationData = authenticatedAction
 			},
 			ctx: { userId },
 		}) => {
+
 			await Promise.all([
 				// attempts to update both tables with Promise.all
 				db
@@ -75,6 +79,7 @@ export const modifyRegistrationData = authenticatedAction
 					})
 					.where(eq(userHackerData.clerkID, userId)),
 			]).catch(async (err) => {
+				console.log(`Error occured at modify registration data: ${err}`);
 				// If there's an error
 				return {
 					success: false,
@@ -114,7 +119,6 @@ export const deleteResume = authenticatedAction
 		}),
 	)
 	.action(async ({ parsedInput: { oldFileLink } }) => {
-		console.log(oldFileLink);
 		if (oldFileLink === c.noResumeProvidedURL) return null;
 		await del(oldFileLink);
 	});
@@ -133,14 +137,10 @@ export const modifyProfileData = authenticatedAction
 			parsedInput: { bio, discord, pronouns, skills },
 			ctx: { userId },
 		}) => {
-			const user = await getUser(userId);
-			if (!user) {
-				throw new Error("User not found");
-			}
 			await db
 				.update(userCommonData)
 				.set({ pronouns, bio, skills, discord })
-				.where(eq(userCommonData.clerkID, user.clerkID));
+				.where(eq(userCommonData.clerkID, userId));
 			return {
 				success: true,
 				newPronouns: pronouns,
@@ -171,18 +171,9 @@ export const modifyAccountSettings = authenticatedAction
 			},
 			ctx: { userId },
 		}) => {
-			const user = await getUser(userId);
-			if (!user) throw new Error("User not found");
-			let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
-			if (oldHackerTag != hackerTag)
-				if (await getUserByTag(hackerTag))
-					//if hackertag changed
-					// copied from /api/registration/create
-					return {
-						success: false,
-						message: "hackertag_not_unique",
-					};
-			await db
+			
+			try{
+				await db
 				.update(userCommonData)
 				.set({
 					firstName,
@@ -191,6 +182,16 @@ export const modifyAccountSettings = authenticatedAction
 					isSearchable: hasSearchableProfile,
 				})
 				.where(eq(userCommonData.clerkID, userId));
+			}
+			catch(err){
+				if (err instanceof DatabaseError && err.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE) {
+					return {
+						success: false,
+						message: "hackertag_not_unique",
+					};
+				}
+				throw err;
+			}
 			return {
 				success: true,
 				newFirstName: firstName,

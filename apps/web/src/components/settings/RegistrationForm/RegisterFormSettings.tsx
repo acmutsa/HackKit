@@ -61,29 +61,29 @@ interface RegistrationFormSettingsProps {
 
 export default function RegisterFormSettings({
 	user,
-	data,
+	data: originalData,
 }: RegistrationFormSettingsProps) {
 	const form = useForm<z.infer<typeof RegistrationSettingsFormValidator>>({
 		resolver: zodResolver(RegistrationSettingsFormValidator),
 		defaultValues: {
-			hackathonsAttended: data.hackathonsAttended,
+			hackathonsAttended: originalData.hackathonsAttended,
 			dietaryRestrictions: user.dietRestrictions as any,
-			isEmailable: data.isEmailable,
+			isEmailable: originalData.isEmailable,
 			accommodationNote: user.accommodationNote || "",
 			age: user.age,
 			ethnicity: user.ethnicity as any,
 			gender: user.gender as any,
-			major: data.major,
-			github: data.GitHub ?? "",
-			heardAboutEvent: data.heardFrom as any,
-			levelOfStudy: data.levelOfStudy as any,
-			linkedin: data.LinkedIn ?? "",
-			personalWebsite: data.PersonalWebsite ?? "",
+			major: originalData.major,
+			github: originalData.GitHub ?? "",
+			heardAboutEvent: originalData.heardFrom as any,
+			levelOfStudy: originalData.levelOfStudy as any,
+			linkedin: originalData.LinkedIn ?? "",
+			personalWebsite: originalData.PersonalWebsite ?? "",
 			race: user.race as any,
 			shirtSize: user.shirtSize as any,
-			schoolID: data.schoolID,
-			softwareBuildingExperience: data.softwareExperience as any,
-			university: data.university,
+			schoolID: originalData.schoolID,
+			softwareBuildingExperience: originalData.softwareExperience as any,
+			university: originalData.university,
 			phoneNumber: user.phoneNumber,
 			countryOfResidence: user.countryOfResidence,
 		},
@@ -92,8 +92,8 @@ export default function RegisterFormSettings({
 	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-	let oldResumeLink: string = data.resume ?? c.noResumeProvidedURL;
-	let f = new File([data.resume], oldResumeLink.split("/").pop()!);
+	let oldResumeLink: string = originalData.resume ?? c.noResumeProvidedURL;
+	let f = new File([originalData.resume], oldResumeLink.split("/").pop()!);
 	useEffect(() => {
 		if (oldResumeLink === c.noResumeProvidedURL) setUploadedFile(null);
 		else setUploadedFile(f);
@@ -111,7 +111,7 @@ export default function RegisterFormSettings({
 			if (shortID === "NOT_LOCAL_SCHOOL") {
 				form.setValue("schoolID", "");
 			} else {
-				form.setValue("schoolID", data.schoolID);
+				form.setValue("schoolID", originalData.schoolID);
 			}
 		}
 	}, [universityValue]);
@@ -131,8 +131,8 @@ export default function RegisterFormSettings({
 			);
 			newResumeLink = newBlob.url;
 		}
-
-		const res = runModifyRegistrationData({
+		const oldResume = originalData.resume;
+		runModifyRegistrationData({
 			age: data.age,
 			gender: data.gender,
 			race: data.race,
@@ -156,7 +156,7 @@ export default function RegisterFormSettings({
 			uploadedFile: newResumeLink,
 		});
 
-		runDeleteResume({ oldFileLink: oldResumeLink });
+		runDeleteResume({ oldFileLink: oldResume });
 	}
 
 	const { execute: runModifyRegistrationData, status: loadingState } =
@@ -175,7 +175,6 @@ export default function RegisterFormSettings({
 				);
 			},
 		});
-
 	const { execute: runDeleteResume } = useAction(deleteResume);
 
 	const onDrop = useCallback(
@@ -186,10 +185,6 @@ export default function RegisterFormSettings({
 				);
 			}
 			if (acceptedFiles.length > 0) {
-				console.log(
-					`Got accepted file! The length of the array is ${acceptedFiles.length}.`,
-				);
-				console.log(acceptedFiles[0]);
 				setUploadedFile(acceptedFiles[0]);
 				setOldFile(false);
 			}
@@ -210,8 +205,7 @@ export default function RegisterFormSettings({
 			<Form {...form}>
 				<form
 					className="space-y-6"
-					onSubmit={form.handleSubmit(onSubmit)}
-				>
+					onSubmit={form.handleSubmit(onSubmit)}>
 					<FormGroupWrapper title="General">
 						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-7">
 							<FormField
