@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { adminAction } from "@/lib/safe-action";
 import { kv } from "@vercel/kv";
+import { sadd, hset } from "@/lib/utils/server/redis";
 import { revalidatePath } from "next/cache";
 
 const metadataSchema = z.object({
@@ -16,11 +17,11 @@ const navAdminPage = "/admin/toggles/landing";
 export const setItem = adminAction
 	.schema(metadataSchema)
 	.action(async ({ parsedInput: { name, url }, ctx: { user, userId } }) => {
-		await kv.sadd(
+		await sadd(
 			`${process.env.HK_ENV}_config:navitemslist`,
 			encodeURIComponent(name),
 		);
-		await kv.hset(
+		await hset(
 			`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
 			{
 				url,
@@ -56,7 +57,7 @@ export const toggleItem = adminAction
 			parsedInput: { name, statusToSet },
 			ctx: { user, userId },
 		}) => {
-			await kv.hset(
+			await hset(
 				`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
 				{
 					enabled: statusToSet,

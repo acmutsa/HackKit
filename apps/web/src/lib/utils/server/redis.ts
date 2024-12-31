@@ -1,6 +1,32 @@
 import { kv } from "@vercel/kv";
 import type { NavItemToggleType } from "@/validators/shared/navitemtoggle";
 
+export async function sadd(key: string, value: string): Promise<number> {
+	return kv.sadd(key, value);
+}
+
+export async function hset<TData>(
+	key: string,
+	value: Record<string, TData>,
+): Promise<number> {
+	return kv.hset(key, value);
+}
+
+export async function set<TData>(
+	key: string,
+	value: TData,
+): Promise<TData | "OK" | null> {
+	return kv.set<TData>(key, value);
+}
+
+export async function get<TData>(key: string): Promise<TData | null> {
+	return kv.get<TData>(key);
+}
+
+export async function mget<TData>(...keys: string[]): Promise<TData[]> {
+	return kv.mget<TData[]>(keys);
+}
+
 export async function getAllNavItems() {
 	const keys = await kv.smembers<string[]>(
 		`${process.env.HK_ENV}_config:navitemslist`,

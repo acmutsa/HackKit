@@ -4,7 +4,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
-import { kv } from "@vercel/kv";
+import { mget } from "@/lib/utils/server/redis";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
@@ -22,7 +22,7 @@ export default async function Page() {
 	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled]: (
 		| string
 		| null
-	)[] = await kv.mget(
+	)[] = await mget(
 		`${process.env.HK_ENV}_config:registration:registrationEnabled`,
 		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
 	);

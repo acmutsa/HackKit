@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { adminAction } from "@/lib/safe-action";
-import { kv } from "@vercel/kv";
+import { set } from "@/lib/utils/server/redis";
 import { revalidatePath } from "next/cache";
 
 const defaultRegistrationToggleSchema = z.object({
@@ -16,7 +16,7 @@ const defaultRSVPLimitSchema = z.object({
 export const toggleRegistrationEnabled = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set(
+		await set(
 			`${process.env.HK_ENV}_config:registration:registrationEnabled`,
 			enabled,
 		);
@@ -27,7 +27,7 @@ export const toggleRegistrationEnabled = adminAction
 export const toggleRegistrationMessageEnabled = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set(
+		await set(
 			`${process.env.HK_ENV}_config:registration:registrationMessageEnabled`,
 			enabled,
 		);
@@ -38,7 +38,7 @@ export const toggleRegistrationMessageEnabled = adminAction
 export const toggleSecretRegistrationEnabled = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set(
+		await set(
 			`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
 			enabled,
 		);
@@ -49,7 +49,7 @@ export const toggleSecretRegistrationEnabled = adminAction
 export const toggleRSVPs = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
-		await kv.set(
+		await set(
 			`${process.env.HK_ENV}_config:registration:allowRSVPs`,
 			enabled,
 		);
@@ -60,7 +60,7 @@ export const toggleRSVPs = adminAction
 export const setRSVPLimit = adminAction
 	.schema(defaultRSVPLimitSchema)
 	.action(async ({ parsedInput: { rsvpLimit }, ctx: { user, userId } }) => {
-		await kv.set(
+		await set(
 			`${process.env.HK_ENV}_config:registration:maxRSVPs`,
 			rsvpLimit,
 		);
