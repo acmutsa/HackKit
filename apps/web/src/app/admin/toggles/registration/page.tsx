@@ -10,10 +10,10 @@ export default async function Page() {
 		defaultRSVPsEnabled,
 		defaultRSVPLimit,
 	]: (string | null)[] = await mget(
-		`${process.env.HK_ENV}_config:registration:registrationEnabled`,
-		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
-		`${process.env.HK_ENV}_config:registration:allowRSVPs`,
-		`${process.env.HK_ENV}_config:registration:maxRSVPs`,
+		"config:registration:registrationEnabled",
+		"config:registration:secretRegistrationEnabled",
+		"config:registration:allowRSVPs",
+		"config:registration:maxRSVPs",
 	);
 
 	return (

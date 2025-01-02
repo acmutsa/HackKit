@@ -1,35 +1,39 @@
 import { kv } from "@vercel/kv";
 import type { NavItemToggleType } from "@/validators/shared/navitemtoggle";
 
+export function includeEnvPrefix(key: string) {
+	return `${process.env.HK_ENV}_${key}`;
+}
+
 export async function sadd(key: string, value: string): Promise<number> {
-	return kv.sadd(key, value);
+	return kv.sadd(includeEnvPrefix(key), value);
 }
 
 export async function hset<TData>(
 	key: string,
 	value: Record<string, TData>,
 ): Promise<number> {
-	return kv.hset(key, value);
+	return kv.hset(includeEnvPrefix(key), value);
 }
 
 export async function set<TData>(
 	key: string,
 	value: TData,
 ): Promise<TData | "OK" | null> {
-	return kv.set<TData>(key, value);
+	return kv.set<TData>(includeEnvPrefix(key), value);
 }
 
 export async function get<TData>(key: string): Promise<TData | null> {
-	return kv.get<TData>(key);
+	return kv.get<TData>(includeEnvPrefix(key));
 }
 
 export async function mget<TData>(...keys: string[]): Promise<TData[]> {
-	return kv.mget<TData[]>(keys);
+	return kv.mget<TData[]>(keys.map(includeEnvPrefix));
 }
 
 export async function getAllNavItems() {
 	const keys = await kv.smembers<string[]>(
-		`${process.env.HK_ENV}_config:navitemslist`,
+		includeEnvPrefix("config:navitemslist"),
 	);
 	if (!keys || keys.length < 1) {
 		return {
@@ -39,7 +43,7 @@ export async function getAllNavItems() {
 	}
 	const pipe = kv.pipeline();
 	for (const key of keys) {
-		pipe.hgetall(`${process.env.HK_ENV}_config:navitems:${key}`);
+		pipe.hgetall(includeEnvPrefix(`config:navitems:${key}`));
 	}
 	const items = await pipe.exec<NavItemToggleType[]>();
 	return {
@@ -51,12 +55,10 @@ export async function getAllNavItems() {
 export function removeNavItem(name: string) {
 	const pipe = kv.pipeline();
 	pipe.srem(
-		`${process.env.HK_ENV}_config:navitemslist`,
+		includeEnvPrefix("config:navitemslist"),
 		encodeURIComponent(name),
 	);
-	pipe.del(
-		`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
-	);
+	pipe.del(includeEnvPrefix(`config:navitems:${encodeURIComponent(name)}`));
 	return pipe.exec();
 }
 

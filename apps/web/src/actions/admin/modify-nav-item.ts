@@ -17,11 +17,11 @@ export const setItem = adminAction
 	.schema(metadataSchema)
 	.action(async ({ parsedInput: { name, url }, ctx: { user, userId } }) => {
 		await sadd(
-			`${process.env.HK_ENV}_config:navitemslist`,
+			"config:navitemslist",
 			encodeURIComponent(name),
 		);
 		await hset(
-			`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
+			"config:navitems:${encodeURIComponent(name)}",
 			{
 				url,
 				name,
@@ -49,7 +49,7 @@ export const toggleItem = adminAction
 			ctx: { user, userId },
 		}) => {
 			await hset(
-				`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
+				"config:navitems:${encodeURIComponent(name)}",
 				{
 					enabled: statusToSet,
 				},

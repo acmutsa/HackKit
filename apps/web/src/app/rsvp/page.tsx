@@ -44,7 +44,7 @@ export default async function RsvpPage({
 	}
 
 	const rsvpEnabled = parseRedisBoolean(
-		(await get(`${process.env.HK_ENV}_config:registration:allowRSVPs`)) as
+		(await get("config:registration:allowRSVPs")) as
 			| string
 			| boolean
 			| null
@@ -56,7 +56,7 @@ export default async function RsvpPage({
 
 	if (rsvpEnabled === true) {
 		const rsvpLimit = parseRedisNumber(
-			await get(`${process.env.HK_ENV}_config:registration:maxRSVPs`),
+			await get("config:registration:maxRSVPs"),
 			c.rsvpDefaultLimit,
 		);
 

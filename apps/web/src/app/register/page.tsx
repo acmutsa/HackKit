@@ -23,8 +23,8 @@ export default async function Page() {
 		| string
 		| null
 	)[] = await mget(
-		`${process.env.HK_ENV}_config:registration:registrationEnabled`,
-		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
+		"config:registration:registrationEnabled",
+		"config:registration:secretRegistrationEnabled",
 	);
 
 	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
