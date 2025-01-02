@@ -48,6 +48,18 @@ export async function getAllNavItems() {
 	};
 }
 
+export function removeNavItem(name: string) {
+	const pipe = kv.pipeline();
+	pipe.srem(
+		`${process.env.HK_ENV}_config:navitemslist`,
+		encodeURIComponent(name),
+	);
+	pipe.del(
+		`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
+	);
+	return pipe.exec();
+}
+
 export function parseRedisBoolean(
 	value: string | boolean | undefined | null,
 	defaultValue?: boolean,

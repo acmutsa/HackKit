@@ -1,22 +1,15 @@
 import { RegistrationToggles } from "@/components/admin/toggles/RegistrationSettings";
-import { kv } from "@vercel/kv";
+import { mget } from "@/lib/utils/server/redis";
 import { parseRedisBoolean, parseRedisNumber } from "@/lib/utils/server/redis";
 import c from "config";
 
 export default async function Page() {
-	const pipe = kv.pipeline();
-	pipe.get(`${process.env.HK_ENV}_config:registration:registrationEnabled`);
-	pipe.get(
-		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
-	);
-	// const result = await pipe.exec();
-
 	const [
 		defaultRegistrationEnabled,
 		defaultSecretRegistrationEnabled,
 		defaultRSVPsEnabled,
 		defaultRSVPLimit,
-	]: (string | null)[] = await kv.mget(
+	]: (string | null)[] = await mget(
 		`${process.env.HK_ENV}_config:registration:registrationEnabled`,
 		`${process.env.HK_ENV}_config:registration:secretRegistrationEnabled`,
 		`${process.env.HK_ENV}_config:registration:allowRSVPs`,

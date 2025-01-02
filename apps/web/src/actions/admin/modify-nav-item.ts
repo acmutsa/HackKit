@@ -2,8 +2,7 @@
 
 import { z } from "zod";
 import { adminAction } from "@/lib/safe-action";
-import { kv } from "@vercel/kv";
-import { sadd, hset } from "@/lib/utils/server/redis";
+import { sadd, hset, removeNavItem } from "@/lib/utils/server/redis";
 import { revalidatePath } from "next/cache";
 
 const metadataSchema = z.object({
@@ -36,15 +35,7 @@ export const setItem = adminAction
 export const removeItem = adminAction
 	.schema(z.string())
 	.action(async ({ parsedInput: name, ctx: { user, userId } }) => {
-		const pipe = kv.pipeline();
-		pipe.srem(
-			`${process.env.HK_ENV}_config:navitemslist`,
-			encodeURIComponent(name),
-		);
-		pipe.del(
-			`${process.env.HK_ENV}_config:navitems:${encodeURIComponent(name)}`,
-		);
-		await pipe.exec();
+		await removeNavItem(name);
 		// await new Promise((resolve) => setTimeout(resolve, 1500));
 		revalidatePath(navAdminPage);
 		return { success: true };
