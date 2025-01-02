@@ -78,6 +78,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 						src={c.eventPassBgImage}
 						alt={""}
 						fill
+						priority
 						className="no-select -translate-y-[15%] scale-[0.8] object-contain"
 					/>
 					<div className="grid h-20 w-full grid-cols-2">
