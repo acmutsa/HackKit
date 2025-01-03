@@ -10,6 +10,7 @@ export const env = createEnv({
 		AWS_SES_EMAIL_FROM: z.string().min(1),
 		INTERNAL_AUTH_KEY: z.string().min(64),
 		BOT_API_URL: z.string().min(1),
+		HK_ENV: z.string().min(1),
 		NODE_ENV: z
 			.enum(["development", "test", "production"])
 			.default("development"),

@@ -47,7 +47,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<Link href={`/@${user.hackerTag}`} target="_blank">
 						<Button variant={"outline"}>Hacker Profile</Button>
 					</Link>
-					<Button variant={"outline"}>Email Hacker</Button>
+
+					<Link href={`mailto:${user.email}`}>
+						<Button variant={"outline"}>Email Hacker</Button>
+					</Link>
+
 					<UpdateRoleDialog
 						name={`${user.firstName} ${user.lastName}`}
 						canMakeAdmins={admin.role === "super_admin"}
