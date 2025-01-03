@@ -53,6 +53,7 @@ export async function getAllNavItems() {
 }
 
 export function removeNavItem(name: string) {
+	console.log("Removing: ", includeEnvPrefix("config:navitemslist"));
 	const pipe = kv.pipeline();
 	pipe.srem(
 		includeEnvPrefix("config:navitemslist"),
