@@ -39,10 +39,10 @@ import {
 } from "@/components/shadcn/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { del, put } from "@vercel/blob";
+import { put } from "@vercel/blob";
 import { useAction } from "next-safe-action/hooks";
 import {
 	deleteResume,
@@ -53,6 +53,7 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { HackerData, User } from "db/types";
 import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
+import { useRouter } from "next/navigation";
 
 interface RegistrationFormSettingsProps {
 	user: User;
@@ -63,6 +64,7 @@ export default function RegisterFormSettings({
 	user,
 	data: originalData,
 }: RegistrationFormSettingsProps) {
+
 	const form = useForm<z.infer<typeof RegistrationSettingsFormValidator>>({
 		resolver: zodResolver(RegistrationSettingsFormValidator),
 		defaultValues: {
@@ -89,17 +91,34 @@ export default function RegisterFormSettings({
 		},
 	});
 
-	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
-	const hasErrors = !isSubmitSuccessful && isSubmitted;
+	const { isSubmitSuccessful, isSubmitted, isDirty} = form.formState;
+
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-	let oldResumeLink: string = originalData.resume ?? c.noResumeProvidedURL;
+	const [isOldFile, setIsOldFile] = useState(true);
+	const [hasDataChanged,setHasDataChanged] = useState(false); 
+	const [isLoading,setIsLoading] = useState(false);
+	
+	const { refresh} = useRouter()
+
+	const hasErrors = !isSubmitSuccessful && isSubmitted;
+	const oldResumeLink = originalData.resume;
 	let f = new File([originalData.resume], oldResumeLink.split("/").pop()!);
+	let newResumeLink: string = originalData.resume;
+
+	// used to prevent infinite re-renders
 	useEffect(() => {
 		if (oldResumeLink === c.noResumeProvidedURL) setUploadedFile(null);
 		else setUploadedFile(f);
 	}, []);
 
-	const [oldFile, setOldFile] = useState(true);
+	useEffect(()=>{
+		console.log('isOldFile: ',isOldFile);
+	},[isOldFile])
+
+	useEffect(()=>{
+		console.log("isDirty: ",isDirty);
+		setHasDataChanged(isDirty || (uploadedFile != null && !isOldFile || (originalData.resume !== c.noResumeProvidedURL && uploadedFile == null)));
+	},[isDirty,uploadedFile]);
 
 	const universityValue = form.watch("university").toLowerCase();
 	const shortID = form.watch("schoolID").toLowerCase();
@@ -108,19 +127,17 @@ export default function RegisterFormSettings({
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
-			if (shortID === "NOT_LOCAL_SCHOOL") {
-				form.setValue("schoolID", "");
-			} else {
-				form.setValue("schoolID", originalData.schoolID);
-			}
+			const ShortIDValue = (shortID === "NOT_LOCAL_SCHOOL") ? "" : originalData.schoolID;
+			form.setValue("schoolID", ShortIDValue);
 		}
 	}, [universityValue]);
 
-	let newResumeLink: string = c.noResumeProvidedURL;
 	async function onSubmit(
 		data: z.infer<typeof RegistrationSettingsFormValidator>,
 	) {
-		if (uploadedFile) {
+		setIsLoading(true);
+		if (uploadedFile && !isOldFile) {
+			console.log("uploading file...");
 			const newBlob = await put(
 				bucketResumeBaseUploadUrl + "/" + uploadedFile.name,
 				uploadedFile,
@@ -129,46 +146,40 @@ export default function RegisterFormSettings({
 					handleBlobUploadUrl: "/api/upload/resume/register",
 				},
 			);
+			console.log("file uploaded");
 			newResumeLink = newBlob.url;
 		}
+		else{
+			newResumeLink = (uploadedFile == null) ? c.noResumeProvidedURL : originalData.resume;
+		}
 		const oldResume = originalData.resume;
-		runModifyRegistrationData({
-			age: data.age,
-			gender: data.gender,
-			race: data.race,
-			ethnicity: data.ethnicity,
-			isEmailable: data.isEmailable,
-			university: data.university,
-			major: data.major,
-			levelOfStudy: data.levelOfStudy,
-			schoolID: data.schoolID,
-			hackathonsAttended: data.hackathonsAttended,
-			softwareBuildingExperience: data.softwareBuildingExperience,
-			heardAboutEvent: data.heardAboutEvent,
-			shirtSize: data.shirtSize,
-			dietaryRestrictions: data.dietaryRestrictions,
-			accommodationNote: data.accommodationNote,
-			github: data.github,
-			linkedin: data.linkedin,
-			personalWebsite: data.personalWebsite,
-			phoneNumber: data.phoneNumber,
-			countryOfResidence: data.countryOfResidence,
-			uploadedFile: newResumeLink,
-		});
-
+		if (hasDataChanged) {
+			console.log("running modify registration data...");
+			runModifyRegistrationData({
+				...data,
+				uploadedFile: newResumeLink,
+			});
+		}
 		runDeleteResume({ oldFileLink: oldResume });
+		setIsLoading(false);
 	}
 
 	const { execute: runModifyRegistrationData, status: loadingState } =
 		useAction(modifyRegistrationData, {
 			onSuccess: async () => {
-				oldResumeLink = newResumeLink;
 				toast.dismiss();
 				toast.success("Data updated successfully!");
+				console.log("Success");
+				// form.reset({},{
+				// 	keepValues:true
+				// });
+				setHasDataChanged(false);
+				// setIsOldFile(true);
 			},
 			onError: async () => {
 				if (newResumeLink !== c.noResumeProvidedURL)
 					runDeleteResume({ oldFileLink: newResumeLink }); // If error, delete the blob write (of the attempted new resume)
+				setIsLoading(false);
 				toast.dismiss();
 				toast.error(
 					`An error occurred. Please contact ${c.issueEmail} for help.`,
@@ -186,7 +197,11 @@ export default function RegisterFormSettings({
 			}
 			if (acceptedFiles.length > 0) {
 				setUploadedFile(acceptedFiles[0]);
-				setOldFile(false);
+				setIsOldFile(false);
+				setHasDataChanged(true);
+			}
+			else{
+				setUploadedFile(null);
 			}
 		},
 		[],
@@ -1006,7 +1021,7 @@ export default function RegisterFormSettings({
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
 												{uploadedFile ? (
-													oldFile ? (
+													isOldFile ? (
 														<Link
 															href={oldResumeLink}
 														>
@@ -1031,7 +1046,7 @@ export default function RegisterFormSettings({
 													className="mt-4"
 													onClick={() => {
 														setUploadedFile(null);
-														setOldFile(false);
+														setIsOldFile(false);
 													}}
 												>
 													Remove
@@ -1046,9 +1061,13 @@ export default function RegisterFormSettings({
 					</FormGroupWrapper>
 					<Button
 						type={"submit"}
-						disabled={loadingState === "executing"}
+						disabled={
+							isLoading ||
+							loadingState === "executing" ||
+							!hasDataChanged
+						}
 					>
-						{loadingState === "executing" ? (
+						{isLoading || loadingState === "executing" ? (
 							<>
 								<Loader2
 									className={"mr-2 h-4 w-4 animate-spin"}

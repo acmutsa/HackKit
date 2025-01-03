@@ -119,6 +119,7 @@ export const deleteResume = authenticatedAction
 		}),
 	)
 	.action(async ({ parsedInput: { oldFileLink } }) => {
+		console.log('called');
 		if (oldFileLink === c.noResumeProvidedURL) return null;
 		await del(oldFileLink);
 	});
