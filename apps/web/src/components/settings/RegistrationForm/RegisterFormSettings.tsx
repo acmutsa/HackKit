@@ -64,7 +64,6 @@ export default function RegisterFormSettings({
 	user,
 	data: originalData,
 }: RegistrationFormSettingsProps) {
-
 	const form = useForm<z.infer<typeof RegistrationSettingsFormValidator>>({
 		resolver: zodResolver(RegistrationSettingsFormValidator),
 		defaultValues: {
@@ -91,14 +90,14 @@ export default function RegisterFormSettings({
 		},
 	});
 
-	const { isSubmitSuccessful, isSubmitted, isDirty} = form.formState;
+	const { isSubmitSuccessful, isSubmitted, isDirty } = form.formState;
 
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [isOldFile, setIsOldFile] = useState(true);
-	const [hasDataChanged,setHasDataChanged] = useState(false); 
-	const [isLoading,setIsLoading] = useState(false);
-	
-	const { refresh} = useRouter()
+	const [hasDataChanged, setHasDataChanged] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const { refresh } = useRouter();
 
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 	const oldResumeLink = originalData.resume;
@@ -111,14 +110,19 @@ export default function RegisterFormSettings({
 		else setUploadedFile(f);
 	}, []);
 
-	useEffect(()=>{
-		console.log('isOldFile: ',isOldFile);
-	},[isOldFile])
+	useEffect(() => {
+		console.log("isOldFile: ", isOldFile);
+	}, [isOldFile]);
 
-	useEffect(()=>{
-		console.log("isDirty: ",isDirty);
-		setHasDataChanged(isDirty || (uploadedFile != null && !isOldFile || (originalData.resume !== c.noResumeProvidedURL && uploadedFile == null)));
-	},[isDirty,uploadedFile]);
+	useEffect(() => {
+		console.log("isDirty: ", isDirty);
+		setHasDataChanged(
+			isDirty ||
+				(uploadedFile != null && !isOldFile) ||
+				(originalData.resume !== c.noResumeProvidedURL &&
+					uploadedFile == null),
+		);
+	}, [isDirty, uploadedFile]);
 
 	const universityValue = form.watch("university").toLowerCase();
 	const shortID = form.watch("schoolID").toLowerCase();
@@ -127,7 +131,8 @@ export default function RegisterFormSettings({
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
-			const ShortIDValue = (shortID === "NOT_LOCAL_SCHOOL") ? "" : originalData.schoolID;
+			const ShortIDValue =
+				shortID === "NOT_LOCAL_SCHOOL" ? "" : originalData.schoolID;
 			form.setValue("schoolID", ShortIDValue);
 		}
 	}, [universityValue]);
@@ -148,9 +153,11 @@ export default function RegisterFormSettings({
 			);
 			console.log("file uploaded");
 			newResumeLink = newBlob.url;
-		}
-		else{
-			newResumeLink = (uploadedFile == null) ? c.noResumeProvidedURL : originalData.resume;
+		} else {
+			newResumeLink =
+				uploadedFile == null
+					? c.noResumeProvidedURL
+					: originalData.resume;
 		}
 		const oldResume = originalData.resume;
 		if (hasDataChanged) {
@@ -199,8 +206,7 @@ export default function RegisterFormSettings({
 				setUploadedFile(acceptedFiles[0]);
 				setIsOldFile(false);
 				setHasDataChanged(true);
-			}
-			else{
+			} else {
 				setUploadedFile(null);
 			}
 		},
