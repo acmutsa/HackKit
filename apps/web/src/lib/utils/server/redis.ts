@@ -5,29 +5,29 @@ export function includeEnvPrefix(key: string) {
 	return `${process.env.HK_ENV}_${key}`;
 }
 
-export async function sadd(key: string, value: string): Promise<number> {
+export async function redisSAdd(key: string, value: string): Promise<number> {
 	return kv.sadd(includeEnvPrefix(key), value);
 }
 
-export async function hset<TData>(
+export async function redisHSet<TData>(
 	key: string,
 	value: Record<string, TData>,
 ): Promise<number> {
 	return kv.hset(includeEnvPrefix(key), value);
 }
 
-export async function set<TData>(
+export async function redisSet<TData>(
 	key: string,
 	value: TData,
 ): Promise<TData | "OK" | null> {
 	return kv.set<TData>(includeEnvPrefix(key), value);
 }
 
-export async function get<TData>(key: string): Promise<TData | null> {
+export async function redisGet<TData>(key: string): Promise<TData | null> {
 	return kv.get<TData>(includeEnvPrefix(key));
 }
 
-export async function mget<TData>(...keys: string[]): Promise<TData[]> {
+export async function redisMGet<TData>(...keys: string[]): Promise<TData[]> {
 	return kv.mget<TData[]>(keys.map(includeEnvPrefix));
 }
 

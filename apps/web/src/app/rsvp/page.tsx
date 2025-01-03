@@ -10,7 +10,7 @@ import { SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 import {
 	parseRedisBoolean,
 	parseRedisNumber,
-	get,
+	redisGet,
 } from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
@@ -44,7 +44,7 @@ export default async function RsvpPage({
 	}
 
 	const rsvpEnabled = parseRedisBoolean(
-		(await get("config:registration:allowRSVPs")) as
+		(await redisGet("config:registration:allowRSVPs")) as
 			| string
 			| boolean
 			| null
@@ -56,7 +56,7 @@ export default async function RsvpPage({
 
 	if (rsvpEnabled === true) {
 		const rsvpLimit = parseRedisNumber(
-			await get("config:registration:maxRSVPs"),
+			await redisGet("config:registration:maxRSVPs"),
 			c.rsvpDefaultLimit,
 		);
 

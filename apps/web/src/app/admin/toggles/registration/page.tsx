@@ -1,5 +1,5 @@
 import { RegistrationToggles } from "@/components/admin/toggles/RegistrationSettings";
-import { mget } from "@/lib/utils/server/redis";
+import { redisMGet } from "@/lib/utils/server/redis";
 import { parseRedisBoolean, parseRedisNumber } from "@/lib/utils/server/redis";
 import c from "config";
 
@@ -9,7 +9,7 @@ export default async function Page() {
 		defaultSecretRegistrationEnabled,
 		defaultRSVPsEnabled,
 		defaultRSVPLimit,
-	]: (string | null)[] = await mget(
+	]: (string | null)[] = await redisMGet(
 		"config:registration:registrationEnabled",
 		"config:registration:secretRegistrationEnabled",
 		"config:registration:allowRSVPs",

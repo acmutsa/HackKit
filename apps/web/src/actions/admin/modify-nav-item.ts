@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { adminAction } from "@/lib/safe-action";
-import { sadd, hset, removeNavItem } from "@/lib/utils/server/redis";
+import { redisSAdd, redisHSet, removeNavItem } from "@/lib/utils/server/redis";
 import { revalidatePath } from "next/cache";
 
 const metadataSchema = z.object({
@@ -16,8 +16,8 @@ const navAdminPage = "/admin/toggles/landing";
 export const setItem = adminAction
 	.schema(metadataSchema)
 	.action(async ({ parsedInput: { name, url }, ctx: { user, userId } }) => {
-		await sadd("config:navitemslist", encodeURIComponent(name));
-		await hset(`config:navitems:${encodeURIComponent(name)}`, {
+		await redisSAdd("config:navitemslist", encodeURIComponent(name));
+		await redisHSet(`config:navitems:${encodeURIComponent(name)}`, {
 			url,
 			name,
 			enabled: true,
@@ -42,7 +42,7 @@ export const toggleItem = adminAction
 			parsedInput: { name, statusToSet },
 			ctx: { user, userId },
 		}) => {
-			await hset(`config:navitems:${encodeURIComponent(name)}`, {
+			await redisHSet(`config:navitems:${encodeURIComponent(name)}`, {
 				enabled: statusToSet,
 			});
 			revalidatePath(navAdminPage);
