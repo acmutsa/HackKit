@@ -2,23 +2,37 @@ import z from "zod"
 import c from "config";
 import { isProfane } from "no-profanity";
 
+
+const noProfanityValidator = (val: any) => !isProfane(val);
+const noProfanityMessage = "Profanity is not allowed";
+
 export const modifyAccountSettingsSchema = z.object({
 	firstName: z.string().min(1).max(50),
 	lastName: z.string().min(1).max(50),
-	hackerTag: z.string().min(1).max(50).refine((v) => !isProfane(v), {
-  message:"Hacker tag cannot be profane."
-    }),
+	hackerTag: z.string().min(1).max(50).refine(noProfanityValidator, noProfanityMessage),
 	isSearchable: z.boolean(),
 });
 
+export const profileSettingsSchema = z.object({
+	pronouns: z.string().min(1).max(15),
+	bio: z
+		.string()
+		.min(1)
+		.max(500, { message: "Bio must be less than 500 characters." })
+		.refine(noProfanityValidator, noProfanityMessage),
+	skills: z.array(
+		z.object({
+			id: z.string().min(1).max(50),
+			text: z.string().min(1).max(50),
+		})),
+	discord:z.string().max(40, {
+		message: "Username should not be longer than 40 characters",
+	}),
+});
 
 const defaultPrettyError = {
 	errorMap: () => ({ message: "Please select a value" }),
 };
-
-const countryCodesArray = c.registration.countries.map(
-	(countryObject) => countryObject.code,
-);
 
 export const registrationSettingsFormValidator = z.object({
 	age: z

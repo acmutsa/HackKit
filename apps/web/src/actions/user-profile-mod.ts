@@ -11,8 +11,10 @@ import { revalidatePath } from "next/cache";
 import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
 import c from "config";
 import { DatabaseError } from "db/types";
-import { registrationSettingsFormValidator, modifyAccountSettingsSchema } from "@/validators/settings";
-
+import { registrationSettingsFormValidator, modifyAccountSettingsSchema, profileSettingsSchema } from "@/validators/settings";
+import { clerkClient, type User as ClerkUser,  } from "@clerk/nextjs/server";
+import { PAYLOAD_TOO_LARGE_CODE } from "@/lib/constants";
+import { isClerkAPIResponseError } from "@clerk/nextjs";
 export const modifyRegistrationData = authenticatedAction
 	.schema(registrationSettingsFormValidator)
 	.action(
@@ -125,28 +127,19 @@ export const deleteResume = authenticatedAction
 
 export const modifyProfileData = authenticatedAction
 	.schema(
-		z.object({
-			pronouns: z.string(),
-			bio: z.string(),
-			skills: z.string().array(),
-			discord: z.string(),
-		}),
+		profileSettingsSchema,
 	)
 	.action(
 		async ({
-			parsedInput: { bio, discord, pronouns, skills },
+			parsedInput,
 			ctx: { userId },
 		}) => {
 			await db
 				.update(userCommonData)
-				.set({ pronouns, bio, skills, discord })
+				.set({ ...parsedInput, skills:parsedInput.skills.map((v) => v.text.toLowerCase()) })
 				.where(eq(userCommonData.clerkID, userId));
 			return {
 				success: true,
-				newPronouns: pronouns,
-				newBio: bio,
-				newSkills: skills,
-				newDiscord: discord,
 			};
 		},
 	);
@@ -197,23 +190,33 @@ export const modifyAccountSettings = authenticatedAction
 		},
 	);
 
+	// come back and fix this tmr 
 export const updateProfileImage = authenticatedAction
 	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))
 	.action(
 		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
-			const image = await decodeBase64AsFile(fileBase64, fileName);
-			const user = await db.query.userCommonData.findFirst({
-				where: eq(userCommonData.clerkID, userId),
-			});
-			if (!user) throw new Error("User not found");
+			const file = await decodeBase64AsFile(fileBase64, fileName);
+			let clerkUser:ClerkUser;
+			try{
+				clerkUser = await clerkClient.users.updateUserProfileImage(userId, {
+					file
+				});
+			}
+			catch(err){
+				if (typeof err === "object" && err != null && 'status' in err && err.status === PAYLOAD_TOO_LARGE_CODE) {
+					return {
+						success: false,
+						message: "file_too_large",
+					};
+				}
+				console.error(`Error updating Clerk profile image: ${err}`);
+				throw err;
+			}
 
-			const blobUpload = await put(image.name, image, {
-				access: "public",
-			});
 			await db
 				.update(userCommonData)
-				.set({ profilePhoto: blobUpload.url })
-				.where(eq(userCommonData.clerkID, user.clerkID));
+				.set({ profilePhoto: clerkUser.imageUrl })
+				.where(eq(userCommonData.clerkID, userId));
 			revalidatePath("/settings#profile");
 			return { success: true };
 		},
