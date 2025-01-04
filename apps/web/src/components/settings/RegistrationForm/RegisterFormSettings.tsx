@@ -52,8 +52,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { HackerData, User } from "db/types";
-import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
-
+import { registrationSettingsFormValidator } from "@/validators/settings";
 interface RegistrationFormSettingsProps {
 	user: User;
 	data: HackerData;
@@ -63,8 +62,8 @@ export default function RegisterFormSettings({
 	user,
 	data: originalData,
 }: RegistrationFormSettingsProps) {
-	const form = useForm<z.infer<typeof RegistrationSettingsFormValidator>>({
-		resolver: zodResolver(RegistrationSettingsFormValidator),
+	const form = useForm<z.infer<typeof registrationSettingsFormValidator>>({
+		resolver: zodResolver(registrationSettingsFormValidator),
 		defaultValues: {
 			hackathonsAttended: originalData.hackathonsAttended,
 			dietaryRestrictions: user.dietRestrictions as any,
@@ -138,8 +137,12 @@ export default function RegisterFormSettings({
 	}, [universityValue]);
 
 	async function onSubmit(
-		data: z.infer<typeof RegistrationSettingsFormValidator>,
+		data: z.infer<typeof registrationSettingsFormValidator>,
 	) {
+		if(!hasDataChanged) {
+			toast.error("Please change something before updating");
+			return;
+		}
 		setIsLoading(true);
 		if (uploadedFile && !isOldFile) {
 			console.log("uploading file...");
@@ -176,7 +179,9 @@ export default function RegisterFormSettings({
 		useAction(modifyRegistrationData, {
 			onSuccess: async () => {
 				toast.dismiss();
-				toast.success("Data updated successfully!");
+				toast.success("Data updated successfully!",{
+					duration:2000
+				});
 				console.log("Success");
 				form.reset({
 					...form.getValues(),
@@ -1072,8 +1077,7 @@ export default function RegisterFormSettings({
 						type={"submit"}
 						disabled={
 							isLoading ||
-							loadingState === "executing" ||
-							!hasDataChanged
+							loadingState === "executing" 
 						}
 					>
 						{isLoading || loadingState === "executing" ? (

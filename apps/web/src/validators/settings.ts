@@ -1,5 +1,20 @@
-import { z } from "zod";
+import z from "zod"
 import c from "config";
+import { isProfane } from "no-profanity";
+
+export const modifyAccountSettingsSchema = z.object({
+	firstName: z.string().min(1).max(50),
+	lastName: z.string().min(1).max(50),
+	hackerTag: z.string().min(1).max(50),
+	isSearchable: z.boolean(),
+}).refine((data) => {
+      if (isProfane(data.hackerTag)) {
+        throw new Error("Profanity is not allowed in your hacker tag");
+      }
+      return true;
+    }
+  );
+
 
 const defaultPrettyError = {
 	errorMap: () => ({ message: "Please select a value" }),
@@ -9,7 +24,7 @@ const countryCodesArray = c.registration.countries.map(
 	(countryObject) => countryObject.code,
 );
 
-export const RegistrationSettingsFormValidator = z.object({
+export const registrationSettingsFormValidator = z.object({
 	age: z
 		.number()
 		.min(18, { message: "You must be at least 18 years old to register." })

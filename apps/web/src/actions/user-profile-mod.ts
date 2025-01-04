@@ -8,14 +8,13 @@ import { eq } from "db/drizzle";
 import { del, put } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
-import { getUser, getUserByTag } from "db/functions";
-import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
 import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
 import c from "config";
 import { DatabaseError } from "db/types";
+import { registrationSettingsFormValidator, modifyAccountSettingsSchema } from "@/validators/settings";
 
 export const modifyRegistrationData = authenticatedAction
-	.schema(RegistrationSettingsFormValidator)
+	.schema(registrationSettingsFormValidator)
 	.action(
 		async ({
 			parsedInput: {
@@ -152,15 +151,9 @@ export const modifyProfileData = authenticatedAction
 		},
 	);
 
-// TODO: Fix after registration enhancements to allow for failure on conflict and return appropriate error message
 export const modifyAccountSettings = authenticatedAction
 	.schema(
-		z.object({
-			firstName: z.string().min(1).max(50),
-			lastName: z.string().min(1).max(50),
-			hackerTag: z.string().min(1).max(50),
-			hasSearchableProfile: z.boolean(),
-		}),
+		modifyAccountSettingsSchema,
 	)
 	.action(
 		async ({
@@ -168,7 +161,7 @@ export const modifyAccountSettings = authenticatedAction
 				firstName,
 				lastName,
 				hackerTag,
-				hasSearchableProfile,
+				isSearchable: hasSearchableProfile,
 			},
 			ctx: { userId },
 		}) => {
