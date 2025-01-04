@@ -98,12 +98,16 @@ export default function RegisterFormSettings({
 
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 	const oldResumeLink = useRef(originalData.resume);
-	let f = new File([originalData.resume], oldResumeLink.current.split("/").pop()!);
+	let f = new File(
+		[originalData.resume],
+		oldResumeLink.current.split("/").pop()!,
+	);
 	let newResumeLink: string = originalData.resume;
 
 	// used to prevent infinite re-renders
 	useEffect(() => {
-		if (oldResumeLink.current === c.noResumeProvidedURL) setUploadedFile(null);
+		if (oldResumeLink.current === c.noResumeProvidedURL)
+			setUploadedFile(null);
 		else setUploadedFile(f);
 	}, []);
 
@@ -118,7 +122,7 @@ export default function RegisterFormSettings({
 				(oldResumeLink.current !== c.noResumeProvidedURL &&
 					uploadedFile == null),
 		);
-	}, [isDirty, uploadedFile,isOldFile, oldResumeLink.current]);
+	}, [isDirty, uploadedFile, isOldFile, oldResumeLink.current]);
 
 	const universityValue = form.watch("university").toLowerCase();
 	const shortID = form.watch("schoolID").toLowerCase();
@@ -1026,7 +1030,9 @@ export default function RegisterFormSettings({
 												{uploadedFile ? (
 													isOldFile ? (
 														<Link
-															href={oldResumeLink.current}
+															href={
+																oldResumeLink.current
+															}
 														>
 															{uploadedFile.name}{" "}
 															(
