@@ -53,7 +53,6 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { HackerData, User } from "db/types";
 import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
-import { useRouter } from "next/navigation";
 
 interface RegistrationFormSettingsProps {
 	user: User;
@@ -97,32 +96,29 @@ export default function RegisterFormSettings({
 	const [hasDataChanged, setHasDataChanged] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { refresh } = useRouter();
-
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
-	const oldResumeLink = originalData.resume;
-	let f = new File([originalData.resume], oldResumeLink.split("/").pop()!);
+	const oldResumeLink = useRef(originalData.resume);
+	let f = new File([originalData.resume], oldResumeLink.current.split("/").pop()!);
 	let newResumeLink: string = originalData.resume;
 
 	// used to prevent infinite re-renders
 	useEffect(() => {
-		if (oldResumeLink === c.noResumeProvidedURL) setUploadedFile(null);
+		if (oldResumeLink.current === c.noResumeProvidedURL) setUploadedFile(null);
 		else setUploadedFile(f);
 	}, []);
 
 	useEffect(() => {
-		console.log("isOldFile: ", isOldFile);
-	}, [isOldFile]);
-
-	useEffect(() => {
 		console.log("isDirty: ", isDirty);
+		console.log("isOldFile: ", isOldFile);
+		console.log("uploadedFile: ", uploadedFile);
+		console.log("oldResumeLink: ", oldResumeLink.current);
 		setHasDataChanged(
 			isDirty ||
 				(uploadedFile != null && !isOldFile) ||
-				(originalData.resume !== c.noResumeProvidedURL &&
+				(oldResumeLink.current !== c.noResumeProvidedURL &&
 					uploadedFile == null),
 		);
-	}, [isDirty, uploadedFile]);
+	}, [isDirty, uploadedFile,isOldFile, oldResumeLink.current]);
 
 	const universityValue = form.watch("university").toLowerCase();
 	const shortID = form.watch("schoolID").toLowerCase();
@@ -159,6 +155,7 @@ export default function RegisterFormSettings({
 					? c.noResumeProvidedURL
 					: originalData.resume;
 		}
+		oldResumeLink.current = newResumeLink;
 		const oldResume = originalData.resume;
 		if (hasDataChanged) {
 			console.log("running modify registration data...");
@@ -177,11 +174,11 @@ export default function RegisterFormSettings({
 				toast.dismiss();
 				toast.success("Data updated successfully!");
 				console.log("Success");
-				// form.reset({},{
-				// 	keepValues:true
-				// });
-				setHasDataChanged(false);
-				// setIsOldFile(true);
+				form.reset({
+					...form.getValues(),
+				});
+				// setHasDataChanged(false);
+				setIsOldFile(true);
 			},
 			onError: async () => {
 				if (newResumeLink !== c.noResumeProvidedURL)
@@ -1029,7 +1026,7 @@ export default function RegisterFormSettings({
 												{uploadedFile ? (
 													isOldFile ? (
 														<Link
-															href={oldResumeLink}
+															href={oldResumeLink.current}
 														>
 															{uploadedFile.name}{" "}
 															(

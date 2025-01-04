@@ -23,7 +23,6 @@ interface UserProps {
 export default function AccountSettings({ user }: { user: UserProps }) {
 	const [newFirstName, setNewFirstName] = useState(user.firstName);
 	const [newLastName, setNewLastName] = useState(user.lastName);
-	//const [newEmail, setNewEmail] = useState(user.email);
 	const [newHackerTag, setNewHackerTag] = useState(user.hackerTag);
 	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(
 		user.isSearchable,
