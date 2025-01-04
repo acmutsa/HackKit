@@ -5,15 +5,11 @@ import { isProfane } from "no-profanity";
 export const modifyAccountSettingsSchema = z.object({
 	firstName: z.string().min(1).max(50),
 	lastName: z.string().min(1).max(50),
-	hackerTag: z.string().min(1).max(50),
+	hackerTag: z.string().min(1).max(50).refine((v) => !isProfane(v), {
+  message:"Hacker tag cannot be profane."
+    }),
 	isSearchable: z.boolean(),
-}).refine((data) => {
-      if (isProfane(data.hackerTag)) {
-        throw new Error("Profanity is not allowed in your hacker tag");
-      }
-      return true;
-    }
-  );
+});
 
 
 const defaultPrettyError = {

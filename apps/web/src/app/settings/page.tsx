@@ -14,7 +14,7 @@ export default async function Page() {
 	return (
 		<main>
 			<Header tag="Account" />
-			<AccountSettings user={user} />
+			<AccountSettings user={user} email={user.email} />
 			<Header tag="Profile" />
 			<ProfileSettings profile={user} />
 			<Header tag={"Registration"} />

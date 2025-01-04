@@ -24,12 +24,10 @@ import {
 	FormLabel,
 	FormMessage,
 } from "../shadcn/ui/form";
-import { User } from "@clerk/nextjs/server";
 
 type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
 
-export default function AccountSettings({ user }: { user: UserProps }) {
-	console.log(user);
+export default function AccountSettings({ user,email }: { user: UserProps, email:string }) {
 	const form = useForm<UserProps>({
 		resolver:zodResolver(modifyAccountSettingsSchema),
 		defaultValues:user
@@ -81,7 +79,7 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 						<h2 className="pb-5 text-3xl font-semibold">
 							Personal Information
 						</h2>
-						<div className="grid max-w-[500px] grid-cols-2 gap-x-2 gap-y-2">
+						<div className="grid max-w-[600px] gap-x-2 gap-y-5 md:grid-cols-2">
 							<FormField
 								control={form.control}
 								name="firstName"
@@ -114,11 +112,18 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 									</FormItem>
 								)}
 							/>
+							<FormItem className="flex flex-col md:col-span-2">
+								<FormLabel>Email</FormLabel>
+								<Input value={email} disabled />
+								<FormDescription>
+									This field cannot be changed.
+								</FormDescription>
+							</FormItem>
 						</div>
 						<h2 className="pb-5 pt-7 text-3xl font-semibold">
 							Public Information
 						</h2>
-						<div className="grid max-w-[500px] grid-cols-1 gap-x-2 gap-y-2">
+						<div className="grid max-w-[500px] grid-cols-1 gap-x-2 gap-y-4">
 							<FormField
 								control={form.control}
 								name="hackerTag"
@@ -132,6 +137,7 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 												</div>
 												<Input
 													placeholder="shadcn"
+													className="rounded-l-none"
 													{...field}
 												/>
 											</div>
@@ -153,7 +159,8 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 										</FormControl>
 										<div className="space-y-1 leading-none">
 											<FormLabel>
-												Make my profile searchable by other hackers
+												Make my profile searchable by
+												other hackers
 											</FormLabel>
 										</div>
 									</FormItem>
@@ -163,9 +170,7 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 						<Button
 							className="mt-5"
 							type="submit"
-							disabled={
-								loadingState === "executing" 
-							}
+							disabled={loadingState === "executing"}
 						>
 							{loadingState === "executing" ? (
 								<>
