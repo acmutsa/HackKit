@@ -139,7 +139,7 @@ export default function RegisterFormSettings({
 	async function onSubmit(
 		data: z.infer<typeof registrationSettingsFormValidator>,
 	) {
-		if(!hasDataChanged) {
+		if (!hasDataChanged) {
 			toast.error("Please change something before updating");
 			return;
 		}
@@ -179,8 +179,8 @@ export default function RegisterFormSettings({
 		useAction(modifyRegistrationData, {
 			onSuccess: async () => {
 				toast.dismiss();
-				toast.success("Data updated successfully!",{
-					duration:2000
+				toast.success("Data updated successfully!", {
+					duration: 2000,
 				});
 				console.log("Success");
 				form.reset({
@@ -1075,10 +1075,7 @@ export default function RegisterFormSettings({
 					</FormGroupWrapper>
 					<Button
 						type={"submit"}
-						disabled={
-							isLoading ||
-							loadingState === "executing" 
-						}
+						disabled={isLoading || loadingState === "executing"}
 					>
 						{isLoading || loadingState === "executing" ? (
 							<>

@@ -12,8 +12,8 @@ import c from "config";
 import { Loader2 } from "lucide-react";
 import { isProfane } from "no-profanity";
 import { modifyAccountSettingsSchema } from "@/validators/settings";
-import z from "zod"
-import { useForm} from "react-hook-form"
+import z from "zod";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Form,
@@ -27,10 +27,16 @@ import {
 
 type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
 
-export default function AccountSettings({ user,email }: { user: UserProps, email:string }) {
+export default function AccountSettings({
+	user,
+	email,
+}: {
+	user: UserProps;
+	email: string;
+}) {
 	const form = useForm<UserProps>({
-		resolver:zodResolver(modifyAccountSettingsSchema),
-		defaultValues:user
+		resolver: zodResolver(modifyAccountSettingsSchema),
+		defaultValues: user,
 	});
 
 	const { execute: runModifyAccountSettings, status: loadingState } =
@@ -40,18 +46,18 @@ export default function AccountSettings({ user,email }: { user: UserProps, email
 				if (!data?.success) {
 					if (data?.message == "hackertag_not_unique") {
 						toast.error("Hackertag already exists");
-						form.setError("hackerTag",{
-							message:"Hackertag already exists"
+						form.setError("hackerTag", {
+							message: "Hackertag already exists",
 						});
 					}
 				} else {
-					toast.success("Account updated successfully!",{
-						duration:1500
+					toast.success("Account updated successfully!", {
+						duration: 1500,
 					});
 					form.reset({
-						...form.getValues()
-					})
-				};
+						...form.getValues(),
+					});
+				}
 			},
 			onError: () => {
 				toast.dismiss();
@@ -61,15 +67,14 @@ export default function AccountSettings({ user,email }: { user: UserProps, email
 			},
 		});
 
-		function handleSubmit(data:UserProps){
-			toast.dismiss();
-			if (!form.formState.isDirty){
-				toast.error("Please change something before updating");
-				return;
-			}
-			runModifyAccountSettings(data);
+	function handleSubmit(data: UserProps) {
+		toast.dismiss();
+		if (!form.formState.isDirty) {
+			toast.error("Please change something before updating");
+			return;
 		}
-
+		runModifyAccountSettings(data);
+	}
 
 	return (
 		<main>

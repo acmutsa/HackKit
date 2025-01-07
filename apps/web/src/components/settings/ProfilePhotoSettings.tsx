@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Avatar, AvatarImage } from "../shadcn/ui/avatar";
 import { encodeFileAsBase64 } from "@/lib/utils/shared/files";
 import { updateProfileImage } from "@/actions/user-profile-mod";
@@ -9,40 +9,39 @@ import { Input } from "../shadcn/ui/input";
 import { Button } from "../shadcn/ui/button";
 import { Loader2 } from "lucide-react";
 
-export default function ProfilePhotoSettings({ profilePhoto }: { profilePhoto: string }) {
+export default function ProfilePhotoSettings({
+	profilePhoto,
+}: {
+	profilePhoto: string;
+}) {
 	const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	// this input will either be null or a reference to the input element
 	const profileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const { execute: runUpdateProfileImage } = useAction(
-		updateProfileImage,
-		{
-			onSuccess: (res) => {
-        setIsLoading(false);
-				setNewProfileImage(null);
-				toast.dismiss();
-				if (profileInputRef.current){
-					profileInputRef.current.value = "";
-				}
-				if (res.data?.message === 'file_too_large') {
-					toast.error("Please upload a file smaller than 10MB");
-					return;
-				}
-				toast.success("Profile Photo updated successfully!");
-			},
-			onError: () => {
-        setIsLoading(false);
-				toast.dismiss();
-				if (profileInputRef.current) {
-					profileInputRef.current.value = "";
-				}
-				toast.error(
-					"An error occurred while updating your profile photo!",
-				);
-			},
+	const { execute: runUpdateProfileImage } = useAction(updateProfileImage, {
+		onSuccess: (res) => {
+			setIsLoading(false);
+			setNewProfileImage(null);
+			toast.dismiss();
+			if (profileInputRef.current) {
+				profileInputRef.current.value = "";
+			}
+			if (res.data?.message === "file_too_large") {
+				toast.error("Please upload a file smaller than 10MB");
+				return;
+			}
+			toast.success("Profile Photo updated successfully!");
 		},
-	);
+		onError: () => {
+			setIsLoading(false);
+			toast.dismiss();
+			if (profileInputRef.current) {
+				profileInputRef.current.value = "";
+			}
+			toast.error("An error occurred while updating your profile photo!");
+		},
+	});
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files ? event.target.files[0] : null;
@@ -60,7 +59,7 @@ export default function ProfilePhotoSettings({ profilePhoto }: { profilePhoto: s
 						></AvatarImage>
 					</Avatar>
 					<Input
-					ref={profileInputRef}
+						ref={profileInputRef}
 						accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
 						type="file"
 						name="photo"

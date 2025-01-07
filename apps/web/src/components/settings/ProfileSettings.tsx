@@ -11,9 +11,9 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import { Loader2 } from "lucide-react";
-import {useForm} from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { profileSettingsSchema } from "@/validators/settings";
-import z from "zod"
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Form,
@@ -23,7 +23,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "../shadcn/ui/form";
-
 
 interface ProfileData {
 	pronouns: string;
@@ -36,50 +35,56 @@ interface ProfileSettingsProps {
 	profile: ProfileData;
 }
 
-export default function ProfileSettings({ profile: profileData }: ProfileSettingsProps) {
-	const {profilePhoto, ...profileSettingsData} = profileData;
-	const skillTags:Tag[] = profileSettingsData.skills.map((skill) => ({id:skill, text:skill}));
+export default function ProfileSettings({
+	profile: profileData,
+}: ProfileSettingsProps) {
+	const { profilePhoto, ...profileSettingsData } = profileData;
+	const skillTags: Tag[] = profileSettingsData.skills.map((skill) => ({
+		id: skill,
+		text: skill,
+	}));
 	const [newSkills, setNewSkills] = useState<Tag[]>(skillTags);
+
 	const form = useForm<z.infer<typeof profileSettingsSchema>>({
 		resolver: zodResolver(profileSettingsSchema),
 		defaultValues: {
 			...profileSettingsData,
-			skills: skillTags,
 			discord: profileSettingsData.discord || "",
 		},
 	});
 
-	useEffect(()=>{
-		console.log("newSkills", newSkills);
-		form.setValue("skills", newSkills);
-	},[newSkills]);
+	useEffect(() => {
+		form.setValue("skills", [...newSkills.map((tag) => tag.text)], {
+			shouldDirty: true,
+		});
+	}, [newSkills]);
 
-	useEffect(()=>{
-		console.log("form.formState.dirtyFields", form.formState.dirtyFields);
-		console.log("form.formState.isDirty", form.formState.isDirty);
-	},[form.formState.dirtyFields])
-	
-
-	const { execute: runModifyProfileData, status:actionStatus } = useAction(modifyProfileData, {
-		onSuccess: () => {
-			toast.dismiss();
-			toast.success("Profile Data updated successfully!");
-			form.reset({
-				...form.getValues()	
-			})
+	const { execute: runModifyProfileData, status: actionStatus } = useAction(
+		modifyProfileData,
+		{
+			onSuccess: () => {
+				toast.dismiss();
+				toast.success("Profile Data updated successfully!");
+				form.reset({
+					...form.getValues(),
+				});
+			},
+			onError: () => {
+				toast.dismiss();
+				toast.error("An error occurred while updating your profile!");
+			},
 		},
-		onError: () => {
-			toast.dismiss();
-			toast.error("An error occurred while updating your profile!");
-		},
-	});
+	);
 
-	function handleUpdate(data:z.infer<typeof profileSettingsSchema>){
-		if (!form.formState.isDirty){
+	function handleUpdate(data: z.infer<typeof profileSettingsSchema>) {
+		if (!form.formState.isDirty) {
 			toast.error("Please change something before updating");
 			return;
 		}
-		runModifyProfileData(data);
+		runModifyProfileData({
+			...data,
+			skills: data.skills.map((skill) => skill),
+		});
 	}
 
 	const isProfileSettingsLoading = actionStatus === "executing";
@@ -121,6 +126,7 @@ export default function ProfileSettings({ profile: profileData }: ProfileSetting
 									<FormControl>
 										<Textarea
 											placeholder="shadcn"
+											className="resize-none"
 											{...field}
 										/>
 									</FormControl>
@@ -129,6 +135,22 @@ export default function ProfileSettings({ profile: profileData }: ProfileSetting
 							)}
 						/>
 						<div>
+							<FormField
+								control={form.control}
+								name="skills"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Skills</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="shadcn"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 							<Label htmlFor="skills">Skills</Label>
 							<TagInput
 								inputFieldPostion="top"
@@ -147,9 +169,7 @@ export default function ProfileSettings({ profile: profileData }: ProfileSetting
 								<FormItem>
 									<FormLabel>Discord Username</FormLabel>
 									<FormControl>
-										<Input
-											{...field}
-										/>
+										<Input {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

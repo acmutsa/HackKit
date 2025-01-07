@@ -11,10 +11,14 @@ import { revalidatePath } from "next/cache";
 import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
 import c from "config";
 import { DatabaseError } from "db/types";
-import { registrationSettingsFormValidator, modifyAccountSettingsSchema, profileSettingsSchema } from "@/validators/settings";
-import { clerkClient, type User as ClerkUser,  } from "@clerk/nextjs/server";
+import {
+	registrationSettingsFormValidator,
+	modifyAccountSettingsSchema,
+	profileSettingsSchema,
+} from "@/validators/settings";
+import { clerkClient, type User as ClerkUser } from "@clerk/nextjs/server";
 import { PAYLOAD_TOO_LARGE_CODE } from "@/lib/constants";
-import { isClerkAPIResponseError } from "@clerk/nextjs";
+
 export const modifyRegistrationData = authenticatedAction
 	.schema(registrationSettingsFormValidator)
 	.action(
@@ -126,28 +130,22 @@ export const deleteResume = authenticatedAction
 	});
 
 export const modifyProfileData = authenticatedAction
-	.schema(
-		profileSettingsSchema,
-	)
-	.action(
-		async ({
-			parsedInput,
-			ctx: { userId },
-		}) => {
-			await db
-				.update(userCommonData)
-				.set({ ...parsedInput, skills:parsedInput.skills.map((v) => v.text.toLowerCase()) })
-				.where(eq(userCommonData.clerkID, userId));
-			return {
-				success: true,
-			};
-		},
-	);
+	.schema(profileSettingsSchema)
+	.action(async ({ parsedInput, ctx: { userId } }) => {
+		await db
+			.update(userCommonData)
+			.set({
+				...parsedInput,
+				skills: parsedInput.skills.map((v) => v.toLowerCase()),
+			})
+			.where(eq(userCommonData.clerkID, userId));
+		return {
+			success: true,
+		};
+	});
 
 export const modifyAccountSettings = authenticatedAction
-	.schema(
-		modifyAccountSettingsSchema,
-	)
+	.schema(modifyAccountSettingsSchema)
 	.action(
 		async ({
 			parsedInput: {
@@ -190,20 +188,27 @@ export const modifyAccountSettings = authenticatedAction
 		},
 	);
 
-	// come back and fix this tmr 
+// come back and fix this tmr
 export const updateProfileImage = authenticatedAction
 	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))
 	.action(
 		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
 			const file = await decodeBase64AsFile(fileBase64, fileName);
-			let clerkUser:ClerkUser;
-			try{
-				clerkUser = await clerkClient.users.updateUserProfileImage(userId, {
-					file
-				});
-			}
-			catch(err){
-				if (typeof err === "object" && err != null && 'status' in err && err.status === PAYLOAD_TOO_LARGE_CODE) {
+			let clerkUser: ClerkUser;
+			try {
+				clerkUser = await clerkClient.users.updateUserProfileImage(
+					userId,
+					{
+						file,
+					},
+				);
+			} catch (err) {
+				if (
+					typeof err === "object" &&
+					err != null &&
+					"status" in err &&
+					err.status === PAYLOAD_TOO_LARGE_CODE
+				) {
 					return {
 						success: false,
 						message: "file_too_large",
