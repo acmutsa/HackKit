@@ -27,6 +27,7 @@ export default function ProfilePhotoSettings({
 			if (profileInputRef.current) {
 				profileInputRef.current.value = "";
 			}
+			console.log(`res data message: ${res.data?.message}`);
 			if (res.data?.message === "file_too_large") {
 				toast.error("Please upload a file smaller than 10MB");
 				return;
