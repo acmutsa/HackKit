@@ -37,12 +37,9 @@ export default function AccountSettings({
 	const form = useForm<UserProps>({
 		resolver: zodResolver(modifyAccountSettingsSchema),
 		defaultValues: {
-			firstName: user.firstName,
-			lastName: user.lastName,
-			hackerTag: user.hackerTag,
-			isSearchable: user.isSearchable,
+			...user,
 		},
-		
+
 	});
 
 	const { execute: runModifyAccountSettings, status: loadingState } =
@@ -74,9 +71,10 @@ export default function AccountSettings({
 		});
 
 	useEffect(()=>{
+		console.log('is dirty is',form.formState.isDirty);
 		console.log("form.getValues()",form.getValues());
 		// console.log('form is dirty',form.formState.dirtyFields);
-	},[form.formState.dirtyFields])
+	},[form.formState.isDirty])
 
 	function handleSubmit(data: UserProps) {
 		toast.dismiss();
@@ -106,7 +104,6 @@ export default function AccountSettings({
 										<FormLabel>First Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="shadcn"
 												{...field}
 											/>
 										</FormControl>
@@ -122,7 +119,6 @@ export default function AccountSettings({
 										<FormLabel>Last Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="shadcn"
 												{...field}
 											/>
 										</FormControl>
@@ -130,13 +126,13 @@ export default function AccountSettings({
 									</FormItem>
 								)}
 							/>
-							<FormItem className="flex flex-col md:col-span-2">
+							{/* <FormItem className="flex flex-col md:col-span-2">
 								<FormLabel>Email</FormLabel>
 								<Input value={email} disabled />
 								<FormDescription>
 									This field cannot be changed.
 								</FormDescription>
-							</FormItem>
+							</FormItem> */}
 						</div>
 						<h2 className="pb-5 pt-7 text-3xl font-semibold">
 							Public Information
