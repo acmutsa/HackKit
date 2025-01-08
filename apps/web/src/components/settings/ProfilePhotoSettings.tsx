@@ -79,7 +79,7 @@ export default function ProfilePhotoSettings({
 						onChange={handleFileChange}
 					/>
 					<p className="text-xs text-muted-foreground">
-						Note: Only pictures 10MB and under will be accepted.
+						Note: Only pictures less 10MB will be accepted.
 					</p>
 				</div>
 				<Button
