@@ -5,7 +5,7 @@ import { z } from "zod";
 import { db } from "db";
 import { userCommonData, userHackerData } from "db/schema";
 import { eq } from "db/drizzle";
-import { del, put } from "@vercel/blob";
+import { del } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
 import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
@@ -124,7 +124,6 @@ export const deleteResume = authenticatedAction
 		}),
 	)
 	.action(async ({ parsedInput: { oldFileLink } }) => {
-		console.log("called");
 		if (oldFileLink === c.noResumeProvidedURL) return null;
 		await del(oldFileLink);
 	});
@@ -167,7 +166,7 @@ export const modifyAccountSettings = authenticatedAction
 					})
 					.where(eq(userCommonData.clerkID, userId));
 			} catch (err) {
-				console.log('error is', err);
+				console.log("modifyAccountSettings error is", err);
 				if (
 					err instanceof DatabaseError &&
 					err.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE
@@ -204,6 +203,7 @@ export const updateProfileImage = authenticatedAction
 					},
 				);
 			} catch (err) {
+				console.log(`Error updating Clerk profile image: ${err}`);
 				if (
 					typeof err === "object" &&
 					err != null &&
@@ -215,7 +215,7 @@ export const updateProfileImage = authenticatedAction
 						message: "file_too_large",
 					};
 				}
-				console.error(`Error updating Clerk profile image: ${err}`);
+				console.log(`Unknown Error updating Clerk profile image: ${err}`);
 				throw err;
 			}
 
