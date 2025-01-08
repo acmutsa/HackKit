@@ -36,7 +36,13 @@ export default function AccountSettings({
 }) {
 	const form = useForm<UserProps>({
 		resolver: zodResolver(modifyAccountSettingsSchema),
-		defaultValues: user,
+		defaultValues: {
+			firstName: user.firstName,
+			lastName: user.lastName,
+			hackerTag: user.hackerTag,
+			isSearchable: user.isSearchable,
+		},
+		
 	});
 
 	const { execute: runModifyAccountSettings, status: loadingState } =
@@ -67,8 +73,15 @@ export default function AccountSettings({
 			},
 		});
 
+	useEffect(()=>{
+		console.log("form.getValues()",form.getValues());
+		// console.log('form is dirty',form.formState.dirtyFields);
+	},[form.formState.dirtyFields])
+
 	function handleSubmit(data: UserProps) {
 		toast.dismiss();
+		console.log('form is dirty',form.formState.dirtyFields);
+		console.log(form.formState.isDirty)
 		if (!form.formState.isDirty) {
 			toast.error("Please change something before updating");
 			return;
