@@ -28,6 +28,12 @@ export default function ProfilePhotoSettings({
 				profileInputRef.current.value = "";
 			}
 			console.log(`res data message: ${res.data?.message}`);
+			if (!res.data?.success) {
+				toast.error(
+					"An error occurred while updating your profile photo!",
+				);
+				return;
+			}
 			if (res.data?.message === "file_too_large") {
 				toast.error("Please upload a file smaller than 10MB");
 				return;
@@ -45,7 +51,12 @@ export default function ProfilePhotoSettings({
 	});
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files ? event.target.files[0] : null;
+		let file = event.target.files?.[0] || null;
+		if ((file?.size || -1) > 10000000) {
+			file = null;
+			profileInputRef.current!.value = "";
+			toast.error("Please upload a file smaller than 10MB");
+		}
 		setNewProfileImage(file);
 	};
 	return (
@@ -67,6 +78,9 @@ export default function ProfilePhotoSettings({
 						className="mb-4 mt-2 cursor-pointer file:cursor-pointer file:text-primary dark:border-primary dark:bg-transparent dark:ring-offset-primary"
 						onChange={handleFileChange}
 					/>
+					<p className="text-xs text-muted-foreground">
+						Note: Only pictures 10MB and under will be accepted.
+					</p>
 				</div>
 				<Button
 					onClick={async () => {

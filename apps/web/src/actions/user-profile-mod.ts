@@ -193,9 +193,7 @@ export const updateProfileImage = authenticatedAction
 	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))
 	.action(
 		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
-			console.log("updateProfileImage");
 			const file = await decodeBase64AsFile(fileBase64, fileName);
-			console.log("file", file);
 			let clerkUser: ClerkUser;
 			try {
 				clerkUser = await clerkClient.users.updateUserProfileImage(
