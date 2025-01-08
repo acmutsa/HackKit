@@ -45,10 +45,11 @@ export default function AccountSettings({
 				toast.dismiss();
 				if (!data?.success) {
 					if (data?.message == "hackertag_not_unique") {
-						toast.error("Hackertag already exists");
+						toast.error(`Hackertag '${form.getValues("hackerTag")}' already exists`);
 						form.setError("hackerTag", {
 							message: "Hackertag already exists",
 						});
+					form.setValue("hackerTag",user.hackerTag);
 					}
 				} else {
 					toast.success("Account updated successfully!", {
