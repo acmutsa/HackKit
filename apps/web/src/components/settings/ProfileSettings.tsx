@@ -135,22 +135,6 @@ export default function ProfileSettings({
 							)}
 						/>
 						<div>
-							<FormField
-								control={form.control}
-								name="skills"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Skills</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="shadcn"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
 							<Label htmlFor="skills">Skills</Label>
 							<TagInput
 								inputFieldPostion="top"
