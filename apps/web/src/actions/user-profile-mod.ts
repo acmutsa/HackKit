@@ -193,7 +193,9 @@ export const updateProfileImage = authenticatedAction
 	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))
 	.action(
 		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
+			console.log("updateProfileImage");
 			const file = await decodeBase64AsFile(fileBase64, fileName);
+			console.log("file", file);
 			let clerkUser: ClerkUser;
 			try {
 				clerkUser = await clerkClient.users.updateUserProfileImage(
@@ -215,7 +217,9 @@ export const updateProfileImage = authenticatedAction
 						message: "file_too_large",
 					};
 				}
-				console.log(`Unknown Error updating Clerk profile image: ${err}`);
+				console.log(
+					`Unknown Error updating Clerk profile image: ${err}`,
+				);
 				throw err;
 			}
 

@@ -20,7 +20,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	FormDescription
+	FormDescription,
 } from "../shadcn/ui/form";
 
 type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
@@ -45,11 +45,13 @@ export default function AccountSettings({
 				toast.dismiss();
 				if (!data?.success) {
 					if (data?.message == "hackertag_not_unique") {
-						toast.error(`Hackertag '${form.getValues("hackerTag")}' already exists`);
+						toast.error(
+							`Hackertag '${form.getValues("hackerTag")}' already exists`,
+						);
 						form.setError("hackerTag", {
 							message: "Hackertag already exists",
 						});
-					form.setValue("hackerTag",user.hackerTag);
+						form.setValue("hackerTag", user.hackerTag);
 					}
 				} else {
 					toast.success("Account updated successfully!", {
@@ -70,8 +72,8 @@ export default function AccountSettings({
 
 	function handleSubmit(data: UserProps) {
 		toast.dismiss();
-		console.log('form is dirty',form.formState.dirtyFields);
-		console.log(form.formState.isDirty)
+		console.log("form is dirty", form.formState.dirtyFields);
+		console.log(form.formState.isDirty);
 		if (!form.formState.isDirty) {
 			toast.error("Please change something before updating");
 			return;
@@ -95,9 +97,7 @@ export default function AccountSettings({
 									<FormItem>
 										<FormLabel>First Name</FormLabel>
 										<FormControl>
-											<Input
-												{...field}
-											/>
+											<Input {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -110,9 +110,7 @@ export default function AccountSettings({
 									<FormItem>
 										<FormLabel>Last Name</FormLabel>
 										<FormControl>
-											<Input
-												{...field}
-											/>
+											<Input {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>

@@ -61,7 +61,7 @@ export default function ProfilePhotoSettings({
 					</Avatar>
 					<Input
 						ref={profileInputRef}
-						accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
+						accept=".jpg, .jpeg, .png, .gif, .mp4"
 						type="file"
 						name="photo"
 						className="mb-4 mt-2 cursor-pointer file:cursor-pointer file:text-primary dark:border-primary dark:bg-transparent dark:ring-offset-primary"
