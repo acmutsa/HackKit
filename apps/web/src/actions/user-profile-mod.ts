@@ -167,6 +167,7 @@ export const modifyAccountSettings = authenticatedAction
 					})
 					.where(eq(userCommonData.clerkID, userId));
 			} catch (err) {
+				console.log('error is', err);
 				if (
 					err instanceof DatabaseError &&
 					err.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE

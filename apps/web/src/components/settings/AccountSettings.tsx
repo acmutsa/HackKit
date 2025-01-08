@@ -4,11 +4,9 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { Label } from "@/components/shadcn/ui/label";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c from "config";
 import { Loader2 } from "lucide-react";
 import { isProfane } from "no-profanity";
 import { modifyAccountSettingsSchema } from "@/validators/settings";
@@ -18,11 +16,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
+	FormDescription
 } from "../shadcn/ui/form";
 
 type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
@@ -39,7 +37,6 @@ export default function AccountSettings({
 		defaultValues: {
 			...user,
 		},
-
 	});
 
 	const { execute: runModifyAccountSettings, status: loadingState } =
@@ -69,12 +66,6 @@ export default function AccountSettings({
 				);
 			},
 		});
-
-	useEffect(()=>{
-		console.log('is dirty is',form.formState.isDirty);
-		console.log("form.getValues()",form.getValues());
-		// console.log('form is dirty',form.formState.dirtyFields);
-	},[form.formState.isDirty])
 
 	function handleSubmit(data: UserProps) {
 		toast.dismiss();
@@ -126,13 +117,13 @@ export default function AccountSettings({
 									</FormItem>
 								)}
 							/>
-							{/* <FormItem className="flex flex-col md:col-span-2">
+							<FormItem className="flex flex-col md:col-span-2">
 								<FormLabel>Email</FormLabel>
 								<Input value={email} disabled />
 								<FormDescription>
 									This field cannot be changed.
 								</FormDescription>
-							</FormItem> */}
+							</FormItem>
 						</div>
 						<h2 className="pb-5 pt-7 text-3xl font-semibold">
 							Public Information
