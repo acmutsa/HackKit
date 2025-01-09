@@ -42,9 +42,11 @@ interface NavItemsManagerProps {
 export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 	const { execute, result, status } = useAction(removeItem, {
 		onSuccess: () => {
+			toast.dismiss();
 			toast.success("NavItem deleted successfully!");
 		},
 		onError: () => {
+			toast.dismiss();
 			toast.error("Error deleting NavItem");
 		},
 	});
