@@ -22,7 +22,7 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useAction, useOptimisticAction } from "next-safe-action/hooks";
 import {
@@ -91,6 +91,8 @@ export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 								/>
 								<Button
 									onClick={() => {
+										toast.dismiss();
+										toast.loading("Deleting NavItem...");
 										execute(item.name);
 									}}
 								>
@@ -139,7 +141,11 @@ export function AddNavItemDialog() {
 	const [url, setUrl] = useState<string | null>(null);
 	const [open, setOpen] = useState(false);
 
-	const { execute, result, status } = useAction(setItem, {
+	const {
+		execute,
+		result,
+		status: createStatus,
+	} = useAction(setItem, {
 		onSuccess: () => {
 			console.log("Success");
 			setOpen(false);
@@ -149,6 +155,8 @@ export function AddNavItemDialog() {
 			toast.error("Error creating NavItem");
 		},
 	});
+
+	const isLoading = createStatus === "executing";
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -199,7 +207,12 @@ export function AddNavItemDialog() {
 							execute({ name, url });
 						}}
 					>
-						Create
+						{isLoading && (
+							<Loader2
+								className={"absolute z-50 h-4 w-4 animate-spin"}
+							/>
+						)}
+						<p className={`${isLoading && "invisible"}`}>Create</p>
 					</Button>
 				</DialogFooter>
 			</DialogContent>
@@ -222,7 +235,7 @@ function EditNavItemDialog({
 	const [url, setUrl] = useState<string>(existingUrl);
 	const [open, setOpen] = useState(false);
 
-	const { execute } = useAction(editItem, {
+	const { execute, status: editStatus } = useAction(editItem, {
 		onSuccess: () => {
 			console.log("Success");
 			setOpen(false);
@@ -232,6 +245,7 @@ function EditNavItemDialog({
 			toast.error("Error editing NavItem");
 		},
 	});
+	const isLoading = editStatus === "executing";
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -273,6 +287,7 @@ function EditNavItemDialog({
 				</div>
 				<DialogFooter>
 					<Button
+						className="relative"
 						onClick={() => {
 							console.log("Running Action");
 							if (!name || !url)
@@ -286,7 +301,12 @@ function EditNavItemDialog({
 							});
 						}}
 					>
-						Edit
+						{isLoading && (
+							<Loader2
+								className={"absolute z-50 h-4 w-4 animate-spin"}
+							/>
+						)}
+						<p className={`${isLoading && "invisible"}`}>Update</p>
 					</Button>
 				</DialogFooter>
 			</DialogContent>
