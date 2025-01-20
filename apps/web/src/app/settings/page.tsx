@@ -10,13 +10,13 @@ export default async function Page() {
 	if (!userId) return redirect("/sign-in");
 	const user = await getUser(userId);
 	if (!user) return redirect("/sign-in");
-
+	const { email, ...userData } = user;
 	return (
 		<main>
 			<Header tag="Account" />
-			<AccountSettings user={user} />
+			<AccountSettings user={userData} email={email} />
 			<Header tag="Profile" />
-			<ProfileSettings profile={user} />
+			<ProfileSettings profile={userData} />
 			<Header tag={"Registration"} />
 			<RegistrationSettings />
 		</main>

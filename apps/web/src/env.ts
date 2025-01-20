@@ -12,6 +12,7 @@ export const env = createEnv({
       message: "INTERNAL_AUTH_KEY must be at least 64 characters",
     }),
     BOT_API_URL: z.string(),
+		HK_ENV: z.string().min(1),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),

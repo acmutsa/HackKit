@@ -7,8 +7,11 @@ import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import ClientToast from "@/components/shared/ClientToast";
 import { SignedOut, RedirectToSignIn } from "@clerk/nextjs";
-import { kv } from "@vercel/kv";
-import { parseRedisBoolean, parseRedisNumber } from "@/lib/utils/server/redis";
+import {
+	parseRedisBoolean,
+	parseRedisNumber,
+	redisGet,
+} from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
@@ -41,7 +44,7 @@ export default async function RsvpPage({
 	}
 
 	const rsvpEnabled = parseRedisBoolean(
-		(await kv.get("config:registration:allowRSVPs")) as
+		(await redisGet("config:registration:allowRSVPs")) as
 			| string
 			| boolean
 			| null
@@ -53,7 +56,7 @@ export default async function RsvpPage({
 
 	if (rsvpEnabled === true) {
 		const rsvpLimit = parseRedisNumber(
-			await kv.get("config:registration:maxRSVPs"),
+			await redisGet("config:registration:maxRSVPs"),
 			c.rsvpDefaultLimit,
 		);
 

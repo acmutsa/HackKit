@@ -23,7 +23,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c from "config";
+import c, { bucketResumeBaseUploadUrl } from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -39,21 +39,20 @@ import {
 } from "@/components/shadcn/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
 import { useAction } from "next-safe-action/hooks";
 import {
+	deleteResume,
 	modifyRegistrationData,
-	modifyResume,
 } from "@/actions/user-profile-mod";
 import { toast } from "sonner";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { HackerData, User } from "db/types";
-import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
-
+import { registrationSettingsFormValidator } from "@/validators/settings";
 interface RegistrationFormSettingsProps {
 	user: User;
 	data: HackerData;
@@ -61,46 +60,68 @@ interface RegistrationFormSettingsProps {
 
 export default function RegisterFormSettings({
 	user,
-	data,
+	data: originalData,
 }: RegistrationFormSettingsProps) {
-	const form = useForm<z.infer<typeof RegistrationSettingsFormValidator>>({
-		resolver: zodResolver(RegistrationSettingsFormValidator),
+	const form = useForm<z.infer<typeof registrationSettingsFormValidator>>({
+		resolver: zodResolver(registrationSettingsFormValidator),
 		defaultValues: {
-			hackathonsAttended: data.hackathonsAttended,
+			hackathonsAttended: originalData.hackathonsAttended,
 			dietaryRestrictions: user.dietRestrictions as any,
-			isEmailable: data.isEmailable,
+			isEmailable: originalData.isEmailable,
 			accommodationNote: user.accommodationNote || "",
 			age: user.age,
 			ethnicity: user.ethnicity as any,
 			gender: user.gender as any,
-			major: data.major,
-			github: data.GitHub ?? "",
-			heardAboutEvent: data.heardFrom as any,
-			levelOfStudy: data.levelOfStudy as any,
-			linkedin: data.LinkedIn ?? "",
-			personalWebsite: data.PersonalWebsite ?? "",
+			major: originalData.major,
+			github: originalData.GitHub ?? "",
+			heardAboutEvent: originalData.heardFrom as any,
+			levelOfStudy: originalData.levelOfStudy as any,
+			linkedin: originalData.LinkedIn ?? "",
+			personalWebsite: originalData.PersonalWebsite ?? "",
 			race: user.race as any,
 			shirtSize: user.shirtSize as any,
-			schoolID: data.schoolID,
-			softwareBuildingExperience: data.softwareExperience as any,
-			university: data.university,
+			schoolID: originalData.schoolID,
+			softwareBuildingExperience: originalData.softwareExperience as any,
+			university: originalData.university,
 			phoneNumber: user.phoneNumber,
 			countryOfResidence: user.countryOfResidence,
 		},
 	});
 
-	const { isSubmitSuccessful, isSubmitted, errors } = form.formState;
-	const hasErrors = !isSubmitSuccessful && isSubmitted;
+	const { isSubmitSuccessful, isSubmitted, isDirty } = form.formState;
+
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-	const resumeLink: string = data.resume ?? c.noResumeProvidedURL;
-	// @ts-ignore
-	let f = new File([data.resume], resumeLink.split("/").pop());
+	const [isOldFile, setIsOldFile] = useState(true);
+	const [hasDataChanged, setHasDataChanged] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const hasErrors = !isSubmitSuccessful && isSubmitted;
+	const oldResumeLink = useRef(originalData.resume);
+	let f = new File(
+		[originalData.resume],
+		oldResumeLink.current.split("/").pop()!,
+	);
+	let newResumeLink: string = originalData.resume;
+
+	// used to prevent infinite re-renders
 	useEffect(() => {
-		if (resumeLink === c.noResumeProvidedURL) setUploadedFile(null);
+		if (oldResumeLink.current === c.noResumeProvidedURL)
+			setUploadedFile(null);
 		else setUploadedFile(f);
 	}, []);
 
-	const [oldFile, setOldFile] = useState(true);
+	useEffect(() => {
+		console.log("isDirty: ", isDirty);
+		console.log("isOldFile: ", isOldFile);
+		console.log("uploadedFile: ", uploadedFile);
+		console.log("oldResumeLink: ", oldResumeLink.current);
+		setHasDataChanged(
+			isDirty ||
+				(uploadedFile != null && !isOldFile) ||
+				(oldResumeLink.current !== c.noResumeProvidedURL &&
+					uploadedFile == null),
+		);
+	}, [isDirty, uploadedFile, isOldFile, oldResumeLink.current]);
 
 	const universityValue = form.watch("university").toLowerCase();
 	const shortID = form.watch("schoolID").toLowerCase();
@@ -109,75 +130,76 @@ export default function RegisterFormSettings({
 		if (universityValue != c.localUniversityName.toLowerCase()) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
-			if (shortID === "NOT_LOCAL_SCHOOL") {
-				form.setValue("schoolID", "");
-			} else {
-				form.setValue("schoolID", data.schoolID);
-			}
+			const ShortIDValue =
+				shortID === "NOT_LOCAL_SCHOOL" ? "" : originalData.schoolID;
+			form.setValue("schoolID", ShortIDValue);
 		}
 	}, [universityValue]);
 
 	async function onSubmit(
-		data: z.infer<typeof RegistrationSettingsFormValidator>,
+		data: z.infer<typeof registrationSettingsFormValidator>,
 	) {
-		let resume: string = c.noResumeProvidedURL;
-
-		if (uploadedFile) {
-			const newBlob = await put(uploadedFile.name, uploadedFile, {
-				access: "public",
-				handleBlobUploadUrl: "/api/upload/resume/register",
-			});
-			resume = newBlob.url;
+		if (!hasDataChanged) {
+			toast.error("Please change something before updating");
+			return;
 		}
-
-		const res = runModifyRegistrationData({
-			age: data.age,
-			gender: data.gender,
-			race: data.race,
-			ethnicity: data.ethnicity,
-			isEmailable: data.isEmailable,
-			university: data.university,
-			major: data.major,
-			levelOfStudy: data.levelOfStudy,
-			schoolID: data.schoolID,
-			hackathonsAttended: data.hackathonsAttended,
-			softwareBuildingExperience: data.softwareBuildingExperience,
-			heardAboutEvent: data.heardAboutEvent,
-			shirtSize: data.shirtSize,
-			dietaryRestrictions: data.dietaryRestrictions,
-			accommodationNote: data.accommodationNote,
-			github: data.github,
-			linkedin: data.linkedin,
-			personalWebsite: data.personalWebsite,
-			phoneNumber: data.phoneNumber,
-			countryOfResidence: data.countryOfResidence,
-		});
-		// Can be optimzed to run in the modify registratuib data action later.
-		runModifyResume({ resume });
-		console.log(res);
+		setIsLoading(true);
+		if (uploadedFile && !isOldFile) {
+			console.log("uploading file...");
+			const newBlob = await put(
+				bucketResumeBaseUploadUrl + "/" + uploadedFile.name,
+				uploadedFile,
+				{
+					access: "public",
+					handleBlobUploadUrl: "/api/upload/resume/register",
+				},
+			);
+			console.log("file uploaded");
+			newResumeLink = newBlob.url;
+		} else {
+			newResumeLink =
+				uploadedFile == null
+					? c.noResumeProvidedURL
+					: originalData.resume;
+		}
+		oldResumeLink.current = newResumeLink;
+		const oldResume = originalData.resume;
+		if (hasDataChanged) {
+			console.log("running modify registration data...");
+			runModifyRegistrationData({
+				...data,
+				uploadedFile: newResumeLink,
+			});
+		}
+		runDeleteResume({ oldFileLink: oldResume });
+		setIsLoading(false);
 	}
 
 	const { execute: runModifyRegistrationData, status: loadingState } =
 		useAction(modifyRegistrationData, {
-			onSuccess: () => {
+			onSuccess: async () => {
 				toast.dismiss();
-				toast.success("Data updated successfully!");
+				toast.success("Data updated successfully!", {
+					duration: 2000,
+				});
+				console.log("Success");
+				form.reset({
+					...form.getValues(),
+				});
+				// setHasDataChanged(false);
+				setIsOldFile(true);
 			},
-			onError: () => {
+			onError: async () => {
+				if (newResumeLink !== c.noResumeProvidedURL)
+					runDeleteResume({ oldFileLink: newResumeLink }); // If error, delete the blob write (of the attempted new resume)
+				setIsLoading(false);
 				toast.dismiss();
 				toast.error(
 					`An error occurred. Please contact ${c.issueEmail} for help.`,
 				);
 			},
 		});
-
-	const { execute: runModifyResume } = useAction(modifyResume, {
-		onSuccess: () => {},
-		onError: () => {
-			toast.dismiss();
-			toast.error("An error occurred while uploading resume!");
-		},
-	});
+	const { execute: runDeleteResume } = useAction(deleteResume);
 
 	const onDrop = useCallback(
 		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -187,12 +209,11 @@ export default function RegisterFormSettings({
 				);
 			}
 			if (acceptedFiles.length > 0) {
-				console.log(
-					`Got accepted file! The length of the array is ${acceptedFiles.length}.`,
-				);
-				console.log(acceptedFiles[0]);
 				setUploadedFile(acceptedFiles[0]);
-				setOldFile(false);
+				setIsOldFile(false);
+				setHasDataChanged(true);
+			} else {
+				setUploadedFile(null);
 			}
 		},
 		[],
@@ -1012,8 +1033,12 @@ export default function RegisterFormSettings({
 											<input {...getInputProps()} />
 											<p className="p-2 text-center">
 												{uploadedFile ? (
-													oldFile ? (
-														<Link href={resumeLink}>
+													isOldFile ? (
+														<Link
+															href={
+																oldResumeLink.current
+															}
+														>
 															{uploadedFile.name}{" "}
 															(
 															{Math.round(
@@ -1035,7 +1060,7 @@ export default function RegisterFormSettings({
 													className="mt-4"
 													onClick={() => {
 														setUploadedFile(null);
-														setOldFile(false);
+														setIsOldFile(false);
 													}}
 												>
 													Remove
@@ -1050,9 +1075,9 @@ export default function RegisterFormSettings({
 					</FormGroupWrapper>
 					<Button
 						type={"submit"}
-						disabled={loadingState === "executing"}
+						disabled={isLoading || loadingState === "executing"}
 					>
-						{loadingState === "executing" ? (
+						{isLoading || loadingState === "executing" ? (
 							<>
 								<Loader2
 									className={"mr-2 h-4 w-4 animate-spin"}

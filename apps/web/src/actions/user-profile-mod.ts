@@ -5,15 +5,22 @@ import { z } from "zod";
 import { db } from "db";
 import { userCommonData, userHackerData } from "db/schema";
 import { eq } from "db/drizzle";
-import { put } from "@vercel/blob";
+import { del } from "@vercel/blob";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
-import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
-import { getUser, getUserByTag } from "db/functions";
-import { RegistrationSettingsFormValidator } from "@/validators/shared/RegistrationSettingsForm";
+import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";
+import c from "config";
+import { DatabaseError } from "db/types";
+import {
+	registrationSettingsFormValidator,
+	modifyAccountSettingsSchema,
+	profileSettingsSchema,
+} from "@/validators/settings";
+import { clerkClient, type User as ClerkUser } from "@clerk/nextjs/server";
+import { PAYLOAD_TOO_LARGE_CODE } from "@/lib/constants";
 
 export const modifyRegistrationData = authenticatedAction
-	.schema(RegistrationSettingsFormValidator)
+	.schema(registrationSettingsFormValidator)
 	.action(
 		async ({
 			parsedInput: {
@@ -37,12 +44,12 @@ export const modifyRegistrationData = authenticatedAction
 				personalWebsite,
 				phoneNumber,
 				countryOfResidence,
+				uploadedFile,
 			},
 			ctx: { userId },
 		}) => {
-			const user = await getUser(userId);
-			if (!user) throw new Error("User not found");
 			await Promise.all([
+				// attempts to update both tables with Promise.all
 				db
 					.update(userCommonData)
 					.set({
@@ -56,7 +63,7 @@ export const modifyRegistrationData = authenticatedAction
 						phoneNumber,
 						countryOfResidence,
 					})
-					.where(eq(userCommonData.clerkID, user.clerkID)),
+					.where(eq(userCommonData.clerkID, userId)),
 				db
 					.update(userHackerData)
 					.set({
@@ -71,9 +78,18 @@ export const modifyRegistrationData = authenticatedAction
 						GitHub: github,
 						LinkedIn: linkedin,
 						PersonalWebsite: personalWebsite,
+						resume: uploadedFile,
 					})
-					.where(eq(userHackerData.clerkID, user.clerkID)),
-			]);
+					.where(eq(userHackerData.clerkID, userId)),
+			]).catch(async (err) => {
+				console.log(
+					`Error occured at modify registration data: ${err}`,
+				);
+				// If there's an error
+				return {
+					success: false,
+				};
+			});
 			return {
 				success: true,
 				newAge: age,
@@ -96,99 +112,72 @@ export const modifyRegistrationData = authenticatedAction
 				newPersonalWebsite: personalWebsite,
 				newPhoneNumber: phoneNumber,
 				newCountryOfResidence: countryOfResidence,
+				newUploadedFile: uploadedFile,
 			};
 		},
 	);
 
-export const modifyResume = authenticatedAction
+export const deleteResume = authenticatedAction
 	.schema(
 		z.object({
-			resume: z.string(),
+			oldFileLink: z.string(),
 		}),
 	)
-	.action(async ({ parsedInput: { resume }, ctx: { userId } }) => {
-		await db
-			.update(userHackerData)
-			.set({ resume })
-			.where(eq(userHackerData.clerkID, userId));
-		return {
-			success: true,
-			newResume: resume,
-		};
+	.action(async ({ parsedInput: { oldFileLink } }) => {
+		if (oldFileLink === c.noResumeProvidedURL) return null;
+		await del(oldFileLink);
 	});
 
 export const modifyProfileData = authenticatedAction
-	.schema(
-		z.object({
-			pronouns: z.string(),
-			bio: z.string(),
-			skills: z.string().array(),
-			discord: z.string(),
-		}),
-	)
-	.action(
-		async ({
-			parsedInput: { bio, discord, pronouns, skills },
-			ctx: { userId },
-		}) => {
-			const user = await getUser(userId);
-			if (!user) {
-				throw new Error("User not found");
-			}
-			await db
-				.update(userCommonData)
-				.set({ pronouns, bio, skills, discord })
-				.where(eq(userCommonData.clerkID, user.clerkID));
-			return {
-				success: true,
-				newPronouns: pronouns,
-				newBio: bio,
-				newSkills: skills,
-				newDiscord: discord,
-			};
-		},
-	);
+	.schema(profileSettingsSchema)
+	.action(async ({ parsedInput, ctx: { userId } }) => {
+		await db
+			.update(userCommonData)
+			.set({
+				...parsedInput,
+				skills: parsedInput.skills.map((v) => v.toLowerCase()),
+			})
+			.where(eq(userCommonData.clerkID, userId));
+		return {
+			success: true,
+		};
+	});
 
-// TODO: Fix after registration enhancements to allow for failure on conflict and return appropriate error message
 export const modifyAccountSettings = authenticatedAction
-	.schema(
-		z.object({
-			firstName: z.string().min(1).max(50),
-			lastName: z.string().min(1).max(50),
-			hackerTag: z.string().min(1).max(50),
-			hasSearchableProfile: z.boolean(),
-		}),
-	)
+	.schema(modifyAccountSettingsSchema)
 	.action(
 		async ({
 			parsedInput: {
 				firstName,
 				lastName,
 				hackerTag,
-				hasSearchableProfile,
+				isSearchable: hasSearchableProfile,
 			},
 			ctx: { userId },
 		}) => {
-			const user = await getUser(userId);
-			if (!user) throw new Error("User not found");
-			let oldHackerTag = user.hackerTag; // change when hackertag is not PK on profileData table
-			if (oldHackerTag != hackerTag)
-				if (await getUserByTag(hackerTag))
-					//if hackertag changed
-					// copied from /api/registration/create
+			try {
+				await db
+					.update(userCommonData)
+					.set({
+						firstName,
+						lastName,
+						hackerTag,
+						isSearchable: hasSearchableProfile,
+					})
+					.where(eq(userCommonData.clerkID, userId));
+			} catch (err) {
+				console.log("modifyAccountSettings error is", err);
+				if (
+					err instanceof DatabaseError &&
+					err.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE
+				) {
 					return {
 						success: false,
 						message: "hackertag_not_unique",
 					};
-			await db
-				.update(userCommonData)
-				.set({
-					firstName,
-					lastName,
-					hackerTag,
-					isSearchable: hasSearchableProfile,
-				})
-				.where(eq(userCommonData.clerkID, userId));
+				}
+				throw err;
+			}
 			return {
 				success: true,
 				newFirstName: firstName,
@@ -199,23 +188,43 @@ export const modifyAccountSettings = authenticatedAction
 		},
 	);
 
+// come back and fix this tmr
 export const updateProfileImage = authenticatedAction
 	.schema(z.object({ fileBase64: z.string(), fileName: z.string() }))
 	.action(
 		async ({ parsedInput: { fileBase64, fileName }, ctx: { userId } }) => {
-			const image = await decodeBase64AsFile(fileBase64, fileName);
-			const user = await db.query.userCommonData.findFirst({
-				where: eq(userCommonData.clerkID, userId),
-			});
-			if (!user) throw new Error("User not found");
+			const file = await decodeBase64AsFile(fileBase64, fileName);
+			let clerkUser: ClerkUser;
+			try {
+				clerkUser = await clerkClient.users.updateUserProfileImage(
+					userId,
+					{
+						file,
+					},
+				);
+			} catch (err) {
+				console.log(`Error updating Clerk profile image: ${err}`);
+				if (
+					typeof err === "object" &&
+					err != null &&
+					"status" in err &&
+					err.status === PAYLOAD_TOO_LARGE_CODE
+				) {
+					return {
+						success: false,
+						message: "file_too_large",
+					};
+				}
+				console.log(
+					`Unknown Error updating Clerk profile image: ${err}`,
+				);
+				throw err;
+			}
 
-			const blobUpload = await put(image.name, image, {
-				access: "public",
-			});
 			await db
 				.update(userCommonData)
-				.set({ profilePhoto: blobUpload.url })
-				.where(eq(userCommonData.clerkID, user.clerkID));
+				.set({ profilePhoto: clerkUser.imageUrl })
+				.where(eq(userCommonData.clerkID, userId));
 			revalidatePath("/settings#profile");
 			return { success: true };
 		},

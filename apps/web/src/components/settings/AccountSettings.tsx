@@ -4,31 +4,40 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { Label } from "@/components/shadcn/ui/label";
 import { toast } from "sonner";
-import { useState } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c from "config";
 import { Loader2 } from "lucide-react";
 import { isProfane } from "no-profanity";
+import { modifyAccountSettingsSchema } from "@/validators/settings";
+import z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	FormDescription,
+} from "../shadcn/ui/form";
 
-interface UserProps {
-	firstName: string;
-	lastName: string;
+type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
+
+export default function AccountSettings({
+	user,
+	email,
+}: {
+	user: UserProps;
 	email: string;
-	hackerTag: string;
-	isSearchable: boolean;
-}
-
-export default function AccountSettings({ user }: { user: UserProps }) {
-	const [newFirstName, setNewFirstName] = useState(user.firstName);
-	const [newLastName, setNewLastName] = useState(user.lastName);
-	//const [newEmail, setNewEmail] = useState(user.email);
-	const [newHackerTag, setNewHackerTag] = useState(user.hackerTag);
-	const [newIsProfileSearchable, setNewIsProfileSearchable] = useState(
-		user.isSearchable,
-	);
-	const [hackerTagTakenAlert, setHackerTagTakenAlert] = useState(false);
+}) {
+	const form = useForm<UserProps>({
+		resolver: zodResolver(modifyAccountSettingsSchema),
+		defaultValues: {
+			...user,
+		},
+	});
 
 	const { execute: runModifyAccountSettings, status: loadingState } =
 		useAction(modifyAccountSettings, {
@@ -36,10 +45,22 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 				toast.dismiss();
 				if (!data?.success) {
 					if (data?.message == "hackertag_not_unique") {
-						toast.error("Hackertag already exists");
-						setHackerTagTakenAlert(true);
+						toast.error(
+							`Hackertag '${form.getValues("hackerTag")}' already exists`,
+						);
+						form.setError("hackerTag", {
+							message: "Hackertag already exists",
+						});
+						form.setValue("hackerTag", user.hackerTag);
 					}
-				} else toast.success("Account updated successfully!");
+				} else {
+					toast.success("Account updated successfully!", {
+						duration: 1500,
+					});
+					form.reset({
+						...form.getValues(),
+					});
+				}
 			},
 			onError: () => {
 				toast.dismiss();
@@ -49,122 +70,126 @@ export default function AccountSettings({ user }: { user: UserProps }) {
 			},
 		});
 
+	function handleSubmit(data: UserProps) {
+		toast.dismiss();
+		console.log("form is dirty", form.formState.dirtyFields);
+		console.log(form.formState.isDirty);
+		if (!form.formState.isDirty) {
+			toast.error("Please change something before updating");
+			return;
+		}
+		runModifyAccountSettings(data);
+	}
+
 	return (
 		<main>
-			<div className="rounded-lg border-2 border-muted px-5 py-10">
-				<h2 className="pb-5 text-3xl font-semibold">
-					Personal Information
-				</h2>
-				<div className="grid max-w-[500px] grid-cols-2 gap-x-2 gap-y-2">
-					<div>
-						<Label htmlFor="firstname">First Name</Label>
-						<Input
-							className="mt-2"
-							name="firstname"
-							value={newFirstName}
-							onChange={(e) => setNewFirstName(e.target.value)}
-						/>
-						{!newFirstName ? (
-							<div className={"mt-1 text-sm text-red-500"}>
-								This field can't be empty!
-							</div>
-						) : null}
-					</div>
-					<div>
-						<Label htmlFor={"lastname"}>Last Name</Label>
-						<Input
-							className="mt-2"
-							name="lastname"
-							value={newLastName}
-							onChange={(e) => setNewLastName(e.target.value)}
-						/>
-						{!newLastName ? (
-							<div className={"mt-1 text-sm text-red-500"}>
-								This field can't be empty!
-							</div>
-						) : null}
-					</div>
-				</div>
-				<h2 className="pb-5 pt-7 text-3xl font-semibold">
-					Public Information
-				</h2>
-				<div className="grid max-w-[500px] grid-cols-1 gap-x-2 gap-y-2">
-					<div>
-						<Label htmlFor="hackertag">HackerTag</Label>
-						<div className="mt-2 flex">
-							<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
-								@
-							</div>
-							<Input
-								className="rounded-l-none"
-								placeholder={`${c.hackathonName.toLowerCase()}`}
-								value={newHackerTag}
-								onChange={(e) => {
-									setNewHackerTag(e.target.value);
-									setHackerTagTakenAlert(false);
-								}}
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(handleSubmit)}>
+					<div className="rounded-lg border-2 border-muted px-5 py-10">
+						<h2 className="pb-5 text-3xl font-semibold">
+							Personal Information
+						</h2>
+						<div className="grid max-w-[600px] gap-x-2 gap-y-5 md:grid-cols-2">
+							<FormField
+								control={form.control}
+								name="firstName"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>First Name</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="lastName"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Last Name</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormItem className="flex flex-col md:col-span-2">
+								<FormLabel>Email</FormLabel>
+								<Input value={email} disabled />
+								<FormDescription>
+									This field cannot be changed.
+								</FormDescription>
+							</FormItem>
+						</div>
+						<h2 className="pb-5 pt-7 text-3xl font-semibold">
+							Public Information
+						</h2>
+						<div className="grid max-w-[500px] grid-cols-1 gap-x-2 gap-y-4">
+							<FormField
+								control={form.control}
+								name="hackerTag"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Hacker Tag</FormLabel>
+										<FormControl>
+											<div className="mt-2 flex">
+												<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
+													@
+												</div>
+												<Input
+													placeholder="shadcn"
+													className="rounded-l-none"
+													{...field}
+												/>
+											</div>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="isSearchable"
+								render={({ field }) => (
+									<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+										<FormControl>
+											<Checkbox
+												checked={field.value}
+												onCheckedChange={field.onChange}
+											/>
+										</FormControl>
+										<div className="space-y-1 leading-none">
+											<FormLabel>
+												Make my profile searchable by
+												other hackers
+											</FormLabel>
+										</div>
+									</FormItem>
+								)}
 							/>
 						</div>
-						{hackerTagTakenAlert ? (
-							<div className={"text-sm text-red-500"}>
-								HackerTag is already taken!
-							</div>
-						) : (
-							""
-						)}
-						{!newHackerTag ? (
-							<div className={"mt-1 text-sm text-red-500"}>
-								This field can't be empty!
-							</div>
-						) : null}
+						<Button
+							className="mt-5"
+							type="submit"
+							disabled={loadingState === "executing"}
+						>
+							{loadingState === "executing" ? (
+								<>
+									<Loader2
+										className={"mr-2 h-4 w-4 animate-spin"}
+									/>
+									<div>Updating</div>
+								</>
+							) : (
+								"Update"
+							)}
+						</Button>
 					</div>
-					<div
-						className={
-							"flex max-w-[600px] flex-row items-start space-x-3 space-y-0 rounded-md border p-4"
-						}
-					>
-						<Checkbox
-							checked={newIsProfileSearchable}
-							onCheckedChange={() =>
-								setNewIsProfileSearchable(
-									!newIsProfileSearchable,
-								)
-							}
-						/>
-						<Label htmlFor="profileIsSearchable">
-							Make my profile searchable by other Hackers
-						</Label>
-					</div>
-				</div>
-				<Button
-					className="mt-5"
-					onClick={() => {
-						if (isProfane(newHackerTag)) {
-							toast.dismiss();
-							toast.error("Profanity is not allowed");
-							return;
-						}
-						toast.loading("Updating settings...");
-						runModifyAccountSettings({
-							firstName: newFirstName,
-							lastName: newLastName,
-							//email: newEmail,
-							hackerTag: newHackerTag,
-							hasSearchableProfile: newIsProfileSearchable,
-						});
-					}}
-					disabled={loadingState === "executing"}
-				>
-					{loadingState === "executing" ? (
-						<>
-							<Loader2 className={"mr-2 h-4 w-4 animate-spin"} />
-							<div>Updating</div>
-						</>
-					) : (
-						"Update"
-					)}
-				</Button>
-			</div>
+				</form>
+			</Form>
 		</main>
 	);
 }

@@ -22,13 +22,14 @@ import {
 import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useAction, useOptimisticAction } from "next-safe-action/hooks";
 import {
 	setItem,
 	removeItem,
 	toggleItem,
+	editItem,
 } from "@/actions/admin/modify-nav-item";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -41,7 +42,12 @@ interface NavItemsManagerProps {
 export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 	const { execute, result, status } = useAction(removeItem, {
 		onSuccess: () => {
+			toast.dismiss();
 			toast.success("NavItem deleted successfully!");
+		},
+		onError: () => {
+			toast.dismiss();
+			toast.error("Error deleting NavItem");
 		},
 	});
 
@@ -79,12 +85,16 @@ export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 									name={item.name}
 								/>
 							</TableCell>
-							<TableCell className="space-x-2 text-right">
-								<Button onClick={() => alert("Coming soon...")}>
-									Edit
-								</Button>
+							<TableCell className="space-x-2 space-y-2 text-right">
+								<EditNavItemDialog
+									existingName={item.name}
+									existingUrl={item.url}
+									existingEnabled={item.enabled}
+								/>
 								<Button
 									onClick={() => {
+										toast.dismiss();
+										toast.loading("Deleting NavItem...");
 										execute(item.name);
 									}}
 								>
@@ -113,6 +123,9 @@ function ToggleSwitch({
 		updateFn: (state, { statusToSet }) => {
 			return { itemStatus: statusToSet };
 		},
+		onError: () => {
+			toast.error("Error toggling NavItem");
+		},
 	});
 
 	return (
@@ -125,18 +138,27 @@ function ToggleSwitch({
 	);
 }
 
-export function NavItemDialog() {
+export function AddNavItemDialog() {
 	const [name, setName] = useState<string | null>(null);
 	const [url, setUrl] = useState<string | null>(null);
 	const [open, setOpen] = useState(false);
 
-	const { execute, result, status } = useAction(setItem, {
+	const {
+		execute,
+		result,
+		status: createStatus,
+	} = useAction(setItem, {
 		onSuccess: () => {
 			console.log("Success");
 			setOpen(false);
 			toast.success("NavItem created successfully!");
 		},
+		onError: () => {
+			toast.error("Error creating NavItem");
+		},
 	});
+
+	const isLoading = createStatus === "executing";
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -183,10 +205,110 @@ export function NavItemDialog() {
 							console.log("Running Action");
 							if (!name || !url)
 								return alert("Please fill out all fields.");
+
 							execute({ name, url });
 						}}
 					>
-						Create
+						{isLoading && (
+							<Loader2
+								className={"absolute z-50 h-4 w-4 animate-spin"}
+							/>
+						)}
+						<p className={`${isLoading && "invisible"}`}>Create</p>
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
+	);
+}
+
+interface EditNavItemDialogProps {
+	existingName: string;
+	existingUrl: string;
+	existingEnabled: boolean;
+}
+
+function EditNavItemDialog({
+	existingName,
+	existingUrl,
+	existingEnabled,
+}: EditNavItemDialogProps) {
+	const [name, setName] = useState<string>(existingName);
+	const [url, setUrl] = useState<string>(existingUrl);
+	const [open, setOpen] = useState(false);
+
+	const { execute, status: editStatus } = useAction(editItem, {
+		onSuccess: () => {
+			console.log("Success");
+			setOpen(false);
+			toast.success("NavItem edited successfully!");
+		},
+		onError: () => {
+			toast.error("Error editing NavItem");
+		},
+	});
+	const isLoading = editStatus === "executing";
+
+	return (
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogTrigger asChild>
+				<Button>Edit Item</Button>
+			</DialogTrigger>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>Edit Item</DialogTitle>
+					<DialogDescription>
+						Edit an existing item shown in the non-dashboard navbar
+					</DialogDescription>
+				</DialogHeader>
+				<div className="grid gap-4 py-4">
+					<div className="grid grid-cols-4 items-center gap-4">
+						<Label htmlFor="name" className="text-right">
+							Name
+						</Label>
+						<Input
+							onChange={(e) => setName(e.target.value)}
+							id="name"
+							placeholder="A Cool Hyperlink"
+							className="col-span-3"
+							value={name}
+						/>
+					</div>
+					<div className="grid grid-cols-4 items-center gap-4">
+						<Label htmlFor="name" className="text-right">
+							URL
+						</Label>
+						<Input
+							onChange={(e) => setUrl(e.target.value)}
+							id="name"
+							placeholder="https://example.com/"
+							className="col-span-3"
+							value={url}
+						/>
+					</div>
+				</div>
+				<DialogFooter>
+					<Button
+						className="relative"
+						onClick={() => {
+							console.log("Running Action");
+							if (!name || !url)
+								return alert("Please fill out all fields.");
+
+							execute({
+								enabled: existingEnabled,
+								existingName,
+								name,
+								url,
+							});
+						}}
+					>
+						{isLoading && (
+							<Loader2
+								className={"absolute z-50 h-4 w-4 animate-spin"}
+							/>
+						)}
+						<p className={`${isLoading && "invisible"}`}>Update</p>
 					</Button>
 				</DialogFooter>
 			</DialogContent>
