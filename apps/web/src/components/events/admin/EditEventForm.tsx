@@ -58,9 +58,14 @@ export default function EditEventForm({
 			router.push("/admin/events");
 		},
 		onError: ({ error }) => {
-			const description =
-				error.serverError ||
-				"An error occurred while validating the form data";
+			let description: string;
+
+			if (error.validationErrors?._errors) {
+				// User is not super admin
+				description = error.validationErrors._errors[0];
+			} else {
+				description = error.serverError || "An unknown error occurred";
+			}
 
 			toast.error("Unable to edit event", { description });
 		},
