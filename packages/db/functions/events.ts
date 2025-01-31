@@ -1,5 +1,6 @@
-import { db, asc, desc } from "..";
+import { db, asc, desc, eq } from "..";
 import {
+	eventEditType,
 	eventInsertType,
 	getAllEventsOptions,
 } from "../../../apps/web/src/lib/types/events";
@@ -24,4 +25,12 @@ export function getAllEvents(options?: getAllEventsOptions) {
 	return db.query.events.findMany({
 		orderBy: orderByClause,
 	});
+}
+
+export function getEventById(eventId: number) {
+	return db.query.events.findFirst({ where: eq(events.id, eventId) });
+}
+
+export function editEvent(eventId: number, options: eventEditType) {
+	return db.update(events).set(options).where(eq(events.id, eventId));
 }
