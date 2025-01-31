@@ -78,4 +78,13 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 			</Link>
 		),
 	},
+	{
+		accessorKey: "Edit",
+		header: "Edit",
+		cell: ({ row }) => (
+			<Link href={`/admin/events/edit/${row.original.id}`}>
+				<Button>Edit</Button>
+			</Link>
+		),
+	},
 ];
