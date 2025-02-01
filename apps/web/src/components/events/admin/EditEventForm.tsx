@@ -290,7 +290,7 @@ export default function EditEventForm({
 					/>
 				</div>
 				{loading ? (
-					<p className="flex justify-center gap-x-1">
+					<h1 className="flex justify-center gap-x-1">
 						Updating Event{" "}
 						<ThreeCircles
 							visible={true}
@@ -301,7 +301,7 @@ export default function EditEventForm({
 							wrapperStyle={{}}
 							wrapperClass=""
 						/>
-					</p>
+					</h1>
 				) : (
 					<Button type="submit">Edit Event</Button>
 				)}
