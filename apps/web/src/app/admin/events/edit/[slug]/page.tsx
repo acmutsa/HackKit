@@ -1,5 +1,5 @@
 import { getEventById } from "db/functions";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import EditEventForm from "@/components/events/admin/EditEventForm";
 
 export default async function EditEventPage({
@@ -10,13 +10,13 @@ export default async function EditEventPage({
 	const eventId = parseInt(params.slug);
 
 	if (!eventId) {
-		return <h1>Error: invalid event id</h1>;
+		return notFound();
 	}
 
 	const event = await getEventById(eventId);
 
 	if (!event) {
-		return redirect("/admin/events");
+		return notFound();
 	}
 
 	return (
