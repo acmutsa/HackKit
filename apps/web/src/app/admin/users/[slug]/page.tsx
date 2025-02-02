@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { Info } from "lucide-react";
+import { Info, CalendarCheck } from "lucide-react";
 import Link from "next/link";
 import UpdateRoleDialog from "@/components/admin/users/UpdateRoleDialog";
 import {
@@ -47,7 +47,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<Link href={`/@${user.hackerTag}`} target="_blank">
 						<Button variant={"outline"}>Hacker Profile</Button>
 					</Link>
-					<Button variant={"outline"}>Email Hacker</Button>
+
+					<Link href={`mailto:${user.email}`}>
+						<Button variant={"outline"}>Email Hacker</Button>
+					</Link>
+
 					<UpdateRoleDialog
 						name={`${user.firstName} ${user.lastName}`}
 						canMakeAdmins={admin.role === "super_admin"}
@@ -88,6 +92,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 								.slice(1)
 								.join(" ")}
 						</Badge>
+						{user.isRSVPed && (
+							<Badge className="no-select bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-padding text-center hover:from-teal-500 hover:to-blue-600">
+								<CalendarCheck className="mr-1 h-3 w-3" />
+								RSVP
+							</Badge>
+						)}
 					</div>
 				</div>
 				<div className="col-span-2 overflow-x-hidden">

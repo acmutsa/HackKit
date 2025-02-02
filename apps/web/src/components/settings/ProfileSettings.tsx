@@ -4,35 +4,70 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
 import { Label } from "@/components/shadcn/ui/label";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import {
-	modifyRegistrationData,
-	updateProfileImage,
-} from "@/actions/user-profile-mod";
-import { useUser } from "@clerk/nextjs";
+import ProfilePhotoSettings from "./ProfilePhotoSettings";
+import { modifyProfileData } from "@/actions/user-profile-mod";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { useState } from "react";
-import { encodeFileAsBase64 } from "@/lib/utils/shared/files";
+import { useEffect, useState } from "react";
+import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { profileSettingsSchema } from "@/validators/settings";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "../shadcn/ui/form";
 
-interface ProfileSettingsProps {
+interface ProfileData {
+	pronouns: string;
 	bio: string;
-	university: string;
+	skills: string[];
+	discord: string | null;
+	profilePhoto: string;
 }
-export default function ProfileSettings({
-	bio,
-	university,
-}: ProfileSettingsProps) {
-	const [newBio, setNewBio] = useState(bio);
-	const [newUniversity, setNewUniversity] = useState(university);
-	const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
-	const { user } = useUser();
+interface ProfileSettingsProps {
+	profile: ProfileData;
+}
 
-	const { execute: runModifyRegistrationData } = useAction(
-		modifyRegistrationData,
+export default function ProfileSettings({
+	profile: profileData,
+}: ProfileSettingsProps) {
+	const { profilePhoto, ...profileSettingsData } = profileData;
+	const skillTags: Tag[] = profileSettingsData.skills.map((skill) => ({
+		id: skill,
+		text: skill,
+	}));
+	const [newSkills, setNewSkills] = useState<Tag[]>(skillTags);
+
+	const form = useForm<z.infer<typeof profileSettingsSchema>>({
+		resolver: zodResolver(profileSettingsSchema),
+		defaultValues: {
+			...profileSettingsData,
+			discord: profileSettingsData.discord || "",
+		},
+	});
+
+	useEffect(() => {
+		form.setValue("skills", [...newSkills.map((tag) => tag.text)], {
+			shouldDirty: true,
+		});
+	}, [newSkills]);
+
+	const { execute: runModifyProfileData, status: actionStatus } = useAction(
+		modifyProfileData,
 		{
 			onSuccess: () => {
 				toast.dismiss();
-				toast.success("Profile updated successfully!");
+				toast.success("Profile Data updated successfully!");
+				form.reset({
+					...form.getValues(),
+				});
 			},
 			onError: () => {
 				toast.dismiss();
@@ -41,104 +76,108 @@ export default function ProfileSettings({
 		},
 	);
 
-	const { execute: runUpdateProfileImage } = useAction(updateProfileImage, {
-		onSuccess: async () => {
-			toast.dismiss();
-			await user?.setProfileImage({ file: newProfileImage });
-			toast.success("Profile Photo updated successfully!");
-		},
-		onError: (err) => {
-			toast.dismiss();
-			toast.error("An error occurred while updating your profile photo!");
-			console.error(err);
-		},
-	});
+	function handleUpdate(data: z.infer<typeof profileSettingsSchema>) {
+		if (!form.formState.isDirty) {
+			toast.error("Please change something before updating");
+			return;
+		}
+		runModifyProfileData({
+			...data,
+			skills: data.skills.map((skill) => skill),
+		});
+	}
 
-	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files ? event.target.files[0] : null;
-		setNewProfileImage(file);
-	};
+	const isProfileSettingsLoading = actionStatus === "executing";
 
 	return (
 		<main>
-			<div className="rounded-lg border-2 border-muted px-5 py-10">
-				<h2 className="pb-5 text-3xl font-semibold">Profile Photo</h2>
-				<div className="max-w-[500px] space-y-4">
-					<div>
-						<Label htmlFor="photo">Profile Photo</Label>
-						<Input
-							accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
-							type="file"
-							name="photo"
-							className="mb-4 mt-2 cursor-pointer file:cursor-pointer file:text-primary dark:border-primary dark:bg-transparent dark:ring-offset-primary"
-							onChange={handleFileChange}
+			<ProfilePhotoSettings profilePhoto={profilePhoto} />
+			<Form {...form}>
+				<form
+					className="mt-5 rounded-lg border-2 border-muted px-5 py-10"
+					onSubmit={form.handleSubmit(handleUpdate)}
+				>
+					<h2 className="pb-5 text-3xl font-semibold">
+						Profile Data
+					</h2>
+					<div className="max-w-[500px] space-y-4">
+						<FormField
+							control={form.control}
+							name="pronouns"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Pronouns</FormLabel>
+									<FormControl>
+										<Input
+											placeholder="shadcn"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
 						/>
-					</div>
-					<Button
-						onClick={async () => {
-							console.log("Button clicked");
-							if (!newProfileImage) {
-								return toast.error(
-									"Please select a Profile Photo to upload!",
-								);
-							}
-							toast.loading("Updating Profile Photo...", {
-								duration: 0,
-							});
-							const b64 =
-								await encodeFileAsBase64(newProfileImage);
-							runUpdateProfileImage({
-								fileBase64: b64,
-								fileName: newProfileImage.name,
-							});
-						}}
-						className="mt-5"
-					>
-						Update
-					</Button>
-				</div>
-			</div>
-			<div className="mt-5 rounded-lg border-2 border-muted px-5 py-10">
-				<h2 className="pb-5 text-3xl font-semibold">Profile Data</h2>
-				<div className="max-w-[500px] space-y-4">
-					{/* <div>
-            <Label htmlFor="university">University</Label>
-            <Input
-              className="mt-2"
-              name="university"
-              value={newUniversity}
-              onChange={(e) => setNewUniversity(e.target.value)}
-            />
-          </div> */}
-					<div>
-						<Label htmlFor="firstname">Bio</Label>
-						<Textarea
-							onChange={(e) => setNewBio(e.target.value)}
-							defaultValue={bio}
-							className="mt-2"
-							name="firstname"
+						<FormField
+							control={form.control}
+							name="bio"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Bio</FormLabel>
+									<FormControl>
+										<Textarea
+											placeholder="shadcn"
+											className="resize-none"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
 						/>
+						<div>
+							<Label htmlFor="skills">Skills</Label>
+							<TagInput
+								inputFieldPostion="top"
+								placeholder="Type and then press enter to add a skill..."
+								tags={newSkills}
+								className="mt-2 sm:min-w-[450px]"
+								setTags={(newTags) => {
+									setNewSkills(newTags);
+								}}
+							/>
+						</div>
+						<FormField
+							control={form.control}
+							name="discord"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Discord Username</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<Button
+							type="submit"
+							className="mt-10"
+							disabled={isProfileSettingsLoading}
+						>
+							{isProfileSettingsLoading ? (
+								<>
+									<Loader2
+										className={"mr-2 h-4 w-4 animate-spin"}
+									/>
+									<div>Updating</div>
+								</>
+							) : (
+								"Update"
+							)}
+						</Button>
 					</div>
-					<div>
-						<Label htmlFor="firstname">Skills</Label>
-						<Textarea className="mt-2" name="firstname" />
-					</div>
-					<Button
-						onClick={() => {
-							toast.loading("Updating Profile...", {
-								duration: 0,
-							});
-							runModifyRegistrationData({
-								bio: newBio,
-								skills: "",
-							});
-						}}
-						className="mt-5"
-					>
-						Update
-					</Button>
-				</div>
-			</div>
+				</form>
+			</Form>
 		</main>
 	);
 }

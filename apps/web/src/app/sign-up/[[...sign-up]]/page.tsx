@@ -1,5 +1,5 @@
 import { SignUp } from "@clerk/nextjs";
-import { kv } from "@vercel/kv";
+import { redisMGet } from "@/lib/utils/server/redis";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import c from "config";
 import { Button } from "@/components/shadcn/ui/button";
@@ -9,7 +9,7 @@ export default async function Page() {
 	const [defaultRegistrationEnabled, defaultSecretRegistrationEnabled]: (
 		| string
 		| null
-	)[] = await kv.mget(
+	)[] = await redisMGet(
 		"config:registration:registrationEnabled",
 		"config:registration:secretRegistrationEnabled",
 	);

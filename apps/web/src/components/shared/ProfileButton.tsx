@@ -19,6 +19,7 @@ import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import DefaultDropdownTrigger from "../dash/shared/DefaultDropDownTrigger";
 import MobileNavBarLinks from "./MobileNavBarLinks";
 import { getUser } from "db/functions";
+import { clientLogOut } from "@/lib/utils/server/user";
 
 export default async function ProfileButton() {
 	const clerkUser = await auth();
@@ -101,16 +102,15 @@ export default async function ProfileButton() {
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
 					<DropdownSwitcher />
-					<SignOutButton>
+					<SignOutButton signOutCallback={clientLogOut}>
 						<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
-							Log out
+							Sign out
 						</DropdownMenuItem>
 					</SignOutButton>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		);
 	}
-
 	// Returns only if there is a full user
 	return (
 		<DropdownMenu>
@@ -152,14 +152,15 @@ export default async function ProfileButton() {
 							Event Pass
 						</DropdownMenuItem>
 					</Link>
-					{user.role === "admin" ||
-						(user.role === "super_admin" && (
-							<Link href={`/admin`}>
-								<DropdownMenuItem className="cursor-pointer text-hackathon">
-									Admin
-								</DropdownMenuItem>
-							</Link>
-						))}
+					{["admin", "super_admin", "volunteer"].includes(
+						user.role,
+					) && (
+						<Link href={`/admin`}>
+							<DropdownMenuItem className="cursor-pointer text-hackathon">
+								Admin
+							</DropdownMenuItem>
+						</Link>
+					)}
 					<MobileNavBarLinks />
 					<DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
 					<Link href={`/bug-report`}>
@@ -175,9 +176,9 @@ export default async function ProfileButton() {
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
 				<DropdownSwitcher />
-				<SignOutButton>
-					<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
-						Log out
+				<SignOutButton signOutCallback={clientLogOut}>
+					<DropdownMenuItem className="cursor-pointer text-red-500 hover:!bg-destructive hover:text-muted">
+						Sign out
 					</DropdownMenuItem>
 				</SignOutButton>
 			</DropdownMenuContent>

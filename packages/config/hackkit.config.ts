@@ -557,7 +557,7 @@ const dietaryRestrictionOptions = [
 	"Soy",
 ] as const;
 
-const countryOptions = [
+const countries = [
 	{ name: "United States", code: "US" },
 	{ name: "Afghanistan", code: "AF" },
 	{ name: "Albania", code: "AL" },
@@ -809,6 +809,7 @@ const c = {
 	itteration: "I",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
+	rsvpDefaultLimit: 500,
 	botName: "HackKit",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
@@ -910,7 +911,7 @@ const c = {
 			Users: "/admin/users",
 			Events: "/admin/events",
 			Points: "/admin/points",
-			"Check-in": "/admin/check-in",
+			"Hackathon Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
 		// TODO: Can remove days? Pretty sure they're dynamic now.
@@ -929,7 +930,7 @@ const c = {
 	maxResumeSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
-	eventPassBgImage: "/img/dash/pass/bg.png",
+	eventPassBgImage: "/img/dash/pass/bg.webp",
 	noResumeProvidedURL:
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
