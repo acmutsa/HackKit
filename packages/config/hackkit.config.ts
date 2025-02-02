@@ -792,6 +792,7 @@ const heardFromOptions = [
 	"Twitter",
 	"Event Site",
 	"Friend",
+	"Tabling",
 	"Other",
 ] as const;
 
@@ -830,7 +831,7 @@ const c = {
 		softwareExperienceOptions,
 		minRequiredAge: 18,
 		hackerTagRegex: /^[a-zA-Z0-9]+$/,
-		universityShortIDRegex: /^[a-z]{3}[0-9]{3}$/,
+		universityShortIDRegex: new RegExp("\\b[a-zA-Z]{3}\\d{3}\\b"),
 		maxNumberOfSkills: 20,
 		maxBioSize: 500,
 		maxaccommodationNoteSize: 1500,
@@ -846,7 +847,7 @@ const c = {
 	db: {
 		uniqueKeyMapper: {
 			user_common_data_hacker_tag_unique:
-				"Hacker Tag is taken. Please use another one.",
+				"The Hacker Tag you selected is taken. Please use another one.",
 			user_common_data_email_unique: "Email is already in use",
 			users_clerk_id_unique:
 				"You have already registered. Please login to your account",
@@ -984,7 +985,7 @@ const c = {
 	},
 } as const;
 
-const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resume`;
+const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resumes`;
 
 // Its important that this is kept in sync with the database schema.
 
@@ -1007,8 +1008,6 @@ const publicRoutes = [
 	"/404",
 	"/bugreport",
 ];
-
-// Generally it is reccomended to put your primary audience's university at the top of this list.
 
 export default c;
 export { defaultTheme, bucketResumeBaseUploadUrl, perms, publicRoutes };
