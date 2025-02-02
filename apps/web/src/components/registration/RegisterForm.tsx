@@ -56,9 +56,9 @@ import { formatRegistrationField } from "@/lib/utils/client/shared";
 import clsx from "clsx";
 import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 import RegistrationFeedbackAlert from "./RegistrationFeedbackAlert";
-import { registerUser, uploadResume } from "@/actions/registration";
+import { registerHacker } from "@/actions/registration";
 import { useAction } from "next-safe-action/hooks";
-
+import type { GenderOptionsType, HeardFromOptionsType, SoftwareExperienceOptionsType, ShirtSizeOptionsType, RaceOptionsType, EthnicityOptionsType, SchoolOptionsType, LevelOfStudyOptionsType,MajorOptionsType } from "@/lib/types/user";
 export default function RegisterForm({
 	defaultEmail,
 }: {
@@ -76,31 +76,30 @@ export default function RegisterForm({
 			isSearchable: true,
 			bio: "",
 			isEmailable: false,
-			// The rest of these are default values to prevent the controller / uncontrolled input warning from React
 			hasAcceptedMLHCoC: false,
 			hasSharedDataWithMLH: false,
 			accommodationNote: "",
 			firstName: "",
 			lastName: "",
 			age: 0,
-			ethnicity: "" as any,
-			gender: "" as any,
-			major: "" as any,
+			ethnicity: "" as EthnicityOptionsType,
+			gender: "" as GenderOptionsType,
+			major: "" as MajorOptionsType,
 			GitHub: "",
 			hackerTag: "",
-			heardFrom: "" as any,
-			levelOfStudy: "" as any,
+			heardFrom: "" as HeardFromOptionsType,
+			levelOfStudy: "" as LevelOfStudyOptionsType,
 			LinkedIn: "",
 			PersonalWebsite: "",
 			discord: "",
 			pronouns: "",
-			race: "" as any,
-			shirtSize: "" as any,
+			race: "" as RaceOptionsType,
+			shirtSize: "" as ShirtSizeOptionsType,
 			schoolID: "",
-			university: "" as any,
+			university: "" as SchoolOptionsType,
 			phoneNumber: "",
 			countryOfResidence: "",
-			softwareExperience: "" as any,
+			softwareExperience: "" as SoftwareExperienceOptionsType,
 			resumeFile: null,
 		},
 	});
@@ -109,7 +108,7 @@ export default function RegisterForm({
 		execute: runRegisterUser,
 		status: registerUserStatus,
 		reset: resetRegisterUser,
-	} = useAction(registerUser, {
+	} = useAction(registerHacker, {
 		onSuccess: ({ data }) => {
 			console.log("data is: ", data);
 			// Come back and uncoment after testing

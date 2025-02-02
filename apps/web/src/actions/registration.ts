@@ -16,31 +16,9 @@ import {
 	UNIQUE_KEY_MAPPER_DEFAULT_KEY,
 } from "@/lib/constants";
 
-const uploadResumeSchema = z.object({
-	resumeFile: z.any(),
-	// .instanceof(File, { message: "Required" })
-	// .refine((file) => file.size > 0, "Required"),
-});
-
 const registerUserSchema = hackerRegistrationFormValidator;
 
-export const uploadResume = authenticatedAction
-	.schema(uploadResumeSchema)
-	.action(async ({ ctx: { userId }, parsedInput: { resumeFile } }) => {
-		const fileLocation = `${bucketResumeBaseUploadUrl}/${resumeFile.name}`;
-		const newBlob = await put(fileLocation, resumeFile, {
-			access: "public",
-		});
-
-		await updateUserResume(userId, newBlob.url);
-
-		return {
-			success: true,
-			resume_url: newBlob.url,
-		};
-	});
-
-export const registerUser = authenticatedAction
+export const registerHacker = authenticatedAction
 	.schema(registerUserSchema)
 	.action(async ({ ctx: { userId }, parsedInput }) => {
 		// Reccomended: Destructure out your unique constraints / primary keys ahead of time to ensure that they can be cause short circuit logic if a unique constraint is violated
@@ -71,9 +49,7 @@ export const registerUser = authenticatedAction
 
 		try {
 			await db.transaction(async (tx) => {
-				//  Add user common insertion
 				await tx.insert(userCommonData).values({
-					// Slight optimization to short circuit is to add all of your unique keys at the top
 					clerkID: userId,
 					hackerTag: hackerTag.toLocaleLowerCase(),
 					email,
@@ -124,9 +100,6 @@ export const registerUser = authenticatedAction
 				throw e;
 			}
 		}
-		console.log("Contents of resumeFile", resumeFile);
-
-		// console.log("Success posting");
 
 		return {
 			success: true,

@@ -40,7 +40,7 @@ export const hackerRegistrationFormValidator = z
 				message: "You must be at least 18 years old to register.",
 			})
 			.max(100, {
-				message: "You must be less than 100 years old to register",
+				message: "You have entered a number far too high.",
 			})
 			.positive({ message: "Value must be positive" })
 			.int({ message: "Value must be an integer" })
