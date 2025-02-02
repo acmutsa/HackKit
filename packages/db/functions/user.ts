@@ -55,8 +55,11 @@ export function getUserByTag(hackerTag: string): Promise<User | undefined> {
 	});
 }
 
-export function updateUserResume(userID:string,url:string){
-	return db.update(userHackerData).set({
-		resume:url
-	}).where(eq(userHackerData.clerkID,userID));
+export function updateUserResume(userID: string, url: string) {
+	return db
+		.update(userHackerData)
+		.set({
+			resume: url,
+		})
+		.where(eq(userHackerData.clerkID, userID));
 }

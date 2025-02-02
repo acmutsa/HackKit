@@ -56,7 +56,7 @@ import { formatRegistrationField } from "@/lib/utils/client/shared";
 import clsx from "clsx";
 import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 import RegistrationFeedbackAlert from "./RegistrationFeedbackAlert";
-import { registerUser,uploadResume } from "@/actions/registration";
+import { registerUser, uploadResume } from "@/actions/registration";
 import { useAction } from "next-safe-action/hooks";
 
 export default function RegisterForm({
@@ -104,30 +104,29 @@ export default function RegisterForm({
 			resumeFile: null,
 		},
 	});
-	
+
 	const {
 		execute: runRegisterUser,
 		status: registerUserStatus,
 		reset: resetRegisterUser,
-	} = useAction(registerUser,{
-		onSuccess: ({ data}) => {
-			console.log("data is: ",data);
+	} = useAction(registerUser, {
+		onSuccess: ({ data }) => {
+			console.log("data is: ", data);
 			// Come back and uncoment after testing
-			if (data?.success){
+			if (data?.success) {
 				// setHasSuccess(true);
 				// 	setTimeout(() => {
 				// 		router.push("/dash");
 				// 	}, 1000);
-			}
-			else{
-				console.error("Error data:",data);
-				setErrorMessage(data?.message ?? 'Unexpected error occured');
+			} else {
+				console.error("Error data:", data);
+				setErrorMessage(data?.message ?? "Unexpected error occured");
 			}
 		},
-		onError: ({ error })=>{
-			console.log("Error is: ",error);
+		onError: ({ error }) => {
+			console.log("Error is: ", error);
 			resetRegisterUser();
-		}	
+		},
 	});
 
 	useEffect(() => {
@@ -137,9 +136,9 @@ export default function RegisterForm({
 		return () => unsubscribe();
 	}, [form.watch]);
 
-	const isLoading = registerUserStatus === 'executing';
-	
-	const { isSubmitSuccessful, isSubmitted, } = form.formState;
+	const isLoading = registerUserStatus === "executing";
+
+	const { isSubmitSuccessful, isSubmitted } = form.formState;
 
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 
@@ -155,9 +154,12 @@ export default function RegisterForm({
 	const isLocalUniversitySelected =
 		universityValue === c.localUniversityName &&
 		classificationValue !== "Recent Grad";
-	
+
 	useEffect(() => {
-		if (universityValue !== c.localUniversityName || classificationValue === 'Recent Grad') {
+		if (
+			universityValue !== c.localUniversityName ||
+			classificationValue === "Recent Grad"
+		) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
 			form.setValue("schoolID", "");
@@ -167,30 +169,29 @@ export default function RegisterForm({
 	async function onSubmit(
 		data: z.infer<typeof hackerRegistrationFormValidator>,
 	) {
-			console.log(data);
-			setErrorMessage(null);
-			if (!isLoaded) {
-				setErrorMessage(
-					`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
-				);
-				return;
-			}
+		console.log(data);
+		setErrorMessage(null);
+		if (!isLoaded) {
+			setErrorMessage(
+				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
+			);
+			return;
+		}
 
-			let resume:string = c.noResumeProvidedURL;
-			if (uploadedFile && isUploadResumeSelected) {
-				const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
-				// test what happens when an error is thrown
-				const newBlob = await put(fileLocation, uploadedFile, {
-					access: "public",
-					handleBlobUploadUrl: "/api/upload/resume/register",
-				});
-				
-				resume = newBlob.url;
-			}
-			runRegisterUser({ ...data, resumeFile: resume });
-		
+		let resume: string = c.noResumeProvidedURL;
+		if (uploadedFile && isUploadResumeSelected) {
+			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
+			// test what happens when an error is thrown
+			const newBlob = await put(fileLocation, uploadedFile, {
+				access: "public",
+				handleBlobUploadUrl: "/api/upload/resume/register",
+			});
+
+			resume = newBlob.url;
+		}
+		runRegisterUser({ ...data, resumeFile: resume });
 	}
-	
+
 	const onDrop = useCallback(
 		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
 			if (fileRejections.length > 0) {
@@ -1486,7 +1487,7 @@ export default function RegisterForm({
 													} flex min-h-[200px] flex-col items-center justify-center rounded-lg border-dashed border-white`}
 												>
 													<input
-													type="file"
+														type="file"
 														{...getInputProps()}
 													/>
 													<p className="p-2 text-center">
