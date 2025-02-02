@@ -10,18 +10,19 @@ export const editEvent = superAdminAction
 	.action(async ({ parsedInput }) => {
 		const { id, ...options } = parsedInput;
 
-		if (id == undefined) {
+		if (id === undefined) {
 			throw new Error("The event's ID is not defined");
 		}
 
-		revalidatePath("/admin/events");
-
 		try {
 			await modifyEvent(id, options);
+			revalidatePath("/admin/events");
+			revalidatePath("/dash/schedule");
+			revalidatePath(`/schedule/${id}`);
 		} catch (e) {
 			console.error(e);
 			throw new Error(
-				"Event update failed check the server console for errors.",
+				"Event update failed. Check the server console for errors.",
 			);
 		}
 	});
