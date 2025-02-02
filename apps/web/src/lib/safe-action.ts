@@ -30,3 +30,15 @@ export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
 	}
 	return next({ ctx: { user, ...ctx } });
 });
+
+export const superAdminAction = authenticatedAction.use(
+	async ({ next, ctx }) => {
+		const user = await getUser(ctx.userId);
+		if (!user || user.role !== "super_admin") {
+			returnValidationErrors(z.null(), {
+				_errors: ["Unauthorized (Not Super Admin)"],
+			});
+		}
+		return next({ ctx: { user, ...ctx } });
+	},
+);

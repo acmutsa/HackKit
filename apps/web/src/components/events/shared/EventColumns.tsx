@@ -6,8 +6,11 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
+import { cn } from "@/lib/utils/client/cn";
 
-export const columns: ColumnDef<eventTableValidatorType>[] = [
+type EventRow = eventTableValidatorType & { isSuperAdmin: boolean };
+
+export const columns: ColumnDef<EventRow>[] = [
 	{
 		accessorKey: "title",
 		header: "Title",
@@ -75,6 +78,20 @@ export const columns: ColumnDef<eventTableValidatorType>[] = [
 		cell: ({ row }) => (
 			<Link href={`/schedule/${row.original.id}`}>
 				<Button>View</Button>
+			</Link>
+		),
+	},
+	{
+		accessorKey: "Edit",
+		header: "Edit",
+		cell: ({ row }) => (
+			<Link
+				href={`/admin/events/edit/${row.original.id}`}
+				className={cn(
+					!row.original.isSuperAdmin && "pointer-events-none",
+				)}
+			>
+				<Button disabled={!row.original.isSuperAdmin}>Edit</Button>
 			</Link>
 		),
 	},
