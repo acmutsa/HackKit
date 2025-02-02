@@ -58,7 +58,17 @@ import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
 import RegistrationFeedbackAlert from "./RegistrationFeedbackAlert";
 import { registerHacker } from "@/actions/registration";
 import { useAction } from "next-safe-action/hooks";
-import type { GenderOptionsType, HeardFromOptionsType, SoftwareExperienceOptionsType, ShirtSizeOptionsType, RaceOptionsType, EthnicityOptionsType, SchoolOptionsType, LevelOfStudyOptionsType,MajorOptionsType } from "@/lib/types/user";
+import type {
+	GenderOptionsType,
+	HeardFromOptionsType,
+	SoftwareExperienceOptionsType,
+	ShirtSizeOptionsType,
+	RaceOptionsType,
+	EthnicityOptionsType,
+	SchoolOptionsType,
+	LevelOfStudyOptionsType,
+	MajorOptionsType,
+} from "@/lib/types/user";
 export default function RegisterForm({
 	defaultEmail,
 }: {
