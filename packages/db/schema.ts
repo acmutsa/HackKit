@@ -112,7 +112,9 @@ export const userCommonRelations = relations(
 
 export const userHackerData = pgTable("user_hacker_data", {
 	// id
-	clerkID: varchar("clerk_id", { length: 255 }).primaryKey(),
+	clerkID: varchar("clerk_id", { length: 255 })
+		.primaryKey()
+		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
 
 	// data
 	university: varchar("university", { length: 200 }).notNull(),
