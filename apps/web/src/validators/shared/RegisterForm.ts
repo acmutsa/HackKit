@@ -1,6 +1,7 @@
 import { z } from "zod";
 import c from "config";
 import { isProfane } from "no-profanity";
+import { NOT_LOCAL_SCHOOL } from "@/lib/constants";
 
 const defaultPrettyError = {
 	errorMap: () => ({ message: "Please select a value" }),
@@ -94,7 +95,7 @@ export const RegisterFormValidator = z.object({
 		.length(c.localUniversityShortIDMaxLength, {
 			message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
 		})
-		.or(z.literal("NOT_LOCAL_SCHOOL")),
+		.or(z.literal(NOT_LOCAL_SCHOOL)),
 	levelOfStudy: z.union([
 		z.literal("Freshman", defaultPrettyError),
 		z.literal("Sophomore", defaultPrettyError),

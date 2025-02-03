@@ -11,3 +11,4 @@ export const PAYLOAD_TOO_LARGE_CODE = 413;
 export const HACKER_REGISTRATION_STORAGE_KEY = "hackerRegistrationData";
 export const HACKER_REGISTRATION_RESUME_STORAGE_KEY =
 	"hackerRegistrationResume";
+export const NOT_LOCAL_SCHOOL = "NOT_LOCAL_SCHOOL";

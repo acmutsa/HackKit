@@ -53,6 +53,8 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { HackerData, User } from "db/types";
 import { registrationSettingsFormValidator } from "@/validators/settings";
+import { NOT_LOCAL_SCHOOL } from "@/lib/constants";
+
 interface RegistrationFormSettingsProps {
 	user: User;
 	data: HackerData;
@@ -128,10 +130,10 @@ export default function RegisterFormSettings({
 
 	useEffect(() => {
 		if (universityValue != c.localUniversityName.toLowerCase()) {
-			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
+			form.setValue("schoolID", NOT_LOCAL_SCHOOL);
 		} else {
 			const ShortIDValue =
-				shortID === "NOT_LOCAL_SCHOOL" ? "" : originalData.schoolID;
+				shortID === NOT_LOCAL_SCHOOL ? "" : originalData.schoolID;
 			form.setValue("schoolID", ShortIDValue);
 		}
 	}, [universityValue]);

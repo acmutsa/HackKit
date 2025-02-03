@@ -2,7 +2,7 @@ import z from "zod";
 import { userWithHackerDataInsertSchema } from "db/zod";
 import c from "config";
 import { isProfane } from "no-profanity";
-import { PHONE_NUMBER_REGEX } from "@/lib/constants";
+import { PHONE_NUMBER_REGEX, NOT_LOCAL_SCHOOL } from "@/lib/constants";
 
 const defaultSelectPrettyError = c.zod.defaultSelectPrettyError;
 const defaultInputPrettyError = c.zod.defaultInputPrettyError;
@@ -91,7 +91,7 @@ export const hackerRegistrationFormValidator = z
 			.regex(c.registration.universityShortIDRegex, {
 				message: "School ID must be a valid school ID",
 			})
-			.or(z.literal("NOT_LOCAL_SCHOOL")),
+			.or(z.literal(NOT_LOCAL_SCHOOL)),
 		softwareExperience: z.enum(
 			c.registration.softwareExperienceOptions,
 			defaultSelectPrettyError,

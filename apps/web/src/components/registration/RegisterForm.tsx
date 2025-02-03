@@ -74,6 +74,7 @@ import z from "zod";
 import {
 	HACKER_REGISTRATION_STORAGE_KEY,
 	HACKER_REGISTRATION_RESUME_STORAGE_KEY,
+	NOT_LOCAL_SCHOOL,
 } from "@/lib/constants";
 import {
 	encodeFileAsBase64,
@@ -275,7 +276,7 @@ export default function RegisterForm({
 			(universityValue && universityValue !== c.localUniversityName) ||
 			classificationValue === "Recent Grad"
 		) {
-			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
+			form.setValue("schoolID", NOT_LOCAL_SCHOOL);
 		} else {
 			form.setValue("schoolID", form.getValues("schoolID") ?? "");
 		}
