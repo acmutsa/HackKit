@@ -19,7 +19,7 @@ export default function CreatingRegistration(props: CreatingRegistrationProps) {
 
 	return (
 		<main className="absolute bottom-0 left-0 z-10 flex min-h-screen w-screen flex-col items-center justify-center gap-y-20 bg-background">
-			<h1 className="w-full text-center text-3xl font-black px-2 md:px-0">
+			<h1 className="w-full px-2 text-center text-3xl font-black md:px-0">
 				{message}
 			</h1>
 			{hasSuccessState ? (

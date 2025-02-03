@@ -1,7 +1,7 @@
 "use server";
 import { authenticatedAction } from "@/lib/safe-action";
 import { db, sql } from "db";
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 import { bucketResumeBaseUploadUrl } from "config";
 import z from "zod";
 import { returnValidationErrors } from "next-safe-action";
@@ -21,9 +21,8 @@ const registerUserSchema = hackerRegistrationFormValidator;
 export const registerHacker = authenticatedAction
 	.schema(registerUserSchema)
 	.action(async ({ ctx: { userId }, parsedInput }) => {
-		// Reccomended: Destructure out your unique constraints / primary keys ahead of time to ensure that they can be cause short circuit logic if a unique constraint is violated
 		const {
-			resumeFile,
+			resume,
 			hackerTag,
 			email,
 			university,
@@ -43,6 +42,11 @@ export const registerHacker = authenticatedAction
 		} = parsedInput;
 
 		const currUser = await currentUser();
+		if (!currUser) {
+			return returnValidationErrors(z.null(), {
+				_errors: ["Unauthorized (No User ID)"],
+			});
+		}
 		const totalUserCount = await db
 			.select({ count: sql<number>`count(*)`.mapWith(Number) })
 			.from(userCommonData);
@@ -54,7 +58,7 @@ export const registerHacker = authenticatedAction
 					hackerTag: hackerTag.toLocaleLowerCase(),
 					email,
 					...userData,
-					profilePhoto: currUser!.imageUrl,
+					profilePhoto: currUser.imageUrl,
 					skills: userData.skills.map((v) => v.text.toLowerCase()),
 					isFullyRegistered: true,
 					dietRestrictions: userData.dietRestrictions,
@@ -72,7 +76,7 @@ export const registerHacker = authenticatedAction
 					GitHub,
 					LinkedIn,
 					PersonalWebsite,
-					resume: undefined,
+					resume,
 					group:
 						totalUserCount[0].count % Object.keys(c.groups).length,
 					hasAcceptedMLHCoC,
@@ -82,6 +86,10 @@ export const registerHacker = authenticatedAction
 			});
 		} catch (e) {
 			// Catch duplicates because they will be based off of the error code 23505
+			if (resume) {
+				console.log("deleting resume");
+				await del(resume);
+			}
 			if (
 				e instanceof DatabaseError &&
 				e.code === UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE

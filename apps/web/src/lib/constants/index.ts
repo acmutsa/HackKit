@@ -8,3 +8,6 @@ export const UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE = "23505";
 export const UNIQUE_KEY_MAPPER_DEFAULT_KEY =
 	"default" as keyof typeof c.db.uniqueKeyMapper;
 export const PAYLOAD_TOO_LARGE_CODE = 413;
+export const HACKER_REGISTRATION_STORAGE_KEY = "hackerRegistrationData";
+export const HACKER_REGISTRATION_RESUME_STORAGE_KEY =
+	"hackerRegistrationResume";

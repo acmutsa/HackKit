@@ -19,7 +19,6 @@ import {
 } from "@/components/shadcn/ui/select";
 import { Input } from "@/components/shadcn/ui/input";
 import { Button } from "@/components/shadcn/ui/button";
-import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
@@ -42,16 +41,18 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
-import { zpostSafe } from "@/lib/utils/client/zfetch";
 import { useAuth } from "@clerk/nextjs";
-import { BasicServerValidator } from "@/validators/shared/basic";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
 import { bucketResumeBaseUploadUrl } from "config";
-import { hackerRegistrationFormValidator } from "@/validators/shared/registration";
+import {
+	hackerRegistrationFormValidator,
+	hackerRegistrationValidatorLocalStorage,
+	hackerRegistrationResumeValidator,
+} from "@/validators/shared/registration";
 import { formatRegistrationField } from "@/lib/utils/client/shared";
 import clsx from "clsx";
 import { capitalizeFirstLetter } from "@/lib/utils/client/shared";
@@ -69,21 +70,32 @@ import type {
 	LevelOfStudyOptionsType,
 	MajorOptionsType,
 } from "@/lib/types/user";
+import z from "zod";
+import {
+	HACKER_REGISTRATION_STORAGE_KEY,
+	HACKER_REGISTRATION_RESUME_STORAGE_KEY,
+} from "@/lib/constants";
+import {
+	encodeFileAsBase64,
+	decodeBase64AsFile,
+} from "@/lib/utils/shared/files";
+
 export default function RegisterForm({
 	defaultEmail,
 }: {
 	defaultEmail: string;
 }) {
-	const { isLoaded } = useAuth();
+	const { isLoaded: isAuthLoaded } = useAuth();
+	const [isLoading, setIsLoading] = useState(false);
+	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const router = useRouter();
 
 	const form = useForm<z.infer<typeof hackerRegistrationFormValidator>>({
 		resolver: zodResolver(hackerRegistrationFormValidator),
 		defaultValues: {
-			email: defaultEmail,
 			hackathonsAttended: 0,
 			dietRestrictions: [],
-			isSearchable: true,
+			isSearchable: false,
 			bio: "",
 			isEmailable: false,
 			hasAcceptedMLHCoC: false,
@@ -110,52 +122,145 @@ export default function RegisterForm({
 			phoneNumber: "",
 			countryOfResidence: "",
 			softwareExperience: "" as SoftwareExperienceOptionsType,
-			resumeFile: null,
+			email: defaultEmail,
+			skills: [],
 		},
 	});
 
-	const {
-		execute: runRegisterUser,
-		status: registerUserStatus,
-		reset: resetRegisterUser,
-	} = useAction(registerHacker, {
-		onSuccess: ({ data }) => {
-			console.log("data is: ", data);
-			// Come back and uncoment after testing
-			if (data?.success) {
-				// setHasSuccess(true);
-				// 	setTimeout(() => {
-				// 		router.push("/dash");
-				// 	}, 1000);
-			} else {
-				console.error("Error data:", data);
-				setErrorMessage(data?.message ?? "Unexpected error occured");
-			}
-		},
-		onError: ({ error }) => {
-			console.log("Error is: ", error);
-			resetRegisterUser();
-		},
-	});
-
+	// logic to grab info from local storage
 	useEffect(() => {
-		const { unsubscribe } = form.watch((value) => {
-			console.log(value);
-		});
-		return () => unsubscribe();
-	}, [form.watch]);
+		const hackerFormData = localStorage.getItem(
+			HACKER_REGISTRATION_STORAGE_KEY,
+		);
+		if (hackerFormData) {
+			try {
+				const parsed = JSON.parse(hackerFormData);
+				const res =
+					hackerRegistrationValidatorLocalStorage.safeParse(parsed);
+				if (res.success) {
+					const {
+						ethnicity,
+						gender,
+						major,
+						university,
+						dietRestrictions,
+						heardFrom,
+						softwareExperience,
+						levelOfStudy,
+						race,
+						skills,
+						shirtSize,
+						...remainingData
+					} = res.data;
+					setSkills(res.data.skills as Tag[]);
+					form.reset({
+						...form.formState.defaultValues,
+						ethnicity: ethnicity as EthnicityOptionsType,
+						race: race as RaceOptionsType,
+						gender: gender as GenderOptionsType,
+						university: university as SchoolOptionsType,
+						shirtSize: shirtSize as ShirtSizeOptionsType,
+						skills: skills as Tag[],
+						major: major as MajorOptionsType,
+						levelOfStudy: levelOfStudy as LevelOfStudyOptionsType,
+						softwareExperience:
+							softwareExperience as SoftwareExperienceOptionsType,
+						heardFrom: heardFrom as HeardFromOptionsType,
+						dietRestrictions:
+							dietRestrictions as (typeof c.registration.dietaryRestrictionOptions)[number][],
+						...remainingData,
+					});
+				} else {
+					console.log(
+						"Error schema parsing hacker registration data: ",
+						res.error,
+					);
+				}
+			} catch (e) {
+				console.error(
+					"Error parsing hacker registration JSON data: ",
+					e,
+				);
+			}
+		}
+	}, []);
 
-	const isLoading = registerUserStatus === "executing";
+	// seperate useffect for getting the resume file
+	useEffect(() => {
+		const dataString = localStorage.getItem(
+			HACKER_REGISTRATION_RESUME_STORAGE_KEY,
+		);
+
+		if (dataString) {
+			try {
+				const parsedValue = JSON.parse(dataString);
+				const schemaParsedRes =
+					hackerRegistrationResumeValidator.safeParse(parsedValue);
+				if (schemaParsedRes.success) {
+					const { fileString, fileName } = schemaParsedRes.data;
+					decodeBase64AsFile(fileString, fileName).then((file) => {
+						setUploadedFile(file);
+					});
+				} else {
+					console.error(
+						"Error parsing resume data: ",
+						schemaParsedRes.error,
+					);
+				}
+			} catch (e) {
+				console.error("Error parsing resume data: ", e);
+			}
+		}
+	}, []);
+
+	// might be good to debounce later on
+	form.watch(() => {
+		localStorage.setItem(
+			HACKER_REGISTRATION_STORAGE_KEY,
+			JSON.stringify({
+				...form.getValues(),
+			}),
+		);
+	});
+
+	// use action logic
+	const { execute: runRegisterUser, reset: resetRegisterUser } = useAction(
+		registerHacker,
+		{
+			onSuccess: ({ data }) => {
+				if (data?.success) {
+					setHasSuccess(true);
+					// clear the local storage
+					localStorage.removeItem(HACKER_REGISTRATION_STORAGE_KEY);
+					localStorage.removeItem(
+						HACKER_REGISTRATION_RESUME_STORAGE_KEY,
+					);
+					setTimeout(() => {
+						router.push("/dash");
+					}, 1000);
+				} else {
+					setIsLoading(false);
+					console.error("onSuccess Error data:", data);
+					setErrorMessage(
+						data?.message ?? "Unexpected error occured",
+					);
+				}
+			},
+			onError: ({ error }) => {
+				setIsLoading(false);
+				console.log("onError Error is: ", error);
+				resetRegisterUser();
+			},
+		},
+	);
 
 	const { isSubmitSuccessful, isSubmitted } = form.formState;
 
 	const hasErrors = !isSubmitSuccessful && isSubmitted;
 
-	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [skills, setSkills] = useState<Tag[]>([]);
 	const [hasSuccess, setHasSuccess] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	const [isUploadResumeSelected, setIsUploadResumeSelected] = useState(true);
 
 	const universityValue = form.watch("university");
 	const bioValue = form.watch("bio");
@@ -164,23 +269,25 @@ export default function RegisterForm({
 		universityValue === c.localUniversityName &&
 		classificationValue !== "Recent Grad";
 
+	// used to track whether to enable the university ID field
 	useEffect(() => {
 		if (
-			universityValue !== c.localUniversityName ||
+			(universityValue && universityValue !== c.localUniversityName) ||
 			classificationValue === "Recent Grad"
 		) {
 			form.setValue("schoolID", "NOT_LOCAL_SCHOOL");
 		} else {
-			form.setValue("schoolID", "");
+			form.setValue("schoolID", form.getValues("schoolID") ?? "");
 		}
 	}, [universityValue]);
 
 	async function onSubmit(
 		data: z.infer<typeof hackerRegistrationFormValidator>,
 	) {
+		setIsLoading(true);
 		console.log(data);
 		setErrorMessage(null);
-		if (!isLoaded) {
+		if (!isAuthLoaded) {
 			setErrorMessage(
 				`Auth has not loaded yet. Please try again! If this is a repeating issue, please contact us at ${c.issueEmail}.`,
 			);
@@ -188,7 +295,7 @@ export default function RegisterForm({
 		}
 
 		let resume: string = c.noResumeProvidedURL;
-		if (uploadedFile && isUploadResumeSelected) {
+		if (uploadedFile) {
 			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
 			// test what happens when an error is thrown
 			const newBlob = await put(fileLocation, uploadedFile, {
@@ -198,19 +305,28 @@ export default function RegisterForm({
 
 			resume = newBlob.url;
 		}
-		runRegisterUser({ ...data, resumeFile: resume });
+		runRegisterUser({ ...data, resume });
 	}
 
 	const onDrop = useCallback(
-		(acceptedFiles: File[], fileRejections: FileRejection[]) => {
+		async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
 			if (fileRejections.length > 0) {
 				alert(
 					`The file you uploaded was rejected with the reason "${fileRejections[0].errors[0].message}". Please try again.`,
 				);
 			}
 			if (acceptedFiles.length > 0) {
-				setUploadedFile(acceptedFiles[0]);
-				// form.setValue('resumeFile',acceptedFiles[0]);
+				const file = acceptedFiles[0];
+				setUploadedFile(file);
+				const fileName = file.name;
+				const inputs = {
+					fileName,
+					fileString: await encodeFileAsBase64(file),
+				};
+				localStorage.setItem(
+					HACKER_REGISTRATION_RESUME_STORAGE_KEY,
+					JSON.stringify(inputs),
+				);
 			}
 		},
 		[],
@@ -306,6 +422,7 @@ export default function RegisterForm({
 															0
 														}
 														{...field}
+														disabled
 													/>
 												</FormControl>
 												<FormMessage />
@@ -377,7 +494,7 @@ export default function RegisterForm({
 													onValueChange={
 														field.onChange
 													}
-													value={field.value}
+													defaultValue={field.value}
 												>
 													<FormControl>
 														<SelectTrigger className="w-full">
@@ -773,6 +890,7 @@ export default function RegisterForm({
 														].isOptional(),
 													)}
 												</FormLabel>
+
 												<Popover>
 													<PopoverTrigger asChild>
 														<FormControl>
@@ -801,7 +919,7 @@ export default function RegisterForm({
 															</Button>
 														</FormControl>
 													</PopoverTrigger>
-													<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
+													<PopoverContent className="no-scrollbar max-h-[400px] w-[--radix-popover-trigger-width] overflow-y-auto p-0">
 														<Command>
 															<CommandInput placeholder="Search university..." />
 															<CommandList>
@@ -850,6 +968,12 @@ export default function RegisterForm({
 														</Command>
 													</PopoverContent>
 												</Popover>
+												<FormDescription>
+													If you are not currently a
+													student, please select the
+													most recent university you
+													attended.
+												</FormDescription>
 												<FormMessage />
 											</FormItem>
 										)}
@@ -1474,8 +1598,8 @@ export default function RegisterForm({
 									/>
 								</div>
 								<FormField
+									name="resume"
 									control={form.control}
-									name="resumeFile"
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>

@@ -160,7 +160,10 @@ export const hackerRegistrationFormValidator = z
 					text: z.string(),
 				}),
 			)
-			.refine((val) => val.length <= c.registration.maxNumberOfSkills, {
+			.min(1, {
+				message: "You must have at least one skill",
+			})
+			.max(c.registration.maxNumberOfSkills, {
 				message: `You can only have up to ${c.registration.maxNumberOfSkills} skills`,
 			}),
 		accommodationNote: z
@@ -170,13 +173,6 @@ export const hackerRegistrationFormValidator = z
 			})
 			.optional(),
 	})
-	.merge(
-		z.object({
-			...uploadResumeSchema.shape,
-			resumeFile: z.any(),
-			//  z.instanceof(File).nullable(),
-		}),
-	)
 	.omit({
 		clerkID: true,
 		isFullyRegistered: true,
@@ -189,5 +185,33 @@ export const hackerRegistrationFormValidator = z
 		profilePhoto: true,
 		checkinTimestamp: true,
 		teamID: true,
-		resume: true,
 	});
+
+export const hackerRegistrationValidatorLocalStorage =
+	userWithHackerDataInsertSchema
+		.extend({
+			age: z.number().or(z.string()).pipe(z.coerce.number()),
+			hackathonsAttended: z
+				.number()
+				.or(z.string())
+				.pipe(z.coerce.number()),
+			accommodationNote: z.string(),
+		})
+		.omit({
+			clerkID: true,
+			isFullyRegistered: true,
+			signupTime: true,
+			role: true,
+			isRSVPed: true,
+			isApproved: true,
+			group: true,
+			points: true,
+			profilePhoto: true,
+			checkinTimestamp: true,
+			teamID: true,
+		});
+
+export const hackerRegistrationResumeValidator = z.object({
+	fileName: z.string().min(1, defaultInputPrettyError),
+	fileString: z.string().min(1, defaultInputPrettyError),
+});
