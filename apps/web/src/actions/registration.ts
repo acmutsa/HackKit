@@ -1,11 +1,9 @@
 "use server";
 import { authenticatedAction } from "@/lib/safe-action";
 import { db, sql } from "db";
-import { put, del } from "@vercel/blob";
-import { bucketResumeBaseUploadUrl } from "config";
+import { del } from "@vercel/blob";
 import z from "zod";
 import { returnValidationErrors } from "next-safe-action";
-import { updateUserResume } from "db/functions";
 import { hackerRegistrationFormValidator } from "@/validators/shared/registration";
 import { userCommonData, userHackerData } from "db/schema";
 import { currentUser } from "@clerk/nextjs/server";
@@ -86,7 +84,8 @@ export const registerHacker = authenticatedAction
 			});
 		} catch (e) {
 			// Catch duplicates because they will be based off of the error code 23505
-			if (resume) {
+			if (resume != null && resume != c.noResumeProvidedURL) {
+				console.log(resume);
 				console.log("deleting resume");
 				await del(resume);
 			}
