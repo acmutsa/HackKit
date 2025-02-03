@@ -32,7 +32,7 @@ export const hackerRegistrationFormValidator = z
 				message: "Email must be a valid email (eg: me@example.com",
 			})
 			.max(255, {
-				message: "Email must be less than 255 characters.",
+				message: "Email must be more than 255 characters.",
 			}),
 		age: z
 			.number()
@@ -54,7 +54,7 @@ export const hackerRegistrationFormValidator = z
 					})
 					.max(100, {
 						message:
-							"You must be less than 100 years old to register",
+							"You must be more than 100 years old to register",
 					})
 					.positive({ message: "Value must be positive" })
 					.int({ message: "Value must be an integer" }),
@@ -86,7 +86,7 @@ export const hackerRegistrationFormValidator = z
 		schoolID: z
 			.string()
 			.length(c.localUniversityShortIDMaxLength, {
-				message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
+				message: `${c.localUniversitySchoolIDName} must be ${c.localUniversityShortIDMaxLength} characters.`,
 			})
 			.regex(c.registration.universityShortIDRegex, {
 				message: "School ID must be a valid school ID",
@@ -103,14 +103,14 @@ export const hackerRegistrationFormValidator = z
 		hackathonsAttended: z
 			.number()
 			.min(0, { message: "Value must be positive or zero" })
-			.max(200, { message: "Value must be less than 200" })
+			.max(300, { message: "Value cannot not be more than 300" })
 			.int({ message: "Value must be an integer" })
 			.or(z.string())
 			.pipe(
 				z.coerce
 					.number()
 					.min(0, { message: "Value must be positive or zero" })
-					.max(200, { message: "Value must be less than 200" })
+					.max(300, { message: "Value cannot be more than 300" })
 					.int({ message: "Value must be an integer" }),
 			),
 		heardFrom: z.enum(
@@ -139,7 +139,8 @@ export const hackerRegistrationFormValidator = z
 				message: "Your HackerTag must be more than 3 characters long",
 			})
 			.max(20, {
-				message: "Your HackerTag must be less than 20 characters long",
+				message:
+					"Your HackerTag cannot be more than 20 characters long",
 			})
 			.regex(c.registration.hackerTagRegex, {
 				message: "HackerTag must be alphanumeric and have no spaces",
@@ -150,26 +151,26 @@ export const hackerRegistrationFormValidator = z
 			.string()
 			.min(1)
 			.max(c.registration.maxBioSize, {
-				message: `Bio must be less than ${c.registration.maxBioSize} characters.`,
+				message: `Bio must cannot be more than ${c.registration.maxBioSize} characters.`,
 			})
 			.refine(noProfanityValidator, noProfanityMessage),
 		skills: z
 			.array(
 				z.object({
-					id: z.string(),
-					text: z.string(),
+					id: z.string().min(1).max(50),
+					text: z.string().min(1).max(50),
 				}),
 			)
 			.min(1, {
 				message: "You must have at least one skill",
 			})
 			.max(c.registration.maxNumberOfSkills, {
-				message: `You can only have up to ${c.registration.maxNumberOfSkills} skills`,
+				message: `You cannot have more than ${c.registration.maxNumberOfSkills} skills`,
 			}),
 		accommodationNote: z
 			.string()
 			.max(c.registration.maxaccommodationNoteSize, {
-				message: `Accommodation note must be less than ${c.registration.maxaccommodationNoteSize} characters.`,
+				message: `Accommodation note cannot be more than ${c.registration.maxaccommodationNoteSize} characters.`,
 			})
 			.optional(),
 	})
