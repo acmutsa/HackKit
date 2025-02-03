@@ -23,7 +23,7 @@ export const profileSettingsSchema = z.object({
 		.min(1)
 		.max(500, { message: "Bio must be less than 500 characters." })
 		.refine(noProfanityValidator, noProfanityMessage),
-	skills: z.string().min(1).max(50).array(),
+	skills: z.string().min(1).max(20).array(),
 	discord: z.string().max(40, {
 		message: "Username should not be longer than 40 characters",
 	}),
