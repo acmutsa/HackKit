@@ -238,7 +238,7 @@ export default function RegisterForm({
 					);
 					setTimeout(() => {
 						router.push("/dash");
-					}, 600);
+					}, 400);
 				} else {
 					setIsLoading(false);
 					console.error("onSuccess Error data:", data);
