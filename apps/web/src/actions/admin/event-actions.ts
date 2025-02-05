@@ -3,6 +3,7 @@
 import { superAdminAction } from "@/lib/safe-action";
 import { newEventFormSchema as editEventFormSchema } from "@/validators/event";
 import { editEvent as modifyEvent } from "db/functions";
+import { deleteEvent as removeEvent } from "db/functions";
 import { revalidatePath } from "next/cache";
 
 export const editEvent = superAdminAction
@@ -26,3 +27,6 @@ export const editEvent = superAdminAction
 			);
 		}
 	});
+
+
+

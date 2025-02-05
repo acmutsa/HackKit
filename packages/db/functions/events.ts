@@ -1,6 +1,7 @@
 import { db, asc, desc, eq } from "..";
 import {
 	eventEditType,
+	eventDeleteType,
 	eventInsertType,
 	getAllEventsOptions,
 } from "../../../apps/web/src/lib/types/events";
@@ -34,3 +35,7 @@ export function getEventById(eventId: number) {
 export function editEvent(eventId: number, options: eventEditType) {
 	return db.update(events).set(options).where(eq(events.id, eventId));
 }
+export function deleteEvent(eventId: number) {
+    return db.delete(events).where(eq(events.id, eventId));
+}
+
