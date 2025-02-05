@@ -4,19 +4,21 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
-import { cn } from "@/lib/utils/client/cn";
 import { useState } from "react";
 import { MoreHorizontal } from "lucide-react"; // Assuming you're using this icon for the menu button
 import { useRouter } from "next/navigation"; // for navigating after deletion
+import { useAction } from "next-safe-action/hooks";
+import { deleteEventAction } from "@/actions/admin/event-actions";
+import { toast } from "sonner";
 
 type EventRow = eventTableValidatorType & { isSuperAdmin: boolean };
 
@@ -74,111 +76,115 @@ export const columns: ColumnDef<EventRow>[] = [
 		),
 	},
 	{
-        accessorKey: "actions",
-        header: "Actions",
-        cell: ({ row }) => {
-            const [showConfirmation, setShowConfirmation] = useState(false);
-            const [deleteError, setDeleteError] = useState<string | null>(null);
-            const router = useRouter();
-            const data = row.original;
+		accessorKey: "actions",
+		header: "Actions",
+		cell: ({ row }) => {
+			const [showConfirmation, setShowConfirmation] = useState(false);
+			const [deleteError, setDeleteError] = useState<string | null>(null);
+			const router = useRouter();
+			const data = row.original;
 
-            const handleDeleteClick = () => {
-                setShowConfirmation(true);
-            };
+			const handleDeleteClick = () => {
+				setShowConfirmation(true);
+			};
 
-            const handleConfirmDelete = async () => {
-                try {
-                    // Replace with your delete API call
-                    await deleteEvent(data.id);
-                    router.push('/admin/events'); // Redirect to events page after deletion
-                } catch (error) {
-                    console.error("Error deleting event:", error);
-                    setDeleteError("There was an error deleting the event. Please try again.");
-                }
-            };
+			const handleCancelDelete = () => {
+				setShowConfirmation(false);
+			};
 
-            const handleCancelDelete = () => {
-                setShowConfirmation(false);
-            };
+			const { executeAsync: executeDeleteAction } =
+				useAction(deleteEventAction);
 
+			const handleConfirmDelete = async () => {
+				try {
+					// Replace with your delete API call
+					await executeDeleteAction({ eventID: data.id });
+					setShowConfirmation(false);
+                    toast("Successfully deleted event!", {
+                        duration: 1000
+                    })
+				} catch (error) {
+					console.error("Error deleting event:", error);
+					setDeleteError(
+						"There was an error deleting the event. Please try again.",
+					);
+				}
+			};
 
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
-                            <Link href={`/schedule/${data.id}`} className="h-full w-full">
-                                View
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href={`/admin/scanner/${data.id}`} className="h-full w-full">
-                                Scanner
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <Link href={`/admin/events/edit/${data.id}`} className="h-full w-full">
-                                Edit
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={handleDeleteClick} className="text-red-500">
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
+			return (
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="ghost" className="h-8 w-8 p-0">
+							<span className="sr-only">Open menu</span>
+							<MoreHorizontal className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem>
+							<Link
+								href={`/schedule/${data.id}`}
+								className="h-full w-full"
+							>
+								View
+							</Link>
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Link
+								href={`/admin/scanner/${data.id}`}
+								className="h-full w-full"
+							>
+								Scanner
+							</Link>
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<Link
+								href={`/admin/events/edit/${data.id}`}
+								className="h-full w-full"
+							>
+								Edit
+							</Link>
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={handleDeleteClick}
+							className="text-red-500"
+						>
+							Delete
+						</DropdownMenuItem>
+					</DropdownMenuContent>
 
-                    {/* Delete confirmation */}
-                    {showConfirmation && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                            <div className="bg-black p-8 rounded shadow-lg border border-muted" >
-                                <p>Are you sure you want to delete this event?</p>
-                                {deleteError && (
-                                    <p className="text-red-500">{deleteError}</p>
-                                )}
-                                <div className="mt-4">
-                                    <Button
-                                        onClick={handleConfirmDelete}
-                                        className="mr-4 px-4 py-2 bg-red-500 text-white rounded"
-                                    >
-                                        Yes, Delete
-                                    </Button>
-                                    <Button
-                                        onClick={handleCancelDelete}
-                                        className="px-4 py-2 bg-gray-500 text-white rounded"
-                                    >
-                                        Cancel
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </DropdownMenu>
-            );
-        },
-    },
+					{/* Delete confirmation */}
+					{showConfirmation && (
+						<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+							<div className="rounded border border-muted bg-black p-8 shadow-lg">
+								<p>
+									Are you sure you want to delete this event?
+								</p>
+								{deleteError && (
+									<p className="text-red-500">
+										{deleteError}
+									</p>
+								)}
+								<div className="mt-4 flex gap-x-2">
+									<Button
+										onClick={handleConfirmDelete}
+										variant={"destructive"}
+									>
+										Yes, Delete
+									</Button>
+									<Button
+										onClick={handleCancelDelete}
+                                        variant={"secondary"}
+									>
+										Cancel
+									</Button>
+								</div>
+							</div>
+						</div>
+					)}
+				</DropdownMenu>
+			);
+		},
+	},
 ];
 
-async function deleteEvent(eventId: number) {
-    try {
-        const response = await fetch(`/api/events/${eventId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Failed to delete event: ${response.statusText}`);
-        }
-
-        return await response.json(); // Assuming the API returns some confirmation
-    } catch (error) {
-        console.error("Delete event error:", error);
-        throw error;
-    }
-}
