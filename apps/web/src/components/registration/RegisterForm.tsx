@@ -36,6 +36,7 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
+	PopoverClose,
 } from "@/components/shadcn/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils/client/cn";
@@ -708,51 +709,55 @@ export default function RegisterForm({
 																	No country
 																	found.
 																</CommandEmpty>
-																<CommandGroup>
-																	{c.registration.countries.map(
-																		(
-																			country,
-																		) => (
-																			<CommandItem
-																				value={
-																					country.name
-																				}
-																				key={
-																					country.name
-																				}
-																				onSelect={(
-																					_,
-																				) => {
-																					const countryResult =
-																						c.registration.countries.find(
-																							(
-																								countryObject,
-																							) =>
-																								countryObject.name ===
-																								country.name,
+																<PopoverClose
+																	asChild
+																>
+																	<CommandGroup>
+																		{c.registration.countries.map(
+																			(
+																				country,
+																			) => (
+																				<CommandItem
+																					value={
+																						country.name
+																					}
+																					key={
+																						country.name
+																					}
+																					onSelect={(
+																						_,
+																					) => {
+																						const countryResult =
+																							c.registration.countries.find(
+																								(
+																									countryObject,
+																								) =>
+																									countryObject.name ===
+																									country.name,
+																							);
+																						field.onChange(
+																							countryResult?.code ??
+																								"00",
 																						);
-																					field.onChange(
-																						countryResult?.code ??
-																							"00",
-																					);
-																				}}
-																				className="cursor-pointer"
-																			>
-																				<Check
-																					className={`mr-2 h-4 w-4 ${
-																						country.name.toLowerCase() ===
-																						field.value
-																							? "block"
-																							: "hidden"
-																					} `}
-																				/>
-																				{
-																					country.name
-																				}
-																			</CommandItem>
-																		),
-																	)}
-																</CommandGroup>
+																					}}
+																					className="cursor-pointer"
+																				>
+																					<Check
+																						className={`mr-2 h-4 w-4 ${
+																							country.name.toLowerCase() ===
+																							field.value
+																								? "block"
+																								: "hidden"
+																						} `}
+																					/>
+																					{
+																						country.name
+																					}
+																				</CommandItem>
+																			),
+																		)}
+																	</CommandGroup>
+																</PopoverClose>
 															</CommandList>
 														</Command>
 													</PopoverContent>
@@ -874,14 +879,14 @@ export default function RegisterForm({
 							</FormGroupWrapper>
 							<FormGroupWrapper title="University Info">
 								<div
-									className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-4 lg:grid-cols-7`}
+									className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-4 lg:grid-cols-6`}
 								>
 									<FormField
 										control={form.control}
 										name="university"
 										render={({ field }) => (
 											<FormItem
-												className={`col-span-2 ${!isLocalUniversitySelected && "lg:col-span-3"} flex flex-col`}
+												className={`col-span-2 ${isLocalUniversitySelected && "lg:col-span-3"} flex flex-col`}
 											>
 												<FormLabel>
 													{formatRegistrationField(
@@ -891,10 +896,9 @@ export default function RegisterForm({
 														].isOptional(),
 													)}
 												</FormLabel>
-
 												<Popover>
-													<PopoverTrigger asChild>
-														<FormControl>
+													<FormControl>
+														<PopoverTrigger asChild>
 															<Button
 																variant="outline"
 																role="combobox"
@@ -915,12 +919,18 @@ export default function RegisterForm({
 																			)
 																		: "Select a University"}
 																</p>
-
 																<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 															</Button>
-														</FormControl>
-													</PopoverTrigger>
-													<PopoverContent className="no-scrollbar max-h-[400px] w-[--radix-popover-trigger-width] overflow-y-auto p-0">
+														</PopoverTrigger>
+													</FormControl>
+													<PopoverContent
+														className="no-scrollbar max-h-[400px] w-[--radix-popover-trigger-width] overflow-y-auto p-0"
+														onFocusOutside={() =>
+															console.log(
+																"closing",
+															)
+														}
+													>
 														<Command>
 															<CommandInput placeholder="Search university..." />
 															<CommandList>
@@ -929,42 +939,46 @@ export default function RegisterForm({
 																	university
 																	found.
 																</CommandEmpty>
-																<CommandGroup>
-																	{c.registration.schools.map(
-																		(
-																			school,
-																		) => (
-																			<CommandItem
-																				value={
-																					school
-																				}
-																				key={
-																					school
-																				}
-																				onSelect={(
-																					value,
-																				) => {
-																					field.onChange(
+																<PopoverClose
+																	asChild
+																>
+																	<CommandGroup>
+																		{c.registration.schools.map(
+																			(
+																				school,
+																			) => (
+																				<CommandItem
+																					value={
+																						school
+																					}
+																					key={
+																						school
+																					}
+																					onSelect={(
 																						value,
-																					);
-																				}}
-																				className="cursor-pointer"
-																			>
-																				<Check
-																					className={`mr-2 h-4 w-4 ${
-																						school.toLowerCase() ===
-																						field.value
-																							? "block"
-																							: "hidden"
-																					} `}
-																				/>
-																				{
-																					school
-																				}
-																			</CommandItem>
-																		),
-																	)}
-																</CommandGroup>
+																					) => {
+																						field.onChange(
+																							value,
+																						);
+																					}}
+																					className="cursor-pointer"
+																				>
+																					<Check
+																						className={`mr-2 h-4 w-4 ${
+																							school.toLowerCase() ===
+																							field.value
+																								? "block"
+																								: "hidden"
+																						} `}
+																					/>
+																					{
+																						school
+																					}
+																				</CommandItem>
+																			),
+																		)}
+																	</CommandGroup>
+																</PopoverClose>
 															</CommandList>
 														</Command>
 													</PopoverContent>
@@ -986,7 +1000,7 @@ export default function RegisterForm({
 											<FormItem
 												className={`${
 													isLocalUniversitySelected
-														? "col-span-1 flex flex-col md:col-span-2 lg:col-span-1"
+														? "col-span-1 flex flex-col md:col-span-2 lg:col-span-3"
 														: "hidden"
 												}`}
 											>
@@ -1015,7 +1029,7 @@ export default function RegisterForm({
 										name="levelOfStudy"
 										render={({ field }) => (
 											<FormItem
-												className={`col-span-2 ${isLocalUniversitySelected ? "md:col-span-2" : "md:col-span-1 lg:col-span-2"} flex flex-col`}
+												className={`col-span-2 ${isLocalUniversitySelected ? "md:col-span-2 lg:col-span-3" : "md:col-span-1 lg:col-span-2"} flex flex-col`}
 											>
 												<FormLabel>
 													{formatRegistrationField(
@@ -1078,7 +1092,8 @@ export default function RegisterForm({
 										name="major"
 										render={({ field }) => (
 											<FormItem
-												className={`col-span-2 flex flex-col ${isLocalUniversitySelected ? "md:col-span-2" : "md:col-span-1 lg:col-span-2"}`}
+												//
+												className={`col-span-2 ${isLocalUniversitySelected ? "md:col-span-2 lg:col-span-3" : "md:col-span-1 lg:col-span-2"} flex flex-col`}
 											>
 												<FormLabel>
 													{formatRegistrationField(
@@ -1124,42 +1139,46 @@ export default function RegisterForm({
 																	No major
 																	found.
 																</CommandEmpty>
-																<CommandGroup>
-																	{c.registration.majors.map(
-																		(
-																			major,
-																		) => (
-																			<CommandItem
-																				value={
-																					major
-																				}
-																				key={
-																					major
-																				}
-																				onSelect={(
-																					value,
-																				) => {
-																					field.onChange(
+																<PopoverClose
+																	asChild
+																>
+																	<CommandGroup>
+																		{c.registration.majors.map(
+																			(
+																				major,
+																			) => (
+																				<CommandItem
+																					value={
+																						major
+																					}
+																					key={
+																						major
+																					}
+																					onSelect={(
 																						value,
-																					);
-																				}}
-																				className="cursor-pointer"
-																			>
-																				<Check
-																					className={`mr-2 h-4 w-4 overflow-hidden ${
-																						major.toLowerCase() ===
-																						field.value
-																							? "block"
-																							: "hidden"
-																					} `}
-																				/>
-																				{
-																					major
-																				}
-																			</CommandItem>
-																		),
-																	)}
-																</CommandGroup>
+																					) => {
+																						field.onChange(
+																							value,
+																						);
+																					}}
+																					className="cursor-pointer"
+																				>
+																					<Check
+																						className={`mr-2 h-4 w-4 overflow-hidden ${
+																							major.toLowerCase() ===
+																							field.value
+																								? "block"
+																								: "hidden"
+																						} `}
+																					/>
+																					{
+																						major
+																					}
+																				</CommandItem>
+																			),
+																		)}
+																	</CommandGroup>
+																</PopoverClose>
 															</CommandList>
 														</Command>
 													</PopoverContent>
