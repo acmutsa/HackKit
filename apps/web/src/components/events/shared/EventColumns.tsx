@@ -100,9 +100,9 @@ export const columns: ColumnDef<EventRow>[] = [
 					// Replace with your delete API call
 					await executeDeleteAction({ eventID: data.id });
 					setShowConfirmation(false);
-                    toast("Successfully deleted event!", {
-                        duration: 1000
-                    })
+					toast("Successfully deleted event!", {
+						duration: 1000,
+					});
 				} catch (error) {
 					console.error("Error deleting event:", error);
 					setDeleteError(
@@ -174,7 +174,7 @@ export const columns: ColumnDef<EventRow>[] = [
 									</Button>
 									<Button
 										onClick={handleCancelDelete}
-                                        variant={"secondary"}
+										variant={"secondary"}
 									>
 										Cancel
 									</Button>
@@ -187,4 +187,3 @@ export const columns: ColumnDef<EventRow>[] = [
 		},
 	},
 ];
-
