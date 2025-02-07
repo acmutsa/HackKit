@@ -239,7 +239,7 @@ export default function RegisterForm({
 					);
 					setTimeout(() => {
 						router.push("/dash");
-					}, 400);
+					}, 200);
 				} else {
 					setIsLoading(false);
 					console.error("onSuccess Error data:", data);
