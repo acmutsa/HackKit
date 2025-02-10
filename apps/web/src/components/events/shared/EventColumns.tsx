@@ -10,12 +10,23 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
+import {
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogTrigger,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogCancel,
+	AlertDialogAction,
+} from "@/components/shadcn/ui/alert-dialog";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
 import { useState } from "react";
-import { MoreHorizontal } from "lucide-react"; // Assuming you're using this icon for the menu button
-import { useRouter } from "next/navigation"; // for navigating after deletion
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation"; 
 import { useAction } from "next-safe-action/hooks";
 import { deleteEventAction } from "@/actions/admin/event-actions";
 import { toast } from "sonner";
@@ -97,17 +108,11 @@ export const columns: ColumnDef<EventRow>[] = [
 
 			const handleConfirmDelete = async () => {
 				try {
-					// Replace with your delete API call
 					await executeDeleteAction({ eventID: data.id });
 					setShowConfirmation(false);
-					toast("Successfully deleted event!", {
-						duration: 1000,
-					});
+					toast.success;
 				} catch (error) {
-					console.error("Error deleting event:", error);
-					setDeleteError(
-						"There was an error deleting the event. Please try again.",
-					);
+                    toast.error
 				}
 			};
 
@@ -153,7 +158,6 @@ export const columns: ColumnDef<EventRow>[] = [
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 
-					{/* Delete confirmation */}
 					{showConfirmation && (
 						<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
 							<div className="rounded border border-muted bg-black p-8 shadow-lg">
