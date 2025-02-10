@@ -7,7 +7,7 @@ import { deleteEvent as removeEvent } from "db/functions";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export const editEvent = superAdminAction
+export const editEvent = adminAction
 	.schema(editEventFormSchema)
 	.action(async ({ parsedInput }) => {
 		const { id, ...options } = parsedInput;
@@ -29,7 +29,7 @@ export const editEvent = superAdminAction
 		}
 	});
 
-export const deleteEventAction = superAdminAction
+export const deleteEventAction = adminAction
 	.schema(z.object({ eventID: z.number().positive().int() }))
 	.action(async ({ parsedInput }) => {
 		await removeEvent(parsedInput.eventID);
