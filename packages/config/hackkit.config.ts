@@ -1,6 +1,6 @@
 const defaultTheme = "dark";
 
-const schools = [
+const schoolOptions = [
 	"The University of Texas at San Antonio",
 	"American Heritage School",
 	"American River College, California",
@@ -415,7 +415,7 @@ const schools = [
 	"Other",
 ] as const;
 
-const majors = [
+const majorOptions = [
 	"Computer Science",
 	"Accounting",
 	"Accounting Technician",
@@ -536,26 +536,26 @@ const levelsOfStudy = [
 	"Undergraduate University (3+ year)",
 	"Graduate University (Masters, Professional, Doctoral, etc)",
 	"Code School / Bootcamp",
+	"Recent Grad",
 	"Other Vocational / Trade Program or Apprenticeship",
 	"Post Doctorate",
 	"Other",
 	"I’m not currently a student",
 	"Prefer not to answer",
-];
+] as const;
 
 const dietaryRestrictionOptions = [
 	"Vegan",
 	"Vegetarian",
 	"Nuts",
 	"Fish",
-	"Wheat",
 	"Dairy",
 	"Eggs",
 	"Halal",
 	"Kosher",
 	"Gluten-Free",
 	"Soy",
-];
+] as const;
 
 const countries = [
 	{ name: "United States", code: "US" },
@@ -750,7 +750,7 @@ const countries = [
 	{ name: "Yemen", code: "YE" },
 	{ name: "Zambia", code: "ZM" },
 	{ name: "Zimbabwe", code: "ZW" },
-];
+] as const;
 
 const raceOptions = [
 	"Asian Indian",
@@ -771,7 +771,39 @@ const raceOptions = [
 	"Other Pacific Islander",
 	"Other",
 	"Prefer Not to Answer",
-];
+] as const;
+
+const genderOptions = [
+	"Male",
+	"Female",
+	"Non-binary",
+	"Other",
+	"Prefer Not To Say",
+] as const;
+
+const ethnicityOptions = [
+	"Hispanic or Latino",
+	"Not Hispanic or Latino",
+] as const;
+
+const heardFromOptions = [
+	"Instagram",
+	"Class Presentation",
+	"Twitter",
+	"Event Site",
+	"Friend",
+	"Tabling",
+	"Other",
+] as const;
+
+const shirtSizeOptions = ["S", "M", "L", "XL", "2XL", "3XL"] as const;
+
+const softwareExperienceOptions = [
+	"Beginner",
+	"Intermediate",
+	"Advanced",
+	"Expert",
+] as const;
 
 const c = {
 	hackathonName: "HackKit",
@@ -782,16 +814,44 @@ const c = {
 	botName: "HackKit",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
-	localUniversityName: schools[0],
-	localUniversitySchoolIDName: "ABC123",
+	localUniversityName: schoolOptions[0],
+	localUniversitySchoolIDName: "UTSA id (abc123)",
 	localUniversityShortIDMaxLength: 6,
 	registration: {
-		schools,
-		majors,
+		schools: schoolOptions,
+		majors: majorOptions,
 		levelsOfStudy,
 		dietaryRestrictionOptions,
 		countries,
 		raceOptions,
+		genderOptions,
+		ethnicityOptions,
+		heardFromOptions,
+		shirtSizeOptions,
+		softwareExperienceOptions,
+		minRequiredAge: 18,
+		hackerTagRegex: /^[a-zA-Z0-9]+$/,
+		universityShortIDRegex: new RegExp("\\b[a-zA-Z]{3}\\d{3}\\b"),
+		maxNumberOfSkills: 20,
+		maxBioSize: 500,
+		maxaccommodationNoteSize: 1500,
+	},
+	zod: {
+		defaultSelectPrettyError: {
+			errorMap: () => ({ message: "Please select a value" }),
+		},
+		defaultInputPrettyError: {
+			message: "Please enter a value",
+		},
+	},
+	db: {
+		uniqueKeyMapper: {
+			user_common_data_hacker_tag_unique:
+				"The Hacker Tag you selected is taken. Please use another one.",
+			user_common_data_email_unique: "Email is already in use",
+			users_clerk_id_unique:
+				"You have already registered. Please login to your account",
+		},
 	},
 	groups: {
 		"Guild A | Group A": {
@@ -925,7 +985,7 @@ const c = {
 	},
 } as const;
 
-const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resume`;
+const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resumes`;
 
 // Its important that this is kept in sync with the database schema.
 
@@ -948,8 +1008,6 @@ const publicRoutes = [
 	"/404",
 	"/bugreport",
 ];
-
-// Generally it is reccomended to put your primary audience's university at the top of this list.
 
 export default c;
 export { defaultTheme, bucketResumeBaseUploadUrl, perms, publicRoutes };

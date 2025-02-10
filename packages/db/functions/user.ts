@@ -54,3 +54,12 @@ export function getUserByTag(hackerTag: string): Promise<User | undefined> {
 		where: eq(userCommonData.hackerTag, hackerTag),
 	});
 }
+
+export function updateUserResume(userID: string, url: string) {
+	return db
+		.update(userHackerData)
+		.set({
+			resume: url,
+		})
+		.where(eq(userHackerData.clerkID, userID));
+}

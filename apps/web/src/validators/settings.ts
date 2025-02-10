@@ -1,6 +1,7 @@
 import z from "zod";
 import c from "config";
 import { isProfane } from "no-profanity";
+import { NOT_LOCAL_SCHOOL } from "@/lib/constants";
 
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
@@ -23,7 +24,7 @@ export const profileSettingsSchema = z.object({
 		.min(1)
 		.max(500, { message: "Bio must be less than 500 characters." })
 		.refine(noProfanityValidator, noProfanityMessage),
-	skills: z.string().min(1).max(50).array(),
+	skills: z.string().min(1).max(20).array(),
 	discord: z.string().max(40, {
 		message: "Username should not be longer than 40 characters",
 	}),
@@ -93,7 +94,7 @@ export const registrationSettingsFormValidator = z.object({
 		.length(c.localUniversityShortIDMaxLength, {
 			message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
 		})
-		.or(z.literal("NOT_LOCAL_SCHOOL")),
+		.or(z.literal(NOT_LOCAL_SCHOOL)),
 	levelOfStudy: z.union([
 		z.literal("Freshman", defaultPrettyError),
 		z.literal("Sophomore", defaultPrettyError),

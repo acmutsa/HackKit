@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import c from "config";
 export const newTeamValidator = z.object({
 	name: z
 		.string()
@@ -24,7 +24,7 @@ export const newTeamValidator = z.object({
 		.max(25, {
 			message: "Team Tag must be less than 25 characters long",
 		})
-		.regex(/^[a-zA-Z0-9]+$/, {
+		.regex(c.registration.hackerTagRegex, {
 			message: "Team Tag must be alphanumeric and have no spaces",
 		}),
 	photo: z.string().url(),

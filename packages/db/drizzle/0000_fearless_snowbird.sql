@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"type" varchar(50) NOT NULL,
 	"host" varchar(255),
 	"hidden" boolean DEFAULT false NOT NULL,
+	"location" varchar(255) DEFAULT 'TBD'
+	"points" integer DEFAULT 0 NOT NULL
 	CONSTRAINT "events_id_unique" UNIQUE("id")
 );
 --> statement-breakpoint
