@@ -10,17 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
-import {
-	AlertDialog,
-	AlertDialogContent,
-	AlertDialogTrigger,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogDescription,
-	AlertDialogCancel,
-	AlertDialogAction,
-} from "@/components/shadcn/ui/alert-dialog";
+
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
