@@ -16,20 +16,17 @@ import {
 	timestamp,
 	integer,
 	json,
+	jsonb,
 	pgEnum,
 	primaryKey,
 	pgTable,
+	serial,
+	uuid
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import c ,{ perms } from "../config/hackkit.config";
 
-export const roles = pgEnum("role", [
-	"hacker",
-	"volunteer",
-	"mentor",
-	"mlh",
-	"admin",
-	"super_admin",
-]);
+export const roles = pgEnum("role", perms);
 
 export const fileTypesEnum = pgEnum("type", ["generic", "resume"]);
 
@@ -37,6 +34,7 @@ export const inviteType = pgEnum("invite_status", [
 	"pending",
 	"accepted",
 	"declined",
+	"invalid"
 ]);
 
 export const chatType = pgEnum("chat_type", ["ticket"]);
@@ -53,6 +51,8 @@ export const discordVerificationStatus = pgEnum("discord_status", [
 	"accepted",
 	"rejected",
 ]);
+
+export const volunteerAreasOfInterest = pgEnum("volunteer_area_of_interest", c.volunteer.areasOfInterest);
 
 export const userCommonData = pgTable("user_common_data", {
 	// id
@@ -102,6 +102,16 @@ export const userCommonRelations = relations(
 			fields: [userCommonData.clerkID],
 			references: [discordVerification.clerkID],
 		}),
+		volunteerData: one(userVolunteerData, {
+			fields: [userCommonData.clerkID],
+			references: [userVolunteerData.clerkID],
+		}),
+		volunteerInterestsData:one(volunteerInterest,{
+			fields: [userCommonData.email],
+			references: [volunteerInterest.email],
+		}),
+		// maybe this can be changed to a one-to-one relationship
+		volunteerInvitesData:many(volunteerInvites),
 		files: many(files),
 		scans: many(scans),
 		tickets: many(ticketsToUsers),
@@ -149,6 +159,10 @@ export const userHackerRelations = relations(
 			fields: [userHackerData.clerkID],
 			references: [userCommonData.clerkID],
 		}),
+		volunteerData: one(userVolunteerData, {
+			fields: [userHackerData.clerkID],
+			references: [userVolunteerData.clerkID],
+		}),
 		team: one(teams, {
 			fields: [userHackerData.teamID],
 			references: [teams.id],
@@ -156,6 +170,58 @@ export const userHackerRelations = relations(
 		invites: many(invites),
 	}),
 );
+
+
+export const userVolunteerData = pgTable("user_volunteer_data", {
+	clerkID: varchar("clerk_id", { length: 255 }).primaryKey().references(() => userCommonData.clerkID, { onDelete: "cascade" }),
+	availability: jsonb("availability")
+		.$type<{ start: Date; end: Date }[]>()
+		.notNull(),
+	timeVolunteered: integer("time_volunteered").notNull(),
+	areasOfInterst: volunteerAreasOfInterest("areas_of_interest").notNull(),
+	volunteerNotes: text("volunteer_notes"),
+});
+
+export const userVolunteerDataRelations = relations(userVolunteerData, ({ one }) => ({
+	commonData: one(userCommonData, {
+		fields: [userVolunteerData.clerkID],
+		references: [userCommonData.clerkID],
+	}),
+	hackerData:one(userHackerData,{
+		fields: [userVolunteerData.clerkID],
+		references: [userHackerData.clerkID],
+	})
+}));
+
+export const volunteerInterest = pgTable("volunteer_interest", {
+	interestID:serial("interest_id").primaryKey(),
+	firstName:varchar("first_name",{length:50}).notNull(),
+	lastName:varchar("last_name",{length:50}).notNull(),
+	email:varchar("email",{length:255}).notNull(),
+	interestReason:varchar("interest_reason", {length:500}).notNull(),
+});
+
+export const volunteerInterestRelations = relations(volunteerInterest, ({ one }) => ({
+	commonData: one(userCommonData, {
+		fields: [volunteerInterest.email],
+		references: [userCommonData.email],
+	}),
+}));
+
+export const volunteerInvites = pgTable("volunteer_invites", {
+	inviteID:serial("invite_id").primaryKey(),
+	signUpCode:uuid("sign_up_code").defaultRandom().notNull(),	
+	status:inviteType("status").notNull().default("pending"),
+	createdAt:timestamp("created_at").notNull().defaultNow(),
+});
+
+export const volunteerInvitesRelations = relations(volunteerInvites, ({ one }) => ({
+	commonData: one(userCommonData, {
+		fields: [volunteerInvites.signUpCode],
+		references: [userCommonData.clerkID],
+	}),
+}));
+
 
 export const events = pgTable("events", {
 	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),

@@ -885,6 +885,16 @@ const c = {
 			discordRole: "Guild E Role",
 		},
 	},
+	volunteer:{
+		areasOfInterest:[
+			"Logistiscs",
+			"Mentorship",
+			"Setup",
+			"Takedown",
+			"Registration",
+			"Media"
+		]
+	},
 	issueEmail: "team@rowdyhacks.org",
 	links: {
 		discord: "https://go.rowdyhacks.org/discord",
@@ -916,7 +926,6 @@ const c = {
 			"Hackathon Check-in": "/admin/check-in",
 			Toggles: "/admin/toggles",
 		},
-		// TODO: Can remove days? Pretty sure they're dynamic now.
 	},
 	eventTypes: {
 		Meal: "#FFC107",
@@ -925,10 +934,6 @@ const c = {
 		Social: "#2196F3",
 		Other: "#795548",
 	},
-	days: {
-		Saturday: new Date(2023, 6, 15),
-	},
-	Sunday: new Date(2023, 6, 16),
 	maxResumeSizeInBytes: 4194304,
 	maxProfilePhotoSizeInBytes: 3145728,
 	maxFileSizeInBytes: 4194304,
@@ -957,7 +962,6 @@ const c = {
 			foreground: "#ffffff",
 			checked: false,
 		},
-		// Why is the checked set to a color?
 		mlh: {
 			title: "MLH",
 			color: "#ffffff",
@@ -974,6 +978,12 @@ const c = {
 			title: "Organizer",
 			foreground: "#ffffff",
 			color: "#f59e0b",
+			checked: true,
+		},
+		hacker_volunteer: {
+			title: "Hacker-Volunteer",
+			color: "#4CAF50",
+			foreground: "#ffffff",
 			checked: true,
 		},
 	},
@@ -996,6 +1006,7 @@ const perms = [
 	"mlh",
 	"admin",
 	"super_admin",
+	"hacker_volunteer",
 ] as const;
 
 // These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
