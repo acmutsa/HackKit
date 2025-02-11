@@ -27,8 +27,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	const user = await getHacker(params.slug, true);
 
+	// There can now be users that do not have hacker data
 	if (!user) {
-		return <p className="text-center font-bold">User Not Found</p>;
+		return (
+			<p className="text-center font-bold">
+				User Not Found or does not have Hacker Data
+			</p>
+		);
 	}
 
 	return (
@@ -40,7 +45,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							<Info />
 							User Info
 						</h2>
-						{/* <p className="text-sm text-muted-foreground">{users.length} Total Users</p> */}
 					</div>
 				</div>
 				<div className="col-span-2 flex items-center justify-end gap-2">

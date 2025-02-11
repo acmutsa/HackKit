@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		meta: {
-			isUserSuperAdmin
+			isUserSuperAdmin,
 		},
 	});
 

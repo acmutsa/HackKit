@@ -11,7 +11,10 @@ export default async function Page() {
 	if (!userId) return redirect("/sign-up");
 	const userTableDataQuery = getAllUsersAdminView();
 	const userDataQuery = getUser(userId);
-	const [userTableData,userData] = await Promise.all([userTableDataQuery, userDataQuery]);
+	const [userTableData, userData] = await Promise.all([
+		userTableDataQuery,
+		userDataQuery,
+	]);
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-40">
 			<div className="mb-5 grid w-full grid-cols-2">
@@ -37,7 +40,11 @@ export default async function Page() {
 			<div className="flex w-full justify-center">
 				{userData && userTableData.length > 0 ? (
 					<>
-						<DataTable columns={columns} data={userTableData} isUserSuperAdmin={userData.role === "super_admin"} />
+						<DataTable
+							columns={columns}
+							data={userTableData}
+							isUserSuperAdmin={userData.role === "super_admin"}
+						/>
 					</>
 				) : (
 					<div className="flex w-full items-center justify-center">

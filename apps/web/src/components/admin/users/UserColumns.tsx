@@ -14,7 +14,6 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-
 } from "../../shadcn/ui/dropdown-menu";
 import { Input } from "@/components/shadcn/ui/input";
 import { MoreHorizontal, ArrowUpDown, User } from "lucide-react";
@@ -26,7 +25,7 @@ import { Dialog, DialogTrigger } from "@/components/shadcn/ui/dialog";
 import { RowData } from "@tanstack/react-table";
 declare module "@tanstack/react-table" {
 	interface TableMeta<TData extends RowData> {
-		isUserSuperAdmin:boolean |undefined;
+		isUserSuperAdmin: boolean | undefined;
 	}
 }
 
@@ -153,7 +152,7 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		id: "actions",
 		enableHiding: false,
-		cell: ({ row, table, }) => {
+		cell: ({ row, table }) => {
 			return (
 				<UserDropDownActions
 					row={row}
@@ -164,7 +163,13 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	},
 ];
 
-function UserDropDownActions({ row, isSuperAdmin }: { row: Row<userValidatorType>, isSuperAdmin?: boolean }) {
+function UserDropDownActions({
+	row,
+	isSuperAdmin,
+}: {
+	row: Row<userValidatorType>;
+	isSuperAdmin?: boolean;
+}) {
 	const user = row.original;
 	return (
 		<Dialog>
