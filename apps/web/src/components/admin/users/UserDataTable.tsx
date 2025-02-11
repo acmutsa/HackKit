@@ -26,11 +26,13 @@ import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	isUserSuperAdmin: boolean;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
+	isUserSuperAdmin,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -54,11 +56,10 @@ export function DataTable<TData, TValue>({
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
+		meta: {
+			isUserSuperAdmin
+		},
 	});
-
-	useEffect(() => {
-		console.log("column filters", columnFilters);
-	}, [columnFilters]);
 
 	return (
 		<div>

@@ -5,6 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils/client/cn";
+import c from "config";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -112,6 +113,8 @@ const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
+const DialogClose = DialogPrimitive.DialogClose;
+
 export {
 	Dialog,
 	DialogTrigger,
@@ -120,4 +123,5 @@ export {
 	DialogFooter,
 	DialogTitle,
 	DialogDescription,
+	DialogClose
 };

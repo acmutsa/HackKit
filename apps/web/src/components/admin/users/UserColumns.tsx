@@ -14,12 +14,21 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
+
 } from "../../shadcn/ui/dropdown-menu";
 import { Input } from "@/components/shadcn/ui/input";
 import { MoreHorizontal, ArrowUpDown, User } from "lucide-react";
 import type { Column, Row } from "@tanstack/react-table";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 import { Badge } from "@/components/shadcn/ui/badge";
+import UpdateRoleDialog from "./UpdateRoleDialog";
+import { Dialog, DialogTrigger } from "@/components/shadcn/ui/dialog";
+import { RowData } from "@tanstack/react-table";
+declare module "@tanstack/react-table" {
+	interface TableMeta<TData extends RowData> {
+		isUserSuperAdmin:boolean |undefined;
+	}
+}
 
 const userValidator = createSelectSchema(userCommonData);
 
@@ -87,7 +96,6 @@ export const columns: ColumnDef<userValidatorType>[] = [
 				<SortColumnButton name="Checkin Time" column={column} />
 			</div>
 		),
-		// row.original.isRSVPed ?
 		cell: ({ row }) => (
 			<Badge className="no-select border-2" variant="outline">
 				<div
@@ -124,13 +132,6 @@ export const columns: ColumnDef<userValidatorType>[] = [
 			</span>
 		),
 	},
-	// {
-	// 	accessorKey: "role",
-	// 	header: ({ column }) => (
-	// 		<UserTableHeader name="Role" column={column} hasFilter={true} />
-	// 	),
-	// 	filterFn: "includesString",
-	// },
 	{
 		accessorKey: "signupTime",
 		header: ({ column }) => (
@@ -152,43 +153,64 @@ export const columns: ColumnDef<userValidatorType>[] = [
 	{
 		id: "actions",
 		enableHiding: false,
-		cell: ({ row }) => {
-			return <UserDropDownActions row={row} />;
+		cell: ({ row, table, }) => {
+			return (
+				<UserDropDownActions
+					row={row}
+					isSuperAdmin={table.options.meta?.isUserSuperAdmin}
+				/>
+			);
 		},
 	},
 ];
 
-function UserDropDownActions({ row }: { row: Row<userValidatorType> }) {
+function UserDropDownActions({ row, isSuperAdmin }: { row: Row<userValidatorType>, isSuperAdmin?: boolean }) {
 	const user = row.original;
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" className="h-8 w-8 p-0">
-					<span className="sr-only">Open menu</span>
-					<MoreHorizontal size={20} />
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuItem>
-					<Link href={`/admin/users/${user.clerkID}`}>View User</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem
-					onClick={() => navigator.clipboard.writeText(user.clerkID)}
-					className="cursor-pointer"
-				>
-					Copy Clerk ID
-				</DropdownMenuItem>
-				<DropdownMenuItem>
-					<Link
-						href={`mailto:${user.email}`}
-						target="_blank"
-						prefetch={false}
+		<Dialog>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" className="h-8 w-8 p-0">
+						<span className="sr-only">Open menu</span>
+						<MoreHorizontal size={20} />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuItem>
+						<Link href={`/admin/users/${user.clerkID}`}>
+							View User
+						</Link>
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						onClick={() =>
+							navigator.clipboard.writeText(user.clerkID)
+						}
+						className="cursor-pointer"
 					>
-						Email User
-					</Link>
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+						Copy Clerk ID
+					</DropdownMenuItem>
+					<DropdownMenuItem>
+						<Link
+							href={`mailto:${user.email}`}
+							target="_blank"
+							prefetch={false}
+						>
+							Email User
+						</Link>
+					</DropdownMenuItem>
+					<DropdownMenuItem>
+						<DialogTrigger>Change Role</DialogTrigger>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+			<UpdateRoleDialog
+				name={`${user.firstName} ${user.lastName}`}
+				currPermision={user.role}
+				userID={user.clerkID}
+				canMakeAdmins={isSuperAdmin ?? false}
+				asDropDownItem
+			/>
+		</Dialog>
 	);
 }
 
