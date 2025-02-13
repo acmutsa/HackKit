@@ -39,14 +39,15 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "Title",
 		cell: ({ row }) => (
 			<span className="flex items-center gap-x-3 font-bold">
-				{row.original.title} {" "}
+				{row.original.title}{" "}
 				<Badge
 					className="text-sm"
 					variant={"outline"}
 					style={{
 						borderColor:
-							(c.eventTypes as Record<string, string>)[row.original.type] ||
-							c.eventTypes.Other,
+							(c.eventTypes as Record<string, string>)[
+								row.original.type
+							] || c.eventTypes.Other,
 					}}
 				>
 					{row.original.type}
@@ -64,7 +65,7 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "Start",
 		cell: ({ row }) => (
 			<span>
-				{new Date(row.original.startTime).toLocaleDateString()} {" "}
+				{new Date(row.original.startTime).toLocaleDateString()}{" "}
 				{new Date(row.original.startTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
@@ -77,7 +78,7 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "End",
 		cell: ({ row }) => (
 			<span>
-				{new Date(row.original.endTime).toLocaleDateString()} {" "}
+				{new Date(row.original.endTime).toLocaleDateString()}{" "}
 				{new Date(row.original.endTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
@@ -93,7 +94,8 @@ export const columns: ColumnDef<EventRow>[] = [
 			const router = useRouter();
 			const data = row.original;
 
-			const { executeAsync: executeDeleteAction } = useAction(deleteEventAction);
+			const { executeAsync: executeDeleteAction } =
+				useAction(deleteEventAction);
 
 			const handleConfirmDelete = async () => {
 				try {
@@ -116,22 +118,34 @@ export const columns: ColumnDef<EventRow>[] = [
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							<DropdownMenuItem>
-								<Link href={`/schedule/${data.id}`} className="h-full w-full">
+								<Link
+									href={`/schedule/${data.id}`}
+									className="h-full w-full"
+								>
 									View
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem>
-								<Link href={`/admin/scanner/${data.id}`} className="h-full w-full">
+								<Link
+									href={`/admin/scanner/${data.id}`}
+									className="h-full w-full"
+								>
 									Scanner
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
-								<Link href={`/admin/events/edit/${data.id}`} className="h-full w-full">
+								<Link
+									href={`/admin/events/edit/${data.id}`}
+									className="h-full w-full"
+								>
 									Edit
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem asChild className="h-full w-full text-red-500">
+							<DropdownMenuItem
+								asChild
+								className="h-full w-full text-red-500"
+							>
 								<AlertDialogTrigger>Delete</AlertDialogTrigger>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
@@ -139,14 +153,19 @@ export const columns: ColumnDef<EventRow>[] = [
 
 					<AlertDialogContent>
 						<AlertDialogHeader>
-							<AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+							<AlertDialogTitle>
+								Confirm Deletion
+							</AlertDialogTitle>
 							<AlertDialogDescription>
 								Are you sure you want to delete this event?
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
 							<AlertDialogCancel>Cancel</AlertDialogCancel>
-							<AlertDialogAction onClick={handleConfirmDelete} className="text-red-500">
+							<AlertDialogAction
+								onClick={handleConfirmDelete}
+								className="text-red-500"
+							>
 								Yes, Delete
 							</AlertDialogAction>
 						</AlertDialogFooter>
