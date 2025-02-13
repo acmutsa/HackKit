@@ -10,13 +10,23 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
-
+import {
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogTrigger,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogCancel,
+	AlertDialogAction,
+} from "@/components/shadcn/ui/alert-dialog";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
 import { useState } from "react";
 import { MoreHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { deleteEventAction } from "@/actions/admin/event-actions";
 import { toast } from "sonner";
@@ -29,15 +39,14 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "Title",
 		cell: ({ row }) => (
 			<span className="flex items-center gap-x-3 font-bold">
-				{row.original.title}{" "}
+				{row.original.title} {" "}
 				<Badge
 					className="text-sm"
 					variant={"outline"}
 					style={{
 						borderColor:
-							(c.eventTypes as Record<string, string>)[
-								row.original.type
-							] || c.eventTypes.Other,
+							(c.eventTypes as Record<string, string>)[row.original.type] ||
+							c.eventTypes.Other,
 					}}
 				>
 					{row.original.type}
@@ -55,7 +64,7 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "Start",
 		cell: ({ row }) => (
 			<span>
-				{new Date(row.original.startTime).toLocaleDateString() + " "}
+				{new Date(row.original.startTime).toLocaleDateString()} {" "}
 				{new Date(row.original.startTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
@@ -68,7 +77,7 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "End",
 		cell: ({ row }) => (
 			<span>
-				{new Date(row.original.endTime).toLocaleDateString() + " "}
+				{new Date(row.original.endTime).toLocaleDateString()} {" "}
 				{new Date(row.original.endTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
@@ -80,103 +89,69 @@ export const columns: ColumnDef<EventRow>[] = [
 		accessorKey: "actions",
 		header: "Actions",
 		cell: ({ row }) => {
-			const [showConfirmation, setShowConfirmation] = useState(false);
-			const [deleteError, setDeleteError] = useState<string | null>(null);
+			const [open, setOpen] = useState(false);
 			const router = useRouter();
 			const data = row.original;
 
-			const handleDeleteClick = () => {
-				setShowConfirmation(true);
-			};
-
-			const handleCancelDelete = () => {
-				setShowConfirmation(false);
-			};
-
-			const { executeAsync: executeDeleteAction } =
-				useAction(deleteEventAction);
+			const { executeAsync: executeDeleteAction } = useAction(deleteEventAction);
 
 			const handleConfirmDelete = async () => {
 				try {
 					await executeDeleteAction({ eventID: data.id });
-					setShowConfirmation(false);
-					toast.success;
+					setOpen(false);
+					toast.success("Event deleted successfully");
 				} catch (error) {
-                    toast.error
+					toast.error("Failed to delete event");
 				}
 			};
 
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem>
-							<Link
-								href={`/schedule/${data.id}`}
-								className="h-full w-full"
-							>
-								View
-							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Link
-								href={`/admin/scanner/${data.id}`}
-								className="h-full w-full"
-							>
-								Scanner
-							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<Link
-								href={`/admin/events/edit/${data.id}`}
-								className="h-full w-full"
-							>
-								Edit
-							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={handleDeleteClick}
-							className="text-red-500"
-						>
-							Delete
-						</DropdownMenuItem>
-					</DropdownMenuContent>
+				<AlertDialog open={open} onOpenChange={setOpen}>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" className="h-8 w-8 p-0">
+								<span className="sr-only">Open menu</span>
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem>
+								<Link href={`/schedule/${data.id}`} className="h-full w-full">
+									View
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<Link href={`/admin/scanner/${data.id}`} className="h-full w-full">
+									Scanner
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<Link href={`/admin/events/edit/${data.id}`} className="h-full w-full">
+									Edit
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem asChild className="h-full w-full text-red-500">
+								<AlertDialogTrigger>Delete</AlertDialogTrigger>
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
 
-					{showConfirmation && (
-						<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-							<div className="rounded border border-muted bg-black p-8 shadow-lg">
-								<p>
-									Are you sure you want to delete this event?
-								</p>
-								{deleteError && (
-									<p className="text-red-500">
-										{deleteError}
-									</p>
-								)}
-								<div className="mt-4 flex gap-x-2">
-									<Button
-										onClick={handleConfirmDelete}
-										variant={"destructive"}
-									>
-										Yes, Delete
-									</Button>
-									<Button
-										onClick={handleCancelDelete}
-										variant={"secondary"}
-									>
-										Cancel
-									</Button>
-								</div>
-							</div>
-						</div>
-					)}
-				</DropdownMenu>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+							<AlertDialogDescription>
+								Are you sure you want to delete this event?
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction onClick={handleConfirmDelete} className="text-red-500">
+								Yes, Delete
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 			);
 		},
 	},
