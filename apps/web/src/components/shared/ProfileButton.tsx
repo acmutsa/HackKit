@@ -144,7 +144,7 @@ export default async function ProfileButton() {
 				<DropdownMenuGroup>
 					<Link href={`/@${user.hackerTag}`}>
 						<DropdownMenuItem className="cursor-pointer">
-							Profile
+							Hacker Profile
 						</DropdownMenuItem>
 					</Link>
 					<Link href={`/dash/pass`}>
@@ -152,9 +152,7 @@ export default async function ProfileButton() {
 							Event Pass
 						</DropdownMenuItem>
 					</Link>
-					{["admin", "super_admin", "volunteer"].includes(
-						user.role,
-					) && (
+					{["admin", "super_admin"].includes(user.role) && (
 						<Link href={`/admin`}>
 							<DropdownMenuItem className="cursor-pointer text-hackathon">
 								Admin

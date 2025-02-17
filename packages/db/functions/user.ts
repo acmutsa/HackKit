@@ -1,4 +1,4 @@
-import { db, eq } from "..";
+import { db, eq, ne, or } from "..";
 import { userCommonData, userHackerData } from "../schema";
 import { HackerData, User } from "../types";
 
@@ -14,6 +14,22 @@ export async function getAllUsersWithHackerData() {
 		with: {
 			hackerData: true,
 		},
+	});
+}
+
+// As we flesh out different registrations and views, we can exclude more roles that may or may not have hacker data
+export async function getAllUsersAdminView() {
+	return db.query.userCommonData.findMany({
+		where: ne(userCommonData.role, "volunteer"),
+	});
+}
+
+export async function getAllVolunteers() {
+	return db.query.userCommonData.findMany({
+		where: or(
+			eq(userCommonData.role, "volunteer"),
+			eq(userCommonData.role, "hacker_volunteer"),
+		),
 	});
 }
 

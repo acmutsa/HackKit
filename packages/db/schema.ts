@@ -34,7 +34,7 @@ export const inviteType = pgEnum("invite_status", [
 	"pending",
 	"accepted",
 	"declined",
-	"invalid",
+	"expired",
 ]);
 
 export const chatType = pgEnum("chat_type", ["ticket"]);
@@ -221,6 +221,7 @@ export const volunteerInterestRelations = relations(
 export const volunteerInvites = pgTable("volunteer_invites", {
 	inviteID: serial("invite_id").primaryKey(),
 	signUpCode: uuid("sign_up_code").defaultRandom().notNull(),
+	email: varchar("email", { length: 255 }).notNull(),
 	status: inviteType("status").notNull().default("pending"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
@@ -229,8 +230,8 @@ export const volunteerInvitesRelations = relations(
 	volunteerInvites,
 	({ one }) => ({
 		commonData: one(userCommonData, {
-			fields: [volunteerInvites.signUpCode],
-			references: [userCommonData.clerkID],
+			fields: [volunteerInvites.email],
+			references: [userCommonData.email],
 		}),
 	}),
 );

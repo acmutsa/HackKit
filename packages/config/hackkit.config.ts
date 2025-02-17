@@ -885,15 +885,15 @@ const c = {
 			discordRole: "Guild E Role",
 		},
 	},
-	volunteer:{
-		areasOfInterest:[
+	volunteer: {
+		areasOfInterest: [
 			"Logistiscs",
 			"Mentorship",
 			"Setup",
 			"Takedown",
 			"Registration",
-			"Media"
-		]
+			"Media",
+		],
 	},
 	issueEmail: "team@rowdyhacks.org",
 	links: {
@@ -1009,8 +1009,8 @@ const perms = [
 	"hacker_volunteer",
 ] as const;
 
-// These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
 
+// These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
 const publicRoutes = [
 	"/",
 	/^\/schedule(\/.*)?$/,
