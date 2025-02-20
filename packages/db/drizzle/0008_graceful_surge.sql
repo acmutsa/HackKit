@@ -1,1 +1,0 @@
-ALTER TABLE "discord_verification" ADD COLUMN "guide" varchar(100);
