@@ -188,29 +188,38 @@ export const hackerRegistrationFormValidator = z
 		teamID: true,
 	});
 
-export const hackerRegistrationValidatorLocalStorage =
-	userWithHackerDataInsertSchema
-		.extend({
-			age: z.number().or(z.string()).pipe(z.coerce.number()),
-			hackathonsAttended: z
-				.number()
-				.or(z.string())
-				.pipe(z.coerce.number()),
-			accommodationNote: z.string(),
-		})
-		.omit({
-			clerkID: true,
-			isFullyRegistered: true,
-			signupTime: true,
-			role: true,
-			isRSVPed: true,
-			isApproved: true,
-			group: true,
-			points: true,
-			profilePhoto: true,
-			checkinTimestamp: true,
-			teamID: true,
-		});
+export const hackerRegistrationValidatorLocalStorage = userWithHackerDataInsertSchema
+	.extend({
+		age: z.number().or(z.string()).pipe(z.coerce.number()),
+		hackathonsAttended: z.number().or(z.string()).pipe(z.coerce.number()),
+		accommodationNote: z.string(),
+		skills: z
+			.array(
+				z.object({
+					id: z.string().min(1).max(50),
+					text: z.string().min(1).max(50),
+				}),
+			)
+			.min(1, {
+				message: "You must have at least one skill",
+			})
+			.max(c.registration.maxNumberOfSkills, {
+				message: `You cannot have more than ${c.registration.maxNumberOfSkills} skills`,
+			}),
+	})
+	.omit({
+		clerkID: true,
+		isFullyRegistered: true,
+		signupTime: true,
+		role: true,
+		isRSVPed: true,
+		isApproved: true,
+		group: true,
+		points: true,
+		profilePhoto: true,
+		checkinTimestamp: true,
+		teamID: true,
+	});
 
 export const hackerRegistrationResumeValidator = z.object({
 	fileName: z.string().min(1, defaultInputPrettyError),
