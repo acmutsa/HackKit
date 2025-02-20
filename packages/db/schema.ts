@@ -113,14 +113,14 @@ export const userCommonData = sqliteTable("user_common_data", {
 	isFullyRegistered: integer("is_fully_registered", { mode: "boolean" })
 		.notNull()
 		.default(false),
-	signupTime: integer("signup_time", { mode: "timestamp" })
+	signupTime: integer("signup_time", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 	isSearchable: integer("is_searchable", { mode: "boolean" })
 		.notNull()
 		.default(true),
 	role: rolesEnum("role").notNull().default("hacker"),
-	checkinTimestamp: integer("checkin_timestamp", { mode: "timestamp" }),
+	checkinTimestamp: integer("checkin_timestamp", { mode: "timestamp_ms" }),
 	isRSVPed: integer("is_rsvped", { mode: "boolean" })
 		.notNull()
 		.default(false),
@@ -198,14 +198,14 @@ export const userHackerRelations = relations(
 export const events = sqliteTable("events", {
 	id: integer("id", { mode: "number" }).notNull().primaryKey(),
 	title: text("name", { length: 255 }).notNull(),
-	startTime: integer("start_time", {mode:"timestamp"}).notNull(),
-	endTime: integer("end_time", {mode:"timestamp"}).notNull(),
+	startTime: integer("start_time", { mode: "timestamp_ms" }).notNull(),
+	endTime: integer("end_time", { mode: "timestamp_ms" }).notNull(),
 	location: text("location", { length: 255 }).default("TBD"),
 	points: integer("points").notNull().default(0),
 	description: text("description").notNull(),
 	type: text("type", { length: 50 }).notNull(),
 	host: text("host", { length: 255 }),
-	hidden: integer("hidden", {mode:"boolean"}).notNull().default(false),
+	hidden: integer("hidden", { mode: "boolean" }).notNull().default(false),
 });
 
 export const eventsRelations = relations(events, ({ many }) => ({
@@ -231,7 +231,7 @@ export const filesRelations = relations(files, ({ one }) => ({
 export const scans = sqliteTable(
 	"scans",
 	{
-		updatedAt: integer("updated_at", { mode: "timestamp" })
+		updatedAt: integer("updated_at", { mode: "timestamp_ms" })
 			.notNull()
 			.default(sql`(current_timestamp)`),
 		userID: text("user_id", { length: 255 }).notNull(),
@@ -258,7 +258,7 @@ export const teams = sqliteTable("teams", {
 	tag: text("tag", { length: 50 }).notNull().unique(),
 	bio: text("bio"),
 	photo: text("photo", { length: 400 }).notNull(),
-	createdAt: integer("created_at", { mode: "timestamp" })
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 	ownerID: text("owner_id", { length: 255 }).notNull(),
@@ -275,7 +275,7 @@ export const invites = sqliteTable(
 	{
 		inviteeID: text("invitee_id", { length: 255 }).notNull(),
 		teamID: text("team_id", { length: 50 }).notNull(),
-		createdAt: integer("created_at", { mode: "timestamp" })
+		createdAt: integer("created_at", { mode: "timestamp_ms" })
 			.notNull()
 			.default(sql`(current_timestamp)`),
 		status: inviteType("status").notNull().default("pending"),
@@ -296,7 +296,7 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 
 export const errorLog = sqliteTable("error_log", {
 	id: text("id", { length: 50 }).notNull().primaryKey(),
-	createdAt: integer("created_at", { mode: "timestamp" })
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 	userID: text("user_id", { length: 255 }),
@@ -306,7 +306,7 @@ export const errorLog = sqliteTable("error_log", {
 
 export const discordVerification = sqliteTable("discord_verification", {
 	code: text("code", { length: 255 }).notNull().primaryKey(),
-	createdAt: integer("created_at", { mode: "timestamp" })
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 	clerkID: text("clerk_id", { length: 255 }),
@@ -329,7 +329,7 @@ export const tickets = sqliteTable("tickets", {
 	title: text("title", { length: 255 }).notNull(),
 	description: text("description").notNull(),
 	status: ticketStatusEnum("status").notNull().default("awaiting"),
-	createdAt: integer("created_at", { mode: "timestamp" })
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 });
@@ -347,7 +347,7 @@ export const chats = sqliteTable("chats", {
 	type: chatType("type").notNull(),
 	ticketID: text("ticket_id").references(() => tickets.id),
 	author: text("author").notNull(),
-	createdAt: integer("created_at", { mode: "timestamp" })
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 });
@@ -362,7 +362,7 @@ export const chatMessages = sqliteTable("chat_messages", {
 	chatID: text("chat_id").notNull(),
 	message: text("message").notNull(),
 	authorID: text("author_id").notNull(),
-	createdAt: integer("created_at", { mode: "timestamp" })
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 });

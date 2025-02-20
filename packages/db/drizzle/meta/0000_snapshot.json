@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c086f6d5-a1ce-4261-861c-492bb7f6fc07",
+  "id": "8d3401ea-653e-49d5-a664-790d98e2bab6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "chat_messages": {
@@ -799,7 +799,7 @@
         },
         "diet_restrictions": {
           "name": "diet_restrictions",
-          "type": "blob",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -835,7 +835,7 @@
         },
         "skills": {
           "name": "skills",
-          "type": "blob",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
