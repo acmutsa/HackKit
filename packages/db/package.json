@@ -4,7 +4,7 @@
   "description": "Shared drizzle-orm schema for the db",
   "scripts": {
     "migrations:generate": "drizzle-kit generate",
-    "migrations:apply": "node -r esbuild-register migrate.ts",
+    "migrations:apply": "drizzle-kit migrate",
     "migrations:drop": "drizzle-kit drop",
     "migrations:push": "drizzle-kit push",
     "kit:up": "drizzle-kit up",
@@ -17,15 +17,15 @@
   "types": "./index.ts",
   "private": true,
   "dependencies": {
-    "@vercel/postgres": "^0.9.0",
+    "@libsql/client": "^0.14.0",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.31.2",
-    "drizzle-zod": "^0.5.1",
+    "drizzle-orm": "^0.39.3",
+    "drizzle-zod": "^0.7.0",
     "esbuild-register": "^3.5.0",
-    "postgres": "^3.4.4",
+    "nanoid": "^5.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.22.7"
+    "drizzle-kit": "^0.30.4"
   }
 }
