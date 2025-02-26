@@ -16,4 +16,4 @@ const tursoNodeServerless = createClientNodeServerless({
 });
 
 export const db = drizzle(tursoEdge, { schema });
-export const dbNodeServerless = drizzle(tursoNodeServerless, {schema});
+export const dbNodeServerless = drizzle(tursoNodeServerless, { schema });

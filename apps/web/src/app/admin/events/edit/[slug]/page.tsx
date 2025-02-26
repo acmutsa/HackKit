@@ -27,7 +27,7 @@ export default async function EditEventPage({
 				</h1>
 			</div>
 			<div className="mt-2 rounded-xl border border-muted p-5">
-				<EditEventForm {...event } />
+				<EditEventForm {...event} />
 			</div>
 		</div>
 	);

@@ -15,10 +15,15 @@ import {
 	sqliteTable,
 	customType,
 	primaryKey,
-} from "drizzle-orm/sqlite-core"
+} from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { perms, discordInviteStatus, ticketStatus, discordVerificationStatus } from "../config/hackkit.config";
+import {
+	perms,
+	discordInviteStatus,
+	ticketStatus,
+	discordVerificationStatus,
+} from "../config/hackkit.config";
 
 export const uuid = customType<{ data: string; notNull: true; default: true }>({
 	dataType() {
@@ -29,7 +34,11 @@ export const uuid = customType<{ data: string; notNull: true; default: true }>({
 	},
 });
 
-export const rolesEnum = customType<{ data: typeof perms[number]; notNull: true; default: true }>({
+export const rolesEnum = customType<{
+	data: (typeof perms)[number];
+	notNull: true;
+	default: true;
+}>({
 	dataType() {
 		return "text";
 	},
@@ -38,43 +47,63 @@ export const rolesEnum = customType<{ data: typeof perms[number]; notNull: true;
 	},
 });
 
-export const fileTypesEnum = customType<{ data: "resume" | "profilePhoto"; notNull: true; default: true }>({
+export const fileTypesEnum = customType<{
+	data: "resume" | "profilePhoto";
+	notNull: true;
+	default: true;
+}>({
 	dataType() {
 		return "text";
 	},
 	toDriver(value) {
 		return value;
-	}
+	},
 });
 
-export const inviteType = customType<{ data: typeof discordInviteStatus[number]; notNull: true; default: true }>({
+export const inviteType = customType<{
+	data: (typeof discordInviteStatus)[number];
+	notNull: true;
+	default: true;
+}>({
 	dataType() {
 		return "text";
 	},
 	toDriver(value) {
 		return value;
-	}
+	},
 });
 
-export const chatType = customType<{ data: "ticket"; notNull: true; default: true }>({
+export const chatType = customType<{
+	data: "ticket";
+	notNull: true;
+	default: true;
+}>({
 	dataType() {
 		return "text";
 	},
 	toDriver(value) {
 		return value;
-	}
+	},
 });
 
-export const ticketStatusEnum = customType<{ data: typeof ticketStatus[number]; notNull: true; default: true }>({
+export const ticketStatusEnum = customType<{
+	data: (typeof ticketStatus)[number];
+	notNull: true;
+	default: true;
+}>({
 	dataType() {
 		return "text";
-	}
+	},
 });
 
-export const discordVerificationStatusEnum = customType<{ data: typeof discordVerificationStatus[number]; notNull: true; default: true }>({
+export const discordVerificationStatusEnum = customType<{
+	data: (typeof discordVerificationStatus)[number];
+	notNull: true;
+	default: true;
+}>({
 	dataType() {
 		return "text";
-	}
+	},
 });
 
 export const userCommonData = sqliteTable("user_common_data", {
@@ -175,9 +204,13 @@ export const userHackerData = sqliteTable("user_hacker_data", {
 	group: integer("group").notNull(),
 	teamID: text("team_id", { length: 50 }),
 	points: integer("points").notNull().default(0),
-	hasAcceptedMLHCoC: integer("has_accepted_mlh_coc", {mode:"boolean"}).notNull(),
-	hasSharedDataWithMLH: integer("has_shared_data_with_mlh", {mode:"boolean"}).notNull(),
-	isEmailable: integer("is_emailable", {mode:"boolean"}).notNull(),
+	hasAcceptedMLHCoC: integer("has_accepted_mlh_coc", {
+		mode: "boolean",
+	}).notNull(),
+	hasSharedDataWithMLH: integer("has_shared_data_with_mlh", {
+		mode: "boolean",
+	}).notNull(),
+	isEmailable: integer("is_emailable", { mode: "boolean" }).notNull(),
 });
 
 export const userHackerRelations = relations(
@@ -216,7 +249,9 @@ export const files = sqliteTable("files", {
 	id: text("id", { length: 255 }).notNull().primaryKey().unique(),
 	presignedURL: text("presigned_url").notNull(),
 	key: text("key", { length: 500 }).notNull().unique(),
-	validated: integer("validated", {mode:"boolean"}).notNull().default(false),
+	validated: integer("validated", { mode: "boolean" })
+		.notNull()
+		.default(false),
 	type: fileTypesEnum("type").notNull(),
 	ownerID: text("owner_id", { length: 255 }).notNull(),
 });
@@ -388,10 +423,7 @@ export const ticketsToUsers = sqliteTable(
 			.notNull()
 			.references(() => userCommonData.clerkID),
 	},
-	(t) => [
-		primaryKey({ columns: [t.userID, t.ticketID] }),
-	]
-	,
+	(t) => [primaryKey({ columns: [t.userID, t.ticketID] })],
 );
 
 export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({

@@ -1001,7 +1001,12 @@ const perms = [
 const discordInviteStatus = ["pending", "accepted", "declined"] as const;
 
 const ticketStatus = ["awaiting", "in_progress", "completed"] as const;
-const discordVerificationStatus = ["pending", "expired", "accepted", "rejected"] as const;
+const discordVerificationStatus = [
+	"pending",
+	"expired",
+	"accepted",
+	"rejected",
+] as const;
 
 // These are routes (pages) which do not require a account / authentication. They are used in the authMiddleware in middleware.ts. Be careful which routes you add here!
 
@@ -1015,4 +1020,12 @@ const publicRoutes = [
 ];
 
 export default c;
-export { defaultTheme, bucketResumeBaseUploadUrl, perms, discordInviteStatus, ticketStatus, discordVerificationStatus, publicRoutes };
+export {
+	defaultTheme,
+	bucketResumeBaseUploadUrl,
+	perms,
+	discordInviteStatus,
+	ticketStatus,
+	discordVerificationStatus,
+	publicRoutes,
+};
