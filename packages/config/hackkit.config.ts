@@ -986,6 +986,7 @@ const c = {
 } as const;
 
 const bucketResumeBaseUploadUrl = `${c.hackathonName}/${c.itteration}/resumes`;
+const bucketName = "hackkit-userdata";
 
 // Its important that this is kept in sync with the database schema.
 
@@ -1010,4 +1011,4 @@ const publicRoutes = [
 ];
 
 export default c;
-export { defaultTheme, bucketResumeBaseUploadUrl, perms, publicRoutes };
+export { defaultTheme, bucketResumeBaseUploadUrl, bucketName, perms, publicRoutes };

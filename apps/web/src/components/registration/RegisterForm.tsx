@@ -45,7 +45,7 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { put } from "@vercel/blob";
+import { put } from "@/lib/utils/client/storage";
 import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
 import { bucketResumeBaseUploadUrl } from "config";
@@ -300,12 +300,11 @@ export default function RegisterForm({
 		if (uploadedFile) {
 			const fileLocation = `${bucketResumeBaseUploadUrl}/${uploadedFile.name}`;
 			// test what happens when an error is thrown
-			const newBlob = await put(fileLocation, uploadedFile, {
-				access: "public",
-				handleBlobUploadUrl: "/api/upload/resume/register",
+			const uploadedFileUrl = await put(fileLocation, uploadedFile, {
+				presignHandlerUrl: "/api/upload/resume/register",
 			});
 
-			resume = newBlob.url;
+			resume = uploadedFileUrl;
 		}
 		runRegisterUser({ ...data, resume });
 	}

@@ -1,33 +1,33 @@
-import { handleBlobUpload, type HandleBlobUploadBody } from "@vercel/blob";
+import { getPresignedUploadUrl } from "@/lib/utils/server/s3";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
-import c from "config";
+import { bucketName } from "config";
+
+interface RequestBody {
+	bucket: string;
+	key: string;
+}
 
 export async function POST(request: Request): Promise<NextResponse> {
-	const body = (await request.json()) as HandleBlobUploadBody;
-	const { userId } = await auth();
+	const body: RequestBody = (await request.json()) as RequestBody;
+	const { userId } = auth();
+
+	if (body.bucket != bucketName) {
+		return new NextResponse(
+			"You do not have permission to upload to this bucket",
+			{ status: 401 },
+		);
+	}
+
+	if (!userId) {
+		return new NextResponse("You do not have permission to upload files", {
+			status: 401,
+		});
+	}
 
 	try {
-		const jsonResponse = await handleBlobUpload({
-			body,
-			request,
-			onBeforeGenerateToken: async (pathname) => {
-				// Step 1. Generate a client token for the browser to upload the file
-
-				// ⚠️ Authenticate users before allowing client tokens to be generated and sent to browsers. Otherwise, you're exposing your Blob store to be an anonymous upload platform.
-				// See https://nextjs.org/docs/pages/building-your-application/routing/authenticating for more information
-
-				if (!userId) {
-					throw new Error("Not authenticated or bad pathname");
-				}
-
-				return {
-					maximumSizeInBytes: c.maxResumeSizeInBytes, // optional, default and maximum is 500MB
-					allowedContentTypes: ["application/pdf"], // optional, default is no restriction
-				};
-			},
-			onUploadCompleted: async () => undefined,
-		});
+		const url = await getPresignedUploadUrl(body.bucket, body.key);
+		const jsonResponse = { url };
 
 		return NextResponse.json(jsonResponse);
 	} catch (error) {

@@ -1,0 +1,57 @@
+import { bucketName, bucketResumeBaseUploadUrl } from "config";
+
+interface FileUploadOptions {
+	presignHandlerUrl: string;
+	contentType?: string;
+}
+
+interface PresignedUrlResponseMessage {
+	url: string;
+}
+
+export async function put(
+	location: string,
+	file: File,
+	options: FileUploadOptions,
+): Promise<string> {
+	const body = JSON.stringify({
+		bucket: bucketName,
+		key: location,
+	});
+
+	const headers = new Headers();
+	headers.append("Content-Type", options.contentType || file.type);
+
+	// Obtain a presigned url from the server
+	const presignedResponse = await fetch("/api/upload/resume/register", {
+		method: "POST",
+		headers,
+		body,
+	});
+
+	if (!presignedResponse.ok) {
+		throw new Error("An error occurred when fetching the presigned url");
+	}
+
+	const presignedMessage: PresignedUrlResponseMessage =
+		await presignedResponse.json();
+
+	if (!presignedMessage.url) {
+		throw new Error("Malformed object returned from presign route");
+	}
+
+	// Upload the file to the presigned url
+	const uploadResponse = await fetch(presignedMessage.url, {
+		method: "PUT",
+		body: file,
+		headers,
+	});
+
+	if (!uploadResponse.ok) {
+		throw new Error(
+			`Unable to successfully upload file to bucket : ${uploadResponse.status} ${uploadResponse.statusText}`,
+		);
+	}
+
+	return `/api/upload/resume/view/${bucketResumeBaseUploadUrl}/${file.name}`;
+}
