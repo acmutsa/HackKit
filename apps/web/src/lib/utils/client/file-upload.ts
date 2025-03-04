@@ -1,4 +1,4 @@
-import { bucketName, bucketResumeBaseUploadUrl } from "config";
+import { staticUploads } from "config";
 
 interface FileUploadOptions {
 	presignHandlerUrl: string;
@@ -7,6 +7,7 @@ interface FileUploadOptions {
 
 interface PresignedUrlResponseMessage {
 	url: string;
+	key: string;
 }
 
 export async function put(
@@ -15,15 +16,15 @@ export async function put(
 	options: FileUploadOptions,
 ): Promise<string> {
 	const body = JSON.stringify({
-		bucket: bucketName,
-		key: location,
+		location,
+		fileName: file.name,
 	});
 
 	const headers = new Headers();
 	headers.append("Content-Type", options.contentType || file.type);
 
 	// Obtain a presigned url from the server
-	const presignedResponse = await fetch("/api/upload/resume/register", {
+	const presignedResponse = await fetch(options.presignHandlerUrl, {
 		method: "POST",
 		headers,
 		body,
@@ -53,5 +54,5 @@ export async function put(
 		);
 	}
 
-	return `/api/upload/resume/view/${bucketResumeBaseUploadUrl}/${file.name}`;
+	return `${staticUploads.bucketHost}/${presignedMessage.key}`;
 }

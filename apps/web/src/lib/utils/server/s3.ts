@@ -5,7 +5,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const S3 = new S3Client({
+export const S3 = new S3Client({
 	region: "auto",
 	endpoint: `https://${process.env.CLOUDFLARE_ACCOUNT_ID!}.r2.cloudflarestorage.com`,
 	credentials: {
@@ -14,12 +14,14 @@ const S3 = new S3Client({
 	},
 });
 
+const EXPIRE_TIME = 3600;
+
 export async function getPresignedUploadUrl(bucket: string, key: string) {
 	return getSignedUrl(
 		S3,
 		new PutObjectCommand({ Bucket: bucket, Key: key }),
 		{
-			expiresIn: 3600,
+			expiresIn: EXPIRE_TIME,
 		},
 	);
 }
@@ -29,7 +31,7 @@ export async function getPresignedViewingUrl(bucket: string, key: string) {
 		S3,
 		new GetObjectCommand({ Bucket: bucket, Key: key }),
 		{
-			expiresIn: 3600,
+			expiresIn: EXPIRE_TIME,
 		},
 	);
 }
