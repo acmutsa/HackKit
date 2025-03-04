@@ -1,0 +1,11 @@
+{
+  "name": "infrastructure-migrator",
+  "version": "1.0.0",
+  "description": "Helper app to make the transfer to sqlite smoother",
+  "main": "driver.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
