@@ -15,8 +15,6 @@
 -   Drizzle ORM
 -   Tailwind CSS
 
-[![Vercel](https://static.rowdyhacks.org/img/powered-by-vercel.svg)](https://vercel.com/?utm_source=ACM%20UTSA&utm_campaign=oss)
-
 ## Join The Team
 
 Want to help us build HackKit? Please reach out to us at `tech@acmutsa.org` or join us on [Discord](https://go.acmutsa.org/projectsdiscord)!
