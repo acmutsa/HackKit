@@ -2,7 +2,10 @@ import { S3 } from "./s3";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { staticUploads } from "config";
 
-export async function del(key: string): Promise<boolean> {
+// TODO: refactor this function to not do scuffed of resume urls.  This will work for now.
+export async function del(url: string): Promise<boolean> {
+	const key = url.split("=")[1];
+
 	const cmd = new DeleteObjectCommand({
 		Bucket: staticUploads.bucketName,
 		Key: key,
