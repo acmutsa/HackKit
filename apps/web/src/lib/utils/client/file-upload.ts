@@ -1,5 +1,3 @@
-import { staticUploads } from "config";
-
 interface FileUploadOptions {
 	presignHandlerUrl: string;
 	contentType?: string;
@@ -28,6 +26,8 @@ export async function put(
 		method: "POST",
 		headers,
 		body,
+	}).catch((e) => {
+		throw new Error(e.message + " Occurred when fetching presigned url");
 	});
 
 	if (!presignedResponse.ok) {
@@ -54,5 +54,5 @@ export async function put(
 		);
 	}
 
-	return `${staticUploads.bucketHost}/${presignedMessage.key}`;
+	return `/api/upload/resume/view?key=${presignedMessage.key}`;
 }

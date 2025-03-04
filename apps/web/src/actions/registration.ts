@@ -87,13 +87,8 @@ export const registerHacker = authenticatedAction
 			if (resume != null && resume != c.noResumeProvidedURL) {
 				console.log(resume);
 				console.log("deleting resume");
-				const key = new URL(resume).searchParams.get("key");
-				if (!key) {
-					console.log("No valid key found in duplicate resume");
-					throw e;
-				}
 
-				await del(key);
+				await del(resume);
 			}
 			if (
 				e instanceof DatabaseError &&

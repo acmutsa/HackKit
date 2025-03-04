@@ -23,7 +23,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import c, { bucketResumeBaseUploadUrl } from "config";
+import c, { staticUploads } from "config";
 import {
 	Command,
 	CommandEmpty,
@@ -42,7 +42,7 @@ import { cn } from "@/lib/utils/client/cn";
 import { useEffect, useCallback, useState, useRef } from "react";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { put } from "@vercel/blob";
+import { put } from "@/lib/utils/client/file-upload";
 import { useAction } from "next-safe-action/hooks";
 import {
 	deleteResume,
@@ -149,15 +149,14 @@ export default function RegisterFormSettings({
 		if (uploadedFile && !isOldFile) {
 			console.log("uploading file...");
 			const newBlob = await put(
-				bucketResumeBaseUploadUrl + "/" + uploadedFile.name,
+				staticUploads.bucketResumeBaseUploadUrl,
 				uploadedFile,
 				{
-					access: "public",
-					handleBlobUploadUrl: "/api/upload/resume/register",
+					presignHandlerUrl: "/api/upload/resume/register",
 				},
 			);
 			console.log("file uploaded");
-			newResumeLink = newBlob.url;
+			newResumeLink = newBlob;
 		} else {
 			newResumeLink =
 				uploadedFile == null

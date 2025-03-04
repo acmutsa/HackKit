@@ -19,7 +19,11 @@ const EXPIRE_TIME = 3600;
 export async function getPresignedUploadUrl(bucket: string, key: string) {
 	return getSignedUrl(
 		S3,
-		new PutObjectCommand({ Bucket: bucket, Key: key }),
+		new PutObjectCommand({
+			Bucket: bucket,
+			Key: key,
+			Metadata: { "Access-Control-Allow-Origin": "*" },
+		}),
 		{
 			expiresIn: EXPIRE_TIME,
 		},
@@ -29,7 +33,10 @@ export async function getPresignedUploadUrl(bucket: string, key: string) {
 export async function getPresignedViewingUrl(bucket: string, key: string) {
 	return getSignedUrl(
 		S3,
-		new GetObjectCommand({ Bucket: bucket, Key: key }),
+		new GetObjectCommand({
+			Bucket: bucket,
+			Key: key,
+		}),
 		{
 			expiresIn: EXPIRE_TIME,
 		},

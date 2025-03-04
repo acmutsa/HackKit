@@ -125,12 +125,7 @@ export const deleteResume = authenticatedAction
 	)
 	.action(async ({ parsedInput: { oldFileLink } }) => {
 		if (oldFileLink === c.noResumeProvidedURL) return null;
-		const key = new URL(oldFileLink).searchParams.get("key");
-		if (!key) {
-			console.log("ERROR key field is undefined in stored resume");
-			throw new Error("Unable to delete resume");
-		}
-		await del(key);
+		await del(oldFileLink);
 	});
 
 export const modifyProfileData = authenticatedAction

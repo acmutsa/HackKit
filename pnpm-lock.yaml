@@ -49,6 +49,22 @@ importers:
         specifier: 20.14.11
         version: 20.14.11
 
+  apps/blob-migration:
+    dependencies:
+      config:
+        specifier: workspace:*
+        version: link:../../packages/config
+      db:
+        specifier: workspace:*
+        version: link:../../packages/db
+      typescript:
+        specifier: ^5.0.0
+        version: 5.5.3
+    devDependencies:
+      '@types/bun':
+        specifier: latest
+        version: 1.2.4
+
   apps/bot:
     dependencies:
       config:
@@ -7892,6 +7908,12 @@ packages:
       bun-types: 1.1.17
     dev: true
 
+  /@types/bun@1.2.4:
+    resolution: {integrity: sha512-QtuV5OMR8/rdKJs213iwXDpfVvnskPXY/S0ZiFbsTjQZycuqPbMW8Gf/XhLfwE5njW8sxI2WjISURXPlHypMFA==}
+    dependencies:
+      bun-types: 1.2.4
+    dev: true
+
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
@@ -8729,6 +8751,13 @@ packages:
     resolution: {integrity: sha512-Z4+OplcSd/YZq7ZsrfD00DKJeCwuNY96a1IDJyR73+cTBaFIS7SC6LhpY/W3AMEXO9iYq5NJ58WAwnwL1p5vKg==}
     dependencies:
       '@types/node': 20.12.14
+      '@types/ws': 8.5.11
+    dev: true
+
+  /bun-types@1.2.4:
+    resolution: {integrity: sha512-nDPymR207ZZEoWD4AavvEaa/KZe/qlrbMSchqpQwovPZCKc7pwMoENjEtHgMKaAjJhy+x6vfqSBA1QU3bJgs0Q==}
+    dependencies:
+      '@types/node': 20.14.11
       '@types/ws': 8.5.11
     dev: true
 
