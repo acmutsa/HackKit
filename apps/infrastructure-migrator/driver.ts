@@ -1,4 +1,3 @@
-///@ts-nocheck
 import { sql } from "@vercel/postgres";
 import { drizzle as pgDrizzle } from "drizzle-orm/vercel-postgres";
 import { drizzle } from "drizzle-orm/libsql";
@@ -75,6 +74,7 @@ async function migratePostgresSqLite() {
 	console.log("Migrating Users 👥");
 
 	if (allUserCommonData.length > 0) {
+		///@ts-expect-error
 		await db.insert(schema.userCommonData).values(allUserCommonData);
 		// run bucket mover updates here
 	}
@@ -100,6 +100,7 @@ async function migratePostgresSqLite() {
 	console.log("Migrating Files 📁");
 
 	if (allFiles.length > 0) {
+		///@ts-expect-error
 		await db.insert(schema.files).values(allFiles);
 	}
 
