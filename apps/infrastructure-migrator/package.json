@@ -1,0 +1,21 @@
+{
+  "name": "infrastructure-migrator",
+  "version": "1.0.0",
+  "description": "Helper app to make the transfer to sqlite smoother",
+  "main": "driver.ts",
+  "scripts": {
+    "migrate": "node -r esbuild-register driver.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "@vercel/postgres": "^0.9.0",
+    "config": "workspace:*",
+    "db": "workspace:*",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.39.3",
+    "esbuild-register": "^3.5.0",
+    "web": "workspace:*"
+  }
+}

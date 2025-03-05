@@ -49,19 +49,7 @@ export default function Hero() {
 					</Button>
 				</Link>
 				<div className="h-0 basis-full" />
-				<div className="max-h-[50px] overflow-hidden">
-					<Link
-						href={
-							"https://vercel.com/?utm_source=ACM%20UTSA&utm_campaign=oss"
-						}
-					>
-						<img
-							src="/img/powered-by-vercel.svg"
-							alt="Powered by Vercel"
-							className="overflow-hidden rounded-lg border border-[#5D5D5D] bg-black"
-						/>
-					</Link>
-				</div>
+				<div className="max-h-[50px] overflow-hidden"></div>
 			</div>
 		</section>
 	);

@@ -9,86 +9,153 @@ more info: https://orm.drizzle.team/kit-docs/overview
 */
 
 import {
-	bigserial,
-	text,
-	varchar,
-	boolean,
-	timestamp,
 	integer,
-	json,
-	pgEnum,
+	text,
+	blob,
+	sqliteTable,
+	customType,
 	primaryKey,
-	pgTable,
-} from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+} from "drizzle-orm/sqlite-core";
+import { relations, sql } from "drizzle-orm";
+import { nanoid } from "nanoid";
+import {
+	perms,
+	discordInviteStatus,
+	ticketStatus,
+	discordVerificationStatus,
+} from "../config/hackkit.config";
 
-export const roles = pgEnum("role", [
-	"hacker",
-	"volunteer",
-	"mentor",
-	"mlh",
-	"admin",
-	"super_admin",
-]);
+export const uuid = customType<{ data: string; notNull: true; default: true }>({
+	dataType() {
+		return "text";
+	},
+	toDriver() {
+		return nanoid();
+	},
+});
 
-export const fileTypesEnum = pgEnum("type", ["generic", "resume"]);
+export const rolesEnum = customType<{
+	data: (typeof perms)[number];
+	notNull: true;
+	default: true;
+}>({
+	dataType() {
+		return "text";
+	},
+	toDriver(value) {
+		return value;
+	},
+});
 
-export const inviteType = pgEnum("invite_status", [
-	"pending",
-	"accepted",
-	"declined",
-]);
+export const fileTypesEnum = customType<{
+	data: "resume" | "profilePhoto";
+	notNull: true;
+	default: true;
+}>({
+	dataType() {
+		return "text";
+	},
+	toDriver(value) {
+		return value;
+	},
+});
 
-export const chatType = pgEnum("chat_type", ["ticket"]);
+export const inviteType = customType<{
+	data: (typeof discordInviteStatus)[number];
+	notNull: true;
+	default: true;
+}>({
+	dataType() {
+		return "text";
+	},
+	toDriver(value) {
+		return value;
+	},
+});
 
-export const ticketStatus = pgEnum("ticket_status", [
-	"awaiting",
-	"in_progress",
-	"completed",
-]);
+export const chatType = customType<{
+	data: "ticket";
+	notNull: true;
+	default: true;
+}>({
+	dataType() {
+		return "text";
+	},
+	toDriver(value) {
+		return value;
+	},
+});
 
-export const discordVerificationStatus = pgEnum("discord_status", [
-	"pending",
-	"expired",
-	"accepted",
-	"rejected",
-]);
+export const ticketStatusEnum = customType<{
+	data: (typeof ticketStatus)[number];
+	notNull: true;
+	default: true;
+}>({
+	dataType() {
+		return "text";
+	},
+});
 
-export const userCommonData = pgTable("user_common_data", {
+export const discordVerificationStatusEnum = customType<{
+	data: (typeof discordVerificationStatus)[number];
+	notNull: true;
+	default: true;
+}>({
+	dataType() {
+		return "text";
+	},
+});
+
+export const userCommonData = sqliteTable("user_common_data", {
 	// id
-	clerkID: varchar("clerk_id", { length: 255 }).primaryKey(),
+	clerkID: text("clerk_id", { length: 255 }).primaryKey(),
 
 	// data
-	firstName: varchar("first_name", { length: 50 }).notNull(),
-	lastName: varchar("last_name", { length: 50 }).notNull(),
-	email: varchar("email", { length: 255 }).notNull().unique(),
-	hackerTag: varchar("hacker_tag", { length: 50 }).notNull().unique(),
+	firstName: text("first_name", { length: 50 }).notNull(),
+	lastName: text("last_name", { length: 50 }).notNull(),
+	email: text("email", { length: 255 }).notNull().unique(),
+	hackerTag: text("hacker_tag", { length: 50 }).notNull().unique(),
 	age: integer("age").notNull(),
-	gender: varchar("gender", { length: 50 }).notNull(),
-	race: varchar("race", { length: 75 }).notNull(),
-	ethnicity: varchar("ethnicity", { length: 50 }).notNull(),
-	shirtSize: varchar("shirt_size", { length: 5 }).notNull(),
-	// Come back and fix this to match the type of skills
-	dietRestrictions: json("diet_restrictions").notNull(),
+	gender: text("gender", { length: 50 }).notNull(),
+	race: text("race", { length: 75 }).notNull(),
+	ethnicity: text("ethnicity", { length: 50 }).notNull(),
+	shirtSize: text("shirt_size", { length: 5 }).notNull(),
+	dietRestrictions: text("diet_restrictions", { mode: "json" })
+		.notNull()
+		.$type<string[]>()
+		.default([]),
 	accommodationNote: text("accommodation_note"),
-	discord: varchar("discord", { length: 60 }),
-	pronouns: varchar("pronouns", { length: 20 }).notNull(),
+	discord: text("discord", { length: 60 }),
+	pronouns: text("pronouns", { length: 20 }).notNull(),
 	bio: text("bio").notNull(),
-	skills: json("skills").notNull().$type<string[]>().default([]),
-	profilePhoto: varchar("profile_photo", { length: 255 }).notNull(),
-	phoneNumber: varchar("phone_number", { length: 30 }).notNull(),
-	countryOfResidence: varchar("country_of_residence", {
+	skills: text("skills", { mode: "json" })
+		.notNull()
+		.$type<string[]>()
+		.default([]),
+	profilePhoto: text("profile_photo", { length: 255 }).notNull(),
+	phoneNumber: text("phone_number", { length: 30 }).notNull(),
+	countryOfResidence: text("country_of_residence", {
 		length: 3,
 	}).notNull(),
 
 	// metadata
-	isFullyRegistered: boolean("is_fully_registered").notNull().default(false),
-	signupTime: timestamp("signup_time").notNull().defaultNow(),
-	isSearchable: boolean("is_searchable").notNull().default(true),
-	role: roles("role").notNull().default("hacker"),
-	checkinTimestamp: timestamp("checkin_timestamp"),
-	isRSVPed: boolean("is_rsvped").notNull().default(false),
-	isApproved: boolean("is_approved").notNull().default(false),
+	isFullyRegistered: integer("is_fully_registered", { mode: "boolean" })
+		.notNull()
+		.default(false),
+	signupTime: integer("signup_time", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
+	isSearchable: integer("is_searchable", { mode: "boolean" })
+		.notNull()
+		.default(true),
+	role: rolesEnum("role").notNull().default("hacker"),
+	checkinTimestamp: integer("checkin_timestamp", { mode: "timestamp_ms" }),
+	isRSVPed: integer("is_rsvped", { mode: "boolean" })
+		.notNull()
+		.default(false),
+	isApproved: integer("is_approved", { mode: "boolean" })
+		.notNull()
+		.default(false),
 });
 
 export const userCommonRelations = relations(
@@ -110,36 +177,40 @@ export const userCommonRelations = relations(
 	}),
 );
 
-export const userHackerData = pgTable("user_hacker_data", {
+export const userHackerData = sqliteTable("user_hacker_data", {
 	// id
-	clerkID: varchar("clerk_id", { length: 255 })
+	clerkID: text("clerk_id", { length: 255 })
 		.primaryKey()
 		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
 
 	// data
-	university: varchar("university", { length: 200 }).notNull(),
-	major: varchar("major", { length: 200 }).notNull(),
-	schoolID: varchar("school_id", { length: 50 }).notNull(),
-	levelOfStudy: varchar("level_of_study", { length: 50 }).notNull(),
+	university: text("university", { length: 200 }).notNull(),
+	major: text("major", { length: 200 }).notNull(),
+	schoolID: text("school_id", { length: 50 }).notNull(),
+	levelOfStudy: text("level_of_study", { length: 50 }).notNull(),
 	hackathonsAttended: integer("hackathons_attended").notNull(),
-	softwareExperience: varchar("software_experience", {
+	softwareExperience: text("software_experience", {
 		length: 25,
 	}).notNull(),
-	heardFrom: varchar("heard_from", { length: 50 }),
-	GitHub: varchar("github", { length: 100 }),
-	LinkedIn: varchar("linkedin", { length: 100 }),
-	PersonalWebsite: varchar("personal_website", { length: 100 }),
-	resume: varchar("resume", { length: 255 })
+	heardFrom: text("heard_from", { length: 50 }),
+	GitHub: text("github", { length: 100 }),
+	LinkedIn: text("linkedin", { length: 100 }),
+	PersonalWebsite: text("personal_website", { length: 100 }),
+	resume: text("resume", { length: 255 })
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
 
 	// metadata
 	group: integer("group").notNull(),
-	teamID: varchar("team_id", { length: 50 }),
+	teamID: text("team_id", { length: 50 }),
 	points: integer("points").notNull().default(0),
-	hasAcceptedMLHCoC: boolean("has_accepted_mlh_coc").notNull(),
-	hasSharedDataWithMLH: boolean("has_shared_data_with_mlh").notNull(),
-	isEmailable: boolean("is_emailable").notNull(),
+	hasAcceptedMLHCoC: integer("has_accepted_mlh_coc", {
+		mode: "boolean",
+	}).notNull(),
+	hasSharedDataWithMLH: integer("has_shared_data_with_mlh", {
+		mode: "boolean",
+	}).notNull(),
+	isEmailable: integer("is_emailable", { mode: "boolean" }).notNull(),
 });
 
 export const userHackerRelations = relations(
@@ -157,30 +228,32 @@ export const userHackerRelations = relations(
 	}),
 );
 
-export const events = pgTable("events", {
-	id: bigserial("id", { mode: "number" }).notNull().primaryKey().unique(),
-	title: varchar("name", { length: 255 }).notNull(),
-	startTime: timestamp("start_time").notNull(),
-	endTime: timestamp("end_time").notNull(),
-	location: varchar("location", { length: 255 }).default("TBD"),
+export const events = sqliteTable("events", {
+	id: integer("id", { mode: "number" }).notNull().primaryKey(),
+	title: text("name", { length: 255 }).notNull(),
+	startTime: integer("start_time", { mode: "timestamp_ms" }).notNull(),
+	endTime: integer("end_time", { mode: "timestamp_ms" }).notNull(),
+	location: text("location", { length: 255 }).default("TBD"),
 	points: integer("points").notNull().default(0),
 	description: text("description").notNull(),
-	type: varchar("type", { length: 50 }).notNull(),
-	host: varchar("host", { length: 255 }),
-	hidden: boolean("hidden").notNull().default(false),
+	type: text("type", { length: 50 }).notNull(),
+	host: text("host", { length: 255 }),
+	hidden: integer("hidden", { mode: "boolean" }).notNull().default(false),
 });
 
 export const eventsRelations = relations(events, ({ many }) => ({
 	scans: many(scans),
 }));
 
-export const files = pgTable("files", {
-	id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
+export const files = sqliteTable("files", {
+	id: text("id", { length: 255 }).notNull().primaryKey().unique(),
 	presignedURL: text("presigned_url").notNull(),
-	key: varchar("key", { length: 500 }).notNull().unique(),
-	validated: boolean("validated").notNull().default(false),
+	key: text("key", { length: 500 }).notNull().unique(),
+	validated: integer("validated", { mode: "boolean" })
+		.notNull()
+		.default(false),
 	type: fileTypesEnum("type").notNull(),
-	ownerID: varchar("owner_id", { length: 255 }).notNull(),
+	ownerID: text("owner_id", { length: 255 }).notNull(),
 });
 
 export const filesRelations = relations(files, ({ one }) => ({
@@ -190,17 +263,17 @@ export const filesRelations = relations(files, ({ one }) => ({
 	}),
 }));
 
-export const scans = pgTable(
+export const scans = sqliteTable(
 	"scans",
 	{
-		updatedAt: timestamp("updated_at").notNull().defaultNow(),
-		userID: varchar("user_id", { length: 255 }).notNull(),
+		updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+			.notNull()
+			.default(sql`(current_timestamp)`),
+		userID: text("user_id", { length: 255 }).notNull(),
 		eventID: integer("event_id").notNull(),
 		count: integer("count").notNull(),
 	},
-	(table) => ({
-		id: primaryKey({ columns: [table.userID, table.eventID] }),
-	}),
+	(table) => [primaryKey({ columns: [table.userID, table.eventID] })],
 );
 
 export const scansRelations = relations(scans, ({ one }) => ({
@@ -214,15 +287,17 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-export const teams = pgTable("teams", {
-	id: varchar("id", { length: 50 }).notNull().primaryKey().unique(),
-	name: varchar("name", { length: 255 }).notNull(),
-	tag: varchar("tag", { length: 50 }).notNull().unique(),
+export const teams = sqliteTable("teams", {
+	id: text("id", { length: 50 }).notNull().primaryKey().unique(),
+	name: text("name", { length: 255 }).notNull(),
+	tag: text("tag", { length: 50 }).notNull().unique(),
 	bio: text("bio"),
-	photo: varchar("photo", { length: 400 }).notNull(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	ownerID: varchar("owner_id", { length: 255 }).notNull(),
-	devpostURL: varchar("devpost_url", { length: 255 }),
+	photo: text("photo", { length: 400 }).notNull(),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
+	ownerID: text("owner_id", { length: 255 }).notNull(),
+	devpostURL: text("devpost_url", { length: 255 }),
 });
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
@@ -230,17 +305,17 @@ export const teamsRelations = relations(teams, ({ one, many }) => ({
 	invites: many(invites),
 }));
 
-export const invites = pgTable(
+export const invites = sqliteTable(
 	"invites",
 	{
-		inviteeID: varchar("invitee_id", { length: 255 }).notNull(),
-		teamID: varchar("team_id", { length: 50 }).notNull(),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
+		inviteeID: text("invitee_id", { length: 255 }).notNull(),
+		teamID: text("team_id", { length: 50 }).notNull(),
+		createdAt: integer("created_at", { mode: "timestamp_ms" })
+			.notNull()
+			.default(sql`(current_timestamp)`),
 		status: inviteType("status").notNull().default("pending"),
 	},
-	(table) => ({
-		id: primaryKey(table.inviteeID, table.teamID),
-	}),
+	(table) => [primaryKey({ columns: [table.inviteeID, table.teamID] })],
 );
 
 export const invitesRelations = relations(invites, ({ one }) => ({
@@ -254,36 +329,44 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 	}),
 }));
 
-export const errorLog = pgTable("error_log", {
-	id: varchar("id", { length: 50 }).notNull().primaryKey(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	userID: varchar("user_id", { length: 255 }),
-	route: varchar("route", { length: 255 }),
+export const errorLog = sqliteTable("error_log", {
+	id: text("id", { length: 50 }).notNull().primaryKey(),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
+	userID: text("user_id", { length: 255 }),
+	route: text("route", { length: 255 }),
 	message: text("message").notNull(),
 });
 
-export const discordVerification = pgTable("discord_verification", {
-	code: varchar("code", { length: 255 }).notNull().primaryKey(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	clerkID: varchar("clerk_id", { length: 255 }),
-	discordUserID: varchar("discord_user_id", { length: 255 }).notNull(),
-	discordUserTag: varchar("discord_user_tag", { length: 255 }).notNull(),
-	discordProfilePhoto: varchar("discord_profile_photo", {
+export const discordVerification = sqliteTable("discord_verification", {
+	code: text("code", { length: 255 }).notNull().primaryKey(),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
+	clerkID: text("clerk_id", { length: 255 }),
+	discordUserID: text("discord_user_id", { length: 255 }).notNull(),
+	discordUserTag: text("discord_user_tag", { length: 255 }).notNull(),
+	discordProfilePhoto: text("discord_profile_photo", {
 		length: 255,
 	}).notNull(),
-	discordName: varchar("discord_name", { length: 255 }).notNull(),
-	status: discordVerificationStatus("status").notNull().default("pending"),
-	guild: varchar("guild", { length: 100 }).notNull(),
+	discordName: text("discord_name", { length: 255 }).notNull(),
+	status: discordVerificationStatusEnum("status")
+		.notNull()
+		.default("pending"),
+	guild: text("guild", { length: 100 }).notNull(),
 });
 
 /* Tickets */
 
-export const tickets = pgTable("tickets", {
+export const tickets = sqliteTable("tickets", {
 	id: text("id").primaryKey(),
-	title: varchar("title", { length: 255 }).notNull(),
+	title: text("title", { length: 255 }).notNull(),
 	description: text("description").notNull(),
-	status: ticketStatus("status").notNull().default("awaiting"),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
+	status: ticketStatusEnum("status").notNull().default("awaiting"),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
 });
 
 export const ticketRelations = relations(tickets, ({ one, many }) => ({
@@ -294,12 +377,14 @@ export const ticketRelations = relations(tickets, ({ one, many }) => ({
 	tickets: many(ticketsToUsers),
 }));
 
-export const chats = pgTable("chats", {
+export const chats = sqliteTable("chats", {
 	id: text("id").primaryKey(),
 	type: chatType("type").notNull(),
 	ticketID: text("ticket_id").references(() => tickets.id),
 	author: text("author").notNull(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
 });
 
 export const chatRelations = relations(chats, ({ many }) => ({
@@ -307,12 +392,14 @@ export const chatRelations = relations(chats, ({ many }) => ({
 	members: many(chatsToUsers),
 }));
 
-export const chatMessages = pgTable("chat_messages", {
-	id: bigserial("id", { mode: "number" }).primaryKey(),
+export const chatMessages = sqliteTable("chat_messages", {
+	id: integer("id", { mode: "number" }).primaryKey(),
 	chatID: text("chat_id").notNull(),
 	message: text("message").notNull(),
 	authorID: text("author_id").notNull(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
 });
 
 export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
@@ -326,7 +413,7 @@ export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
 	}),
 }));
 
-export const ticketsToUsers = pgTable(
+export const ticketsToUsers = sqliteTable(
 	"tickets_to_users",
 	{
 		ticketID: text("ticket_id")
@@ -336,9 +423,7 @@ export const ticketsToUsers = pgTable(
 			.notNull()
 			.references(() => userCommonData.clerkID),
 	},
-	(t) => ({
-		pk: primaryKey({ columns: [t.userID, t.ticketID] }),
-	}),
+	(t) => [primaryKey({ columns: [t.userID, t.ticketID] })],
 );
 
 export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
@@ -352,7 +437,7 @@ export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
 	}),
 }));
 
-export const chatsToUsers = pgTable(
+export const chatsToUsers = sqliteTable(
 	"chats_to_users",
 	{
 		chatID: text("chat_id")
@@ -362,9 +447,7 @@ export const chatsToUsers = pgTable(
 			.notNull()
 			.references(() => userCommonData.clerkID),
 	},
-	(t) => ({
-		pk: primaryKey({ columns: [t.userID, t.chatID] }),
-	}),
+	(t) => [primaryKey({ columns: [t.userID, t.chatID] })],
 );
 
 export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
