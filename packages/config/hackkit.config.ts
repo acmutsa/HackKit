@@ -991,7 +991,6 @@ const staticUploads = {
 	bucketResumeBaseUploadUrl: `${c.hackathonName}/${c.itteration}/resumes`,
 } as const;
 
-
 // Its important that this is kept in sync with the database schema.
 
 const perms = [
@@ -1032,5 +1031,5 @@ export {
 	ticketStatus,
 	discordVerificationStatus,
 	publicRoutes,
-	staticUploads
+	staticUploads,
 };

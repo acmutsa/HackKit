@@ -3,7 +3,7 @@ import { drizzle as pgDrizzle } from "drizzle-orm/vercel-postgres";
 import { drizzle } from "drizzle-orm/libsql";
 import * as pgSchema from "./schema";
 import { createClient } from "@libsql/client";
-import {migrateBlob} from "./blob-mover";
+import { migrateBlob } from "./blob-mover";
 export * from "drizzle-orm";
 import dotenv from "dotenv";
 import * as schema from "db/schema";

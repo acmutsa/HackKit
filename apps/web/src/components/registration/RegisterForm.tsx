@@ -299,11 +299,15 @@ export default function RegisterForm({
 		let resume: string = c.noResumeProvidedURL;
 		if (uploadedFile) {
 			// test what happens when an error is thrown
-			const uploadedFileUrl = await put(staticUploads.bucketResumeBaseUploadUrl, uploadedFile, {
-				presignHandlerUrl: "/api/upload/resume/register",
-			});
+			const uploadedFileUrl = await put(
+				staticUploads.bucketResumeBaseUploadUrl,
+				uploadedFile,
+				{
+					presignHandlerUrl: "/api/upload/resume/register",
+				},
+			);
 
-			alert(uploadedFileUrl)
+			alert(uploadedFileUrl);
 
 			resume = uploadedFileUrl;
 		}
