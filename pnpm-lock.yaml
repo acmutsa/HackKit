@@ -54,15 +54,30 @@ importers:
 
   apps/blob-migration:
     dependencies:
+      '@libsql/client':
+        specifier: ^0.14.0
+        version: 0.14.0
+      '@vercel/postgres':
+        specifier: ^0.9.0
+        version: 0.9.0
       config:
         specifier: workspace:*
         version: link:../../packages/config
       db:
         specifier: workspace:*
         version: link:../../packages/db
+      drizzle-orm:
+        specifier: ^0.39.3
+        version: 0.39.3(@libsql/client@0.14.0)(@planetscale/database@1.18.0)(@vercel/postgres@0.9.0)(pg@8.12.0)(postgres@3.4.4)
+      esbuild-register:
+        specifier: ^3.5.0
+        version: 3.5.0(esbuild@0.25.0)
       typescript:
         specifier: ^5.0.0
         version: 5.5.3
+      web:
+        specifier: workspace:*
+        version: link:../web
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -2941,7 +2956,7 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dependencies:
       '@eslint/object-schema': 2.1.4
-      debug: 4.3.5
+      debug: 4.4.0
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -2970,7 +2985,7 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.5
+      debug: 4.4.0
       espree: 10.1.0
       globals: 14.0.0
       ignore: 5.3.1
@@ -9997,7 +10012,7 @@ packages:
     peerDependencies:
       esbuild: '>=0.12 <1'
     dependencies:
-      debug: 4.3.5
+      debug: 4.4.0
       esbuild: 0.25.0
     transitivePeerDependencies:
       - supports-color
@@ -12385,7 +12400,7 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.5
+      debug: 4.4.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
       lru-cache: 7.18.3

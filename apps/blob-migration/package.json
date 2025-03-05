@@ -2,11 +2,16 @@
   "name": "blob-migration",
   "main": "index.ts",
   "scripts": {
-    "migrate-blob": "bun run --env-file=../../.env index.ts"
+    "migrate-blob": "bun run --env-file=../../.env driver.ts"
   },
   "dependencies": {
     "config": "workspace:*",
-    "db": "workspace:*"
+    "db": "workspace:*",
+    "@libsql/client": "^0.14.0",
+    "@vercel/postgres": "^0.9.0",
+    "drizzle-orm": "^0.39.3",
+    "esbuild-register": "^3.5.0",
+    "web": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "latest"
