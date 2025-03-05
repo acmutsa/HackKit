@@ -49,8 +49,7 @@ export default function Hero() {
 					</Button>
 				</Link>
 				<div className="h-0 basis-full" />
-				<div className="max-h-[50px] overflow-hidden">
-				</div>
+				<div className="max-h-[50px] overflow-hidden"></div>
 			</div>
 		</section>
 	);
