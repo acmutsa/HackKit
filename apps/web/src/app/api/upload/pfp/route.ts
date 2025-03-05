@@ -8,6 +8,7 @@ interface RequestBody {
 	fileName: string;
 }
 
+// TODO: Verify this route works with create team.
 export async function POST(request: Request): Promise<NextResponse> {
 	try {
 		const body: RequestBody = (await request.json()) as RequestBody;

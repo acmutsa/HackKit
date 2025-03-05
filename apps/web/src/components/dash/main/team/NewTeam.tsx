@@ -47,6 +47,7 @@ export default function NewTeamForm() {
 		const photo = values.photo;
 
 		if (photo) {
+			// TODO: verify this works with the create team
 			const url = await put(photo.name, photo, {
 				presignHandlerUrl: "/api/upload/pfp",
 			});
