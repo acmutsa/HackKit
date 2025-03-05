@@ -3,6 +3,7 @@ import { drizzle as pgDrizzle } from "drizzle-orm/vercel-postgres";
 import { drizzle } from "drizzle-orm/libsql";
 import * as pgSchema from "./schema";
 import { createClient } from "@libsql/client";
+import {migrateBlob} from "./blob-mover";
 export * from "drizzle-orm";
 import dotenv from "dotenv";
 import * as schema from "db/schema";
@@ -187,6 +188,12 @@ async function migratePostgresSqLite() {
 	}
 
 	console.log("Migrated Chats To Users ✅");
+
+	console.log("Migrating Vercel Blob Files To R2");
+
+	migrateBlob();
+
+	console.log("Migrated Vercel Blob Files To R2");
 
 	return process.exit(0);
 }
