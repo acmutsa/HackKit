@@ -11,7 +11,7 @@ export const S3 = new S3Client({
 	bucket: staticUploads.bucketName,
 });
 
-async function main() {
+export async function migrateBlob() {
 	const resumeData = await db.query.userHackerData.findMany({
 		columns: { resume: true, clerkID: true },
 	});
@@ -27,14 +27,16 @@ async function main() {
 			console.log("resume fetch failed");
 		}
 
-		const file = S3.file(resumeUrl.pathname);
+		const key = "Migrated" + decodeURIComponent(resumeUrl.pathname);
+
+		const file = S3.file(key);
 
 		await file.write(resumeFetchResponse, {
 			type: "application/pdf",
 		});
 
 		// New url to correspond to an api route
-		const newResumeUrl = `/api/upload/resume/view?key=${resumeUrl.pathname}`;
+		const newResumeUrl = `/api/upload/resume/view?key=${key}`;
 
 		await db
 			.update(userHackerData)
@@ -43,4 +45,7 @@ async function main() {
 	}
 }
 
-await main();
+// Allow imports without running the function
+if (import.meta.main) {
+	await migrateBlob();
+}

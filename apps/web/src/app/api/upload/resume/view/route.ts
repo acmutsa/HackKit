@@ -21,10 +21,12 @@ export async function GET(request: Request) {
 		);
 	}
 
+	const decodedKey = decodeURIComponent(key);
+
 	// Presign the url and return redirect to it.
 	const presignedViewingUrl = await getPresignedViewingUrl(
 		staticUploads.bucketName,
-		key,
+		decodedKey,
 	);
 
 	return redirect(presignedViewingUrl);
