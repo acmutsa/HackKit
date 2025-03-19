@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function NotFound() {
-	return(
+	return (
 		<div className="flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
 			<div className="text-center">
 				<h1 className="mb-4 text-9xl font-extrabold text-hackathon dark:text-primary">
@@ -16,7 +16,7 @@ export default function NotFound() {
 				</Link>
 			</div>
 		</div>
-	)
+	);
 }
 
 export const runtime = "edge";

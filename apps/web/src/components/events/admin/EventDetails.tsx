@@ -9,7 +9,6 @@ import { getRequestContext } from "@cloudflare/next-on-pages";
 export default function EventFull({ event }: { event: Event }) {
 	const { cf } = getRequestContext();
 	const userTimeZoneHeaderKey = cf.timezone;
-	console.log(userTimeZoneHeaderKey)
 
 	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 	return (
