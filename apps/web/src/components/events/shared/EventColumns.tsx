@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { deleteEventAction } from "@/actions/admin/event-actions";
 import { toast } from "sonner";
+import { LoaderCircle } from "lucide-react";
 
 type EventRow = eventTableValidatorType & { isSuperAdmin: boolean };
 
@@ -94,19 +95,22 @@ export const columns: ColumnDef<EventRow>[] = [
 			const router = useRouter();
 			const data = row.original;
 
-			const { executeAsync: executeDeleteAction } =
-				useAction(deleteEventAction);
-
-			const handleConfirmDelete = async () => {
-				try {
-					await executeDeleteAction({ eventID: data.id });
-					setOpen(false);
-					toast.success("Event deleted successfully");
-				} catch (error) {
-					toast.error("Failed to delete event");
-				}
-			};
-
+			const { execute: executeDeleteAction } =
+				useAction(deleteEventAction,
+					{
+						onSuccess: () => {
+							toast.dismiss()
+							toast.success("Event deleted successfully");
+							router.refresh();
+							setOpen(false);
+						},
+						onError:(err) =>{
+							toast.dismiss()
+							toast.error("Failed to delete event");
+							console.log(err)
+						}
+					}
+				);
 			return (
 				<AlertDialog open={open} onOpenChange={setOpen}>
 					<DropdownMenu>
@@ -163,10 +167,13 @@ export const columns: ColumnDef<EventRow>[] = [
 						<AlertDialogFooter>
 							<AlertDialogCancel>Cancel</AlertDialogCancel>
 							<AlertDialogAction
-								onClick={handleConfirmDelete}
+								onClick={() =>{
+									toast.loading("Deleting event...");
+									executeDeleteAction({ eventID: data.id });
+								}}
 								className="text-red-500"
 							>
-								Yes, Delete
+									Delete
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>
