@@ -197,6 +197,19 @@ export const hackerRegistrationValidatorLocalStorage =
 				.or(z.string())
 				.pipe(z.coerce.number()),
 			accommodationNote: z.string(),
+			skills: z
+				.array(
+					z.object({
+						id: z.string().min(1).max(50),
+						text: z.string().min(1).max(50),
+					}),
+				)
+				.min(1, {
+					message: "You must have at least one skill",
+				})
+				.max(c.registration.maxNumberOfSkills, {
+					message: `You cannot have more than ${c.registration.maxNumberOfSkills} skills`,
+				}),
 		})
 		.omit({
 			clerkID: true,

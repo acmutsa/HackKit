@@ -5,7 +5,7 @@ import { z } from "zod";
 import { db } from "db";
 import { userCommonData, userHackerData } from "db/schema";
 import { eq } from "db/drizzle";
-import { del } from "@vercel/blob";
+import { del } from "@/lib/utils/server/file-upload";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
 import { revalidatePath } from "next/cache";
 import { UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE } from "@/lib/constants";

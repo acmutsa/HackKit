@@ -1,7 +1,7 @@
 "use server";
 import { authenticatedAction } from "@/lib/safe-action";
 import { db, sql } from "db";
-import { del } from "@vercel/blob";
+import { del } from "@/lib/utils/server/file-upload";
 import z from "zod";
 import { returnValidationErrors } from "next-safe-action";
 import { hackerRegistrationFormValidator } from "@/validators/shared/registration";
@@ -87,6 +87,7 @@ export const registerHacker = authenticatedAction
 			if (resume != null && resume != c.noResumeProvidedURL) {
 				console.log(resume);
 				console.log("deleting resume");
+
 				await del(resume);
 			}
 			if (

@@ -24,21 +24,13 @@
         "DISCORD_SECRET_TOKEN",
         "HK_ENV",
         "INTERNAL_AUTH_KEY",
-        "KV_REST_API_READ_ONLY_TOKEN",
-        "KV_REST_API_TOKEN",
-        "KV_REST_API_URL",
-        "KV_URL",
         "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
         "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
         "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
-        "POSTGRES_DATABASE",
-        "POSTGRES_HOST",
-        "POSTGRES_PASSWORD",
-        "POSTGRES_PRISMA_URL",
-        "POSTGRES_URL",
-        "POSTGRES_URL_NON_POOLING",
-        "POSTGRES_URL_NO_SSL",
-        "POSTGRES_USER"
+        "UPSTASH_REDIS_REST_TOKEN",
+        "UPSTASH_REDIS_REST_URL",
+        "TURSO_AUTH_TOKEN",
+        "TURSO_DATABASE_URL"
       ],
 	"tasks": {
 		"build": {

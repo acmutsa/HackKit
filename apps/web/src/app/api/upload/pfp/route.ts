@@ -1,35 +1,34 @@
-import { handleBlobUpload, type HandleBlobUploadBody } from "@vercel/blob";
+import { getPresignedUploadUrl } from "@/lib/utils/server/s3";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
-import c from "config";
+import { staticUploads } from "config";
 
+interface RequestBody {
+	location: string;
+	fileName: string;
+}
+
+// TODO: Verify this route works with create team.
 export async function POST(request: Request): Promise<NextResponse> {
-	const body = (await request.json()) as HandleBlobUploadBody;
-	const { userId } = await auth();
-
 	try {
-		const jsonResponse = await handleBlobUpload({
-			body,
-			request,
-			onBeforeGenerateToken: async (pathname) => {
-				// Step 1. Generate a client token for the browser to upload the file
+		const body: RequestBody = (await request.json()) as RequestBody;
 
-				// ⚠️ Authenticate users before allowing client tokens to be generated and sent to browsers. Otherwise, you're exposing your Blob store to be an anonymous upload platform.
-				// See https://nextjs.org/docs/pages/building-your-application/routing/authenticating for more information
+		const { userId } = auth();
+		if (!userId) {
+			return new NextResponse(
+				"You do not have permission to upload files",
+				{
+					status: 401,
+				},
+			);
+		}
 
-				if (!userId) {
-					throw new Error("Not authenticated or bad pathname");
-				}
+		const randomSeq = crypto.randomUUID();
+		const [fileName, extension] = body.fileName.split(".");
+		const key = `${body.location}/${fileName}-${randomSeq}.${extension}`;
+		const url = await getPresignedUploadUrl(staticUploads.bucketName, key);
 
-				return {
-					maximumSizeInBytes: c.maxProfilePhotoSizeInBytes, // optional, default and maximum is 500MB
-					allowedContentTypes: ["image/jpeg", "image/png"], // optional, default is no restriction
-				};
-			},
-			onUploadCompleted: async () => undefined,
-		});
-
-		return NextResponse.json(jsonResponse);
+		return NextResponse.json({ url, key });
 	} catch (error) {
 		return NextResponse.json(
 			{ error: (error as Error).message },

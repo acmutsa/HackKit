@@ -1,38 +1,41 @@
-import { kv } from "@vercel/kv";
 import type { NavItemToggleType } from "@/validators/shared/navitemtoggle";
+import c from "config";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 
 export function includeEnvPrefix(key: string) {
-	return `${process.env.HK_ENV}_${key}`;
+	return `${c.hackathonName}_${c.itteration}_${process.env.HK_ENV}_${key}`;
 }
 
 export async function redisSAdd(key: string, value: string): Promise<number> {
-	return kv.sadd(includeEnvPrefix(key), value);
+	return redis.sadd(includeEnvPrefix(key), value);
 }
 
 export async function redisHSet<TData>(
 	key: string,
 	value: Record<string, TData>,
 ): Promise<number> {
-	return kv.hset(includeEnvPrefix(key), value);
+	return redis.hset(includeEnvPrefix(key), value);
 }
 
 export async function redisSet<TData>(
 	key: string,
 	value: TData,
 ): Promise<TData | "OK" | null> {
-	return kv.set<TData>(includeEnvPrefix(key), value);
+	return redis.set<TData>(includeEnvPrefix(key), value);
 }
 
 export async function redisGet<TData>(key: string): Promise<TData | null> {
-	return kv.get<TData>(includeEnvPrefix(key));
+	return redis.get<TData>(includeEnvPrefix(key));
 }
 
 export async function redisMGet<TData>(...keys: string[]): Promise<TData[]> {
-	return kv.mget<TData[]>(keys.map(includeEnvPrefix));
+	return redis.mget<TData[]>(keys.map(includeEnvPrefix));
 }
 
 export async function getAllNavItems() {
-	const keys = await kv.smembers<string[]>(
+	const keys = await redis.smembers<string[]>(
 		includeEnvPrefix("config:navitemslist"),
 	);
 	if (!keys || keys.length < 1) {
@@ -41,7 +44,7 @@ export async function getAllNavItems() {
 			items: [],
 		};
 	}
-	const pipe = kv.pipeline();
+	const pipe = redis.pipeline();
 	for (const key of keys) {
 		pipe.hgetall(includeEnvPrefix(`config:navitems:${key}`));
 	}
@@ -54,7 +57,7 @@ export async function getAllNavItems() {
 
 export function removeNavItem(name: string) {
 	console.log("Removing: ", includeEnvPrefix("config:navitemslist"));
-	const pipe = kv.pipeline();
+	const pipe = redis.pipeline();
 	pipe.srem(
 		includeEnvPrefix("config:navitemslist"),
 		encodeURIComponent(name),

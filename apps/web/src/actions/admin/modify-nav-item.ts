@@ -4,7 +4,10 @@ import { z } from "zod";
 import { adminAction } from "@/lib/safe-action";
 import { redisSAdd, redisHSet, removeNavItem } from "@/lib/utils/server/redis";
 import { revalidatePath } from "next/cache";
-import { kv } from "@vercel/kv";
+
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 
 const metadataSchema = z.object({
 	name: z.string().min(1),
@@ -35,7 +38,7 @@ export const setItem = adminAction
 export const editItem = adminAction
 	.schema(editMetadataSchema)
 	.action(async ({ parsedInput: { name, url, existingName } }) => {
-		const pipe = kv.pipeline();
+		const pipe = redis.pipeline();
 
 		if (existingName != name) {
 			pipe.srem("config:navitemslist", encodeURIComponent(existingName));

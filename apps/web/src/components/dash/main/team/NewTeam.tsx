@@ -21,7 +21,7 @@ import { Shell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { newTeamValidator } from "@/validators/shared/team";
 import c from "config";
-import { put } from "@vercel/blob";
+import { put } from "@/lib/utils/client/file-upload";
 
 export default function NewTeamForm() {
 	const formValidator = newTeamValidator.merge(
@@ -47,9 +47,9 @@ export default function NewTeamForm() {
 		const photo = values.photo;
 
 		if (photo) {
-			const { url } = await put(photo.name, photo, {
-				access: "public",
-				handleBlobUploadUrl: "/api/upload/pfp",
+			// TODO: verify this works with the create team
+			const url = await put(photo.name, photo, {
+				presignHandlerUrl: "/api/upload/pfp",
 			});
 			teamPhotoURL = url;
 		} else {
