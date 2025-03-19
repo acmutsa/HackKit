@@ -3,10 +3,34 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/shadcn/ui/dropdown-menu";
+import {
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogTrigger,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogCancel,
+	AlertDialogAction,
+} from "@/components/shadcn/ui/alert-dialog";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
-import { cn } from "@/lib/utils/client/cn";
+import { useState } from "react";
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { deleteEventAction } from "@/actions/admin/event-actions";
+import { toast } from "sonner";
+import { LoaderCircle } from "lucide-react";
 
 type EventRow = eventTableValidatorType & { isSuperAdmin: boolean };
 
@@ -42,7 +66,7 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "Start",
 		cell: ({ row }) => (
 			<span>
-				{new Date(row.original.startTime).toLocaleDateString() + " "}
+				{new Date(row.original.startTime).toLocaleDateString()}{" "}
 				{new Date(row.original.startTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
@@ -55,7 +79,7 @@ export const columns: ColumnDef<EventRow>[] = [
 		header: "End",
 		cell: ({ row }) => (
 			<span>
-				{new Date(row.original.endTime).toLocaleDateString() + " "}
+				{new Date(row.original.endTime).toLocaleDateString()}{" "}
 				{new Date(row.original.endTime).toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
@@ -64,35 +88,97 @@ export const columns: ColumnDef<EventRow>[] = [
 		),
 	},
 	{
-		accessorKey: "Scanner",
-		header: "Scanner",
-		cell: ({ row }) => (
-			<Link href={`/admin/scanner/${row.original.id}`}>
-				<Button>Scanner</Button>
-			</Link>
-		),
-	},
-	{
-		accessorKey: "View",
-		header: "View",
-		cell: ({ row }) => (
-			<Link href={`/schedule/${row.original.id}`}>
-				<Button>View</Button>
-			</Link>
-		),
-	},
-	{
-		accessorKey: "Edit",
-		header: "Edit",
-		cell: ({ row }) => (
-			<Link
-				href={`/admin/events/edit/${row.original.id}`}
-				className={cn(
-					!row.original.isSuperAdmin && "pointer-events-none",
-				)}
-			>
-				<Button disabled={!row.original.isSuperAdmin}>Edit</Button>
-			</Link>
-		),
+		accessorKey: "actions",
+		header: "Actions",
+		cell: ({ row }) => {
+			const [open, setOpen] = useState(false);
+			const router = useRouter();
+			const data = row.original;
+
+			const { execute: executeDeleteAction } = useAction(
+				deleteEventAction,
+				{
+					onSuccess: () => {
+						toast.dismiss();
+						toast.success("Event deleted successfully");
+						router.refresh();
+						setOpen(false);
+					},
+					onError: (err) => {
+						toast.dismiss();
+						toast.error("Failed to delete event");
+						console.log(err);
+					},
+				},
+			);
+			return (
+				<AlertDialog open={open} onOpenChange={setOpen}>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" className="h-8 w-8 p-0">
+								<span className="sr-only">Open menu</span>
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem>
+								<Link
+									href={`/schedule/${data.id}`}
+									className="h-full w-full"
+								>
+									View
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<Link
+									href={`/admin/scanner/${data.id}`}
+									className="h-full w-full"
+								>
+									Scanner
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<Link
+									href={`/admin/events/edit/${data.id}`}
+									className="h-full w-full"
+								>
+									Edit
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem
+								asChild
+								className="h-full w-full text-red-500"
+							>
+								<AlertDialogTrigger>Delete</AlertDialogTrigger>
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>
+								Confirm Deletion
+							</AlertDialogTitle>
+							<AlertDialogDescription>
+								Are you sure you want to delete this event?
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction
+								onClick={() => {
+									toast.loading("Deleting event...");
+									executeDeleteAction({ eventID: data.id });
+								}}
+								className="text-red-500"
+							>
+								Delete
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			);
+		},
 	},
 ];

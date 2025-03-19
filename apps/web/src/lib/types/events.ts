@@ -6,6 +6,7 @@ import type { InferSelectModel, InferInsertModel } from "db";
 
 export interface eventInsertType extends InferInsertModel<typeof events> {}
 export interface eventEditType extends Omit<eventInsertType, "id"> {}
+export interface eventDeleteType extends Omit<eventInsertType, "id"> {}
 export interface EventType extends InferSelectModel<typeof events> {}
 
 // NOTE: Weird type casting workaround fixes zod enum required for type safety in EventActions
