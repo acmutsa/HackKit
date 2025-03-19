@@ -5,7 +5,7 @@ import c from "config";
 import { headers } from "next/headers";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
 import EventItem from "./EventItem";
-import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 interface DayProps {
 	title: string;
 	subtitle: string;
@@ -13,7 +13,8 @@ interface DayProps {
 }
 
 export default function Day({ title, subtitle, events }: DayProps) {
-	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
+	const { cf } = getRequestContext();
+	const userTimeZoneHeaderKey = cf.timezone;
 
 	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 

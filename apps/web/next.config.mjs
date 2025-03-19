@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
 import createJiti from "jiti";
+import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
 jiti("./src/env");
@@ -28,5 +29,9 @@ const nextConfig = {
 		},
 	},
 };
+
+if (process.env.NODE_ENV === "development") {
+	await setupDevPlatform();
+}
 
 export default nextConfig;

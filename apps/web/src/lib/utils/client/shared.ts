@@ -1,7 +1,7 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { FilterFn } from "@tanstack/react-table";
 import { redirect } from "next/navigation";
-export function getClientTimeZone(vercelIPTimeZone: string | null) {
+export function getClientTimeZone(vercelIPTimeZone?: string) {
 	return vercelIPTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 

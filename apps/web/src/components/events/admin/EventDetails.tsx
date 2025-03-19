@@ -5,9 +5,11 @@ import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";
 import { headers } from "next/headers";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
-import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 export default function EventFull({ event }: { event: Event }) {
-	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
+	const { cf } = getRequestContext();
+	const userTimeZoneHeaderKey = cf.timezone;
+	console.log(userTimeZoneHeaderKey)
 
 	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 	return (

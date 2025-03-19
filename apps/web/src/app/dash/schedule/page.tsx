@@ -3,12 +3,12 @@ import UserScheduleView from "@/components/schedule/UserScheduleView";
 import ScheduleTimeline from "./schedule-timeline";
 import Loading from "@/components/shared/Loading";
 import { getAllEvents } from "db/functions";
-import { headers } from "next/headers";
-import { VERCEL_IP_TIMEZONE_HEADER_KEY } from "@/lib/constants";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 export default async function Page() {
 	const sched = await getAllEvents();
-	const userTimeZoneHeaderKey = headers().get(VERCEL_IP_TIMEZONE_HEADER_KEY);
+	const { cf } = getRequestContext();
+	const userTimeZoneHeaderKey = cf.timezone;
 	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
 	return (
 		<>
