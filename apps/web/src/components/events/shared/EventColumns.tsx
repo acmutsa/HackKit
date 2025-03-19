@@ -95,22 +95,22 @@ export const columns: ColumnDef<EventRow>[] = [
 			const router = useRouter();
 			const data = row.original;
 
-			const { execute: executeDeleteAction } =
-				useAction(deleteEventAction,
-					{
-						onSuccess: () => {
-							toast.dismiss()
-							toast.success("Event deleted successfully");
-							router.refresh();
-							setOpen(false);
-						},
-						onError:(err) =>{
-							toast.dismiss()
-							toast.error("Failed to delete event");
-							console.log(err)
-						}
-					}
-				);
+			const { execute: executeDeleteAction } = useAction(
+				deleteEventAction,
+				{
+					onSuccess: () => {
+						toast.dismiss();
+						toast.success("Event deleted successfully");
+						router.refresh();
+						setOpen(false);
+					},
+					onError: (err) => {
+						toast.dismiss();
+						toast.error("Failed to delete event");
+						console.log(err);
+					},
+				},
+			);
 			return (
 				<AlertDialog open={open} onOpenChange={setOpen}>
 					<DropdownMenu>
@@ -167,13 +167,13 @@ export const columns: ColumnDef<EventRow>[] = [
 						<AlertDialogFooter>
 							<AlertDialogCancel>Cancel</AlertDialogCancel>
 							<AlertDialogAction
-								onClick={() =>{
+								onClick={() => {
 									toast.loading("Deleting event...");
 									executeDeleteAction({ eventID: data.id });
 								}}
 								className="text-red-500"
 							>
-									Delete
+								Delete
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>
