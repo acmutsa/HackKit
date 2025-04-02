@@ -196,12 +196,11 @@ export const updateProfileImage = authenticatedAction
 			const file = await decodeBase64AsFile(fileBase64, fileName);
 			let clerkUser: ClerkUser;
 			try {
-				clerkUser = await clerkClient.users.updateUserProfileImage(
-					userId,
-					{
-						file,
-					},
-				);
+				clerkUser = await (
+					await clerkClient()
+				).users.updateUserProfileImage(userId, {
+					file,
+				});
 			} catch (err) {
 				console.log(`Error updating Clerk profile image: ${err}`);
 				if (
