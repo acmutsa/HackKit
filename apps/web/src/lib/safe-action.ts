@@ -2,7 +2,7 @@ import {
 	createSafeActionClient,
 	returnValidationErrors,
 } from "next-safe-action";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { getUser } from "db/functions";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ export const publicAction = createSafeActionClient();
 export const authenticatedAction = publicAction.use(
 	// TODO: Add registration check here?
 	async ({ next, ctx }) => {
-		const { userId } = auth();
+		const { userId } = await auth();
 		if (!userId)
 			returnValidationErrors(z.null(), {
 				_errors: ["Unauthorized (No User ID)"],

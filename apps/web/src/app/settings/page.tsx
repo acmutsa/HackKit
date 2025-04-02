@@ -1,12 +1,12 @@
 import AccountSettings from "@/components/settings/AccountSettings";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import ProfileSettings from "@/components/settings/ProfileSettings";
 import RegistrationSettings from "@/components/settings/RegistrationSettings";
 import { getUser } from "db/functions";
 
 export default async function Page() {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return redirect("/sign-in");
 	const user = await getUser(userId);
 	if (!user) return redirect("/sign-in");

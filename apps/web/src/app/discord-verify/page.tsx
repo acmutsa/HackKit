@@ -2,7 +2,7 @@ import { db } from "db";
 import { discordVerification, userCommonData } from "db/schema";
 import { eq, and, or } from "db/drizzle";
 import { notFound, redirect } from "next/navigation";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import c from "config";
 import Balancer from "react-wrap-balancer";
 import { MoveRight } from "lucide-react";
@@ -25,7 +25,7 @@ export default async function Page({
 		return notFound();
 	}
 
-	const { userId } = auth();
+	const { userId } = await auth();
 
 	if (!userId) {
 		return redirect("/sign-in");

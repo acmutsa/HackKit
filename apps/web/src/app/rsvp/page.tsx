@@ -1,6 +1,6 @@
 import ConfirmDialogue from "@/components/rsvp/ConfirmDialogue";
 import c from "config";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { count, db } from "db";
 import { eq } from "db/drizzle";
@@ -21,13 +21,13 @@ export default async function RsvpPage({
 }: {
 	searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-	const { userId } = auth();
+	const { userId } = await auth();
 
 	if (!userId) {
 		console.error("No user id");
 		return (
 			<SignedOut>
-				<RedirectToSignIn afterSignInUrl={"/rsvp"} />
+				<RedirectToSignIn signInFallbackRedirectUrl={"/rsvp"} />
 			</SignedOut>
 		);
 	}

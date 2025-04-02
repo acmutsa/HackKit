@@ -13,7 +13,8 @@ import {
 	AvatarImage,
 } from "@/components/shadcn/ui/avatar";
 import { Button } from "@/components/shadcn/ui/button";
-import { auth, SignOutButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import DefaultDropdownTrigger from "../dash/shared/DefaultDropDownTrigger";
@@ -102,7 +103,7 @@ export default async function ProfileButton() {
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
 					<DropdownSwitcher />
-					<SignOutButton signOutCallback={clientLogOut}>
+					<SignOutButton redirectUrl={"/"}>
 						<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
 							Sign out
 						</DropdownMenuItem>
@@ -176,7 +177,7 @@ export default async function ProfileButton() {
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator className="bg-[rgb(228,228,231)] dark:bg-[rgb(39,39,42)]" />
 				<DropdownSwitcher />
-				<SignOutButton signOutCallback={clientLogOut}>
+				<SignOutButton redirectUrl={"/"}>
 					<DropdownMenuItem className="cursor-pointer text-red-500 hover:!bg-destructive hover:text-muted">
 						Sign out
 					</DropdownMenuItem>

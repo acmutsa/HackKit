@@ -1021,6 +1021,8 @@ const publicRoutes = [
 	/^\/user\//,
 	"/404",
 	"/bugreport",
+	"/sign-in",
+	"/sign-up",
 ];
 
 export default c;

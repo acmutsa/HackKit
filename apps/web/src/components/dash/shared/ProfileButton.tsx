@@ -13,14 +13,15 @@ import {
 	AvatarImage,
 } from "@/components/shadcn/ui/avatar";
 import { Button } from "@/components/shadcn/ui/button";
-import { auth, SignOutButton } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
 import { getUser } from "db/functions";
 import { clientLogOut } from "@/lib/utils/server/user";
 
 export default async function ProfileButton() {
-	const clerkUser = auth();
+	const clerkUser = await auth();
 	const { userId } = clerkUser;
 	if (!userId) return null;
 
@@ -36,17 +37,8 @@ export default async function ProfileButton() {
 						className="relative h-8 w-8 rounded-full"
 					>
 						<Avatar className="h-8 w-8">
-							<AvatarImage
-								src={clerkUser.user?.imageUrl}
-								alt={""}
-							/>
-							<AvatarFallback>
-								{clerkUser.user?.firstName &&
-								clerkUser.user?.lastName
-									? clerkUser.user?.firstName.charAt(0) +
-										clerkUser.user?.lastName.charAt(0)
-									: "NA"}
-							</AvatarFallback>
+							<AvatarImage alt={""} />
+							<AvatarFallback>{"NA"}</AvatarFallback>
 						</Avatar>
 					</Button>
 				</DropdownMenuTrigger>
@@ -69,7 +61,7 @@ export default async function ProfileButton() {
 						</Link>
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
-					<SignOutButton signOutCallback={clientLogOut}>
+					<SignOutButton redirectUrl={"/"}>
 						<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
 							Sign out
 						</DropdownMenuItem>
@@ -123,7 +115,7 @@ export default async function ProfileButton() {
 					</Link>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<SignOutButton signOutCallback={clientLogOut}>
+				<SignOutButton redirectUrl={"/"}>
 					<DropdownMenuItem className="cursor-pointer hover:!bg-destructive">
 						Sign out
 					</DropdownMenuItem>

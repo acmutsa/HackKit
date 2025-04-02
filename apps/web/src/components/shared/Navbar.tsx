@@ -3,7 +3,7 @@ import Image from "next/image";
 import c from "config";
 import { Button } from "../shadcn/ui/button";
 import ProfileButton from "./ProfileButton";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
 import { Oswald } from "next/font/google";
 import { cn } from "@/lib/utils/client/cn";

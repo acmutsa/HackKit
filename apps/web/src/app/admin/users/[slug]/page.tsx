@@ -10,7 +10,7 @@ import {
 	ProfileInfo,
 	TeamInfo,
 } from "@/components/admin/users/ServerSections";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { isUserAdmin } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
@@ -18,7 +18,7 @@ import c from "config";
 import { getHacker, getUser } from "db/functions";
 
 export default async function Page({ params }: { params: { slug: string } }) {
-	const { userId } = auth();
+	const { userId } = await auth();
 
 	if (!userId) return notFound();
 

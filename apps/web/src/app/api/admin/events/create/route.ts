@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "db";
 import { events } from "db/schema";
 import { newEventFormSchema } from "@/validators/event";
@@ -11,7 +11,7 @@ import { getUser } from "db/functions";
 
 // Make this a server action
 export async function POST(req: Request) {
-	const { userId } = auth();
+	const { userId } = await auth();
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 

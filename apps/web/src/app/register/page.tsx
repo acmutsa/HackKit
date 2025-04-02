@@ -1,6 +1,6 @@
 import c from "config";
 import RegisterForm from "@/components/registration/RegisterForm";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
 
 export default async function Page() {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return redirect("/sign-up");
 
 	const user = await currentUser();

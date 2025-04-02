@@ -6,10 +6,10 @@ import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { getAllEvents, getUser } from "db/functions";
-import { auth, redirectToSignIn } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Page() {
-	const { userId } = auth();
+	const { userId, redirectToSignIn } = await auth();
 	if (!userId) {
 		return redirectToSignIn();
 	}

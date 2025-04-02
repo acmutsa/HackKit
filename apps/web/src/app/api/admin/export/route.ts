@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { getAllHackers, getUser } from "db/functions";
 
 function escape(value: any) {
@@ -31,7 +31,7 @@ function jsonToCSV(json: any[]): string {
 }
 
 export async function GET() {
-	const { userId } = auth();
+	const { userId } = await auth();
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 

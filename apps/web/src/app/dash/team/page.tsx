@@ -1,5 +1,5 @@
 import c from "config";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "db";
 import { userCommonData } from "db/schema";
 import { eq } from "db/drizzle";
@@ -13,7 +13,7 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import LeaveTeamButton from "@/components/dash/team/LeaveTeamButton";
 
 export default async function Page() {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return null;
 
 	// TODO: make this db query not so bad

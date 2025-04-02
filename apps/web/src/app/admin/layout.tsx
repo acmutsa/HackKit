@@ -1,6 +1,6 @@
 import c from "config";
 import Image from "next/image";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
@@ -16,7 +16,7 @@ interface AdminLayoutProps {
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-	const { userId } = auth();
+	const { userId } = await auth();
 
 	if (!userId) {
 		return redirect("/sign-in");

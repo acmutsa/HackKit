@@ -8,12 +8,12 @@ import {
 } from "@/components/shadcn/ui/card";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { User } from "db/types";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { getAllUsers, getUser } from "db/functions";
 
 export default async function Page() {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return notFound();
 
 	const adminUser = await getUser(userId);

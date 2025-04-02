@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
@@ -10,7 +10,7 @@ import c from "config";
 import { logError } from "@/lib/utils/server/logError";
 
 export async function POST(req: Request) {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
 	const user = await getHacker(userId, false);

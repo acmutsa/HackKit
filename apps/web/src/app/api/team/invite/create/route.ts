@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
@@ -12,7 +12,7 @@ import type { serverZodResponse } from "@/lib/utils/server/types";
 export async function POST(
 	req: Request,
 ): serverZodResponse<typeof BasicServerValidator> {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
 
 	const user = await getHacker(userId, true);

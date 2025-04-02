@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import c from "config";
 import { createQRpayload } from "@/lib/utils/shared/qr";
 
@@ -13,7 +13,7 @@ import {
 import { getUser } from "db/functions";
 
 export default async function Page() {
-	const { userId } = auth();
+	const { userId } = await auth();
 	if (!userId) return null;
 	const user = await getUser(userId);
 	if (!user) return null;
