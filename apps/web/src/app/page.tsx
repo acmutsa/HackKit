@@ -1,6 +1,6 @@
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
-
+import CreatedwithHackkit from "@/components/landing/CreatedwithHackkit";
 import About from "@/components/landing/About";
 
 import Partners from "@/components/landing/Partners";
@@ -9,6 +9,7 @@ import MLHBadge from "@/components/landing/MLHBadge";
 
 import { Oswald } from "next/font/google";
 import WorkWithUs from "@/components/landing/WorkWithUs";
+import CreatedWithHackkit from "@/components/landing/CreatedwithHackkit";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -26,6 +27,7 @@ export default function Home() {
 				<About />
 				<Partners />
 				<WorkWithUs />
+				<CreatedWithHackkit />
 				<Footer />
 			</main>
 		</div>
