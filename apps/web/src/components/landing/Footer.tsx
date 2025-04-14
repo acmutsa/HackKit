@@ -18,13 +18,13 @@ export default function Footer() {
 
 	return (
 		<section className="border-t-2 border-muted-foreground">
-			<div className="flex w-full items-center justify-center min-h-[25vh]">
+			<div className="flex min-h-[25vh] w-full items-center justify-center">
 				<h1 className="text-4xl font-black md:text-5xl">
 					{" "}
 					Your Footer Here
 				</h1>
 			</div>
-			<div className="py-5 px-5 gap-y-3 w-fit">
+			<div className="w-fit gap-y-3 px-5 py-5">
 				<CreatedWithHackkit />
 			</div>
 		</section>
