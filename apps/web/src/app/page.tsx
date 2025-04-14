@@ -8,7 +8,6 @@ import MLHBadge from "@/components/landing/MLHBadge";
 
 import { Oswald } from "next/font/google";
 import WorkWithUs from "@/components/landing/WorkWithUs";
-import CreatedWithHackkit from "@/components/landing/CreatedWithHackkit";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -26,7 +25,6 @@ export default function Home() {
 				<About />
 				<Partners />
 				<WorkWithUs />
-				<CreatedWithHackkit />
 				<Footer />
 			</main>
 		</div>
