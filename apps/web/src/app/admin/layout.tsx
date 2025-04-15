@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
 import { redirect } from "next/navigation";
 import { getUser } from "db/functions";
+import MobileAdminTabSelect from "@/components/shared/MobileAdminTabSelect";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -38,7 +39,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 		<>
 			<ClientToast />
 			<div className="fixed z-20 grid h-16 w-full grid-cols-2 bg-nav px-5">
-				<div className="flex items-center gap-x-4">
+				<div className="flex max-w-full items-center gap-x-4">
 					<Link href={"/"} className="mr-5 flex items-center gap-x-2">
 						<Image
 							src={c.icon.svg}
@@ -77,9 +78,17 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 					</Link>
 					<ProfileButton />
 				</div>
+				{/*show dorpdown for mobile*/}
+				<div className={"m-4 flex gap-4 justify-self-end md:hidden"}>
+					<MobileAdminTabSelect />
+					<ProfileButton />
+				</div>
+
 				<div className="flex items-center justify-end gap-x-4 md:hidden"></div>
 			</div>
-			<div className="fixed z-20 mt-16 flex h-12 w-full border-b border-b-border bg-nav px-5">
+
+			{/*show tabs for non-mobile*/}
+			<div className="fixed z-20 mt-16 hidden h-12 w-full border-b border-b-border bg-nav px-5 xl:flex">
 				{Object.entries(c.dashPaths.admin).map(([name, path]) => (
 					<DashNavItem key={name} name={name} path={path} />
 				))}
