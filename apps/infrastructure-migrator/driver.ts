@@ -240,7 +240,7 @@ async function migratePostgresSqLite() {
 
 		const cmd = new PutObjectCommand({
 			Key: key,
-			Bucket: staticUploads.bucketName,
+			Bucket: process.env.R2_BUCKET_NAME,
 			ContentType: "application/pdf",
 			///@ts-expect-error
 			Body: buffer,

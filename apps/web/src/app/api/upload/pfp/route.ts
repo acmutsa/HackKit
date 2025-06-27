@@ -26,7 +26,10 @@ export async function POST(request: Request): Promise<NextResponse> {
 		const randomSeq = crypto.randomUUID();
 		const [fileName, extension] = body.fileName.split(".");
 		const key = `${body.location}/${fileName}-${randomSeq}.${extension}`;
-		const url = await getPresignedUploadUrl(staticUploads.bucketName, key);
+		const url = await getPresignedUploadUrl(
+			process.env.R2_BUCKET_NAME!,
+			key,
+		);
 
 		return NextResponse.json({ url, key });
 	} catch (error) {

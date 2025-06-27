@@ -7,7 +7,7 @@ export async function del(url: string): Promise<boolean> {
 	const key = url.split("=")[1];
 
 	const cmd = new DeleteObjectCommand({
-		Bucket: staticUploads.bucketName,
+		Bucket: process.env.R2_BUCKET_NAME,
 		Key: key,
 	});
 

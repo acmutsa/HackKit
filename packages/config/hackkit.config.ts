@@ -986,7 +986,6 @@ const c = {
 } as const;
 
 const staticUploads = {
-	bucketName: "acm-userdata",
 	bucketHost: "/api/upload/resume/view",
 	bucketResumeBaseUploadUrl: `${c.hackathonName}/${c.itteration}/resumes`,
 } as const;
