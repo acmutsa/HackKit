@@ -317,8 +317,6 @@ export default function RegisterForm({
 				},
 			);
 
-			alert(uploadedFileUrl);
-
 			resume = uploadedFileUrl;
 		}
 		runRegisterUser({ ...data, resume });
