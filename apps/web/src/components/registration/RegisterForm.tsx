@@ -81,6 +81,7 @@ import {
 	encodeFileAsBase64,
 	decodeBase64AsFile,
 } from "@/lib/utils/shared/files";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function RegisterForm({
 	defaultEmail,
@@ -186,14 +187,6 @@ export default function RegisterForm({
 				);
 			}
 		}
-		// else{
-		// 	localStorage.setItem(
-		// 		HACKER_REGISTRATION_STORAGE_KEY,
-		// 		JSON.stringify({
-		// 			...form.getValues(),
-		// 		}),
-		// 	);
-		// }
 	}, []);
 
 	// seperate useffect for getting the resume file
@@ -224,16 +217,24 @@ export default function RegisterForm({
 		}
 	}, []);
 
-	// might be good to debounce later on
+	const debouncedLocalStorageWrite = useDebouncedCallback(
+		// function
+		() => {
+			localStorage.setItem(
+				HACKER_REGISTRATION_STORAGE_KEY,
+				JSON.stringify({
+					...form.getValues(),
+				}),
+			);
+		},
+		1000,
+	);
+
 	form.watch(() => {
-		localStorage.setItem(
-			HACKER_REGISTRATION_STORAGE_KEY,
-			JSON.stringify({
-				...form.getValues(),
-			}),
-		);
+		debouncedLocalStorageWrite();
 	});
 
+	
 	// use action logic
 	const { execute: runRegisterUser, reset: resetRegisterUser } = useAction(
 		registerHacker,
