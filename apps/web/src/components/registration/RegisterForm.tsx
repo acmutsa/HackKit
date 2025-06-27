@@ -134,6 +134,7 @@ export default function RegisterForm({
 		const hackerFormData = localStorage.getItem(
 			HACKER_REGISTRATION_STORAGE_KEY,
 		);
+		console.log(hackerFormData)
 		if (hackerFormData) {
 			try {
 				const parsed = JSON.parse(hackerFormData);
@@ -185,6 +186,14 @@ export default function RegisterForm({
 				);
 			}
 		}
+		// else{
+		// 	localStorage.setItem(
+		// 		HACKER_REGISTRATION_STORAGE_KEY,
+		// 		JSON.stringify({
+		// 			...form.getValues(),
+		// 		}),
+		// 	);
+		// }
 	}, []);
 
 	// seperate useffect for getting the resume file

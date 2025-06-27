@@ -204,9 +204,6 @@ export const hackerRegistrationValidatorLocalStorage =
 						text: z.string().min(1).max(50),
 					}),
 				)
-				.min(1, {
-					message: "You must have at least one skill",
-				})
 				.max(c.registration.maxNumberOfSkills, {
 					message: `You cannot have more than ${c.registration.maxNumberOfSkills} skills`,
 				}),
