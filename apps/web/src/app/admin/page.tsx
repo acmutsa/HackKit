@@ -19,7 +19,7 @@ export default async function Page() {
 	const adminUser = await getUser(userId);
 	if (
 		!adminUser ||
-		(adminUser.role !== "admin" && adminUser.role !== "super_admin")
+		(adminUser.role !== "admin" && adminUser.role !== "super_admin" && adminUser.role !== "volunteer")
 	) {
 		return notFound();
 	}

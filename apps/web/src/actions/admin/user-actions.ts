@@ -23,7 +23,7 @@ export const updateRole = adminAction
 		}) => {
 			if (
 				user.role !== "super_admin" &&
-				(roleToSet === "super_admin" || roleToSet === "admin")
+				(roleToSet === "super_admin" || roleToSet === "admin" || roleToSet === "volunteer")
 			) {
 				returnValidationErrors(z.null(), {
 					_errors: ["You are not allowed to do this!"],
