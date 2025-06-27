@@ -135,7 +135,7 @@ export default function RegisterForm({
 		const hackerFormData = localStorage.getItem(
 			HACKER_REGISTRATION_STORAGE_KEY,
 		);
-		console.log(hackerFormData)
+		console.log(hackerFormData);
 		if (hackerFormData) {
 			try {
 				const parsed = JSON.parse(hackerFormData);
@@ -234,7 +234,6 @@ export default function RegisterForm({
 		debouncedLocalStorageWrite();
 	});
 
-	
 	// use action logic
 	const { execute: runRegisterUser, reset: resetRegisterUser } = useAction(
 		registerHacker,

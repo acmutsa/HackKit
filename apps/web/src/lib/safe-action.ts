@@ -23,7 +23,12 @@ export const authenticatedAction = publicAction.use(
 
 export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
 	const user = await getUser(ctx.userId);
-	if (!user || (user.role !== "admin" && user.role !== "super_admin" && user.role !== "volunteer")) {
+	if (
+		!user ||
+		(user.role !== "admin" &&
+			user.role !== "super_admin" &&
+			user.role !== "volunteer")
+	) {
 		returnValidationErrors(z.null(), {
 			_errors: ["Unauthorized (Not Admin)"],
 		});
