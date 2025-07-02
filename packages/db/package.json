@@ -23,7 +23,7 @@
     "drizzle-zod": "^0.7.0",
     "esbuild-register": "^3.5.0",
     "nanoid": "^5.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "drizzle-kit": "^0.30.4"

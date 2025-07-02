@@ -99,11 +99,10 @@
     "use-debounce": "^10.0.1",
     "usehooks-ts": "^3.1.0",
     "vaul": "^0.9.1",
-    "zod": "^3.23.8"
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.10",
-    "@cloudflare/workers-types": "^4.20250319.0",
     "esbuild-register": "^3.5.0"
   }
 }
