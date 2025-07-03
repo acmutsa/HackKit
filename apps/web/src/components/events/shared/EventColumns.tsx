@@ -79,7 +79,6 @@ export const columns: ColumnDef<EventRow>[] = [
 		accessorKey: "endTime",
 		header: "End",
 		cell: ({ row }) => (
-			
 			<span>
 				{new Date(row.original.endTime).toLocaleDateString()}{" "}
 				{new Date(row.original.endTime).toLocaleTimeString("en-US", {
@@ -106,7 +105,7 @@ export const columns: ColumnDef<EventRow>[] = [
 						router.refresh();
 						setOpen(false);
 					},
-					onError: ({error:err}) => {
+					onError: ({ error: err }) => {
 						let description: string;
 
 						if (err.validationErrors?._errors) {
@@ -114,8 +113,7 @@ export const columns: ColumnDef<EventRow>[] = [
 							description = err.validationErrors._errors[0];
 						} else {
 							description =
-								err.serverError ||
-								"An unknown error occurred";
+								err.serverError || "An unknown error occurred";
 						}
 
 						toast.error("Unable to edit event", { description });

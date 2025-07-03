@@ -13,9 +13,9 @@ import { isUserAdmin } from "@/lib/utils/server/admin";
 // This begs a question where we might want to have an option later on to sort by the role as we might want different things
 export default async function Page() {
 	const { userId } = await auth();
-	
+
 	if (!userId) return notFound();
-	
+
 	const admin = await getUser(userId);
 	if (!admin || !isUserAdmin(admin)) return notFound();
 

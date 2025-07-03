@@ -17,16 +17,14 @@ export default async function Page() {
 	}
 
 	const userData = await getUser(userId);
-	if (!userData){
+	if (!userData) {
 		return (
-			
-						<FullScreenMessage
-							title="Access Denied"
-							message="You are not an admin. If you belive this is a mistake, please contact a administrator."
-						/>
-		)
+			<FullScreenMessage
+				title="Access Denied"
+				message="You are not an admin. If you belive this is a mistake, please contact a administrator."
+			/>
+		);
 	}
-	
 
 	const events = await getAllEvents();
 	const isUserAuthorized = isUserAdmin(userData);
@@ -54,7 +52,10 @@ export default async function Page() {
 			</div>
 			<EventDataTable
 				columns={columns}
-				data={events.map((ev) => ({ ...ev, isUserAdmin:isUserAuthorized }))}
+				data={events.map((ev) => ({
+					...ev,
+					isUserAdmin: isUserAuthorized,
+				}))}
 			/>
 		</div>
 	);

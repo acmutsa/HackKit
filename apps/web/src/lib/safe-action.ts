@@ -22,29 +22,27 @@ export const authenticatedAction = publicAction.use(
 	},
 );
 
-export const volunteerAction = authenticatedAction.use(async ({ next, ctx }) => {
-	const user = await getUser(ctx.userId);
-	if (
-		!user ||
-		!["admin", "super_admin", "volunteer"].includes(user.role)
-	) {
-		returnValidationErrors(z.null(), {
-			_errors: ["Unauthorized (Not Admin)"],
-		});
-	}
-	return next({ ctx: { user, ...ctx } });
-});
+export const volunteerAction = authenticatedAction.use(
+	async ({ next, ctx }) => {
+		const user = await getUser(ctx.userId);
+		if (
+			!user ||
+			!["admin", "super_admin", "volunteer"].includes(user.role)
+		) {
+			returnValidationErrors(z.null(), {
+				_errors: ["Unauthorized (Not Admin)"],
+			});
+		}
+		return next({ ctx: { user, ...ctx } });
+	},
+);
 
 export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
 	const user = await getUser(ctx.userId);
-	if (
-		!user ||
-		!isUserAdmin(user)
-	) {
+	if (!user || !isUserAdmin(user)) {
 		returnValidationErrors(z.null(), {
 			_errors: ["Unauthorized (Not Admin)"],
 		});
 	}
 	return next({ ctx: { user, ...ctx } });
 });
-

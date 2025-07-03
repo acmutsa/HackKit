@@ -86,7 +86,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 			</div>
 			<div className="fixed z-20 mt-16 flex h-12 w-full border-b border-b-border bg-nav px-5">
 				{Object.entries(c.dashPaths.admin).map(([name, path]) =>
-					["Users","Toggles"].includes(name) &&
+					["Users", "Toggles"].includes(name) &&
 					user.role === "volunteer" ? null : (
 						<DashNavItem key={name} name={name} path={path} />
 					),
