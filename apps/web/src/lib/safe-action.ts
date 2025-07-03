@@ -39,8 +39,7 @@ export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
 	const user = await getUser(ctx.userId);
 	if (
 		!user ||
-		(user.role !== "admin" &&
-			user.role !== "super_admin")
+		!isUserAdmin(user)
 	) {
 		returnValidationErrors(z.null(), {
 			_errors: ["Unauthorized (Not Admin)"],
