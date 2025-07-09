@@ -41,14 +41,16 @@ export default async function Page() {
 						</p>
 					</div>
 				</div>
-				<div className="flex items-center justify-end">
-					<Link href="/admin/events/new">
-						<Button className="flex gap-x-1">
-							<PlusCircle />
-							New Event
-						</Button>
-					</Link>
-				</div>
+				{isUserAuthorized && (
+					<div className="flex items-center justify-end">
+						<Link href="/admin/events/new">
+							<Button className="flex gap-x-1">
+								<PlusCircle />
+								New Event
+							</Button>
+						</Link>
+					</div>
+				)}
 			</div>
 			<EventDataTable
 				columns={columns}
