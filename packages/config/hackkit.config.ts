@@ -912,9 +912,9 @@ const c = {
 			Overview: "/admin",
 			Users: "/admin/users",
 			Events: "/admin/events",
-			Points: "/admin/points",
+			//Points: "/admin/points",
 			"Hackathon Check-in": "/admin/check-in",
-			Toggles: "/admin/toggles",
+			//Toggles: "/admin/toggles",
 		},
 		// TODO: Can remove days? Pretty sure they're dynamic now.
 	},
