@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import {
 	toggleRegistrationEnabled,
 	toggleRegistrationMessageEnabled,
-	toggleSecretRegistrationEnabled,
+	//toggleSecretRegistrationEnabled,
 	toggleRSVPs,
 	setRSVPLimit,
 } from "@/actions/admin/registration-actions";
@@ -17,18 +17,18 @@ import { UpdateItemWithConfirmation } from "./UpdateItemWithConfirmation";
 
 interface RegistrationTogglesProps {
 	defaultRegistrationEnabled: boolean;
-	defaultSecretRegistrationEnabled: boolean;
+	//defaultSecretRegistrationEnabled: boolean;
 	defaultRSVPsEnabled: boolean;
 	defaultRSVPLimit: number;
 }
 
 export function RegistrationToggles({
-	defaultSecretRegistrationEnabled,
+	//defaultSecretRegistrationEnabled,
 	defaultRegistrationEnabled,
 	defaultRSVPsEnabled,
 	defaultRSVPLimit,
 }: RegistrationTogglesProps) {
-	const {
+	/*const {
 		execute: executeToggleSecretRegistrationEnabled,
 		optimisticState: ToggleSecretRegistrationEnabledOptimisticData,
 	} = useOptimisticAction(toggleSecretRegistrationEnabled, {
@@ -39,7 +39,7 @@ export function RegistrationToggles({
 		updateFn: (state, { enabled }) => {
 			return { statusSet: enabled, success: true };
 		},
-	});
+	});*/
 
 	const {
 		execute: executeToggleRSVPs,
@@ -93,7 +93,7 @@ export function RegistrationToggles({
 							}}
 						/>
 					</div>
-					<div className="flex items-center border-b border-b-muted py-4">
+					{/*<div className="flex items-center border-b border-b-muted py-4">
 						<p className="text-sm font-bold">
 							Allow Secret Code Sign-up
 						</p>
@@ -111,7 +111,7 @@ export function RegistrationToggles({
 								});
 							}}
 						/>
-					</div>
+					</div>*/}
 				</div>
 			</div>
 			<div className="mt-5 rounded-lg border-2 border-muted px-5 py-10">
