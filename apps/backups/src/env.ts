@@ -17,7 +17,7 @@ export const env = createEnv({
 		}),
 		BACKUPS_BUCKET_NAME: z.string(),
 	},
-	skipValidation:true,
+	// skipValidation:true,
 
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,

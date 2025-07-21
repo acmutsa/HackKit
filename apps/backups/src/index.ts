@@ -40,6 +40,12 @@ api.post("/backup", async (c) => {
 });
 
 // cron stuff
+/**
+ * Notes for the future: no specific job schedule is specified here as in the future,
+ * the ideal would be to have an endpoint that takes in a schedule and an instance (of hackkit, clubkit, etc) and allow the endpoint to use the cloudflare API to 
+ * modify the builld itself and assign jobs that way.
+ * Basically you would have a db table that would hold the instance ID, and the schedule and another one for the unique cron entires and then tie them together.
+ */
 const cron = async (
 	controller: ScheduledController,
 	env: Env,
