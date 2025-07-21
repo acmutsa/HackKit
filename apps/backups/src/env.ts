@@ -6,7 +6,7 @@ export const env = createEnv({
 		BACKUPS_SECRET_KEY: z.string(),
 		BACKUPS_DATABSE_NAME: z.string(),
 		BACKUPS_ORGANIZATION_SLUG: z.string(),
-		CLOUDFLARE_ACCOUNT_ID: z.string({
+		BACKUPS_CLOUDFLARE_ACCOUNT_ID: z.string({
 			description:"Account ID for the Cloudflare account. Note that this must match what you are "
 		}),
 		BACKUPS_BUCKET_ACCESS_KEY_ID: z.string(),
