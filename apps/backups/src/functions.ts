@@ -10,6 +10,9 @@ const S3 = new S3Client({
 	},
 });
 
+console.log("env test", env.BACKUPS_BUCKET_NAME);
+console.log("env test", env.BACKUPS_DATABSE_NAME)
+
 async function getDatabaseDump(databseName: string, organizationSlug: string) {
 	const res = await fetch(
 		`https://${databseName}-${organizationSlug}.turso.io/dump`,
