@@ -1,13 +1,11 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "backups-test",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-06-30",
-  "observability": {
-    "enabled": true,
-    "head_sampling_rate": 1
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "backups-test",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-06-30",
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+	},
+	"compatibility_flags": ["nodejs_compat"],
 }
