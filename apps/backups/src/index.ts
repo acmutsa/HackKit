@@ -30,7 +30,7 @@ api.use('/backup/*',cors()).use('/backup/*', async (c, next) => {
 
 api.get('/health', (c) => {
   console.log('Health check endpoint hit')
-  return c.json({ status: 'ok' })
+  return c.json({ status: 'ok' }, 200)
 })
 
 api.post('/backup',async (c)=>{
