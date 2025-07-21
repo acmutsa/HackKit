@@ -3,7 +3,7 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 const S3 = new S3Client({
 	region: "auto",
-	endpoint: `https://${env.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+	endpoint: `https://${env.BACKUPS_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
 	credentials: {
 		accessKeyId: env.BACKUPS_BUCKET_ACCESS_KEY_ID,
 		secretAccessKey: env.BACKUPS_BUCKET_SECRET_ACCESS_KEY,
