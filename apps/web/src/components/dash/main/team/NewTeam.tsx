@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import { useForm } from "react-hook-form";
 import {
 	Form,
@@ -192,4 +192,4 @@ export default function NewTeamForm() {
 			</form>
 		</Form>
 	);
-}
+}*/

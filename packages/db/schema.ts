@@ -202,7 +202,7 @@ export const userHackerData = sqliteTable("user_hacker_data", {
 
 	// metadata
 	group: integer("group").notNull(),
-	teamID: text("team_id", { length: 50 }),
+	//teamID: text("team_id", { length: 50 }),
 	points: integer("points").notNull().default(0),
 	hasAcceptedMLHCoC: integer("has_accepted_mlh_coc", {
 		mode: "boolean",
@@ -220,11 +220,11 @@ export const userHackerRelations = relations(
 			fields: [userHackerData.clerkID],
 			references: [userCommonData.clerkID],
 		}),
-		team: one(teams, {
+		/*team: one(teams, {
 			fields: [userHackerData.teamID],
 			references: [teams.id],
-		}),
-		invites: many(invites),
+		}), 
+		invites: many(invites),	*/
 	}),
 );
 
@@ -287,7 +287,7 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-export const teams = sqliteTable("teams", {
+/*export const teams = sqliteTable("teams", {
 	id: text("id", { length: 50 }).notNull().primaryKey().unique(),
 	name: text("name", { length: 255 }).notNull(),
 	tag: text("tag", { length: 50 }).notNull().unique(),
@@ -327,7 +327,7 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 		fields: [invites.teamID],
 		references: [teams.id],
 	}),
-}));
+})); */
 
 export const errorLog = sqliteTable("error_log", {
 	id: text("id", { length: 50 }).notNull().primaryKey(),

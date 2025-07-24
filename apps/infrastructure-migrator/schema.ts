@@ -132,7 +132,7 @@ export const userHackerData = pgTable("user_hacker_data", {
 
 	// metadata
 	group: integer("group").notNull(),
-	teamID: varchar("team_id", { length: 50 }),
+	//teamID: varchar("team_id", { length: 50 }),
 	points: integer("points").notNull().default(0),
 	hasAcceptedMLHCoC: boolean("has_accepted_mlh_coc").notNull(),
 	hasSharedDataWithMLH: boolean("has_shared_data_with_mlh").notNull(),
@@ -146,11 +146,11 @@ export const userHackerRelations = relations(
 			fields: [userHackerData.clerkID],
 			references: [userCommonData.clerkID],
 		}),
-		team: one(teams, {
-			fields: [userHackerData.teamID],
-			references: [teams.id],
-		}),
-		invites: many(invites),
+		//team: one(teams, {
+		//	fields: [userHackerData.teamID],
+		//	references: [teams.id],
+		//}),
+		//invites: many(invites),
 	}),
 );
 
@@ -211,7 +211,7 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-export const teams = pgTable("teams", {
+/*export const teams = pgTable("teams", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey().unique(),
 	name: varchar("name", { length: 255 }).notNull(),
 	tag: varchar("tag", { length: 50 }).notNull().unique(),
@@ -220,14 +220,14 @@ export const teams = pgTable("teams", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	ownerID: varchar("owner_id", { length: 255 }).notNull(),
 	devpostURL: varchar("devpost_url", { length: 255 }),
-});
+});	*/
 
-export const teamsRelations = relations(teams, ({ one, many }) => ({
+/*export const teamsRelations = relations(teams, ({ one, many }) => ({
 	members: many(userHackerData),
 	invites: many(invites),
-}));
+}));	*/
 
-export const invites = pgTable(
+/*export const invites = pgTable(
 	"invites",
 	{
 		inviteeID: varchar("invitee_id", { length: 255 }).notNull(),
@@ -238,9 +238,9 @@ export const invites = pgTable(
 	(table) => ({
 		id: primaryKey(table.inviteeID, table.teamID),
 	}),
-);
+);	*/
 
-export const invitesRelations = relations(invites, ({ one }) => ({
+/*export const invitesRelations = relations(invites, ({ one }) => ({
 	invitee: one(userHackerData, {
 		fields: [invites.inviteeID],
 		references: [userHackerData.clerkID],
@@ -249,7 +249,7 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 		fields: [invites.teamID],
 		references: [teams.id],
 	}),
-}));
+}));	*/
 
 export const errorLog = pgTable("error_log", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey(),

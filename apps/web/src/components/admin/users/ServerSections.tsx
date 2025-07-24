@@ -29,10 +29,10 @@ export function ProfileInfo({ user }: { user: Hacker }) {
 		<UserInfoSection title="Profile Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="Hacker Tag" value={`@${user.hackerTag}`} />
-				<Cell
+				{/*<Cell
 					title="Team"
 					value={user.hackerData.team ? "Yes" : "No"}
-				/>
+				/>*/}
 				<Cell title="Discord" value={user.discord ?? "N/A"} />
 				<Cell
 					title="Linkedin"
@@ -86,7 +86,7 @@ export async function AccountInfo({ user }: { user: Hacker }) {
 	);
 }
 
-export function TeamInfo({ user }: { user: Hacker }) {
+/*export function TeamInfo({ user }: { user: Hacker }) {
 	return (
 		<UserInfoSection title="Team Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5 pb-5">
@@ -122,7 +122,7 @@ export function TeamInfo({ user }: { user: Hacker }) {
 			) : null}
 		</UserInfoSection>
 	);
-}
+}*/
 
 function Cell({
 	title,

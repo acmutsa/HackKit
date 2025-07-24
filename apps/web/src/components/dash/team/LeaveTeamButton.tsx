@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
@@ -51,4 +51,4 @@ export default function LeaveTeamButton({ issueEmail }: LeaveTeamButtonProps) {
 			Leave
 		</Button>
 	);
-}
+}*/

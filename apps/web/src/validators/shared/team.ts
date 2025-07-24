@@ -1,4 +1,4 @@
-import { z } from "zod";
+/*import { z } from "zod";
 import c from "config";
 export const newTeamValidator = z.object({
 	name: z
@@ -32,4 +32,4 @@ export const newTeamValidator = z.object({
 
 export const newInviteValidator = z.object({
 	inviteeTag: z.string(),
-});
+}); */

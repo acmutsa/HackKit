@@ -1,4 +1,4 @@
-import { serverZodResponse } from "@/lib/utils/server/types";
+/*import { serverZodResponse } from "@/lib/utils/server/types";
 import { BasicServerValidator } from "@/validators/shared/basic";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
@@ -104,4 +104,4 @@ export async function POST(
 	});
 }
 
-export const runtime = "edge";
+export const runtime = "edge"; */

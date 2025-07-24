@@ -977,7 +977,7 @@ const c = {
 			checked: true,
 		},
 	},
-	maxTeamSize: 4,
+	//maxTeamSize: 4,
 	featureFlags: {
 		core: {
 			requireUsersApproval: false,

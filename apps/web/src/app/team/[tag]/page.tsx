@@ -1,4 +1,4 @@
-import { db } from "db";
+/*import { db } from "db";
 import { teams } from "db/schema";
 import { notFound } from "next/navigation";
 import { eq } from "db/drizzle";
@@ -69,4 +69,4 @@ export default async function Page({ params }: { params: { tag: string } }) {
 }
 
 export const runtime = "edge";
-export const revalidate = 30;
+export const revalidate = 30;*/

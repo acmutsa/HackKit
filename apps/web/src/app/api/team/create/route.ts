@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+/*import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
@@ -65,4 +65,4 @@ export async function POST(req: Request) {
 			message: `An error occurred while creating your team. If this is a continuing issue, please reach out to ${c.issueEmail} with error ID ${errorID}.`,
 		});
 	}
-}
+}	*/

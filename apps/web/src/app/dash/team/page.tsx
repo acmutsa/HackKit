@@ -1,4 +1,4 @@
-import c from "config";
+/*import c from "config";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "db";
 import { userCommonData } from "db/schema";
@@ -10,7 +10,7 @@ import Image from "next/image";
 import TeamInvite from "@/components/dash/team/invite";
 import { Fragment } from "react";
 import { Badge } from "@/components/shadcn/ui/badge";
-import LeaveTeamButton from "@/components/dash/team/LeaveTeamButton";
+//import LeaveTeamButton from "@/components/dash/team/LeaveTeamButton";
 
 export default async function Page() {
 	const { userId } = await auth();
@@ -40,9 +40,9 @@ export default async function Page() {
 			},
 		},
 	});
-	if (!user) return null;
+	if (!user) return null;	*/
 
-	if (!user.hackerData.teamID) {
+	{/*if (!user.hackerData.teamID) {
 		return (
 			<main className="mx-auto mt-16 flex min-h-[70%] w-full max-w-5xl flex-col items-center">
 				<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform"></div>
@@ -103,7 +103,7 @@ export default async function Page() {
 				</div>
 			</main>
 		);
-	} else {
+	} *//*else {
 		if (!user.hackerData.team) return null;
 		const team = user.hackerData.team;
 		return (
@@ -115,7 +115,7 @@ export default async function Page() {
 								<User />
 								Team
 							</h2>
-							{/* <p className="text-sm text-muted-foreground">{users.length} Total Users</p> */}
+							 <p className="text-sm text-muted-foreground">{users.length} Total Users</p> 
 						</div>
 					</div>
 					<div className="flex items-center justify-end gap-2">
@@ -200,4 +200,4 @@ export default async function Page() {
 	}
 }
 
-export const runtime = "edge";
+export const runtime = "edge"; */}

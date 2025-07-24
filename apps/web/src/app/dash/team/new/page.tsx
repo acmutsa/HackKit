@@ -1,4 +1,4 @@
-import c from "config";
+/*import c from "config";
 import NewTeamForm from "@/components/dash/main/team/NewTeam";
 
 export default async function Page() {
@@ -15,4 +15,4 @@ export default async function Page() {
 			</div>
 		</main>
 	);
-}
+}	*/

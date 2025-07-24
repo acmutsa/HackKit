@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import {
 	Dialog,
 	DialogContent,
@@ -81,4 +81,4 @@ export default function TeamInvite() {
 			</DialogContent>
 		</Dialog>
 	);
-}
+}*/

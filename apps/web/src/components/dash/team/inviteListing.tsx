@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 
@@ -17,4 +17,4 @@ export default function InviteListing() {
 	// 		</div>
 	// 	</div>
 	// );
-}
+}*/

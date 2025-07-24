@@ -30,8 +30,8 @@ const allUserHackerDataPromise = dbPostgres.query.userHackerData.findMany();
 const allEventsPromise = dbPostgres.query.events.findMany();
 const allFilesPromise = dbPostgres.query.files.findMany();
 const allScansPromise = dbPostgres.query.scans.findMany();
-const allTeamsPromise = dbPostgres.query.teams.findMany();
-const allInvitesPromise = dbPostgres.query.invites.findMany();
+//const allTeamsPromise = dbPostgres.query.teams.findMany();
+//const allInvitesPromise = dbPostgres.query.invites.findMany();
 const allErrorLogsPromise = dbPostgres.query.errorLog.findMany();
 const alldiscordVerificationPromise =
 	dbPostgres.query.discordVerification.findMany();
@@ -56,8 +56,8 @@ async function migratePostgresSqLite() {
 		allEvents,
 		allFiles,
 		allScans,
-		allTeams,
-		allInvites,
+		//allTeams,
+		//allInvites,
 		allErrorLogs,
 		alldiscordVerification,
 		allTickets,
@@ -71,8 +71,8 @@ async function migratePostgresSqLite() {
 		allEventsPromise,
 		allFilesPromise,
 		allScansPromise,
-		allTeamsPromise,
-		allInvitesPromise,
+		//allTeamsPromise,
+		//allInvitesPromise,
 		allErrorLogsPromise,
 		alldiscordVerificationPromise,
 		allTicketsPromise,
@@ -133,9 +133,9 @@ async function migratePostgresSqLite() {
 
 	console.log("Migrated Scans ✅\n\n");
 
-	console.log("Migrating Teams 🏆");
+	/*console.log("Migrating Teams 🏆");
 
-	if (allTeams.length > 0) {
+	  if (allTeams.length > 0) {
 		await db.insert(schema.teams).values(allTeams);
 	}
 
@@ -147,7 +147,7 @@ async function migratePostgresSqLite() {
 		await db.insert(schema.invites).values(allInvites);
 	}
 
-	console.log("Migrated Invites ✅\n\n");
+	console.log("Migrated Invites ✅\n\n");*/
 
 	console.log("Migrating Error Logs 📝");
 

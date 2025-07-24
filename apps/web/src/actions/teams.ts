@@ -1,4 +1,4 @@
-"use server";
+/*"use server";
 
 // TODO: update team /api endpoints to be actions
 import { authenticatedAction } from "@/lib/safe-action";
@@ -84,4 +84,4 @@ export const leaveTeam = authenticatedAction
 		});
 
 		return result;
-	});
+	});	*/

@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+/*import { auth } from "@clerk/nextjs/server";
 import { db } from "db";
 import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
@@ -89,4 +89,4 @@ export async function POST(
 	});
 }
 
-export const runtime = "edge";
+export const runtime = "edge"; */

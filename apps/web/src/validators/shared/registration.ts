@@ -185,7 +185,7 @@ export const hackerRegistrationFormValidator = z
 		points: true,
 		profilePhoto: true,
 		checkinTimestamp: true,
-		teamID: true,
+		//teamID: true,
 	});
 
 export const hackerRegistrationValidatorLocalStorage =
@@ -222,7 +222,7 @@ export const hackerRegistrationValidatorLocalStorage =
 			points: true,
 			profilePhoto: true,
 			checkinTimestamp: true,
-			teamID: true,
+			//teamID: true,
 		});
 
 export const hackerRegistrationResumeValidator = z.object({

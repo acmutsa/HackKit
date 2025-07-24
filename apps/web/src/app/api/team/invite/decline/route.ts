@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+/*import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "db";
@@ -51,4 +51,4 @@ export async function POST(req: Request) {
 				eq(invites.inviteeID, userId),
 			),
 		);
-}
+}	*/
