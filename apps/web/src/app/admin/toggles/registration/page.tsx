@@ -6,12 +6,10 @@ import c from "config";
 export default async function Page() {
 	const [
 		defaultRegistrationEnabled,
-		//defaultSecretRegistrationEnabled,
 		defaultRSVPsEnabled,
 		defaultRSVPLimit,
 	]: (string | null)[] = await redisMGet(
 		"config:registration:registrationEnabled",
-		//"config:registration:secretRegistrationEnabled",
 		"config:registration:allowRSVPs",
 		"config:registration:maxRSVPs",
 	);
@@ -28,10 +26,7 @@ export default async function Page() {
 					defaultRegistrationEnabled,
 					true,
 				)}
-				/*defaultSecretRegistrationEnabled={parseRedisBoolean(
-					defaultSecretRegistrationEnabled,
-					false,
-				)}*/
+				
 				defaultRSVPsEnabled={parseRedisBoolean(
 					defaultRSVPsEnabled,
 					true,

@@ -40,7 +40,7 @@ export function getHacker(
 	// 	: _getHackerByIDAlone.execute({ _clerkID: clerkID });
 	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, clerkID),
-		with: { hackerData: /*withTeam ? { with: { team: true } } :*/ true },
+		with: { hackerData: true },
 	});
 }
 
@@ -69,6 +69,6 @@ export function getHackerByTag(
 	// 	: _getHackerByTagAlone.execute({ _hackerTag: hackerTag });
 	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.hackerTag, hackerTag),
-		with: { hackerData: /*withTeam ? { with: { team: true } } :*/ true },
+		with: { hackerData: true },
 	});
 }

@@ -182,10 +182,8 @@ export const hackerRegistrationFormValidator = z
 		isRSVPed: true,
 		isApproved: true,
 		group: true,
-		points: true,
 		profilePhoto: true,
 		checkinTimestamp: true,
-		//teamID: true,
 	});
 
 export const hackerRegistrationValidatorLocalStorage =
@@ -219,10 +217,8 @@ export const hackerRegistrationValidatorLocalStorage =
 			isRSVPed: true,
 			isApproved: true,
 			group: true,
-			points: true,
 			profilePhoto: true,
 			checkinTimestamp: true,
-			//teamID: true,
 		});
 
 export const hackerRegistrationResumeValidator = z.object({

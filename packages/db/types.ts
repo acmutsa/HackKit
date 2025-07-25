@@ -10,7 +10,6 @@ export interface Event extends InferSelectModel<typeof events> {}
 
 export interface Hacker extends User {
 	hackerData: typeof userHackerData.$inferSelect & {
-		//team?: Team | null;
 	};
 }
 export interface NoticeOrError {

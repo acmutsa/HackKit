@@ -202,8 +202,6 @@ export const userHackerData = sqliteTable("user_hacker_data", {
 
 	// metadata
 	group: integer("group").notNull(),
-	//teamID: text("team_id", { length: 50 }),
-	points: integer("points").notNull().default(0),
 	hasAcceptedMLHCoC: integer("has_accepted_mlh_coc", {
 		mode: "boolean",
 	}).notNull(),
@@ -220,11 +218,6 @@ export const userHackerRelations = relations(
 			fields: [userHackerData.clerkID],
 			references: [userCommonData.clerkID],
 		}),
-		/*team: one(teams, {
-			fields: [userHackerData.teamID],
-			references: [teams.id],
-		}), 
-		invites: many(invites),	*/
 	}),
 );
 
@@ -234,7 +227,6 @@ export const events = sqliteTable("events", {
 	startTime: integer("start_time", { mode: "timestamp_ms" }).notNull(),
 	endTime: integer("end_time", { mode: "timestamp_ms" }).notNull(),
 	location: text("location", { length: 255 }).default("TBD"),
-	points: integer("points").notNull().default(0),
 	description: text("description").notNull(),
 	type: text("type", { length: 50 }).notNull(),
 	host: text("host", { length: 255 }),
@@ -287,47 +279,6 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-/*export const teams = sqliteTable("teams", {
-	id: text("id", { length: 50 }).notNull().primaryKey().unique(),
-	name: text("name", { length: 255 }).notNull(),
-	tag: text("tag", { length: 50 }).notNull().unique(),
-	bio: text("bio"),
-	photo: text("photo", { length: 400 }).notNull(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-	ownerID: text("owner_id", { length: 255 }).notNull(),
-	devpostURL: text("devpost_url", { length: 255 }),
-});
-
-export const teamsRelations = relations(teams, ({ one, many }) => ({
-	members: many(userHackerData),
-	invites: many(invites),
-}));
-
-export const invites = sqliteTable(
-	"invites",
-	{
-		inviteeID: text("invitee_id", { length: 255 }).notNull(),
-		teamID: text("team_id", { length: 50 }).notNull(),
-		createdAt: integer("created_at", { mode: "timestamp_ms" })
-			.notNull()
-			.default(sql`(current_timestamp)`),
-		status: inviteType("status").notNull().default("pending"),
-	},
-	(table) => [primaryKey({ columns: [table.inviteeID, table.teamID] })],
-);
-
-export const invitesRelations = relations(invites, ({ one }) => ({
-	invitee: one(userHackerData, {
-		fields: [invites.inviteeID],
-		references: [userHackerData.clerkID],
-	}),
-	team: one(teams, {
-		fields: [invites.teamID],
-		references: [teams.id],
-	}),
-})); */
 
 export const errorLog = sqliteTable("error_log", {
 	id: text("id", { length: 50 }).notNull().primaryKey(),

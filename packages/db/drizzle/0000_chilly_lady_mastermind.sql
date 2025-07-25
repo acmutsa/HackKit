@@ -49,7 +49,6 @@ CREATE TABLE `events` (
 	`start_time` integer NOT NULL,
 	`end_time` integer NOT NULL,
 	`location` text(255) DEFAULT 'TBD',
-	`points` integer DEFAULT 0 NOT NULL,
 	`description` text NOT NULL,
 	`type` text(50) NOT NULL,
 	`host` text(255),
@@ -67,13 +66,7 @@ CREATE TABLE `files` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `files_id_unique` ON `files` (`id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `files_key_unique` ON `files` (`key`);--> statement-breakpoint
-/*CREATE TABLE `invites` (
-	`invitee_id` text(255) NOT NULL,
-	`team_id` text(50) NOT NULL,
-	`created_at` integer DEFAULT (current_timestamp) NOT NULL,
-	`status` text DEFAULT 'pending' NOT NULL,
-	PRIMARY KEY(`invitee_id`, `team_id`)
-); */
+
 --> statement-breakpoint
 CREATE TABLE `scans` (
 	`updated_at` integer DEFAULT (current_timestamp) NOT NULL,
@@ -83,19 +76,6 @@ CREATE TABLE `scans` (
 	PRIMARY KEY(`user_id`, `event_id`)
 );
 --> statement-breakpoint
-/*CREATE TABLE `teams` (
-	`id` text(50) PRIMARY KEY NOT NULL,
-	`name` text(255) NOT NULL,
-	`tag` text(50) NOT NULL,
-	`bio` text,
-	`photo` text(400) NOT NULL,
-	`created_at` integer DEFAULT (current_timestamp) NOT NULL,
-	`owner_id` text(255) NOT NULL,
-	`devpost_url` text(255)
-); 
---> statement-breakpoint
-CREATE UNIQUE INDEX `teams_id_unique` ON `teams` (`id`);--> statement-breakpoint
-CREATE UNIQUE INDEX `teams_tag_unique` ON `teams` (`tag`);--> statement-breakpoint */
 CREATE TABLE `tickets` (
 	`id` text PRIMARY KEY NOT NULL,
 	`title` text(255) NOT NULL,
@@ -157,8 +137,6 @@ CREATE TABLE `user_hacker_data` (
 	`personal_website` text(100),
 	`resume` text(255) DEFAULT 'https://static.acmutsa.org/No%20Resume%20Provided.pdf' NOT NULL,
 	`group` integer NOT NULL,
-	/*`team_id` text(50), */
-	`points` integer DEFAULT 0 NOT NULL,
 	`has_accepted_mlh_coc` integer NOT NULL,
 	`has_shared_data_with_mlh` integer NOT NULL,
 	`is_emailable` integer NOT NULL,

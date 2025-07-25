@@ -200,7 +200,7 @@ app.post("/api/checkDiscordVerification", async (h) => {
 	}
 	console.log("got here 2");
 
-	const user = await getHacker(verification.clerkID/*, false*/);
+	const user = await getHacker(verification.clerkID);
 	console.log("got here 2 with user", user);
 	if (!user) {
 		console.log("failed cause of no user in db");

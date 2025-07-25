@@ -29,10 +29,6 @@ export function ProfileInfo({ user }: { user: Hacker }) {
 		<UserInfoSection title="Profile Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="Hacker Tag" value={`@${user.hackerTag}`} />
-				{/*<Cell
-					title="Team"
-					value={user.hackerData.team ? "Yes" : "No"}
-				/>*/}
 				<Cell title="Discord" value={user.discord ?? "N/A"} />
 				<Cell
 					title="Linkedin"
@@ -86,43 +82,6 @@ export async function AccountInfo({ user }: { user: Hacker }) {
 	);
 }
 
-/*export function TeamInfo({ user }: { user: Hacker }) {
-	return (
-		<UserInfoSection title="Team Info">
-			<div className="flex flex-wrap gap-x-10 gap-y-5 pb-5">
-				<Cell
-					title="Is in Team"
-					value={user.hackerData.team ? "Yes" : "No"}
-				/>
-				{user.hackerData.team ? (
-					<>
-						<Cell
-							title="Team Name"
-							value={user.hackerData.team.name}
-						/>
-						<Cell
-							title="Team Tag"
-							value={`~${user.hackerData.team.tag}`}
-						/>
-						<Cell
-							title="Is owner"
-							value={
-								user.hackerData.team.ownerID === user.clerkID
-									? "Yes"
-									: "No"
-							}
-						/>
-					</>
-				) : null}
-			</div>
-			{user.hackerData.team ? (
-				<Link href={`/~${user.hackerData.team.tag}`}>
-					<Button>View Team</Button>
-				</Link>
-			) : null}
-		</UserInfoSection>
-	);
-}*/
 
 function Cell({
 	title,

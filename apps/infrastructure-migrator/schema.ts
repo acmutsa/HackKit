@@ -132,8 +132,6 @@ export const userHackerData = pgTable("user_hacker_data", {
 
 	// metadata
 	group: integer("group").notNull(),
-	//teamID: varchar("team_id", { length: 50 }),
-	points: integer("points").notNull().default(0),
 	hasAcceptedMLHCoC: boolean("has_accepted_mlh_coc").notNull(),
 	hasSharedDataWithMLH: boolean("has_shared_data_with_mlh").notNull(),
 	isEmailable: boolean("is_emailable").notNull(),
@@ -146,11 +144,6 @@ export const userHackerRelations = relations(
 			fields: [userHackerData.clerkID],
 			references: [userCommonData.clerkID],
 		}),
-		//team: one(teams, {
-		//	fields: [userHackerData.teamID],
-		//	references: [teams.id],
-		//}),
-		//invites: many(invites),
 	}),
 );
 
@@ -160,7 +153,6 @@ export const events = pgTable("events", {
 	startTime: timestamp("start_time").notNull(),
 	endTime: timestamp("end_time").notNull(),
 	location: varchar("location", { length: 255 }).default("TBD"),
-	points: integer("points").notNull().default(0),
 	description: text("description").notNull(),
 	type: varchar("type", { length: 50 }).notNull(),
 	host: varchar("host", { length: 255 }),
@@ -211,45 +203,6 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-/*export const teams = pgTable("teams", {
-	id: varchar("id", { length: 50 }).notNull().primaryKey().unique(),
-	name: varchar("name", { length: 255 }).notNull(),
-	tag: varchar("tag", { length: 50 }).notNull().unique(),
-	bio: text("bio"),
-	photo: varchar("photo", { length: 400 }).notNull(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	ownerID: varchar("owner_id", { length: 255 }).notNull(),
-	devpostURL: varchar("devpost_url", { length: 255 }),
-});	*/
-
-/*export const teamsRelations = relations(teams, ({ one, many }) => ({
-	members: many(userHackerData),
-	invites: many(invites),
-}));	*/
-
-/*export const invites = pgTable(
-	"invites",
-	{
-		inviteeID: varchar("invitee_id", { length: 255 }).notNull(),
-		teamID: varchar("team_id", { length: 50 }).notNull(),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
-		status: inviteType("status").notNull().default("pending"),
-	},
-	(table) => ({
-		id: primaryKey(table.inviteeID, table.teamID),
-	}),
-);	*/
-
-/*export const invitesRelations = relations(invites, ({ one }) => ({
-	invitee: one(userHackerData, {
-		fields: [invites.inviteeID],
-		references: [userHackerData.clerkID],
-	}),
-	team: one(teams, {
-		fields: [invites.teamID],
-		references: [teams.id],
-	}),
-}));	*/
 
 export const errorLog = pgTable("error_log", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey(),

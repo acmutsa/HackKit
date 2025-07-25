@@ -24,7 +24,7 @@ export default async function Page() {
 	const user = await currentUser();
 	if (!user) return null;
 
-	const userDbRecord = await getHacker(user.id/*, false*/);
+	const userDbRecord = await getHacker(user.id);
 	if (!userDbRecord) return null;
 
 	const qrPayload = createQRpayload({

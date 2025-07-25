@@ -49,7 +49,6 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 			type: "" as any,
 			host: "",
 			startTime: defaultDate,
-			points: 0,
 			location: "TBD",
 			endTime: new Date(defaultDate.getTime() + ONE_HOUR_IN_MILLISECONDS),
 		},

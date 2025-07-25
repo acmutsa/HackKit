@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import {
 	toggleRegistrationEnabled,
 	toggleRegistrationMessageEnabled,
-	//toggleSecretRegistrationEnabled,
 	toggleRSVPs,
 	setRSVPLimit,
 } from "@/actions/admin/registration-actions";
@@ -17,29 +16,15 @@ import { UpdateItemWithConfirmation } from "./UpdateItemWithConfirmation";
 
 interface RegistrationTogglesProps {
 	defaultRegistrationEnabled: boolean;
-	//defaultSecretRegistrationEnabled: boolean;
 	defaultRSVPsEnabled: boolean;
 	defaultRSVPLimit: number;
 }
 
 export function RegistrationToggles({
-	//defaultSecretRegistrationEnabled,
 	defaultRegistrationEnabled,
 	defaultRSVPsEnabled,
 	defaultRSVPLimit,
 }: RegistrationTogglesProps) {
-	/*const {
-		execute: executeToggleSecretRegistrationEnabled,
-		optimisticState: ToggleSecretRegistrationEnabledOptimisticData,
-	} = useOptimisticAction(toggleSecretRegistrationEnabled, {
-		currentState: {
-			success: true,
-			statusSet: defaultSecretRegistrationEnabled,
-		},
-		updateFn: (state, { enabled }) => {
-			return { statusSet: enabled, success: true };
-		},
-	});*/
 
 	const {
 		execute: executeToggleRSVPs,
@@ -93,25 +78,6 @@ export function RegistrationToggles({
 							}}
 						/>
 					</div>
-					{/*<div className="flex items-center border-b border-b-muted py-4">
-						<p className="text-sm font-bold">
-							Allow Secret Code Sign-up
-						</p>
-						<Switch
-							className="ml-auto"
-							checked={
-								ToggleSecretRegistrationEnabledOptimisticData.statusSet
-							}
-							onCheckedChange={(checked) => {
-								toast.success(
-									`Secret registration ${checked ? "enabled" : "disabled"} successfully!`,
-								);
-								executeToggleSecretRegistrationEnabled({
-									enabled: checked,
-								});
-							}}
-						/>
-					</div>*/}
 				</div>
 			</div>
 			<div className="mt-5 rounded-lg border-2 border-muted px-5 py-10">

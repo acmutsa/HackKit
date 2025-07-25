@@ -19,12 +19,11 @@ export default async function Page() {
 	const registration = await getUser(userId);
 	if (registration) return redirect("/dash");
 
-	const [defaultRegistrationEnabled, /*defaultSecretRegistrationEnabled*/]: (
+	const [defaultRegistrationEnabled]: (
 		| string
 		| null
 	)[] = await redisMGet(
 		"config:registration:registrationEnabled",
-		//"config:registration:secretRegistrationEnabled",
 	);
 
 	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {

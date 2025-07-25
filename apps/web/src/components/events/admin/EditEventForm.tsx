@@ -43,7 +43,6 @@ export default function EditEventForm({
 	type,
 	host,
 	endTime,
-	points,
 	startTime,
 	location,
 }: eventEditType & { id: number }) {
@@ -84,7 +83,6 @@ export default function EditEventForm({
 			type: type as any,
 			host,
 			startTime,
-			points,
 			location,
 			endTime,
 		},

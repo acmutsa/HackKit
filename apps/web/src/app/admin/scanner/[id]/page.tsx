@@ -49,7 +49,7 @@ export default async function Page({
 		);
 	}
 
-	const scanUser = await getHacker(searchParams.user/*, false*/);
+	const scanUser = await getHacker(searchParams.user);
 
 	const scan = !scanUser
 		? null
