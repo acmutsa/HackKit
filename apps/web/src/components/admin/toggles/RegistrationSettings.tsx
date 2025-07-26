@@ -25,7 +25,6 @@ export function RegistrationToggles({
 	defaultRSVPsEnabled,
 	defaultRSVPLimit,
 }: RegistrationTogglesProps) {
-
 	const {
 		execute: executeToggleRSVPs,
 		optimisticState: toggleRSVPsOptimisticData,

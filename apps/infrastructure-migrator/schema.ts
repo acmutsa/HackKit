@@ -203,7 +203,6 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-
 export const errorLog = pgTable("error_log", {
 	id: varchar("id", { length: 50 }).notNull().primaryKey(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),

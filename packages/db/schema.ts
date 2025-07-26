@@ -279,7 +279,6 @@ export const scansRelations = relations(scans, ({ one }) => ({
 	}),
 }));
 
-
 export const errorLog = sqliteTable("error_log", {
 	id: text("id", { length: 50 }).notNull().primaryKey(),
 	createdAt: integer("created_at", { mode: "timestamp_ms" })

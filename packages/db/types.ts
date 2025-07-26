@@ -9,8 +9,7 @@ export interface HackerData extends InferSelectModel<typeof userHackerData> {}
 export interface Event extends InferSelectModel<typeof events> {}
 
 export interface Hacker extends User {
-	hackerData: typeof userHackerData.$inferSelect & {
-	};
+	hackerData: typeof userHackerData.$inferSelect & {};
 }
 export interface NoticeOrError {
 	message: string | undefined;

@@ -127,8 +127,6 @@ async function migratePostgresSqLite() {
 
 	console.log("Migrated Scans ✅\n\n");
 
-	
-
 	console.log("Migrating Error Logs 📝");
 
 	if (allErrorLogs.length > 0) {

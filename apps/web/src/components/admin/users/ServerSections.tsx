@@ -82,7 +82,6 @@ export async function AccountInfo({ user }: { user: Hacker }) {
 	);
 }
 
-
 function Cell({
 	title,
 	value,

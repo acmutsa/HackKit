@@ -103,7 +103,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<PersonalInfo user={user} />
 					<ProfileInfo user={user} />
 					<AccountInfo user={user} />
-					
 				</div>
 			</div>
 		</main>

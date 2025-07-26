@@ -32,8 +32,6 @@ export const toggleRegistrationMessageEnabled = adminAction
 		return { success: true, statusSet: enabled };
 	});
 
-
-
 export const toggleRSVPs = adminAction
 	.schema(defaultRegistrationToggleSchema)
 	.action(async ({ parsedInput: { enabled }, ctx: { user, userId } }) => {
