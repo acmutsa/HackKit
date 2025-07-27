@@ -3,7 +3,6 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";
-import { headers } from "next/headers";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 export default function EventFull({ event }: { event: Event }) {
@@ -21,7 +20,7 @@ export default function EventFull({ event }: { event: Event }) {
 						c.eventTypes.Other
 					}, transparent)`,
 				}}
-			/>
+			/>x
 			<div className="relative z-10 mx-auto min-h-[calc(100vh-7rem)] w-full max-w-3xl p-2 pt-[15vh]">
 				<div className="mb-2 flex items-center gap-x-2">
 					<Badge

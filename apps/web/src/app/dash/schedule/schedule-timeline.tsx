@@ -1,4 +1,3 @@
-"use client";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { type EventType as Event } from "@/lib/types/events";
 import { cn } from "@/lib/utils/client/cn";
@@ -34,6 +33,7 @@ type ScheduleTimelineProps = {
 	schedule: Event[];
 	timezone: string;
 };
+
 export default function ScheduleTimeline({
 	schedule,
 	timezone,
