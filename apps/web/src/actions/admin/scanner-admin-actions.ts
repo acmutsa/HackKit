@@ -1,12 +1,12 @@
 "use server";
 
-import { adminAction } from "@/lib/safe-action";
+import { volunteerAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db, sql } from "db";
 import { scans, userCommonData } from "db/schema";
 import { eq, and } from "db/drizzle";
 
-export const createScan = adminAction
+export const createScan = volunteerAction
 	.schema(
 		z.object({
 			eventID: z.number(),
@@ -49,7 +49,7 @@ export const createScan = adminAction
 		},
 	);
 
-export const getScan = adminAction
+export const getScan = volunteerAction
 	.schema(z.object({ eventID: z.number(), userID: z.string() }))
 	.action(
 		async ({
@@ -77,7 +77,7 @@ const checkInUserSchema = z.object({
 		}, "QR Code has expired. Please tell user refresh the QR Code"),
 });
 
-export const checkInUserToHackathon = adminAction
+export const checkInUserToHackathon = volunteerAction
 	.schema(checkInUserSchema)
 	.action(async ({ parsedInput: { userID } }) => {
 		// Set checkinTimestamp

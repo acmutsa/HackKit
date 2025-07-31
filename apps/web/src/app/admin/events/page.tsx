@@ -7,6 +7,8 @@ import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { getAllEvents, getUser } from "db/functions";
 import { auth } from "@clerk/nextjs/server";
+import FullScreenMessage from "@/components/shared/FullScreenMessage";
+import { isUserAdmin } from "@/lib/utils/server/admin";
 
 export default async function Page() {
 	const { userId, redirectToSignIn } = await auth();
@@ -15,10 +17,17 @@ export default async function Page() {
 	}
 
 	const userData = await getUser(userId);
-	const isSuperAdmin = userData?.role === "super_admin";
+	if (!userData) {
+		return (
+			<FullScreenMessage
+				title="Access Denied"
+				message="You are not an admin. If you belive this is a mistake, please contact a administrator."
+			/>
+		);
+	}
 
 	const events = await getAllEvents();
-
+	const isUserAuthorized = isUserAdmin(userData);
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">
 			<div className="mb-5 grid w-full grid-cols-2">
@@ -32,18 +41,23 @@ export default async function Page() {
 						</p>
 					</div>
 				</div>
-				<div className="flex items-center justify-end">
-					<Link href="/admin/events/new">
-						<Button className="flex gap-x-1">
-							<PlusCircle />
-							New Event
-						</Button>
-					</Link>
-				</div>
+				{isUserAuthorized && (
+					<div className="flex items-center justify-end">
+						<Link href="/admin/events/new">
+							<Button className="flex gap-x-1">
+								<PlusCircle />
+								New Event
+							</Button>
+						</Link>
+					</div>
+				)}
 			</div>
 			<EventDataTable
 				columns={columns}
-				data={events.map((ev) => ({ ...ev, isSuperAdmin }))}
+				data={events.map((ev) => ({
+					...ev,
+					isUserAdmin: isUserAuthorized,
+				}))}
 			/>
 		</div>
 	);

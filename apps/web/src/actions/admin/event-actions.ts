@@ -1,6 +1,6 @@
 "use server";
 
-import { adminAction, superAdminAction } from "@/lib/safe-action";
+import { adminAction } from "@/lib/safe-action";
 import { newEventFormSchema as editEventFormSchema } from "@/validators/event";
 import { editEvent as modifyEvent } from "db/functions";
 import { deleteEvent as removeEvent } from "db/functions";

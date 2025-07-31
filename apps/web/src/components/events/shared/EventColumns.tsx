@@ -31,8 +31,9 @@ import { useAction } from "next-safe-action/hooks";
 import { deleteEventAction } from "@/actions/admin/event-actions";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
+import { error } from "console";
 
-type EventRow = eventTableValidatorType & { isSuperAdmin: boolean };
+type EventRow = eventTableValidatorType & { isUserAdmin: boolean };
 
 export const columns: ColumnDef<EventRow>[] = [
 	{
@@ -104,7 +105,18 @@ export const columns: ColumnDef<EventRow>[] = [
 						router.refresh();
 						setOpen(false);
 					},
-					onError: (err) => {
+					onError: ({ error: err }) => {
+						let description: string;
+
+						if (err.validationErrors?._errors) {
+							// User is not super admin
+							description = err.validationErrors._errors[0];
+						} else {
+							description =
+								err.serverError || "An unknown error occurred";
+						}
+
+						toast.error("Unable to edit event", { description });
 						toast.dismiss();
 						toast.error("Failed to delete event");
 						console.log(err);
@@ -144,26 +156,31 @@ export const columns: ColumnDef<EventRow>[] = [
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem
-								className="h-full w-full cursor-pointer"
-								asChild
-							>
-								<Link
-									href={`/admin/events/edit/${data.id}`}
-									className="h-full w-full"
+							{row.original.isUserAdmin && (
+								<DropdownMenuItem
+									className="h-full w-full cursor-pointer"
+									asChild
 								>
-									Edit
-								</Link>
-							</DropdownMenuItem>
-							<DropdownMenuItem
-								asChild
-								className="h-full w-full cursor-pointer text-red-500"
-							>
-								<AlertDialogTrigger>Delete</AlertDialogTrigger>
-							</DropdownMenuItem>
+									<Link
+										href={`/admin/events/edit/${data.id}`}
+										className="h-full w-full"
+									>
+										Edit
+									</Link>
+								</DropdownMenuItem>
+							)}
+							{row.original.isUserAdmin && (
+								<DropdownMenuItem
+									asChild
+									className="h-full w-full cursor-pointer text-red-500"
+								>
+									<AlertDialogTrigger>
+										Delete
+									</AlertDialogTrigger>
+								</DropdownMenuItem>
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
-
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>

@@ -81,6 +81,7 @@ import {
 	encodeFileAsBase64,
 	decodeBase64AsFile,
 } from "@/lib/utils/shared/files";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function RegisterForm({
 	defaultEmail,
@@ -134,6 +135,7 @@ export default function RegisterForm({
 		const hackerFormData = localStorage.getItem(
 			HACKER_REGISTRATION_STORAGE_KEY,
 		);
+		console.log(hackerFormData);
 		if (hackerFormData) {
 			try {
 				const parsed = JSON.parse(hackerFormData);
@@ -215,14 +217,21 @@ export default function RegisterForm({
 		}
 	}, []);
 
-	// might be good to debounce later on
+	const debouncedLocalStorageWrite = useDebouncedCallback(
+		// function
+		() => {
+			localStorage.setItem(
+				HACKER_REGISTRATION_STORAGE_KEY,
+				JSON.stringify({
+					...form.getValues(),
+				}),
+			);
+		},
+		1000,
+	);
+
 	form.watch(() => {
-		localStorage.setItem(
-			HACKER_REGISTRATION_STORAGE_KEY,
-			JSON.stringify({
-				...form.getValues(),
-			}),
-		);
+		debouncedLocalStorageWrite();
 	});
 
 	// use action logic
@@ -306,8 +315,6 @@ export default function RegisterForm({
 					presignHandlerUrl: "/api/upload/resume/register",
 				},
 			);
-
-			alert(uploadedFileUrl);
 
 			resume = uploadedFileUrl;
 		}

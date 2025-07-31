@@ -5,6 +5,7 @@ import {
 import { auth } from "@clerk/nextjs/server";
 import { getUser } from "db/functions";
 import { z } from "zod";
+import { isUserAdmin } from "./utils/server/admin";
 
 export const publicAction = createSafeActionClient();
 
@@ -21,24 +22,27 @@ export const authenticatedAction = publicAction.use(
 	},
 );
 
+export const volunteerAction = authenticatedAction.use(
+	async ({ next, ctx }) => {
+		const user = await getUser(ctx.userId);
+		if (
+			!user ||
+			!["admin", "super_admin", "volunteer"].includes(user.role)
+		) {
+			returnValidationErrors(z.null(), {
+				_errors: ["Unauthorized (Not Admin)"],
+			});
+		}
+		return next({ ctx: { user, ...ctx } });
+	},
+);
+
 export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
 	const user = await getUser(ctx.userId);
-	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+	if (!user || !isUserAdmin(user)) {
 		returnValidationErrors(z.null(), {
 			_errors: ["Unauthorized (Not Admin)"],
 		});
 	}
 	return next({ ctx: { user, ...ctx } });
 });
-
-export const superAdminAction = authenticatedAction.use(
-	async ({ next, ctx }) => {
-		const user = await getUser(ctx.userId);
-		if (!user || user.role !== "super_admin") {
-			returnValidationErrors(z.null(), {
-				_errors: ["Unauthorized (Not Super Admin)"],
-			});
-		}
-		return next({ ctx: { user, ...ctx } });
-	},
-);

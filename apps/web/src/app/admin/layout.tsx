@@ -24,7 +24,12 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 
 	const user = await getUser(userId);
 
-	if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+	if (
+		!user ||
+		(user.role !== "admin" &&
+			user.role !== "super_admin" &&
+			user.role !== "volunteer")
+	) {
 		console.log("Denying admin access to user", user);
 		return (
 			<FullScreenMessage
@@ -80,9 +85,12 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 				<div className="flex items-center justify-end gap-x-4 md:hidden"></div>
 			</div>
 			<div className="fixed z-20 mt-16 flex h-12 w-full border-b border-b-border bg-nav px-5">
-				{Object.entries(c.dashPaths.admin).map(([name, path]) => (
-					<DashNavItem key={name} name={name} path={path} />
-				))}
+				{Object.entries(c.dashPaths.admin).map(([name, path]) =>
+					["Users", "Toggles"].includes(name) &&
+					user.role === "volunteer" ? null : (
+						<DashNavItem key={name} name={name} path={path} />
+					),
+				)}
 			</div>
 			<Suspense fallback={<p>Loading...</p>}>{children}</Suspense>
 		</>

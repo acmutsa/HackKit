@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
 	// Presign the url and return redirect to it.
 	const presignedViewingUrl = await getPresignedViewingUrl(
-		staticUploads.bucketName,
+		process.env.R2_BUCKET_NAME!,
 		decodedKey,
 	);
 

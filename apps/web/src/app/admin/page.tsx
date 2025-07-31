@@ -11,6 +11,10 @@ import type { User } from "db/types";
 import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { getAllUsers, getUser } from "db/functions";
+import Link from "next/link";
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import { formatInTimeZone } from "date-fns-tz";
+import { getClientTimeZone } from "@/lib/utils/client/shared";
 
 export default async function Page() {
 	const { userId } = await auth();
@@ -19,15 +23,24 @@ export default async function Page() {
 	const adminUser = await getUser(userId);
 	if (
 		!adminUser ||
-		(adminUser.role !== "admin" && adminUser.role !== "super_admin")
+		(adminUser.role !== "admin" &&
+			adminUser.role !== "super_admin" &&
+			adminUser.role !== "volunteer")
 	) {
 		return notFound();
 	}
 
 	const allUsers = (await getAllUsers()) ?? [];
 
-	const { rsvpCount, checkinCount, recentSignupCount } =
-		getRecentRegistrationData(allUsers);
+	const {
+		rsvpCount,
+		checkinCount,
+		recentSignupCount,
+		recentRegisteredUsers,
+	} = getRecentRegistrationData(allUsers);
+	const { cf } = getRequestContext();
+
+	const timezone = getClientTimeZone(cf.timezone);
 
 	return (
 		<div className="mx-auto h-16 w-full max-w-7xl pt-44">
@@ -49,7 +62,6 @@ export default async function Page() {
 						<div className="text-2xl font-bold">
 							{allUsers.length}
 						</div>
-						{/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
 					</CardContent>
 				</Card>
 				<Card>
@@ -61,7 +73,6 @@ export default async function Page() {
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{0}</div>
-						{/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
 					</CardContent>
 				</Card>
 				<Card>
@@ -73,7 +84,6 @@ export default async function Page() {
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{rsvpCount}</div>
-						{/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
 					</CardContent>
 				</Card>
 				<Card>
@@ -85,7 +95,6 @@ export default async function Page() {
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">{checkinCount}</div>
-						{/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
 					</CardContent>
 				</Card>
 			</div>
@@ -105,7 +114,6 @@ export default async function Page() {
 								days.
 							</CardDescription>
 						</div>
-
 						<User2 />
 					</CardHeader>
 					<CardContent>
@@ -119,10 +127,32 @@ export default async function Page() {
 								Recent Registrations
 							</CardTitle>{" "}
 						</div>
-
 						<TimerReset />
 					</CardHeader>
-					<CardContent></CardContent>
+					<CardContent>
+						<div className="flex flex-col space-y-2">
+							{recentRegisteredUsers.map((user) => (
+								<div
+									key={user.clerkID}
+									className="flex items-center justify-between"
+								>
+									<Link
+										href={`/admin/users/${user.clerkID}`}
+										className="hover:underline"
+									>
+										{user.firstName} {user.lastName}
+									</Link>
+									<span className="text-sm text-gray-500">
+										{formatInTimeZone(
+											user.signupTime,
+											timezone,
+											"MMMM dd h:mm a",
+										)}
+									</span>
+								</div>
+							))}
+						</div>
+					</CardContent>
 				</Card>
 			</div>
 		</div>
@@ -134,6 +164,9 @@ function getRecentRegistrationData(users: User[]) {
 
 	let rsvpCount = 0;
 	let checkinCount = 0;
+
+	const recentRegisteredUsers: User[] = [];
+	let recentRegisteredUsersCount = 0;
 	let recentSignupCount: DateNumberMap = {};
 
 	for (let i = 0; i < 7; i++) {
@@ -154,10 +187,21 @@ function getRecentRegistrationData(users: User[]) {
 
 		const stamp = user.signupTime.toISOString().split("T")[0];
 
-		if (recentSignupCount[stamp] != undefined) recentSignupCount[stamp]++;
+		if (recentSignupCount[stamp] != undefined) {
+			if (recentRegisteredUsersCount < 10) {
+				recentRegisteredUsers.push(user);
+				recentRegisteredUsersCount++;
+			}
+			recentSignupCount[stamp]++;
+		}
 	}
 
-	return { rsvpCount, checkinCount, recentSignupCount };
+	return {
+		rsvpCount,
+		checkinCount,
+		recentSignupCount,
+		recentRegisteredUsers,
+	};
 }
 
 export const runtime = "edge";

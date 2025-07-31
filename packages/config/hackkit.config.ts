@@ -914,7 +914,6 @@ const c = {
 			Events: "/admin/events",
 			"Hackathon Check-in": "/admin/check-in",
 		},
-		// TODO: Can remove days? Pretty sure they're dynamic now.
 	},
 	eventTypes: {
 		Meal: "#FFC107",
@@ -983,7 +982,6 @@ const c = {
 } as const;
 
 const staticUploads = {
-	bucketName: "acm-userdata",
 	bucketHost: "/api/upload/resume/view",
 	bucketResumeBaseUploadUrl: `${c.hackathonName}/${c.itteration}/resumes`,
 } as const;
@@ -1018,8 +1016,8 @@ const publicRoutes = [
 	/^\/user\//,
 	"/404",
 	"/bugreport",
-	"/sign-in",
-	"/sign-up",
+	/^\/sign-in(\/.*)?$/,
+	/^\/sign-up(\/.*)?$/,
 ];
 
 export default c;
