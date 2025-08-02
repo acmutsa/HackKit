@@ -36,7 +36,6 @@ async function uploadToS3(fileName: string, dumpFile: string) {
 		Bucket: env.BACKUPS_BUCKET_NAME,
 		Body: Buffer.from(dumpFile, "utf-8"),
 	});
-	console.log("Uploading to S3", fileName, env.BACKUPS_BUCKET_NAME);
 	return S3.send(cmd);
 }
 
@@ -55,7 +54,6 @@ async function doBackup() {
 			`Failed to upload file to S3: ${res.$metadata.httpStatusCode}`,
 		);
 	}
-	console.log(`File uploaded to S3: ${fileName}`);
 	return true;
 }
 

@@ -21,13 +21,15 @@ export const env = createEnv({
 		BACKUPS_BUCKET_NAME: z.string(),
 	},
 	onValidationError: (issues) => {
-		console.log("all process variables:", process.env)
+		console.log("all process variables:", process.env);
 		console.error("❌ Invalid environment variables:", issues);
 		throw new Error("Invalid environment variables");
 	},
 	// Called when server variables are accessed on the client.
 	onInvalidAccess: (variable: string) => {
-		console.log(`❌ Attempted to access server-side environment variable "${variable}" on the client.`);
+		console.log(
+			`❌ Attempted to access server-side environment variable "${variable}" on the client.`,
+		);
 		throw new Error(
 			"❌ Attempted to access a server-side environment variable on the client",
 		);
