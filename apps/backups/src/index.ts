@@ -45,7 +45,11 @@ api.post("/backup", async (c) => {
  * modify the builld itself and assign jobs that way.
  * Basically you would have a db table that would hold the instance ID, and the schedule and another one for the unique cron entires and then tie them together.
  */
-const cron = async (ctx: ExecutionContext) => {
+const cron = async (
+	_controller: ScheduledController,
+	_env: Env,
+	ctx: ExecutionContext,
+) => {
 	ctx.waitUntil(doBackup());
 };
 
