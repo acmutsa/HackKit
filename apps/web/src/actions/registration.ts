@@ -13,6 +13,7 @@ import {
 	UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE,
 	UNIQUE_KEY_MAPPER_DEFAULT_KEY,
 } from "@/lib/constants";
+import { sendRegistrationEmail } from "email/sender";
 
 const registerUserSchema = hackerRegistrationFormValidator;
 
@@ -81,6 +82,23 @@ export const registerHacker = authenticatedAction
 					hasSharedDataWithMLH,
 					isEmailable,
 				});
+
+				const emailSendSuccess = await sendRegistrationEmail({
+					subject: `Thanks for registering for ${c.hackathonName}`,
+					to: email,
+					body: {
+						email,
+						firstName: userData.firstName,
+						lastName: userData.lastName,
+						hackerTag,
+					},
+				});
+
+				if (!emailSendSuccess) {
+					console.log(
+						"Unable to send email to " + userCommonData.email,
+					);
+				}
 			});
 		} catch (e) {
 			// Catch duplicates because they will be based off of the error code 23505
