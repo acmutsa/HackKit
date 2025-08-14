@@ -20,7 +20,7 @@ export default function EventFull({ event }: { event: Event }) {
 						c.eventTypes.Other
 					}, transparent)`,
 				}}
-			/>x
+			/>
 			<div className="relative z-10 mx-auto min-h-[calc(100vh-7rem)] w-full max-w-3xl p-2 pt-[15vh]">
 				<div className="mb-2 flex items-center gap-x-2">
 					<Badge
