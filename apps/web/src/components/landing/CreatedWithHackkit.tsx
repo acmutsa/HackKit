@@ -12,7 +12,7 @@ export default function CreatedWithHackkit() {
 			<div className="flex text-sm">
 				<Link
 					href="https://github.com/acmutsa/HackKit"
-					className="text-left underline"
+					className="text-center hover:underline"
 				>
 					Created with HackKit
 				</Link>

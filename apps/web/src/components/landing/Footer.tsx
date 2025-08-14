@@ -17,14 +17,14 @@ export default function Footer() {
 	const [showHackathons, setShowHackathons] = useState(false);
 
 	return (
-		<section className="border-t-2 border-muted-foreground">
+		<section className="w-full border-t-2 border-muted-foreground">
 			<div className="flex min-h-[25vh] w-full items-center justify-center">
 				<h1 className="text-4xl font-black md:text-5xl">
 					{" "}
 					Your Footer Here
 				</h1>
 			</div>
-			<div className="w-fit gap-y-3 px-5 py-5">
+			<div className="mx-auto w-fit gap-y-3 px-5 py-5">
 				<CreatedWithHackkit />
 			</div>
 		</section>
