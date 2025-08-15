@@ -95,9 +95,7 @@ export const registerHacker = authenticatedAction
 				});
 
 				if (!emailSendSuccess) {
-					console.log(
-						"Unable to send email to " + userCommonData.email,
-					);
+					console.log("Unable to send email to " + email);
 				}
 			});
 		} catch (e) {
