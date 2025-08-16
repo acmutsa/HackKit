@@ -3,6 +3,8 @@ import c from "config";
 import { isProfane } from "no-profanity";
 import { NOT_LOCAL_SCHOOL } from "@/lib/constants";
 
+const defaultSelectPrettyError = c.zod.defaultSelectPrettyError;
+const defaultInputPrettyError = c.zod.defaultInputPrettyError;
 const noProfanityValidator = (val: any) => !isProfane(val);
 const noProfanityMessage = "Profanity is not allowed";
 
@@ -50,38 +52,12 @@ export const registrationSettingsFormValidator = z.object({
 				.positive({ message: "Value must be positive" })
 				.int({ message: "Value must be an integer" }),
 		),
-	gender: z.union([
-		z.literal("MALE", defaultPrettyError),
-		z.literal("FEMALE", defaultPrettyError),
-		z.literal("NON-BINARY", defaultPrettyError),
-		z.literal("OTHER", defaultPrettyError),
-		z.literal("PREFERNOTSAY", defaultPrettyError),
-	]),
-	race: z.union([
-		z.literal("Asian Indian", defaultPrettyError),
-		z.literal("Asian (Other)", defaultPrettyError),
-		z.literal("Black or African", defaultPrettyError),
-		z.literal("Chinese", defaultPrettyError),
-		z.literal("Filipino", defaultPrettyError),
-		z.literal("Guamanian or Chamorro", defaultPrettyError),
-		z.literal("Hispanic / Latino / Spanish Origin", defaultPrettyError),
-		z.literal("Japanese", defaultPrettyError),
-		z.literal("Korean", defaultPrettyError),
-		z.literal("Middle Eastern", defaultPrettyError),
-		z.literal("Native American or Alaskan Native", defaultPrettyError),
-		z.literal("Native Hawaiian", defaultPrettyError),
-		z.literal("Samoan", defaultPrettyError),
-		z.literal("Vietnamese", defaultPrettyError),
-		z.literal("White", defaultPrettyError),
-		z.literal("Other Asian (Thai, Cambodian, etc)", defaultPrettyError),
-		z.literal("Other Pacific Islander", defaultPrettyError),
-		z.literal("Other", defaultPrettyError),
-		z.literal("Prefer Not to Answer", defaultPrettyError),
-	]),
-	ethnicity: z.union([
-		z.literal("Hispanic or Latino", defaultPrettyError),
-		z.literal("Not Hispanic or Latino", defaultPrettyError),
-	]),
+	gender: z.enum(c.registration.genderOptions, defaultSelectPrettyError),
+	race: z.enum(c.registration.raceOptions, defaultSelectPrettyError),
+	ethnicity: z.enum(
+		c.registration.ethnicityOptions,
+		defaultSelectPrettyError,
+	),
 	phoneNumber: z.string().min(10).max(30, {
 		message: "Phone number must be less than 15 characters",
 	}),
@@ -95,14 +71,10 @@ export const registrationSettingsFormValidator = z.object({
 			message: `${c.localUniversitySchoolIDName} must be than ${c.localUniversityShortIDMaxLength} characters.`,
 		})
 		.or(z.literal(NOT_LOCAL_SCHOOL)),
-	levelOfStudy: z.union([
-		z.literal("Freshman", defaultPrettyError),
-		z.literal("Sophomore", defaultPrettyError),
-		z.literal("Junior", defaultPrettyError),
-		z.literal("Senior", defaultPrettyError),
-		z.literal("Recent Grad", defaultPrettyError),
-		z.literal("Other", defaultPrettyError),
-	]),
+	levelOfStudy: z.enum(
+		c.registration.levelsOfStudy,
+		defaultSelectPrettyError,
+	),
 	hackathonsAttended: z
 		.number()
 		.min(0, { message: "Value must be positive or zero" })
@@ -114,30 +86,17 @@ export const registrationSettingsFormValidator = z.object({
 				.min(0, { message: "Value must be positive or zero" })
 				.int({ message: "Value must be an integer" }),
 		),
-	softwareBuildingExperience: z.union([
-		z.literal("Beginner", defaultPrettyError),
-		z.literal("Intermediate", defaultPrettyError),
-		z.literal("Advanced", defaultPrettyError),
-		z.literal("Expert", defaultPrettyError),
-	]),
+	softwareBuildingExperience: z.enum(
+		c.registration.softwareExperienceOptions,
+		defaultSelectPrettyError,
+	),
 	heardAboutEvent: z
-		.union([
-			z.literal("Instagram"),
-			z.literal("Class Presentation"),
-			z.literal("Twitter"),
-			z.literal("Event Site"),
-			z.literal("Friend"),
-			z.literal("Other"),
-		])
+		.enum(c.registration.heardFromOptions, defaultSelectPrettyError)
 		.optional(),
-	shirtSize: z.union([
-		z.literal("S", defaultPrettyError),
-		z.literal("M", defaultPrettyError),
-		z.literal("L", defaultPrettyError),
-		z.literal("XL", defaultPrettyError),
-		z.literal("2XL", defaultPrettyError),
-		z.literal("3XL", defaultPrettyError),
-	]),
+	shirtSize: z.enum(
+		c.registration.shirtSizeOptions,
+		defaultSelectPrettyError,
+	),
 	dietaryRestrictions: z.array(z.string()),
 	accommodationNote: z.string().optional(),
 	github: z

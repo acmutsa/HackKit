@@ -55,6 +55,19 @@ import { HackerData, User } from "db/types";
 import { registrationSettingsFormValidator } from "@/validators/settings";
 import { NOT_LOCAL_SCHOOL } from "@/lib/constants";
 
+import type {
+	GenderOptionsType,
+	HeardFromOptionsType,
+	SoftwareExperienceOptionsType,
+	ShirtSizeOptionsType,
+	RaceOptionsType,
+	EthnicityOptionsType,
+	SchoolOptionsType,
+	LevelOfStudyOptionsType,
+	MajorOptionsType,
+} from "@/lib/types/user";
+import { formatRegistrationField } from "@/lib/utils/client/shared";
+
 interface RegistrationFormSettingsProps {
 	user: User;
 	data: HackerData;
@@ -72,12 +85,12 @@ export default function RegisterFormSettings({
 			isEmailable: originalData.isEmailable,
 			accommodationNote: user.accommodationNote || "",
 			age: user.age,
-			ethnicity: user.ethnicity as any,
-			gender: user.gender as any,
-			major: originalData.major,
+			ethnicity: user.ethnicity as EthnicityOptionsType,
+			gender: user.gender as GenderOptionsType,
+			major: originalData.major as MajorOptionsType,
 			github: originalData.GitHub ?? "",
-			heardAboutEvent: originalData.heardFrom as any,
-			levelOfStudy: originalData.levelOfStudy as any,
+			heardAboutEvent: originalData.heardFrom as HeardFromOptionsType,
+			levelOfStudy: originalData.levelOfStudy as LevelOfStudyOptionsType,
 			linkedin: originalData.LinkedIn ?? "",
 			personalWebsite: originalData.PersonalWebsite ?? "",
 			race: user.race as any,
@@ -267,21 +280,16 @@ export default function RegisterFormSettings({
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="MALE">
-														Male
-													</SelectItem>
-													<SelectItem value="FEMALE">
-														Female
-													</SelectItem>
-													<SelectItem value="NON-BINARY">
-														Non-binary
-													</SelectItem>
-													<SelectItem value="OTHER">
-														Other
-													</SelectItem>
-													<SelectItem value="PREFERNOTSAY">
-														Prefer not to say
-													</SelectItem>
+													{c.registration.genderOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -675,24 +683,16 @@ export default function RegisterFormSettings({
 											</FormControl>
 											<SelectContent>
 												<SelectGroup>
-													<SelectItem value="Freshman">
-														Freshman
-													</SelectItem>
-													<SelectItem value="Sophomore">
-														Sophomore
-													</SelectItem>
-													<SelectItem value="Junior">
-														Junior
-													</SelectItem>
-													<SelectItem value="Senior">
-														Senior
-													</SelectItem>
-													<SelectItem value="Recent Grad">
-														Recent Grad
-													</SelectItem>
-													<SelectItem value="Other">
-														Other
-													</SelectItem>
+													{c.registration.levelsOfStudy.map(
+														(level) => (
+															<SelectItem
+																value={level}
+																key={level}
+															>
+																{level}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
