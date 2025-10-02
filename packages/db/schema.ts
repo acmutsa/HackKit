@@ -174,6 +174,10 @@ export const userCommonRelations = relations(
 		tickets: many(ticketsToUsers),
 		chats: many(chatsToUsers),
 		messages: many(chatMessages),
+		banInstance: one(bannedUsers, {
+			fields: [userCommonData.clerkID],
+			references: [bannedUsers.userID],
+		}),
 	}),
 );
 
@@ -220,6 +224,20 @@ export const userHackerRelations = relations(
 		}),
 	}),
 );
+
+export const bannedUsers = sqliteTable("banned_users", {
+	id: integer("id", { mode: "number" }).notNull().primaryKey(),
+	userID: text("user_id", { length: 255 })
+		.notNull()
+		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
+	reason: text("reason"),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
+	bannedByID: text("banned_by_id", { length: 255 })
+		.notNull()
+		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
+});
 
 export const events = sqliteTable("events", {
 	id: integer("id", { mode: "number" }).notNull().primaryKey(),

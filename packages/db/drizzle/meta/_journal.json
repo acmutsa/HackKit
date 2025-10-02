@@ -8,6 +8,13 @@
       "when": 1740069435681,
       "tag": "0000_chilly_lady_mastermind",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1759264799447,
+      "tag": "0001_smooth_squadron_supreme",
+      "breakpoints": true
     }
   ]
 }
