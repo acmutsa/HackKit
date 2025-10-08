@@ -9,6 +9,13 @@ import {
 	PersonalInfo,
 	ProfileInfo,
 } from "@/components/admin/users/ServerSections";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator
+} from "@/components/shadcn/ui/dropdown-menu";
 import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { isUserAdmin } from "@/lib/utils/server/admin";
@@ -42,7 +49,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						{/* <p className="text-sm text-muted-foreground">{users.length} Total Users</p> */}
 					</div>
 				</div>
-				<div className="col-span-2 flex items-center justify-end gap-2">
+				<div className="col-span-2 hidden md:flex items-center justify-end gap-2 ">
 					<Link href={`/@${user.hackerTag}`} target="_blank">
 						<Button variant={"outline"}>Hacker Profile</Button>
 					</Link>
@@ -63,6 +70,44 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							currentApproval={user.isApproved}
 						/>
 					)}
+				</div>
+				<div className="col-span-2 flex md:hidden items-center justify-end pr-4">
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+					<Button variant={"outline"} >
+						Actions
+					</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end" className="min-w-[160px]">
+					<DropdownMenuItem className="justify-center">
+						<Link href={`/@${user.hackerTag}`} target="_blank">
+						<Button variant={"outline"}>Hacker Profile</Button>
+						</Link>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem className="justify-center">
+						<Link href={`mailto:${user.email}`}>
+						<Button variant={"outline"}>Email Hacker</Button>
+						</Link>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<div className="px-2 py-1.5 text-sm text-center hover:bg-accent rounded-sm cursor-pointer">
+						<UpdateRoleDialog
+						name={`${user.firstName} ${user.lastName}`}
+						canMakeAdmins={admin.role === "super_admin"}
+						currPermision={user.role}
+						userID={user.clerkID}
+						/>
+					</div>
+
+					{(c.featureFlags.core.requireUsersApproval as boolean) && (
+						<ApproveUserButton
+							userIDToUpdate={user.clerkID}
+							currentApproval={user.isApproved}
+						/>
+					)}
+					</DropdownMenuContent>
+				</DropdownMenu>
 				</div>
 			</div>
 			<div className="mt-20 grid min-h-[500px] w-full grid-cols-3">
