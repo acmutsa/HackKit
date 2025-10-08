@@ -75,7 +75,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 					<Button variant={"outline"} >
-						Actions
+						Admin Actions
 					</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end" className="min-w-[160px]">
