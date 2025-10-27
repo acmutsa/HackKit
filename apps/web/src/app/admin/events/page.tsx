@@ -5,7 +5,7 @@ import { columns } from "@/components/events/shared/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { getAllEvents, getUser } from "db/functions";
+import { getAllEventsWithScans, getUser } from "db/functions";
 import { auth } from "@clerk/nextjs/server";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { isUserAdmin } from "@/lib/utils/server/admin";
@@ -26,7 +26,7 @@ export default async function Page() {
 		);
 	}
 
-	const events = await getAllEvents();
+	const events = await getAllEventsWithScans();
 	const isUserAuthorized = isUserAdmin(userData);
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">

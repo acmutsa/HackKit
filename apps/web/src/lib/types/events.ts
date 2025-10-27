@@ -15,15 +15,19 @@ export type EventTypeEnum = [
 	...Array<keyof typeof c.eventTypes>,
 ];
 
-export type eventTableValidatorType = Pick<
+export type EventTableValidatorType = Pick<
 	z.infer<typeof eventDataTableValidator>,
 	"title" | "location" | "startTime" | "endTime" | "id" | "type"
 >;
+
+export type EventsWithScansType = EventTableValidatorType & {
+	totalScans: string | null;
+};
 
 export interface NewEventFormProps {
 	defaultDate: Date;
 }
 
-export interface getAllEventsOptions {
+export interface GetAllEventsOptions {
 	descending?: boolean;
 }
