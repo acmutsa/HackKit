@@ -48,26 +48,34 @@ export default function PassScanner({
 }: PassScannerProps) {
 	const [scanLoading, setScanLoading] = useState(false);
 	const { execute: runScanAction } = useAction(createScan, {
-		onExecute:() =>{
+		onExecute: () => {
 			toast.loading("Processing scan...");
 		},
-		onSettled:() => {
-			toast.dismiss()
+		onSettled: () => {
+			toast.dismiss();
 		},
-		onError:(error) => {
-			if (error.error.validationErrors?._errors){
+		onError: (error) => {
+			if (error.error.validationErrors?._errors) {
 				const errors = error.error.validationErrors?._errors;
-				if (errors.includes(ACTION_VALIDATION_ERRORS.UNAUTHORIZED_NO_USER_ID) || errors.includes(ACTION_VALIDATION_ERRORS.UNAUTHORIZED_NOT_ADMIN)){
-					toast.error("You do not have permission to scan users. Please ask a super admin for assistance.");
+				if (
+					errors.includes(
+						ACTION_VALIDATION_ERRORS.UNAUTHORIZED_NO_USER_ID,
+					) ||
+					errors.includes(
+						ACTION_VALIDATION_ERRORS.UNAUTHORIZED_NOT_ADMIN,
+					)
+				) {
+					toast.error(
+						"You do not have permission to scan users. Please ask a super admin for assistance.",
+					);
 					return;
 				}
 			}
 			toast.error("Error scanning user. Please try again.");
 		},
-		onSuccess:(res) =>{
-		toast.success(`${res.data?.name || "User"} scanned successfully!`);
+		onSuccess: (res) => {
+			toast.success(`${res.data?.name || "User"} scanned successfully!`);
 		},
-
 	});
 
 	useEffect(() => {

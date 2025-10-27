@@ -87,11 +87,9 @@ export const columns: ColumnDef<EventRow>[] = [
 		),
 	},
 	{
-		accessorKey:"totalCheckins",
-		header:"Total Scans",
-		cell:({row})=>(
-			<span>{row.original.totalScans || 0}</span>
-		)
+		accessorKey: "totalCheckins",
+		header: "Total Scans",
+		cell: ({ row }) => <span>{row.original.totalScans || 0}</span>,
 	},
 	{
 		accessorKey: "actions",

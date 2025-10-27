@@ -27,16 +27,20 @@ export async function getAllEvents(options?: GetAllEventsOptions) {
 	});
 }
 
-export async function getAllEventsWithScans(options?: GetAllEventsOptions){
+export async function getAllEventsWithScans(options?: GetAllEventsOptions) {
 	const orderByClause = options?.descending
 		? desc(events.startTime)
 		: asc(events.startTime);
 
-
-	return db.select({
+	return db
+		.select({
 			...getTableColumns(events),
-			totalScans:sum(scans.count),
-		}).from(events).leftJoin(scans, eq(events.id, scans.eventID)).groupBy(events.id, scans.eventID).orderBy(orderByClause);
+			totalScans: sum(scans.count),
+		})
+		.from(events)
+		.leftJoin(scans, eq(events.id, scans.eventID))
+		.groupBy(events.id, scans.eventID)
+		.orderBy(orderByClause);
 }
 
 export async function getEventById(eventId: number) {
