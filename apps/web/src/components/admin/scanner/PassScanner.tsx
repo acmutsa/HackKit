@@ -21,6 +21,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { ACTION_VALIDATION_ERRORS } from "@/lib/constants";
 
 /*
 
@@ -46,7 +47,28 @@ export default function PassScanner({
 	scanUser,
 }: PassScannerProps) {
 	const [scanLoading, setScanLoading] = useState(false);
-	const { execute: runScanAction } = useAction(createScan, {});
+	const { execute: runScanAction } = useAction(createScan, {
+		onExecute:() =>{
+			toast.loading("Processing scan...");
+		},
+		onSettled:() => {
+			toast.dismiss()
+		},
+		onError:(error) => {
+			if (error.error.validationErrors?._errors){
+				const errors = error.error.validationErrors?._errors;
+				if (errors.includes(ACTION_VALIDATION_ERRORS.UNAUTHORIZED_NO_USER_ID) || errors.includes(ACTION_VALIDATION_ERRORS.UNAUTHORIZED_NOT_ADMIN)){
+					toast.error("You do not have permission to scan users. Please ask a super admin for assistance.");
+					return;
+				}
+			}
+			toast.error("Error scanning user. Please try again.");
+		},
+		onSuccess:(res) =>{
+		toast.success(`${res.data?.name || "User"} scanned successfully!`);
+		},
+
+	});
 
 	useEffect(() => {
 		if (hasScanned) {
@@ -64,6 +86,7 @@ export default function PassScanner({
 	const guild =
 		Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
 	const role = scanUser?.role ? scanUser?.role : "Not Found";
+	const dietaryRestrictions = scanUser?.dietRestrictions || [];
 
 	function handleScanCreate() {
 		const params = new URLSearchParams(searchParams.toString());
@@ -90,7 +113,6 @@ export default function PassScanner({
 			});
 		}
 
-		toast.success("Successfully Scanned User In");
 		router.replace(`${path}`);
 	}
 
@@ -186,6 +208,15 @@ export default function PassScanner({
 										</span>{" "}
 										{guild}
 									</h2>
+									{dietaryRestrictions?.length > 0 && (
+										<h2>
+											<span className="font-bold underline">
+												Dietary Restrictions:
+											</span>{" "}
+											{dietaryRestrictions.join(", ") ||
+												"None"}
+										</h2>
+									)}
 								</DrawerDescription>
 							</DrawerHeader>
 							<DrawerFooter>

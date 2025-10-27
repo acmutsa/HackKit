@@ -11,3 +11,7 @@ export const HACKER_REGISTRATION_STORAGE_KEY = `${c.hackathonName}_${c.itteratio
 export const HACKER_REGISTRATION_RESUME_STORAGE_KEY =
 	"hackerRegistrationResume";
 export const NOT_LOCAL_SCHOOL = "NOT_LOCAL_SCHOOL";
+export const ACTION_VALIDATION_ERRORS = {
+	UNAUTHORIZED_NO_USER_ID: "Unauthorized (No User ID)",
+	UNAUTHORIZED_NOT_ADMIN: "Unauthorized (Not Admin)",
+};
