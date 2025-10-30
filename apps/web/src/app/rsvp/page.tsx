@@ -37,8 +37,7 @@ export default async function RsvpPage({
 
 	if (
 		(c.featureFlags.core.requireUsersApproval as boolean) === true &&
-		user.isApproved === false &&
-		user.role === "hacker"
+		user.isApproved === false
 	) {
 		return redirect("/i/approval");
 	}

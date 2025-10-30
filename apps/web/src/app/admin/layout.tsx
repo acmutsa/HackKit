@@ -1,35 +1,24 @@
 import c from "config";
 import Image from "next/image";
-import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import ProfileButton from "@/components/shared/ProfileButton";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
-import { redirect } from "next/navigation";
-import { getUser } from "db/functions";
+import { isUserAdmin, userHasPermission } from "../../lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-	const { userId } = await auth();
+	const user = await getCurrentUser();
 
-	if (!userId) {
-		return redirect("/sign-in");
-	}
-
-	const user = await getUser(userId);
-
-	if (
-		!user ||
-		(user.role !== "admin" &&
-			user.role !== "super_admin" &&
-			user.role !== "volunteer")
-	) {
+	if (!isUserAdmin(user)) {
 		console.log("Denying admin access to user", user);
 		return (
 			<FullScreenMessage
@@ -41,7 +30,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 
 	return (
 		<>
-			<ClientToast />
+			<ClientToast duration={2500} position="top-right" />
 			<div className="fixed z-20 grid h-16 w-full grid-cols-2 bg-nav px-5">
 				<div className="flex items-center gap-x-4">
 					<Link href={"/"} className="mr-5 flex items-center gap-x-2">
@@ -85,12 +74,26 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 				<div className="flex items-center justify-end gap-x-4 md:hidden"></div>
 			</div>
 			<div className="fixed z-20 mt-16 flex h-12 w-full border-b border-b-border bg-nav px-5">
-				{Object.entries(c.dashPaths.admin).map(([name, path]) =>
-					["Users", "Toggles"].includes(name) &&
-					user.role === "volunteer" ? null : (
-						<DashNavItem key={name} name={name} path={path} />
-					),
-				)}
+				{Object.entries(c.dashPaths.admin).map(([name, path]) => {
+					// Gate specific admin nav items by permission
+					if (
+						name === "Users" &&
+						!userHasPermission(user, PermissionType.VIEW_USERS)
+					)
+						return null;
+					if (
+						name === "Events" &&
+						!userHasPermission(user, PermissionType.VIEW_EVENTS)
+					)
+						return null;
+					if (
+						name === "Roles" &&
+						!userHasPermission(user, PermissionType.VIEW_ROLES)
+					)
+						return null;
+					// Keep other configured admin paths visible by default
+					return <DashNavItem key={name} name={name} path={path} />;
+				})}
 			</div>
 			<Suspense fallback={<p>Loading...</p>}>{children}</Suspense>
 		</>

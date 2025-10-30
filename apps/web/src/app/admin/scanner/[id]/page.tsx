@@ -3,7 +3,11 @@ import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
 import { getHacker } from "db/functions";
-import { events, userCommonData, scans } from "db/schema";
+import { events, scans } from "db/schema";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
+import { notFound } from "next/dist/client/components/navigation";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 export default async function Page({
 	params,
@@ -13,6 +17,12 @@ export default async function Page({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	// TODO: maybe move event existant check into a layout so it holds state?
+
+	const user = await getCurrentUser();
+
+	if (!userHasPermission(user, PermissionType.CREATE_SCANS)) {
+		return notFound();
+	}
 
 	if (!params || !params.id || isNaN(parseInt(params.id))) {
 		return (
@@ -49,7 +59,9 @@ export default async function Page({
 		);
 	}
 
-	const scanUser = await getHacker(searchParams.user);
+	const scanUser = searchParams.user
+		? await getHacker(searchParams.user)
+		: null;
 
 	const scan = !scanUser
 		? null

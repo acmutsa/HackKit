@@ -25,9 +25,9 @@ import { Textarea } from "@/components/shadcn/ui/textarea";
 import c from "config";
 import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
 import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
-import { zpostSafe } from "@/lib/utils/client/zfetch";
-import { BasicRedirValidator } from "@/validators/shared/basicRedir";
-import { useState } from "react";
+import { useAction } from "next-safe-action/hooks";
+import { createEvent } from "@/actions/admin/event-actions";
+import { useCallback, useState } from "react";
 import { LoaderPinwheel } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants";
@@ -40,6 +40,31 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const userLocalTimeZone = getLocalTimeZone();
+
+	const { execute } = useAction(createEvent, {
+		onExecute: () => setLoading(true),
+		onSettled: () => setLoading(false),
+		onSuccess: () => {
+			toast.success(
+				"Event Created Successfully! Redirecting to event...",
+			);
+			setTimeout(() => {
+				router.push("/admin/events");
+			}, 2000);
+		},
+		onError: ({ error }) => {
+			let description: string;
+
+			if (error.validationErrors?._errors) {
+				// User is not super admin
+				description = error.validationErrors._errors[0];
+			} else {
+				description = error.serverError || "An unknown error occurred";
+			}
+
+			toast.error("Unable to edit event", { description });
+		},
+	});
 
 	const form = useForm<z.infer<typeof newEventFormSchema>>({
 		resolver: zodResolver(newEventFormSchema),
@@ -54,26 +79,19 @@ export default function NewEventForm({ defaultDate }: NewEventFormProps) {
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof newEventFormSchema>) {
-		setLoading(true);
-		const res = await zpostSafe({
-			url: "/api/admin/events/create",
-			body: values,
-			superReq: true,
-			vReq: newEventFormSchema,
-			vRes: BasicRedirValidator,
-		});
-		setLoading(false);
-		if (res.success) {
-			toast.success("Event Created Successfully! Redirecting to event");
-			router.push(res.data.redirect);
-		} else {
-			toast.error(
-				"Failed to create event, please try again. Error:\n\n" +
-					res.error,
-			);
-		}
-	}
+	const onSubmit = useCallback(
+		(values: z.infer<typeof newEventFormSchema>) => {
+			if (form.formState.isDirty) {
+				execute(values);
+			} else {
+				toast.error("Failed to create event", {
+					description:
+						"Please make changes to the form before submitting it!",
+				});
+			}
+		},
+		[form.formState.isDirty],
+	);
 
 	return (
 		<Form {...form}>

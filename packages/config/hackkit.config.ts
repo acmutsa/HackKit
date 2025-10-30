@@ -912,6 +912,7 @@ const c = {
 			Overview: "/admin",
 			Users: "/admin/users",
 			Events: "/admin/events",
+			Roles: "/admin/roles",
 			"Hackathon Check-in": "/admin/check-in",
 		},
 	},
@@ -988,14 +989,14 @@ const staticUploads = {
 
 // Its important that this is kept in sync with the database schema.
 
-const perms = [
-	"hacker",
-	"volunteer",
-	"mentor",
-	"mlh",
-	"admin",
-	"super_admin",
-] as const;
+// const perms = [
+// 	"hacker",
+// 	"volunteer",
+// 	"mentor",
+// 	"mlh",
+// 	"admin",
+// 	"super_admin",
+// ] as const;
 
 const discordInviteStatus = ["pending", "accepted", "declined"] as const;
 
@@ -1023,7 +1024,6 @@ const publicRoutes = [
 export default c;
 export {
 	defaultTheme,
-	perms,
 	discordInviteStatus,
 	ticketStatus,
 	discordVerificationStatus,

@@ -34,13 +34,13 @@ export function getAllHackers(): Promise<Hacker[] | undefined> {
 export function getHacker(
 	clerkID: string,
 	//withTeam: boolean,
-): Promise<Hacker | undefined> {
+) {
 	// return withTeam
 	// 	? _getHackerByIDWithTeam.execute({ _clerkID: clerkID })
 	// 	: _getHackerByIDAlone.execute({ _clerkID: clerkID });
 	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.clerkID, clerkID),
-		with: { hackerData: true },
+		with: { hackerData: true, role: true },
 	});
 }
 
@@ -63,12 +63,12 @@ export function getHacker(
 export function getHackerByTag(
 	hackerTag: string,
 	//withTeam: boolean,
-): Promise<Hacker | undefined> {
+) {
 	// return withTeam
 	// 	? _getHackerByTagWithTeam.execute({ _hackerTag: hackerTag })
 	// 	: _getHackerByTagAlone.execute({ _hackerTag: hackerTag });
 	return db.query.userCommonData.findFirst({
 		where: eq(userCommonData.hackerTag, hackerTag),
-		with: { hackerData: true },
+		with: { hackerData: true, role: true },
 	});
 }

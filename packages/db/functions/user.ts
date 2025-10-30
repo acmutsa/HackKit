@@ -1,18 +1,24 @@
-import { db, eq } from "..";
-import { userCommonData, userHackerData } from "../schema";
+import { SQLiteRelationalQuery } from "drizzle-orm/sqlite-core/query-builders/query";
+import { db, eq, InferSelectModel } from "..";
+import { roles, userCommonData, userHackerData } from "../schema";
 import { HackerData, User } from "../types";
 
 // const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
 
 export function getAllUsers() {
 	// return _getAllUsers.execute();
-	return db.query.userCommonData.findMany();
+	return db.query.userCommonData.findMany({
+		with: {
+			role: true,
+		},
+	});
 }
 
 export async function getAllUsersWithHackerData() {
 	return db.query.userCommonData.findMany({
 		with: {
 			hackerData: true,
+			role: true,
 		},
 	});
 }
@@ -25,10 +31,13 @@ export async function getAllUsersWithHackerData() {
 // 	})
 // 	.prepare("getUser");
 
-export function getUser(clerkID: string): Promise<User | undefined> {
+export function getUser(clerkID: string) {
 	// return _getUser.execute({ _clerkID: clerkID });
 	return db.query.userCommonData.findFirst({
-		where: eq(userCommonData.clerkID, clerkID),
+		where: (fields, { eq }) => eq(fields.clerkID, clerkID),
+		with: {
+			role: true,
+		},
 	});
 }
 

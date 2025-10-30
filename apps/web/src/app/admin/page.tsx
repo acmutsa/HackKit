@@ -8,28 +8,20 @@ import {
 } from "@/components/shadcn/ui/card";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { User } from "db/types";
-import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
-import { getAllUsers, getUser } from "db/functions";
+import { getAllUsers } from "db/functions";
 import Link from "next/link";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { formatInTimeZone } from "date-fns-tz";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 export default async function Page() {
-	const { userId } = await auth();
-	if (!userId) return notFound();
+	const adminUser = await getCurrentUser();
 
-	const adminUser = await getUser(userId);
-	if (
-		!adminUser ||
-		(adminUser.role !== "admin" &&
-			adminUser.role !== "super_admin" &&
-			adminUser.role !== "volunteer")
-	) {
+	if (!adminUser) {
 		return notFound();
 	}
-
 	const allUsers = (await getAllUsers()) ?? [];
 
 	const {

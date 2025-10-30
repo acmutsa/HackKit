@@ -5,6 +5,8 @@ import { z } from "zod";
 import { db, sql } from "db";
 import { scans, userCommonData } from "db/schema";
 import { eq, and } from "db/drizzle";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
 
 export const createScan = volunteerAction
 	.schema(
@@ -56,6 +58,10 @@ export const getScan = volunteerAction
 			parsedInput: { eventID, userID },
 			ctx: { user, userId: adminUserID },
 		}) => {
+			if (!userHasPermission(user, PermissionType.CHECK_IN)) {
+				throw new Error("You do not have permission to view scans.");
+			}
+
 			const scan = await db.query.scans.findFirst({
 				where: and(
 					eq(scans.eventID, eventID),
@@ -79,7 +85,11 @@ const checkInUserSchema = z.object({
 
 export const checkInUserToHackathon = volunteerAction
 	.schema(checkInUserSchema)
-	.action(async ({ parsedInput: { userID } }) => {
+	.action(async ({ parsedInput: { userID }, ctx: { user } }) => {
+		if (!userHasPermission(user, PermissionType.CHECK_IN)) {
+			throw new Error("You do not have permission to check in users.");
+		}
+
 		// Set checkinTimestamp
 		await db
 			.update(userCommonData)

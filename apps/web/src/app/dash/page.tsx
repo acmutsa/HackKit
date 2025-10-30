@@ -11,15 +11,13 @@ import {
 	QuickQR,
 } from "@/components/dash/overview/ServerBubbles";
 import { getUser } from "db/functions";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 export default async function Page() {
-	const { userId } = await auth();
-	if (!userId) return null;
-	const user = await getUser(userId);
-	if (!user) return null;
+	const user = await getCurrentUser();
 
 	const qrPayload = createQRpayload({
-		userID: userId,
+		userID: user.clerkID,
 		createdAt: new Date(),
 	});
 

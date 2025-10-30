@@ -16,4 +16,6 @@ export const newEventFormSchema = createInsertSchema(events, {
 	path: ["startTime"],
 });
 
+export const editEventFormSchema = newEventFormSchema;
+
 export const eventDataTableValidator = createSelectSchema(events);
