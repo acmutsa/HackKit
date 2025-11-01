@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			{!!banInstance && (
 				<div className="absolute left-0 top-28 w-screen bg-destructive p-2 text-center">
 					<strong>
-						This user has been suspended, reason for suspenssion:{" "}
+						This user has been suspended, reason for suspension:{" "}
 					</strong>
 					{banInstance.reason}
 				</div>

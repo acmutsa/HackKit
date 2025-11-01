@@ -45,7 +45,7 @@ export default function BanUserDialog({ userID, name }: BanUserDialogProps) {
 				<DialogHeader>
 					<DialogTitle>Ban {name}.</DialogTitle>
 					<DialogDescription>
-						Ban this user (not permament action).
+						Ban this user (not permanent action).
 					</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">

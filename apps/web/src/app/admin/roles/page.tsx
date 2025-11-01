@@ -17,7 +17,11 @@ export default async function Page() {
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-40">
 			<h1 className="mb-4 text-2xl font-bold">Roles</h1>
-			<Suspense fallback={<div className="text-center py-8">Loading roles...</div>}>
+			<Suspense
+				fallback={
+					<div className="py-8 text-center">Loading roles...</div>
+				}
+			>
 				<RolesManager roles={resRoles} currentUser={user} />
 			</Suspense>
 		</div>

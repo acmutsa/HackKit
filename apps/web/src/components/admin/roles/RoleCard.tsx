@@ -65,18 +65,6 @@ export default function RoleCard({
 		}
 	})();
 
-	// Whether current user may delete this role (they must have DELETE_ROLES and higher position)
-	const canDeleteRole = (() => {
-		try {
-			return (
-				userHasPermission(currentUser, PermissionType.DELETE_ROLES) &&
-				compareUserPosition(currentUser, role.position, "higher")
-			);
-		} catch (e) {
-			return false;
-		}
-	})();
-
 	// user cannot toggle individual permission bits they don't personally have
 	function canTogglePermission(perm: PermissionType) {
 		return userHasPermission(currentUser, perm) && canEditRole;

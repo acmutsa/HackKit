@@ -1,6 +1,5 @@
-import { SQLiteRelationalQuery } from "drizzle-orm/sqlite-core/query-builders/query";
-import { db, eq, InferSelectModel } from "..";
-import { roles, userCommonData, userHackerData } from "../schema";
+import { db, eq } from "..";
+import { userCommonData, userHackerData } from "../schema";
 import { HackerData, User } from "../types";
 
 // const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");

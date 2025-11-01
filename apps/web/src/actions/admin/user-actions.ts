@@ -3,7 +3,6 @@
 import { adminAction } from "@/lib/safe-action";
 import { returnValidationErrors } from "next-safe-action";
 import { z } from "zod";
-import { perms } from "config";
 import { userCommonData, bannedUsers, roles } from "db/schema";
 import { db } from "db";
 import { eq } from "db/drizzle";
