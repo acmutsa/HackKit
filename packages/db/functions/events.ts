@@ -1,12 +1,12 @@
-import { db, asc, desc, eq } from "..";
+import { db, asc, desc, eq, getTableColumns, sum } from "..";
 import {
 	eventEditType,
 	eventInsertType,
-	getAllEventsOptions,
+	GetAllEventsOptions,
 } from "../../../apps/web/src/lib/types/events";
-import { events } from "../schema";
+import { events, scans } from "../schema";
 
-export function createNewEvent(event: eventInsertType) {
+export async function createNewEvent(event: eventInsertType) {
 	return db
 		.insert(events)
 		.values({
@@ -17,7 +17,7 @@ export function createNewEvent(event: eventInsertType) {
 		});
 }
 
-export function getAllEvents(options?: getAllEventsOptions) {
+export async function getAllEvents(options?: GetAllEventsOptions) {
 	const orderByClause = options?.descending
 		? [desc(events.startTime)]
 		: [asc(events.startTime)];
@@ -25,6 +25,22 @@ export function getAllEvents(options?: getAllEventsOptions) {
 	return db.query.events.findMany({
 		orderBy: orderByClause,
 	});
+}
+
+export async function getAllEventsWithScans(options?: GetAllEventsOptions) {
+	const orderByClause = options?.descending
+		? desc(events.startTime)
+		: asc(events.startTime);
+
+	return db
+		.select({
+			...getTableColumns(events),
+			totalScans: sum(scans.count),
+		})
+		.from(events)
+		.leftJoin(scans, eq(events.id, scans.eventID))
+		.groupBy(events.id, scans.eventID)
+		.orderBy(orderByClause);
 }
 
 export async function getEventById(eventId: number) {

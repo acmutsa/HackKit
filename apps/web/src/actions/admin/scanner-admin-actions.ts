@@ -45,7 +45,7 @@ export const createScan = volunteerAction
 					eventID: eventID,
 				});
 			}
-			return { success: true };
+			return { success: true, name: user.firstName };
 		},
 	);
 

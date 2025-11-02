@@ -23,17 +23,15 @@ import {
 } from "@/components/shadcn/ui/alert-dialog";
 import { Badge } from "@/components/shadcn/ui/badge";
 import c from "config";
-import { eventTableValidatorType } from "@/lib/types/events";
+import { EventsWithScansType } from "@/lib/types/events";
 import { useState } from "react";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { deleteEventAction } from "@/actions/admin/event-actions";
 import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
-import { error } from "console";
 
-type EventRow = eventTableValidatorType & { isUserAdmin: boolean };
+type EventRow = EventsWithScansType & { isUserAdmin: boolean };
 
 export const columns: ColumnDef<EventRow>[] = [
 	{
@@ -87,6 +85,11 @@ export const columns: ColumnDef<EventRow>[] = [
 				})}
 			</span>
 		),
+	},
+	{
+		accessorKey: "totalCheckins",
+		header: "Total Scans",
+		cell: ({ row }) => <span>{row.original.totalScans || 0}</span>,
 	},
 	{
 		accessorKey: "actions",
