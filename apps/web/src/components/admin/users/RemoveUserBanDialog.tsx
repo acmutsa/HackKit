@@ -26,11 +26,11 @@ export default function RemoveUserBanDialog({
 	const { execute } = useAction(removeUserBan, {
 		async onSuccess() {
 			toast.dismiss();
-			toast.success("Suspension successfuly removed!");
+			toast.success("Suspension successfully removed!");
 		},
 		async onError(e) {
 			toast.dismiss();
-			toast.error("An error occurred while removing suspenssion.");
+			toast.error("An error occurred while removing suspension.");
 			console.error(e);
 		},
 	});

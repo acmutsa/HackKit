@@ -5,29 +5,25 @@ import { columns } from "@/components/events/shared/EventColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { getAllEvents, getUser } from "db/functions";
-import { auth } from "@clerk/nextjs/server";
+import { getAllEvents } from "db/functions";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
-import { isUserAdmin } from "@/lib/utils/server/admin";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
+import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 export default async function Page() {
-	const { userId, redirectToSignIn } = await auth();
-	if (!userId) {
-		return redirectToSignIn();
-	}
+	const user = await getCurrentUser();
 
-	const userData = await getUser(userId);
-	if (!userData) {
-		return (
-			<FullScreenMessage
-				title="Access Denied"
-				message="You are not an admin. If you belive this is a mistake, please contact a administrator."
-			/>
-		);
+	if (!userHasPermission(user, PermissionType.VIEW_EVENTS)) {
+		return notFound();
 	}
 
 	const events = await getAllEvents();
-	const isUserAuthorized = isUserAdmin(userData);
+	const isUserAuthorized = userHasPermission(
+		user,
+		PermissionType.CREATE_EVENTS,
+	);
 	return (
 		<div className="mx-auto max-w-7xl px-5 pt-44">
 			<div className="mb-5 grid w-full grid-cols-2">

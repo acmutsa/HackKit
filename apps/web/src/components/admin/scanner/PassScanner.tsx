@@ -63,7 +63,7 @@ export default function PassScanner({
 		: "Not Checked In";
 	const guild =
 		Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
-	const role = scanUser?.role ? scanUser?.role : "Not Found";
+	const role = scanUser?.role?.name ? scanUser?.role?.name : "Not Found";
 
 	function handleScanCreate() {
 		const params = new URLSearchParams(searchParams.toString());

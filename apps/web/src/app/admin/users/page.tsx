@@ -4,20 +4,15 @@ import { columns } from "@/components/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { FolderInput } from "lucide-react";
 import { getAllUsers } from "db/functions";
-import { userCommonData } from "db/schema";
-import { getUser } from "db/functions";
-import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
-import { isUserAdmin } from "@/lib/utils/server/admin";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 // This begs a question where we might want to have an option later on to sort by the role as we might want different things
 export default async function Page() {
-	const { userId } = await auth();
-
-	if (!userId) return notFound();
-
-	const admin = await getUser(userId);
-	if (!admin || !isUserAdmin(admin)) return notFound();
+	const user = await getCurrentUser();
+	if (!userHasPermission(user, PermissionType.VIEW_USERS)) return notFound();
 
 	const userData = await getAllUsers();
 

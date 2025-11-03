@@ -19,7 +19,6 @@ import {
 import { relations, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import {
-	perms,
 	discordInviteStatus,
 	ticketStatus,
 	discordVerificationStatus,
@@ -31,19 +30,6 @@ export const uuid = customType<{ data: string; notNull: true; default: true }>({
 	},
 	toDriver() {
 		return nanoid();
-	},
-});
-
-export const rolesEnum = customType<{
-	data: (typeof perms)[number];
-	notNull: true;
-	default: true;
-}>({
-	dataType() {
-		return "text";
-	},
-	toDriver(value) {
-		return value;
 	},
 });
 
@@ -148,7 +134,9 @@ export const userCommonData = sqliteTable("user_common_data", {
 	isSearchable: integer("is_searchable", { mode: "boolean" })
 		.notNull()
 		.default(true),
-	role: rolesEnum("role").notNull().default("hacker"),
+	role_id: integer("role_id")
+		.notNull()
+		.references(() => roles.id),
 	checkinTimestamp: integer("checkin_timestamp", { mode: "timestamp_ms" }),
 	isRSVPed: integer("is_rsvped", { mode: "boolean" })
 		.notNull()
@@ -157,6 +145,18 @@ export const userCommonData = sqliteTable("user_common_data", {
 		.notNull()
 		.default(false),
 });
+
+export const roles = sqliteTable("roles", {
+	id: integer("id").primaryKey(),
+	name: text("name", { length: 50 }).notNull().unique(),
+	position: integer("position").notNull(), // lower value = higher role (0 = highest)
+	permissions: integer("permissions", { mode: "number" }).notNull(), // 32-bit mask
+	color: text("color", { length: 7 }), // e.g. #RRGGBB
+});
+
+export const rolesRelations = relations(roles, ({ many }) => ({
+	users: many(userCommonData),
+}));
 
 export const userCommonRelations = relations(
 	userCommonData,
@@ -177,6 +177,10 @@ export const userCommonRelations = relations(
 		banInstance: one(bannedUsers, {
 			fields: [userCommonData.clerkID],
 			references: [bannedUsers.userID],
+		}),
+		role: one(roles, {
+			fields: [userCommonData.role_id],
+			references: [roles.id],
 		}),
 	}),
 );

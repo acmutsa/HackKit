@@ -1,16 +1,14 @@
+import { getCurrentUser } from "@/lib/utils/server/user";
 import { auth } from "@clerk/nextjs/server";
 import { db, eq } from "db";
 import { getUser } from "db/functions";
 import { bannedUsers } from "db/schema";
 
 export default async function Page() {
-	const { userId } = await auth();
-	if (!userId) return null;
-	const user = await getUser(userId);
-	if (!user) return null;
+	const user = await getCurrentUser();
 
 	const banInstance = await db.query.bannedUsers.findFirst({
-		where: eq(bannedUsers.userID, userId),
+		where: eq(bannedUsers.userID, user.clerkID),
 	});
 	if (!banInstance) return null;
 

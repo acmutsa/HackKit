@@ -15,6 +15,13 @@
       "when": 1759264799447,
       "tag": "0001_smooth_squadron_supreme",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1760146195966,
+      "tag": "0002_slimy_talos",
+      "breakpoints": true
     }
   ]
 }

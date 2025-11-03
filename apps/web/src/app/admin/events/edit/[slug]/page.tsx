@@ -1,12 +1,20 @@
 import { getEventById } from "db/functions";
 import { notFound } from "next/navigation";
 import EditEventForm from "@/components/events/admin/EditEventForm";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 export default async function EditEventPage({
 	params,
 }: {
 	params: { slug: string };
 }) {
+	const user = await getCurrentUser();
+	if (!userHasPermission(user, PermissionType.EDIT_EVENTS)) {
+		return notFound();
+	}
+
 	const eventId = parseInt(params.slug);
 
 	if (!eventId) {

@@ -16,29 +16,33 @@ import {
 	SelectValue,
 } from "@/components/shadcn/ui/select";
 import { Button } from "@/components/shadcn/ui/button";
-import { perms } from "config";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateRole } from "@/actions/admin/user-actions";
 import { useState } from "react";
-import { titleCase } from "title-case";
 import { Badge } from "@/components/shadcn/ui/badge";
+import { db } from "db";
+import { titleCase } from "@/lib/utils/shared/string";
 
 interface UpdateRoleDialogProps {
 	userID: string;
 	name: string;
-	currPermision: (typeof perms)[number];
-	canMakeAdmins: boolean;
+	currentRoleId: number;
 }
 
-export default function UpdateRoleDialog({
+export default async function UpdateRoleDialog({
 	userID,
-	currPermision,
-	canMakeAdmins,
+	currentRoleId,
 	name,
 }: UpdateRoleDialogProps) {
-	const [roleToSet, setRoleToSet] = useState(currPermision);
+	const [roleToSet, setRoleToSet] = useState(currentRoleId);
 	const [open, setOpen] = useState(false);
+
+	const roles = await db.query.roles.findMany();
+
+	const currentRoleName = titleCase(
+		roles.find((r) => r.id === currentRoleId)?.name.replace("_", " ") || "",
+	);
 
 	const { execute } = useAction(updateRole, {
 		async onSuccess() {
@@ -66,41 +70,15 @@ export default function UpdateRoleDialog({
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="flex">
-						{/* <Label htmlFor="name" className="text-right">
-                        HackerTag
-                    </Label>
-                    <Input
-                        onChange={(e) => setHackerTag(e.target.value)}
-                        id="name"
-                        placeholder="@HackerTag"
-                        className="col-span-3"
-                    /> */}
-						<Select
-							onValueChange={(v) =>
-								setRoleToSet(v as (typeof perms)[number])
-							}
-						>
+						<Select onValueChange={(v) => setRoleToSet(Number(v))}>
 							<SelectTrigger className="w-[180px]">
-								<SelectValue
-									placeholder={titleCase(
-										currPermision.replace("_", " "),
-									)}
-								/>
+								<SelectValue placeholder={currentRoleName} />
 							</SelectTrigger>
 							<SelectContent>
-								{/* <SelectItem value="light">Light</SelectItem>
-								<SelectItem value="dark">Dark</SelectItem>
-								<SelectItem value="system">System</SelectItem> */}
-								{perms.map((perm) => {
-									if (
-										!canMakeAdmins &&
-										(perm === "admin" ||
-											perm === "super_admin")
-									)
-										return null;
+								{roles.map(({ id, name }) => {
 									return (
-										<SelectItem key={perm} value={perm}>
-											{titleCase(perm.replace("_", " "))}
+										<SelectItem key={id} value={String(id)}>
+											{titleCase(name.replace("_", " "))}
 										</SelectItem>
 									);
 								})}
@@ -109,27 +87,23 @@ export default function UpdateRoleDialog({
 					</div>
 				</div>
 				<DialogFooter>
-					{roleToSet !== currPermision ? (
+					{roleToSet !== currentRoleId ? (
 						<div className="flex h-full w-full items-center justify-center gap-x-2 self-end sm:justify-start">
-							<Badge>
-								{titleCase(currPermision.replace("_", " "))}
-							</Badge>
+							<Badge>{currentRoleName}</Badge>
 							<span>&rarr;</span>
-							<Badge>
-								{titleCase(roleToSet.replace("_", " "))}
-							</Badge>
+							<Badge>{currentRoleName}</Badge>
 						</div>
 					) : null}
 					<Button
 						onClick={() => {
-							if (roleToSet === currPermision) {
+							if (roleToSet === currentRoleId) {
 								return toast.warning(
 									"The user already has this role.",
 								);
 							}
 							toast.loading("Updating role...", { duration: 0 });
 							execute({
-								roleToSet,
+								roleIdToSet: roleToSet,
 								userIDToUpdate: userID,
 							});
 							setOpen(false);
