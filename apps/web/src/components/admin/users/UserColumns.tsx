@@ -21,14 +21,21 @@ import type { Column, Row } from "@tanstack/react-table";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 import { Badge } from "@/components/shadcn/ui/badge";
 
-const userValidator = createSelectSchema(userCommonData).extend({
-	role: z.object({
-		name: z.string(),
-	}),
-});
+const userValidator = createSelectSchema(userCommonData);
 
 // default fuzzy search and add filters by each column if possible
-export type userValidatorType = z.infer<typeof userValidator>;
+export type userValidatorType = Pick<
+	z.infer<typeof userValidator>,
+	| "clerkID"
+	| "signupTime"
+	| "firstName"
+	| "lastName"
+	| "email"
+	| "role"
+	| "isRSVPed"
+	| "hackerTag"
+	| "checkinTimestamp"
+>;
 
 type UserColumnType = Column<userValidatorType, unknown>;
 
@@ -66,7 +73,7 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		filterFn: dataTableFuzzyFilter,
 	},
 	{
-		accessorKey: "role.name",
+		accessorKey: "role",
 		header: ({ column }) => (
 			<UserTableHeader name="Role" column={column} hasFilter={true} />
 		),
@@ -117,6 +124,13 @@ export const columns: ColumnDef<userValidatorType>[] = [
 			</span>
 		),
 	},
+	// {
+	// 	accessorKey: "role",
+	// 	header: ({ column }) => (
+	// 		<UserTableHeader name="Role" column={column} hasFilter={true} />
+	// 	),
+	// 	filterFn: "includesString",
+	// },
 	{
 		accessorKey: "signupTime",
 		header: ({ column }) => (
@@ -158,6 +172,9 @@ function UserDropDownActions({ row }: { row: Row<userValidatorType> }) {
 				<DropdownMenuItem>
 					<Link href={`/admin/users/${user.clerkID}`}>View User</Link>
 				</DropdownMenuItem>
+				<DropdownMenuItem>
+					<Link href={`/admin/users/${user.clerkID}`}>Checkin User</Link>
+				</DropdownMenuItem>
 				<DropdownMenuItem
 					onClick={() => navigator.clipboard.writeText(user.clerkID)}
 					className="cursor-pointer"
@@ -172,6 +189,9 @@ function UserDropDownActions({ row }: { row: Row<userValidatorType> }) {
 					>
 						Email User
 					</Link>
+				</DropdownMenuItem>
+				<DropdownMenuItem>
+					<Link href={`/admin/users/${user.clerkID}`}>Change Role </Link>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
