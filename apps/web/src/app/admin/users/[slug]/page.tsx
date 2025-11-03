@@ -22,6 +22,10 @@ import { isUserAdmin } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
 import c from "config";
 import { getHacker, getUser } from "db/functions";
+import BanUserDialog from "@/components/admin/users/BanUserDialog";
+import { db, eq } from "db";
+import { bannedUsers } from "db/schema";
+import RemoveUserBanDialog from "@/components/admin/users/RemoveUserBanDialog";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 	const { userId } = await auth();
@@ -37,8 +41,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		return <p className="text-center font-bold">User Not Found</p>;
 	}
 
+	const banInstance = await db.query.bannedUsers.findFirst({
+		where: eq(bannedUsers.userID, user.clerkID),
+	});
+
 	return (
 		<main className="mx-auto max-w-5xl pt-44">
+			{!!banInstance && (
+				<div className="absolute left-0 top-28 w-screen bg-destructive p-2 text-center">
+					<strong>
+						This user has been suspended, reason for suspenssion:{" "}
+					</strong>
+					{banInstance.reason}
+				</div>
+			)}
 			<div className="mb-5 grid w-full grid-cols-3">
 				<div className="flex items-center">
 					<div>
@@ -64,6 +80,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						currPermision={user.role}
 						userID={user.clerkID}
 					/>
+
+					{!!banInstance ? (
+						<RemoveUserBanDialog
+							name={`${user.firstName} ${user.lastName}`}
+							reason={banInstance.reason!}
+							userID={user.clerkID}
+						/>
+					) : (
+						<BanUserDialog
+							name={`${user.firstName} ${user.lastName}`}
+							userID={user.clerkID}
+						/>
+					)}
+
 					{(c.featureFlags.core.requireUsersApproval as boolean) && (
 						<ApproveUserButton
 							userIDToUpdate={user.clerkID}
