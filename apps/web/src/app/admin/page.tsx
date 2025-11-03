@@ -19,9 +19,6 @@ import { getCurrentUser } from "@/lib/utils/server/user";
 export default async function Page() {
 	const adminUser = await getCurrentUser();
 
-	if (!adminUser) {
-		return notFound();
-	}
 	const allUsers = (await getAllUsers()) ?? [];
 
 	const {

@@ -1,3 +1,5 @@
+import { PermissionType } from "@/lib/constants/permission";
+import { isUserAdmin, userHasPermission } from "@/lib/utils/server/admin";
 import { auth } from "@clerk/nextjs/server";
 import { getAllHackers, getUser } from "db/functions";
 
@@ -36,9 +38,13 @@ export async function GET() {
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
 	const reqUserRecord = await getUser(userId);
+	if (!reqUserRecord) {
+		return new Response("Unauthorized", { status: 401 });
+	}
+
 	if (
-		!reqUserRecord ||
-		(reqUserRecord.role !== "super_admin" && reqUserRecord.role !== "admin")
+		!isUserAdmin(reqUserRecord) ||
+		!userHasPermission(reqUserRecord, PermissionType.VIEW_USERS)
 	) {
 		return new Response("Unauthorized", { status: 401 });
 	}
