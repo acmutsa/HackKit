@@ -6,6 +6,8 @@ import { redisSAdd, redisHSet, removeNavItem } from "@/lib/utils/server/redis";
 import { revalidatePath } from "next/cache";
 
 import { Redis } from "@upstash/redis";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
 
 const redis = Redis.fromEnv();
 
@@ -25,6 +27,12 @@ const navAdminPage = "/admin/toggles/landing";
 export const setItem = adminAction
 	.schema(metadataSchema)
 	.action(async ({ parsedInput: { name, url }, ctx: { user, userId } }) => {
+		if (!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)) {
+			throw new Error(
+				"You do not have permission to manage navigation links.",
+			);
+		}
+
 		await redisSAdd("config:navitemslist", encodeURIComponent(name));
 		await redisHSet(`config:navitems:${encodeURIComponent(name)}`, {
 			url,
@@ -37,29 +45,45 @@ export const setItem = adminAction
 
 export const editItem = adminAction
 	.schema(editMetadataSchema)
-	.action(async ({ parsedInput: { name, url, existingName } }) => {
-		const pipe = redis.pipeline();
+	.action(
+		async ({ parsedInput: { name, url, existingName }, ctx: { user } }) => {
+			if (!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)) {
+				throw new Error(
+					"You do not have permission to manage navigation links.",
+				);
+			}
 
-		if (existingName != name) {
-			pipe.srem("config:navitemslist", encodeURIComponent(existingName));
-		}
+			const pipe = redis.pipeline();
 
-		pipe.sadd("config:navitemslist", encodeURIComponent(name));
-		pipe.hset(`config:navitems:${encodeURIComponent(name)}`, {
-			url,
-			name,
-			enabled: true,
-		});
+			if (existingName != name) {
+				pipe.srem(
+					"config:navitemslist",
+					encodeURIComponent(existingName),
+				);
+			}
 
-		await pipe.exec();
+			pipe.sadd("config:navitemslist", encodeURIComponent(name));
+			pipe.hset(`config:navitems:${encodeURIComponent(name)}`, {
+				url,
+				name,
+				enabled: true,
+			});
 
-		revalidatePath(navAdminPage);
-		return { success: true };
-	});
+			await pipe.exec();
+
+			revalidatePath(navAdminPage);
+			return { success: true };
+		},
+	);
 
 export const removeItem = adminAction
 	.schema(z.string())
 	.action(async ({ parsedInput: name, ctx: { user, userId } }) => {
+		if (!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)) {
+			throw new Error(
+				"You do not have permission to manage navigation links.",
+			);
+		}
 		await removeNavItem(name);
 		// await new Promise((resolve) => setTimeout(resolve, 1500));
 		revalidatePath(navAdminPage);
@@ -73,6 +97,11 @@ export const toggleItem = adminAction
 			parsedInput: { name, statusToSet },
 			ctx: { user, userId },
 		}) => {
+			if (!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)) {
+				throw new Error(
+					"You do not have permission to manage navigation links.",
+				);
+			}
 			await redisHSet(`config:navitems:${encodeURIComponent(name)}`, {
 				enabled: statusToSet,
 			});

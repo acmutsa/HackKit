@@ -7,7 +7,7 @@ import { returnValidationErrors } from "next-safe-action";
 import { hackerRegistrationFormValidator } from "@/validators/shared/registration";
 import { userCommonData, userHackerData } from "db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import c from "config";
+import c, { defaultRoleId } from "config";
 import { DatabaseError } from "db/types";
 import {
 	UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE,
@@ -60,6 +60,7 @@ export const registerHacker = authenticatedAction
 					skills: userData.skills.map((v) => v.text.toLowerCase()),
 					isFullyRegistered: true,
 					dietRestrictions: userData.dietRestrictions,
+					role_id: defaultRoleId,
 				});
 
 				await tx.insert(userHackerData).values({

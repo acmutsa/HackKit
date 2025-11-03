@@ -19,6 +19,9 @@ export enum PermissionType {
 	CHECK_IN = 1 << 12,
 	CREATE_SCANS = 1 << 13,
 
+	MANAGE_NAVLINKS = 1 << 14,
+	MANAGE_REGISTRATION = 1 << 15,
+
 	/* You can add new permissions following the pattern:
 		NEW_PERMISSION = 1 << n,
 	*/

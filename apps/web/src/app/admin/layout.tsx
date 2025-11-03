@@ -91,6 +91,11 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 						!userHasPermission(user, PermissionType.VIEW_ROLES)
 					)
 						return null;
+					if (
+						name === "Toggles" &&
+						!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)
+					)
+						return null;
 					// Keep other configured admin paths visible by default
 					return <DashNavItem key={name} name={name} path={path} />;
 				})}

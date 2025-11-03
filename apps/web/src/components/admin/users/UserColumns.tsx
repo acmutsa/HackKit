@@ -21,21 +21,14 @@ import type { Column, Row } from "@tanstack/react-table";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 import { Badge } from "@/components/shadcn/ui/badge";
 
-const userValidator = createSelectSchema(userCommonData);
+const userValidator = createSelectSchema(userCommonData).extend({
+	role: z.object({
+		name: z.string(),
+	}),
+});
 
 // default fuzzy search and add filters by each column if possible
-export type userValidatorType = Pick<
-	z.infer<typeof userValidator>,
-	| "clerkID"
-	| "signupTime"
-	| "firstName"
-	| "lastName"
-	| "email"
-	| "role"
-	| "isRSVPed"
-	| "hackerTag"
-	| "checkinTimestamp"
->;
+export type userValidatorType = z.infer<typeof userValidator>;
 
 type UserColumnType = Column<userValidatorType, unknown>;
 
@@ -73,7 +66,7 @@ export const columns: ColumnDef<userValidatorType>[] = [
 		filterFn: dataTableFuzzyFilter,
 	},
 	{
-		accessorKey: "role",
+		accessorKey: "role.name",
 		header: ({ column }) => (
 			<UserTableHeader name="Role" column={column} hasFilter={true} />
 		),
@@ -124,13 +117,6 @@ export const columns: ColumnDef<userValidatorType>[] = [
 			</span>
 		),
 	},
-	// {
-	// 	accessorKey: "role",
-	// 	header: ({ column }) => (
-	// 		<UserTableHeader name="Role" column={column} hasFilter={true} />
-	// 	),
-	// 	filterFn: "includesString",
-	// },
 	{
 		accessorKey: "signupTime",
 		header: ({ column }) => (

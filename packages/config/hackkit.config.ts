@@ -913,6 +913,7 @@ const c = {
 			Users: "/admin/users",
 			Events: "/admin/events",
 			Roles: "/admin/roles",
+			Toggles: "/admin/toggles",
 			"Hackathon Check-in": "/admin/check-in",
 		},
 	},
@@ -1021,6 +1022,8 @@ const publicRoutes = [
 	/^\/sign-up(\/.*)?$/,
 ];
 
+const defaultRoleId = 2;
+
 export default c;
 export {
 	defaultTheme,
@@ -1029,4 +1032,5 @@ export {
 	discordVerificationStatus,
 	publicRoutes,
 	staticUploads,
+	defaultRoleId,
 };
