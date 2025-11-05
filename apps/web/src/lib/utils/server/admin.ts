@@ -1,4 +1,3 @@
-import type { User } from "db/types";
 import { PermissionMask } from "@/lib/utils/shared/permission";
 import { PermissionType } from "@/lib/constants/permission";
 import { UserWithRole } from "db/types";
@@ -27,7 +26,7 @@ export function compareUserPosition(
 	targetRolePosition: number,
 	position: "higher" | "lower" | "equal",
 ): boolean {
-	const userRolePosition = user.role?.position || 0;
+	const userRolePosition = user.role?.position ?? Number.MAX_SAFE_INTEGER;
 	if (position === "higher") {
 		return userRolePosition < targetRolePosition;
 	} else if (position === "lower") {

@@ -72,24 +72,24 @@ export const editRole = adminAction
 			const role = await db.query.roles.findFirst({
 				where: eq(roles.id, roleId),
 			});
+			console.log(user);
 			if (!role) throw new Error("Role not found");
 
-			if (!userHasPermission(user, PermissionType.EDIT_ROLES)) {
-				if (!compareUserPosition(user, role.position, "higher")) {
-					/* This prevents edition of roles higher-or-equal to the current user's position */
-
-					throw new Error(
-						"You do not have permission to edit this role.",
-					);
-				}
-				if (
-					position !== undefined &&
-					!compareUserPosition(user, position, "higher")
-				) {
-					throw new Error(
-						"You do not have permission to move a role to that position.",
-					);
-				}
+			if (
+				!userHasPermission(user, PermissionType.EDIT_ROLES) ||
+				!compareUserPosition(user, role.position, "higher")
+			) {
+				throw new Error(
+					"You do not have permission to edit this role.",
+				);
+			}
+			if (
+				position !== undefined &&
+				!compareUserPosition(user, position, "higher")
+			) {
+				throw new Error(
+					"You do not have permission to move a role to that position.",
+				);
 			}
 
 			await db

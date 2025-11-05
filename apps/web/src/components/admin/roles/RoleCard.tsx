@@ -107,7 +107,12 @@ export default function RoleCard({
 										e.stopPropagation();
 										onMove(role.id, "up");
 									}}
-									disabled={index === 0 || !canEditRole}
+									disabled={
+										index === 0 ||
+										!canEditRole ||
+										role.position - 1 ==
+											currentUser.role?.position
+									}
 								>
 									<ChevronUp />
 								</Button>
