@@ -101,7 +101,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 								c.startDate,
 								"h:mma, MMM d, yyyy",
 							)}`}</p>
-							<p className="font-mono text-xs">
+							<p className="font-mono text-xs text-right">
 								{c.prettyLocation}
 							</p>
 						</div>
