@@ -73,7 +73,29 @@ export default function RolesManager({
 	const total = roles.length;
 
 	async function saveAll() {
-		const promises = roles.map((r) =>
+		// Compute which roles actually changed compared to the original `initialRoles`
+		const changedRoles = roles.filter((r) => {
+			const orig = initialRoles.find((o: any) => o.id === r.id);
+			if (!orig) return true;
+			const origPerm = orig.permissions ?? 0;
+			const rPerm = r.permissions ?? 0;
+			const origColor = orig.color ?? null;
+			const rColor = r.color ?? null;
+			return (
+				orig.name !== r.name ||
+				orig.position !== r.position ||
+				origPerm !== rPerm ||
+				origColor !== rColor
+			);
+		});
+
+		if (changedRoles.length === 0) {
+			toast.success("No changes to save");
+			setDirty(false);
+			return;
+		}
+
+		const promises = changedRoles.map((r) =>
 			doEdit({
 				roleId: r.id,
 				name: r.name,
@@ -82,6 +104,7 @@ export default function RolesManager({
 				color: r.color ?? null,
 			}),
 		);
+
 		try {
 			await Promise.all(promises);
 			toast.success("All changes saved successfully");

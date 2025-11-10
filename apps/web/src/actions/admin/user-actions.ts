@@ -41,12 +41,8 @@ export const updateRole = adminAction
 
 			if (!userHasPermission(user, PermissionType.CHANGE_USER_ROLES)) {
 				if (
-					!compareUserPosition(
-						user,
-						userToUpdate.role.position,
-						"higher",
-					) ||
-					!compareUserPosition(user, roleToSet.position, "higher")
+					!compareUserPosition(user, userToUpdate.role.position) ||
+					!compareUserPosition(user, roleToSet.position)
 				) {
 					throw new Error(
 						"You do not have permission to set this role.",
@@ -99,7 +95,7 @@ export const banUser = adminAction
 
 			if (
 				!userHasPermission(user, PermissionType.BAN_USERS) ||
-				!compareUserPosition(user, userToBan!.role.position, "higher")
+				!compareUserPosition(user, userToBan!.role.position)
 			) {
 				throw new Error("You do not have permission to ban users.");
 			}
@@ -125,7 +121,7 @@ export const removeUserBan = adminAction
 
 		if (
 			!userHasPermission(user, PermissionType.BAN_USERS) ||
-			!compareUserPosition(user, userToBan!.role.position, "higher")
+			!compareUserPosition(user, userToBan!.role.position)
 		) {
 			throw new Error("You do not have permission to ban users.");
 		}

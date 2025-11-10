@@ -1,4 +1,3 @@
-import type { User } from "db/types";
 import { PermissionMask } from "@/lib/utils/shared/permission";
 import { PermissionType } from "@/lib/constants/permission";
 import { UserWithRole } from "db/types";
@@ -25,15 +24,12 @@ export function isUserAdmin(user: UserWithRole): boolean {
 export function compareUserPosition(
 	user: UserWithRole,
 	targetRolePosition: number,
-	position: "higher" | "lower" | "equal",
-): boolean {
-	const userRolePosition = user.role?.position || 0;
-	if (position === "higher") {
-		return userRolePosition < targetRolePosition;
-	} else if (position === "lower") {
-		return userRolePosition > targetRolePosition;
-	} else if (position === "equal") {
-		return userRolePosition === targetRolePosition;
+): 1 | -1 | 0 {
+	const userRolePosition = user.role?.position ?? Number.MAX_SAFE_INTEGER;
+	if (userRolePosition < targetRolePosition) {
+		return 1;
+	} else if (userRolePosition == targetRolePosition) {
+		return 0;
 	}
-	return false;
+	return -1;
 }

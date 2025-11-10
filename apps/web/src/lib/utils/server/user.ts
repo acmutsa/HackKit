@@ -12,11 +12,11 @@ export const getCurrentUser = cache(async (): Promise<UserWithRole> => {
 	"use server";
 	const { userId } = await auth();
 	if (!userId) {
-		throw new Error("No user logged in");
+		return redirect("/login");
 	}
 	const user = await getUser(userId);
 	if (!user) {
-		throw new Error("User not found");
+		return redirect("/login");
 	}
 
 	return user;
