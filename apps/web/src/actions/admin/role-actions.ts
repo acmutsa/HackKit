@@ -39,7 +39,7 @@ export const createRole = adminAction
 			ctx: { user },
 		}) => {
 			if (!userHasPermission(user, PermissionType.CREATE_ROLES)) {
-				if (!compareUserPosition(user, position, "higher")) {
+				if (!compareUserPosition(user, position)) {
 					/* This prevents creation of roles higher-or-equal to the current user's position */
 
 					throw new Error(
@@ -77,7 +77,7 @@ export const editRole = adminAction
 
 			if (
 				!userHasPermission(user, PermissionType.EDIT_ROLES) ||
-				!compareUserPosition(user, role.position, "higher")
+				!compareUserPosition(user, role.position)
 			) {
 				throw new Error(
 					"You do not have permission to edit this role.",
@@ -85,7 +85,7 @@ export const editRole = adminAction
 			}
 			if (
 				position !== undefined &&
-				!compareUserPosition(user, position, "higher")
+				!compareUserPosition(user, position)
 			) {
 				throw new Error(
 					"You do not have permission to move a role to that position.",
@@ -124,7 +124,7 @@ export const deleteRole = adminAction
 		}
 
 		if (!userHasPermission(user, PermissionType.DELETE_ROLES)) {
-			if (!compareUserPosition(user, role.position, "higher")) {
+			if (!compareUserPosition(user, role.position)) {
 				/* This prevents deletion of roles higher-or-equal to the current user's position */
 
 				throw new Error(

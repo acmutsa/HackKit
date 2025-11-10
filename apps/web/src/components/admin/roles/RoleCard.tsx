@@ -58,7 +58,7 @@ export default function RoleCard({
 		try {
 			return (
 				userHasPermission(currentUser, PermissionType.EDIT_ROLES) &&
-				compareUserPosition(currentUser, role.position, "higher")
+				compareUserPosition(currentUser, role.position)
 			);
 		} catch (e) {
 			return false;

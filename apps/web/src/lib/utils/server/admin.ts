@@ -24,15 +24,12 @@ export function isUserAdmin(user: UserWithRole): boolean {
 export function compareUserPosition(
 	user: UserWithRole,
 	targetRolePosition: number,
-	position: "higher" | "lower" | "equal",
-): boolean {
+): 1 | -1 | 0 {
 	const userRolePosition = user.role?.position ?? Number.MAX_SAFE_INTEGER;
-	if (position === "higher") {
-		return userRolePosition < targetRolePosition;
-	} else if (position === "lower") {
-		return userRolePosition > targetRolePosition;
-	} else if (position === "equal") {
-		return userRolePosition === targetRolePosition;
+	if (userRolePosition < targetRolePosition) {
+		return 1;
+	} else if (userRolePosition == targetRolePosition) {
+		return 0;
 	}
-	return false;
+	return -1;
 }

@@ -23,12 +23,22 @@ function Restricted({
 		return <></>;
 	}
 	if (targetRolePosition !== undefined) {
-		console.log(
-			user.role?.name + ":" + user.role?.position,
-			targetRolePosition,
-			compareUserPosition(user, targetRolePosition, position),
-		);
-		if (!compareUserPosition(user, targetRolePosition, position)) {
+		if (
+			position === "higher" &&
+			!compareUserPosition(user, targetRolePosition)
+		) {
+			return <></>;
+		}
+		if (
+			position === "lower" &&
+			compareUserPosition(user, targetRolePosition) !== -1
+		) {
+			return <></>;
+		}
+		if (
+			position === "equal" &&
+			compareUserPosition(user, targetRolePosition) !== 0
+		) {
 			return <></>;
 		}
 	}
