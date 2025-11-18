@@ -177,7 +177,14 @@ function UserDropDownActions({ row }: { row: Row<userValidatorType> }) {
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem>
-					<Link href={`/admin/users/${user.clerkID}`}>Change Role</Link>
+					<div
+						className="h-full w-full cursor-pointer"
+						onClick={(e) => {
+							e.stopPropagation();
+						}}
+					>
+						Change Role
+					</div>				
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
