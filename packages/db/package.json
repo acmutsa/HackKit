@@ -8,7 +8,9 @@
     "migrations:drop": "drizzle-kit drop",
     "migrations:push": "drizzle-kit push",
     "kit:up": "drizzle-kit up",
-    "studio": "drizzle-kit studio"
+    "drizzle-kit": "drizzle-kit",
+    "studio": "drizzle-kit studio",
+    "push": "drizzle-kit push"
   },
   "keywords": [],
   "author": "",

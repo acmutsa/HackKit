@@ -16,6 +16,7 @@ import {
 	customType,
 	primaryKey,
 } from "drizzle-orm/sqlite-core";
+
 import { relations, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import {
@@ -107,10 +108,8 @@ export const discordVerificationStatusEnum = customType<{
 });
 
 export const userCommonData = sqliteTable("user_common_data", {
-	// id
 	clerkID: text("clerk_id", { length: 255 }).primaryKey(),
 
-	// data
 	firstName: text("first_name", { length: 50 }).notNull(),
 	lastName: text("last_name", { length: 50 }).notNull(),
 	email: text("email", { length: 255 }).notNull().unique(),
@@ -138,7 +137,6 @@ export const userCommonData = sqliteTable("user_common_data", {
 		length: 3,
 	}).notNull(),
 
-	// metadata
 	isFullyRegistered: integer("is_fully_registered", { mode: "boolean" })
 		.notNull()
 		.default(false),

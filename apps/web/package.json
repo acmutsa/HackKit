@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm with-env next dev",
+    "dev": "dotenv -e ../../.env.local -- next dev",
     "build": "pnpm with-env next build",
     "start": "pnpm with-env next start",
     "lint": "next lint",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env.local -- next dev"
+
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.750.0",
@@ -48,6 +49,7 @@
     "@yudiel/react-qr-scanner": "^2.1.0",
     "autoprefixer": "10.4.19",
     "axios": "^1.7.2",
+    "better-sqlite3": "^12.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",

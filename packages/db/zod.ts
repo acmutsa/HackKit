@@ -1,4 +1,4 @@
-import { userCommonData, userHackerData } from "./schema";
+import { userCommonData, userHackerData } from "./schema.sqlite";
 import { createInsertSchema } from "drizzle-zod";
 
 export const userCommonDataInsertSchema = createInsertSchema(userCommonData);

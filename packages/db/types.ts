@@ -1,6 +1,6 @@
 import { InferSelectModel } from "drizzle-orm";
 //add "teams" to import in order to implement teams(removed for V1 release)
-import { userCommonData, userHackerData, scans, events } from "./schema";
+import { userCommonData, userHackerData, scans, events } from "./schema.sqlite";
 
 export interface Scan extends InferSelectModel<typeof scans> {}
 export interface User extends InferSelectModel<typeof userCommonData> {}

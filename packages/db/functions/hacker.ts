@@ -1,5 +1,5 @@
 import { db, eq } from "..";
-import { userCommonData } from "../schema";
+import { userCommonData } from "../schema.sqlite";
 import { Hacker } from "../types";
 
 // const _getAllHackers = db.query.userCommonData

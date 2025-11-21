@@ -1,5 +1,5 @@
 import { db, eq } from "..";
-import { userCommonData, userHackerData } from "../schema";
+import { userCommonData, userHackerData } from "../schema.sqlite";
 import { HackerData, User } from "../types";
 
 // const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
