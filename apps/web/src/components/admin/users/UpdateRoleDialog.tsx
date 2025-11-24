@@ -21,24 +21,23 @@ import { useAction } from "next-safe-action/hooks";
 import { updateRole } from "@/actions/admin/user-actions";
 import { useState } from "react";
 import { Badge } from "@/components/shadcn/ui/badge";
-import { db } from "db";
 import { titleCase } from "@/lib/utils/shared/string";
 
 interface UpdateRoleDialogProps {
 	userID: string;
 	name: string;
 	currentRoleId: number;
+	roles: { id: number; name: string }[];
 }
 
 export default async function UpdateRoleDialog({
 	userID,
 	currentRoleId,
 	name,
+	roles,
 }: UpdateRoleDialogProps) {
 	const [roleToSet, setRoleToSet] = useState(currentRoleId);
 	const [open, setOpen] = useState(false);
-
-	const roles = await db.query.roles.findMany();
 
 	const currentRoleName = titleCase(
 		roles.find((r) => r.id === currentRoleId)?.name.replace("_", " ") || "",

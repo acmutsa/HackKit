@@ -40,6 +40,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		return <p className="text-center font-bold">User Not Found</p>;
 	}
 
+	const roles = await db.query.roles.findMany({
+		columns: { id: true, name: true },
+	});
+
 	const banInstance = await db.query.bannedUsers.findFirst({
 		where: eq(bannedUsers.userID, subject.clerkID),
 	});
@@ -83,6 +87,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							name={`${subject.firstName} ${subject.lastName}`}
 							currentRoleId={subject.role_id}
 							userID={subject.clerkID}
+							roles={roles}
 						/>
 					</Restricted>
 
@@ -146,6 +151,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 									name={`${subject.firstName} ${subject.lastName}`}
 									currentRoleId={subject.role_id}
 									userID={subject.clerkID}
+									roles={roles}
 								/>
 							</div>
 
