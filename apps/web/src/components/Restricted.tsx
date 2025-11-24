@@ -25,22 +25,24 @@ function Restricted({
 	if (targetRolePosition !== undefined) {
 		if (
 			position === "higher" &&
-			!compareUserPosition(user, targetRolePosition)
+			compareUserPosition(user, targetRolePosition)
 		) {
-			return <></>;
+			return <>{children}</>;
 		}
 		if (
 			position === "lower" &&
 			compareUserPosition(user, targetRolePosition) !== -1
 		) {
-			return <></>;
+			return <>{children}</>;
 		}
 		if (
 			position === "equal" &&
 			compareUserPosition(user, targetRolePosition) !== 0
 		) {
-			return <></>;
+			return <>{children}</>;
 		}
+
+		return <></>;
 	}
 	return <>{children}</>;
 }
