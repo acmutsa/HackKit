@@ -30,7 +30,7 @@ interface UpdateRoleDialogProps {
 	roles: { id: number; name: string }[];
 }
 
-export default function UpdateRoleDialog({
+export default async function UpdateRoleDialog({
 	userID,
 	currentRoleId,
 	name,
