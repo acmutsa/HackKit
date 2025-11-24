@@ -1,8 +1,4 @@
-import { format, compareAsc } from "date-fns";
 import { EventType } from "@/lib/types/events";
-import { Badge } from "@/components/shadcn/ui/badge";
-import c from "config";
-import { headers } from "next/headers";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
 import EventItem from "./EventItem";
 import { getRequestContext } from "@cloudflare/next-on-pages";

@@ -4,15 +4,10 @@ import { z } from "zod";
 export const env = createEnv({
 	server: {
 		CLERK_SECRET_KEY: z.string(),
-		AWS_SES_ACCESS_KEY: z.string(),
-		AWS_SES_SECRET_ACCESS_KEY: z.string(),
-		AWS_REGION: z.string(),
-		AWS_SES_EMAIL_FROM: z.string(),
 		INTERNAL_AUTH_KEY: z.string().min(64, {
 			message: "INTERNAL_AUTH_KEY must be at least 64 characters",
 		}),
 		BOT_API_URL: z.string(),
-		HK_ENV: z.string().min(1),
 		NODE_ENV: z
 			.enum(["development", "test", "production"])
 			.default("development"),

@@ -21,7 +21,7 @@
         "DISCORD_PROD_SERVER_ID",
         "DISCORD_PROD_VERIFY_CHANNEL_ID",
         "DISCORD_SECRET_TOKEN",
-        "HK_ENV",
+        "NODE_ENV",
         "INTERNAL_AUTH_KEY",
         "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
         "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
@@ -37,6 +37,11 @@
 			"outputs": [".next/**", "!.next/cache/**"]
 		},
 		"lint": {},
+    "start": {
+      "cache": true,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
 		"dev": {
 			"cache": false,
 			"persistent": true

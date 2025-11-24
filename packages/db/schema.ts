@@ -20,7 +20,6 @@ import { relations, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import {
 	discordInviteStatus,
-	ticketStatus,
 	discordVerificationStatus,
 } from "../config/hackkit.config";
 
@@ -72,15 +71,15 @@ export const chatType = customType<{
 	},
 });
 
-export const ticketStatusEnum = customType<{
-	data: (typeof ticketStatus)[number];
-	notNull: true;
-	default: true;
-}>({
-	dataType() {
-		return "text";
-	},
-});
+// export const ticketStatusEnum = customType<{
+// 	data: (typeof ticketStatus)[number];
+// 	notNull: true;
+// 	default: true;
+// }>({
+// 	dataType() {
+// 		return "text";
+// 	},
+// });
 
 export const discordVerificationStatusEnum = customType<{
 	data: (typeof discordVerificationStatus)[number];
@@ -171,9 +170,9 @@ export const userCommonRelations = relations(
 		}),
 		files: many(files),
 		scans: many(scans),
-		tickets: many(ticketsToUsers),
-		chats: many(chatsToUsers),
-		messages: many(chatMessages),
+		// tickets: many(ticketsToUsers),
+		// chats: many(chatsToUsers),
+		// messages: many(chatMessages),
 		banInstance: one(bannedUsers, {
 			fields: [userCommonData.clerkID],
 			references: [bannedUsers.userID],
@@ -331,104 +330,104 @@ export const discordVerification = sqliteTable("discord_verification", {
 
 /* Tickets */
 
-export const tickets = sqliteTable("tickets", {
-	id: text("id").primaryKey(),
-	title: text("title", { length: 255 }).notNull(),
-	description: text("description").notNull(),
-	status: ticketStatusEnum("status").notNull().default("awaiting"),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-});
+// export const tickets = sqliteTable("tickets", {
+// 	id: text("id").primaryKey(),
+// 	title: text("title", { length: 255 }).notNull(),
+// 	description: text("description").notNull(),
+// 	status: ticketStatusEnum("status").notNull().default("awaiting"),
+// 	createdAt: integer("created_at", { mode: "timestamp_ms" })
+// 		.notNull()
+// 		.default(sql`(current_timestamp)`),
+// });
 
-export const ticketRelations = relations(tickets, ({ one, many }) => ({
-	chat: one(chats, {
-		fields: [tickets.id],
-		references: [chats.ticketID],
-	}),
-	tickets: many(ticketsToUsers),
-}));
+// export const ticketRelations = relations(tickets, ({ one, many }) => ({
+// 	chat: one(chats, {
+// 		fields: [tickets.id],
+// 		references: [chats.ticketID],
+// 	}),
+// 	tickets: many(ticketsToUsers),
+// }));
 
-export const chats = sqliteTable("chats", {
-	id: text("id").primaryKey(),
-	type: chatType("type").notNull(),
-	ticketID: text("ticket_id").references(() => tickets.id),
-	author: text("author").notNull(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-});
+// export const chats = sqliteTable("chats", {
+// 	id: text("id").primaryKey(),
+// 	type: chatType("type").notNull(),
+// 	ticketID: text("ticket_id").references(() => tickets.id),
+// 	author: text("author").notNull(),
+// 	createdAt: integer("created_at", { mode: "timestamp_ms" })
+// 		.notNull()
+// 		.default(sql`(current_timestamp)`),
+// });
 
-export const chatRelations = relations(chats, ({ many }) => ({
-	messages: many(chatMessages),
-	members: many(chatsToUsers),
-}));
+// export const chatRelations = relations(chats, ({ many }) => ({
+// 	messages: many(chatMessages),
+// 	members: many(chatsToUsers),
+// }));
 
-export const chatMessages = sqliteTable("chat_messages", {
-	id: integer("id", { mode: "number" }).primaryKey(),
-	chatID: text("chat_id").notNull(),
-	message: text("message").notNull(),
-	authorID: text("author_id").notNull(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-});
+// export const chatMessages = sqliteTable("chat_messages", {
+// 	id: integer("id", { mode: "number" }).primaryKey(),
+// 	chatID: text("chat_id").notNull(),
+// 	message: text("message").notNull(),
+// 	authorID: text("author_id").notNull(),
+// 	createdAt: integer("created_at", { mode: "timestamp_ms" })
+// 		.notNull()
+// 		.default(sql`(current_timestamp)`),
+// });
 
-export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
-	chat: one(chats, {
-		fields: [chatMessages.chatID],
-		references: [chats.id],
-	}),
-	author: one(userCommonData, {
-		fields: [chatMessages.authorID],
-		references: [userCommonData.clerkID],
-	}),
-}));
+// export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
+// 	chat: one(chats, {
+// 		fields: [chatMessages.chatID],
+// 		references: [chats.id],
+// 	}),
+// 	author: one(userCommonData, {
+// 		fields: [chatMessages.authorID],
+// 		references: [userCommonData.clerkID],
+// 	}),
+// }));
 
-export const ticketsToUsers = sqliteTable(
-	"tickets_to_users",
-	{
-		ticketID: text("ticket_id")
-			.notNull()
-			.references(() => tickets.id),
-		userID: text("user_id")
-			.notNull()
-			.references(() => userCommonData.clerkID),
-	},
-	(t) => [primaryKey({ columns: [t.userID, t.ticketID] })],
-);
+// export const ticketsToUsers = sqliteTable(
+// 	"tickets_to_users",
+// 	{
+// 		ticketID: text("ticket_id")
+// 			.notNull()
+// 			.references(() => tickets.id),
+// 		userID: text("user_id")
+// 			.notNull()
+// 			.references(() => userCommonData.clerkID),
+// 	},
+// 	(t) => [primaryKey({ columns: [t.userID, t.ticketID] })],
+// );
 
-export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
-	ticket: one(tickets, {
-		fields: [ticketsToUsers.ticketID],
-		references: [tickets.id],
-	}),
-	user: one(userCommonData, {
-		fields: [ticketsToUsers.userID],
-		references: [userCommonData.clerkID],
-	}),
-}));
+// export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
+// 	ticket: one(tickets, {
+// 		fields: [ticketsToUsers.ticketID],
+// 		references: [tickets.id],
+// 	}),
+// 	user: one(userCommonData, {
+// 		fields: [ticketsToUsers.userID],
+// 		references: [userCommonData.clerkID],
+// 	}),
+// }));
 
-export const chatsToUsers = sqliteTable(
-	"chats_to_users",
-	{
-		chatID: text("chat_id")
-			.notNull()
-			.references(() => chats.id),
-		userID: text("user_id")
-			.notNull()
-			.references(() => userCommonData.clerkID),
-	},
-	(t) => [primaryKey({ columns: [t.userID, t.chatID] })],
-);
+// export const chatsToUsers = sqliteTable(
+// 	"chats_to_users",
+// 	{
+// 		chatID: text("chat_id")
+// 			.notNull()
+// 			.references(() => chats.id),
+// 		userID: text("user_id")
+// 			.notNull()
+// 			.references(() => userCommonData.clerkID),
+// 	},
+// 	(t) => [primaryKey({ columns: [t.userID, t.chatID] })],
+// );
 
-export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
-	chat: one(chats, {
-		fields: [chatsToUsers.chatID],
-		references: [chats.id],
-	}),
-	user: one(userCommonData, {
-		fields: [chatsToUsers.userID],
-		references: [userCommonData.clerkID],
-	}),
-}));
+// export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
+// 	chat: one(chats, {
+// 		fields: [chatsToUsers.chatID],
+// 		references: [chats.id],
+// 	}),
+// 	user: one(userCommonData, {
+// 		fields: [chatsToUsers.userID],
+// 		references: [userCommonData.clerkID],
+// 	}),
+// }));
