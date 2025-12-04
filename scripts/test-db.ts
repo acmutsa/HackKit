@@ -1,18 +1,13 @@
 // scripts/test-db.ts
 import dotenv from "dotenv";
-
-// Load env first
 dotenv.config({ path: ".env.local" });
 
 async function main() {
-  // Import AFTER env is loaded
-  const { db, DB_DRIVER } = await import("../packages/db/client");
-  const { userCommonData } = await import("../packages/db/schema.sqlite");
+  const { db, schema, DB_DRIVER } = await import("../packages/db/client");
 
-  console.log("DB_TYPE (env):", process.env.DB_TYPE);
-  console.log("DB_DRIVER (actual):", DB_DRIVER);
+  console.log("DB_DRIVER:", DB_DRIVER);
 
-  const rows = await db.select().from(userCommonData).limit(10);
+  const rows = await db.select().from(schema.userCommonData).limit(10);
   console.log("Query result:", rows);
 }
 

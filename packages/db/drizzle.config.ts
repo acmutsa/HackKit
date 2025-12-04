@@ -2,26 +2,25 @@
 import { defineConfig } from "drizzle-kit";
 import * as dotenv from "dotenv";
 
-// Load env from monorepo root
-dotenv.config({
-  path: "../../.env",
-});
+dotenv.config({ path: "../../.env" });
 
 const DB_TYPE = process.env.DB_TYPE ?? "sqlite";
+
+// All DBs now use the unified schema:
+const SCHEMA_PATH = "./schema.ts";
 
 const configs = {
   sqlite: {
     dialect: "sqlite" as const,
-    schema: "./schema.sqlite.ts",
+    schema: SCHEMA_PATH,
     dbCredentials: {
-      // SQLite file lives in packages/db/local.db
       url: "file:./local.db",
     },
   },
 
   turso: {
     dialect: "turso" as const,
-    schema: "./schema.sqlite.ts", // same schema as local sqlite
+    schema: SCHEMA_PATH,
     dbCredentials: {
       url: process.env.TURSO_DATABASE_URL!,
       authToken: process.env.TURSO_AUTH_TOKEN!,
@@ -30,9 +29,8 @@ const configs = {
 
   postgres: {
     dialect: "postgres" as const,
-    schema: "./schema.pg.ts", // matches: import * as pgSchema from "./schema.pg";
+    schema: SCHEMA_PATH,
     dbCredentials: {
-      // match your client.ts which uses POSTGRES_URL
       connectionString: process.env.POSTGRES_URL!,
     },
   },
