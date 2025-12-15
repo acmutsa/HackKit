@@ -3,6 +3,13 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import { defaultTheme } from "config";
+import { Racing_Sans_One } from "next/font/google";
+
+const racing = Racing_Sans_One({
+	subsets: ["latin"],
+	weight: "400",
+	variable: "--font-racing",
+});
 
 export default function RootLayout({
 	children,
@@ -13,7 +20,11 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang="en">
-				<body className={theme === "dark" ? "dark" : ""}>
+				<body
+					className={`${racing.variable} ${
+						theme === "dark" ? "dark" : ""
+					}`}
+				>
 					{children}
 					<Analytics />
 				</body>

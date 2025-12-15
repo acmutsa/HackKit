@@ -1,12 +1,14 @@
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
+
 export const env = createEnv({
 	server: {
+		/*
 		BACKUPS_SECRET_KEY: z.string({
 			description:
 				"This is a secret key used to sign and verify requests. It should be kept secret and not shared with anyone.",
 		}),
-		BACKUPS_DATABSE_NAME: z.string(),
+		BACKUPS_DATABASE_NAME: z.string(),
 		BACKUPS_ORGANIZATION_SLUG: z.string(),
 		BACKUPS_CLOUDFLARE_ACCOUNT_ID: z.string({
 			description:
@@ -19,6 +21,7 @@ export const env = createEnv({
 				"This is a bearer token to access the databases. If serverless DB provider allows, try to make this token read-only.",
 		}),
 		BACKUPS_BUCKET_NAME: z.string(),
+		*/
 	},
 	onValidationError: (issues) => {
 		console.log("all process variables:", process.env);

@@ -6,50 +6,31 @@ export default function Hero() {
 	return (
 		<section className="grid w-full grid-cols-1 overflow-hidden">
 			<div className="relative flex min-h-screen w-full flex-col items-center justify-center">
-				<div className="absolute left-[20%] top-[-30vh] h-[110vh] w-[225px] -translate-x-5 -rotate-[50deg] bg-white opacity-20 blur-3xl"></div>
 				<div className="relative">
-					<div className="absolute h-full w-full rounded-3xl bg-hackathon opacity-10 blur-3xl"></div>
-					<div className="z-10 grid h-min grid-cols-2">
-						<div className="relative">
+					<div className="z-12 flex items-center gap-3">
+						<div className="relative h-40 w-40">
 							<Image
-								src="/img/logo/hackkit-md.png"
-								alt="HackKit Logo"
+								src="/img/logo/cq26.png"
+								alt="CodeQuantum Logo"
 								fill
 								className="object-contain"
 							/>
 						</div>
-						<div className="z-10 flex py-5">
-							<h1 className="text-7xl font-black text-hackathon dark:bg-gradient-to-tl dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
-								Hack
-								<br />
-								Kit
-							</h1>
-						</div>
+						<h1 className="font-racing text-7xl dark:bg-gradient-to-tr dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
+							odeQuantum
+						</h1>
 					</div>
-					<p className="text-md pl-5 pt-10 text-center font-bold text-muted-foreground">
-						Feature-packed Hackathon managment software{" "}
-						<u>that just works</u>.
-					</p>
+					<h2 className="text-center text-2xl font-bold text-muted-foreground">
+						If you ain't first, you're last.
+					</h2>
+					<div className="mt-6 flex justify-center">
+						<Link href="/register">
+							<Button className="hover:bg-hackathon-100 bg-hackathon text-white">
+								Register Now!
+							</Button>
+						</Link>
+					</div>
 				</div>
-			</div>
-			<div className="absolute top-[80vh] flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						GitHub
-					</Button>
-				</Link>
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						Docs
-					</Button>
-				</Link>
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						Channel Log
-					</Button>
-				</Link>
-				<div className="h-0 basis-full" />
-				<div className="max-h-[50px] overflow-hidden"></div>
 			</div>
 		</section>
 	);

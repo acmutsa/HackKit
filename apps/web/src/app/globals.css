@@ -4,11 +4,11 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%;
+		--background: 240 18% 10%;
 		--foreground: 240 10% 3.9%;
 
 		--nav: 255, 255, 255;
-		--hackathon-primary: 206 86% 52%;
+		--hackathon-primary: 6 61.7% 41%;
 
 		--muted: 240 4.8% 95.9%;
 		--muted-foreground: 240 3.8% 46.1%;
@@ -38,14 +38,14 @@
 
 		--radius: 0.5rem;
 
-		--gradient-color-1: #668cff;
-		--gradient-color-2: #3366ff;
-		--gradient-color-3: #002db3;
-		--gradient-color-4: #1952cc;
+		--gradient-color-1: #ff6666;
+		--gradient-color-2: #ff3333;
+		--gradient-color-3: #b30000;
+		--gradient-color-4: #cc1919;
 	}
 
 	.dark {
-		--background: 240 10% 3.9%;
+		--background: 240 18% 10%;
 		--foreground: 0 0% 98%;
 
 		--nav: 240 10% 3.9%;

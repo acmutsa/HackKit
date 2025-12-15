@@ -806,9 +806,9 @@ const softwareExperienceOptions = [
 ] as const;
 
 const c = {
-	hackathonName: "HackKit",
+	hackathonName: "CodeQuantum",
 	itteration: "I",
-	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
+	siteUrl: "https://cqhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	rsvpDefaultLimit: 500,
 	botName: "HackKit",
@@ -895,10 +895,10 @@ const c = {
 		guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit.svg",
-		md: "/img/logo/hackkit-md.png",
-		lg: "/img/logo/hackkit-lg.png",
-		svg: "/img/logo/hackkit.svg",
+		sm: "/img/logo/cq26.png",
+		md: "/img/logo/cq26.png",
+		lg: "/img/logo/cq26.png",
+		svg: "/img/logo/cq26.png",
 	},
 	dashPaths: {
 		dash: {
