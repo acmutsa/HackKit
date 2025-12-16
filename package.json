@@ -9,8 +9,6 @@
     "migrations:drop": "pnpm --filter=db migrations:drop",
     "studio": "pnpm --filter=db studio",
     "tunnel": "pnpm --filter=devtunnel opentunnel",
-    "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
-    "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
     "format": "prettier --write .",
     "format-check": "prettier --check ."
   },

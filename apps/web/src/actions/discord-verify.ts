@@ -26,27 +26,27 @@ export const confirmVerifyDiscord = authenticatedAction
 			};
 		}
 
-		// TODO: set some kind of thing that will revert the verification if the bot api call fails
-
 		await db
 			.update(discordVerification)
 			.set({ status: "accepted", clerkID: userId })
 			.where(eq(discordVerification.code, code));
 
-		const res = await fetch(
-			env.BOT_API_URL +
-				"/api/checkDiscordVerification?access=" +
-				env.INTERNAL_AUTH_KEY,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ code }),
+		// Call bot receivers endpoint with shared secret header
+		const res = await fetch(`${env.BOT_API_URL}/discord-verification`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Shared-Secret": env.SHARED_SECRET,
 			},
-		);
-		let resJson = await res.json();
-		console.log(resJson);
+			body: JSON.stringify({ code }),
+		});
+		let resJson = {};
+		try {
+			resJson = await res.json();
+			console.log(resJson);
+		} catch (e) {
+			console.warn("discord receiver returned no JSON", e);
+		}
 
 		return {
 			success: true,

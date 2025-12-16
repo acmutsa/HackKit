@@ -808,7 +808,7 @@ const softwareExperienceOptions = [
 const c = {
 	hackathonName: "HackKit",
 	itteration: "I",
-	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
+	siteUrl: "http://localhost:3000", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	rsvpDefaultLimit: 500,
 	botName: "HackKit",
@@ -855,34 +855,34 @@ const c = {
 	},
 	groups: {
 		"Guild A | Group A": {
-			discordRole: "Guild A Role",
+			discordRole: "Group A",
 		},
 		"Guild A | Group B": {
-			discordRole: "Guild A Role",
+			discordRole: "Group A",
 		},
 		"Guild B | Group A": {
-			discordRole: "Guild B Role",
+			discordRole: "Group B",
 		},
 		"Guild B | Group B": {
-			discordRole: "Guild B Role",
+			discordRole: "Group B",
 		},
 		"Guild C | Group A": {
-			discordRole: "Guild C Role",
+			discordRole: "Group C",
 		},
 		"Guild C | Group B": {
-			discordRole: "Guild C Role",
+			discordRole: "Group C",
 		},
 		"Guild D | Group A": {
-			discordRole: "Guild D Role",
+			discordRole: "Group D",
 		},
 		"Guild D | Group B": {
-			discordRole: "Guild D Role",
+			discordRole: "Group D",
 		},
 		"Guild E | Group A": {
-			discordRole: "Guild E Role",
+			discordRole: "Group E",
 		},
 		"Guild E | Group B": {
-			discordRole: "Guild E Role",
+			discordRole: "Group E",
 		},
 	},
 	issueEmail: "team@rowdyhacks.org",

@@ -8,8 +8,8 @@ export const env = createEnv({
 		AWS_SES_SECRET_ACCESS_KEY: z.string(),
 		AWS_REGION: z.string(),
 		AWS_SES_EMAIL_FROM: z.string(),
-		INTERNAL_AUTH_KEY: z.string().min(64, {
-			message: "INTERNAL_AUTH_KEY must be at least 64 characters",
+		SHARED_SECRET: z.string().min(64, {
+			message: "SHARED_SECRET must be at least 64 characters",
 		}),
 		BOT_API_URL: z.string(),
 		HK_ENV: z.string().min(1),

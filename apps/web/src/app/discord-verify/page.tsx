@@ -20,8 +20,6 @@ export default async function Page({
 	const passedCode = searchParams?.code;
 
 	if (!passedCode || typeof passedCode !== "string") {
-		console.log("no code");
-		console.log(passedCode);
 		return notFound();
 	}
 

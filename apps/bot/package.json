@@ -4,10 +4,9 @@
   "description": "",
   "main": "bot.ts",
   "scripts": {
-    "dev": "bun run --env-file=../../.env --hot bot.ts",
-    "start": "bun run --env-file=../../.env ./bot.ts",
-    "deploy:dev": "bun run --env-file=../../.env --dev deploy-commands.ts",
-    "deploy:prod": "bun run --env-file=../../.env --prod deploy-commands.ts"
+    "dev": "tsx watch --env-file=../../.env bot.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx --env-file=../../.env bot.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,12 +15,15 @@
     "config": "workspace:*",
     "db": "workspace:*",
     "discord.js": "^14.15.3",
-    "hono": "^4.5.0",
+    "express": "^5.2.1",
     "nanoid": "^5.0.7",
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.6"
+    "@types/express": "^5.0.6",
+    "@types/node": "20.14.11",
+    "tsx": "^4.0.0",
+    "typescript": "5.5.3"
   },
   "packageManager": "pnpm@8.3.1"
 }
