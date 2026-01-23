@@ -24,3 +24,10 @@ Want to help us build HackKit? Please reach out to us at `tech@acmutsa.org` or j
 <a href="https://github.com/acmutsa/HackKit/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=acmutsa/HackKit" />
 </a>
+
+
+pnpm dlx shadcn@latest add @react-bits/Hyperspeed-JS-CSS
+
+npm install gsap
+
+pnpm add @radix-ui/react-portal @radix-ui/react-menu

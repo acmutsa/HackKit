@@ -148,3 +148,24 @@
 		transform: scale(1.1);
 	}
 }
+
+.boxed{
+	display: inline-block;
+	margin: 0;
+	padding: 10px 14px; /* tighter horizontal padding */
+	background: rgba(0, 0, 0, 0.86);
+	border: 2px solid rgba(255, 255, 255, 0.14);
+	border-radius: 0px;
+	line-height: 1.02;
+  }
+  
+  .boxed-fullscreen {
+	display: inline-block;
+	margin: 0;
+	padding: 10px 14px; /* tighter horizontal padding */
+	background: rgba(0, 0, 0, 0.86);
+	border: 2px solid rgba(255, 255, 255, 0.14);
+	border-radius: 0px;
+	line-height: 1.02;
+  }
+  

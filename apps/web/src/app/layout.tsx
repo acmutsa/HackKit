@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import { defaultTheme } from "config";
 import { Racing_Sans_One } from "next/font/google";
+import "@/components/shadcn/Hyperspeed.css";
 
 const racing = Racing_Sans_One({
 	subsets: ["latin"],
