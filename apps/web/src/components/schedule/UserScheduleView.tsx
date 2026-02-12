@@ -10,7 +10,7 @@ export default async function UserScheduleView() {
 			<Day
 				events={events}
 				title="Event Schedule"
-				subtitle={`${c.hackathonName} ${c.itteration}`}
+				subtitle={`${c.hackathonName} ${c.iteration}`}
 			/>
 		</main>
 	);

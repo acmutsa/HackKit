@@ -807,7 +807,7 @@ const softwareExperienceOptions = [
 
 const c = {
 	hackathonName: "HackKit",
-	itteration: "I",
+	iteration: "I",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	rsvpDefaultLimit: 500,
@@ -956,12 +956,11 @@ const c = {
 			foreground: "#ffffff",
 			checked: false,
 		},
-		// Why is the checked set to a color?
 		mlh: {
 			title: "MLH",
-			color: "#ffffff",
-			foreground: "#E73426",
-			checked: "#E73426",
+			color: "#E73426",
+			foreground: "#ffffff",
+			checked: false,
 		},
 		admin: {
 			title: "Organizer",
@@ -971,8 +970,8 @@ const c = {
 		},
 		super_admin: {
 			title: "Organizer",
-			foreground: "#ffffff",
 			color: "#f59e0b",
+			foreground: "#ffffff",
 			checked: true,
 		},
 	},
@@ -985,7 +984,7 @@ const c = {
 
 const staticUploads = {
 	bucketHost: "/api/upload/resume/view",
-	bucketResumeBaseUploadUrl: `${c.hackathonName}/${c.itteration}/resumes`,
+	bucketResumeBaseUploadUrl: `${c.hackathonName}/${c.iteration}/resumes`,
 } as const;
 
 // Its important that this is kept in sync with the database schema.

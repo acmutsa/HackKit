@@ -92,7 +92,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 							<h1 className="text-md ml-1 font-bold leading-tight">
 								{c.hackathonName}{" "}
 								<span className="text-hackathon">
-									{c.itteration}
+									{c.iteration}
 								</span>
 							</h1>
 						</div>

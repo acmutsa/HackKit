@@ -33,7 +33,7 @@ export default async function Page() {
 				<QuickQR qrPayload={qrPayload} />
 				<TitleBubble />
 				<Countdown
-					title={`${c.hackathonName} ${c.itteration}`}
+					title={`${c.hackathonName} ${c.iteration}`}
 					date={c.startDate}
 				/>
 				<Questions />

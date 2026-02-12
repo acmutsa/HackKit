@@ -144,7 +144,7 @@ app.get("/postMsgToServer", (h) => {
 			url: c.siteUrl,
 		})
 		.setDescription(
-			`**Verify your registration for ${c.hackathonName} ${c.itteration} to gain access to the rest of the server!**\n\nClick the "verify" button below to begin the verification process.\n\u200B`,
+			`**Verify your registration for ${c.hackathonName} ${c.iteration} to gain access to the rest of the server!**\n\nClick the "verify" button below to begin the verification process.\n\u200B`,
 		)
 		.setThumbnail(`${c.siteUrl}${c.icon.md}`)
 		.setFooter({
