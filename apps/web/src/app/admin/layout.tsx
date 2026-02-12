@@ -104,5 +104,3 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 		</>
 	);
 }
-
-export const runtime = "edge";

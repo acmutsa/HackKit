@@ -1,7 +1,7 @@
 import { EventType } from "@/lib/types/events";
 import { getClientTimeZone } from "@/lib/utils/client/shared";
 import EventItem from "./EventItem";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import c from "config";
 interface DayProps {
 	title: string;
 	subtitle: string;
@@ -9,10 +9,7 @@ interface DayProps {
 }
 
 export default function Day({ title, subtitle, events }: DayProps) {
-	const { cf } = getRequestContext();
-	const userTimeZoneHeaderKey = cf.timezone;
-
-	const userTimeZone = getClientTimeZone(userTimeZoneHeaderKey);
+	const userTimeZone = getClientTimeZone(c.hackathonTimezone);
 
 	return (
 		<div className="flex min-h-[60vh] w-[92%] flex-col items-center rounded-xl bg-white px-2 pb-4 backdrop-blur transition dark:bg-white/[0.08] lg:w-full">
