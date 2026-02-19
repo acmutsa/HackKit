@@ -25,7 +25,7 @@ function Restricted({
 	if (targetRolePosition !== undefined) {
 		if (
 			position === "higher" &&
-			compareUserPosition(user, targetRolePosition)
+			compareUserPosition(user, targetRolePosition) == 1
 		) {
 			return <>{children}</>;
 		}
