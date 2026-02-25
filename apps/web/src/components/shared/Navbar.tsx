@@ -49,6 +49,7 @@ export default async function Navbar({ className }: NavbarProps) {
 						</Link>
 						<div className="col-span-2 hidden items-center justify-start gap-x-5 md:flex">
 							<NavBarLinksGrouper />
+			
 						</div>
 					</div>
 

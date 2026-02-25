@@ -3,6 +3,7 @@ import NavbarItem from "./NavbarItem";
 
 export default async function NavBarLinksGrouper() {
 	const nav = await getAllNavItems();
+	
 	const toRender: React.ReactNode[] = [];
 	for (const item of nav.items) {
 		if (item.enabled) {
@@ -13,7 +14,11 @@ export default async function NavBarLinksGrouper() {
 			);
 		}
 	}
-	return <>{toRender}</>;
+	return <>
+	<NavbarItem link={"/schedule"}>
+		Schedule
+	</NavbarItem>
+	</>;
 }
 
 export const runtime = "edge";
