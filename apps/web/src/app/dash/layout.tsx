@@ -9,19 +9,14 @@ import { redirect } from "next/navigation";
 import ProfileButton from "@/components/shared/ProfileButton";
 import ClientToast from "@/components/shared/ClientToast";
 import { getUser } from "db/functions";
+import { getCurrentUser } from "@/lib/utils/server/user";
 
 interface DashLayoutProps {
 	children: React.ReactNode;
 }
 
 export default async function DashLayout({ children }: DashLayoutProps) {
-	const clerkUser = await currentUser();
-
-	if (!clerkUser || (await getUser(clerkUser.id)) == undefined) {
-		return redirect("/register");
-	}
-
-	const user = await getUser(clerkUser.id);
+	const user = await getCurrentUser();
 	if (!user) return redirect("/register");
 
 	if (

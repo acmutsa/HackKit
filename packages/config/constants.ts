@@ -441,7 +441,7 @@ const majorOptions = [
 	"Cell/Cellular Biology",
 	"Chemical Engineering",
 	"Chemistry",
-	"Cinematography/Film/Vide Production",
+	"Cinematography/Film/Video Production",
 	"Civil Engineering",
 	"Classical/Ancient Languages & Literatures",
 	"Comparative Literature",
