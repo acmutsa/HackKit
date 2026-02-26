@@ -145,23 +145,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<div className="cursor-pointer rounded-sm px-2 py-1.5 text-center text-sm hover:bg-accent">
-								<Restricted
-									user={admin}
-									permissions={
-										PermissionType.CHANGE_USER_ROLES
-									}
-									targetRolePosition={subject.role.position}
-									position="higher"
-								>
+							<Restricted
+								user={admin}
+								permissions={PermissionType.CHANGE_USER_ROLES}
+								targetRolePosition={subject.role.position}
+								position="higher"
+							>
+								<div className="cursor-pointer rounded-sm px-2 py-1.5 text-center text-sm hover:bg-accent">
 									<UpdateRoleDialog
 										name={`${subject.firstName} ${subject.lastName}`}
 										currentRoleId={subject.role_id}
 										userID={subject.clerkID}
 										roles={roles}
 									/>
-								</Restricted>
-							</div>
+								</div>
+							</Restricted>
 
 							{(c.featureFlags.core
 								.requireUsersApproval as boolean) && (
