@@ -38,5 +38,3 @@ export async function POST(request: Request): Promise<NextResponse> {
 		);
 	}
 }
-
-export const runtime = "edge";

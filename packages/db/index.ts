@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/libsql";
 import { createClient as createClientEdge } from "@libsql/client/web";
 import { createClient as createClientNodeServerless } from "@libsql/client";
 import * as schema from "./schema";
+import "server-only";
 
 export * from "drizzle-orm";
 export * as zod from "./zod";
