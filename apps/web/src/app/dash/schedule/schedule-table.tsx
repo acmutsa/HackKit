@@ -2,6 +2,7 @@ import {
 	Table,
 	TableBody,
 	TableCell,
+	TableHeader,
 	TableRow,
 } from "@/components/shadcn/ui/table";
 
@@ -18,22 +19,19 @@ function splitByDay(schedule: Event[]) {
 	schedule.forEach((event) => {
 		//const day = daysOfWeek[event.startTime.getDay()];
 		// Create unique index for dates
-		const date = (event.startTime.getDate() + event.startTime.getDay() + event.startTime.getFullYear());
+		const date =
+			event.startTime.getDate() +
+			event.startTime.getDay() +
+			event.startTime.getFullYear();
 
 		if (days.get(date)) {
 			days.get(date)?.push(event);
 		} else {
 			days.set(date, [event]);
 		}
-
 	});
 	return days;
 }
-
-
-function dateString(arr: Event, timezone: string){
-	return formatInTimeZone(arr.startTime, timezone,"M/d");
-};
 
 type ScheduleTableProps = {
 	schedule: Event[];
@@ -49,6 +47,9 @@ const daysOfWeek = [
 	"Friday",
 	"Saturday",
 ];
+function singleEvent(arr : Event[]) {
+	return arr[0].startTime;
+}
 
 export default function ScheduleTable({
 	schedule,
@@ -56,15 +57,26 @@ export default function ScheduleTable({
 }: ScheduleTableProps) {
 	return (
 		<div className="mx-auto mt-5 md:w-3/4">
-			<Table>
+			<Table className="grid w-full gap-12">
 				{Array.from(splitByDay(schedule).entries()).map(
 					([dateID, arr]): ReactNode => (
 						<>
-							<h2
-								key={dateID}									
-								className="my-4 text-4xl font-bold"
-							>{`${dateString(arr[0], timezone)}`}</h2>
-							<TableBody key={arr[0].id} className="my-4 border">
+							<TableBody
+								key={dateID}
+								className="border sm:w-fit md:w-full"
+							>
+								<TableHeader className="flex w-full justify-center gap-4 p-4">
+									<p className="m-1 content-end text-4xl font-bold md:text-7xl">
+										{`${formatInTimeZone(singleEvent(arr), timezone, "EEEE")}`}
+									</p>
+									<div className="m-1 flex gap-1 border-transparent border-l-white md:flex-col md:border">
+										<span className="text-3xl md:text-5xl">
+											<p>{`${formatInTimeZone(singleEvent(arr), timezone, "dd")}`}</p>
+											<p>{`${formatInTimeZone(singleEvent(arr), timezone, "MMM").toUpperCase()}`}</p>
+										</span>
+									</div>
+								</TableHeader>
+
 								{arr.map(
 									(event): ReactNode => (
 										<EventRow
@@ -88,10 +100,7 @@ type eventRowProps = {
 	event: Event;
 	userTimeZone: string;
 };
-
 export function EventRow({ event, userTimeZone }: eventRowProps) {
-	// Test Variable
-	const isLive = true;
 	//const isLive = event.startTime < currentTime && event.endTime > currentTime;
 	const startTimeFormatted = formatInTimeZone(
 		event.startTime,
@@ -112,38 +121,37 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 	const href = `/schedule/${event.id}`;
 	return (
 		<Link href={href}>
-			<TableRow className="flex w-full items-center justify-between p-4 h-44">
-				<TableCell className="w-52">
-					{isLive ? (
-						<p className="outline-offset-4 outline-1 outline outline-blue-500 p-2 sm:text-xs md:text-2xl rounded-xl text-center font-oswald">{`${startTimeFormatted} - ${endTimeFormatted}`}</p>
-					) : (
-						<p className="font-oswald">{`${startTimeFormatted} - ${endTimeFormatted}`}</p>
-					)}
+			<TableRow className="flex h-44 items-center justify-around p-4">
+				<TableCell className="flex w-1/3 justify-center">
+					<p className="p-1 font-bold sm:text-lg md:text-3xl">
+						{`${startTimeFormatted} - ${endTimeFormatted}`}
+					</p>
 				</TableCell>
-				<TableCell className="w-60 flex-col">
-					<div className="flex flex-col items-center">
-						<Badge
-							variant={"outline"}
-							className="h-fit"
-							style={{
-								borderColor: color,
-							}}
-						>
-							<p className="p-1 text-center text-sm">{event.type}</p>
-						</Badge>
-						<p className="mt-2 text-center font-black sm:text-xs md:text-xl">{`${event.title}`}</p>
-					</div>
-					<div className="flex-col text-center">
-						{event.host != "" ? (
-							<p>{`Hosted by: ${event?.host}`}</p>
-						) : (
-							<></>
-						)}
-						<p>{`At: ${event?.location}`}</p>
+				<TableCell className="w-1/3 content-center">
+					<div className="flex flex-col place-content-center">
+						<p className="p-1 text-center font-black sm:text-xs md:text-xl">
+							{`${event.title}`}
+						</p>
+						<div className="flex-col p-1 text-center">
+							<p>{`At: ${event?.location}`}</p>
+						</div>
 					</div>
 				</TableCell>
-				<TableCell className="w-52">
-					<p className="sm:text-xs md:text-base text-center font-thin">{`${event.description}`}</p>
+
+				<TableCell className="flex h-full w-1/3 flex-col content-center items-center justify-center">
+					<Badge
+						variant={"outline"}
+						className="mb-2 h-fit"
+						style={{
+							borderColor: color,
+						}}
+					>
+						<p className="p-1 text-xs md:text-base">{event.type}</p>
+					</Badge>
+
+					<div className="mb-2 hidden overflow-auto md:contents">
+						<p className="text-center font-thin sm:text-xs md:text-base">{`${event.description}`}</p>
+					</div>
 				</TableCell>
 			</TableRow>
 		</Link>
