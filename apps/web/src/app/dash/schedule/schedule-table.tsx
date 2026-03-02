@@ -14,20 +14,15 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import Link from "next/link";
 
 function splitByDay(schedule: Event[]) {
-	const days: Map<number, Event[]> = new Map<number, Event[]>();
+	const days: Map<string, Event[]> = new Map<string, Event[]>();
 	// Return an asorted array
 	schedule.forEach((event) => {
-		//const day = daysOfWeek[event.startTime.getDay()];
-		// Create unique index for dates
-		const date =
-			event.startTime.getDate() +
-			event.startTime.getDay() +
-			event.startTime.getFullYear();
+		const day = daysOfWeek[event.startTime.getDay()];
 
-		if (days.get(date)) {
-			days.get(date)?.push(event);
+		if (days.get(day)) {
+			days.get(day)?.push(event);
 		} else {
-			days.set(date, [event]);
+			days.set(day, [event]);
 		}
 	});
 	return days;
@@ -47,8 +42,10 @@ const daysOfWeek = [
 	"Friday",
 	"Saturday",
 ];
-function singleEvent(arr : Event[]) {
-	return arr[0].startTime;
+function eventDateString(arr: Event[], timezone: string) {
+	const date = formatInTimeZone(arr[0].startTime, timezone, "PPPP");
+	const retString = date.substring(0, date.length - 6);
+	return retString;
 }
 
 export default function ScheduleTable({
@@ -56,27 +53,17 @@ export default function ScheduleTable({
 	timezone,
 }: ScheduleTableProps) {
 	return (
-		<div className="mx-auto mt-5 md:w-3/4">
-			<Table className="grid w-full gap-12">
+		<div className="mx-auto mt-5 w-3/4">
+			<Table className="grid gap-12">
 				{Array.from(splitByDay(schedule).entries()).map(
 					([dateID, arr]): ReactNode => (
 						<>
-							<TableBody
-								key={dateID}
-								className="border sm:w-fit md:w-full"
-							>
-								<TableHeader className="flex w-full justify-center gap-4 p-4">
-									<p className="m-1 content-end text-4xl font-bold md:text-7xl">
-										{`${formatInTimeZone(singleEvent(arr), timezone, "EEEE")}`}
-									</p>
-									<div className="m-1 flex gap-1 border-transparent border-l-white md:flex-col md:border">
-										<span className="text-3xl md:text-5xl">
-											<p>{`${formatInTimeZone(singleEvent(arr), timezone, "dd")}`}</p>
-											<p>{`${formatInTimeZone(singleEvent(arr), timezone, "MMM").toUpperCase()}`}</p>
-										</span>
-									</div>
+							<TableBody key={dateID} className="border">
+								<TableHeader className="flex justify-start p-2">
+									<span className="m-1 text-center text-xl font-bold lg:text-5xl">
+										<p>{`${eventDateString(arr, timezone)}`}</p>
+									</span>
 								</TableHeader>
-
 								{arr.map(
 									(event): ReactNode => (
 										<EventRow
@@ -101,7 +88,6 @@ type eventRowProps = {
 	userTimeZone: string;
 };
 export function EventRow({ event, userTimeZone }: eventRowProps) {
-	//const isLive = event.startTime < currentTime && event.endTime > currentTime;
 	const startTimeFormatted = formatInTimeZone(
 		event.startTime,
 		userTimeZone,
@@ -116,44 +102,46 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 		userTimeZone,
 		"h:mm a",
 	);
-
 	const color = (c.eventTypes as Record<string, string>)[event.type];
-	const href = `/schedule/${event.id}`;
+	const href = "/schedule/" + event.id;
 	return (
-		<Link href={href}>
-			<TableRow className="flex h-44 items-center justify-around p-4">
-				<TableCell className="flex w-1/3 justify-center">
-					<p className="p-1 font-bold sm:text-lg md:text-3xl">
-						{`${startTimeFormatted} - ${endTimeFormatted}`}
-					</p>
-				</TableCell>
-				<TableCell className="w-1/3 content-center">
-					<div className="flex flex-col place-content-center">
-						<p className="p-1 text-center font-black sm:text-xs md:text-xl">
+		<TableRow
+			key={event.id}
+			className="flex items-center justify-around bg-transparent pb-1 odd:bg-white/5"
+		>
+			<TableCell className="flex w-1/3 justify-center">
+				<Link href={href}>
+					<span className="text-fine flex text-xs lg:text-lg lg:font-bold">
+						<p>{`${startTimeFormatted}`}</p>
+						<p className="hidden sm:contents">
+							{`- ${endTimeFormatted}`}
+						</p>
+					</span>
+				</Link>
+			</TableCell>
+			<TableCell className="justify flex w-2/3 flex-col">
+				<div className="flex place-items-center justify-between gap-4 lg:justify-end">
+					<Link href={href}>
+						<p className="p-1 text-xs lg:text-center lg:text-2xl lg:font-black">
 							{`${event.title}`}
 						</p>
-						<div className="flex-col p-1 text-center">
-							<p>{`At: ${event?.location}`}</p>
-						</div>
-					</div>
-				</TableCell>
-
-				<TableCell className="flex h-full w-1/3 flex-col content-center items-center justify-center">
+					</Link>
 					<Badge
 						variant={"outline"}
-						className="mb-2 h-fit"
+						className="h-fit text-center lg:w-32"
 						style={{
 							borderColor: color,
 						}}
 					>
-						<p className="p-1 text-xs md:text-base">{event.type}</p>
+						<p className="w-full text-xs lg:text-base">
+							{event.type}
+						</p>
 					</Badge>
-
-					<div className="mb-2 hidden overflow-auto md:contents">
-						<p className="text-center font-thin sm:text-xs md:text-base">{`${event.description}`}</p>
-					</div>
-				</TableCell>
-			</TableRow>
-		</Link>
+				</div>
+				<div className="truncate text-ellipsis w-full text-right">
+					<p className="hidden text-xs lg:contents">{`${event.description}`}</p>
+				</div>
+			</TableCell>
+		</TableRow>
 	);
 }
