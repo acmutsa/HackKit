@@ -109,9 +109,9 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 			key={event.id}
 			className="flex items-center justify-around bg-transparent pb-1 odd:bg-white/5"
 		>
-			<TableCell className="flex w-1/3 justify-center">
+			<TableCell className="flex w-1/3 justify-start pl-8">
 				<Link href={href}>
-					<span className="text-fine flex text-xs lg:text-lg lg:font-bold">
+					<span className="font-semibold flex">
 						<p>{`${startTimeFormatted}`}</p>
 						<p className="hidden sm:contents">
 							{`- ${endTimeFormatted}`}
@@ -119,13 +119,8 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 					</span>
 				</Link>
 			</TableCell>
-			<TableCell className="justify flex w-2/3 flex-col">
+			<TableCell className="justify flex w-2/3 flex-col pr-7">
 				<div className="flex place-items-center justify-between gap-2 lg:justify-end">
-					<Link href={href}>
-						<p className="p-1 text-xs lg:text-center lg:text-2xl lg:font-black">
-							{`${event.title}`}
-						</p>
-					</Link>
 					<Badge
 						variant={"outline"}
 						className="w-18 flex justify-center text-center"
@@ -133,11 +128,18 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 							borderColor: color,
 						}}
 					>
-						<p className="text-xs">{event.type}</p>
+						<p className="">{event.type}</p>
 					</Badge>
+
+
+					<Link href={href}>
+						<p className="p-1 lg:text-xl font-semibold">
+							{`${event.title}`}
+						</p>
+					</Link>
 				</div>
 				<div className="w-full truncate text-ellipsis text-right">
-					<p className="hidden text-xs lg:contents">{`${event.description}`}</p>
+					<p className="hidden lg:contents">{`${event.description}`}</p>
 				</div>
 			</TableCell>
 		</TableRow>
