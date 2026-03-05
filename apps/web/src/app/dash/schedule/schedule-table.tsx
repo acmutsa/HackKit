@@ -60,7 +60,7 @@ export default function ScheduleTable({
 						<>
 							<TableBody key={dateID} className="border">
 								<TableHeader className="flex justify-start">
-									<span className="m-1 p-3 text-center text-xl font-bold lg:text-4xl">
+									<span className="m-1 p-4 text-center text-xl font-bold lg:text-4xl">
 										<p>{`${eventDateString(arr, timezone)}`}</p>
 									</span>
 								</TableHeader>
@@ -107,37 +107,40 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 	return (
 		<TableRow
 			key={event.id}
-			className="flex items-center justify-around bg-transparent pb-1 odd:bg-white/5"
+			className="flex flex-col justify-around bg-transparent px-4 pb-1 odd:bg-white/5"
 		>
-			<TableCell className="flex w-1/3 justify-start pl-8">
-				<Link href={href}>
-					<span className="font-semibold flex">
-						<p>{`${startTimeFormatted}`}</p>
-						<p className="hidden sm:contents">
-							{`- ${endTimeFormatted}`}
-						</p>
-					</span>
-				</Link>
-			</TableCell>
-			<TableCell className="justify flex w-2/3 flex-col pr-7">
-				<div className="flex place-items-center justify-between gap-2 lg:justify-end">
-					<Badge
-						variant={"outline"}
-						className="w-18 flex justify-center text-center"
-						style={{
-							borderColor: color,
-						}}
-					>
-						<p className="">{event.type}</p>
-					</Badge>
-
-
+			<TableCell className="flex place-items-center">
+				<div className="w-1/3">
 					<Link href={href}>
-						<p className="p-1 lg:text-xl font-semibold">
-							{`${event.title}`}
-						</p>
+						<span className="flex font-semibold">
+							<p>{`${startTimeFormatted}`}</p>
+							<p className="hidden sm:contents">
+								{`- ${endTimeFormatted}`}
+							</p>
+						</span>
 					</Link>
 				</div>
+				<div className="w-2/3">
+					<div className="flex place-items-center justify-end gap-2">
+						<Badge
+							variant={"outline"}
+							className="flex justify-center text-center lg:w-[5rem]"
+							style={{
+								borderColor: color,
+							}}
+						>
+							<p className="text-[0.5rem] lg:text-xs">{event.type}</p>
+						</Badge>
+
+						<Link href={href}>
+							<p className="p-1 text-right font-semibold lg:text-xl">
+								{`${event.title}`}
+							</p>
+						</Link>
+					</div>
+				</div>
+			</TableCell>
+			<TableCell className="justify-start">
 				<div className="w-full truncate text-ellipsis text-right">
 					<p className="hidden lg:contents">{`${event.description}`}</p>
 				</div>
