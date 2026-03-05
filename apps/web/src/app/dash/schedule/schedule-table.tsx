@@ -53,14 +53,14 @@ export default function ScheduleTable({
 	timezone,
 }: ScheduleTableProps) {
 	return (
-		<div className="mx-auto mt-5 w-3/4">
-			<Table className="grid gap-12">
+		<div className="mx-auto mt-5 w-[99vw] lg:w-3/4">
+			<Table className="grid gap-6">
 				{Array.from(splitByDay(schedule).entries()).map(
 					([dateID, arr]): ReactNode => (
 						<>
 							<TableBody key={dateID} className="border">
-								<TableHeader className="flex justify-start p-2">
-									<span className="m-1 text-center text-xl font-bold lg:text-5xl">
+								<TableHeader className="flex justify-start">
+									<span className="m-1 p-3 text-center text-xl font-bold lg:text-4xl">
 										<p>{`${eventDateString(arr, timezone)}`}</p>
 									</span>
 								</TableHeader>
@@ -120,7 +120,7 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 				</Link>
 			</TableCell>
 			<TableCell className="justify flex w-2/3 flex-col">
-				<div className="flex place-items-center justify-between gap-4 lg:justify-end">
+				<div className="flex place-items-center justify-between gap-2 lg:justify-end">
 					<Link href={href}>
 						<p className="p-1 text-xs lg:text-center lg:text-2xl lg:font-black">
 							{`${event.title}`}
@@ -128,17 +128,15 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 					</Link>
 					<Badge
 						variant={"outline"}
-						className="h-fit text-center lg:w-32"
+						className="w-18 flex justify-center text-center"
 						style={{
 							borderColor: color,
 						}}
 					>
-						<p className="w-full text-xs lg:text-base">
-							{event.type}
-						</p>
+						<p className="text-xs">{event.type}</p>
 					</Badge>
 				</div>
-				<div className="truncate text-ellipsis w-full text-right">
+				<div className="w-full truncate text-ellipsis text-right">
 					<p className="hidden text-xs lg:contents">{`${event.description}`}</p>
 				</div>
 			</TableCell>
