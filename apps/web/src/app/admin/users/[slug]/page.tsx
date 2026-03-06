@@ -16,12 +16,11 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 } from "@/components/shadcn/ui/dropdown-menu";
-import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
 import c from "config";
-import { getHacker, getUser } from "db/functions";
+import { getHacker } from "db/functions";
 import BanUserDialog from "@/components/admin/users/BanUserDialog";
 import { db, eq } from "db";
 import { bannedUsers } from "db/schema";
@@ -146,14 +145,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<div className="cursor-pointer rounded-sm px-2 py-1.5 text-center text-sm hover:bg-accent">
-								<UpdateRoleDialog
-									name={`${subject.firstName} ${subject.lastName}`}
-									currentRoleId={subject.role_id}
-									userID={subject.clerkID}
-									roles={roles}
-								/>
-							</div>
+							<Restricted
+								user={admin}
+								permissions={PermissionType.CHANGE_USER_ROLES}
+								targetRolePosition={subject.role.position}
+								position="higher"
+							>
+								<div className="cursor-pointer rounded-sm px-2 py-1.5 text-center text-sm hover:bg-accent">
+									<UpdateRoleDialog
+										name={`${subject.firstName} ${subject.lastName}`}
+										currentRoleId={subject.role_id}
+										userID={subject.clerkID}
+										roles={roles}
+									/>
+								</div>
+							</Restricted>
 
 							{(c.featureFlags.core
 								.requireUsersApproval as boolean) && (
@@ -209,5 +215,3 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		</main>
 	);
 }
-
-export const runtime = "edge";

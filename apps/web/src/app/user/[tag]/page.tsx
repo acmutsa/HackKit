@@ -104,5 +104,3 @@ export default async function ({ params }: { params: { tag: string } }) {
 		</>
 	);
 }
-
-export const runtime = "edge";

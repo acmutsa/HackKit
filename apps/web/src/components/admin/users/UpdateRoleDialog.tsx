@@ -30,7 +30,7 @@ interface UpdateRoleDialogProps {
 	roles: { id: number; name: string }[];
 }
 
-export default async function UpdateRoleDialog({
+export default function UpdateRoleDialog({
 	userID,
 	currentRoleId,
 	name,
@@ -40,7 +40,12 @@ export default async function UpdateRoleDialog({
 	const [open, setOpen] = useState(false);
 
 	const currentRoleName = titleCase(
-		roles.find((r) => r.id === currentRoleId)?.name.replace("_", " ") || "",
+		roles.find((r) => r.id === currentRoleId)?.name.replaceAll("_", " ") ||
+			"",
+	);
+
+	const roleToSetName = titleCase(
+		roles.find((r) => r.id === roleToSet)?.name.replaceAll("_", " ") || "",
 	);
 
 	const { execute } = useAction(updateRole, {
@@ -90,7 +95,7 @@ export default async function UpdateRoleDialog({
 						<div className="flex h-full w-full items-center justify-center gap-x-2 self-end sm:justify-start">
 							<Badge>{currentRoleName}</Badge>
 							<span>&rarr;</span>
-							<Badge>{currentRoleName}</Badge>
+							<Badge>{roleToSetName}</Badge>
 						</div>
 					) : null}
 					<Button

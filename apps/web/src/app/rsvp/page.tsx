@@ -114,5 +114,3 @@ export default async function RsvpPage({
 		);
 	}
 }
-
-export const runtime = "edge";

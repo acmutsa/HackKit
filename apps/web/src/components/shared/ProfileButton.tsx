@@ -188,5 +188,3 @@ export default async function ProfileButton() {
 		</DropdownMenu>
 	);
 }
-
-export const runtime = "edge";

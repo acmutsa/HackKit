@@ -5,7 +5,7 @@ import { Redis } from "@upstash/redis";
 const redis = Redis.fromEnv();
 
 export function includeEnvPrefix(key: string) {
-	return `${c.hackathonName}_${c.itteration}_${process.env.HK_ENV}_${key}`;
+	return `${c.hackathonName}_${c.itteration}_${process.env.NODE_ENV}_${key}`;
 }
 
 export async function redisSAdd(key: string, value: string): Promise<number> {

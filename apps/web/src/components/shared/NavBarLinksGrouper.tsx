@@ -21,5 +21,4 @@ export default async function NavBarLinksGrouper() {
 	</>;
 }
 
-export const runtime = "edge";
 export const revalidate = 30;
