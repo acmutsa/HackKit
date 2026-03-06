@@ -15,7 +15,6 @@ import Link from "next/link";
 
 function splitByDay(schedule: Event[]) {
 	const days: Map<string, Event[]> = new Map<string, Event[]>();
-	// Return an asorted array
 	schedule.forEach((event) => {
 		const day = daysOfWeek[event.startTime.getDay()];
 
@@ -120,27 +119,25 @@ export function EventRow({ event, userTimeZone }: eventRowProps) {
 						</span>
 					</Link>
 				</div>
-				<div className="w-2/3">
-					<div className="flex place-items-center justify-end gap-2">
-						<Badge
-							variant={"outline"}
-							className="flex justify-center text-center lg:w-[5rem]"
-							style={{
-								borderColor: color,
-							}}
-						>
-							<p className="text-[0.5rem] lg:text-xs">{event.type}</p>
-						</Badge>
+				<div className="flex w-2/3 place-items-center justify-end gap-2">
+					<Badge
+						variant={"outline"}
+						className="flex justify-center text-center lg:w-[5rem]"
+						style={{
+							borderColor: color,
+						}}
+					>
+						<p className="text-[0.5rem] lg:text-xs">{event.type}</p>
+					</Badge>
 
-						<Link href={href}>
-							<p className="p-1 text-right font-semibold lg:text-xl">
-								{`${event.title}`}
-							</p>
-						</Link>
-					</div>
+					<Link href={href}>
+						<p className="p-1 text-right font-semibold lg:text-xl">
+							{`${event.title}`}
+						</p>
+					</Link>
 				</div>
 			</TableCell>
-			<TableCell className="justify-start">
+			<TableCell>
 				<div className="w-full truncate text-ellipsis text-right">
 					<p className="hidden lg:contents">{`${event.description}`}</p>
 				</div>
