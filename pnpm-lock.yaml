@@ -147,6 +147,9 @@ importers:
       drizzle-zod:
         specifier: ^0.7.0
         version: 0.7.0(drizzle-orm@0.39.3)(zod@3.25.67)
+      email:
+        specifier: workspace:*
+        version: link:../../packages/email
       embla-carousel:
         specifier: 8.1.7
         version: 8.1.7

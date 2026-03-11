@@ -41,6 +41,7 @@
     "db": "workspace:*",
     "drizzle-orm": "^0.39.3",
     "drizzle-zod": "^0.7.0",
+    "email": "workspace:*",
     "embla-carousel": "8.1.7",
     "embla-carousel-react": "8.1.7",
     "lucide-react": "^0.411.0",

@@ -1,4 +1,7 @@
 import { smtpSender } from "./senders/smtp";
+import { etherealSender } from "./senders/ethereal";
+
+export { smtpSender, etherealSender };
 
 export const emailer = smtpSender({
 	host: process.env.SMTP_HOST,
