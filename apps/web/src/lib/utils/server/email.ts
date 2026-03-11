@@ -1,3 +1,4 @@
+import c from "config";
 import { smtpSender, etherealSender } from "email";
 import RSVPConfirmationEmail from "email/templates/rsvp-confirmation";
 
@@ -15,11 +16,13 @@ const mailer = smtpSender({
 // const mailer = etherealSender();
 
 export const sendRSVPConfirmationEmail = async (email: string, props?: any) => {
-	await mailer.send({
-		from: "<[EMAIL_ADDRESS]>",
-		to: email,
-		subject: "RSVP Confirmation",
-		text: "You have been successfully RSVPed to the event!",
-		body: RSVPConfirmationEmail(props),
-	});
+	if (c.featureFlags.extra.emailService) {
+		await mailer.send({
+			from: "<[EMAIL_ADDRESS]>",
+			to: email,
+			subject: "RSVP Confirmation",
+			text: "You have been successfully RSVPed to the event!",
+			body: RSVPConfirmationEmail(props),
+		});
+	}
 };

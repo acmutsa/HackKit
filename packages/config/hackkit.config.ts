@@ -148,6 +148,9 @@ const c = {
 		core: {
 			requireUsersApproval: false,
 		},
+		extra: {
+			emailService: "smtp",
+		},
 	},
 } as const;
 
