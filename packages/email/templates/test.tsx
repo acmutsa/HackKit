@@ -20,5 +20,3 @@ export default function Email() {
 		</Html>
 	);
 }
-
-export type TestEmailBody = ComponentProps<typeof Email>;

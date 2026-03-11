@@ -1,7 +1,13 @@
 import { Body, Container, Head, Html, Text } from "@react-email/components";
 import * as React from "react";
 
-export default function RSVPConfirmationEmail() {
+interface ConfirmationEmailProps {
+	name: string;
+}
+
+export default function RSVPConfirmationEmail({
+	name,
+}: ConfirmationEmailProps) {
 	return (
 		<Html>
 			<Head />
@@ -18,7 +24,8 @@ export default function RSVPConfirmationEmail() {
 
 const main = {
 	backgroundColor: "#ffffff",
-	fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+	fontFamily:
+		'-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
 };
 
 const container = {
