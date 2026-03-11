@@ -13,6 +13,7 @@ import {
 	UNIQUE_KEY_CONSTRAINT_VIOLATION_CODE,
 	UNIQUE_KEY_MAPPER_DEFAULT_KEY,
 } from "@/lib/constants";
+import { sendRegistrationSuccessEmail } from "@/lib/utils/server/email";
 
 const registerUserSchema = hackerRegistrationFormValidator;
 
@@ -108,6 +109,19 @@ export const registerHacker = authenticatedAction
 			} else {
 				throw e;
 			}
+		}
+
+		if (c.featureFlags.extra.emailService) {
+			await sendRegistrationSuccessEmail(email, {
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				hackerTag: userCommonData.hackerTag,
+				email,
+			});
+		} else {
+			console.log(
+				"Registration successful! Email service not enabled, so no confirmation email was sent.",
+			);
 		}
 
 		return {
