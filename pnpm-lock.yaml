@@ -317,6 +317,9 @@ importers:
       '@react-email/render':
         specifier: ^2.0.4
         version: 2.0.4(react-dom@18.3.1)(react@18.3.1)
+      config:
+        specifier: workspace:*
+        version: link:../config
       nodemailer:
         specifier: ^8.0.2
         version: 8.0.2
