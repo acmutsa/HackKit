@@ -96,6 +96,11 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 						!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)
 					)
 						return null;
+					if (
+						name === "Emails" &&
+						!userHasPermission(user, PermissionType.SEND_EMAILS)
+					)
+						return null;
 					// Keep other configured admin paths visible by default
 					return <DashNavItem key={name} name={name} path={path} />;
 				})}

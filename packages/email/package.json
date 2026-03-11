@@ -1,0 +1,32 @@
+{
+  "name": "email",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "email dev --dir=templates",
+    "send-test": "ts-node ./send_test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "private": true,
+  "devDependencies": {
+    "@react-email/preview-server": "5.2.9",
+    "@types/nodemailer": "^7.0.11",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "react-email": "5.2.9",
+    "ts-node": "^10.9.2",
+    "typescript": "5.5.3"
+  },
+  "dependencies": {
+    "@react-email/components": "1.0.8",
+    "@react-email/render": "^2.0.4",
+    "nodemailer": "^8.0.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "config": "workspace:*"
+  }
+}

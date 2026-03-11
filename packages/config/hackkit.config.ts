@@ -121,6 +121,7 @@ const c = {
 			Events: "/admin/events",
 			Roles: "/admin/roles",
 			Toggles: "/admin/toggles",
+			Emails: "/admin/emails",
 			"Hackathon Check-in": "/admin/check-in",
 		},
 	},
@@ -147,6 +148,9 @@ const c = {
 	featureFlags: {
 		core: {
 			requireUsersApproval: false,
+		},
+		extra: {
+			emailService: "ethereal" as "ethereal" | "smtp",
 		},
 	},
 } as const;

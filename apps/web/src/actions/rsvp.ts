@@ -7,6 +7,7 @@ import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import { getUser } from "db/functions";
 import { returnValidationErrors } from "next-safe-action";
+import { sendRSVPConfirmationEmail } from "@/lib/utils/server/email";
 
 export const rsvpMyself = authenticatedAction.action(
 	async ({ ctx: { userId } }) => {
@@ -14,10 +15,13 @@ export const rsvpMyself = authenticatedAction.action(
 		if (!user)
 			returnValidationErrors(z.null(), { _errors: ["User not found"] });
 
-		await db
+		const [{ email }] = await db
 			.update(userCommonData)
 			.set({ isRSVPed: true })
-			.where(eq(userCommonData.clerkID, userId));
+			.where(eq(userCommonData.clerkID, userId))
+			.returning({ email: userCommonData.email });
+
+		await sendRSVPConfirmationEmail(email);
 		return { success: true };
 	},
 );

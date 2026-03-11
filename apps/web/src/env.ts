@@ -1,4 +1,5 @@
 import { createEnv } from "@t3-oss/env-nextjs";
+import c from "config";
 import { z } from "zod";
 
 export const env = createEnv({
@@ -18,6 +19,15 @@ export const env = createEnv({
 		TURSO_DATABASE_URL: z.string(),
 		UPSTASH_REDIS_REST_TOKEN: z.string(),
 		UPSTASH_REDIS_REST_URL: z.string(),
+		...(c.featureFlags.extra.emailService === "smtp" // makes smtp vars optional
+			? {
+					SMTP_HOST: z.string(),
+					SMTP_PORT: z.string(),
+					SMTP_SECURE: z.string(),
+					SMTP_USER: z.string(),
+					SMTP_PASS: z.string(),
+				}
+			: {}),
 	},
 	client: {
 		NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
