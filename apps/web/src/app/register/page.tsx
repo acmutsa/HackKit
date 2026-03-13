@@ -28,7 +28,6 @@ export default async function Page() {
 			<>
 				<Navbar />
 				<main className="overflow-x-hidden dark:bg-zinc-950">
-					{/* reduced pt so less scroll */}
 					<div className="mx-auto min-h-screen max-w-5xl px-5 pb-10 pt-16 md:pt-20 font-sans dark:text-white">
 						<h1 className="text-6xl font-black md:text-8xl">Register</h1>
 

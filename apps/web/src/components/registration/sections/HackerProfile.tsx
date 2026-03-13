@@ -80,8 +80,6 @@ export default function HackerProfile({ skills, setSkills }: SectionProps) {
 						</FormItem>
 					)}
 				/>
-
-				{/* Pronouns was moved to General in your requirements */}
 			</div>
 
 			<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2 md:gap-y-0">
