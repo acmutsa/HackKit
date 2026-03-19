@@ -12,12 +12,8 @@ export default async function NavBarLinksGrouper() {
 				</NavbarItem>,
 			);
 		}
-	}
-	{/**
-		
+	}		
 	return <>{toRender}</>;
-		*/}
-	return <NavbarItem link="/schedule">Schedule</NavbarItem>
 }
 
 export const revalidate = 30;

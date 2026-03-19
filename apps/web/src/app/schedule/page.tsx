@@ -1,4 +1,3 @@
-//import ScheduleTimeline from "../dash/schedule/schedule-timeline";
 import ScheduleTable from "@/components/schedule/ScheduleTable";
 import { getAllEvents } from "db/functions";
 
