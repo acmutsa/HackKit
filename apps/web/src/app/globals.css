@@ -4,77 +4,79 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%;
-		--foreground: 240 10% 3.9%;
+		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
+		--bg-image: url('/img/background.svg');
+		--background: 28 43% 47%; 
+		--foreground: 0 0% 0%; 
+		--border: 0 0% 0%;
+		--input:0 0% 0%;   
 
-		--nav: 255, 255, 255;
-		--hackathon-primary: 206 86% 52%;
+		--popover: 43.33, 37.5%, 90.59%; 
+		--popover-foreground:  0 0% 0%; 
 
-		--muted: 240 4.8% 95.9%;
-		--muted-foreground: 240 3.8% 46.1%;
+		--accent: 7.81, 96.57%, 34.31%;
+		--accent-foreground: 0 0% 0%;  
 
-		--popover: 0 0% 100%;
-		--popover-foreground: 240 10% 3.9%;
+		--primary: 0 0% 0%; 
+		--primary-foreground: 43.33, 37.5%, 90.59%;
 
-		--card: 0 0% 100%;
-		--card-foreground: 240 10% 3.9%;
+		--muted: 7.81, 96.57%, 34.31%;
+		--muted-foreground: 37.5, 20.51%, 15.29%; 
 
-		--border: 240 5.9% 90%;
-		--input: 240 5.9% 90%;
-
-		--primary: 240 5.9% 10%;
-		--primary-foreground: 0 0% 98%;
-
-		--secondary: 240 4.8% 95.9%;
-		--secondary-foreground: 240 5.9% 10%;
-
-		--accent: 240 4.8% 95.9%;
-		--accent-foreground: 240 5.9% 10%;
-
-		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 0 0% 98%;
-
-		--ring: 240 5% 64.9%;
+		--secondary: 0 0% 0%;   
+		--secondary-foreground: 242 86% 52%; 
 
 		--radius: 0.5rem;
 
-		--gradient-color-1: #668cff;
-		--gradient-color-2: #3366ff;
-		--gradient-color-3: #002db3;
-		--gradient-color-4: #1952cc;
+		--card: 43.33, 37.5%, 90.59%; 
+		--card-foreground:0 0% 0%;  
+
+		--ring: 7.81, 96.57%, 34.31%; 
+
+		--destructive:7.81, 96.57%, 34.31%; 
+		--destructive-foreground: 0 0% 0%;
+
+		--nav: 255, 255, 255;
+	 	--hackathon-primary: 7.81, 96.57%, 34.31%; 
+
 	}
 
 	.dark {
-		--background: 240 10% 3.9%;
-		--foreground: 0 0% 98%;
+		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
+		--bg-image: url('/img/background.svg');
+		--background: 28 43% 47%; 
+		--foreground: 0 0% 0%; 
+		--border: 0 0% 0%;
+		--input:0 0% 0%;   
 
-		--nav: 240 10% 3.9%;
+		--popover: 43.33, 37.5%, 90.59%; 
+		--popover-foreground:  0 0% 0%; 
 
-		--muted: 240 3.7% 15.9%;
-		--muted-foreground: 240 5% 64.9%;
+		--accent: 7.81, 96.57%, 34.31%;
+		--accent-foreground: 0 0% 0%;  
 
-		--popover: 240 10% 3.9%;
-		--popover-foreground: 0 0% 98%;
+		--primary: 0 0% 0%; 
+		--primary-foreground: 43.33, 37.5%, 90.59%;
 
-		--card: 240 10% 3.9%;
-		--card-foreground: 0 0% 98%;
+		--muted: 7.81, 96.57%, 34.31%;
+		--muted-foreground: 37.5, 20.51%, 15.29%; 
 
-		--border: 240 3.7% 15.9%;
-		--input: 240 3.7% 15.9%;
+		--secondary: 0 0% 0%;   
+		--secondary-foreground: 242 86% 52%; 
 
-		--primary: 0 0% 98%;
-		--primary-foreground: 240 5.9% 10%;
+		--radius: 0.5rem;
 
-		--secondary: 240 3.7% 15.9%;
-		--secondary-foreground: 0 0% 98%;
+		--card: 43.33, 37.5%, 90.59%; 
+		--card-foreground:0 0% 0%;  
 
-		--accent: 240 3.7% 15.9%;
-		--accent-foreground: 0 0% 98%;
+		--ring: 7.81, 96.57%, 34.31%; 
 
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 0 85.7% 97.3%;
+		--destructive:7.81, 96.57%, 34.31%; 
+		--destructive-foreground: 0 0% 0%; 
 
-		--ring: 240 3.7% 15.9%;
+		
+		--nav: 255, 255, 255;
+	 	--hackathon-primary: 7.81, 96.57%, 34.31%; 
 	}
 }
 
@@ -84,9 +86,14 @@
 	}
 
 	body {
-		@apply bg-background text-foreground;
+	@apply bg-background text-foreground;
+
+	background-image: var(--bg-image);   
+	background-size: contain;
+	background-position: center;
 	}
 }
+
 
 .no-select {
 	user-drag: none;
