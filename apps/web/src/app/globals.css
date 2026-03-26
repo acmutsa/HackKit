@@ -4,6 +4,7 @@
 
 @layer base {
 	:root {
+		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
 		--bg-image: url('/img/background.svg');
 		--background: 28 43% 47%; 
 		--foreground: 0 0% 0%; 
@@ -36,11 +37,12 @@
 		--destructive-foreground: 0 0% 0%;
 
 		--nav: 255, 255, 255;
-	 	--hackathon-primary: 7.81, 96.57%, 34.31; 
+	 	--hackathon-primary: 7.81, 96.57%, 34.31%; 
 
 	}
 
 	.dark {
+		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
 		--bg-image: url('/img/background.svg');
 		--background: 28 43% 47%; 
 		--foreground: 0 0% 0%; 
@@ -74,7 +76,7 @@
 
 		
 		--nav: 255, 255, 255;
-	 	--hackathon-primary: 7.81, 96.57%, 34.31; 
+	 	--hackathon-primary: 7.81, 96.57%, 34.31%; 
 	}
 }
 
@@ -85,6 +87,7 @@
 
 	body {
 	@apply bg-background text-foreground;
+
 	background-image: var(--bg-image);   
 	background-size: contain;
 	background-position: center;
