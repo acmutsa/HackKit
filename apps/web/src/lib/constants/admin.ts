@@ -34,6 +34,8 @@ export type AdminSidebarData = {
 	}[];
 };
 
+export type BreadcrumbLabels = Record<string, string>;
+
 export const adminSidebarData: AdminSidebarData = {
 	navMain: [
 		{
@@ -86,4 +88,19 @@ export const adminSidebarData: AdminSidebarData = {
 			icon: Send,
 		},
 	],
+};
+
+export const BreadcrumbLabels: BreadcrumbLabels = {
+	admin: "Admin",
+	"check-in": "Check In",
+	events: "Events",
+	edit: "Edit",
+	new: "New",
+	roles: "Roles",
+	scanner: "Scanner",
+	toggles: "Toggles",
+	dashboard: "Dashboard",
+	landing: "Landing",
+	registration: "Registration",
+	users: "Users",
 };

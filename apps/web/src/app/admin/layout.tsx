@@ -4,23 +4,14 @@ import ClientToast from "@/components/shared/ClientToast";
 import { isUserAdmin } from "../../lib/utils/server/admin";
 import { getCurrentUser } from "@/lib/utils/server/user";
 import { AppSidebar } from "@/components/shadcn/app-sidebar";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/shadcn/ui/breadcrumb";
 import { Separator } from "@/components/shadcn/ui/separator";
 import {
 	SidebarInset,
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/shadcn/ui/sidebar";
-import ProfileButton from "@/components/shared/ProfileButton";
 import { NavUser } from "@/components/shadcn/nav-user";
-import { adminSidebarData } from "@/lib/constants/admin";
+import { AdminBreadcrumbs } from "@/components/admin/Breadcrumbs";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -51,21 +42,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 								orientation="vertical"
 								className="mr-2 h-4"
 							/>
-							<Breadcrumb>
-								<BreadcrumbList>
-									<BreadcrumbItem className="hidden md:block">
-										<BreadcrumbLink href="#">
-											Building Your Application
-										</BreadcrumbLink>
-									</BreadcrumbItem>
-									<BreadcrumbSeparator className="hidden md:block" />
-									<BreadcrumbItem>
-										<BreadcrumbPage>
-											Data Fetching
-										</BreadcrumbPage>
-									</BreadcrumbItem>
-								</BreadcrumbList>
-							</Breadcrumb>
+							<AdminBreadcrumbs />
 						</div>
 						<div className="ml-auto flex pr-4">
 							<NavUser user={user} />

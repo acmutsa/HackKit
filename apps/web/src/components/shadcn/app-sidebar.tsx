@@ -19,7 +19,7 @@ import { UserWithRole } from "db/types";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import { adminSidebarData as data } from "@/lib/constants/admin";
 
-export async function AppSidebar({
+export function AppSidebar({
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & {
