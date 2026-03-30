@@ -4,7 +4,7 @@ import { UserWithRole } from "db/types";
 
 export function userHasPermission(
 	user: UserWithRole,
-	permissions: PermissionType | [PermissionType],
+	permissions: PermissionType | PermissionType[],
 ): boolean {
 	const userPermissionMask = new PermissionMask(user.role?.permissions || 0);
 

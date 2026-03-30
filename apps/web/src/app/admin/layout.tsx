@@ -1,15 +1,26 @@
-import c from "config";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/shadcn/ui/button";
-import DashNavItem from "@/components/dash/shared/DashNavItem";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
-import ProfileButton from "@/components/shared/ProfileButton";
 import React, { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
-import { isUserAdmin, userHasPermission } from "../../lib/utils/server/admin";
-import { PermissionType } from "@/lib/constants/permission";
+import { isUserAdmin } from "../../lib/utils/server/admin";
 import { getCurrentUser } from "@/lib/utils/server/user";
+import { AppSidebar } from "@/components/shadcn/app-sidebar";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/shadcn/ui/breadcrumb";
+import { Separator } from "@/components/shadcn/ui/separator";
+import {
+	SidebarInset,
+	SidebarProvider,
+	SidebarTrigger,
+} from "@/components/shadcn/ui/sidebar";
+import ProfileButton from "@/components/shared/ProfileButton";
+import { NavUser } from "@/components/shadcn/nav-user";
+import { adminSidebarData } from "@/lib/constants/admin";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -19,7 +30,6 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	const user = await getCurrentUser();
 
 	if (!isUserAdmin(user)) {
-		console.log("Denying admin access to user", user);
 		return (
 			<FullScreenMessage
 				title="Access Denied"
@@ -31,76 +41,43 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	return (
 		<>
 			<ClientToast duration={2500} position="top-right" />
-			<div className="fixed z-20 grid h-16 w-full grid-cols-2 bg-nav px-5">
-				<div className="flex items-center gap-x-4">
-					<Link href={"/"} className="mr-5 flex items-center gap-x-2">
-						<Image
-							src={c.icon.svg}
-							alt={c.hackathonName + " Logo"}
-							width={32}
-							height={32}
-						/>
-						<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
-						<h2 className="font-bold tracking-tight">Admin</h2>
-					</Link>
-				</div>
-				<div className="hidden items-center justify-end gap-x-4 md:flex">
-					<Link href={"/"}>
-						<Button
-							variant={"outline"}
-							className="bg-nav hover:bg-background"
-						>
-							Home
-						</Button>
-					</Link>
-					<Link href={c.links.guide}>
-						<Button
-							variant={"outline"}
-							className="bg-nav hover:bg-background"
-						>
-							Survival Guide
-						</Button>
-					</Link>
-					<Link href={c.links.discord}>
-						<Button
-							variant={"outline"}
-							className="bg-nav hover:bg-background"
-						>
-							Discord
-						</Button>
-					</Link>
-					<ProfileButton />
-				</div>
-				<div className="flex items-center justify-end gap-x-4 md:hidden"></div>
-			</div>
-			<div className="fixed z-20 mt-16 flex h-12 w-full border-b border-b-border bg-nav px-5">
-				{Object.entries(c.dashPaths.admin).map(([name, path]) => {
-					// Gate specific admin nav items by permission
-					if (
-						name === "Users" &&
-						!userHasPermission(user, PermissionType.VIEW_USERS)
-					)
-						return null;
-					if (
-						name === "Events" &&
-						!userHasPermission(user, PermissionType.VIEW_EVENTS)
-					)
-						return null;
-					if (
-						name === "Roles" &&
-						!userHasPermission(user, PermissionType.VIEW_ROLES)
-					)
-						return null;
-					if (
-						name === "Toggles" &&
-						!userHasPermission(user, PermissionType.MANAGE_NAVLINKS)
-					)
-						return null;
-					// Keep other configured admin paths visible by default
-					return <DashNavItem key={name} name={name} path={path} />;
-				})}
-			</div>
-			<Suspense fallback={<p>Loading...</p>}>{children}</Suspense>
+			<SidebarProvider>
+				<AppSidebar user={user} />
+				<SidebarInset>
+					<header className="flex h-16 shrink-0 items-center gap-2">
+						<div className="flex items-center gap-2 px-4">
+							<SidebarTrigger className="-ml-1" />
+							<Separator
+								orientation="vertical"
+								className="mr-2 h-4"
+							/>
+							<Breadcrumb>
+								<BreadcrumbList>
+									<BreadcrumbItem className="hidden md:block">
+										<BreadcrumbLink href="#">
+											Building Your Application
+										</BreadcrumbLink>
+									</BreadcrumbItem>
+									<BreadcrumbSeparator className="hidden md:block" />
+									<BreadcrumbItem>
+										<BreadcrumbPage>
+											Data Fetching
+										</BreadcrumbPage>
+									</BreadcrumbItem>
+								</BreadcrumbList>
+							</Breadcrumb>
+						</div>
+						<div className="ml-auto flex pr-4">
+							<NavUser user={user} />
+						</div>
+					</header>
+					<div className="flex flex-1 flex-col gap-4 p-4 pt-0 pt-8">
+						<Suspense fallback={<p>Loading...</p>}>
+							{children}
+						</Suspense>
+					</div>
+				</SidebarInset>
+			</SidebarProvider>
 		</>
 	);
 }
