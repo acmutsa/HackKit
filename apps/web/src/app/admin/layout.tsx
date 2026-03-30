@@ -3,15 +3,15 @@ import React, { Suspense } from "react";
 import ClientToast from "@/components/shared/ClientToast";
 import { isUserAdmin } from "../../lib/utils/server/admin";
 import { getCurrentUser } from "@/lib/utils/server/user";
-import { AppSidebar } from "@/components/shadcn/app-sidebar";
+import { AdminSidebar } from "@/components/admin/shared/sidebar/AdminSidebar";
 import { Separator } from "@/components/shadcn/ui/separator";
 import {
 	SidebarInset,
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/shadcn/ui/sidebar";
-import { NavUser } from "@/components/shadcn/nav-user";
-import { AdminBreadcrumbs } from "@/components/admin/Breadcrumbs";
+import { AdminBreadcrumbs } from "@/components/admin/shared/AdminBreadcrumbs";
+import { NavUserProfile } from "@/components/admin/shared/NavUserProfile";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 		<>
 			<ClientToast duration={2500} position="top-right" />
 			<SidebarProvider>
-				<AppSidebar user={user} />
+				<AdminSidebar user={user} />
 				<SidebarInset>
 					<header className="flex h-16 shrink-0 items-center gap-2">
 						<div className="flex items-center gap-2 px-4">
@@ -45,10 +45,10 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 							<AdminBreadcrumbs />
 						</div>
 						<div className="ml-auto flex pr-4">
-							<NavUser user={user} />
+							<NavUserProfile user={user} />
 						</div>
 					</header>
-					<div className="flex flex-1 flex-col gap-4 p-4 pt-0 pt-8">
+					<div className="flex flex-1 flex-col gap-4 p-4 pt-8">
 						<Suspense fallback={<p>Loading...</p>}>
 							{children}
 						</Suspense>

@@ -12,7 +12,6 @@ import {
 	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
@@ -20,18 +19,15 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar,
 } from "@/components/shadcn/ui/sidebar";
 import { UserWithRole } from "db/types";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { DropdownSwitcher } from "@/components/shared/ThemeSwitcher";
-import Restricted from "../Restricted";
+import Restricted from "@/components/Restricted";
 import { PermissionType } from "@/lib/constants/permission";
 
-export function NavUser({ user }: { user: UserWithRole }) {
-	const { isMobile } = useSidebar();
-
+export function NavUserProfile({ user }: { user: UserWithRole }) {
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -59,7 +55,6 @@ export function NavUser({ user }: { user: UserWithRole }) {
 									{user.email}
 								</span>
 							</div>
-							<ChevronsUpDown className="ml-auto size-4" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent

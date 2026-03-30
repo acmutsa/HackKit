@@ -127,9 +127,9 @@ export default function CheckinScanner({
 
 	return (
 		<>
-			<div className="flex h-dvh flex-col items-center justify-center pt-32">
-				<div className="flex w-screen flex-col items-center justify-center gap-5">
-					<div className="mx-auto aspect-square w-screen max-w-[500px] overflow-hidden">
+			<div className="flex h-full flex-col items-center justify-center pt-32">
+				<div className="flex w-full flex-col items-center justify-center gap-5">
+					<div className="mx-auto aspect-square w-full max-w-[500px] overflow-hidden">
 						<Scanner
 							onScan={(result) => {
 								const params = new URLSearchParams(

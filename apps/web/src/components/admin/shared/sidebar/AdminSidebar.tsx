@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { NavMain } from "@/components/shadcn/nav-main";
-import { NavSecondary } from "@/components/shadcn/nav-secondary";
+import Image from "next/image";
+import Link from "next/link";
+
+import { NavMain } from "./NavMain";
+import { NavSecondary } from "./NavSecondary";
 import {
 	Sidebar,
 	SidebarContent,
@@ -13,23 +16,25 @@ import {
 	SidebarMenuItem,
 } from "@/components/shadcn/ui/sidebar";
 import c from "config";
-import Image from "next/image";
-import Link from "next/link";
 import { UserWithRole } from "db/types";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import { adminSidebarData as data } from "@/lib/constants/admin";
 
-export function AppSidebar({
+export function AdminSidebar({
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & {
-	user: UserWithRole;
+	user?: UserWithRole;
 }) {
 	const mainItems = data.navMain.filter((item) =>
-		item.permission ? userHasPermission(user, item.permission) : true,
+		item.permission && user
+			? userHasPermission(user, item.permission)
+			: !item.permission || !user,
 	);
 	const secondaryItems = data.navSecondary.filter((item) =>
-		item.permission ? userHasPermission(user, item.permission) : true,
+		item.permission && user
+			? userHasPermission(user, item.permission)
+			: !item.permission || !user,
 	);
 
 	return (
@@ -61,7 +66,6 @@ export function AppSidebar({
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={mainItems} />
-				{/* <NavProjects projects={data.projects} /> */}
 				<NavSecondary items={secondaryItems} className="mt-auto" />
 			</SidebarContent>
 			<SidebarFooter>

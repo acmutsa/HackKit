@@ -6,8 +6,8 @@ import {
 	ShieldCheck,
 	ToggleLeft,
 	ScanLine,
-	LifeBuoy,
-	Send,
+	Book,
+	MessageCircleQuestion,
 } from "lucide-react";
 import { PermissionType } from "@/lib/constants/permission";
 
@@ -78,14 +78,14 @@ export const adminSidebarData: AdminSidebarData = {
 	],
 	navSecondary: [
 		{
-			title: "Support",
-			url: "/contact",
-			icon: LifeBuoy,
+			title: "Documentation",
+			url: "https://acmutsa.dev/hackkit",
+			icon: Book,
 		},
 		{
-			title: "Feedback",
-			url: "/bug-report",
-			icon: Send,
+			title: "Join our Discord",
+			url: "https://discord.gg/PmVFgcJ6du",
+			icon: MessageCircleQuestion,
 		},
 	],
 };
