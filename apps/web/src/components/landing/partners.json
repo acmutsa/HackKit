@@ -1,6 +1,12 @@
 {
 	"partners": [
 		{
+			"name": "H-E-B",
+			"logo": "HEB.svg",
+			"url": "https://www.heb.com/",
+			"tier": "Rowdy In-Kind"
+		},
+		{
 			"name": "Cymanii",
 			"logo": "CyManII_Logo.svg",
 			"url": "https://cymanii.org/",
@@ -48,12 +54,16 @@
 			"url": "https://www.paycom.com/",
 			"tier": "Bronze Sponsor"
 		},
+
 		{
 			"name": "Dell",
 			"logo": "Dell_Tech_Logo.svg",
 			"url": "https://www.dell.com/",
 			"tier": "Bronze Sponsor"
-		},
+		}
+			],
+
+	"partners2": [
 		{
 			"name": "S + S",
 			"logo": "Students_and_Startups.svg",
@@ -138,5 +148,5 @@
 			"url": "https://www.sixflags.com/fiestatexas",
 			"tier": "Rowdy In-Kind"
 		}
-	]
+			]
 }
