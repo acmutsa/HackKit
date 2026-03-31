@@ -30,14 +30,14 @@ export default async function Partners() {
 			</div>
 
 		
-			<div className="relative px-0 sm:px-5 md:px-10 lg:px-20 w-full h-fit">
+			<div className="relative w-full h-fit">
 
 				<div className="absolute inset-0 flex justify-end items-center w-full pt-[5vh] sm:h-[50vh] md:h-[65vh] lg:h-[80vh] xl:h-[90vh] 2xl:h-[100vh] h-[50vh]">
 					<Image
 						src="/img/sponsors/sponsors-background.svg"
 						alt="sponsors-background"
 						fill
-						className="object-contain object-right"
+						className="object-contain object-right px-[5vw]"
 					/>
 				</div>
 
