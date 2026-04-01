@@ -1,10 +1,6 @@
 "use client";
-import {
-	Dialog,
-	DialogContent,
-	DialogTrigger,
-} from "@/components/shadcn/ui/dialog";
-import { Button } from "@/components/shadcn/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "ui/components/dialog";
+import { Button } from "ui/components/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { removeUserBan } from "@/actions/admin/user-actions";

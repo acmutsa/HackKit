@@ -9,7 +9,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "../shadcn/ui/alert-dialog";
+} from "ui/components/alert-dialog";
 import { CircleAlert } from "lucide-react";
 
 interface RegistrationFeedbackAlertProps {

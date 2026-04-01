@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../shadcn/ui/button";
+import { Button } from "ui/components/button";
 
 export default function Hero() {
 	return (

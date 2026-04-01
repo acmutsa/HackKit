@@ -5,7 +5,7 @@ import { z } from "zod";
 import { createSelectSchema } from "drizzle-zod";
 import { userCommonData } from "db/schema";
 import Link from "next/link";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -14,12 +14,12 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "../../shadcn/ui/dropdown-menu";
-import { Input } from "@/components/shadcn/ui/input";
+} from "ui/components/dropdown-menu";
+import { Input } from "ui/components/input";
 import { MoreHorizontal, ArrowUpDown, User } from "lucide-react";
 import type { Column, Row } from "@tanstack/react-table";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
-import { Badge } from "@/components/shadcn/ui/badge";
+import { Badge } from "ui/components/badge";
 
 const userValidator = createSelectSchema(userCommonData).extend({
 	role: z.object({

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/shadcn/ui/accordion";
+import { AccordionItem, AccordionTrigger } from "ui/components/accordion";
 import FilterItem from "./FilterItem";
 
 export default function FilterCategory({

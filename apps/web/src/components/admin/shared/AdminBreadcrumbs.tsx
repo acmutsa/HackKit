@@ -10,7 +10,7 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-} from "@/components/shadcn/ui/breadcrumb";
+} from "ui/components/breadcrumb";
 import { BreadcrumbLabels } from "@/lib/constants/admin";
 import React from "react";
 

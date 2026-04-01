@@ -4,12 +4,14 @@
 	"rsc": true,
 	"tailwind": {
 		"config": "tailwind.config.js",
-		"css": "src/app/globals.css",
+		"css": "../../packages/ui/src/styles/globals.css",
 		"baseColor": "zinc",
 		"cssVariables": true
 	},
 	"aliases": {
-		"components": "@/components/shadcn",
-		"utils": "@/lib/utils/client/cn"
+		"components": "ui/components",
+		"hooks": "ui/hooks",
+		"lib": "ui/lib",
+		"utils": "ui/lib/utils"
 	}
 }

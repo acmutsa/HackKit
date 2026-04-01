@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import c from "config";
-import { Button } from "../shadcn/ui/button";
+import { Button } from "ui/components/button";
 import ProfileButton from "./ProfileButton";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
 import { Oswald } from "next/font/google";
-import { cn } from "@/lib/utils/client/cn";
+import { cn } from "ui/lib/utils";
 import { getUser } from "db/functions";
 
 const oswald = Oswald({

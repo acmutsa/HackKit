@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import RoleCard from "@/components/admin/roles/RoleCard";
-import { Accordion } from "@/components/shadcn/ui/accordion";
-import { Button } from "@/components/shadcn/ui/button";
+import { Accordion } from "ui/components/accordion";
+import { Button } from "ui/components/button";
 import { useAction } from "next-safe-action/hooks";
 import { editRole } from "@/actions/admin/role-actions";
 import { toast } from "sonner";

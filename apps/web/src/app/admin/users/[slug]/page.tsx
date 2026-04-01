@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Button } from "@/components/shadcn/ui/button";
-import { Badge } from "@/components/shadcn/ui/badge";
+import { Button } from "ui/components/button";
+import { Badge } from "ui/components/badge";
 import { Info, CalendarCheck } from "lucide-react";
 import Link from "next/link";
 import UpdateRoleDialog from "@/components/admin/users/UpdateRoleDialog";
@@ -15,7 +15,7 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
-} from "@/components/shadcn/ui/dropdown-menu";
+} from "ui/components/dropdown-menu";
 import { notFound } from "next/navigation";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";

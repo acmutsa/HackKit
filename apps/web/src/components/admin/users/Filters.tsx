@@ -7,13 +7,13 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@/components/shadcn/ui/card";
+} from "ui/components/card";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@/components/shadcn/ui/accordion";
+} from "ui/components/accordion";
 import FilterCategory from "./FilterCategory";
 
 type categoryMap = {

@@ -8,7 +8,7 @@ import {
 	FormControl,
 	FormDescription,
 	FormMessage,
-} from "@/components/shadcn/ui/form";
+} from "ui/components/form";
 import {
 	Select,
 	SelectTrigger,
@@ -16,14 +16,14 @@ import {
 	SelectGroup,
 	SelectItem,
 	SelectValue,
-} from "@/components/shadcn/ui/select";
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/select";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "@/components/shadcn/ui/textarea";
+import { Textarea } from "ui/components/textarea";
 import c from "config";
-import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
+import { DateTimePicker } from "ui/components/date-time-picker/date-time-picker";
 import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
 import { useAction } from "next-safe-action/hooks";
 import { createEvent } from "@/actions/admin/event-actions";

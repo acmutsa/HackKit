@@ -13,7 +13,7 @@ import {
 	redisGet,
 } from "@/lib/utils/server/redis";
 import Link from "next/link";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import { getUser } from "db/functions";
 
 export default async function RsvpPage({

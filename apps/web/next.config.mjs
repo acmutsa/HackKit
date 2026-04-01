@@ -7,7 +7,7 @@ jiti("./src/env");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	swcMinify: true,
-	transpilePackages: ["db"],
+	transpilePackages: ["db", "ui"],
 	images: {
 		remotePatterns: [
 			{

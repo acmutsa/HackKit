@@ -4,12 +4,12 @@ import ClientToast from "@/components/shared/ClientToast";
 import { isUserAdmin } from "../../lib/utils/server/admin";
 import { getCurrentUser } from "@/lib/utils/server/user";
 import { AdminSidebar } from "@/components/admin/shared/sidebar/AdminSidebar";
-import { Separator } from "@/components/shadcn/ui/separator";
+import { Separator } from "ui/components/separator";
 import {
 	SidebarInset,
 	SidebarProvider,
 	SidebarTrigger,
-} from "@/components/shadcn/ui/sidebar";
+} from "ui/components/sidebar";
 import { AdminBreadcrumbs } from "@/components/admin/shared/AdminBreadcrumbs";
 import { NavUserProfile } from "@/components/admin/shared/NavUserProfile";
 

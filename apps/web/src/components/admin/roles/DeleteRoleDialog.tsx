@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/shadcn/ui/dialog";
+} from "ui/components/dialog";
 import { useAction } from "next-safe-action/hooks";
 import { deleteRole } from "@/actions/admin/role-actions";
 import { toast } from "sonner";

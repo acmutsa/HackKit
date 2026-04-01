@@ -1,12 +1,12 @@
 "use client";
 
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
-import { Label } from "@/components/shadcn/ui/label";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
+import { Label } from "ui/components/label";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
-import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { Checkbox } from "ui/components/checkbox";
 import { Loader2 } from "lucide-react";
 import { isProfane } from "no-profanity";
 import { modifyAccountSettingsSchema } from "@/validators/settings";
@@ -21,7 +21,7 @@ import {
 	FormLabel,
 	FormMessage,
 	FormDescription,
-} from "../shadcn/ui/form";
+} from "ui/components/form";
 
 type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
 

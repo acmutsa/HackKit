@@ -14,7 +14,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/shadcn/ui/table";
+} from "ui/components/table";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];

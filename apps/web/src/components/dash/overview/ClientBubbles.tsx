@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
-import { Badge } from "@/components/shadcn/ui/badge";
+import { Badge } from "ui/components/badge";
 
 interface CountdownProps {
 	title: string;

@@ -1,8 +1,8 @@
 "use client";
 
-import { AccordionContent } from "@/components/shadcn/ui/accordion";
+import { AccordionContent } from "ui/components/accordion";
 
-import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { Checkbox } from "ui/components/checkbox";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useRef } from "react";
 import { createPath } from "@/lib/utils/shared/pageParams";

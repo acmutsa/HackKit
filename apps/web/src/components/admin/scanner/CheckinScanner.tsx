@@ -15,8 +15,8 @@ import {
 	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
-} from "@/components/shadcn/ui/drawer";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/drawer";
+import { Button } from "ui/components/button";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { FIVE_MINUTES_IN_MILLISECONDS } from "@/lib/constants";

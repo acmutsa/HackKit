@@ -1,6 +1,6 @@
 import c from "config";
 import Link from "next/link";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 
 export default function Page() {
 	return (

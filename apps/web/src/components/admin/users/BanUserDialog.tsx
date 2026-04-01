@@ -7,13 +7,13 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/shadcn/ui/dialog";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/dialog";
+import { Button } from "ui/components/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { banUser } from "@/actions/admin/user-actions";
 import { useState } from "react";
-import { Textarea } from "@/components/shadcn/ui/textarea";
+import { Textarea } from "ui/components/textarea";
 
 interface BanUserDialogProps {
 	userID: string;

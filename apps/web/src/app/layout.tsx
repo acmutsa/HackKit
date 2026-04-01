@@ -1,4 +1,4 @@
-import "./globals.css";
+import "ui/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cookies } from "next/headers";
 import { defaultTheme } from "config";

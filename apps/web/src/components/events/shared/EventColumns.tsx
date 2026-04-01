@@ -2,14 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/shadcn/ui/dropdown-menu";
+} from "ui/components/dropdown-menu";
 import {
 	AlertDialog,
 	AlertDialogContent,
@@ -20,8 +20,8 @@ import {
 	AlertDialogDescription,
 	AlertDialogCancel,
 	AlertDialogAction,
-} from "@/components/shadcn/ui/alert-dialog";
-import { Badge } from "@/components/shadcn/ui/badge";
+} from "ui/components/alert-dialog";
+import { Badge } from "ui/components/badge";
 import c from "config";
 import { eventTableValidatorType } from "@/lib/types/events";
 import { useState } from "react";

@@ -2,7 +2,7 @@ import { SignUp } from "@clerk/nextjs";
 import { redisMGet } from "@/lib/utils/server/redis";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import c from "config";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import Link from "next/link";
 
 export default async function Page() {
