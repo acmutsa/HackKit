@@ -12,6 +12,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/shadcn/ui/breadcrumb";
 import { BreadcrumbLabels } from "@/lib/constants/admin";
+import React from "react";
 
 function formatSegment(segment: string) {
 	return (
@@ -40,7 +41,7 @@ export function AdminBreadcrumbs() {
 					const isLast = index === allSegments.length - 1;
 
 					return (
-						<>
+						<React.Fragment key={segment}>
 							<BreadcrumbItem
 								className={!isLast ? "hidden md:block" : ""}
 							>
@@ -60,7 +61,7 @@ export function AdminBreadcrumbs() {
 							{!isLast && (
 								<BreadcrumbSeparator className="hidden md:block" />
 							)}
-						</>
+						</React.Fragment>
 					);
 				})}
 			</BreadcrumbList>

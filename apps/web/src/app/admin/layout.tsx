@@ -24,7 +24,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 		return (
 			<FullScreenMessage
 				title="Access Denied"
-				message="You are not an admin. If you belive this is a mistake, please contact a administrator."
+				message="You are not an admin. If you believe this is a mistake, please contact an administrator."
 			/>
 		);
 	}

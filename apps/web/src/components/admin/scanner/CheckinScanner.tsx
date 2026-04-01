@@ -156,7 +156,7 @@ export default function CheckinScanner({
 							onError={(error) => console.log(error)}
 							styles={{
 								container: {
-									width: "100vw",
+									width: "100%",
 									maxWidth: "500px",
 									margin: "0",
 								},

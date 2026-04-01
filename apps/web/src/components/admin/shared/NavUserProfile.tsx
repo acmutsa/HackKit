@@ -40,7 +40,10 @@ export function NavUserProfile({ user }: { user: UserWithRole }) {
 							<Avatar className="h-8 w-8">
 								<AvatarImage
 									src={user.profilePhoto}
-									alt="@shadcn"
+									alt={
+										`${user.firstName} ${user.lastName}`.trim() ||
+										"User avatar"
+									}
 								/>
 								<AvatarFallback>
 									{user.firstName.charAt(0) +
