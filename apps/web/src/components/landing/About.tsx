@@ -27,10 +27,10 @@ export default function About() {
 			className="flex w-full items-center justify-center border-y-2 border-muted-foreground"
 			id="About"
 		>
-			<div className="flex w-full flex-col items-center justify-center">
-				<div className="relative flex w-full max-w-[1600px] flex-col items-center justify-center [container-type:inline-size]">
+			<div className="flex w-full max-w-[1000px] flex-col items-center justify-center ">
+				<div className="transition delay-150 duration-400 ease-in-out hover:scale-110 hover:rotate-[3deg] relative flex w-full max-w-[1600px] flex-col items-center justify-center [container-type:inline-size] ">
 					<img src="/img/assets/about.svg" alt="RowdyHacks XII About Us Section"
-						className="w-full h-full pl-[8cqw]"
+						className="w-full h-full pl-[8cqw] "
 					/>
 					<div className="absolute top-[15%] flex flex-row w-full items-left justify-left gap-[0.6cqw] pl-[22.5cqw] pt-[1.8cqw] -rotate-[5deg]">
 						<img src="/img/assets/acm-logo-black.svg" alt="ACM Logo" className="w-[6.6cqw]" />
@@ -48,9 +48,9 @@ export default function About() {
 							<br />
 							It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.
 						</p>
-						<div className="absolute top-[110%] left-[50%] flex items-center justify-center w-[25%] -rotate-[15deg]">
+						<div className=" transition delay-150 duration-400 ease-in-out hover:scale-110 hover:underline decoration-2 absolute top-[110%] left-[50%] flex items-center justify-center w-[25%] -rotate-[15deg]">
 							<img src="/img/assets/blank-tape-stickers1.svg" alt="" className="w-full" />
-							<h1 className={`absolute ${shadow.className} text-[3cqw] text-red-800`}>What is ACM?</h1>
+							<a href="https://acmutsa.org/" className={`absolute ${shadow.className} text-[3cqw] text-red-800`}>What is ACM?</a>
 						</div>
 					</div>
 				</div>
