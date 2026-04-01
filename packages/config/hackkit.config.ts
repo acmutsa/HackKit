@@ -115,14 +115,6 @@ const c = {
 			Schedule: "/dash/schedule",
 			"Event Pass": "/dash/pass",
 		},
-		admin: {
-			Overview: "/admin",
-			Users: "/admin/users",
-			Events: "/admin/events",
-			Roles: "/admin/roles",
-			Toggles: "/admin/toggles",
-			"Hackathon Check-in": "/admin/check-in",
-		},
 	},
 	eventTypes: {
 		Meal: "#FFC107",

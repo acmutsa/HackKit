@@ -30,7 +30,7 @@ export default async function Page() {
 	const timezone = getClientTimeZone(c.hackathonTimezone);
 
 	return (
-		<div className="mx-auto h-16 w-full max-w-7xl pt-44">
+		<div className="mx-auto h-16 w-full max-w-7xl">
 			<div className="w-full px-2">
 				<h2 className="text-xl font-bold">Welcome,</h2>
 				<h1 className="text-5xl font-black text-hackathon">

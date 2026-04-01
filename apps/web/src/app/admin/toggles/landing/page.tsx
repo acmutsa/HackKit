@@ -7,7 +7,7 @@ import { getAllNavItems } from "@/lib/utils/server/redis";
 export default async function Page() {
 	const nav = await getAllNavItems();
 	return (
-		<div>
+		<div className="w-full">
 			<div className="flex items-center justify-start">
 				<h2 className="text-3xl font-bold tracking-tight">
 					Navbar Items
