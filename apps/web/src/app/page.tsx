@@ -5,7 +5,7 @@ import About from "@/components/landing/About";
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
 import MLHBadge from "@/components/landing/MLHBadge";
-
+import FAQ from "@/components/landing/faq";
 import { Oswald } from "next/font/google";
 import WorkWithUs from "@/components/landing/WorkWithUs";
 
@@ -24,6 +24,7 @@ export default function Home() {
 
 				<About />
 				<Partners />
+				<FAQ />
 				<WorkWithUs />
 				<Footer />
 			</main>

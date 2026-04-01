@@ -24,7 +24,7 @@ export default function About() {
 	};
 	return (
 		<section
-			className="flex w-full items-center justify-center border-y-2 border-muted-foreground"
+			className="flex w-full items-center justify-center"
 			id="About"
 		>
 			<div className="flex w-full max-w-[1000px] flex-col items-center justify-center ">
