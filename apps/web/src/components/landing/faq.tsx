@@ -15,15 +15,15 @@ export default function FAQ() {
             className="flex w-full items-center justify-center"
             id="About"
         >
-            <div className="flex w-full max-w-[1000px] flex-col items-center justify-center gap-8 ">
-                <div className="flex w-full max-w-[1600px] flex-row items-center justify-center gap-8">
+            <div className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-8 ">
+                <div className="flex w-full max-w-[1400px] flex-row items-center justify-center gap-8">
                     <div className="relative flex w-[50%] justify-center">
                         <img src="/img/assets/FAQ.svg" className="w-full" />
                         <img src="/img/assets/classified.svg" className="w-[22cqw] absolute -top-[8%] right-[10%]  rotate-[15deg]" />
 
                         <div className="absolute top-[10%] flex flex-col items-center w-full gap-4 px-4 gap-y-8">
                             <div className="flex flex-row items-center justify-center max-w-[1600px]">
-                                <img src="/img/assets/finger-print.svg" alt="" className="w-[3.5cqw] border border-black" />
+                                <img src="/img/assets/finger-print.svg" alt="" className="w-[3.5cqw] border border-r-0 border-black" />
                                 <h1 className={`text-center font-bold text-[3.5cqw] border border-black pl-[1cqw] pr-[25cqw]  ${manuale.className}`}>
                                     FAQ
                                 </h1>

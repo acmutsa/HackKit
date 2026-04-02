@@ -1,3 +1,4 @@
+"use client";
 import Balancer from "react-wrap-balancer";
 import Image from "next/image";
 import D1 from "../../../public/img/landing/d1.svg";
@@ -6,6 +7,7 @@ import D3 from "../../../public/img/landing/d3.svg";
 import D4 from "../../../public/img/landing/d4.svg";
 import Dino_Coding from "../../../public/img/landing/dinos_coding.png";
 import { Manuale, Shadows_Into_Light } from "next/font/google";
+import { motion } from "motion/react"
 
 const manuale = Manuale({
 	subsets: ["latin"],
@@ -40,9 +42,55 @@ export default function About() {
 						<h3 className={`pt-[0.6cqw] font-semibold ml-[cqw] text-[2cqw] ${manuale.className}`}>Fall 2016 - Present Day</h3>
 					</div>
 					<div className="absolute top-[35%] left-[10%] flex w-[80%] m-[4cqw] flex-col items-center gap-[0.6cqw] pt-[1.3cqw] -rotate-[5deg]">
-						<h2 className={`font-bold mr-[3.3cqw] pr-[4.6cqw] text-[2.5cqw] leading-tight ${manuale.className}`}>
-							What is RowdyHacks?
-						</h2>
+						<div className="relative overflow-visible">
+							<h2
+								className={`font-bold mr-[3.3cqw] pr-[4.6cqw] text-[2.5cqw] leading-tight ${manuale.className}`}
+							>
+								What is RowdyHacks?
+							</h2>
+
+							{/* Circle */}
+							<motion.svg
+								className="absolute top-1/2 left-1/2 w-[340px] -translate-x-[70%] -translate-y-1/2 -rotate-[2deg]"
+								viewBox="0 0 500 100"
+								fill="none"
+								>
+									{[0, 1, 2, 3].map((i) => {
+										const baseLeft = 90 - i * 2;
+										const baseRight = 480 + i * 2;
+
+										// shared distortion values
+										const wobbleX = (i % 2 === 0 ? -10 : 8);
+										const wobbleYTop = (i % 2 === 0 ? -6 : 6);
+										const wobbleYBottom = (i % 2 === 0 ? 8 : -6);
+
+										return (
+											<motion.path
+												key={i}
+												d={`M${baseLeft + wobbleX},52
+													C${baseLeft},${10 + wobbleYTop} ${baseRight},${10 - wobbleYTop} ${baseRight - wobbleX},48
+													C${baseRight},${90 + wobbleYBottom} ${baseLeft},${90 - wobbleYBottom} ${baseLeft + wobbleX},52`}
+												stroke="#991b1b"
+												strokeWidth={2 + i * 0.4}
+												strokeLinecap="round"
+												fill="none"
+												animate={{
+												pathLength: [0, 1, 1, 0],
+												opacity:    [0, 1, 1, 0],
+												}}
+												transition={{
+												duration: 6,                    
+												times: [0, 0.15, 0.8, 1],       
+												delay: i * 0.05,                
+												repeat: Infinity,
+												repeatDelay: 2,                 
+												ease: "easeInOut",
+												}}
+												/>
+										);
+										})}
+																</motion.svg>
+							</div>
 						<p className={`font-light text-center leading-tight pr-[4.6cqw] -ml-[2.6cqw] w-[50%] text-[2.5cqw] ${manuale.className}`}>
 							RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA.
 							<br />
