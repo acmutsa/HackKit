@@ -1,5 +1,5 @@
 export const featureFlags = {
-	comingSoonMode: process.env.COMING_SOON_MODE === "true",
+	comingSoonMode: true
 };
 
 export const comingSoonRoutes = [
