@@ -1,6 +1,8 @@
 import { getPresignedUploadUrl } from "@/lib/utils/server/s3";
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+
+import { auth } from "@/lib/utils/server/auth";
+//import { auth } from "@clerk/nextjs/server"; // TODO: remove clerk
 import { staticUploads } from "config";
 
 interface RequestBody {
@@ -13,8 +15,8 @@ export async function POST(request: Request): Promise<NextResponse> {
 	try {
 		const body: RequestBody = (await request.json()) as RequestBody;
 
-		const { userId } = await auth();
-		if (!userId) {
+		const userSession = await auth.api.getSession();
+		if (!userSession?.user.id) {
 			return new NextResponse(
 				"You do not have permission to upload files",
 				{

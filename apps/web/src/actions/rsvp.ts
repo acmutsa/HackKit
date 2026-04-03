@@ -9,15 +9,11 @@ import { getUser } from "db/functions";
 import { returnValidationErrors } from "next-safe-action";
 
 export const rsvpMyself = authenticatedAction.action(
-	async ({ ctx: { userId } }) => {
-		const user = await getUser(userId);
-		if (!user)
-			returnValidationErrors(z.null(), { _errors: ["User not found"] });
-
+	async ({ ctx: { user } }) => {
 		await db
 			.update(userCommonData)
 			.set({ isRSVPed: true })
-			.where(eq(userCommonData.clerkID, userId));
+			.where(eq(userCommonData.id, user?.id));
 		return { success: true };
 	},
 );

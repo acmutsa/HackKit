@@ -70,7 +70,7 @@ export const discordVerificationStatusEnum = customType<{
 
 export const userCommonData = sqliteTable("user_common_data", {
 	// id
-	clerkID: text("clerk_id", { length: 255 }).primaryKey(),
+	id: text("clerk_id", { length: 255 }).primaryKey(),
 
 	// data
 	firstName: text("first_name", { length: 50 }).notNull(),
@@ -138,12 +138,12 @@ export const userCommonRelations = relations(
 	userCommonData,
 	({ one, many }) => ({
 		hackerData: one(userHackerData, {
-			fields: [userCommonData.clerkID],
-			references: [userHackerData.clerkID],
+			fields: [userCommonData.id],
+			references: [userHackerData.id],
 		}),
 		discordVerification: one(discordVerification, {
-			fields: [userCommonData.clerkID],
-			references: [discordVerification.clerkID],
+			fields: [userCommonData.id],
+			references: [discordVerification.id],
 		}),
 		files: many(files),
 		scans: many(scans),
@@ -151,7 +151,7 @@ export const userCommonRelations = relations(
 		// chats: many(chatsToUsers),
 		// messages: many(chatMessages),
 		banInstance: one(bannedUsers, {
-			fields: [userCommonData.clerkID],
+			fields: [userCommonData.id],
 			references: [bannedUsers.userID],
 		}),
 		role: one(roles, {
@@ -163,9 +163,9 @@ export const userCommonRelations = relations(
 
 export const userHackerData = sqliteTable("user_hacker_data", {
 	// id
-	clerkID: text("clerk_id", { length: 255 })
+	id: text("clerk_id", { length: 255 })
 		.primaryKey()
-		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
+		.references(() => userCommonData.id, { onDelete: "cascade" }),
 
 	// data
 	university: text("university", { length: 200 }).notNull(),
@@ -199,8 +199,8 @@ export const userHackerRelations = relations(
 	userHackerData,
 	({ one, many }) => ({
 		commonData: one(userCommonData, {
-			fields: [userHackerData.clerkID],
-			references: [userCommonData.clerkID],
+			fields: [userHackerData.id],
+			references: [userCommonData.id],
 		}),
 	}),
 );
@@ -209,14 +209,14 @@ export const bannedUsers = sqliteTable("banned_users", {
 	id: integer("id", { mode: "number" }).notNull().primaryKey(),
 	userID: text("user_id", { length: 255 })
 		.notNull()
-		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
+		.references(() => userCommonData.id, { onDelete: "cascade" }),
 	reason: text("reason"),
 	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
 	bannedByID: text("banned_by_id", { length: 255 })
 		.notNull()
-		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
+		.references(() => userCommonData.id, { onDelete: "cascade" }),
 });
 
 export const events = sqliteTable("events", {
@@ -249,7 +249,7 @@ export const files = sqliteTable("files", {
 export const filesRelations = relations(files, ({ one }) => ({
 	owner: one(userCommonData, {
 		fields: [files.ownerID],
-		references: [userCommonData.clerkID],
+		references: [userCommonData.id],
 	}),
 }));
 
@@ -269,7 +269,7 @@ export const scans = sqliteTable(
 export const scansRelations = relations(scans, ({ one }) => ({
 	user: one(userCommonData, {
 		fields: [scans.userID],
-		references: [userCommonData.clerkID],
+		references: [userCommonData.id],
 	}),
 	event: one(events, {
 		fields: [scans.eventID],
@@ -292,7 +292,7 @@ export const discordVerification = sqliteTable("discord_verification", {
 	createdAt: integer("created_at", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
-	clerkID: text("clerk_id", { length: 255 }),
+	id: text("clerk_id", { length: 255 }),
 	discordUserID: text("discord_user_id", { length: 255 }).notNull(),
 	discordUserTag: text("discord_user_tag", { length: 255 }).notNull(),
 	discordProfilePhoto: text("discord_profile_photo", {

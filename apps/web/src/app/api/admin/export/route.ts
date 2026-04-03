@@ -1,7 +1,8 @@
 import { PermissionType } from "@/lib/constants/permission";
 import { isUserAdmin, userHasPermission } from "@/lib/utils/server/admin";
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@/lib/utils/server/auth";
 import { getAllHackers, getUser } from "db/functions";
+import { useResizeObserver } from "usehooks-ts";
 
 function escape(value: any) {
 	if (value === null) return "None";
@@ -33,11 +34,11 @@ function jsonToCSV(json: any[]): string {
 }
 
 export async function GET() {
-	const { userId } = await auth();
+	const userSession = await auth.api.getSession();
+	const id = userSession?.user.id
+	if (!id) return new Response("Unauthorized", { status: 401 });
 
-	if (!userId) return new Response("Unauthorized", { status: 401 });
-
-	const reqUserRecord = await getUser(userId);
+	const reqUserRecord = await getUser(id);
 	if (!reqUserRecord) {
 		return new Response("Unauthorized", { status: 401 });
 	}

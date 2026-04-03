@@ -30,10 +30,10 @@ export async function getAllUsersWithHackerData() {
 // 	})
 // 	.prepare("getUser");
 
-export function getUser(clerkID: string) {
+export function getUser(id: string) {
 	// return _getUser.execute({ _clerkID: clerkID });
 	return db.query.userCommonData.findFirst({
-		where: (fields, { eq }) => eq(fields.clerkID, clerkID),
+		where: (fields, { eq }) => eq(fields.id, id),
 		with: {
 			role: true,
 		},
@@ -41,10 +41,10 @@ export function getUser(clerkID: string) {
 }
 
 export function getHackerData(
-	clerkID: string,
+	id: string,
 ): Promise<HackerData | undefined> {
 	return db.query.userHackerData.findFirst({
-		where: eq(userHackerData.clerkID, clerkID),
+		where: eq(userHackerData.id, id),
 	});
 }
 
@@ -63,11 +63,11 @@ export function getUserByTag(hackerTag: string): Promise<User | undefined> {
 	});
 }
 
-export function updateUserResume(userID: string, url: string) {
+export function updateUserResume(id: string, url: string) {
 	return db
 		.update(userHackerData)
 		.set({
 			resume: url,
 		})
-		.where(eq(userHackerData.clerkID, userID));
+		.where(eq(userHackerData.id, id));
 }

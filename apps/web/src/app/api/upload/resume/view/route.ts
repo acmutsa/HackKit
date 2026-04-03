@@ -1,11 +1,11 @@
 import { getPresignedViewingUrl } from "@/lib/utils/server/s3";
 import { redirect } from "next/navigation";
 import { staticUploads } from "config";
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@/lib/utils/server/auth";
 
 export async function GET(request: Request) {
-	const { userId } = await auth();
-	if (!userId) {
+		const userSession = await auth.api.getSession();
+		if (!userSession?.user.id) {
 		return new Response("You must be logged in to access this resource", {
 			status: 401,
 		});
