@@ -1,6 +1,6 @@
 export default function WorkWithUs() {
 	return (
-		<section className="flex min-h-screen w-full flex-col items-center justify-center border-y-2 border-muted-foreground">
+		<section className="flex min-h-screen w-full flex-col items-center justify-center">
 			<h1 className="text-center text-4xl font-black md:text-5xl">
 				Work With Us Section
 			</h1>
