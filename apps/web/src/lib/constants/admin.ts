@@ -8,6 +8,7 @@ import {
 	ScanLine,
 	Book,
 	MessageCircleQuestion,
+	LineChart,
 } from "lucide-react";
 import { PermissionType } from "@/lib/constants/permission";
 
@@ -56,6 +57,19 @@ export const adminSidebarData: AdminSidebarData = {
 			url: "/admin/events",
 			icon: CalendarDays,
 			permission: PermissionType.VIEW_EVENTS,
+		},
+		{
+			title: "Analytics",
+			url: "/admin/analytics",
+			icon: LineChart,
+			permission: PermissionType.VIEW_ANALYTICS,
+			items: [
+				{
+					title: "Participants",
+					url: "/admin/analytics/participants",
+					permission: PermissionType.VIEW_ANALYTICS,
+				},
+			],
 		},
 		{
 			title: "Roles",

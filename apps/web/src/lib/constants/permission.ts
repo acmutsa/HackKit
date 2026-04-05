@@ -22,6 +22,8 @@ export enum PermissionType {
 	MANAGE_NAVLINKS = 1 << 14,
 	MANAGE_REGISTRATION = 1 << 15,
 
+	VIEW_ANALYTICS = 1 << 17,
+
 	/* You can add new permissions following the pattern:
 		NEW_PERMISSION = 1 << n,
 	*/
