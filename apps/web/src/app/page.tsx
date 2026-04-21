@@ -1,6 +1,7 @@
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
+import Map from "@/components/landing/Map"
 
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
@@ -21,8 +22,8 @@ export default function Home() {
 			<MLHBadge />
 			<main className="overflow-x-hidden">
 				<Hero />
-
 				<About />
+				<Map />
 				<Partners />
 				<FAQ />
 				<WorkWithUs />
