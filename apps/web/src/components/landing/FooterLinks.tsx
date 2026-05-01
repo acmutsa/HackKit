@@ -52,7 +52,7 @@ export default function FooterLinks({
 			{/* mobile */}
 			<div className="col-span-2 flex w-full justify-center lg:col-span-1 lg:hidden">
 				<DropdownMenu>
-					<DropdownMenuTrigger className="text-md font-bold">
+					<DropdownMenuTrigger className="text-4xl font-bold">
 						<span
 							className={`${shadowsIntoLight.className} text-xl text-black`}
 						>
@@ -77,14 +77,14 @@ export default function FooterLinks({
 			{/* desktop */}
 			<div className="hidden w-max flex-col items-center lg:flex">
 				<h2
-					className={`${shadowsIntoLight.className} mb-2 text-2xl text-black`}
+					className={`${shadowsIntoLight.className} mb-2 text-4xl font-bold text-black`}
 				>
 					{title}
 				</h2>
 				{data.map(({ link, name }, idx) => (
 					<Link
 						href={link}
-						className="text-sm text-black hover:underline"
+						className="text-2xl text-black hover:underline"
 						key={idx}
 					>
 						<span className={`${shadowsIntoLight.className}`}>

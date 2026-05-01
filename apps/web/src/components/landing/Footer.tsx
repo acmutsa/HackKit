@@ -28,7 +28,7 @@ export default function Footer() {
 				</div>
 
 				{/* links, resources, other hackatons */}
-				<div className="mb-8 grid grid-cols-1 justify-items-center gap-4 lg:grid-cols-3 lg:gap-8">
+				<div className=" grid grid-cols-1 justify-items-center gap-4 lg:grid-cols-3 lg:gap-8">
 					{footerSections.map((section) => (
 						<FooterLinks
 							key={section.title}
@@ -39,9 +39,9 @@ export default function Footer() {
 				</div>
 
 				{/* icons */}
-				<div className="mb-8 flex flex-col items-center gap-4">
+				<div className="mb-8 flex w-full flex-col items-center justify-center gap-y-8">
 					<CreatedWithHackkit />
-					<div className="flex h-[41px] w-[200px] items-center justify-between gap-2 rounded-lg bg-transparent px-2">
+					<div className="flex h-[50px] w-[200px] items-center justify-between gap-2 rounded-lg bg-hackathon px-2">
 						<Link href="https://twitter.com/rowdyhacks/">
 							<Twitter className="invert dark:invert-0" />
 						</Link>
@@ -56,8 +56,8 @@ export default function Footer() {
 						</Link>
 						<Link href="https://go.rowdyhacks.org/discord">
 							<Image
-								className="select-none"
-								src="/img/assets/discord-logo.png"
+								className="select-none "
+								src="/img/assets/discord_icon.svg"
 								alt="Discord logo"
 								width={20}
 								height={20}
