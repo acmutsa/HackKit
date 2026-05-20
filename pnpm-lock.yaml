@@ -52,6 +52,49 @@ importers:
         specifier: ^1.1.6
         version: 1.1.6
 
+  apps/test-web:
+    dependencies:
+      '@hackkit/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@hackkit/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      next:
+        specifier: 14.2.35
+        version: 14.2.35(react-dom@18.3.1)(react@18.3.1)
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      typescript:
+        specifier: 5.5.3
+        version: 5.5.3
+    devDependencies:
+      '@types/node':
+        specifier: 20.14.11
+        version: 20.14.11
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: 18.3.0
+        version: 18.3.0
+      autoprefixer:
+        specifier: 10.4.19
+        version: 10.4.19(postcss@8.4.39)
+      postcss:
+        specifier: 8.4.39
+        version: 8.4.39
+      tailwindcss:
+        specifier: 3.4.6
+        version: 3.4.6
+      tailwindcss-animate:
+        specifier: 1.0.7
+        version: 1.0.7(tailwindcss@3.4.6)
+
   apps/web:
     dependencies:
       '@aws-sdk/client-s3':
@@ -278,6 +321,19 @@ importers:
         specifier: 20.14.11
         version: 20.14.11
 
+  packages/core:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.39.3
+        version: 0.39.3(@libsql/client@0.14.0)(@planetscale/database@1.18.0)
+      zod:
+        specifier: ^3.25.67
+        version: 3.25.67
+    devDependencies:
+      typescript:
+        specifier: 5.5.3
+        version: 5.5.3
+
   packages/db:
     dependencies:
       '@libsql/client':
@@ -316,6 +372,64 @@ importers:
         version: 6.0.2
 
   packages/tsconfig: {}
+
+  packages/ui:
+    dependencies:
+      '@hackkit/core':
+        specifier: workspace:*
+        version: link:../core
+      '@hookform/resolvers':
+        specifier: ^3.9.0
+        version: 3.9.0(react-hook-form@7.52.1)
+      '@radix-ui/react-checkbox':
+        specifier: ^1.0.4
+        version: 1.0.4(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+      '@radix-ui/react-label':
+        specifier: ^2.0.2
+        version: 2.0.2(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+      '@radix-ui/react-select':
+        specifier: ^1.2.2
+        version: 1.2.2(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+      '@radix-ui/react-slot':
+        specifier: ^1.0.2
+        version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      next:
+        specifier: '>=14'
+        version: 14.2.35(react-dom@18.3.1)(react@18.3.1)
+      react:
+        specifier: '>=18'
+        version: 18.3.1
+      react-dom:
+        specifier: '>=18'
+        version: 18.3.1(react@18.3.1)
+      react-hook-form:
+        specifier: 7.52.1
+        version: 7.52.1(react@18.3.1)
+      sonner:
+        specifier: ^1.5.0
+        version: 1.5.0(react-dom@18.3.1)(react@18.3.1)
+      tailwind-merge:
+        specifier: ^2.4.0
+        version: 2.4.0
+      zod:
+        specifier: ^3.25.67
+        version: 3.25.67
+    devDependencies:
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: 18.3.0
+        version: 18.3.0
+      typescript:
+        specifier: 5.5.3
+        version: 5.5.3
 
 packages:
 
