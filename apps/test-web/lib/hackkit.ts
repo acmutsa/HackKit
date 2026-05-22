@@ -1,12 +1,21 @@
 import "server-only";
 
-import { createHackkit } from "@hackkit/core";
-import { createMemoryDatabaseAdapter } from "./memory-database";
+import {
+	createDrizzleDatabaseAdapter,
+	createHackkit,
+	createPluginRegistry,
+	syncDrizzleStorage,
+} from "@hackkit/core";
+import { redirect } from "next/navigation";
+import { getAuthSession } from "./auth";
+import { db } from "./db";
 
-export const testAuthId = "test-user";
+const registry = createPluginRegistry();
+
+await syncDrizzleStorage(db as any, registry.storage);
 
 export const hackkit = createHackkit({
-	database: createMemoryDatabaseAdapter(),
+	database: createDrizzleDatabaseAdapter(db as any),
 	userDataOptions: {
 		shirtSize: [
 			{ value: "s", label: "Small" },
@@ -23,11 +32,18 @@ export const hackkit = createHackkit({
 });
 
 export async function getCurrentUser() {
+	const session = await getAuthSession();
+	if (!session) redirect("/sign-in");
+
+	const [firstName = session.user.name, ...lastNameParts] = session.user.name
+		.trim()
+		.split(/\s+/);
+
 	return hackkit.users.ensureUser({
-		authId: testAuthId,
-		email: "demo@hackkit.dev",
-		firstName: "Demo",
-		lastName: "User",
-		profilePhotoUrl: undefined,
+		authId: session.user.id,
+		email: session.user.email,
+		firstName,
+		lastName: lastNameParts.join(" ") || "User",
+		profilePhotoUrl: session.user.image ?? undefined,
 	});
 }

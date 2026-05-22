@@ -1,3 +1,9 @@
+export {
+	createDrizzleDatabaseAdapter,
+	syncDrizzleStorage,
+	toDrizzleTableName,
+} from "./adapters/db/drizzle";
+export type { DrizzleLibsqlDatabase } from "./adapters/db/drizzle";
 export { createHackkit } from "./hackkit";
 export type { HackKit } from "./hackkit";
 export {

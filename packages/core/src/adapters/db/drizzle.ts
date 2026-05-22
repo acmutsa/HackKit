@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/libsql";
 import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type {
@@ -15,11 +15,17 @@ import type {
 	Where,
 } from "../../database";
 
+export type DrizzleLibsqlDatabase = ReturnType<typeof drizzle>;
+
 type DrizzleTable = ReturnType<typeof sqliteTable>;
 type DrizzleTableMap = Record<ModelKey, DrizzleTable>;
 
-function toTableName(modelKey: ModelKey): string {
+export function toDrizzleTableName(modelKey: ModelKey): string {
 	return modelKey.replaceAll(".", "_");
+}
+
+function toTableName(modelKey: ModelKey): string {
+	return toDrizzleTableName(modelKey);
 }
 
 function toColumn(name: string, field: AnyField) {
@@ -113,14 +119,70 @@ function toWhere(table: DrizzleTable, where: Record<string, unknown>) {
 	return and(...clauses);
 }
 
-export const drizzleDBAdapter: DatabaseAdapterFactory = {
-	create(
-		context: {
-			db: ReturnType<typeof drizzle>;
-		} & DatabaseAdapterFactoryContext,
-	): DatabaseAdapter {
-		const tables = toTables(context.storage);
-		const db = context.db as any;
+type DrizzleDatabaseAdapterContext = DatabaseAdapterFactoryContext & {
+	db: DrizzleLibsqlDatabase;
+};
+
+export function createDrizzleDatabaseAdapter(
+	db: DrizzleLibsqlDatabase,
+): DatabaseAdapterFactory {
+	return {
+		create(context) {
+			return createDrizzleAdapter({ ...context, db });
+		},
+	};
+}
+
+function fieldToSqlType(field: AnyField): string {
+	switch (field.kind) {
+		case "string":
+		case "enum":
+			return "TEXT";
+		case "integer":
+			return "INTEGER";
+		case "number":
+			return "REAL";
+		case "boolean":
+			return "INTEGER";
+		case "date":
+			return "INTEGER";
+		case "json":
+			return "TEXT";
+	}
+}
+
+function quoteIdentifier(name: string): string {
+	return `"${name.replaceAll('"', '""')}"`;
+}
+
+function buildCreateTableStatement(model: PersistentModel): string {
+	const columns = Object.entries(model.schema.fields).map(([name, field]) => {
+		let column = `${quoteIdentifier(name)} ${fieldToSqlType(field)}`;
+		if (field.isPrimaryKey) column += " PRIMARY KEY";
+		if (!field.isOptional) column += " NOT NULL";
+		if (field.isUnique && !field.isPrimaryKey) column += " UNIQUE";
+		return column;
+	});
+
+	return `CREATE TABLE IF NOT EXISTS ${quoteIdentifier(toTableName(model.key))} (${columns.join(", ")})`;
+}
+
+export async function syncDrizzleStorage(
+	db: DrizzleLibsqlDatabase,
+	storage: StorageRegistry,
+): Promise<void> {
+	const statements = Object.values(storage.models).map(buildCreateTableStatement);
+
+	for (const statement of statements) {
+		await db.run(sql.raw(statement));
+	}
+}
+
+function createDrizzleAdapter(
+	context: DrizzleDatabaseAdapterContext,
+): DatabaseAdapter {
+	const tables = toTables(context.storage);
+	const db = context.db as any;
 
 		return {
 			async insert(model, value) {
@@ -185,5 +247,5 @@ export const drizzleDBAdapter: DatabaseAdapterFactory = {
 				return deleted.length;
 			},
 		};
-	},
-};
+}
+

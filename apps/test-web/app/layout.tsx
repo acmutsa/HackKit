@@ -1,6 +1,7 @@
 import type * as React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
+import { AppBar } from "./app-bar";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -16,7 +17,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<Providers>{children}</Providers>
+				<Providers>
+					<AppBar />
+					{children}
+				</Providers>
 			</body>
 		</html>
 	);

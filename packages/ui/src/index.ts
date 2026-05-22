@@ -2,11 +2,8 @@ export { actionFailure, actionSuccess } from "./actions";
 export type { HackKitActionResult } from "./actions";
 export { HackKitUIProvider, useHackKitUI } from "./provider";
 export type { HackKitUIProviderProps } from "./provider";
-export {
-	toUserDataFormDefaultValues,
-	UserDataFields,
-	UserDataForm,
-} from "./components/user-data-form";
+export { toUserDataFormDefaultValues } from "./user-data-form-defaults";
+export { UserDataFields, UserDataForm } from "./components/user-data-form";
 export type {
 	UserDataFormProps,
 	UserDataFormValues,

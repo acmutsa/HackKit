@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import {
 	createCompleteUserDataSchema,
 	type User,
-	type UserData,
 	type UserDataOptions,
 } from "@hackkit/core";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,25 +73,6 @@ function createUserDataFormSchema(options: UserDataOptions) {
 				createCompleteUserDataSchema(options).shape.countryOfResidence,
 			),
 		});
-}
-
-export function toUserDataFormDefaultValues(
-	userData: UserData,
-): UserDataFormValues {
-	return {
-		age: userData.age,
-		gender: userData.gender,
-		race: userData.race,
-		ethnicity: userData.ethnicity,
-		shirtSize: userData.shirtSize,
-		dietaryRestrictions: userData.dietaryRestrictions,
-		accommodationNote: userData.accommodationNote ?? "",
-		phoneNumber: userData.phoneNumber ?? "",
-		countryOfResidence: userData.countryOfResidence,
-		hasAcceptedMLHCodeOfConduct: userData.hasAcceptedMLHCodeOfConduct,
-		hasSharedDataWithMLH: userData.hasSharedDataWithMLH,
-		isEmailable: userData.isEmailable,
-	};
 }
 
 function FieldError({ message }: { message?: string }) {
