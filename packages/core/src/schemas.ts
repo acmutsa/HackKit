@@ -85,3 +85,75 @@ export const banUserSchema = actorSchema.extend({
 export const unbanUserSchema = actorSchema.extend({
 	targetAuthId: authIdSchema,
 });
+
+export const checkInUserSchema = actorSchema.extend({
+	targetAuthId: authIdSchema,
+	qrIssuedAt: z.coerce.date(),
+});
+
+export const clearCheckInUserSchema = actorSchema.extend({
+	targetAuthId: authIdSchema,
+});
+
+export const deleteEventSchema = actorSchema.extend({
+	eventId: z.string().min(1),
+});
+
+export const getEventSchema = z.object({
+	eventId: z.string().min(1),
+	actorAuthId: authIdSchema.optional(),
+});
+
+export const listEventScansSchema = actorSchema.extend({
+	eventId: z.string().min(1),
+	targetAuthId: authIdSchema.optional(),
+});
+
+export const recordEventScanSchema = actorSchema.extend({
+	eventId: z.string().min(1),
+	targetAuthId: authIdSchema,
+	qrIssuedAt: z.coerce.date(),
+});
+
+export function createEventSchemaFactory(eventTypeValues: z.ZodType<string>) {
+	return actorSchema
+		.extend({
+			title: z.string().min(1).max(255),
+			description: z.string().min(1),
+			startTime: z.coerce.date(),
+			endTime: z.coerce.date(),
+			location: z.string().min(1).max(255).default("TBD"),
+			type: eventTypeValues,
+			host: z.string().max(255).optional(),
+			hidden: z.boolean().default(false),
+		})
+		.refine(({ startTime, endTime }) => startTime < endTime, {
+			message: "Start time must be before end time.",
+			path: ["startTime"],
+		});
+}
+
+export function updateEventSchemaFactory(eventTypeValues: z.ZodType<string>) {
+	return actorSchema
+		.extend({
+			eventId: z.string().min(1),
+			title: z.string().min(1).max(255).optional(),
+			description: z.string().min(1).optional(),
+			startTime: z.coerce.date().optional(),
+			endTime: z.coerce.date().optional(),
+			location: z.string().min(1).max(255).optional(),
+			type: eventTypeValues.optional(),
+			host: z.string().max(255).nullable().optional(),
+			hidden: z.boolean().optional(),
+		})
+		.refine(
+			({ startTime, endTime }) => {
+				if (!startTime || !endTime) return true;
+				return startTime < endTime;
+			},
+			{
+				message: "Start time must be before end time.",
+				path: ["startTime"],
+			},
+		);
+}

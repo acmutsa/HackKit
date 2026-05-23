@@ -14,6 +14,7 @@ export const coreModels = {
 				.optional()
 				.references("core.role", "id", { onDelete: "setNull" }),
 			isApproved: field.boolean().default(false),
+			checkedInAt: field.date().optional(),
 			createdAt: field.date().defaultNow(),
 			updatedAt: field.date().defaultNow(),
 		},
@@ -86,5 +87,37 @@ export const coreModels = {
 			bannedByAuthId: field.string().references("core.user", "authId"),
 			createdAt: field.date().defaultNow(),
 		},
+	}),
+	event: defineModel("core.event", {
+		fields: {
+			id: field.string().primaryKey().defaultId(),
+			title: field.string(),
+			startTime: field.date(),
+			endTime: field.date(),
+			location: field.string().default("TBD"),
+			description: field.string(),
+			type: field.string(),
+			host: field.string().optional(),
+			hidden: field.boolean().default(false),
+			createdAt: field.date().defaultNow(),
+			updatedAt: field.date().defaultNow(),
+		},
+		indexes: [["startTime"], ["type"], ["hidden"]],
+	}),
+	eventScan: defineModel("core.eventScan", {
+		fields: {
+			id: field.string().primaryKey().defaultId(),
+			eventId: field
+				.string()
+				.references("core.event", "id", { onDelete: "cascade" }),
+			authId: field
+				.string()
+				.references("core.user", "authId", { onDelete: "cascade" }),
+			scannedByAuthId: field
+				.string()
+				.references("core.user", "authId"),
+			scannedAt: field.date().defaultNow(),
+		},
+		indexes: [["eventId"], ["authId"], ["eventId", "authId"], ["scannedAt"]],
 	}),
 } as const;

@@ -13,6 +13,12 @@ export const CorePermission = {
 	RolesAssign: "core.roles.assign",
 	HackersView: "core.hackers.view",
 	HackersRegister: "core.hackers.register",
+	EventsView: "core.events.view",
+	EventsCreate: "core.events.create",
+	EventsUpdate: "core.events.update",
+	EventsDelete: "core.events.delete",
+	EventsScan: "core.events.scan",
+	UsersCheckIn: "core.users.checkIn",
 } as const satisfies Record<string, PermissionKey>;
 
 export type CorePermission =

@@ -15,7 +15,9 @@
       "import": "./dist/actions.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -27,8 +29,10 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@yudiel/react-qr-scanner": "^2.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "qrcode.react": "^4.2.0",
     "react-hook-form": "7.52.1",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",

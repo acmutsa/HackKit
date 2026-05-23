@@ -88,10 +88,47 @@ _Avoid_: Super admin
 The Permission that bypasses both ordinary permission-key checks and Role hierarchy checks.
 _Avoid_: Admin
 
+**Event**:
+A timed activity on the hackathon agenda, such as a workshop, meal, ceremony, or social.
+_Avoid_: Side event (in user-facing copy), the hackathon itself, DOM event, legacy storage name `name` for title
+
+**Event Type**:
+A configured category for an **Event**, defined at HackKit application setup with a stable stored value, display label, and color.
+_Avoid_: Freeform tag without configured options, per-row color overrides, using the display label as the stored value
+
+**Event Types**:
+The configurable allowed **Event Type** values for a hackathon, each with value, label, and color, shared by HackKit Core validation and HackKit UI rendering.
+_Avoid_: Hardcoded type enums, UI-only select options, legacy Title Case keys used as stored values
+
+**Event Scan**:
+One recorded time a **User**'s **Event Pass** was scanned for a specific **Event**.
+_Avoid_: **Hackathon Check-in**, RSVP, cumulative scan count on one row
+
+**Event Scans**:
+The history of scan occurrences for a **User** at an **Event**; each scan is its own persisted record.
+_Avoid_: Single row with incrementing count
+
+**Scanning Volunteer**:
+The **User** who confirmed an **Event Scan** on behalf of the hackathon.
+_Avoid_: Scanned participant, Auth provider account
+
+**Event Pass**:
+The participant-facing QR identity a **User** presents to be scanned at **Events**.
+_Avoid_: Ticket, badge
+
+**Event Pass QR TTL**:
+The maximum age of an **Event Pass** QR timestamp that HackKit Core accepts for scan and check-in operations.
+_Avoid_: Session timeout, auth token expiry
+
+**Hackathon Check-in**:
+A one-time record that a **User** arrived and was checked in to the hackathon as a whole.
+_Avoid_: **Event Scan**, RSVP
+
 ## Relationships
 
 -   **HackKit Web App** depends on **HackKit Core** for hackathon behavior.
 -   **HackKit UI** consumes **HackKit Core** APIs.
+-   **HackKit UI** ships default schedule, **Event Pass**, volunteer scanner, and event admin components that **HackKit Web Apps** may replace individually without forking Core.
 -   **HackKit CLI** creates projects that include a working **HackKit Web App**.
 -   **HackKit CLI** manages project files provided by plugins.
 -   A **HackKit Plugin** may add capabilities to a **HackKit Web App** without changing **HackKit Core** source.
@@ -141,11 +178,38 @@ _Avoid_: Admin
 -   A **User Data Option** has a stable stored value and a display label.
 -   **User Data Options** constrain selected **User Data** fields and are shared by HackKit Core validation and HackKit UI rendering.
 -   **Dietary Restrictions** are stored as configured **User Data Option** values; freeform dietary or accessibility needs belong in the **User Data** accommodation note.
+-   An **Event** has zero or more **Event Scans**.
+-   An **Event Scan** belongs to exactly one **Event** and exactly one **User**.
+-   A **User** may have many **Event Scans** for the same **Event**; each scan is stored as a separate row.
+-   **Event Scan** history is append-only in v1; mistaken scans are not deleted through Core APIs.
+-   When a **User** already has **Event Scans** for an **Event**, volunteers are warned before recording another scan but may still add one.
+-   Each **Event Scan** records which volunteer **User** performed the scan.
+-   HackKit Core validates **Event Pass** QR freshness using a configurable **Event Pass QR TTL** before recording **Event Scans** or **Hackathon Check-in**.
+-   **Hackathon Check-in** APIs live on the **User** module; **Event** CRUD and **Event Scan** APIs live on the **Events** module.
+-   A **User** presents their **Event Pass** to be scanned at **Events**.
+-   Any **User** may present an **Event Pass** and be recorded in an **Event Scan**; a **Hacker** profile is not required for attendance flows.
+-   **Hackathon Check-in** is separate from **Event Scan**; arriving at the venue is not the same as attending a specific **Event**.
+-   **Hackathon Check-in** is recorded on the **User** as an optional arrival timestamp set by a volunteer with check-in permission.
+-   A **User** may be **Hackathon Check-in** checked in at most once; repeat check-in attempts are rejected.
+-   A volunteer with check-in permission may clear an existing **Hackathon Check-in** to correct a mistake.
+-   **Event Types** constrain the type field on **Event** records and are shared by HackKit Core validation and HackKit UI rendering.
+-   Each **Event Type** has a stable stored value, display label, and color, using the same value/label pattern as **User Data Options**.
+-   **Event** records use string identifiers in HackKit Core.
+-   Public schedule listing of non-hidden **Events** does not require an authenticated **User**; actors with `core.events.view` or higher can list hidden **Events** as well.
 
 ## Example dialogue
 
 > **Dev:** "Should registration live in the web app or in **HackKit Core**?"
 > **Domain expert:** "The registration behavior belongs in **HackKit Core**; the **HackKit Web App** only wires it to routes and UI."
+
+> **Dev:** "Are schedule workshops the same thing as check-in at the door?"
+> **Domain expert:** "No. **Events** are agenda items volunteers scan at with **Event Pass**. **Hackathon Check-in** is the one-time arrival record for the whole hackathon."
+
+> **Dev:** "If someone swipes twice at lunch, is that one row with count 2?"
+> **Domain expert:** "No. Each swipe is its own **Event Scan**. The scanner warns the volunteer if they've already scanned, but they can still record another scan when seconds opens up."
+
+> **Dev:** "What does test-web need to ship for events?"
+> **Domain expert:** "Public schedule, **Event Pass**, event admin, event scanner, and hackathon check-in — enough to prove Core, UI, and the app wiring together."
 
 ## Flagged ambiguities
 
@@ -156,3 +220,8 @@ _Avoid_: Admin
 -   "hackerTag" in the existing code is being renamed — resolved: use **HackTag** because the handle can belong to any **User**, not only a **Hacker**.
 -   Required MLH, demographic, and logistics fields were mixed into common user records — resolved: distinguish identity/profile fields on **User** from required **User Data**, while requiring **User Data** for every **User**.
 -   "user registration form" could mean creating a **User** or collecting **User Data** — resolved: use **User Data form** for the form that collects required MLH, demographic, and logistics information.
+-   "side event" describes agenda **Events** informally but must not appear in **HackKit UI** copy — resolved: user-facing language uses **Event** or schedule wording only.
+-   Legacy `events.name` column stored the event title — resolved: HackKit Core uses domain property `title`.
+-   Legacy `checkinTimestamp` on user records — resolved: **Hackathon Check-in** uses `checkedInAt` on **User** in HackKit Core.
+-   **Hacker** vs **User** for **Event Pass** could mean competitors only — resolved: attendance uses **Auth ID** for any **User**, matching the original HackKit convention that all participants share one identity record.
+-   Legacy storage used one scan row per user and event with an incrementing count — resolved: HackKit Core stores each scan as a separate **Event Scan** row with its own identifier.

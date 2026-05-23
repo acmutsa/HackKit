@@ -12,11 +12,31 @@ export async function AppBar() {
 					HackKit Test
 				</Link>
 				{session ? (
-					<ProfileMenu
-						name={session.user.name}
-						email={session.user.email}
-						image={session.user.image}
-					/>
+					<nav className="flex items-center gap-4 text-sm">
+						<Link
+							href="/schedule"
+							className="text-muted-foreground hover:text-foreground"
+						>
+							Schedule
+						</Link>
+						<Link
+							href="/pass"
+							className="text-muted-foreground hover:text-foreground"
+						>
+							Event Pass
+						</Link>
+						<Link
+							href="/dashboard"
+							className="text-muted-foreground hover:text-foreground"
+						>
+							Dashboard
+						</Link>
+						<ProfileMenu
+							name={session.user.name}
+							email={session.user.email}
+							image={session.user.image}
+						/>
+					</nav>
 				) : (
 					<div className="flex items-center gap-3 text-sm">
 						<Link href="/sign-in" className="text-muted-foreground hover:text-foreground">

@@ -29,6 +29,13 @@ export const hackkit = createHackkit({
 			{ value: "other", label: "Other" },
 		],
 	},
+	eventTypes: [
+		{ value: "meal", label: "Meal", color: "#FFC107" },
+		{ value: "workshop", label: "Workshop", color: "#10b981" },
+		{ value: "ceremony", label: "Ceremony", color: "#9C27B0" },
+		{ value: "social", label: "Social", color: "#2196F3" },
+		{ value: "other", label: "Other", color: "#795548" },
+	],
 });
 
 export async function getCurrentUser() {

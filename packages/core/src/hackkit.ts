@@ -29,11 +29,17 @@ import type {
 	UserData,
 } from "./types";
 import { createUsersApi } from "./functions/users";
+import { createEventsApi } from "./functions/events";
 import {
 	createCompleteUserDataSchema,
 	resolveUserDataOptions,
 	type UserDataOptionsInput,
 } from "./user-data-options";
+import {
+	DEFAULT_EVENT_PASS_QR_TTL_MS,
+	resolveEventTypes,
+	type EventTypesInput,
+} from "./event-types";
 
 type CreateHackkitOptions<
 	TPlugins extends readonly HackKitPlugin[] = readonly HackKitPlugin[],
@@ -43,6 +49,8 @@ type CreateHackkitOptions<
 	clock?: () => Date;
 	id?: () => string;
 	userDataOptions?: UserDataOptionsInput;
+	eventTypes?: EventTypesInput;
+	eventPassQrTtlMs?: number;
 };
 
 type Actor = {
@@ -65,8 +73,32 @@ export function createHackkit<
 		: options.database;
 	const pluginApis = setupPluginApis(plugins, { database: db, registry });
 	const userDataOptions = resolveUserDataOptions(options.userDataOptions);
+	const eventTypes = resolveEventTypes(options.eventTypes);
+	const eventPassQrTtlMs =
+		options.eventPassQrTtlMs ?? DEFAULT_EVENT_PASS_QR_TTL_MS;
 	const completeUserDataSchema =
 		createCompleteUserDataSchema(userDataOptions);
+
+	const eventsApiContext = {
+		db,
+		now,
+		id,
+		eventTypes,
+		eventPassQrTtlMs,
+		getUserOrThrow,
+		getRoleOrThrow,
+		requirePermission,
+	};
+
+	const usersApiContext = {
+		db,
+		now,
+		eventPassQrTtlMs,
+		getUserOrThrow,
+		getRoleOrThrow,
+		requirePermission,
+		assertCanManageRole,
+	};
 
 	async function getUserOrThrow(authId: AuthId): Promise<User> {
 		const user = await db.findOne(coreModels.user, { authId });
@@ -170,14 +202,8 @@ export function createHackkit<
 		permissions: CorePermission,
 		registry,
 		plugins: pluginApis,
-		users: createUsersApi({
-			db,
-			now,
-			getUserOrThrow,
-			getRoleOrThrow,
-			requirePermission,
-			assertCanManageRole,
-		}),
+		users: createUsersApi(usersApiContext),
+		events: createEventsApi(eventsApiContext),
 
 		userData: {
 			options: userDataOptions,
@@ -217,6 +243,10 @@ export function createHackkit<
 		},
 
 		roles: {
+			async getRole(roleId: RoleId): Promise<Role | null> {
+				return db.findOne(coreModels.role, { id: roleId });
+			},
+
 			async bootstrapOwner(input: unknown): Promise<Role> {
 				const parsed = parseInput(bootstrapOwnerSchema, input);
 				await getUserOrThrow(parsed.authId);

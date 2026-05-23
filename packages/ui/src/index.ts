@@ -6,9 +6,28 @@ export { toUserDataFormDefaultValues } from "./user-data-form-defaults";
 export { UserDataFields, UserDataForm } from "./components/user-data-form";
 export type {
 	UserDataFormProps,
-	UserDataFormValues,
 } from "./components/user-data-form";
-export type { HackKitUIActions } from "./types";
+export { ScheduleList } from "./components/schedule-list";
+export { EventPass } from "./components/event-pass";
+export {
+	EventAdminForm,
+	toDateTimeLocalValue,
+} from "./components/event-admin-form";
+export { EventAdminList } from "./components/event-admin-list";
+export { EventScanner } from "./components/event-scanner";
+export { CheckInScanner } from "./components/check-in-scanner";
+export type {
+	CheckInScannerProps,
+	CheckInUserInput,
+	EventAdminFormProps,
+	EventFormValues,
+	EventPassProps,
+	EventScannerProps,
+	HackKitUIActions,
+	RecordEventScanInput,
+	ScheduleListProps,
+	UserDataFormValues,
+} from "./types";
 
 export { Button } from "./components/ui/button";
 export {

@@ -16,3 +16,7 @@ export type Role = InferSelect<typeof coreModels.role>;
 export type NewRole = InferInsert<typeof coreModels.role>;
 export type UserBan = InferSelect<typeof coreModels.userBan>;
 export type NewUserBan = InferInsert<typeof coreModels.userBan>;
+export type Event = InferSelect<typeof coreModels.event>;
+export type NewEvent = InferInsert<typeof coreModels.event>;
+export type EventScan = InferSelect<typeof coreModels.eventScan>;
+export type NewEventScan = InferInsert<typeof coreModels.eventScan>;

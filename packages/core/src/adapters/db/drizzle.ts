@@ -167,14 +167,81 @@ function buildCreateTableStatement(model: PersistentModel): string {
 	return `CREATE TABLE IF NOT EXISTS ${quoteIdentifier(toTableName(model.key))} (${columns.join(", ")})`;
 }
 
+function formatSqlDefault(field: AnyField): string | null {
+	if (!field.defaultValue || field.defaultValue.kind !== "static") {
+		return null;
+	}
+
+	const value = field.defaultValue.value;
+
+	if (field.kind === "boolean") {
+		return value ? "1" : "0";
+	}
+
+	if (
+		field.kind === "string" ||
+		field.kind === "enum" ||
+		field.kind === "json"
+	) {
+		return `'${String(value).replaceAll("'", "''")}'`;
+	}
+
+	if (typeof value === "number") {
+		return String(value);
+	}
+
+	return null;
+}
+
+function buildAddColumnStatement(
+	tableName: string,
+	columnName: string,
+	field: AnyField,
+): string {
+	let column = `${quoteIdentifier(columnName)} ${fieldToSqlType(field)}`;
+	const defaultSql = formatSqlDefault(field);
+
+	if (defaultSql !== null) {
+		column += ` DEFAULT ${defaultSql}`;
+	}
+
+	if (!field.isOptional && defaultSql !== null) {
+		column += " NOT NULL";
+	}
+
+	return `ALTER TABLE ${quoteIdentifier(tableName)} ADD COLUMN ${column}`;
+}
+
+type TableInfoRow = {
+	name: string;
+};
+
+async function getExistingColumns(
+	db: DrizzleLibsqlDatabase,
+	tableName: string,
+): Promise<Set<string>> {
+	const rows = await db.all<TableInfoRow>(
+		sql.raw(`PRAGMA table_info(${quoteIdentifier(tableName)})`),
+	);
+	return new Set(rows.map((row) => row.name));
+}
+
 export async function syncDrizzleStorage(
 	db: DrizzleLibsqlDatabase,
 	storage: StorageRegistry,
 ): Promise<void> {
-	const statements = Object.values(storage.models).map(buildCreateTableStatement);
+	for (const model of Object.values(storage.models)) {
+		await db.run(sql.raw(buildCreateTableStatement(model)));
 
-	for (const statement of statements) {
-		await db.run(sql.raw(statement));
+		const tableName = toTableName(model.key);
+		const existingColumns = await getExistingColumns(db, tableName);
+
+		for (const [columnName, field] of Object.entries(model.schema.fields)) {
+			if (existingColumns.has(columnName)) continue;
+			await db.run(
+				sql.raw(buildAddColumnStatement(tableName, columnName, field)),
+			);
+		}
 	}
 }
 
