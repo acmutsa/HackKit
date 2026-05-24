@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "node ./node_modules/@hackkit/cli/dist/cli.js db sync",
+    "db:sync": "hackkit db sync",
+    "predev": "pnpm db:sync",
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
