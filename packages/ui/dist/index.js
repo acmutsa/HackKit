@@ -8,6 +8,7 @@ export { EventAdminForm, toDateTimeLocalValue, } from "./components/event-admin-
 export { EventAdminList } from "./components/event-admin-list";
 export { EventScanner } from "./components/event-scanner";
 export { CheckInScanner } from "./components/check-in-scanner";
+export { createEventPassQrPayload, DEFAULT_EVENT_PASS_QR_TTL_MS, parseEventPassQrPayload, resolveEventPassTargetAuthId, validateEventPassQrIssuedAt, } from "./event-pass";
 export { Button } from "./components/ui/button";
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "./components/ui/card";
 export { Checkbox } from "./components/ui/checkbox";

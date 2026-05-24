@@ -1,16 +1,18 @@
 import {
 	isDatabaseAdapterFactory,
 	type DatabaseAdapterInput,
-} from "./database";
-import { HackKitError, parseInput } from "./errors";
-import { coreModels } from "./models";
-import { CorePermission, hasPermission, hasSuperAdmin } from "./permissions";
+} from "./database.js";
+import { createAccessControl } from "./access-control.js";
+import { HackKitError, parseInput } from "./errors.js";
+import type { HackkitRuntimeContext } from "./hackkit-context.js";
+import { coreModels } from "./models.js";
+import { CorePermission } from "./permissions.js";
 import {
 	createPluginRegistry,
 	setupPluginApis,
 	type HackKitPlugin,
 	type PluginApiMap,
-} from "./plugins";
+} from "./plugins.js";
 import {
 	assignRoleSchema,
 	bootstrapOwnerSchema,
@@ -18,7 +20,7 @@ import {
 	deleteRoleSchema,
 	registerHackerSchema,
 	updateRoleSchema,
-} from "./schemas";
+} from "./schemas.js";
 import type {
 	AuthId,
 	Hacker,
@@ -27,19 +29,18 @@ import type {
 	RoleId,
 	User,
 	UserData,
-} from "./types";
-import { createUsersApi } from "./functions/users";
-import { createEventsApi } from "./functions/events";
+} from "./types.js";
+import { createUsersApi } from "./functions/users.js";
+import { createEventsApi } from "./functions/events.js";
 import {
 	createCompleteUserDataSchema,
 	resolveUserDataOptions,
 	type UserDataOptionsInput,
-} from "./user-data-options";
+} from "./user-data-options.js";
 import {
-	DEFAULT_EVENT_PASS_QR_TTL_MS,
 	resolveEventTypes,
 	type EventTypesInput,
-} from "./event-types";
+} from "./event-types.js";
 
 type CreateHackkitOptions<
 	TPlugins extends readonly HackKitPlugin[] = readonly HackKitPlugin[],
@@ -50,12 +51,6 @@ type CreateHackkitOptions<
 	id?: () => string;
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
-	eventPassQrTtlMs?: number;
-};
-
-type Actor = {
-	user: User;
-	role: Role;
 };
 
 const defaultId = () =>
@@ -74,31 +69,8 @@ export function createHackkit<
 	const pluginApis = setupPluginApis(plugins, { database: db, registry });
 	const userDataOptions = resolveUserDataOptions(options.userDataOptions);
 	const eventTypes = resolveEventTypes(options.eventTypes);
-	const eventPassQrTtlMs =
-		options.eventPassQrTtlMs ?? DEFAULT_EVENT_PASS_QR_TTL_MS;
 	const completeUserDataSchema =
 		createCompleteUserDataSchema(userDataOptions);
-
-	const eventsApiContext = {
-		db,
-		now,
-		id,
-		eventTypes,
-		eventPassQrTtlMs,
-		getUserOrThrow,
-		getRoleOrThrow,
-		requirePermission,
-	};
-
-	const usersApiContext = {
-		db,
-		now,
-		eventPassQrTtlMs,
-		getUserOrThrow,
-		getRoleOrThrow,
-		requirePermission,
-		assertCanManageRole,
-	};
 
 	async function getUserOrThrow(authId: AuthId): Promise<User> {
 		const user = await db.findOne(coreModels.user, { authId });
@@ -112,61 +84,20 @@ export function createHackkit<
 		return role;
 	}
 
-	async function getActor(actorAuthId: AuthId): Promise<Actor> {
-		const user = await getUserOrThrow(actorAuthId);
-		if (!user.roleId)
-			throw new HackKitError("FORBIDDEN", "Actor has no role.");
-		return { user, role: await getRoleOrThrow(user.roleId) };
-	}
+	const accessControl = createAccessControl({ getUserOrThrow, getRoleOrThrow });
 
-	function actorCanBypassHierarchy(actor: Actor): boolean {
-		return hasSuperAdmin(actor.role.permissions);
-	}
-
-	function actorOutranks(actor: Actor, role: Role): boolean {
-		return (
-			actorCanBypassHierarchy(actor) ||
-			actor.role.position < role.position
-		);
-	}
-
-	async function requirePermission(
-		actorAuthId: AuthId,
-		permission: PermissionKey,
-	): Promise<Actor> {
-		const actor = await getActor(actorAuthId);
-		if (!hasPermission(actor.role.permissions, permission)) {
-			throw new HackKitError(
-				"FORBIDDEN",
-				"Actor does not have the required permission.",
-			);
-		}
-		return actor;
-	}
-
-	function assertCanManageRole(actor: Actor, role: Role): void {
-		if (!actorOutranks(actor, role)) {
-			throw new HackKitError(
-				"FORBIDDEN",
-				"Actor cannot manage a role at this position.",
-			);
-		}
-	}
-
-	function assertCanGrantPermissions(
-		actor: Actor,
-		permissions: PermissionKey[],
-	): void {
-		const includesSuperAdmin = permissions.includes(
-			CorePermission.SuperAdmin,
-		);
-		if (includesSuperAdmin && !hasSuperAdmin(actor.role.permissions)) {
-			throw new HackKitError(
-				"FORBIDDEN",
-				"Only a super admin can grant or remove super admin permission.",
-			);
-		}
-	}
+	const runtimeContext: HackkitRuntimeContext = {
+		db,
+		now,
+		id,
+		eventTypes,
+		userDataOptions,
+		getUserOrThrow,
+		getRoleOrThrow,
+		requirePermission: accessControl.requirePermission,
+		assertCanManageRole: accessControl.assertCanManageRole,
+		accessControl,
+	};
 
 	async function registerHacker(input: unknown): Promise<Hacker> {
 		const parsed = parseInput(registerHackerSchema, input);
@@ -202,8 +133,9 @@ export function createHackkit<
 		permissions: CorePermission,
 		registry,
 		plugins: pluginApis,
-		users: createUsersApi(usersApiContext),
-		events: createEventsApi(eventsApiContext),
+		accessControl,
+		users: createUsersApi(runtimeContext),
+		events: createEventsApi(runtimeContext),
 
 		userData: {
 			options: userDataOptions,
@@ -285,17 +217,17 @@ export function createHackkit<
 
 			async createRole(input: unknown): Promise<Role> {
 				const parsed = parseInput(createRoleSchema, input);
-				const actor = await requirePermission(
+				const principal = await accessControl.requirePermission(
 					parsed.actorAuthId,
 					CorePermission.RolesCreate,
 				);
 				const rolePosition = {
-					...actor.role,
+					...principal.role,
 					position: parsed.position,
 				};
-				assertCanManageRole(actor, rolePosition);
-				assertCanGrantPermissions(
-					actor,
+				accessControl.assertCanManageRole(principal, rolePosition);
+				accessControl.assertCanGrantPermissions(
+					principal,
 					parsed.permissions as PermissionKey[],
 				);
 				const existingName = await db.findOne(coreModels.role, {
@@ -320,20 +252,20 @@ export function createHackkit<
 
 			async updateRole(input: unknown): Promise<Role> {
 				const parsed = parseInput(updateRoleSchema, input);
-				const actor = await requirePermission(
+				const principal = await accessControl.requirePermission(
 					parsed.actorAuthId,
 					CorePermission.RolesUpdate,
 				);
 				const role = await getRoleOrThrow(parsed.roleId);
-				assertCanManageRole(actor, role);
+				accessControl.assertCanManageRole(principal, role);
 				if (parsed.position !== undefined)
-					assertCanManageRole(actor, {
+					accessControl.assertCanManageRole(principal, {
 						...role,
 						position: parsed.position,
 					});
 				if (parsed.permissions)
-					assertCanGrantPermissions(
-						actor,
+					accessControl.assertCanGrantPermissions(
+						principal,
 						parsed.permissions as PermissionKey[],
 					);
 				const [updated] = await db.update(
@@ -356,12 +288,12 @@ export function createHackkit<
 
 			async deleteRole(input: unknown): Promise<void> {
 				const parsed = parseInput(deleteRoleSchema, input);
-				const actor = await requirePermission(
+				const principal = await accessControl.requirePermission(
 					parsed.actorAuthId,
 					CorePermission.RolesDelete,
 				);
 				const role = await getRoleOrThrow(parsed.roleId);
-				assertCanManageRole(actor, role);
+				accessControl.assertCanManageRole(principal, role);
 				const usersWithRole = await db.findMany(coreModels.user, {
 					where: { roleId: parsed.roleId },
 					limit: 1,
@@ -376,16 +308,16 @@ export function createHackkit<
 
 			async assignRoleToUser(input: unknown): Promise<User> {
 				const parsed = parseInput(assignRoleSchema, input);
-				const actor = await requirePermission(
+				const principal = await accessControl.requirePermission(
 					parsed.actorAuthId,
 					CorePermission.RolesAssign,
 				);
 				const target = await getUserOrThrow(parsed.targetAuthId);
 				const nextRole = await getRoleOrThrow(parsed.roleId);
-				assertCanManageRole(actor, nextRole);
+				accessControl.assertCanManageRole(principal, nextRole);
 				if (target.roleId)
-					assertCanManageRole(
-						actor,
+					accessControl.assertCanManageRole(
+						principal,
 						await getRoleOrThrow(target.roleId),
 					);
 				const [updated] = await db.update(
@@ -400,10 +332,6 @@ export function createHackkit<
 					throw new HackKitError("NOT_FOUND", "User not found.");
 				return updated;
 			},
-		},
-
-		registration: {
-			registerHacker,
 		},
 	};
 

@@ -2,37 +2,39 @@ export {
 	createDrizzleDatabaseAdapter,
 	syncDrizzleStorage,
 	toDrizzleTableName,
-} from "./adapters/db/drizzle";
-export type { DrizzleLibsqlDatabase } from "./adapters/db/drizzle";
-export { createHackkit } from "./hackkit";
-export type { HackKit } from "./hackkit";
+} from "./adapters/db/drizzle.js";
+export type { DrizzleLibsqlDatabase } from "./adapters/db/drizzle.js";
+export type { AuthAdapter, AuthIdentity, AuthSession } from "./adapters/auth.js";
+export { createHackkit } from "./hackkit.js";
+export type { HackKit } from "./hackkit.js";
 export {
 	defineModel,
 	field,
 	isDatabaseAdapterFactory,
 	model,
-} from "./database";
+} from "./database.js";
 export {
 	createCompleteUserDataSchema,
 	defaultUserDataOptions,
 	resolveUserDataOptions,
-} from "./user-data-options";
+} from "./user-data-options.js";
 export {
-	DEFAULT_EVENT_PASS_QR_TTL_MS,
 	defaultEventTypes,
 	eventTypeValueSchema,
 	resolveEventTypes,
-} from "./event-types";
+} from "./event-types.js";
 export {
-	createEventPassQrPayload,
-	parseEventPassQrPayload,
-	validateEventPassQrIssuedAt,
-} from "./event-pass";
+	createInMemoryDatabaseAdapter,
+	createInMemoryDatabaseAdapterFromStorage,
+} from "./adapters/db/memory.js";
+export { createAccessControl } from "./access-control.js";
+export type { AccessControl, AccessPrincipal } from "./access-control.js";
+export type { HackkitRuntimeContext } from "./hackkit-context.js";
 export type {
 	EventTypeOption,
 	EventTypes,
 	EventTypesInput,
-} from "./event-types";
+} from "./event-types.js";
 export type {
 	DatabaseAdapter,
 	DatabaseAdapterFactory,
@@ -53,23 +55,23 @@ export type {
 	StorageDefault,
 	StorageRegistry,
 	Where,
-} from "./database";
+} from "./database.js";
 export type {
 	UserDataOption,
 	UserDataOptions,
 	UserDataOptionsInput,
-} from "./user-data-options";
-export { HackKitError, hackKitErrorCodes } from "./errors";
-export type { HackKitErrorCode } from "./errors";
-export { coreModels } from "./models";
-export { CorePermission, hasPermission, hasSuperAdmin } from "./permissions";
-export { createPluginRegistry, setupPluginApis } from "./plugins";
+} from "./user-data-options.js";
+export { HackKitError, hackKitErrorCodes } from "./errors.js";
+export type { HackKitErrorCode } from "./errors.js";
+export { coreModels } from "./models.js";
+export { CorePermission, hasPermission, hasSuperAdmin } from "./permissions.js";
+export { createPluginRegistry, setupPluginApis } from "./plugins.js";
 export type {
 	HackKitPlugin,
 	HackKitPluginContext,
 	HackKitRegistry,
 	PluginApiMap,
-} from "./plugins";
+} from "./plugins.js";
 export type {
 	AuthId,
 	Event,
@@ -89,7 +91,7 @@ export type {
 	NewUserData,
 	NewEvent,
 	NewEventScan,
-} from "./types";
+} from "./types.js";
 export {
 	assignRoleSchema,
 	approveUserSchema,
@@ -114,5 +116,5 @@ export {
 	unbanUserSchema,
 	updateEventSchemaFactory,
 	updateRoleSchema,
-} from "./schemas";
-export type { CompleteUserDataInput } from "./schemas";
+} from "./schemas.js";
+export type { CompleteUserDataInput } from "./schemas.js";

@@ -16,6 +16,13 @@ export {
 export { EventAdminList } from "./components/event-admin-list";
 export { EventScanner } from "./components/event-scanner";
 export { CheckInScanner } from "./components/check-in-scanner";
+export {
+	createEventPassQrPayload,
+	DEFAULT_EVENT_PASS_QR_TTL_MS,
+	parseEventPassQrPayload,
+	resolveEventPassTargetAuthId,
+	validateEventPassQrIssuedAt,
+} from "./event-pass";
 export type {
 	CheckInScannerProps,
 	CheckInUserInput,
@@ -24,6 +31,8 @@ export type {
 	EventPassProps,
 	EventScannerProps,
 	HackKitUIActions,
+	PreviewEventPassQrInput,
+	PreviewEventPassQrResult,
 	RecordEventScanInput,
 	ScheduleListProps,
 	UserDataFormValues,

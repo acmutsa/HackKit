@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HackKitError } from "./errors";
+import { HackKitError } from "./errors.js";
 
 export type EventTypeOption = {
 	value: string;
@@ -63,5 +63,3 @@ export function eventTypeValueSchema(
 		.min(1)
 		.refine((value) => values.has(value), { message });
 }
-
-export const DEFAULT_EVENT_PASS_QR_TTL_MS = 5 * 60 * 1000;

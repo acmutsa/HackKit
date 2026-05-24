@@ -13,6 +13,10 @@
     "./actions": {
       "types": "./dist/actions.d.ts",
       "import": "./dist/actions.js"
+    },
+    "./event-pass": {
+      "types": "./dist/event-pass.d.ts",
+      "import": "./dist/event-pass.js"
     }
   },
   "files": [

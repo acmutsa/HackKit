@@ -1,7 +1,7 @@
-import type { DatabaseAdapter } from "../database";
-import { HackKitError, parseInput } from "../errors";
-import { coreModels } from "../models";
-import { CorePermission } from "../permissions";
+import type { HackkitRuntimeContext } from "../hackkit-context.js";
+import { HackKitError, parseInput } from "../errors.js";
+import { coreModels } from "../models.js";
+import { CorePermission } from "../permissions.js";
 import {
 	approveUserSchema,
 	banUserSchema,
@@ -10,33 +10,23 @@ import {
 	clearCheckInUserSchema,
 	ensureUserSchema,
 	unbanUserSchema,
-} from "../schemas";
-import type { AuthId, PermissionKey, Role, User, UserBan } from "../types";
-import { validateEventPassQrIssuedAt } from "../event-pass";
+} from "../schemas.js";
+import type { AuthId, User, UserBan } from "../types.js";
 
-type Actor = {
-	user: User;
-	role: Role;
-};
-
-export type UsersApiContext = {
-	db: DatabaseAdapter;
-	now: () => Date;
-	eventPassQrTtlMs: number;
-	getUserOrThrow: (authId: AuthId) => Promise<User>;
-	getRoleOrThrow: (roleId: string) => Promise<Role>;
-	requirePermission: (
-		actorAuthId: AuthId,
-		permission: PermissionKey,
-	) => Promise<Actor>;
-	assertCanManageRole: (actor: Actor, role: Role) => void;
-};
+export type UsersApiContext = Pick<
+	HackkitRuntimeContext,
+	| "db"
+	| "now"
+	| "getUserOrThrow"
+	| "getRoleOrThrow"
+	| "requirePermission"
+	| "assertCanManageRole"
+>;
 
 export function createUsersApi(context: UsersApiContext) {
 	const {
 		db,
 		now,
-		eventPassQrTtlMs,
 		getUserOrThrow,
 		getRoleOrThrow,
 		requirePermission,
@@ -117,13 +107,16 @@ export function createUsersApi(context: UsersApiContext) {
 
 		async approveUser(input: unknown): Promise<User> {
 			const parsed = parseInput(approveUserSchema, input);
-			const actor = await requirePermission(
+			const principal = await requirePermission(
 				parsed.actorAuthId,
 				CorePermission.UsersApprove,
 			);
 			const target = await getUserOrThrow(parsed.targetAuthId);
 			if (target.roleId)
-				assertCanManageRole(actor, await getRoleOrThrow(target.roleId));
+				assertCanManageRole(
+					principal,
+					await getRoleOrThrow(target.roleId),
+				);
 			const [updated] = await db.update(
 				coreModels.user,
 				{ authId: parsed.targetAuthId },
@@ -139,13 +132,16 @@ export function createUsersApi(context: UsersApiContext) {
 
 		async banUser(input: unknown): Promise<UserBan> {
 			const parsed = parseInput(banUserSchema, input);
-			const actor = await requirePermission(
+			const principal = await requirePermission(
 				parsed.actorAuthId,
 				CorePermission.UsersBan,
 			);
 			const target = await getUserOrThrow(parsed.targetAuthId);
 			if (target.roleId)
-				assertCanManageRole(actor, await getRoleOrThrow(target.roleId));
+				assertCanManageRole(
+					principal,
+					await getRoleOrThrow(target.roleId),
+				);
 			const existing = await db.findOne(coreModels.userBan, {
 				authId: parsed.targetAuthId,
 			});
@@ -160,13 +156,16 @@ export function createUsersApi(context: UsersApiContext) {
 
 		async unbanUser(input: unknown): Promise<void> {
 			const parsed = parseInput(unbanUserSchema, input);
-			const actor = await requirePermission(
+			const principal = await requirePermission(
 				parsed.actorAuthId,
 				CorePermission.UsersBan,
 			);
 			const target = await getUserOrThrow(parsed.targetAuthId);
 			if (target.roleId)
-				assertCanManageRole(actor, await getRoleOrThrow(target.roleId));
+				assertCanManageRole(
+					principal,
+					await getRoleOrThrow(target.roleId),
+				);
 			await db.delete(coreModels.userBan, {
 				authId: parsed.targetAuthId,
 			});
@@ -177,11 +176,6 @@ export function createUsersApi(context: UsersApiContext) {
 			await requirePermission(
 				parsed.actorAuthId,
 				CorePermission.UsersCheckIn,
-			);
-			validateEventPassQrIssuedAt(
-				parsed.qrIssuedAt,
-				now(),
-				eventPassQrTtlMs,
 			);
 			const target = await getUserOrThrow(parsed.targetAuthId);
 			if (target.checkedInAt) {

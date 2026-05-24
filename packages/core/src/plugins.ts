@@ -2,11 +2,11 @@ import type {
 	DatabaseAdapter,
 	PersistentModel,
 	StorageRegistry,
-} from "./database";
-import { HackKitError } from "./errors";
-import { coreModels } from "./models";
-import { CorePermission } from "./permissions";
-import type { PermissionKey } from "./types";
+} from "./database.js";
+import { HackKitError } from "./errors.js";
+import { coreModels } from "./models.js";
+import { CorePermission } from "./permissions.js";
+import type { PermissionKey } from "./types.js";
 
 type ModelMap = Record<string, PersistentModel>;
 type PermissionMap = Record<string, PermissionKey>;

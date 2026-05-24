@@ -1,4 +1,4 @@
-import type { PermissionKey } from "./types";
+import type { PermissionKey } from "./types.js";
 
 export const CorePermission = {
 	Admin: "core.admin",

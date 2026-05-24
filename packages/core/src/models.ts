@@ -1,4 +1,4 @@
-import { defineModel, field } from "./database";
+import { defineModel, field } from "./database.js";
 
 export const coreModels = {
 	user: defineModel("core.user", {

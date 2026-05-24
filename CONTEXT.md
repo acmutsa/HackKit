@@ -117,8 +117,12 @@ The participant-facing QR identity a **User** presents to be scanned at **Events
 _Avoid_: Ticket, badge
 
 **Event Pass QR TTL**:
-The maximum age of an **Event Pass** QR timestamp that HackKit Core accepts for scan and check-in operations.
-_Avoid_: Session timeout, auth token expiry
+The maximum age of an **Event Pass** QR timestamp that volunteer scan flows accept before check-in or **Event Scan** is recorded.
+_Avoid_: Session timeout, auth token expiry, HackKit Core validation
+
+**Event Pass QR**:
+The encoded payload (including participant identity and issue time) presented as a scannable **Event Pass**. Encoding, parsing, and freshness checks are implemented in **HackKit UI**; the server mutation layer imports the same module to validate raw QR on confirm before calling **HackKit Core**.
+_Avoid_: HackKit Core module, separate credential registry package
 
 **Hackathon Check-in**:
 A one-time record that a **User** arrived and was checked in to the hackathon as a whole.
@@ -131,6 +135,7 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit UI** ships default schedule, **Event Pass**, volunteer scanner, and event admin components that **HackKit Web Apps** may replace individually without forking Core.
 -   **HackKit CLI** creates projects that include a working **HackKit Web App**.
 -   **HackKit CLI** manages project files provided by plugins.
+-   **HackKit CLI** runs from a **HackKit Web App** project directory (not a monorepo root) and reads that app’s `hackkit.config.ts` for plugins and database settings.
 -   A **HackKit Plugin** may add capabilities to a **HackKit Web App** without changing **HackKit Core** source.
 -   **HackKit Core** receives **HackKit Plugins** through `createHackkit`.
 -   **HackKit Plugins** should be configured in one place so package-specific integration details stay contained inside plugin packages.
@@ -184,7 +189,7 @@ _Avoid_: **Event Scan**, RSVP
 -   **Event Scan** history is append-only in v1; mistaken scans are not deleted through Core APIs.
 -   When a **User** already has **Event Scans** for an **Event**, volunteers are warned before recording another scan but may still add one.
 -   Each **Event Scan** records which volunteer **User** performed the scan.
--   HackKit Core validates **Event Pass** QR freshness using a configurable **Event Pass QR TTL** before recording **Event Scans** or **Hackathon Check-in**.
+-   **HackKit UI** (and the server mutation layer ahead of **HackKit Core**) validates **Event Pass QR** freshness using a configurable **Event Pass QR TTL** before calling **Hackathon Check-in** or **Event Scan** APIs with a resolved **Auth ID**.
 -   **Hackathon Check-in** APIs live on the **User** module; **Event** CRUD and **Event Scan** APIs live on the **Events** module.
 -   A **User** presents their **Event Pass** to be scanned at **Events**.
 -   Any **User** may present an **Event Pass** and be recorded in an **Event Scan**; a **Hacker** profile is not required for attendance flows.

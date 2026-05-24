@@ -1,5 +1,7 @@
-import { HackKitError } from "./errors";
-import type { AuthId } from "./types";
+import { HackKitError } from "@hackkit/core";
+import type { AuthId } from "@hackkit/core";
+
+export const DEFAULT_EVENT_PASS_QR_TTL_MS = 5 * 60 * 1000;
 
 export type EventPassQrPayload = {
 	authId: AuthId;
@@ -65,4 +67,14 @@ export function validateEventPassQrIssuedAt(
 	if (qrIssuedAt.getTime() > now.getTime() + 60_000) {
 		throw new HackKitError("VALIDATION_ERROR", "Invalid Event Pass QR code.");
 	}
+}
+
+export function resolveEventPassTargetAuthId(
+	rawQr: string,
+	now: Date,
+	ttlMs: number,
+): AuthId {
+	const { authId, qrIssuedAt } = parseEventPassQrPayload(rawQr);
+	validateEventPassQrIssuedAt(qrIssuedAt, now, ttlMs);
+	return authId;
 }

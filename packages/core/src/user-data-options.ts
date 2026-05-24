@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HackKitError } from "./errors";
+import { HackKitError } from "./errors.js";
 
 export type UserDataOption = {
 	value: string;

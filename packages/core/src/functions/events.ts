@@ -1,9 +1,8 @@
-import type { DatabaseAdapter } from "../database";
-import { validateEventPassQrIssuedAt } from "../event-pass";
-import { eventTypeValueSchema, type EventTypes } from "../event-types";
-import { HackKitError, parseInput } from "../errors";
-import { coreModels } from "../models";
-import { CorePermission, hasPermission } from "../permissions";
+import type { HackkitRuntimeContext } from "../hackkit-context.js";
+import { eventTypeValueSchema } from "../event-types.js";
+import { HackKitError, parseInput } from "../errors.js";
+import { coreModels } from "../models.js";
+import { CorePermission, hasPermission } from "../permissions.js";
 import {
 	createEventSchemaFactory,
 	deleteEventSchema,
@@ -11,34 +10,19 @@ import {
 	listEventScansSchema,
 	recordEventScanSchema,
 	updateEventSchemaFactory,
-} from "../schemas";
-import type {
-	AuthId,
-	Event,
-	EventScan,
-	PermissionKey,
-	Role,
-	User,
-} from "../types";
+} from "../schemas.js";
+import type { AuthId, Event, EventScan } from "../types.js";
 
-type Actor = {
-	user: User;
-	role: Role;
-};
-
-export type EventsApiContext = {
-	db: DatabaseAdapter;
-	now: () => Date;
-	id: () => string;
-	eventTypes: EventTypes;
-	eventPassQrTtlMs: number;
-	getUserOrThrow: (authId: AuthId) => Promise<User>;
-	getRoleOrThrow: (roleId: string) => Promise<Role>;
-	requirePermission: (
-		actorAuthId: AuthId,
-		permission: PermissionKey,
-	) => Promise<Actor>;
-};
+export type EventsApiContext = Pick<
+	HackkitRuntimeContext,
+	| "db"
+	| "now"
+	| "id"
+	| "eventTypes"
+	| "getUserOrThrow"
+	| "getRoleOrThrow"
+	| "requirePermission"
+>;
 
 async function canViewHiddenEvents(
 	context: EventsApiContext,
@@ -66,14 +50,7 @@ export function createEventsApi(context: EventsApiContext) {
 		eventTypeValueSchema(context.eventTypes),
 	);
 
-	const {
-		db,
-		now,
-		id,
-		eventPassQrTtlMs,
-		getUserOrThrow,
-		requirePermission,
-	} = context;
+	const { db, now, id, getUserOrThrow, requirePermission } = context;
 
 	async function getEventOrThrow(eventId: string): Promise<Event> {
 		const event = await db.findOne(coreModels.event, { id: eventId });
@@ -197,11 +174,6 @@ export function createEventsApi(context: EventsApiContext) {
 			await requirePermission(
 				parsed.actorAuthId,
 				CorePermission.EventsScan,
-			);
-			validateEventPassQrIssuedAt(
-				parsed.qrIssuedAt,
-				now(),
-				eventPassQrTtlMs,
 			);
 			await getUserOrThrow(parsed.targetAuthId);
 			await getEventOrThrow(parsed.eventId);

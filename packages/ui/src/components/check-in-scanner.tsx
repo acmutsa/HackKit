@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { parseEventPassQrPayload } from "@hackkit/core";
+import type { User } from "@hackkit/core";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 import { toast } from "sonner";
 import { cn } from "../lib/cn";
 import { useHackKitUI } from "../provider";
@@ -17,26 +17,34 @@ import {
 	CardTitle,
 } from "./ui/card";
 
-export function CheckInScanner({
-	targetUser,
-	qrIssuedAt,
-	className,
-	onDone,
-}: CheckInScannerProps) {
+export function CheckInScanner({ className, onDone }: CheckInScannerProps) {
 	const router = useRouter();
-	const pathname = usePathname();
 	const { actions } = useHackKitUI();
 	const [loading, setLoading] = React.useState(false);
-	const showDrawer = targetUser !== null;
+	const [rawQr, setRawQr] = React.useState<string | null>(null);
+	const [targetUser, setTargetUser] = React.useState<User | null>(null);
 
-	async function handleCheckIn() {
-		if (!targetUser || !qrIssuedAt) return;
+	async function handleScan(rawValue: string) {
+		if (rawQr) return;
 
 		setLoading(true);
-		const result = await actions.checkInUser({
-			targetAuthId: targetUser.authId,
-			qrIssuedAt,
-		});
+		const result = await actions.previewEventPassQr({ rawQr: rawValue });
+		setLoading(false);
+
+		if (!result.ok) {
+			toast.error(result.message);
+			return;
+		}
+
+		setRawQr(rawValue);
+		setTargetUser(result.data.user);
+	}
+
+	async function handleCheckIn() {
+		if (!rawQr) return;
+
+		setLoading(true);
+		const result = await actions.checkInUser({ rawQr });
 		setLoading(false);
 
 		if (!result.ok) {
@@ -45,6 +53,8 @@ export function CheckInScanner({
 		}
 
 		toast.success("Participant checked in.");
+		setRawQr(null);
+		setTargetUser(null);
 		onDone?.();
 		router.refresh();
 	}
@@ -62,6 +72,8 @@ export function CheckInScanner({
 		}
 
 		toast.success("Check-in cleared.");
+		setRawQr(null);
+		setTargetUser(null);
 		onDone?.();
 		router.refresh();
 	}
@@ -79,30 +91,15 @@ export function CheckInScanner({
 					<div className="aspect-square w-full overflow-hidden rounded-lg border">
 						<Scanner
 							onScan={(results) => {
-								if (showDrawer || results.length === 0) return;
-								try {
-									const parsed = parseEventPassQrPayload(
-										results[0]!.rawValue,
-									);
-									const params = new URLSearchParams({
-										user: parsed.authId,
-										qrIssuedAt: String(parsed.qrIssuedAt.getTime()),
-									});
-									router.replace(`?${params.toString()}`);
-								} catch (error) {
-									toast.error(
-										error instanceof Error
-											? error.message
-											: "Invalid QR code.",
-									);
-								}
+								if (rawQr || results.length === 0) return;
+								void handleScan(results[0]!.rawValue);
 							}}
 						/>
 					</div>
 				</CardContent>
 			</Card>
 
-			{showDrawer ? (
+			{targetUser ? (
 				<Card>
 					<CardHeader>
 						<CardTitle>
@@ -138,8 +135,9 @@ export function CheckInScanner({
 									type="button"
 									variant="outline"
 									onClick={() => {
+										setRawQr(null);
+										setTargetUser(null);
 										onDone?.();
-										router.replace(pathname);
 									}}
 								>
 									Cancel

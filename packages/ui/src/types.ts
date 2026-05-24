@@ -29,15 +29,23 @@ export type EventFormValues = {
 	hidden: boolean;
 };
 
+export type PreviewEventPassQrInput = {
+	rawQr: string;
+	eventId?: string;
+};
+
+export type PreviewEventPassQrResult = {
+	user: User;
+	priorScans: EventScan[];
+};
+
 export type RecordEventScanInput = {
 	eventId: string;
-	targetAuthId: string;
-	qrIssuedAt: Date;
+	rawQr: string;
 };
 
 export type CheckInUserInput = {
-	targetAuthId: string;
-	qrIssuedAt: Date;
+	rawQr: string;
 };
 
 export type HackKitUIActions = {
@@ -52,6 +60,9 @@ export type HackKitUIActions = {
 		values: EventFormValues,
 	) => Promise<HackKitActionResult<Event>>;
 	deleteEvent: (eventId: string) => Promise<HackKitActionResult>;
+	previewEventPassQr: (
+		input: PreviewEventPassQrInput,
+	) => Promise<HackKitActionResult<PreviewEventPassQrResult>>;
 	recordEventScan: (
 		input: RecordEventScanInput,
 	) => Promise<
@@ -91,16 +102,11 @@ export type EventAdminFormProps = {
 
 export type EventScannerProps = {
 	event: Event;
-	targetUser: User | null;
-	priorScans: EventScan[];
-	qrIssuedAt: Date | null;
 	className?: string;
 	onDone?: () => void;
 };
 
 export type CheckInScannerProps = {
-	targetUser: User | null;
-	qrIssuedAt: Date | null;
 	className?: string;
 	onDone?: () => void;
 };

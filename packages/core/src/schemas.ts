@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
 	createCompleteUserDataSchema,
 	defaultUserDataOptions,
-} from "./user-data-options";
+} from "./user-data-options.js";
 
 export const permissionKeySchema = z
 	.string()
@@ -88,7 +88,6 @@ export const unbanUserSchema = actorSchema.extend({
 
 export const checkInUserSchema = actorSchema.extend({
 	targetAuthId: authIdSchema,
-	qrIssuedAt: z.coerce.date(),
 });
 
 export const clearCheckInUserSchema = actorSchema.extend({
@@ -112,7 +111,6 @@ export const listEventScansSchema = actorSchema.extend({
 export const recordEventScanSchema = actorSchema.extend({
 	eventId: z.string().min(1),
 	targetAuthId: authIdSchema,
-	qrIssuedAt: z.coerce.date(),
 });
 
 export function createEventSchemaFactory(eventTypeValues: z.ZodType<string>) {

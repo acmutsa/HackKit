@@ -1,1 +1,1 @@
-{"version":3,"file":"check-in-scanner.d.ts","sourceRoot":"","sources":["../../src/components/check-in-scanner.tsx"],"names":[],"mappings":"AASA,OAAO,KAAK,EAAE,mBAAmB,EAAE,MAAM,UAAU,CAAC;AAUpD,wBAAgB,cAAc,CAAC,EAC9B,UAAU,EACV,UAAU,EACV,SAAS,EACT,MAAM,GACN,EAAE,mBAAmB,2CAiIrB"}
+{"version":3,"file":"check-in-scanner.d.ts","sourceRoot":"","sources":["../../src/components/check-in-scanner.tsx"],"names":[],"mappings":"AASA,OAAO,KAAK,EAAE,mBAAmB,EAAE,MAAM,UAAU,CAAC;AAUpD,wBAAgB,cAAc,CAAC,EAAE,SAAS,EAAE,MAAM,EAAE,EAAE,mBAAmB,2CAoIxE"}

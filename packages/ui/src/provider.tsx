@@ -2,10 +2,12 @@
 
 import * as React from "react";
 import { Toaster } from "sonner";
+import { DEFAULT_EVENT_PASS_QR_TTL_MS } from "./event-pass";
 import type { HackKitUIActions } from "./types";
 
 type HackKitUIContextValue = {
 	actions: HackKitUIActions;
+	eventPassQrTtlMs: number;
 };
 
 const HackKitUIContext = React.createContext<HackKitUIContextValue | null>(
@@ -14,15 +16,17 @@ const HackKitUIContext = React.createContext<HackKitUIContextValue | null>(
 
 export type HackKitUIProviderProps = {
 	actions: HackKitUIActions;
+	eventPassQrTtlMs?: number;
 	children: React.ReactNode;
 };
 
 export function HackKitUIProvider({
 	actions,
+	eventPassQrTtlMs = DEFAULT_EVENT_PASS_QR_TTL_MS,
 	children,
 }: HackKitUIProviderProps) {
 	return (
-		<HackKitUIContext.Provider value={{ actions }}>
+		<HackKitUIContext.Provider value={{ actions, eventPassQrTtlMs }}>
 			{children}
 			<Toaster richColors />
 		</HackKitUIContext.Provider>

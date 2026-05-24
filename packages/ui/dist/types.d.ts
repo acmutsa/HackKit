@@ -25,20 +25,27 @@ export type EventFormValues = {
     host: string;
     hidden: boolean;
 };
+export type PreviewEventPassQrInput = {
+    rawQr: string;
+    eventId?: string;
+};
+export type PreviewEventPassQrResult = {
+    user: User;
+    priorScans: EventScan[];
+};
 export type RecordEventScanInput = {
     eventId: string;
-    targetAuthId: string;
-    qrIssuedAt: Date;
+    rawQr: string;
 };
 export type CheckInUserInput = {
-    targetAuthId: string;
-    qrIssuedAt: Date;
+    rawQr: string;
 };
 export type HackKitUIActions = {
     completeUserData: (values: UserDataFormValues) => Promise<HackKitActionResult>;
     createEvent: (values: EventFormValues) => Promise<HackKitActionResult<Event>>;
     updateEvent: (eventId: string, values: EventFormValues) => Promise<HackKitActionResult<Event>>;
     deleteEvent: (eventId: string) => Promise<HackKitActionResult>;
+    previewEventPassQr: (input: PreviewEventPassQrInput) => Promise<HackKitActionResult<PreviewEventPassQrResult>>;
     recordEventScan: (input: RecordEventScanInput) => Promise<HackKitActionResult<{
         scan: EventScan;
         priorScans: EventScan[];
@@ -68,15 +75,10 @@ export type EventAdminFormProps = {
 };
 export type EventScannerProps = {
     event: Event;
-    targetUser: User | null;
-    priorScans: EventScan[];
-    qrIssuedAt: Date | null;
     className?: string;
     onDone?: () => void;
 };
 export type CheckInScannerProps = {
-    targetUser: User | null;
-    qrIssuedAt: Date | null;
     className?: string;
     onDone?: () => void;
 };
