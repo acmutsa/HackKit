@@ -1,9 +1,10 @@
 import { ScheduleList } from "@hackkit/ui";
-import { hackkit } from "@/lib/hackkit";
+import { getHackkit } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
 export default async function SchedulePage() {
+	const hackkit = await getHackkit();
 	const events = await hackkit.events.listEvents();
 
 	return (

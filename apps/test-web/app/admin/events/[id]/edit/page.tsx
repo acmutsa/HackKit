@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { EventAdminForm, toDateTimeLocalValue } from "@hackkit/ui";
-import { CorePermission, requireActorPermission } from "@/lib/actor";
-import { hackkit } from "@/lib/hackkit";
+import { CorePermission } from "@hackkit/core";
+import { getHackkit, getPageGuards } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -10,10 +10,14 @@ export default async function EditEventPage({
 }: {
 	params: { id: string };
 }) {
-	const actor = await requireActorPermission(CorePermission.EventsUpdate);
+	const pageGuards = await getPageGuards();
+	const principal = await pageGuards.requirePermission(
+		CorePermission.EventsUpdate,
+	);
+	const hackkit = await getHackkit();
 	const event = await hackkit.events.getEvent({
 		eventId: params.id,
-		actorAuthId: actor.authId,
+		actorAuthId: principal.user.authId,
 	});
 
 	if (!event) notFound();

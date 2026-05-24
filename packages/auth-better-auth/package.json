@@ -1,0 +1,38 @@
+{
+  "name": "@hackkit/auth-better-auth",
+  "version": "0.0.0",
+  "description": "Better Auth adapter for HackKit",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./session": {
+      "types": "./dist/session.d.ts",
+      "import": "./dist/session.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@hackkit/core": "workspace:*",
+    "drizzle-orm": "^0.39.3"
+  },
+  "peerDependencies": {
+    "better-auth": ">=1.6",
+    "next": ">=14"
+  },
+  "devDependencies": {
+    "typescript": "5.5.3"
+  },
+  "license": "MIT",
+  "private": true
+}

@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { EventAdminList } from "@hackkit/ui";
-import { CorePermission, requireActorPermission } from "@/lib/actor";
-import { hackkit } from "@/lib/hackkit";
+import { CorePermission } from "@hackkit/core";
+import { getHackkit, getPageGuards } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminEventsPage() {
-	const actor = await requireActorPermission(CorePermission.EventsView);
+	const pageGuards = await getPageGuards();
+	const principal = await pageGuards.requirePermission(
+		CorePermission.EventsView,
+	);
+	const hackkit = await getHackkit();
 	const events = await hackkit.events.listEvents({
-		actorAuthId: actor.authId,
+		actorAuthId: principal.user.authId,
 	});
 
 	return (

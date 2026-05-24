@@ -3,17 +3,14 @@ import "server-only";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { headers } from "next/headers";
-import { db } from "./db";
 import {
 	account,
 	session,
-	syncBetterAuthStorage,
 	user,
 	verification,
-} from "./auth-schema";
-
-await syncBetterAuthStorage(db);
+} from "@hackkit/auth-better-auth";
+import { getAuthSession as getAuthSessionFromAuth } from "@hackkit/auth-better-auth/session";
+import { db } from "./db";
 
 export const auth = betterAuth({
 	baseURL:
@@ -35,7 +32,5 @@ export const auth = betterAuth({
 });
 
 export async function getAuthSession() {
-	return auth.api.getSession({
-		headers: await headers(),
-	});
+	return getAuthSessionFromAuth(auth);
 }

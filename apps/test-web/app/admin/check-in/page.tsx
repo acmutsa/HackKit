@@ -1,24 +1,13 @@
-import Link from "next/link";
 import { CheckInScanner } from "@hackkit/ui";
-import { CorePermission, requireActorPermission } from "@/lib/actor";
-import { hackkit } from "@/lib/hackkit";
+import { CorePermission } from "@hackkit/core";
+import Link from "next/link";
+import { getPageGuards } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
-export default async function CheckInPage({
-	searchParams,
-}: {
-	searchParams: { user?: string; qrIssuedAt?: string };
-}) {
-	await requireActorPermission(CorePermission.UsersCheckIn);
-
-	const targetUser = searchParams.user
-		? await hackkit.users.getUser(searchParams.user)
-		: null;
-
-	const qrIssuedAt = searchParams.qrIssuedAt
-		? new Date(Number(searchParams.qrIssuedAt))
-		: null;
+export default async function CheckInPage() {
+	const pageGuards = await getPageGuards();
+	await pageGuards.requirePermission(CorePermission.UsersCheckIn);
 
 	return (
 		<main className="min-h-screen px-6 py-10">
@@ -34,14 +23,7 @@ export default async function CheckInPage({
 						Dashboard
 					</Link>
 				</div>
-				<CheckInScanner
-					targetUser={targetUser}
-					qrIssuedAt={
-						qrIssuedAt && !Number.isNaN(qrIssuedAt.getTime())
-							? qrIssuedAt
-							: null
-					}
-				/>
+				<CheckInScanner />
 			</div>
 		</main>
 	);

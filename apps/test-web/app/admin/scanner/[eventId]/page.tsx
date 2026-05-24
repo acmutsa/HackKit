@@ -1,42 +1,27 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EventScanner } from "@hackkit/ui";
-import { CorePermission, requireActorPermission } from "@/lib/actor";
-import { hackkit } from "@/lib/hackkit";
+import { CorePermission } from "@hackkit/core";
+import { getHackkit, getPageGuards } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
 export default async function EventScannerPage({
 	params,
-	searchParams,
 }: {
 	params: { eventId: string };
-	searchParams: { user?: string; qrIssuedAt?: string };
 }) {
-	const actor = await requireActorPermission(CorePermission.EventsScan);
+	const pageGuards = await getPageGuards();
+	const principal = await pageGuards.requirePermission(
+		CorePermission.EventsScan,
+	);
+	const hackkit = await getHackkit();
 	const event = await hackkit.events.getEvent({
 		eventId: params.eventId,
-		actorAuthId: actor.authId,
+		actorAuthId: principal.user.authId,
 	});
 
 	if (!event) notFound();
-
-	const targetUser = searchParams.user
-		? await hackkit.users.getUser(searchParams.user)
-		: null;
-
-	const priorScans =
-		targetUser && searchParams.user
-			? await hackkit.events.listEventScans({
-					actorAuthId: actor.authId,
-					eventId: event.id,
-					targetAuthId: searchParams.user,
-				})
-			: [];
-
-	const qrIssuedAt = searchParams.qrIssuedAt
-		? new Date(Number(searchParams.qrIssuedAt))
-		: null;
 
 	return (
 		<main className="min-h-screen px-6 py-10">
@@ -50,17 +35,7 @@ export default async function EventScannerPage({
 						Back to events
 					</Link>
 				</div>
-				<EventScanner
-					event={event}
-					targetUser={targetUser}
-					priorScans={priorScans}
-					qrIssuedAt={
-						qrIssuedAt && !Number.isNaN(qrIssuedAt.getTime())
-							? qrIssuedAt
-							: null
-					}
-					onDone={() => undefined}
-				/>
+				<EventScanner event={event} />
 			</div>
 		</main>
 	);

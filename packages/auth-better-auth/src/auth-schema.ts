@@ -1,6 +1,5 @@
 import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import type { db } from "./db";
 
 export const user = sqliteTable("user", {
 	id: text("id").primaryKey(),
@@ -104,7 +103,9 @@ const statements = [
 	`CREATE INDEX IF NOT EXISTS "verification_identifier_idx" ON "verification" ("identifier")`,
 ];
 
-export async function syncBetterAuthStorage(database: typeof db) {
+export async function syncBetterAuthStorage(database: {
+	run: (query: unknown) => Promise<unknown>;
+}) {
 	for (const statement of statements) {
 		await database.run(sql.raw(statement));
 	}

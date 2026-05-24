@@ -1,10 +1,11 @@
 import { UserDataForm, toUserDataFormDefaultValues } from "@hackkit/ui";
-import { getCurrentUser, hackkit } from "@/lib/hackkit";
+import { getCurrentUser, getHackkit } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
 export default async function RegisterPage() {
 	const currentUser = await getCurrentUser();
+	const hackkit = await getHackkit();
 	const existingUserData = await hackkit.userData.getUserData(
 		currentUser.authId,
 	);

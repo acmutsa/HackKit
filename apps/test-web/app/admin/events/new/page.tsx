@@ -1,11 +1,13 @@
 import { EventAdminForm, toDateTimeLocalValue } from "@hackkit/ui";
-import { CorePermission, requireActorPermission } from "@/lib/actor";
-import { hackkit } from "@/lib/hackkit";
+import { CorePermission } from "@hackkit/core";
+import { getHackkit, getPageGuards } from "@/lib/runtime";
 
 export const dynamic = "force-dynamic";
 
 export default async function NewEventPage() {
-	await requireActorPermission(CorePermission.EventsCreate);
+	const pageGuards = await getPageGuards();
+	await pageGuards.requirePermission(CorePermission.EventsCreate);
+	const hackkit = await getHackkit();
 
 	return (
 		<main className="min-h-screen px-6 py-10">

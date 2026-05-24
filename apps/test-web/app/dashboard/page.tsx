@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { getCurrentUser, hackkit } from "@/lib/hackkit";
+import { getCurrentUser, getHackkit } from "@/lib/runtime";
 import { BootstrapOwnerButton } from "./bootstrap-owner-button";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
 	const currentUser = await getCurrentUser();
+	const hackkit = await getHackkit();
 	const userData = await hackkit.userData.getUserData(currentUser.authId);
 	const role = currentUser.roleId
 		? await hackkit.roles.getRole(currentUser.roleId)
