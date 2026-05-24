@@ -9,8 +9,8 @@ import {
 import type { EventTypesInput, UserDataOptionsInput } from "@hackkit/core";
 import type { HackKitUIActions } from "@hackkit/ui";
 import { redirect } from "next/navigation";
-import { createHackKitMutations } from "./mutations.js";
-import { createPageGuards, type PageGuards } from "./page-guards.js";
+import { createHackKitMutations } from "./mutations";
+import { createPageGuards, type PageGuards } from "./page-guards";
 
 export type CreateHackkitRuntimeOptions = {
 	database: unknown;
@@ -27,6 +27,7 @@ export type HackkitRuntime = {
 	pageGuards: PageGuards;
 	getAuthId: () => Promise<string>;
 	getCurrentUser: () => Promise<User>;
+	eventPassQrTtlMs: number;
 };
 
 export async function createHackkitRuntime(
@@ -72,6 +73,7 @@ export async function createHackkitRuntime(
 		pageGuards,
 		getAuthId,
 		getCurrentUser,
+		eventPassQrTtlMs: options.eventPassQrTtlMs,
 	};
 }
 

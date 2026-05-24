@@ -1,6 +1,6 @@
-export { createHackkitRuntime, getHackkitRuntime, setHackkitRuntime, } from "./runtime.js";
-export type { CreateHackkitRuntimeOptions, HackkitRuntime, } from "./runtime.js";
-export { createHackKitMutations } from "./mutations.js";
-export { createPageGuards } from "./page-guards.js";
-export type { PageGuardOptions, PageGuards } from "./page-guards.js";
+export { createHackkitRuntime, getHackkitRuntime, setHackkitRuntime, } from "./runtime";
+export type { CreateHackkitRuntimeOptions, HackkitRuntime, } from "./runtime";
+export { createHackKitMutations } from "./mutations";
+export { createPageGuards } from "./page-guards";
+export type { PageGuardOptions, PageGuards } from "./page-guards";
 //# sourceMappingURL=index.d.ts.map

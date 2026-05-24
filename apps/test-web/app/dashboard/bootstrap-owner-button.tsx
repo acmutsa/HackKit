@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { bootstrapOwner } from "@/app/actions";
+import { bootstrapOwner } from "@/app/hackkit-actions";
 
 export function BootstrapOwnerButton() {
 	const router = useRouter();

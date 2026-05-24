@@ -1,4 +1,4 @@
-export { createHackkitRuntime, getHackkitRuntime, setHackkitRuntime, } from "./runtime.js";
-export { createHackKitMutations } from "./mutations.js";
-export { createPageGuards } from "./page-guards.js";
+export { createHackkitRuntime, getHackkitRuntime, setHackkitRuntime, } from "./runtime";
+export { createHackKitMutations } from "./mutations";
+export { createPageGuards } from "./page-guards";
 //# sourceMappingURL=index.js.map

@@ -16,7 +16,7 @@ Deepen Core, Event Pass QR in HackKit UI, packages `@hackkit/next`, `@hackkit/au
 - **Core:** `hackkit.accessControl`, `HackkitRuntimeContext`, domain-only `checkIn` / `recordEventScan`, in-memory DB + Vitest (3 tests), `AuthAdapter`, ESM.
 - **UI:** `event-pass.ts`, scanners use client `rawQr` + preview/confirm actions, `eventPassQrTtlMs` on provider.
 - **Packages:** `@hackkit/auth-better-auth`, `@hackkit/next` (runtime, mutations, page guards), `@hackkit/cli` (`hackkit db sync`).
-- **test-web:** `hackkit.config.ts`, `lib/runtime.ts`, `app/actions.ts` (Server Actions in-app per Next.js), `predev` db sync; removed `lib/hackkit.ts`, `lib/actor.ts`.
+- **test-web:** `hackkit.config.ts`, `lib/runtime.ts`, `app/hackkit-actions.ts` (`createHackKitMutations(await getRuntime())`), `predev` db sync; removed `lib/hackkit.ts`, `lib/actor.ts`.
 - **Commits:** `c789bd0` (kernel + UI), `e4b5c9c` (integration).
 - **Green:** `pnpm -r typecheck`, `pnpm --filter @hackkit/core test`, `pnpm --filter test-web build`.
 
@@ -24,7 +24,7 @@ Deepen Core, Event Pass QR in HackKit UI, packages `@hackkit/next`, `@hackkit/au
 
 ## Server Actions note
 
-`@hackkit/next` does **not** export `"use server"` actions (Next cannot bundle them from dependency packages). `apps/test-web/app/actions.ts` wraps `getRuntime().mutations`.
+`@hackkit/next` holds mutations without `"use server"`. `apps/test-web/app/hackkit-actions.ts` is the only Server Actions surface and calls `createHackKitMutations(await getRuntime())`.
 
 ---
 

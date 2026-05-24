@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HackKitError } from "./errors.js";
+import { HackKitError } from "./errors";
 
 export type EventTypeOption = {
 	value: string;

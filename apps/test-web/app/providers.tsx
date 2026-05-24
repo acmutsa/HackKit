@@ -7,7 +7,7 @@ import {
 	recordEventScan,
 	checkInUser,
 	clearCheckIn,
-} from "@/app/actions";
+} from "@/app/hackkit-actions";
 import { DEFAULT_EVENT_PASS_QR_TTL_MS } from "@hackkit/ui";
 import { HackKitUIProvider } from "@hackkit/ui";
 import type * as React from "react";

@@ -13,7 +13,7 @@ import type {
 	PersistentModel,
 	StorageRegistry,
 	Where,
-} from "../../database.js";
+} from "../../database";
 
 export type DrizzleLibsqlDatabase = ReturnType<typeof drizzle>;
 

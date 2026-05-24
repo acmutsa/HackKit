@@ -1,8 +1,8 @@
-import type { DatabaseAdapter } from "./database.js";
-import type { EventTypes } from "./event-types.js";
-import type { UserDataOptions } from "./user-data-options.js";
-import type { AccessControl, AccessPrincipal } from "./access-control.js";
-import type { AuthId, PermissionKey, Role, User } from "./types.js";
+import type { DatabaseAdapter } from "./database";
+import type { EventTypes } from "./event-types";
+import type { UserDataOptions } from "./user-data-options";
+import type { AccessControl, AccessPrincipal } from "./access-control";
+import type { AuthId, PermissionKey, Role, User } from "./types";
 
 export type HackkitRuntimeContext = {
 	db: DatabaseAdapter;

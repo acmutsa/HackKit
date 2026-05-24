@@ -1,5 +1,5 @@
-import type { InferInsert, InferSelect } from "./database.js";
-import type { coreModels } from "./models.js";
+import type { InferInsert, InferSelect } from "./database";
+import type { coreModels } from "./models";
 
 export type AuthId = string;
 export type UserId = AuthId;

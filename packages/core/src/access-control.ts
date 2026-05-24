@@ -1,6 +1,6 @@
-import { HackKitError } from "./errors.js";
-import { CorePermission, hasPermission, hasSuperAdmin } from "./permissions.js";
-import type { AuthId, PermissionKey, Role, User } from "./types.js";
+import { HackKitError } from "./errors";
+import { CorePermission, hasPermission, hasSuperAdmin } from "./permissions";
+import type { AuthId, PermissionKey, Role, User } from "./types";
 
 export type AccessPrincipal = {
 	user: User;

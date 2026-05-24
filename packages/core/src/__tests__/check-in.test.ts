@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createPluginRegistry } from "../plugins.js";
-import { createInMemoryDatabaseAdapterFromStorage } from "../adapters/db/memory.js";
-import { createHackkit } from "../hackkit.js";
-import { CorePermission } from "../permissions.js";
+import { createPluginRegistry } from "../plugins";
+import { createInMemoryDatabaseAdapterFromStorage } from "../adapters/db/memory";
+import { createHackkit } from "../hackkit";
+import { CorePermission } from "../permissions";
 
 function createTestHackkit() {
 	const registry = createPluginRegistry();

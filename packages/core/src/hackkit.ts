@@ -1,18 +1,18 @@
 import {
 	isDatabaseAdapterFactory,
 	type DatabaseAdapterInput,
-} from "./database.js";
-import { createAccessControl } from "./access-control.js";
-import { HackKitError, parseInput } from "./errors.js";
-import type { HackkitRuntimeContext } from "./hackkit-context.js";
-import { coreModels } from "./models.js";
-import { CorePermission } from "./permissions.js";
+} from "./database";
+import { createAccessControl } from "./access-control";
+import { HackKitError, parseInput } from "./errors";
+import type { HackkitRuntimeContext } from "./hackkit-context";
+import { coreModels } from "./models";
+import { CorePermission } from "./permissions";
 import {
 	createPluginRegistry,
 	setupPluginApis,
 	type HackKitPlugin,
 	type PluginApiMap,
-} from "./plugins.js";
+} from "./plugins";
 import {
 	assignRoleSchema,
 	bootstrapOwnerSchema,
@@ -20,7 +20,7 @@ import {
 	deleteRoleSchema,
 	registerHackerSchema,
 	updateRoleSchema,
-} from "./schemas.js";
+} from "./schemas";
 import type {
 	AuthId,
 	Hacker,
@@ -29,18 +29,18 @@ import type {
 	RoleId,
 	User,
 	UserData,
-} from "./types.js";
-import { createUsersApi } from "./functions/users.js";
-import { createEventsApi } from "./functions/events.js";
+} from "./types";
+import { createUsersApi } from "./functions/users";
+import { createEventsApi } from "./functions/events";
 import {
 	createCompleteUserDataSchema,
 	resolveUserDataOptions,
 	type UserDataOptionsInput,
-} from "./user-data-options.js";
+} from "./user-data-options";
 import {
 	resolveEventTypes,
 	type EventTypesInput,
-} from "./event-types.js";
+} from "./event-types";
 
 type CreateHackkitOptions<
 	TPlugins extends readonly HackKitPlugin[] = readonly HackKitPlugin[],

@@ -1,7 +1,7 @@
 import { type AuthAdapter, type HackKit, type HackKitPlugin, type User } from "@hackkit/core";
 import type { EventTypesInput, UserDataOptionsInput } from "@hackkit/core";
 import type { HackKitUIActions } from "@hackkit/ui";
-import { type PageGuards } from "./page-guards.js";
+import { type PageGuards } from "./page-guards";
 export type CreateHackkitRuntimeOptions = {
     database: unknown;
     auth: AuthAdapter;
@@ -16,6 +16,7 @@ export type HackkitRuntime = {
     pageGuards: PageGuards;
     getAuthId: () => Promise<string>;
     getCurrentUser: () => Promise<User>;
+    eventPassQrTtlMs: number;
 };
 export declare function createHackkitRuntime(options: CreateHackkitRuntimeOptions): Promise<HackkitRuntime>;
 export declare function setHackkitRuntime(promise: Promise<HackkitRuntime>): void;

@@ -2,11 +2,11 @@ export {
 	createHackkitRuntime,
 	getHackkitRuntime,
 	setHackkitRuntime,
-} from "./runtime.js";
+} from "./runtime";
 export type {
 	CreateHackkitRuntimeOptions,
 	HackkitRuntime,
-} from "./runtime.js";
-export { createHackKitMutations } from "./mutations.js";
-export { createPageGuards } from "./page-guards.js";
-export type { PageGuardOptions, PageGuards } from "./page-guards.js";
+} from "./runtime";
+export { createHackKitMutations } from "./mutations";
+export { createPageGuards } from "./page-guards";
+export type { PageGuardOptions, PageGuards } from "./page-guards";

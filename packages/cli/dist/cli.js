@@ -2,7 +2,7 @@
 import { createJiti } from "jiti";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { runDbSync } from "./db-sync.js";
+import { runDbSync } from "./db-sync";
 const jiti = createJiti(fileURLToPath(import.meta.url));
 async function loadConfig() {
     const configPath = resolve(process.cwd(), "hackkit.config.ts");

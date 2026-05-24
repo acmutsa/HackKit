@@ -1,7 +1,7 @@
-import type { HackkitRuntimeContext } from "../hackkit-context.js";
-import { HackKitError, parseInput } from "../errors.js";
-import { coreModels } from "../models.js";
-import { CorePermission } from "../permissions.js";
+import type { HackkitRuntimeContext } from "../hackkit-context";
+import { HackKitError, parseInput } from "../errors";
+import { coreModels } from "../models";
+import { CorePermission } from "../permissions";
 import {
 	approveUserSchema,
 	banUserSchema,
@@ -10,8 +10,8 @@ import {
 	clearCheckInUserSchema,
 	ensureUserSchema,
 	unbanUserSchema,
-} from "../schemas.js";
-import type { AuthId, User, UserBan } from "../types.js";
+} from "../schemas";
+import type { AuthId, User, UserBan } from "../types";
 
 export type UsersApiContext = Pick<
 	HackkitRuntimeContext,

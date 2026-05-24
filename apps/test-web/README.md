@@ -26,7 +26,7 @@ pnpm --filter test-web db:sync
 
 ## Server Actions
 
-Next.js requires `"use server"` in the app. Mutations live in `@hackkit/next`; thin wrappers are in [`app/actions.ts`](app/actions.ts) and delegate to `getRuntime().mutations`.
+Next.js requires `"use server"` in the app. Mutations live in `@hackkit/next`; [`app/hackkit-actions.ts`](app/hackkit-actions.ts) wraps `createHackKitMutations(await getRuntime())`.
 
 ## Configuration
 

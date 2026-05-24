@@ -1,7 +1,7 @@
 import { createDrizzleDatabaseAdapter, createHackkit, } from "@hackkit/core";
 import { redirect } from "next/navigation";
-import { createHackKitMutations } from "./mutations.js";
-import { createPageGuards } from "./page-guards.js";
+import { createHackKitMutations } from "./mutations";
+import { createPageGuards } from "./page-guards";
 export async function createHackkitRuntime(options) {
     const hackkit = createHackkit({
         database: createDrizzleDatabaseAdapter(options.database),
@@ -38,6 +38,7 @@ export async function createHackkitRuntime(options) {
         pageGuards,
         getAuthId,
         getCurrentUser,
+        eventPassQrTtlMs: options.eventPassQrTtlMs,
     };
 }
 let runtimePromise = null;

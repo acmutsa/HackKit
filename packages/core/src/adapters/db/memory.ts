@@ -7,7 +7,7 @@ import type {
 	InferSelect,
 	Model,
 	StorageRegistry,
-} from "../../database.js";
+} from "../../database";
 
 type Row = Record<string, unknown>;
 

@@ -1,4 +1,4 @@
-import type { AuthId } from "../types.js";
+import type { AuthId } from "../types";
 
 export type AuthSession = {
 	user: {

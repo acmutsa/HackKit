@@ -3,6 +3,13 @@ import {
 	HackKitError,
 	type HackKit,
 } from "@hackkit/core";
+import type { HackkitRuntime } from "./runtime";
+
+function isHackkitRuntime(
+	value: CreateHackKitMutationsOptions | HackkitRuntime,
+): value is HackkitRuntime {
+	return "pageGuards" in value && "getCurrentUser" in value;
+}
 import {
 	actionFailure,
 	actionSuccess,
@@ -36,9 +43,20 @@ export type CreateHackKitMutationsOptions = {
 	eventPassQrTtlMs: number;
 };
 
+export function createHackKitMutations(runtime: HackkitRuntime): HackKitUIActions;
 export function createHackKitMutations(
 	options: CreateHackKitMutationsOptions,
+): HackKitUIActions;
+export function createHackKitMutations(
+	optionsOrRuntime: CreateHackKitMutationsOptions | HackkitRuntime,
 ): HackKitUIActions {
+	const options = isHackkitRuntime(optionsOrRuntime)
+		? {
+				hackkit: optionsOrRuntime.hackkit,
+				getAuthId: optionsOrRuntime.getAuthId,
+				eventPassQrTtlMs: optionsOrRuntime.eventPassQrTtlMs,
+			}
+		: optionsOrRuntime;
 	const { hackkit, getAuthId, eventPassQrTtlMs } = options;
 	const now = () => new Date();
 

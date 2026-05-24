@@ -2,8 +2,8 @@
 import { createJiti } from "jiti";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { runDbSync } from "./db-sync.js";
-import type { HackkitConfig } from "./config.js";
+import { runDbSync } from "./db-sync";
+import type { HackkitConfig } from "./config";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
 

@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
 	createCompleteUserDataSchema,
 	defaultUserDataOptions,
-} from "./user-data-options.js";
+} from "./user-data-options";
 
 export const permissionKeySchema = z
 	.string()

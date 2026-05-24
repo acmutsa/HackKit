@@ -1,4 +1,7 @@
 import { CorePermission, HackKitError, } from "@hackkit/core";
+function isHackkitRuntime(value) {
+    return "pageGuards" in value && "getCurrentUser" in value;
+}
 import { actionFailure, actionSuccess, resolveEventPassTargetAuthId, } from "@hackkit/ui";
 function parseEventFormValues(values) {
     return {
@@ -12,7 +15,14 @@ function parseEventFormValues(values) {
         hidden: values.hidden,
     };
 }
-export function createHackKitMutations(options) {
+export function createHackKitMutations(optionsOrRuntime) {
+    const options = isHackkitRuntime(optionsOrRuntime)
+        ? {
+            hackkit: optionsOrRuntime.hackkit,
+            getAuthId: optionsOrRuntime.getAuthId,
+            eventPassQrTtlMs: optionsOrRuntime.eventPassQrTtlMs,
+        }
+        : optionsOrRuntime;
     const { hackkit, getAuthId, eventPassQrTtlMs } = options;
     const now = () => new Date();
     function resolveTargetFromQr(rawQr) {

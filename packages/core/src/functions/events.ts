@@ -1,8 +1,8 @@
-import type { HackkitRuntimeContext } from "../hackkit-context.js";
-import { eventTypeValueSchema } from "../event-types.js";
-import { HackKitError, parseInput } from "../errors.js";
-import { coreModels } from "../models.js";
-import { CorePermission, hasPermission } from "../permissions.js";
+import type { HackkitRuntimeContext } from "../hackkit-context";
+import { eventTypeValueSchema } from "../event-types";
+import { HackKitError, parseInput } from "../errors";
+import { coreModels } from "../models";
+import { CorePermission, hasPermission } from "../permissions";
 import {
 	createEventSchemaFactory,
 	deleteEventSchema,
@@ -10,8 +10,8 @@ import {
 	listEventScansSchema,
 	recordEventScanSchema,
 	updateEventSchemaFactory,
-} from "../schemas.js";
-import type { AuthId, Event, EventScan } from "../types.js";
+} from "../schemas";
+import type { AuthId, Event, EventScan } from "../types";
 
 export type EventsApiContext = Pick<
 	HackkitRuntimeContext,
