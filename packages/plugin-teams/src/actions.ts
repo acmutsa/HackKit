@@ -1,5 +1,5 @@
 import type { HackkitRuntime } from "@hackkit/next";
-import { actionFailure, actionSuccess } from "@hackkit/ui";
+import { actionFailure, actionSuccess } from "@hackkit/next";
 
 export type CreateTeamInput = {
 	name: string;

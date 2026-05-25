@@ -2,10 +2,8 @@ import { redirect } from "next/navigation";
 import { getCurrentUser, getHackkit } from "@/lib/runtime";
 import { getOnboardingSteps } from "@/lib/onboarding";
 import { OnboardingShell } from "../onboarding-shell";
-import {
-	HackerRegistrationClient,
-	toHackerFormDefaults,
-} from "./hacker-registration-client";
+import { HackerRegistrationClient } from "./hacker-registration-client";
+import { toHackerFormDefaults } from "./hacker-form-defaults";
 
 export const dynamic = "force-dynamic";
 

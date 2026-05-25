@@ -10,11 +10,10 @@ function isHackkitRuntime(
 ): value is HackkitRuntime {
 	return "pageGuards" in value && "getCurrentUser" in value;
 }
+import { actionFailure, actionSuccess } from "@hackkit/ui/actions";
+import type { HackKitActionResult } from "@hackkit/ui/actions";
 import {
-	actionFailure,
-	actionSuccess,
 	type EventFormValues,
-	type HackKitActionResult,
 	type HackKitUIActions,
 	type CheckInUserInput,
 	type HackTagFormValues,

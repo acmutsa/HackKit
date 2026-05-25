@@ -10,14 +10,13 @@ export function actionSuccess<T = void>(data?: T): HackKitActionResult<T> {
 
 export function actionFailure(
 	error: unknown,
-	message?: string,
+	fallbackMessage?: string,
 ): HackKitActionResult<never> {
 	return {
 		ok: false,
 		message:
-			message ??
-			(error instanceof HackKitError
+			error instanceof HackKitError
 				? error.message
-				: "Something went wrong."),
+				: (fallbackMessage ?? "Something went wrong."),
 	};
 }

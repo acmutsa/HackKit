@@ -25,10 +25,8 @@ export type {
 } from "./components/user-data-form";
 export { ScheduleList } from "./components/schedule-list";
 export { EventPass } from "./components/event-pass";
-export {
-	EventAdminForm,
-	toDateTimeLocalValue,
-} from "./components/event-admin-form";
+export { EventAdminForm } from "./components/event-admin-form";
+export { toDateTimeLocalValue } from "./lib/datetime-local";
 export { EventAdminList } from "./components/event-admin-list";
 export { EventScanner } from "./components/event-scanner";
 export { CheckInScanner } from "./components/check-in-scanner";

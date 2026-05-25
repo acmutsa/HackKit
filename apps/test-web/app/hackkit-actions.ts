@@ -1,7 +1,7 @@
 "use server";
 
 import { createHackKitMutations } from "@hackkit/next";
-import { actionFailure, actionSuccess } from "@hackkit/ui";
+import { actionFailure, actionSuccess } from "@hackkit/ui/actions";
 import { getRuntime } from "@/lib/runtime";
 
 export async function completeUserData(
