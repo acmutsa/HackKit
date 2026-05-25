@@ -10,13 +10,14 @@ export default async function InvitesPage() {
 	const runtime = await getHackkitRuntime();
 	const teams = runtime.hackkit.plugins.teams as TeamsApi;
 	const currentUser = await runtime.getCurrentUser();
-	const hacker = await runtime.hackkit.hackers.getHacker(currentUser.authId);
+	const [hacker, invites] = await Promise.all([
+		runtime.hackkit.hackers.getHacker(currentUser.authId),
+		teams.listPendingInvites(currentUser.authId),
+	]);
 
-	if (!hacker) {
+	if (!hacker && invites.length === 0) {
 		redirect("/register");
 	}
-
-	const invites = await teams.listPendingInvites(currentUser.authId);
 
 	return (
 		<main className="min-h-screen bg-muted/30 px-6 py-10">

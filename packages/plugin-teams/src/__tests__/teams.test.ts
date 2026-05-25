@@ -28,6 +28,32 @@ function createTeamsHackkit() {
 	return { hackkit, teams: hackkit.plugins.teams as unknown as TeamsApi };
 }
 
+async function seedUserWithHackTag(
+	hackkit: ReturnType<typeof createHackkit>,
+	authId: string,
+	hackTag: string,
+) {
+	await hackkit.users.ensureUser({
+		authId,
+		email: `${authId}@example.com`,
+		firstName: "Test",
+		lastName: "User",
+	});
+	await hackkit.userData.completeUserData({
+		authId,
+		age: 20,
+		gender: "prefer_not_to_answer",
+		race: "prefer_not_to_answer",
+		ethnicity: "prefer_not_to_answer",
+		shirtSize: "m",
+		dietaryRestrictions: ["none"],
+		hasAcceptedMLHCodeOfConduct: true,
+		hasSharedDataWithMLH: true,
+		isEmailable: true,
+	});
+	await hackkit.users.claimHackTag({ authId, hackTag });
+}
+
 async function seedHacker(
 	hackkit: ReturnType<typeof createHackkit>,
 	authId: string,
@@ -112,5 +138,42 @@ describe("teams plugin", () => {
 				tag: "other",
 			}),
 		).rejects.toMatchObject({ code: "CONFLICT" });
+	});
+
+	it("allows inviting a user before hacker registration", async () => {
+		const { hackkit, teams } = createTeamsHackkit();
+		await seedHacker(hackkit, "owner-auth", "owner");
+		await seedUserWithHackTag(hackkit, "pending-auth", "pending");
+
+		const team = await teams.createTeam({
+			actorAuthId: "owner-auth",
+			name: "Team Beta",
+			tag: "beta",
+		});
+
+		const invite = await teams.inviteToTeam({
+			actorAuthId: "owner-auth",
+			teamId: team.id,
+			hackTag: "pending",
+		});
+		expect(invite.status).toBe("pending");
+
+		await expect(
+			teams.respondToInvite({
+				actorAuthId: "pending-auth",
+				inviteId: invite.id,
+				accept: true,
+			}),
+		).rejects.toMatchObject({
+			message: "Complete hacker registration before accepting a team invite.",
+		});
+
+		await seedHacker(hackkit, "pending-auth");
+		const joined = await teams.respondToInvite({
+			actorAuthId: "pending-auth",
+			inviteId: invite.id,
+			accept: true,
+		});
+		expect(joined).toMatchObject({ id: team.id });
 	});
 });

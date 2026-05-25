@@ -12,13 +12,11 @@ export type PendingTeamInvite = TeamInvite & { team: Team };
 async function requireHacker(
 	context: HackKitPluginContext,
 	authId: AuthId,
+	message = "Only Hackers can participate in teams.",
 ): Promise<void> {
 	const hacker = await context.database.findOne(coreModels.hacker, { authId });
 	if (!hacker) {
-		throw new HackKitError(
-			"INVALID_OPERATION",
-			"Only Hackers can participate in teams.",
-		);
+		throw new HackKitError("INVALID_OPERATION", message);
 	}
 }
 
@@ -150,7 +148,6 @@ export function createTeamsApi(context: HackKitPluginContext) {
 				);
 			}
 
-			await requireHacker(context, inviteeAuthId);
 			await assertNotOnTeam(context, inviteeAuthId);
 
 			const existingInvite = await database.findOne(teamsModels.invite, {
@@ -205,7 +202,11 @@ export function createTeamsApi(context: HackKitPluginContext) {
 				return updated ?? { ...invite, status: "declined" };
 			}
 
-			await requireHacker(context, input.actorAuthId);
+			await requireHacker(
+				context,
+				input.actorAuthId,
+				"Complete hacker registration before accepting a team invite.",
+			);
 			await assertNotOnTeam(context, input.actorAuthId);
 
 			await database.insert(teamsModels.member, {
