@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "plugin:sync": "hackkit plugin sync",
     "db:sync": "hackkit db sync",
-    "predev": "pnpm db:sync",
+    "predev": "pnpm plugin:sync",
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
@@ -15,6 +16,7 @@
     "@hackkit/auth-better-auth": "workspace:*",
     "@hackkit/core": "workspace:*",
     "@hackkit/next": "workspace:*",
+    "@hackkit/plugin-teams": "workspace:*",
     "@hackkit/ui": "workspace:*",
     "@libsql/client": "^0.14.0",
     "better-auth": "^1.6.11",

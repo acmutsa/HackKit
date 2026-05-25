@@ -18,9 +18,15 @@ export type HackKitPluginContext = {
 
 export type HackKitPlugin<
 	TId extends string = string,
-	TApi extends object = Record<string, never>,
+	TApi extends object = object,
 > = {
 	id: TId;
+	/** npm package name used by HackKit CLI to resolve routes and actions. */
+	packageName?: string;
+	/** Factory exported by the plugin package, e.g. createTeamsActions. */
+	actionFactory?: string;
+	/** Server action names exposed by the plugin action factory. */
+	actionNames?: readonly string[];
 	models?: ModelMap;
 	permissions?: PermissionMap;
 	setup?: (context: HackKitPluginContext) => TApi;

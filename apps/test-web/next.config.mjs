@@ -5,6 +5,7 @@ const nextConfig = {
 		"@hackkit/ui",
 		"@hackkit/next",
 		"@hackkit/auth-better-auth",
+		"@hackkit/plugin-teams",
 	],
 };
 

@@ -1,24 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { createJiti } from "jiti";
-import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import type { HackkitConfig } from "./config";
-
-const jiti = createJiti(fileURLToPath(import.meta.url));
-
-async function loadConfig(configFile: string): Promise<HackkitConfig> {
-	const configPath = resolve(process.cwd(), configFile);
-	const module = await jiti.import(configPath);
-	const config = ((module as { default?: HackkitConfig }).default ??
-		module) as HackkitConfig;
-	if (!config?.databaseUrl) {
-		throw new Error(
-			`No HackKit config with databaseUrl found at ${configPath}`,
-		);
-	}
-	return config;
-}
+import { loadConfig } from "./cli-config";
 
 const program = new Command()
 	.name("hackkit")
@@ -43,6 +25,54 @@ db.command("sync")
 		);
 		const { runDbSync } = await import("./db-sync");
 		await runDbSync(config);
+	});
+
+const plugins = program
+	.command("plugin")
+	.description("Manage HackKit plugins in this web app");
+
+plugins
+	.command("sync")
+	.description("Sync plugin routes, actions, lockfile, and database schema")
+	.option("-c, --config <path>", "path to HackKit config")
+	.action(async (commandOptions: { config?: string }) => {
+		const globalOptions = program.opts<{ config: string }>();
+		const config = await loadConfig(
+			commandOptions.config ?? globalOptions.config,
+		);
+		const { runPluginSyncAll } = await import("./plugin-commands");
+		await runPluginSyncAll({
+			projectRoot: process.cwd(),
+			config,
+		});
+	});
+
+plugins
+	.command("add")
+	.description("Add a HackKit plugin to this web app")
+	.argument("<plugin>", "plugin id, e.g. teams")
+	.option("-c, --config <path>", "path to HackKit config")
+	.action(async (pluginId: string, commandOptions: { config?: string }) => {
+		const globalOptions = program.opts<{ config: string }>();
+		const config = await loadConfig(
+			commandOptions.config ?? globalOptions.config,
+		);
+		const { runPluginAdd } = await import("./plugin-commands");
+		await runPluginAdd({ projectRoot: process.cwd(), config }, pluginId);
+	});
+
+plugins
+	.command("remove")
+	.description("Remove a HackKit plugin from this web app")
+	.argument("<plugin>", "plugin id, e.g. teams")
+	.option("-c, --config <path>", "path to HackKit config")
+	.action(async (pluginId: string, commandOptions: { config?: string }) => {
+		const globalOptions = program.opts<{ config: string }>();
+		const config = await loadConfig(
+			commandOptions.config ?? globalOptions.config,
+		);
+		const { runPluginRemove } = await import("./plugin-commands");
+		await runPluginRemove({ projectRoot: process.cwd(), config }, pluginId);
 	});
 
 program.parseAsync(process.argv).catch((error) => {

@@ -26,6 +26,18 @@ export async function AppBar() {
 							Event Pass
 						</Link>
 						<Link
+							href="/teams"
+							className="text-muted-foreground hover:text-foreground"
+						>
+							Teams
+						</Link>
+						<Link
+							href="/invites"
+							className="text-muted-foreground hover:text-foreground"
+						>
+							Invites
+						</Link>
+						<Link
 							href="/dashboard"
 							className="text-muted-foreground hover:text-foreground"
 						>

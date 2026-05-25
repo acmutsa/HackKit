@@ -1,0 +1,54 @@
+{
+  "name": "@hackkit/plugin-teams",
+  "version": "0.0.0",
+  "description": "HackKit teams reference plugin",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./app/teams/page": {
+      "types": "./app/teams/page.tsx",
+      "default": "./app/teams/page.tsx"
+    },
+    "./app/invites/page": {
+      "types": "./app/invites/page.tsx",
+      "default": "./app/invites/page.tsx"
+    },
+    "./app/*": "./app/*"
+  },
+  "files": [
+    "dist",
+    "app"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hackkit/core": "workspace:*",
+    "@hackkit/next": "workspace:*",
+    "@hackkit/ui": "workspace:*",
+    "sonner": "^1.5.0",
+    "zod": "^3.25.67"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "typescript": "5.5.3",
+    "vitest": "^3.2.4"
+  },
+  "license": "MIT",
+  "private": true
+}

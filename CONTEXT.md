@@ -124,6 +124,26 @@ _Avoid_: Session timeout, auth token expiry, HackKit Core validation
 The encoded payload (including participant identity and issue time) presented as a scannable **Event Pass**. Encoding, parsing, and freshness checks are implemented in **HackKit UI**; the server mutation layer imports the same module to validate raw QR on confirm before calling **HackKit Core**.
 _Avoid_: HackKit Core module, separate credential registry package
 
+**Team**:
+A competition group for **Hackers** with a unique **Team Tag**, owned by one **Team Owner**.
+_Avoid_: Role, organization account, staff group
+
+**Team Tag**:
+The unique public handle for a **Team**, used to identify the team within a HackKit application.
+_Avoid_: HackTag, slug without uniqueness guarantee
+
+**Team Owner**:
+The **Hacker** who created a **Team** and may invite members or remove non-owner members.
+_Avoid_: Admin, organizer
+
+**Team Member**:
+A **Hacker** who belongs to a **Team**.
+_Avoid_: User, invitee, organizer
+
+**Team Invite**:
+A pending, accepted, or declined request for a **Hacker** to join a **Team**.
+_Avoid_: RSVP, role assignment, email notification
+
 **Hackathon Check-in**:
 A one-time record that a **User** arrived and was checked in to the hackathon as a whole.
 _Avoid_: **Event Scan**, RSVP
@@ -135,6 +155,7 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit UI** ships default schedule, **Event Pass**, volunteer scanner, and event admin components that **HackKit Web Apps** may replace individually without forking Core.
 -   **HackKit CLI** creates projects that include a working **HackKit Web App**.
 -   **HackKit CLI** manages project files provided by plugins.
+-   **HackKit CLI** merges plugin-owned Next.js routes into a **HackKit Web App** using generated re-export stubs and records ownership in **hackkit.lock**.
 -   **HackKit CLI** runs from a **HackKit Web App** project directory (not a monorepo root) and reads that app’s `hackkit.config.ts` for plugins and database settings.
 -   A **HackKit Plugin** may add capabilities to a **HackKit Web App** without changing **HackKit Core** source.
 -   **HackKit Core** receives **HackKit Plugins** through `createHackkit`.
@@ -201,6 +222,11 @@ _Avoid_: **Event Scan**, RSVP
 -   Each **Event Type** has a stable stored value, display label, and color, using the same value/label pattern as **User Data Options**.
 -   **Event** records use string identifiers in HackKit Core.
 -   Public schedule listing of non-hidden **Events** does not require an authenticated **User**; actors with `core.events.view` or higher can list hidden **Events** as well.
+-   A **Team** belongs to the teams plugin domain and is composed of **Team Members** who must be **Hackers**.
+-   Each **Hacker** may belong to at most one **Team** in v1.
+-   Each **Team** has exactly one **Team Owner**, who is always a **Team Member**.
+-   **Team Invites** are sent by the **Team Owner** and responded to by the invited **Hacker**.
+-   **Team Invites** use pending, accepted, and declined statuses in v1.
 
 ## Example dialogue
 

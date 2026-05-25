@@ -1,9 +1,10 @@
 import { defineHackkitConfig } from "@hackkit/cli";
 import { syncBetterAuthStorage } from "@hackkit/auth-better-auth";
+import { teamsPlugin } from "@hackkit/plugin-teams";
 
 export default defineHackkitConfig({
 	databaseUrl: process.env.DATABASE_URL ?? "file:.data/test-web.db",
-	plugins: [],
+	plugins: [teamsPlugin()],
 	userDataOptions: {
 		shirtSize: [
 			{ value: "s", label: "Small" },
