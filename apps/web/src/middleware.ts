@@ -4,26 +4,41 @@ import { publicRoutes } from "config";
 import { bannedUsers } from "db/schema";
 import { db } from "db";
 import { eq } from "db/drizzle";
+import { isComingSoonRoute } from "@/lib/feature_flags";
 
 const isPublicRoute = createRouteMatcher(publicRoutes);
 
 export default clerkMiddleware(async (auth, req) => {
-	if (req.nextUrl.pathname.startsWith("/@")) {
+	const pathname = req.nextUrl.pathname;
+
+	if (pathname.startsWith("/@")) {
 		return NextResponse.rewrite(
-			new URL(`/user/${req.nextUrl.pathname.replace("/@", "")}`, req.url),
+			new URL(`/user/${pathname.replace("/@", "")}`, req.url),
 		);
 	}
-	if (req.nextUrl.pathname.startsWith("/~")) {
+
+	if (pathname.startsWith("/~")) {
 		return NextResponse.rewrite(
-			new URL(`/team/${req.nextUrl.pathname.replace("/~", "")}`, req.url),
+			new URL(`/team/${pathname.replace("/~", "")}`, req.url),
 		);
+	}
+
+	if (pathname === "/coming-soon") {
+		return NextResponse.next();
+	}
+
+	// rewrite selected routes to the coming soon page before auth runs
+	if (isComingSoonRoute(pathname)) {
+		return NextResponse.rewrite(new URL("/coming-soon", req.url));
 	}
 
 	if (!isPublicRoute(req)) {
 		await auth.protect();
 
+		const authData = await auth();
+
 		const isBanned = !!(await db.query.bannedUsers.findFirst({
-			where: eq(bannedUsers.userID, (await auth()).userId!),
+			where: eq(bannedUsers.userID, authData.userId!),
 		}));
 
 		if (isBanned) {
