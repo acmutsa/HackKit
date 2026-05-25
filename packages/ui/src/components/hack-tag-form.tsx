@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useHackKitUI } from "../provider";
 import { cn } from "../lib/cn";
+import { usePersistedFormState } from "../lib/use-persisted-form-state";
 import { Button } from "./ui/button";
 import {
 	Card,
@@ -27,6 +28,7 @@ export type HackTagFormValues = z.infer<typeof hackTagFormSchema>;
 export type HackTagFormProps = {
 	currentUser: User;
 	defaultValues?: Partial<HackTagFormValues>;
+	localStorageKey?: string;
 	successRedirectTo?: string;
 	className?: string;
 };
@@ -39,6 +41,7 @@ function FieldError({ message }: { message?: string }) {
 export function HackTagForm({
 	currentUser,
 	defaultValues,
+	localStorageKey,
 	successRedirectTo = "/onboarding/user-data",
 	className,
 }: HackTagFormProps) {
@@ -50,6 +53,7 @@ export function HackTagForm({
 			hackTag: defaultValues?.hackTag ?? currentUser.hackTag ?? "",
 		},
 	});
+	const clearPersistedState = usePersistedFormState(form, localStorageKey);
 
 	async function onSubmit(values: HackTagFormValues) {
 		const result = await actions.claimHackTag(values);
@@ -58,6 +62,7 @@ export function HackTagForm({
 			return;
 		}
 
+		clearPersistedState();
 		toast.success("HackTag claimed.");
 		router.push(successRedirectTo);
 	}

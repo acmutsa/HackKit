@@ -22,6 +22,7 @@ export default async function HackTagOnboardingPage() {
 						? { hackTag: currentUser.hackTag }
 						: undefined
 				}
+				localStorageKey={`test-web:onboarding:${currentUser.authId}:hacktag`}
 				successRedirectTo="/onboarding/user-data"
 			/>
 		</OnboardingShell>

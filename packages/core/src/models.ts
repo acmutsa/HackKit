@@ -113,11 +113,14 @@ export const coreModels = {
 			authId: field
 				.string()
 				.references("core.user", "authId", { onDelete: "cascade" }),
-			scannedByAuthId: field
-				.string()
-				.references("core.user", "authId"),
+			scannedByAuthId: field.string().references("core.user", "authId"),
 			scannedAt: field.date().defaultNow(),
 		},
-		indexes: [["eventId"], ["authId"], ["eventId", "authId"], ["scannedAt"]],
+		indexes: [
+			["eventId"],
+			["authId"],
+			["eventId", "authId"],
+			["scannedAt"],
+		],
 	}),
 } as const;

@@ -132,6 +132,7 @@ export {
 	permissionKeySchema,
 	recordEventScanSchema,
 	registerHackerSchema,
+	storedFileReferenceSchema,
 	roleIdSchema,
 	unbanUserSchema,
 	updateEventSchemaFactory,

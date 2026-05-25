@@ -34,18 +34,18 @@
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": [".next/**", "!.next/cache/**"]
+			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
 		},
 		"lint": {},
-    "start": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": ["^build"]
-    },
+		"start": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"]
+		},
 		"dev": {
+			"dependsOn": ["^build"],
 			"cache": false,
 			"persistent": true
-            
 		}
 	}
 }

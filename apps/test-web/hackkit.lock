@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "id": "teams",
+      "package": "@hackkit/plugin-teams",
+      "version": "0.0.0",
+      "routes": [
+        {
+          "host": "app/invites/page.tsx",
+          "source": "@hackkit/plugin-teams/app/invites/page"
+        },
+        {
+          "host": "app/teams/page.tsx",
+          "source": "@hackkit/plugin-teams/app/teams/page"
+        }
+      ],
+      "actions": [
+        "createTeam",
+        "inviteToTeam",
+        "respondToInvite",
+        "leaveTeam",
+        "removeMember"
+      ]
+    }
+  ]
+}

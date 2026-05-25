@@ -14,6 +14,7 @@ import { z } from "zod";
 import { useHackKitUI } from "../provider";
 import type { UserDataFormValues } from "../types";
 import { cn } from "../lib/cn";
+import { usePersistedFormState } from "../lib/use-persisted-form-state";
 import { Button } from "./ui/button";
 import {
 	Card,
@@ -40,6 +41,7 @@ export type UserDataFormProps = {
 	currentUser: User;
 	userDataOptions: UserDataOptions;
 	defaultValues?: Partial<UserDataFormValues> | null;
+	localStorageKey?: string;
 	successRedirectTo?: string;
 	className?: string;
 };
@@ -334,6 +336,7 @@ export function UserDataForm({
 	currentUser,
 	userDataOptions,
 	defaultValues,
+	localStorageKey,
 	successRedirectTo = "/dashboard",
 	className,
 }: UserDataFormProps) {
@@ -347,6 +350,7 @@ export function UserDataForm({
 		resolver: zodResolver(schema),
 		defaultValues: { ...emptyDefaults, ...defaultValues },
 	});
+	const clearPersistedState = usePersistedFormState(form, localStorageKey);
 
 	async function onSubmit(values: UserDataFormValues) {
 		const result = await actions.completeUserData(values);
@@ -355,6 +359,7 @@ export function UserDataForm({
 			return;
 		}
 
+		clearPersistedState();
 		toast.success("User data saved.");
 		router.push(successRedirectTo);
 	}

@@ -34,6 +34,15 @@ export const completeUserDataSchema = createCompleteUserDataSchema(
 );
 export type CompleteUserDataInput = z.input<typeof completeUserDataSchema>;
 
+/** App-relative stored file reference or absolute URL (ADR 0011). */
+export const storedFileReferenceSchema = z.union([
+	z.string().url(),
+	z
+		.string()
+		.min(1)
+		.regex(/^\/\S+$/),
+]);
+
 export const registerHackerSchema = z.object({
 	authId: authIdSchema,
 	university: z.string().min(1),
@@ -46,7 +55,7 @@ export const registerHackerSchema = z.object({
 	githubUrl: z.string().url().optional(),
 	linkedInUrl: z.string().url().optional(),
 	personalWebsiteUrl: z.string().url().optional(),
-	resumeUrl: z.string().url().optional(),
+	resumeUrl: storedFileReferenceSchema.optional(),
 	group: z.string().optional(),
 });
 

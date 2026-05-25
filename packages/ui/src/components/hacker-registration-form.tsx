@@ -10,6 +10,7 @@ import { z } from "zod";
 import { useHackKitUI } from "../provider";
 import type { HackerRegistrationFormValues } from "../types";
 import { cn } from "../lib/cn";
+import { usePersistedFormState } from "../lib/use-persisted-form-state";
 import { Button } from "./ui/button";
 import {
 	Card,
@@ -48,6 +49,7 @@ const hackerRegistrationFormSchema = registerHackerSchema
 export type HackerRegistrationFormProps = {
 	currentUser: User;
 	defaultValues?: Partial<HackerRegistrationFormValues>;
+	localStorageKey?: string;
 	successRedirectTo?: string;
 	className?: string;
 	levelOfStudyOptions?: Array<{ value: string; label: string }>;
@@ -77,6 +79,7 @@ const DEFAULT_SOFTWARE_EXPERIENCE = [
 export function HackerRegistrationForm({
 	currentUser,
 	defaultValues,
+	localStorageKey,
 	successRedirectTo = "/dashboard",
 	className,
 	levelOfStudyOptions = DEFAULT_LEVEL_OF_STUDY,
@@ -103,6 +106,7 @@ export function HackerRegistrationForm({
 			...defaultValues,
 		},
 	});
+	const clearPersistedState = usePersistedFormState(form, localStorageKey);
 
 	async function onSubmit(values: HackerRegistrationFormValues) {
 		let resumeUrl = values.resumeUrl;
@@ -128,6 +132,7 @@ export function HackerRegistrationForm({
 			return;
 		}
 
+		clearPersistedState();
 		toast.success("Hacker registration complete.");
 		router.push(successRedirectTo);
 	}

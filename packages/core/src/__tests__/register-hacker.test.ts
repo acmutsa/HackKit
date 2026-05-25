@@ -96,6 +96,36 @@ describe("registerHacker onboarding side effects", () => {
 		expect(user?.isApproved).toBe(true);
 	});
 
+	it("persists app-relative stored file references as resumeUrl", async () => {
+		const hackkit = createTestHackkit({
+			requireApproval: false,
+			defaultCompetitorRoleId: "core.participant",
+		});
+		await hackkit.users.ensureUser({
+			authId: "admin-auth",
+			email: "admin@example.com",
+			firstName: "Ad",
+			lastName: "Min",
+		});
+		await hackkit.roles.bootstrapOwner({ authId: "admin-auth" });
+		await seedParticipantRole(hackkit);
+		await seedUserWithData(hackkit);
+
+		const resumeUrl = "/api/files/view?key=resumes%2Fabc.pdf";
+		await hackkit.hackers.registerHacker({
+			authId: "hacker-auth",
+			university: "Test U",
+			major: "CS",
+			levelOfStudy: "undergraduate",
+			hackathonsAttended: 0,
+			softwareExperience: "intermediate",
+			resumeUrl,
+		});
+
+		const hacker = await hackkit.hackers.getHacker("hacker-auth");
+		expect(hacker?.resumeUrl).toBe(resumeUrl);
+	});
+
 	it("assigns default role but leaves user unapproved when requireApproval is true", async () => {
 		const hackkit = createTestHackkit({
 			requireApproval: true,

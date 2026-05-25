@@ -32,6 +32,7 @@ export default async function UserDataOnboardingPage() {
 						? toUserDataFormDefaultValues(existingUserData)
 						: undefined
 				}
+				localStorageKey={`test-web:onboarding:${currentUser.authId}:user-data`}
 				successRedirectTo="/onboarding/hacker"
 			/>
 		</OnboardingShell>
