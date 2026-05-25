@@ -10,11 +10,30 @@ import type {
 	InviteToTeamInput,
 	RemoveMemberInput,
 } from "../actions";
-import type { TeamWithMembers } from "../api";
+import type { TeamInviteWithInvitee, TeamWithMembers } from "../api";
+
+const INVITE_STATUS_LABEL: Record<
+	TeamInviteWithInvitee["status"],
+	string
+> = {
+	pending: "Pending",
+	accepted: "Accepted",
+	declined: "Declined",
+};
+
+function formatInviteSentAt(createdAt: Date | string): string {
+	const date = createdAt instanceof Date ? createdAt : new Date(createdAt);
+	if (Number.isNaN(date.getTime())) return "";
+	return date.toLocaleString(undefined, {
+		dateStyle: "medium",
+		timeStyle: "short",
+	});
+}
 
 type TeamDashboardProps = {
 	team: TeamWithMembers;
 	currentUser: User;
+	teamInvites: TeamInviteWithInvitee[];
 	inviteToTeam: (
 		values: InviteToTeamInput,
 	) => Promise<HackKitActionResult<unknown>>;
@@ -27,6 +46,7 @@ type TeamDashboardProps = {
 export function TeamDashboard({
 	team,
 	currentUser,
+	teamInvites,
 	inviteToTeam,
 	leaveTeam,
 	removeMember,
@@ -117,7 +137,55 @@ export function TeamDashboard({
 			</section>
 
 			{isOwner ? (
-				<form
+				<>
+					<section className="rounded-lg border bg-card p-6 shadow-sm">
+						<h2 className="text-lg font-semibold">Invites</h2>
+						<p className="mt-1 text-sm text-muted-foreground">
+							Outgoing invitations and their status.
+						</p>
+						{teamInvites.length === 0 ? (
+							<p className="mt-4 text-sm text-muted-foreground">
+								No invites sent yet.
+							</p>
+						) : (
+							<ul className="mt-4 space-y-3">
+								{teamInvites.map((invite) => (
+									<li
+										key={invite.id}
+										className="flex flex-col gap-2 rounded-md border px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+									>
+										<div>
+											<p className="font-medium">
+												{invite.invitee.firstName}{" "}
+												{invite.invitee.lastName}
+											</p>
+											<p className="text-sm text-muted-foreground">
+												{invite.invitee.hackTag
+													? `@${invite.invitee.hackTag}`
+													: invite.invitee.email}
+											</p>
+											<p className="text-xs text-muted-foreground">
+												Sent {formatInviteSentAt(invite.createdAt)}
+											</p>
+										</div>
+										<span
+											className={
+												invite.status === "pending"
+													? "inline-flex w-fit rounded-full bg-amber-500/15 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:text-amber-400"
+													: invite.status === "accepted"
+														? "inline-flex w-fit rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400"
+														: "inline-flex w-fit rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground"
+											}
+										>
+											{INVITE_STATUS_LABEL[invite.status]}
+										</span>
+									</li>
+								))}
+							</ul>
+						)}
+					</section>
+
+					<form
 					onSubmit={handleInvite}
 					className="space-y-4 rounded-lg border bg-card p-6 shadow-sm"
 				>
@@ -136,6 +204,7 @@ export function TeamDashboard({
 						{pending === "invite" ? "Sending..." : "Send invite"}
 					</Button>
 				</form>
+				</>
 			) : (
 				<Button
 					variant="outline"

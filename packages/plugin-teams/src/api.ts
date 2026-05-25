@@ -8,6 +8,7 @@ export type TeamWithMembers = Team & {
 };
 
 export type PendingTeamInvite = TeamInvite & { team: Team };
+export type TeamInviteWithInvitee = TeamInvite & { invitee: User };
 
 async function requireHacker(
 	context: HackKitPluginContext,
@@ -60,7 +61,7 @@ async function resolveInviteeAuthId(
 		throw new HackKitError("INVALID_OPERATION", "Invitee is required.");
 	}
 	const user = await context.database.findOne(coreModels.user, {
-		hackTag: target.hackTag.trim(),
+		hackTag: target.hackTag.trim().toLowerCase(),
 	});
 	if (!user) {
 		throw new HackKitError("NOT_FOUND", "User with that HackTag was not found.");
@@ -289,7 +290,7 @@ export function createTeamsApi(context: HackKitPluginContext) {
 		async listTeamInvites(input: {
 			actorAuthId: AuthId;
 			teamId: string;
-		}): Promise<TeamInvite[]> {
+		}): Promise<TeamInviteWithInvitee[]> {
 			const team = await getTeamOrThrow(context, input.teamId);
 			if (team.ownerAuthId !== input.actorAuthId) {
 				throw new HackKitError(
@@ -297,10 +298,24 @@ export function createTeamsApi(context: HackKitPluginContext) {
 					"Only the team owner can view team invites.",
 				);
 			}
-			return database.findMany(teamsModels.invite, {
+			const invites = await database.findMany(teamsModels.invite, {
 				where: { teamId: input.teamId },
 				orderBy: { field: "createdAt", direction: "desc" },
 			});
+			return Promise.all(
+				invites.map(async (invite) => {
+					const invitee = await database.findOne(coreModels.user, {
+						authId: invite.inviteeAuthId,
+					});
+					if (!invitee) {
+						throw new HackKitError(
+							"NOT_FOUND",
+							"Invited user not found.",
+						);
+					}
+					return { ...invite, invitee };
+				}),
+			);
 		},
 
 		models: teamsModels,

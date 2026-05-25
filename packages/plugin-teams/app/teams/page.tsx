@@ -23,6 +23,13 @@ export default async function TeamsPage() {
 	}
 
 	const team = await teams.getTeamForAuthId(currentUser.authId);
+	const teamInvites =
+		team && team.ownerAuthId === currentUser.authId
+			? await teams.listTeamInvites({
+					actorAuthId: currentUser.authId,
+					teamId: team.id,
+				})
+			: [];
 
 	return (
 		<main className="min-h-screen bg-muted/30 px-6 py-10">
@@ -39,6 +46,7 @@ export default async function TeamsPage() {
 					<TeamDashboard
 						team={team}
 						currentUser={currentUser}
+						teamInvites={teamInvites}
 						inviteToTeam={inviteToTeam}
 						leaveTeam={leaveTeam}
 						removeMember={removeMember}

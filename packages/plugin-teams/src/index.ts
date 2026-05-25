@@ -31,5 +31,10 @@ export { createTeamsApi } from "./api";
 export { teamsModels } from "./models";
 export { TeamsPermission } from "./permissions";
 export type { Team, TeamInvite, TeamMember } from "./models";
-export type { TeamsApi, TeamWithMembers, PendingTeamInvite } from "./api";
+export type {
+	TeamsApi,
+	TeamWithMembers,
+	PendingTeamInvite,
+	TeamInviteWithInvitee,
+} from "./api";
 export type { TeamsActions } from "./actions";

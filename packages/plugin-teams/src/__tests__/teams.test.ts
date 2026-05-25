@@ -122,6 +122,17 @@ describe("teams plugin", () => {
 			hackTag: "member",
 		});
 
+		const listed = await teams.listTeamInvites({
+			actorAuthId: "owner-auth",
+			teamId: team.id,
+		});
+		expect(listed).toHaveLength(1);
+		expect(listed[0]).toMatchObject({
+			id: invite.id,
+			status: "pending",
+			invitee: { hackTag: "member" },
+		});
+
 		await teams.respondToInvite({
 			actorAuthId: "member-auth",
 			inviteId: invite.id,
