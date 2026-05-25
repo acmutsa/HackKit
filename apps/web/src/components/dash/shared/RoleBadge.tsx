@@ -1,4 +1,4 @@
-import { Badge } from "@/components/shadcn/ui/badge";
+import { Badge } from "ui/components/badge";
 import { BadgeCheck } from "lucide-react";
 import { roles } from "db/schema";
 import { InferSelectModel } from "drizzle-orm";

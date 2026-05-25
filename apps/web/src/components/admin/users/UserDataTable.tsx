@@ -18,9 +18,9 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/shadcn/ui/table";
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/table";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
 import { useEffect, useState } from "react";
 import { dataTableFuzzyFilter } from "@/lib/utils/client/shared";
 interface DataTableProps<TData, TValue> {

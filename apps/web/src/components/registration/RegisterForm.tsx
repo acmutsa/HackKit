@@ -8,7 +8,7 @@ import {
 	FormMessage,
 	FormLabel,
 	FormField,
-} from "@/components/shadcn/ui/form";
+} from "ui/components/form";
 import {
 	Select,
 	SelectContent,
@@ -16,12 +16,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 	SelectGroup,
-} from "@/components/shadcn/ui/select";
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/select";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "./FormGroupWrapper";
-import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { Checkbox } from "ui/components/checkbox";
 import Link from "next/link";
 import c from "config";
 import {
@@ -31,22 +31,22 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@/components/shadcn/ui/command";
+} from "ui/components/command";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 	PopoverClose,
-} from "@/components/shadcn/ui/popover";
+} from "ui/components/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils/client/cn";
+import { cn } from "ui/lib/utils";
 import { useEffect, useCallback, useState } from "react";
-import { Textarea } from "@/components/shadcn/ui/textarea";
+import { Textarea } from "ui/components/textarea";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@/lib/utils/client/file-upload";
-import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
+import { Tag, TagInput } from "ui/components/tag/tag-input";
 import CreatingRegistration from "./CreatingRegistration";
 import { staticUploads } from "config";
 import {

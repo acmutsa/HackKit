@@ -1,5 +1,5 @@
 import c from "config";
-import { Badge } from "@/components/shadcn/ui/badge";
+import { Badge } from "ui/components/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";

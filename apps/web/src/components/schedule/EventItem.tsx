@@ -1,6 +1,6 @@
 import { EventType } from "@/lib/types/events";
 import Link from "next/link";
-import { Badge } from "../shadcn/ui/badge";
+import { Badge } from "ui/components/badge";
 import { formatInTimeZone } from "date-fns-tz";
 import c from "config";
 

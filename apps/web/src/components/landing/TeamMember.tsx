@@ -8,7 +8,7 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "../shadcn/ui/card";
+} from "ui/components/card";
 import { Oswald } from "next/font/google";
 import Image from "next/image";
 import { useState } from "react";

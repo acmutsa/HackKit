@@ -1,5 +1,5 @@
 "use client";
-import { DropdownMenuItem } from "@/components/shadcn/ui/dropdown-menu";
+import { DropdownMenuItem } from "ui/components/dropdown-menu";
 
 function toggleTheme() {
 	document.body.classList.toggle("dark");

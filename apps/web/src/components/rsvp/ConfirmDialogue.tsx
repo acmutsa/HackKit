@@ -2,7 +2,7 @@
 
 import { useWindowSize } from "usehooks-ts";
 import Confetti from "react-confetti";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import { useState, useEffect } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { rsvpMyself } from "@/actions/rsvp";

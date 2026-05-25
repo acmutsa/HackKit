@@ -1,6 +1,6 @@
 import UserInfoSection from "@/components/admin/users/UserInfoSection";
 import type { Hacker } from "db/types";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import Link from "next/link";
 import { clerkClient } from "@clerk/nextjs/server";
 import { titleCase } from "@/lib/utils/shared/string";

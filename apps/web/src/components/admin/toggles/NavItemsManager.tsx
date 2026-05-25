@@ -9,7 +9,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/shadcn/ui/table";
+} from "ui/components/table";
 import {
 	Dialog,
 	DialogContent,
@@ -18,10 +18,10 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/shadcn/ui/dialog";
-import { Button } from "@/components/shadcn/ui/button";
-import { Input } from "@/components/shadcn/ui/input";
-import { Label } from "@/components/shadcn/ui/label";
+} from "ui/components/dialog";
+import { Button } from "ui/components/button";
+import { Input } from "ui/components/input";
+import { Label } from "ui/components/label";
 import { Plus, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useAction, useOptimisticAction } from "next-safe-action/hooks";
@@ -33,7 +33,7 @@ import {
 } from "@/actions/admin/modify-nav-item";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Switch } from "@/components/shadcn/ui/switch";
+import { Switch } from "ui/components/switch";
 
 interface NavItemsManagerProps {
 	navItems: NavItemToggleType[];

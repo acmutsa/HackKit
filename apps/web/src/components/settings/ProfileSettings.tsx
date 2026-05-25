@@ -1,15 +1,15 @@
 "use client";
 
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
-import { Label } from "@/components/shadcn/ui/label";
-import { Textarea } from "@/components/shadcn/ui/textarea";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
+import { Label } from "ui/components/label";
+import { Textarea } from "ui/components/textarea";
 import ProfilePhotoSettings from "./ProfilePhotoSettings";
 import { modifyProfileData } from "@/actions/user-profile-mod";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { Tag, TagInput } from "@/components/shadcn/ui/tag/tag-input";
+import { Tag, TagInput } from "ui/components/tag/tag-input";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { profileSettingsSchema } from "@/validators/settings";
@@ -22,7 +22,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "../shadcn/ui/form";
+} from "ui/components/form";
 
 interface ProfileData {
 	pronouns: string;

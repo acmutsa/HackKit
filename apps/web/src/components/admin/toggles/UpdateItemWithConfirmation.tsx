@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
 
 interface UpdateItemWithConfirmationBaseProps<T extends number | string> {
 	defaultValue: T;

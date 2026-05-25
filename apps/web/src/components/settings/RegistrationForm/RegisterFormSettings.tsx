@@ -8,7 +8,7 @@ import {
 	FormMessage,
 	FormLabel,
 	FormField,
-} from "@/components/shadcn/ui/form";
+} from "ui/components/form";
 import {
 	Select,
 	SelectContent,
@@ -16,13 +16,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 	SelectGroup,
-} from "@/components/shadcn/ui/select";
-import { Input } from "@/components/shadcn/ui/input";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/select";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormGroupWrapper from "@/components/registration/FormGroupWrapper";
-import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { Checkbox } from "ui/components/checkbox";
 import c, { staticUploads } from "config";
 import {
 	Command,
@@ -31,16 +31,12 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@/components/shadcn/ui/command";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/shadcn/ui/popover";
+} from "ui/components/command";
+import { Popover, PopoverContent, PopoverTrigger } from "ui/components/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils/client/cn";
+import { cn } from "ui/lib/utils";
 import { useEffect, useCallback, useState, useRef } from "react";
-import { Textarea } from "@/components/shadcn/ui/textarea";
+import { Textarea } from "ui/components/textarea";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { put } from "@/lib/utils/client/file-upload";
 import { useAction } from "next-safe-action/hooks";

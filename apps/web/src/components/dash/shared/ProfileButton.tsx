@@ -6,13 +6,9 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/shadcn/ui/dropdown-menu";
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from "@/components/shadcn/ui/avatar";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/components/avatar";
+import { Button } from "ui/components/button";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";

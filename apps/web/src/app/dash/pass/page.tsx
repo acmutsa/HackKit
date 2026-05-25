@@ -5,11 +5,7 @@ import c from "config";
 import { format } from "date-fns";
 import TiltWrapper from "@/components/dash/shared/TiltWrapper";
 import { createQRpayload } from "@/lib/utils/shared/qr";
-import {
-	Drawer,
-	DrawerContent,
-	DrawerTrigger,
-} from "@/components/shadcn/ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "ui/components/drawer";
 import { getHacker } from "db/functions";
 import { Hacker } from "db/types";
 

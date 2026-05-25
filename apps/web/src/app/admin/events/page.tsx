@@ -2,7 +2,7 @@
 
 import { EventDataTable } from "@/components/events/shared/EventDataTable";
 import { columns } from "@/components/events/shared/EventColumns";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { getAllEvents } from "db/functions";

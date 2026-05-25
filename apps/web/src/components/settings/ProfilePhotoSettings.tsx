@@ -1,12 +1,12 @@
 "use client";
-import { Avatar, AvatarImage } from "../shadcn/ui/avatar";
+import { Avatar, AvatarImage } from "ui/components/avatar";
 import { encodeFileAsBase64 } from "@/lib/utils/shared/files";
 import { updateProfileImage } from "@/actions/user-profile-mod";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { useRef, useState } from "react";
-import { Input } from "../shadcn/ui/input";
-import { Button } from "../shadcn/ui/button";
+import { Input } from "ui/components/input";
+import { Button } from "ui/components/button";
 import { Loader2 } from "lucide-react";
 
 export default function ProfilePhotoSettings({

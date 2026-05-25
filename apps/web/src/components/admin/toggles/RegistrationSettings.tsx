@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/shadcn/ui/button";
-import { Input } from "@/components/shadcn/ui/input";
-import { Label } from "@/components/shadcn/ui/label";
-import { Switch } from "@/components/shadcn/ui/switch";
+import { Button } from "ui/components/button";
+import { Input } from "ui/components/input";
+import { Label } from "ui/components/label";
+import { Switch } from "ui/components/switch";
 import { useOptimisticAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import {

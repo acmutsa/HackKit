@@ -6,7 +6,7 @@ import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
 import { redisMGet } from "@/lib/utils/server/redis";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import { getUser } from "db/functions";
 
 export default async function Page() {

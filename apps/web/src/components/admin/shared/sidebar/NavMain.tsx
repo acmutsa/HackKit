@@ -7,7 +7,7 @@ import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-} from "@/components/shadcn/ui/collapsible";
+} from "ui/components/collapsible";
 import {
 	SidebarGroup,
 	SidebarMenu,
@@ -17,7 +17,7 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
-} from "@/components/shadcn/ui/sidebar";
+} from "ui/components/sidebar";
 
 export function NavMain({
 	items,

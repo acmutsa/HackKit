@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import DashNavItem from "@/components/dash/shared/DashNavItem";
 import { redirect } from "next/navigation";
 import ProfileButton from "@/components/shared/ProfileButton";

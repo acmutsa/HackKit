@@ -5,7 +5,7 @@ import {
 	CardContent,
 	CardTitle,
 	CardDescription,
-} from "@/components/shadcn/ui/card";
+} from "ui/components/card";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { User } from "db/types";
 import c from "config";

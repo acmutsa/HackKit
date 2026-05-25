@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import {
 	AccordionItem,
 	AccordionTrigger,
 	AccordionContent,
-} from "@/components/shadcn/ui/accordion";
+} from "ui/components/accordion";
 import Restricted from "@/components/Restricted";
 import { PermissionType } from "@/lib/constants/permission";
 import { PermissionMask } from "@/lib/utils/shared/permission";

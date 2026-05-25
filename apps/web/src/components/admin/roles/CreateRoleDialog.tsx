@@ -7,10 +7,10 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/shadcn/ui/dialog";
-import { Button } from "@/components/shadcn/ui/button";
-import { Input } from "@/components/shadcn/ui/input";
-import { Label } from "@/components/shadcn/ui/label";
+} from "ui/components/dialog";
+import { Button } from "ui/components/button";
+import { Input } from "ui/components/input";
+import { Label } from "ui/components/label";
 import { PermissionType } from "@/lib/constants/permission";
 import { PermissionMask } from "@/lib/utils/shared/permission";
 import { useAction } from "next-safe-action/hooks";

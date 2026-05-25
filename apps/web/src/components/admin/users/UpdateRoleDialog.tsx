@@ -7,20 +7,20 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/shadcn/ui/dialog";
+} from "ui/components/dialog";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/shadcn/ui/select";
-import { Button } from "@/components/shadcn/ui/button";
+} from "ui/components/select";
+import { Button } from "ui/components/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateRole } from "@/actions/admin/user-actions";
 import { useState } from "react";
-import { Badge } from "@/components/shadcn/ui/badge";
+import { Badge } from "ui/components/badge";
 import { titleCase } from "@/lib/utils/shared/string";
 
 interface UpdateRoleDialogProps {

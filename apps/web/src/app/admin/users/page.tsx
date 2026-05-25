@@ -1,7 +1,7 @@
 import { db, ilike, or, and, eq } from "db";
 import { DataTable } from "@/components/admin/users/UserDataTable";
 import { columns } from "@/components/admin/users/UserColumns";
-import { Button } from "@/components/shadcn/ui/button";
+import { Button } from "ui/components/button";
 import { FolderInput } from "lucide-react";
 import { getAllUsers } from "db/functions";
 import { notFound } from "next/navigation";

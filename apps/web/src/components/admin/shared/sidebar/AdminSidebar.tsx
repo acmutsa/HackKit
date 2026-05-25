@@ -14,7 +14,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-} from "@/components/shadcn/ui/sidebar";
+} from "ui/components/sidebar";
 import c from "config";
 import { UserWithRole } from "db/types";
 import { userHasPermission } from "@/lib/utils/server/admin";

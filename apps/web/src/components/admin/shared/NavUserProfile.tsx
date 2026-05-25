@@ -2,11 +2,7 @@
 
 import { ChevronsUpDown } from "lucide-react";
 
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from "@/components/shadcn/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/components/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -14,12 +10,12 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/shadcn/ui/dropdown-menu";
+} from "ui/components/dropdown-menu";
 import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-} from "@/components/shadcn/ui/sidebar";
+} from "ui/components/sidebar";
 import { UserWithRole } from "db/types";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
