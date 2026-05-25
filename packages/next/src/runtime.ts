@@ -7,6 +7,7 @@ import {
 	type User,
 } from "@hackkit/core";
 import type { EventTypesInput, UserDataOptionsInput } from "@hackkit/core";
+import type { HackKitLoggerOptions, PermissionKey } from "@hackkit/core";
 import type { HackKitUIActions } from "@hackkit/ui";
 import { redirect } from "next/navigation";
 import { createHackKitMutations } from "./mutations";
@@ -19,6 +20,16 @@ export type CreateHackkitRuntimeOptions = {
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
 	eventPassQrTtlMs: number;
+	logger?: HackKitLoggerOptions;
+	requireApproval?: boolean;
+	defaultCompetitorRoleId?: string;
+	seedRoles?: readonly {
+		id: string;
+		name: string;
+		position: number;
+		permissions: PermissionKey[];
+		color?: string;
+	}[];
 };
 
 export type HackkitRuntime = {
@@ -38,7 +49,12 @@ export async function createHackkitRuntime(
 		plugins: options.plugins,
 		userDataOptions: options.userDataOptions,
 		eventTypes: options.eventTypes,
+		logger: options.logger,
+		requireApproval: options.requireApproval,
+		defaultCompetitorRoleId: options.defaultCompetitorRoleId,
+		seedRoles: options.seedRoles,
 	});
+	await hackkit.init();
 
 	async function requireSession() {
 		const session = await options.auth.getSession();

@@ -1,0 +1,30 @@
+{
+  "name": "@hackkit/blob-local",
+  "version": "0.0.0",
+  "description": "Local filesystem blob storage adapter for HackKit",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@hackkit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.11",
+    "typescript": "5.5.3"
+  },
+  "license": "MIT",
+  "private": true
+}

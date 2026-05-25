@@ -44,9 +44,25 @@ _Avoid_: Drizzle schema, SQL migration, app-owned table mapping
 A Database Adapter that persists HackKit's canonical data models through Drizzle ORM.
 _Avoid_: Existing app database package, app schema mapper
 
+**HackKit Logger**:
+A replaceable logging boundary for HackKit runtime diagnostics and operational messages, configured when creating **HackKit Core** (similar in spirit to Better Auth’s built-in logger: levels, disable switch, optional custom `log` implementation).
+_Avoid_: Legacy `error_log` tables, **Audit Log**, **Auth Adapter** session storage
+
+**Log Level**:
+The minimum severity a **HackKit Logger** emits: `debug`, `info`, `warn`, or `error`.
+_Avoid_: **Permission** keys, **Role** hierarchy position
+
+**Log Context**:
+Structured metadata attached to a **HackKit Logger** message: action name, outcome, **Auth ID**s, stable domain record ids (event, team, role), and on failure the **HackKit** error code and message — not emails, names, or form field values.
+_Avoid_: Full request payloads, **User Data** answers, resume contents
+
 **Blob Storage Adapter**:
-An integration boundary that lets a HackKit Web App store files and pass resulting URLs or keys into HackKit Core.
+An integration boundary that lets a HackKit Web App store files and pass resulting URLs or keys into HackKit Core. The contract lives in **HackKit Core**; concrete implementations (e.g. local filesystem, S3-compatible) ship as separate packages configured per **HackKit Web App**.
 _Avoid_: HackKit Core file system, attachment domain model
+
+**Stored File Reference**:
+An app-relative URL a **HackKit Web App** persists on domain records (such as `resumeUrl` on a **Hacker**) after uploading through a **Blob Storage Adapter**, so the same **HackKit Web App** can serve or proxy the file regardless of storage backend.
+_Avoid_: Presigned upload URL, bare storage key without an app route, hard-coded CDN hostname in **HackKit Core** records
 
 **User**:
 An authenticated person who can use a HackKit application.
@@ -55,6 +71,26 @@ _Avoid_: Hacker, participant
 **Hacker**:
 A User who is competing in the hackathon and has competitor-specific registration data.
 _Avoid_: User, attendee, organizer, judge
+
+**Competitor Onboarding**:
+The end-to-end journey for a person to become a competing **Hacker** in a HackKit application, in order: authenticate, become a **User**, claim a **HackTag**, complete **User Data**, complete **Hacker Registration**, then resolve **Organiser Approval** according to hackathon configuration.
+_Avoid_: A single monolithic registration submit, **User Data** collection alone
+
+**Hacker Registration**:
+The **Competitor Onboarding** step that creates or updates a **Hacker** record after **User Data** is complete.
+_Avoid_: **User Data**, auth sign-up, claiming a **HackTag**
+
+**Competitor Onboarding Progress**:
+A **HackKit UI** component that displays **Competitor Onboarding** step labels and completion state from props; it does not enforce redirects.
+_Avoid_: Enforced onboarding middleware, **Role** management UI
+
+**Organiser Approval**:
+Whether a **User** may access full participant capabilities after finishing **Competitor Onboarding**, represented by `isApproved` on the **User** record.
+_Avoid_: **Hackathon Check-in**, **Event** RSVP
+
+**Require Approval**:
+A per-hackathon setting that controls **Organiser Approval** after **Competitor Onboarding** completes. When required, `isApproved` stays false until an organiser approves the **User**. When not required, completing the final onboarding step sets `isApproved` true automatically.
+_Avoid_: **Permission** keys, registration open/closed toggles
 
 **HackTag**:
 A public handle that identifies a User within a HackKit application once claimed.
@@ -157,7 +193,12 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit CLI** manages project files provided by plugins.
 -   **HackKit CLI** merges plugin-owned Next.js routes into a **HackKit Web App** using generated re-export stubs and records ownership in **hackkit.lock**.
 -   **HackKit CLI** runs from a **HackKit Web App** project directory (not a monorepo root) and reads that app’s `hackkit.config.ts` for plugins and database settings.
+-   **HackKit CLI** uses the same **HackKit Logger** from `hackkit.config.ts` when run from a **HackKit Web App** directory, falling back to the environment-based default **Log Level** when `logger` is omitted.
 -   A **HackKit Plugin** may add capabilities to a **HackKit Web App** without changing **HackKit Core** source.
+-   **HackKit Core** accepts an optional **HackKit Logger** at creation time; when omitted, a default console **HackKit Logger** applies with a configurable **Log Level** defaulting to `info` in development and `warn` in production unless overridden.
+-   **HackKit Web Apps** may replace the default **HackKit Logger** with a custom implementation (for example forwarding to a hosted logging service) without changing **HackKit Core** source.
+-   **HackKit Core** emits operational messages for significant domain APIs (such as **Hacker Registration**, **Organiser Approval**, **Hackathon Check-in**) through the **HackKit Logger** at **Log Level**s such as `info` or `debug`; this is not a separate persisted **Audit Log** model in v1.
+-   **Log Context** for those messages includes action name, outcome, **Auth ID**s, relevant record ids, and error codes on failure; it excludes PII and form payloads.
 -   **HackKit Core** receives **HackKit Plugins** through `createHackkit`.
 -   **HackKit Plugins** should be configured in one place so package-specific integration details stay contained inside plugin packages.
 -   **HackKit Plugins** expose storage schema contributions using **Storage Schema** without requiring every plugin to implement every database dialect.
@@ -183,18 +224,30 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit Core** merges its base **Storage Schema** with **HackKit Plugin** storage schemas before initializing adapter factories.
 -   **HackKit Core** initializes adapter factories with plugin contributions so applications do not pass plugin config to each adapter separately.
 -   An **Auth Adapter** supplies **Auth IDs** and User identity fields to a **HackKit Web App** before it calls **HackKit Core**.
+-   The **Better Auth** integration may forward **HackKit Logger** messages through Better Auth’s own `logger` configuration so a single custom `log` implementation in `hackkit.config.ts` covers auth and **HackKit Core** output.
 -   A **User Data** onboarding flow may display the authenticated **User** while collecting **User Data**.
 -   **HackKit UI** treats authenticated **User** information passed to forms as display context, not as authorization input.
 -   A **Database Adapter** persists **HackKit Core** models using HackKit-owned canonical storage shapes.
 -   The **Drizzle Database Adapter** targets SQLite/libSQL first while preserving room for future dialect support.
 -   The **Drizzle Database Adapter** exposes dialect-specific entrypoints so each dialect can use native Drizzle schema definitions.
 -   The **Drizzle Database Adapter** can generate concrete Drizzle schema from merged **Storage Schema** before full HackKit CLI migration tooling exists.
--   A **Blob Storage Adapter** stores files outside **HackKit Core**; **HackKit Core** stores only URLs or keys supplied by the **HackKit Web App**.
+-   A **Blob Storage Adapter** stores files outside **HackKit Core**; **HackKit Core** stores only **Stored File References** supplied by the **HackKit Web App**.
+-   **HackKit Web Apps** choose a **Blob Storage Adapter** implementation via configuration; local filesystem adapters suit development, S3-compatible adapters suit production.
 -   A **User** is identified by exactly one **Auth ID** in a HackKit application.
 -   A **User** may have zero or one **Hacker** profile.
+-   **Competitor Onboarding** is the product journey that produces a **Hacker**; each step uses separate **HackKit Core** operations and **HackKit Web App** routes rather than one combined registration transaction.
+-   **Competitor Onboarding** step order is: authenticate → **User** → **HackTag** → **User Data** → **Hacker Registration** → **Organiser Approval**.
+-   **Require Approval** is configured per hackathon in `hackkit.config.ts` for this milestone; runtime organiser toggles for registration or approval are out of scope until a separate settings discussion.
+-   A **HackKit Web App** may ship the full multi-step **Competitor Onboarding** flow before enforcing **Organiser Approval** gates in routes and UI.
+-   Early **HackKit Web App** implementations may use guided “next step” links without hard redirects between onboarding steps; strict step enforcement may come later.
+-   **HackKit UI** may provide a **Competitor Onboarding Progress** component that displays step labels and completion state from props supplied by the **HackKit Web App** (no hard redirects).
+-   **HackKit Web Apps** may expose each **Competitor Onboarding** step at its own route under a shared prefix (for example `/onboarding/...`).
+-   **HackKit UI** ships default forms for **Competitor Onboarding** steps, including **HackTag** claim, **User Data**, and **Hacker Registration**; **HackKit Web Apps** wire routes, server actions, and adapters.
+-   **Hacker Registration** resume uploads use a **Blob Storage Adapter** in the **HackKit Web App**; **HackKit Core** stores only the **Stored File Reference** on the **Hacker** record when provided; omitting a resume leaves `resumeUrl` unset (no sentinel placeholder).
 -   A **Hacker** belongs to exactly one **User**.
 -   Organizers and judges are **Users** with **Roles**, not **Hackers**, unless they are also competing.
 -   A **User** has one **Role** in v1.
+-   Completing **Hacker Registration** assigns the hackathon’s default competitor **Role** from `hackkit.config.ts`; auth sign-up and `ensureUser` do not assign a **Role** by themselves.
 -   A **Role** grants zero or more **Permissions**.
 -   **Permissions** use namespaced keys so plugins can add capabilities without collisions.
 -   **Admin Permission** is represented by `core.admin`.
@@ -214,6 +267,7 @@ _Avoid_: **Event Scan**, RSVP
 -   **Hackathon Check-in** APIs live on the **User** module; **Event** CRUD and **Event Scan** APIs live on the **Events** module.
 -   A **User** presents their **Event Pass** to be scanned at **Events**.
 -   Any **User** may present an **Event Pass** and be recorded in an **Event Scan**; a **Hacker** profile is not required for attendance flows.
+-   **Stored File References** use app-relative URLs (for example `/api/files/view?key=...`), not direct bucket URLs in **HackKit Core** records.
 -   **Hackathon Check-in** is separate from **Event Scan**; arriving at the venue is not the same as attending a specific **Event**.
 -   **Hackathon Check-in** is recorded on the **User** as an optional arrival timestamp set by a volunteer with check-in permission.
 -   A **User** may be **Hackathon Check-in** checked in at most once; repeat check-in attempts are rejected.
@@ -254,5 +308,12 @@ _Avoid_: **Event Scan**, RSVP
 -   "side event" describes agenda **Events** informally but must not appear in **HackKit UI** copy — resolved: user-facing language uses **Event** or schedule wording only.
 -   Legacy `events.name` column stored the event title — resolved: HackKit Core uses domain property `title`.
 -   Legacy `checkinTimestamp` on user records — resolved: **Hackathon Check-in** uses `checkedInAt` on **User** in HackKit Core.
+-   Whether competitors are approved immediately or by organisers — resolved: **Require Approval** hackathon setting; when not required, final onboarding step sets `isApproved` true; when required, organisers approve via **Organiser Approval** workflow.
+-   “Logging system” as persisted `error_log` rows vs framework logging — resolved: **HackKit Logger** pluggable boundary with **Log Level** and custom implementation; significant **HackKit Core** domain APIs log through it without a separate audit table in v1.
+-   Default **Log Level** when unset — resolved: `info` in development, `warn` in production (environment-based), overridable per **HackKit Web App**.
+-   Runtime admin toggles (e.g. registration open/closed) — deferred; not part of this **Competitor Onboarding** / **HackKit Logger** milestone.
+-   Resume on **Hacker Registration** — resolved: optional `resumeUrl` only; no legacy “no resume provided” sentinel URL.
+-   **Hacker** `group` assignment — deferred this milestone; field may remain unset until guild/group policy is defined.
+-   Default competitor **Role** on onboarding — resolved: applied when **Hacker Registration** completes, not at auth/`ensureUser` (legacy-aligned).
 -   **Hacker** vs **User** for **Event Pass** could mean competitors only — resolved: attendance uses **Auth ID** for any **User**, matching the original HackKit convention that all participants share one identity record.
 -   Legacy storage used one scan row per user and event with an incrementing count — resolved: HackKit Core stores each scan as a separate **Event Scan** row with its own identifier.

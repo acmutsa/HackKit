@@ -1,6 +1,7 @@
 import type { HackkitRuntimeContext } from "../hackkit-context";
 import { eventTypeValueSchema } from "../event-types";
 import { HackKitError, parseInput } from "../errors";
+import { withDomainLog } from "../domain-log";
 import { coreModels } from "../models";
 import { CorePermission, hasPermission } from "../permissions";
 import {
@@ -18,6 +19,7 @@ export type EventsApiContext = Pick<
 	| "db"
 	| "now"
 	| "id"
+	| "logger"
 	| "eventTypes"
 	| "getUserOrThrow"
 	| "getRoleOrThrow"
@@ -50,7 +52,7 @@ export function createEventsApi(context: EventsApiContext) {
 		eventTypeValueSchema(context.eventTypes),
 	);
 
-	const { db, now, id, getUserOrThrow, requirePermission } = context;
+	const { db, now, id, logger, getUserOrThrow, requirePermission } = context;
 
 	async function getEventOrThrow(eventId: string): Promise<Event> {
 		const event = await db.findOne(coreModels.event, { id: eventId });
@@ -87,64 +89,91 @@ export function createEventsApi(context: EventsApiContext) {
 
 		async createEvent(input: unknown): Promise<Event> {
 			const parsed = parseInput(createEventSchema, input);
-			await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.EventsCreate,
+			return withDomainLog(
+				logger,
+				"events.create",
+				{ actorAuthId: parsed.actorAuthId },
+				async () => {
+					await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.EventsCreate,
+					);
+					const timestamp = now();
+					return db.insert(coreModels.event, {
+						id: id(),
+						title: parsed.title,
+						description: parsed.description,
+						startTime: parsed.startTime,
+						endTime: parsed.endTime,
+						location: parsed.location,
+						type: parsed.type,
+						host: parsed.host,
+						hidden: parsed.hidden,
+						createdAt: timestamp,
+						updatedAt: timestamp,
+					});
+				},
 			);
-			const timestamp = now();
-			return db.insert(coreModels.event, {
-				id: id(),
-				title: parsed.title,
-				description: parsed.description,
-				startTime: parsed.startTime,
-				endTime: parsed.endTime,
-				location: parsed.location,
-				type: parsed.type,
-				host: parsed.host,
-				hidden: parsed.hidden,
-				createdAt: timestamp,
-				updatedAt: timestamp,
-			});
 		},
 
 		async updateEvent(input: unknown): Promise<Event> {
 			const parsed = parseInput(updateEventSchema, input);
-			await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.EventsUpdate,
-			);
-			await getEventOrThrow(parsed.eventId);
-			const [updated] = await db.update(
-				coreModels.event,
-				{ id: parsed.eventId },
+			return withDomainLog(
+				logger,
+				"events.update",
 				{
-					title: parsed.title,
-					description: parsed.description,
-					startTime: parsed.startTime,
-					endTime: parsed.endTime,
-					location: parsed.location,
-					type: parsed.type,
-					host: parsed.host ?? undefined,
-					hidden: parsed.hidden,
-					updatedAt: now(),
+					actorAuthId: parsed.actorAuthId,
+					eventId: parsed.eventId,
+				},
+				async () => {
+					await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.EventsUpdate,
+					);
+					await getEventOrThrow(parsed.eventId);
+					const [updated] = await db.update(
+						coreModels.event,
+						{ id: parsed.eventId },
+						{
+							title: parsed.title,
+							description: parsed.description,
+							startTime: parsed.startTime,
+							endTime: parsed.endTime,
+							location: parsed.location,
+							type: parsed.type,
+							host: parsed.host ?? undefined,
+							hidden: parsed.hidden,
+							updatedAt: now(),
+						},
+					);
+					if (!updated)
+						throw new HackKitError("NOT_FOUND", "Event not found.");
+					return updated;
 				},
 			);
-			if (!updated)
-				throw new HackKitError("NOT_FOUND", "Event not found.");
-			return updated;
 		},
 
 		async deleteEvent(input: unknown): Promise<void> {
 			const parsed = parseInput(deleteEventSchema, input);
-			await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.EventsDelete,
+			return withDomainLog(
+				logger,
+				"events.delete",
+				{
+					actorAuthId: parsed.actorAuthId,
+					eventId: parsed.eventId,
+				},
+				async () => {
+					await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.EventsDelete,
+					);
+					const deleted = await db.delete(coreModels.event, {
+						id: parsed.eventId,
+					});
+					if (deleted === 0)
+						throw new HackKitError("NOT_FOUND", "Event not found.");
+				},
 			);
-			const deleted = await db.delete(coreModels.event, {
-				id: parsed.eventId,
-			});
-			if (deleted === 0)
-				throw new HackKitError("NOT_FOUND", "Event not found.");
 		},
 
 		async listEventScans(input: unknown): Promise<EventScan[]> {
@@ -171,34 +200,45 @@ export function createEventsApi(context: EventsApiContext) {
 			hadPriorScans: boolean;
 		}> {
 			const parsed = parseInput(recordEventScanSchema, input);
-			await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.EventsScan,
-			);
-			await getUserOrThrow(parsed.targetAuthId);
-			await getEventOrThrow(parsed.eventId);
-
-			const priorScans = await db.findMany(coreModels.eventScan, {
-				where: {
+			return withDomainLog(
+				logger,
+				"events.recordScan",
+				{
+					actorAuthId: parsed.actorAuthId,
+					targetAuthId: parsed.targetAuthId,
 					eventId: parsed.eventId,
-					authId: parsed.targetAuthId,
 				},
-				orderBy: { field: "scannedAt", direction: "desc" },
-			});
+				async () => {
+					await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.EventsScan,
+					);
+					await getUserOrThrow(parsed.targetAuthId);
+					await getEventOrThrow(parsed.eventId);
 
-			const scan = await db.insert(coreModels.eventScan, {
-				id: id(),
-				eventId: parsed.eventId,
-				authId: parsed.targetAuthId,
-				scannedByAuthId: parsed.actorAuthId,
-				scannedAt: now(),
-			});
+					const priorScans = await db.findMany(coreModels.eventScan, {
+						where: {
+							eventId: parsed.eventId,
+							authId: parsed.targetAuthId,
+						},
+						orderBy: { field: "scannedAt", direction: "desc" },
+					});
 
-			return {
-				scan,
-				priorScans,
-				hadPriorScans: priorScans.length > 0,
-			};
+					const scan = await db.insert(coreModels.eventScan, {
+						id: id(),
+						eventId: parsed.eventId,
+						authId: parsed.targetAuthId,
+						scannedByAuthId: parsed.actorAuthId,
+						scannedAt: now(),
+					});
+
+					return {
+						scan,
+						priorScans,
+						hadPriorScans: priorScans.length > 0,
+					};
+				},
+			);
 		},
 	};
 }

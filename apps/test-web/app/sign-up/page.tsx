@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function SignUpPage() {
 	const session = await getAuthSession();
-	if (session) redirect("/register");
+	if (session) redirect("/onboarding/hacktag");
 
 	return (
 		<main className="min-h-screen bg-muted/30 px-6 py-10">

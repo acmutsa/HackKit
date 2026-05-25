@@ -17,6 +17,8 @@ import {
 	type HackKitActionResult,
 	type HackKitUIActions,
 	type CheckInUserInput,
+	type HackTagFormValues,
+	type HackerRegistrationFormValues,
 	type PreviewEventPassQrInput,
 	type PreviewEventPassQrResult,
 	type RecordEventScanInput,
@@ -75,6 +77,32 @@ export function createHackKitMutations(
 				return actionSuccess();
 			} catch (error) {
 				return actionFailure(error, "Could not save user data.");
+			}
+		},
+
+		async claimHackTag(values: HackTagFormValues) {
+			try {
+				const authId = await getAuthId();
+				await hackkit.users.claimHackTag({
+					...values,
+					authId,
+				});
+				return actionSuccess();
+			} catch (error) {
+				return actionFailure(error, "Could not claim HackTag.");
+			}
+		},
+
+		async registerHacker(values: HackerRegistrationFormValues) {
+			try {
+				const authId = await getAuthId();
+				await hackkit.hackers.registerHacker({
+					...values,
+					authId,
+				});
+				return actionSuccess();
+			} catch (error) {
+				return actionFailure(error, "Could not complete hacker registration.");
 			}
 		},
 

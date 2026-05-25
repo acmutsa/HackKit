@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { execSync } from "node:child_process";
 import type { HackkitConfig } from "./config";
 import { runDbSync } from "./db-sync";
+import { createConfigLogger } from "./logger";
 import { PLUGIN_PACKAGE_BY_ID, loadPluginFactory } from "./plugin-manifest";
 import { runPluginSync } from "./plugin-sync";
 
@@ -150,12 +151,14 @@ export async function runPluginRemove(
 export async function runPluginSyncAll(
 	context: PluginCommandContext,
 ): Promise<void> {
+	const logger = createConfigLogger(context.config);
 	const result = await runPluginSync({
 		projectRoot: context.projectRoot,
 		plugins: context.config.plugins ?? [],
 	});
 	await runDbSync(context.config);
-	console.log(
+	logger.log(
+		"info",
 		`HackKit plugin sync completed (${result.routesWritten} routes, ${result.actionsWritten} actions, ${result.stubsRemoved} removed).`,
 	);
 }

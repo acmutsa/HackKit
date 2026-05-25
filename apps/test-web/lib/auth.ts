@@ -6,11 +6,14 @@ import { nextCookies } from "better-auth/next-js";
 import {
 	account,
 	session,
+	syncBetterAuthStorage,
+	toBetterAuthLogger,
 	user,
 	verification,
 } from "@hackkit/auth-better-auth";
 import { getAuthSession as getAuthSessionFromAuth } from "@hackkit/auth-better-auth/session";
 import { db } from "./db";
+import { getAppLogger } from "./logger";
 
 export const auth = betterAuth({
 	baseURL:
@@ -29,6 +32,7 @@ export const auth = betterAuth({
 		enabled: true,
 	},
 	plugins: [nextCookies()],
+	logger: toBetterAuthLogger(getAppLogger()),
 });
 
 export async function getAuthSession() {

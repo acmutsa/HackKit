@@ -6,14 +6,19 @@ import { DEFAULT_EVENT_PASS_QR_TTL_MS } from "@hackkit/ui";
 import hackkitConfig from "../hackkit.config";
 import { auth } from "./auth";
 import { db } from "./db";
+import { getAppLogger } from "./logger";
 
 const runtimePromise = createHackkitRuntime({
 	database: db,
-	auth: betterAuthAdapter({ auth }),
+	auth: betterAuthAdapter({ auth, logger: getAppLogger() }),
 	plugins: hackkitConfig.plugins,
 	userDataOptions: hackkitConfig.userDataOptions,
 	eventTypes: hackkitConfig.eventTypes,
 	eventPassQrTtlMs: DEFAULT_EVENT_PASS_QR_TTL_MS,
+	logger: hackkitConfig.logger,
+	requireApproval: hackkitConfig.requireApproval,
+	defaultCompetitorRoleId: hackkitConfig.defaultCompetitorRoleId,
+	seedRoles: hackkitConfig.seedRoles,
 });
 
 setHackkitRuntime(runtimePromise);

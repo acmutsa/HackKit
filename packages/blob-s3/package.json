@@ -1,0 +1,32 @@
+{
+  "name": "@hackkit/blob-s3",
+  "version": "0.0.0",
+  "description": "S3-compatible blob storage adapter for HackKit",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.744.0",
+    "@aws-sdk/s3-request-presigner": "^3.744.0",
+    "@hackkit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.11",
+    "typescript": "5.5.3"
+  },
+  "license": "MIT",
+  "private": true
+}

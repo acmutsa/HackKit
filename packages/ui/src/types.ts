@@ -18,6 +18,24 @@ export type UserDataFormValues = {
 	isEmailable: boolean;
 };
 
+export type HackTagFormValues = {
+	hackTag: string;
+};
+
+export type HackerRegistrationFormValues = {
+	university: string;
+	major: string;
+	schoolId?: string;
+	levelOfStudy: string;
+	hackathonsAttended: number;
+	softwareExperience: string;
+	heardFrom?: string;
+	githubUrl?: string;
+	linkedInUrl?: string;
+	personalWebsiteUrl?: string;
+	resumeUrl?: string;
+};
+
 export type EventFormValues = {
 	title: string;
 	description: string;
@@ -51,6 +69,12 @@ export type CheckInUserInput = {
 export type HackKitUIActions = {
 	completeUserData: (
 		values: UserDataFormValues,
+	) => Promise<HackKitActionResult>;
+	claimHackTag: (
+		values: HackTagFormValues,
+	) => Promise<HackKitActionResult>;
+	registerHacker: (
+		values: HackerRegistrationFormValues,
 	) => Promise<HackKitActionResult>;
 	createEvent: (
 		values: EventFormValues,

@@ -1,4 +1,4 @@
-import type { AuthAdapter, AuthSession } from "@hackkit/core";
+import type { AuthAdapter, AuthSession, HackKitLogger, LogLevel } from "@hackkit/core";
 import { headers } from "next/headers";
 import {
 	account,
@@ -18,7 +18,18 @@ type BetterAuthInstance = {
 
 export type BetterAuthAdapterOptions = {
 	auth: BetterAuthInstance;
+	logger?: HackKitLogger;
 };
+
+export function toBetterAuthLogger(logger: HackKitLogger) {
+	return {
+		disabled: logger.disabled,
+		level: logger.level,
+		log: (level: LogLevel, message: string, ...args: unknown[]) => {
+			logger.log(level, message, ...args);
+		},
+	};
+}
 
 export function betterAuthAdapter(
 	options: BetterAuthAdapterOptions,

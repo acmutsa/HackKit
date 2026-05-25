@@ -41,6 +41,19 @@ import {
 	resolveEventTypes,
 	type EventTypesInput,
 } from "./event-types";
+import {
+	createLogger,
+	type HackKitLoggerOptions,
+} from "./adapters/logger";
+import { withDomainLog } from "./domain-log";
+
+type SeedRoleInput = {
+	id: string;
+	name: string;
+	position: number;
+	permissions: PermissionKey[];
+	color?: string;
+};
 
 type CreateHackkitOptions<
 	TPlugins extends readonly HackKitPlugin[] = readonly HackKitPlugin[],
@@ -51,6 +64,10 @@ type CreateHackkitOptions<
 	id?: () => string;
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
+	logger?: HackKitLoggerOptions;
+	requireApproval?: boolean;
+	defaultCompetitorRoleId?: string;
+	seedRoles?: readonly SeedRoleInput[];
 };
 
 const defaultId = () =>
@@ -71,6 +88,23 @@ export function createHackkit<
 	const eventTypes = resolveEventTypes(options.eventTypes);
 	const completeUserDataSchema =
 		createCompleteUserDataSchema(userDataOptions);
+	const logger = createLogger(options.logger);
+	const requireApproval = options.requireApproval ?? false;
+	const defaultCompetitorRoleId = options.defaultCompetitorRoleId;
+	const seedRoles = options.seedRoles ?? [];
+
+	async function seedConfiguredRoles(): Promise<void> {
+		const timestamp = now();
+		for (const role of seedRoles) {
+			const existing = await db.findOne(coreModels.role, { id: role.id });
+			if (existing) continue;
+			await db.insert(coreModels.role, {
+				...role,
+				createdAt: timestamp,
+				updatedAt: timestamp,
+			});
+		}
+	}
 
 	async function getUserOrThrow(authId: AuthId): Promise<User> {
 		const user = await db.findOne(coreModels.user, { authId });
@@ -90,6 +124,9 @@ export function createHackkit<
 		db,
 		now,
 		id,
+		logger,
+		requireApproval,
+		defaultCompetitorRoleId,
 		eventTypes,
 		userDataOptions,
 		getUserOrThrow,
@@ -101,31 +138,65 @@ export function createHackkit<
 
 	async function registerHacker(input: unknown): Promise<Hacker> {
 		const parsed = parseInput(registerHackerSchema, input);
-		await getUserOrThrow(parsed.authId);
-		const userData = await db.findOne(coreModels.userData, {
-			authId: parsed.authId,
-		});
-		if (!userData)
-			throw new HackKitError(
-				"INVALID_OPERATION",
-				"User Data must be completed before registering as a Hacker.",
-			);
-		const existing = await db.findOne(coreModels.hacker, {
-			authId: parsed.authId,
-		});
-		const timestamp = now();
-		const value: Hacker = {
-			...parsed,
-			registeredAt: existing?.registeredAt ?? timestamp,
-			updatedAt: timestamp,
-		};
-		if (!existing) return db.insert(coreModels.hacker, value);
-		const [updated] = await db.update(
-			coreModels.hacker,
-			{ authId: parsed.authId },
-			value,
+		return withDomainLog(
+			logger,
+			"hackers.register",
+			{ targetAuthId: parsed.authId },
+			async () => {
+				await getUserOrThrow(parsed.authId);
+				const userData = await db.findOne(coreModels.userData, {
+					authId: parsed.authId,
+				});
+				if (!userData)
+					throw new HackKitError(
+						"INVALID_OPERATION",
+						"User Data must be completed before registering as a Hacker.",
+					);
+				const existing = await db.findOne(coreModels.hacker, {
+					authId: parsed.authId,
+				});
+				const timestamp = now();
+				const value: Hacker = {
+					...parsed,
+					registeredAt: existing?.registeredAt ?? timestamp,
+					updatedAt: timestamp,
+				};
+
+				let hacker: Hacker;
+				if (!existing) {
+					hacker = await db.insert(coreModels.hacker, value);
+					if (defaultCompetitorRoleId) {
+						await getRoleOrThrow(defaultCompetitorRoleId);
+						await db.update(
+							coreModels.user,
+							{ authId: parsed.authId },
+							{
+								roleId: defaultCompetitorRoleId,
+								isApproved: !requireApproval,
+								updatedAt: timestamp,
+							},
+						);
+					} else if (!requireApproval) {
+						await db.update(
+							coreModels.user,
+							{ authId: parsed.authId },
+							{
+								isApproved: true,
+								updatedAt: timestamp,
+							},
+						);
+					}
+				} else {
+					const [updated] = await db.update(
+						coreModels.hacker,
+						{ authId: parsed.authId },
+						value,
+					);
+					hacker = updated ?? value;
+				}
+				return hacker;
+			},
 		);
-		return updated ?? value;
 	}
 
 	const hackkit = {
@@ -136,6 +207,9 @@ export function createHackkit<
 		accessControl,
 		users: createUsersApi(runtimeContext),
 		events: createEventsApi(runtimeContext),
+		async init(): Promise<void> {
+			await seedConfiguredRoles();
+		},
 
 		userData: {
 			options: userDataOptions,

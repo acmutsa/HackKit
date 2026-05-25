@@ -1,5 +1,6 @@
 import type { HackkitRuntimeContext } from "../hackkit-context";
 import { HackKitError, parseInput } from "../errors";
+import { withDomainLog } from "../domain-log";
 import { coreModels } from "../models";
 import { CorePermission } from "../permissions";
 import {
@@ -17,6 +18,7 @@ export type UsersApiContext = Pick<
 	HackkitRuntimeContext,
 	| "db"
 	| "now"
+	| "logger"
 	| "getUserOrThrow"
 	| "getRoleOrThrow"
 	| "requirePermission"
@@ -27,6 +29,7 @@ export function createUsersApi(context: UsersApiContext) {
 	const {
 		db,
 		now,
+		logger,
 		getUserOrThrow,
 		getRoleOrThrow,
 		requirePermission,
@@ -82,52 +85,69 @@ export function createUsersApi(context: UsersApiContext) {
 
 		async claimHackTag(input: unknown): Promise<User> {
 			const parsed = parseInput(claimHackTagSchema, input);
-			await getUserOrThrow(parsed.authId);
-			const existing = await db.findOne(coreModels.user, {
-				hackTag: parsed.hackTag,
-			});
-			if (existing && existing.authId !== parsed.authId) {
-				throw new HackKitError(
-					"CONFLICT",
-					"HackTag is already claimed.",
-				);
-			}
-			const [updated] = await db.update(
-				coreModels.user,
-				{ authId: parsed.authId },
-				{
-					hackTag: parsed.hackTag,
-					updatedAt: now(),
+			return withDomainLog(
+				logger,
+				"users.claimHackTag",
+				{ targetAuthId: parsed.authId },
+				async () => {
+					await getUserOrThrow(parsed.authId);
+					const existing = await db.findOne(coreModels.user, {
+						hackTag: parsed.hackTag,
+					});
+					if (existing && existing.authId !== parsed.authId) {
+						throw new HackKitError(
+							"CONFLICT",
+							"HackTag is already claimed.",
+						);
+					}
+					const [updated] = await db.update(
+						coreModels.user,
+						{ authId: parsed.authId },
+						{
+							hackTag: parsed.hackTag,
+							updatedAt: now(),
+						},
+					);
+					if (!updated)
+						throw new HackKitError("NOT_FOUND", "User not found.");
+					return updated;
 				},
 			);
-			if (!updated)
-				throw new HackKitError("NOT_FOUND", "User not found.");
-			return updated;
 		},
 
 		async approveUser(input: unknown): Promise<User> {
 			const parsed = parseInput(approveUserSchema, input);
-			const principal = await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.UsersApprove,
-			);
-			const target = await getUserOrThrow(parsed.targetAuthId);
-			if (target.roleId)
-				assertCanManageRole(
-					principal,
-					await getRoleOrThrow(target.roleId),
-				);
-			const [updated] = await db.update(
-				coreModels.user,
-				{ authId: parsed.targetAuthId },
+			return withDomainLog(
+				logger,
+				"users.approveUser",
 				{
-					isApproved: parsed.approved,
-					updatedAt: now(),
+					actorAuthId: parsed.actorAuthId,
+					targetAuthId: parsed.targetAuthId,
+				},
+				async () => {
+					const principal = await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.UsersApprove,
+					);
+					const target = await getUserOrThrow(parsed.targetAuthId);
+					if (target.roleId)
+						assertCanManageRole(
+							principal,
+							await getRoleOrThrow(target.roleId),
+						);
+					const [updated] = await db.update(
+						coreModels.user,
+						{ authId: parsed.targetAuthId },
+						{
+							isApproved: parsed.approved,
+							updatedAt: now(),
+						},
+					);
+					if (!updated)
+						throw new HackKitError("NOT_FOUND", "User not found.");
+					return updated;
 				},
 			);
-			if (!updated)
-				throw new HackKitError("NOT_FOUND", "User not found.");
-			return updated;
 		},
 
 		async banUser(input: unknown): Promise<UserBan> {
@@ -173,50 +193,70 @@ export function createUsersApi(context: UsersApiContext) {
 
 		async checkIn(input: unknown): Promise<User> {
 			const parsed = parseInput(checkInUserSchema, input);
-			await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.UsersCheckIn,
-			);
-			const target = await getUserOrThrow(parsed.targetAuthId);
-			if (target.checkedInAt) {
-				throw new HackKitError(
-					"INVALID_OPERATION",
-					"User is already checked in.",
-				);
-			}
-			const timestamp = now();
-			const [updated] = await db.update(
-				coreModels.user,
-				{ authId: parsed.targetAuthId },
+			return withDomainLog(
+				logger,
+				"users.checkIn",
 				{
-					checkedInAt: timestamp,
-					updatedAt: timestamp,
+					actorAuthId: parsed.actorAuthId,
+					targetAuthId: parsed.targetAuthId,
+				},
+				async () => {
+					await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.UsersCheckIn,
+					);
+					const target = await getUserOrThrow(parsed.targetAuthId);
+					if (target.checkedInAt) {
+						throw new HackKitError(
+							"INVALID_OPERATION",
+							"User is already checked in.",
+						);
+					}
+					const timestamp = now();
+					const [updated] = await db.update(
+						coreModels.user,
+						{ authId: parsed.targetAuthId },
+						{
+							checkedInAt: timestamp,
+							updatedAt: timestamp,
+						},
+					);
+					if (!updated)
+						throw new HackKitError("NOT_FOUND", "User not found.");
+					return updated;
 				},
 			);
-			if (!updated)
-				throw new HackKitError("NOT_FOUND", "User not found.");
-			return updated;
 		},
 
 		async clearCheckIn(input: unknown): Promise<User> {
 			const parsed = parseInput(clearCheckInUserSchema, input);
-			await requirePermission(
-				parsed.actorAuthId,
-				CorePermission.UsersCheckIn,
-			);
-			await getUserOrThrow(parsed.targetAuthId);
-			const timestamp = now();
-			const [updated] = await db.update(
-				coreModels.user,
-				{ authId: parsed.targetAuthId },
+			return withDomainLog(
+				logger,
+				"users.clearCheckIn",
 				{
-					checkedInAt: null as unknown as Date,
-					updatedAt: timestamp,
+					actorAuthId: parsed.actorAuthId,
+					targetAuthId: parsed.targetAuthId,
+				},
+				async () => {
+					await requirePermission(
+						parsed.actorAuthId,
+						CorePermission.UsersCheckIn,
+					);
+					await getUserOrThrow(parsed.targetAuthId);
+					const timestamp = now();
+					const [updated] = await db.update(
+						coreModels.user,
+						{ authId: parsed.targetAuthId },
+						{
+							checkedInAt: null as unknown as Date,
+							updatedAt: timestamp,
+						},
+					);
+					if (!updated)
+						throw new HackKitError("NOT_FOUND", "User not found.");
+					return updated;
 				},
 			);
-			if (!updated)
-				throw new HackKitError("NOT_FOUND", "User not found.");
-			return updated;
 		},
 	};
 }

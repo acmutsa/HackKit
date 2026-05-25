@@ -1,5 +1,11 @@
 export { defineHackkitConfig } from "./config";
-export type { HackkitConfig } from "./config";
+export type {
+	HackkitConfig,
+	HackkitBlobConfig,
+	HackkitBlobLocalConfig,
+	HackkitBlobS3Config,
+	HackkitSeedRole,
+} from "./config";
 export { runDbSync } from "./db-sync";
 export {
 	HACKKIT_LOCKFILE,

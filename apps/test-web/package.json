@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@hackkit/auth-better-auth": "workspace:*",
+    "@hackkit/blob-local": "workspace:*",
+    "@hackkit/blob-s3": "workspace:*",
     "@hackkit/core": "workspace:*",
     "@hackkit/next": "workspace:*",
     "@hackkit/plugin-teams": "workspace:*",

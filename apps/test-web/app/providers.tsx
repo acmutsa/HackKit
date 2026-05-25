@@ -1,5 +1,7 @@
 import {
 	completeUserData,
+	claimHackTag,
+	registerHacker,
 	createEvent,
 	updateEvent,
 	deleteEvent,
@@ -18,6 +20,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 			eventPassQrTtlMs={DEFAULT_EVENT_PASS_QR_TTL_MS}
 			actions={{
 				completeUserData,
+				claimHackTag,
+				registerHacker,
 				createEvent,
 				updateEvent,
 				deleteEvent,

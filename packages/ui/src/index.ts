@@ -3,6 +3,22 @@ export type { HackKitActionResult } from "./actions";
 export { HackKitUIProvider, useHackKitUI } from "./provider";
 export type { HackKitUIProviderProps } from "./provider";
 export { toUserDataFormDefaultValues } from "./user-data-form-defaults";
+export { HackTagForm } from "./components/hack-tag-form";
+export type { HackTagFormProps } from "./components/hack-tag-form";
+export { HackerRegistrationForm } from "./components/hacker-registration-form";
+export type { HackerRegistrationFormProps } from "./components/hacker-registration-form";
+export { CompetitorOnboardingProgress } from "./components/competitor-onboarding-progress";
+export type { CompetitorOnboardingProgressProps } from "./components/competitor-onboarding-progress";
+export {
+	buildCompetitorOnboardingSteps,
+	getNextOnboardingStepHref,
+	isCompetitorOnboardingComplete,
+} from "./lib/onboarding-steps";
+export type {
+	BuildCompetitorOnboardingStepsInput,
+	CompetitorOnboardingStep,
+	CompetitorOnboardingStepId,
+} from "./lib/onboarding-steps";
 export { UserDataFields, UserDataForm } from "./components/user-data-form";
 export type {
 	UserDataFormProps,
@@ -31,6 +47,8 @@ export type {
 	EventPassProps,
 	EventScannerProps,
 	HackKitUIActions,
+	HackTagFormValues,
+	HackerRegistrationFormValues,
 	PreviewEventPassQrInput,
 	PreviewEventPassQrResult,
 	RecordEventScanInput,

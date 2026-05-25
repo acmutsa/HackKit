@@ -12,6 +12,22 @@ export async function completeUserData(
 	return createHackKitMutations(await getRuntime()).completeUserData(...args);
 }
 
+export async function claimHackTag(
+	...args: Parameters<
+		ReturnType<typeof createHackKitMutations>["claimHackTag"]
+	>
+) {
+	return createHackKitMutations(await getRuntime()).claimHackTag(...args);
+}
+
+export async function registerHacker(
+	...args: Parameters<
+		ReturnType<typeof createHackKitMutations>["registerHacker"]
+	>
+) {
+	return createHackKitMutations(await getRuntime()).registerHacker(...args);
+}
+
 export async function createEvent(
 	...args: Parameters<ReturnType<typeof createHackKitMutations>["createEvent"]>
 ) {

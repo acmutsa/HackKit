@@ -1,3 +1,4 @@
+import type { HackKitLogger } from "./adapters/logger";
 import type { DatabaseAdapter } from "./database";
 import type { EventTypes } from "./event-types";
 import type { UserDataOptions } from "./user-data-options";
@@ -8,6 +9,9 @@ export type HackkitRuntimeContext = {
 	db: DatabaseAdapter;
 	now: () => Date;
 	id: () => string;
+	logger: HackKitLogger;
+	requireApproval: boolean;
+	defaultCompetitorRoleId?: string;
 	eventTypes: EventTypes;
 	userDataOptions: UserDataOptions;
 	getUserOrThrow: (authId: AuthId) => Promise<User>;
