@@ -1,26 +1,26 @@
 import Link from "next/link";
+import { CompetitorOnboardingProgress } from "@hackkit/ui";
+import { getHackkit } from "@/lib/runtime";
 import {
-	CompetitorOnboardingProgress,
-	getNextOnboardingStepHref,
-	isCompetitorOnboardingComplete,
-} from "@hackkit/ui";
-import { getCurrentUser, getHackkit } from "@/lib/runtime";
-import { getOnboardingSteps, getRequireApproval } from "@/lib/onboarding";
+	getCompetitorOnboardingState,
+	getRequireApproval,
+} from "@/lib/onboarding";
 import { BootstrapOwnerButton } from "./bootstrap-owner-button";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-	const currentUser = await getCurrentUser();
+	const {
+		steps,
+		nextHref,
+		user: currentUser,
+		userData,
+		hacker,
+	} = await getCompetitorOnboardingState("/dashboard");
 	const hackkit = await getHackkit();
-	const userData = await hackkit.userData.getUserData(currentUser.authId);
-	const hacker = await hackkit.hackers.getHacker(currentUser.authId);
 	const role = currentUser.roleId
 		? await hackkit.roles.getRole(currentUser.roleId)
 		: null;
-	const steps = await getOnboardingSteps("/dashboard");
-	const onboardingComplete = isCompetitorOnboardingComplete(steps);
-	const nextOnboardingHref = getNextOnboardingStepHref(steps);
 
 	return (
 		<main className="min-h-screen px-6 py-10">
@@ -36,7 +36,7 @@ export default async function DashboardPage() {
 					</p>
 				</div>
 
-				{!onboardingComplete && nextOnboardingHref ? (
+				{nextHref ? (
 					<section className="space-y-4 rounded-lg border bg-muted/30 p-4">
 						<div className="space-y-1">
 							<h2 className="text-lg font-semibold">Continue onboarding</h2>
@@ -47,7 +47,7 @@ export default async function DashboardPage() {
 						</div>
 						<CompetitorOnboardingProgress steps={steps} />
 						<Link
-							href={nextOnboardingHref}
+							href={nextHref}
 							className="inline-flex text-sm font-medium text-primary hover:underline"
 						>
 							Continue to next step →
