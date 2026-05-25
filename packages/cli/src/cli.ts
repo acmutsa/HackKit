@@ -1,39 +1,51 @@
 #!/usr/bin/env node
+import { Command } from "commander";
 import { createJiti } from "jiti";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { runDbSync } from "./db-sync";
 import type { HackkitConfig } from "./config";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
-async function loadConfig(): Promise<HackkitConfig> {
-	const configPath = resolve(process.cwd(), "hackkit.config.ts");
+async function loadConfig(configFile: string): Promise<HackkitConfig> {
+	const configPath = resolve(process.cwd(), configFile);
 	const module = await jiti.import(configPath);
 	const config = ((module as { default?: HackkitConfig }).default ??
 		module) as HackkitConfig;
 	if (!config?.databaseUrl) {
 		throw new Error(
-			`No hackkit.config.ts with databaseUrl found at ${configPath}`,
+			`No HackKit config with databaseUrl found at ${configPath}`,
 		);
 	}
 	return config;
 }
 
-async function main() {
-	const [command, subcommand] = process.argv.slice(2);
+const program = new Command()
+	.name("hackkit")
+	.description("Manage HackKit projects")
+	.option(
+		"-c, --config <path>",
+		"path to HackKit config",
+		"hackkit.config.ts",
+	);
 
-	if (command === "db" && subcommand === "sync") {
-		const config = await loadConfig();
+const db = program
+	.command("db")
+	.description("Manage HackKit database resources");
+
+db.command("sync")
+	.description("Synchronize registered HackKit storage models")
+	.option("-c, --config <path>", "path to HackKit config")
+	.action(async (commandOptions: { config?: string }) => {
+		const globalOptions = program.opts<{ config: string }>();
+		const config = await loadConfig(
+			commandOptions.config ?? globalOptions.config,
+		);
+		const { runDbSync } = await import("./db-sync");
 		await runDbSync(config);
-		return;
-	}
+	});
 
-	console.log("Usage: hackkit db sync");
-	process.exitCode = 1;
-}
-
-main().catch((error) => {
+program.parseAsync(process.argv).catch((error) => {
 	console.error(error);
 	process.exitCode = 1;
 });

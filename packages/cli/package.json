@@ -18,17 +18,19 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsdown",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@hackkit/core": "workspace:*",
     "@libsql/client": "^0.14.0",
+    "commander": "^12.1.0",
     "drizzle-orm": "^0.39.3",
     "jiti": "^2.4.2"
   },
   "devDependencies": {
     "@types/node": "20.14.11",
+    "tsdown": "^0.22.0",
     "typescript": "5.5.3"
   },
   "license": "MIT",

@@ -2,7 +2,10 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { cn } from "../lib/cn";
 import { useHackKitUI } from "../provider";
 import type { EventAdminFormProps, EventFormValues } from "../types";
@@ -36,6 +39,56 @@ function toDateTimeLocalValue(value: Date): string {
 	return local.toISOString().slice(0, 16);
 }
 
+function FieldError({ message }: { message?: string }) {
+	if (!message) return null;
+	return <p className="text-sm font-medium text-destructive">{message}</p>;
+}
+
+function isValidDateTimeLocal(value: string): boolean {
+	return value.length > 0 && !Number.isNaN(new Date(value).getTime());
+}
+
+function createEventFormSchema(eventTypes: EventAdminFormProps["eventTypes"]) {
+	const eventTypeValues = new Set(eventTypes.map((option) => option.value));
+
+	return z
+		.object({
+			title: z.string().min(1, "Title is required.").max(255),
+			description: z.string().min(1, "Description is required."),
+			startTime: z
+				.string()
+				.refine(isValidDateTimeLocal, "Start time is required."),
+			endTime: z
+				.string()
+				.refine(isValidDateTimeLocal, "End time is required."),
+			location: z.string().min(1, "Location is required.").max(255),
+			type: z
+				.string()
+				.min(1, "Type is required.")
+				.refine(
+					(value) => eventTypeValues.has(value),
+					"Select a valid event type.",
+				),
+			host: z.string().max(255),
+			hidden: z.boolean(),
+		})
+		.refine(
+			({ startTime, endTime }) => {
+				if (
+					!isValidDateTimeLocal(startTime) ||
+					!isValidDateTimeLocal(endTime)
+				) {
+					return true;
+				}
+				return new Date(startTime) < new Date(endTime);
+			},
+			{
+				message: "Start time must be before end time.",
+				path: ["startTime"],
+			},
+		);
+}
+
 export function EventAdminForm({
 	eventTypes,
 	defaultValues,
@@ -46,28 +99,22 @@ export function EventAdminForm({
 }: EventAdminFormProps) {
 	const router = useRouter();
 	const { actions } = useHackKitUI();
-	const [loading, setLoading] = React.useState(false);
-	const [values, setValues] = React.useState<EventFormValues>({
-		...emptyDefaults,
-		...defaultValues,
+	const schema = React.useMemo(
+		() => createEventFormSchema(eventTypes),
+		[eventTypes],
+	);
+	const form = useForm<EventFormValues>({
+		resolver: zodResolver(schema),
+		defaultValues: {
+			...emptyDefaults,
+			...defaultValues,
+		},
 	});
 
-	function updateField<K extends keyof EventFormValues>(
-		key: K,
-		value: EventFormValues[K],
-	) {
-		setValues((current) => ({ ...current, [key]: value }));
-	}
-
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-		setLoading(true);
-
+	async function handleSubmit(values: EventFormValues) {
 		const result = eventId
 			? await actions.updateEvent(eventId, values)
 			: await actions.createEvent(values);
-
-		setLoading(false);
 
 		if (!result.ok) {
 			toast.error(result.message);
@@ -81,28 +128,20 @@ export function EventAdminForm({
 
 	return (
 		<form
-			onSubmit={handleSubmit}
+			onSubmit={form.handleSubmit(handleSubmit)}
 			className={cn("mx-auto max-w-2xl space-y-6", className)}
 		>
 			<div className="space-y-2">
 				<Label htmlFor="title">Title</Label>
-				<Input
-					id="title"
-					value={values.title}
-					onChange={(event) => updateField("title", event.target.value)}
-					required
-				/>
+				<Input id="title" {...form.register("title")} />
+				<FieldError message={form.formState.errors.title?.message} />
 			</div>
 
 			<div className="space-y-2">
 				<Label htmlFor="description">Description</Label>
-				<Textarea
-					id="description"
-					value={values.description}
-					onChange={(event) =>
-						updateField("description", event.target.value)
-					}
-					required
+				<Textarea id="description" {...form.register("description")} />
+				<FieldError
+					message={form.formState.errors.description?.message}
 				/>
 			</div>
 
@@ -112,11 +151,10 @@ export function EventAdminForm({
 					<Input
 						id="startTime"
 						type="datetime-local"
-						value={values.startTime}
-						onChange={(event) =>
-							updateField("startTime", event.target.value)
-						}
-						required
+						{...form.register("startTime")}
+					/>
+					<FieldError
+						message={form.formState.errors.startTime?.message}
 					/>
 				</div>
 				<div className="space-y-2">
@@ -124,11 +162,10 @@ export function EventAdminForm({
 					<Input
 						id="endTime"
 						type="datetime-local"
-						value={values.endTime}
-						onChange={(event) =>
-							updateField("endTime", event.target.value)
-						}
-						required
+						{...form.register("endTime")}
+					/>
+					<FieldError
+						message={form.formState.errors.endTime?.message}
 					/>
 				</div>
 			</div>
@@ -136,57 +173,60 @@ export function EventAdminForm({
 			<div className="grid gap-4 md:grid-cols-2">
 				<div className="space-y-2">
 					<Label htmlFor="location">Location</Label>
-					<Input
-						id="location"
-						value={values.location}
-						onChange={(event) =>
-							updateField("location", event.target.value)
-						}
-						required
+					<Input id="location" {...form.register("location")} />
+					<FieldError
+						message={form.formState.errors.location?.message}
 					/>
 				</div>
 				<div className="space-y-2">
 					<Label htmlFor="type">Type</Label>
 					<Select
-						value={values.type}
-						onValueChange={(value) => updateField("type", value)}
+						value={form.watch("type")}
+						onValueChange={(value) =>
+							form.setValue("type", value, {
+								shouldValidate: true,
+							})
+						}
 					>
 						<SelectTrigger id="type">
 							<SelectValue placeholder="Select a type" />
 						</SelectTrigger>
 						<SelectContent>
 							{eventTypes.map((option) => (
-								<SelectItem key={option.value} value={option.value}>
+								<SelectItem
+									key={option.value}
+									value={option.value}
+								>
 									{option.label}
 								</SelectItem>
 							))}
 						</SelectContent>
 					</Select>
+					<FieldError message={form.formState.errors.type?.message} />
 				</div>
 			</div>
 
 			<div className="space-y-2">
 				<Label htmlFor="host">Host</Label>
-				<Input
-					id="host"
-					value={values.host}
-					onChange={(event) => updateField("host", event.target.value)}
-				/>
+				<Input id="host" {...form.register("host")} />
+				<FieldError message={form.formState.errors.host?.message} />
 			</div>
 
 			<div className="flex items-center gap-2">
 				<Checkbox
 					id="hidden"
-					checked={values.hidden}
+					checked={form.watch("hidden")}
 					onCheckedChange={(checked) =>
-						updateField("hidden", checked === true)
+						form.setValue("hidden", checked === true, {
+							shouldValidate: true,
+						})
 					}
 				/>
 				<Label htmlFor="hidden">Hidden from public schedule</Label>
 			</div>
 
-			<Button type="submit" disabled={loading}>
-				{loading ? "Saving..." : submitLabel}
+			<Button type="submit" disabled={form.formState.isSubmitting}>
+				{form.formState.isSubmitting ? "Saving..." : submitLabel}
 			</Button>
 		</form>
 	);
