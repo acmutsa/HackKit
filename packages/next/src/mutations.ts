@@ -1,7 +1,10 @@
 import {
 	CorePermission,
+	CoreSetting,
 	HackKitError,
 	type HackKit,
+	type SettingKey,
+	type SettingValue,
 } from "@hackkit/core";
 import type { HackkitRuntime } from "./runtime";
 
@@ -41,7 +44,8 @@ function parseEventFormValues(values: EventFormValues) {
 export type CreateHackKitMutationsOptions = {
 	hackkit: HackKit;
 	getAuthId: () => Promise<string>;
-	eventPassQrTtlMs: number;
+	getSettingValue: (key: SettingKey) => Promise<SettingValue>;
+	invalidateSettingsCache?: () => void;
 };
 
 export function createHackKitMutations(runtime: HackkitRuntime): HackKitUIActions;
@@ -55,14 +59,16 @@ export function createHackKitMutations(
 		? {
 				hackkit: optionsOrRuntime.hackkit,
 				getAuthId: optionsOrRuntime.getAuthId,
-				eventPassQrTtlMs: optionsOrRuntime.eventPassQrTtlMs,
+				getSettingValue: optionsOrRuntime.getSettingValue,
+				invalidateSettingsCache: optionsOrRuntime.invalidateSettingsCache,
 			}
 		: optionsOrRuntime;
-	const { hackkit, getAuthId, eventPassQrTtlMs } = options;
+	const { hackkit, getAuthId, getSettingValue, invalidateSettingsCache } = options;
 	const now = () => new Date();
 
-	function resolveTargetFromQr(rawQr: string) {
-		return resolveEventPassTargetAuthId(rawQr, now(), eventPassQrTtlMs);
+	async function resolveTargetFromQr(rawQr: string) {
+		const eventPassQrTtlMs = await getSettingValue(CoreSetting.EventPassQrTtlMs);
+		return resolveEventPassTargetAuthId(rawQr, now(), Number(eventPassQrTtlMs));
 	}
 
 	return {
@@ -150,7 +156,7 @@ export function createHackKitMutations(
 		): Promise<HackKitActionResult<PreviewEventPassQrResult>> {
 			try {
 				const actorAuthId = await getAuthId();
-				const targetAuthId = resolveTargetFromQr(input.rawQr);
+				const targetAuthId = await resolveTargetFromQr(input.rawQr);
 				const permission = input.eventId
 					? CorePermission.EventsScan
 					: CorePermission.UsersCheckIn;
@@ -181,7 +187,7 @@ export function createHackKitMutations(
 		async checkInUser(input: CheckInUserInput) {
 			try {
 				const actorAuthId = await getAuthId();
-				const targetAuthId = resolveTargetFromQr(input.rawQr);
+				const targetAuthId = await resolveTargetFromQr(input.rawQr);
 				const updated = await hackkit.users.checkIn({
 					actorAuthId,
 					targetAuthId,
@@ -195,7 +201,7 @@ export function createHackKitMutations(
 		async recordEventScan(input: RecordEventScanInput) {
 			try {
 				const actorAuthId = await getAuthId();
-				const targetAuthId = resolveTargetFromQr(input.rawQr);
+				const targetAuthId = await resolveTargetFromQr(input.rawQr);
 				const result = await hackkit.events.recordEventScan({
 					actorAuthId,
 					eventId: input.eventId,
@@ -204,6 +210,38 @@ export function createHackKitMutations(
 				return actionSuccess(result);
 			} catch (error) {
 				return actionFailure(error, "Could not record scan.");
+			}
+		},
+
+		async listSettings() {
+			try {
+				const actorAuthId = await getAuthId();
+				const settings = await hackkit.settings.list({ actorAuthId });
+				return actionSuccess(settings);
+			} catch (error) {
+				return actionFailure(error, "Could not load settings.");
+			}
+		},
+
+		async setSettings(values) {
+			try {
+				const actorAuthId = await getAuthId();
+				const settings = await hackkit.settings.setMany({ actorAuthId, values });
+				invalidateSettingsCache?.();
+				return actionSuccess(settings);
+			} catch (error) {
+				return actionFailure(error, "Could not save settings.");
+			}
+		},
+
+		async resetSetting(key) {
+			try {
+				const actorAuthId = await getAuthId();
+				const setting = await hackkit.settings.reset({ actorAuthId, key });
+				invalidateSettingsCache?.();
+				return actionSuccess(setting);
+			} catch (error) {
+				return actionFailure(error, "Could not reset setting.");
 			}
 		},
 

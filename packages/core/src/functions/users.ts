@@ -3,6 +3,7 @@ import { HackKitError, parseInput } from "../errors";
 import { withDomainLog } from "../domain-log";
 import { coreModels } from "../models";
 import { CorePermission } from "../permissions";
+import type { CompetitorRegistrationPolicy } from "./registration-policy";
 import {
 	approveUserSchema,
 	banUserSchema,
@@ -23,7 +24,9 @@ export type UsersApiContext = Pick<
 	| "getRoleOrThrow"
 	| "requirePermission"
 	| "assertCanManageRole"
->;
+> & {
+	registrationPolicy: CompetitorRegistrationPolicy;
+};
 
 export function createUsersApi(context: UsersApiContext) {
 	const {
@@ -34,6 +37,7 @@ export function createUsersApi(context: UsersApiContext) {
 		getRoleOrThrow,
 		requirePermission,
 		assertCanManageRole,
+		registrationPolicy,
 	} = context;
 
 	return {
@@ -130,6 +134,9 @@ export function createUsersApi(context: UsersApiContext) {
 						CorePermission.UsersApprove,
 					);
 					const target = await getUserOrThrow(parsed.targetAuthId);
+					if (parsed.approved && !target.isApproved) {
+						await registrationPolicy.assertCanApproveUser(parsed.targetAuthId);
+					}
 					if (target.roleId)
 						assertCanManageRole(
 							principal,

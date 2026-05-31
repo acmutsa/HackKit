@@ -104,6 +104,23 @@ export const coreModels = {
 		},
 		indexes: [["startTime"], ["type"], ["hidden"]],
 	}),
+	setting: defineModel("core.setting", {
+		fields: {
+			key: field.string().primaryKey(),
+			value: field.json<unknown>(),
+			createdAt: field.date().defaultNow(),
+			createdByAuthId: field
+				.string()
+				.optional()
+				.references("core.user", "authId", { onDelete: "setNull" }),
+			updatedAt: field.date().defaultNow(),
+			updatedByAuthId: field
+				.string()
+				.optional()
+				.references("core.user", "authId", { onDelete: "setNull" }),
+		},
+		indexes: [["updatedAt"], ["updatedByAuthId"]],
+	}),
 	eventScan: defineModel("core.eventScan", {
 		fields: {
 			id: field.string().primaryKey().defaultId(),

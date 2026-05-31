@@ -66,6 +66,9 @@ importers:
       '@hackkit/cli':
         specifier: workspace:*
         version: link:../../packages/cli
+      '@hackkit/config':
+        specifier: workspace:*
+        version: link:../../packages/hackkit-config
       '@hackkit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -401,6 +404,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@hackkit/config':
+        specifier: workspace:*
+        version: link:../hackkit-config
       '@hackkit/core':
         specifier: workspace:*
         version: link:../core
@@ -413,9 +419,6 @@ importers:
       drizzle-orm:
         specifier: ^0.39.3
         version: 0.39.3(@libsql/client@0.14.0)(@planetscale/database@1.18.0)
-      jiti:
-        specifier: ^2.4.2
-        version: 2.4.2
     devDependencies:
       '@types/node':
         specifier: 20.14.11
@@ -447,7 +450,7 @@ importers:
         version: 5.5.3
       vitest:
         specifier: ^3.2.4
-        version: 3.2.4(@types/node@20.14.11)
+        version: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
 
   packages/db:
     dependencies:
@@ -486,8 +489,30 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/hackkit-config:
+    dependencies:
+      '@hackkit/core':
+        specifier: workspace:*
+        version: link:../core
+      jiti:
+        specifier: ^2.4.2
+        version: 2.4.2
+    devDependencies:
+      '@types/node':
+        specifier: 20.14.11
+        version: 20.14.11
+      typescript:
+        specifier: 5.5.3
+        version: 5.5.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
+
   packages/next:
     dependencies:
+      '@hackkit/config':
+        specifier: workspace:*
+        version: link:../hackkit-config
       '@hackkit/core':
         specifier: workspace:*
         version: link:../core
@@ -546,7 +571,7 @@ importers:
         version: 5.5.3
       vitest:
         specifier: ^3.2.4
-        version: 3.2.4(@types/node@20.14.11)
+        version: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
 
   packages/tsconfig: {}
 
@@ -6677,7 +6702,7 @@ packages:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
-      vite: 7.3.3(@types/node@20.14.11)
+      vite: 7.3.3(@types/node@20.14.11)(jiti@2.4.2)
     dev: true
 
   /@vitest/pretty-format@3.2.4:
@@ -8839,7 +8864,6 @@ packages:
   /jiti@2.4.2:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
-    dev: false
 
   /jose@6.2.3:
     resolution: {integrity: sha512-YYVDInQKFJfR/xa3ojUTl8c2KoTwiL1R5Wg9YCydwH0x0B9grbzlg5HC7mMjCtUJjbQ/YnGEZIhI5tCgfTb4Hw==}
@@ -9148,6 +9172,7 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: true
 
   /nanoid@5.0.7:
     resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
@@ -9601,9 +9626,9 @@ packages:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.7
+      nanoid: 3.3.12
       picocolors: 1.1.1
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
     dev: false
 
   /postcss@8.4.39:
@@ -10425,6 +10450,7 @@ packages:
   /source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -11111,7 +11137,7 @@ packages:
       d3-timer: 3.0.1
     dev: false
 
-  /vite-node@3.2.4(@types/node@20.14.11):
+  /vite-node@3.2.4(@types/node@20.14.11)(jiti@2.4.2):
     resolution: {integrity: sha512-EbKSKh+bh1E1IFxeO0pg1n4dvoOTt0UDiXMd/qn++r98+jPO1xtJilvXldeuQ8giIB5IkpjCgMleHMNEsGH6pg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
@@ -11120,7 +11146,7 @@ packages:
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.3.3(@types/node@20.14.11)
+      vite: 7.3.3(@types/node@20.14.11)(jiti@2.4.2)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -11136,7 +11162,7 @@ packages:
       - yaml
     dev: true
 
-  /vite@7.3.3(@types/node@20.14.11):
+  /vite@7.3.3(@types/node@20.14.11)(jiti@2.4.2):
     resolution: {integrity: sha512-/4XH147Ui7OGTjg3HbdWe5arnZQSbfuRzdr9Ec7TQi5I7R+ir0Rlc9GIvD4v0XZurELqA035KVXJXpR61xhiTA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
@@ -11179,6 +11205,7 @@ packages:
       '@types/node': 20.14.11
       esbuild: 0.27.0
       fdir: 6.5.0(picomatch@4.0.4)
+      jiti: 2.4.2
       picomatch: 4.0.4
       postcss: 8.5.15
       rollup: 4.60.4
@@ -11187,7 +11214,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@3.2.4(@types/node@20.14.11):
+  /vitest@3.2.4(@types/node@20.14.11)(jiti@2.4.2):
     resolution: {integrity: sha512-LUCP5ev3GURDysTWiP47wRRUpLKMOfPh+yKTx3kVIEiu5KOMeqzpnYNsKyOoVrULivR8tLcks4+lga33Whn90A==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
@@ -11236,8 +11263,8 @@ packages:
       tinyglobby: 0.2.16
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 7.3.3(@types/node@20.14.11)
-      vite-node: 3.2.4(@types/node@20.14.11)
+      vite: 7.3.3(@types/node@20.14.11)(jiti@2.4.2)
+      vite-node: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
       why-is-node-running: 2.3.0
     transitivePeerDependencies:
       - jiti

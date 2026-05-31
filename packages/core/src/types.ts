@@ -20,3 +20,5 @@ export type Event = InferSelect<typeof coreModels.event>;
 export type NewEvent = InferInsert<typeof coreModels.event>;
 export type EventScan = InferSelect<typeof coreModels.eventScan>;
 export type NewEventScan = InferInsert<typeof coreModels.eventScan>;
+export type HackathonSetting = InferSelect<typeof coreModels.setting>;
+export type NewHackathonSetting = InferInsert<typeof coreModels.setting>;

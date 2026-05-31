@@ -1,11 +1,11 @@
 import { createLogger, type HackKitLogger } from "@hackkit/core";
-import hackkitConfig from "../hackkit.config";
+import { appConfig } from "./app-config";
 
 let logger: HackKitLogger | null = null;
 
 export function getAppLogger(): HackKitLogger {
 	if (!logger) {
-		logger = createLogger(hackkitConfig.logger);
+		logger = createLogger(appConfig.logger);
 	}
 	return logger;
 }

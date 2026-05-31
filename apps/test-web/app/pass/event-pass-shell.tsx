@@ -1,14 +1,11 @@
 "use client";
 
-import {
-	createEventPassQrPayload,
-	DEFAULT_EVENT_PASS_QR_TTL_MS,
-} from "@hackkit/ui";
+import { createEventPassQrPayload } from "@hackkit/ui";
 import type { User } from "@hackkit/core";
 import { EventPass } from "@hackkit/ui";
 import * as React from "react";
 
-export function EventPassShell({ user }: { user: User }) {
+export function EventPassShell({ user, eventPassQrTtlMs }: { user: User; eventPassQrTtlMs: number }) {
 	const [issuedAt, setIssuedAt] = React.useState(() => new Date());
 	const qrPayload = React.useMemo(
 		() => createEventPassQrPayload(user.authId, issuedAt),
@@ -16,7 +13,7 @@ export function EventPassShell({ user }: { user: User }) {
 	);
 
 	React.useEffect(() => {
-		const expiresAt = issuedAt.getTime() + DEFAULT_EVENT_PASS_QR_TTL_MS;
+		const expiresAt = issuedAt.getTime() + eventPassQrTtlMs;
 		const msUntilExpiry = expiresAt - Date.now();
 		const refresh = () => setIssuedAt(new Date());
 
@@ -27,7 +24,7 @@ export function EventPassShell({ user }: { user: User }) {
 
 		const timeoutId = window.setTimeout(refresh, msUntilExpiry);
 		return () => window.clearTimeout(timeoutId);
-	}, [issuedAt]);
+	}, [issuedAt, eventPassQrTtlMs]);
 
 	return (
 		<EventPass

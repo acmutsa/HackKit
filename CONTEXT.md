@@ -92,6 +92,22 @@ _Avoid_: **Hackathon Check-in**, **Event** RSVP
 A per-hackathon setting that controls **Organiser Approval** after **Competitor Onboarding** completes. When required, `isApproved` stays false until an organiser approves the **User**. When not required, completing the final onboarding step sets `isApproved` true automatically.
 _Avoid_: **Permission** keys, registration open/closed toggles
 
+**Hackathon Setting**:
+A typed, runtime-adjustable hackathon policy value that changes participant-facing behavior without redeploying the **HackKit Web App**.
+_Avoid_: App setting, feature flag, environment config, config-backed option
+
+**Hackathon Settings Registry**:
+The collection of **Hackathon Setting** definitions contributed by **HackKit Core** and **HackKit Plugins**, including each setting's type, default, label, description, and optional category.
+_Avoid_: Unstructured key/value store, feature flag list
+
+**Maximum Registrations**:
+The maximum number of **Hackers** who may complete first-time **Hacker Registration**, with zero meaning unlimited.
+_Avoid_: RSVP limit, attendance limit, approved capacity, venue size
+
+**Hackathon Capacity**:
+The maximum number of **Hackers** who may receive **Organiser Approval**, with zero meaning unlimited.
+_Avoid_: Maximum registrations, RSVP limit, attendance limit, volunteer capacity, organiser capacity
+
 **HackTag**:
 A public handle that identifies a User within a HackKit application once claimed.
 _Avoid_: Hacker tag, username
@@ -115,6 +131,10 @@ _Avoid_: User type, group
 **Permission**:
 A namespaced capability key granted through a Role.
 _Avoid_: Role, feature flag, bitmask
+
+**Settings Management Permission**:
+The **Permission** that allows a **User** to list and change **Hackathon Settings**.
+_Avoid_: **Admin Permission**, plugin-specific settings role
 
 **Admin Permission**:
 The Permission that bypasses ordinary permission-key checks while still respecting Role hierarchy.
@@ -154,7 +174,7 @@ _Avoid_: Ticket, badge
 
 **Event Pass QR TTL**:
 The maximum age of an **Event Pass** QR timestamp that volunteer scan flows accept before check-in or **Event Scan** is recorded.
-_Avoid_: Session timeout, auth token expiry, HackKit Core validation
+_Avoid_: Session timeout, auth token expiry
 
 **Event Pass QR**:
 The encoded payload (including participant identity and issue time) presented as a scannable **Event Pass**. Encoding, parsing, and freshness checks are implemented in **HackKit UI**; the server mutation layer imports the same module to validate raw QR on confirm before calling **HackKit Core**.
@@ -175,6 +195,10 @@ _Avoid_: Admin, organizer
 **Team Member**:
 A **Hacker** who belongs to a **Team**.
 _Avoid_: User, invitee, organizer
+
+**Maximum Team Size**:
+The maximum number of **Team Members** allowed on a **Team**, with zero meaning unlimited.
+_Avoid_: **Hackathon Capacity**, pending invite limit, team count
 
 **Team Invite**:
 A pending, accepted, or declined request for a **Hacker** to join a **Team**.
@@ -199,6 +223,7 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit Web Apps** may replace the default **HackKit Logger** with a custom implementation (for example forwarding to a hosted logging service) without changing **HackKit Core** source.
 -   **HackKit Core** emits operational messages for significant domain APIs (such as **Hacker Registration**, **Organiser Approval**, **Hackathon Check-in**) through the **HackKit Logger** at **Log Level**s such as `info` or `debug`; this is not a separate persisted **Audit Log** model in v1.
 -   **Log Context** for those messages includes action name, outcome, **Auth ID**s, relevant record ids, and error codes on failure; it excludes PII and form payloads.
+-   **Hackathon Setting** changes are emitted through the **HackKit Logger** with **Log Context** including the actor **Auth ID** and setting key, but v1 stores only the latest setting value rather than a persisted change history.
 -   **HackKit Core** receives **HackKit Plugins** through `createHackkit`.
 -   **HackKit Plugins** should be configured in one place so package-specific integration details stay contained inside plugin packages.
 -   **HackKit Plugins** expose storage schema contributions using **Storage Schema** without requiring every plugin to implement every database dialect.
@@ -237,7 +262,10 @@ _Avoid_: **Event Scan**, RSVP
 -   A **User** may have zero or one **Hacker** profile.
 -   **Competitor Onboarding** is the product journey that produces a **Hacker**; each step uses separate **HackKit Core** operations and **HackKit Web App** routes rather than one combined registration transaction.
 -   **Competitor Onboarding** step order is: authenticate → **User** → **HackTag** → **User Data** → **Hacker Registration** → **Organiser Approval**.
--   **Require Approval** is configured per hackathon in `hackkit.config.ts` for this milestone; runtime organiser toggles for registration or approval are out of scope until a separate settings discussion.
+-   **Require Approval** is a **Hackathon Setting**, not static **HackKit Web App** configuration.
+-   **Hackathon Settings** are owned by **HackKit Core** and surfaced by **HackKit Web Apps** through admin UI.
+-   **HackKit Core** defines built-in **Hackathon Settings** and **HackKit Plugins** may contribute plugin-specific **Hackathon Settings** to the **Hackathon Settings Registry**.
+-   A hackathon policy is either a **Hackathon Setting** or static **HackKit Web App** configuration, never both at the same time.
 -   A **HackKit Web App** may ship the full multi-step **Competitor Onboarding** flow before enforcing **Organiser Approval** gates in routes and UI.
 -   Early **HackKit Web App** implementations may use guided “next step” links without hard redirects between onboarding steps; strict step enforcement may come later.
 -   **HackKit UI** may provide a **Competitor Onboarding Progress** component that displays step labels and completion state from props supplied by the **HackKit Web App** (no hard redirects).
@@ -281,6 +309,7 @@ _Avoid_: **Event Scan**, RSVP
 -   Each **Team** has exactly one **Team Owner**, who is always a **Team Member**.
 -   **Team Invites** are sent by the **Team Owner** and responded to by the invited **Hacker**.
 -   **Team Invites** use pending, accepted, and declined statuses in v1.
+-   **Maximum Team Size** belongs to the teams plugin settings, defaults to four, and is enforced when a **Team Invite** is accepted or a member is otherwise added to a **Team**.
 
 ## Example dialogue
 
@@ -309,9 +338,18 @@ _Avoid_: **Event Scan**, RSVP
 -   Legacy `events.name` column stored the event title — resolved: HackKit Core uses domain property `title`.
 -   Legacy `checkinTimestamp` on user records — resolved: **Hackathon Check-in** uses `checkedInAt` on **User** in HackKit Core.
 -   Whether competitors are approved immediately or by organisers — resolved: **Require Approval** hackathon setting; when not required, final onboarding step sets `isApproved` true; when required, organisers approve via **Organiser Approval** workflow.
--   “Logging system” as persisted `error_log` rows vs framework logging — resolved: **HackKit Logger** pluggable boundary with **Log Level** and custom implementation; significant **HackKit Core** domain APIs log through it without a separate audit table in v1.
+-   “Logging system” as persisted `error_log` rows vs framework logging — resolved: **HackKit Logger** pluggable boundary with **Log Level** and custom implementation; significant **HackKit Core** domain APIs, including **Hackathon Setting** changes, log through it without a separate audit table in v1.
 -   Default **Log Level** when unset — resolved: `info` in development, `warn` in production (environment-based), overridable per **HackKit Web App**.
--   Runtime admin toggles (e.g. registration open/closed) — deferred; not part of this **Competitor Onboarding** / **HackKit Logger** milestone.
+-   Runtime admin toggles (e.g. registration open/closed) — resolved: model them as typed **Hackathon Settings** owned by **HackKit Core**, not generic **HackKit Web App** preferences or an unstructured key/value store.
+-   **Hackathon Setting** source of truth — resolved: a setting may have a built-in default, but its actual value must not be set from both static config and live admin-managed settings.
+-   **Require Approval**, **Event Pass QR TTL**, **Maximum Registrations**, **Hackathon Capacity**, and whether new **Hacker Registration** is open are **Hackathon Settings**.
+-   Default **Hackathon Settings** are: new **Hacker Registration** open, **Require Approval** off, existing **Event Pass QR TTL** default, **Maximum Registrations** unlimited, and **Hackathon Capacity** unlimited.
+-   Changing **Hackathon Settings** requires the **Settings Management Permission**.
+-   When new **Hacker Registration** is closed, **HackKit Core** rejects first-time **Hacker Registration** but does not reject **User Data** completion or updates to existing **Hacker Registration** records.
+-   **Maximum Registrations** is enforced against first-time **Hacker Registration** by counting existing **Hackers**; volunteers and organisers who are not **Hackers** do not count toward this limit.
+-   **Hackathon Capacity** is enforced against **Organiser Approval** by counting approved **Hackers**; volunteers and organisers who are not **Hackers** do not count toward this limit.
+-   Lowering **Maximum Registrations** or **Hackathon Capacity** below the current count does not retroactively remove **Hackers** or revoke **Organiser Approval**; it blocks future registrations or approvals.
+-   Admin experiences should surface when the current **Hacker** or approved **Hacker** count exceeds the configured **Maximum Registrations** or **Hackathon Capacity**.
 -   Resume on **Hacker Registration** — resolved: optional `resumeUrl` only; no legacy “no resume provided” sentinel URL.
 -   **Hacker** `group` assignment — deferred this milestone; field may remain unset until guild/group policy is defined.
 -   Default competitor **Role** on onboarding — resolved: applied when **Hacker Registration** completes, not at auth/`ensureUser` (legacy-aligned).

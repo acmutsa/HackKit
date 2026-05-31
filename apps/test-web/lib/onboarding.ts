@@ -5,21 +5,23 @@ import {
 	getNextOnboardingStepHref,
 	type CompetitorOnboardingStep,
 } from "@hackkit/ui";
-import hackkitConfig from "../hackkit.config";
-import { getCurrentUser, getHackkit } from "./runtime";
+import { CoreSetting } from "@hackkit/core";
+import { getCurrentUser, getHackkit, getRuntime } from "./runtime";
 
 async function loadCompetitorOnboardingInput(currentPath: string) {
 	const user = await getCurrentUser();
 	const hackkit = await getHackkit();
-	const [userData, hacker] = await Promise.all([
+	const runtime = await getRuntime();
+	const [userData, hacker, requireApproval] = await Promise.all([
 		hackkit.userData.getUserData(user.authId),
 		hackkit.hackers.getHacker(user.authId),
+		runtime.getSettingValue(CoreSetting.RequireApproval),
 	]);
 	return {
 		user,
 		userData,
 		hacker,
-		requireApproval: hackkitConfig.requireApproval ?? false,
+		requireApproval: Boolean(requireApproval),
 		currentPath,
 	};
 }
@@ -43,6 +45,6 @@ export async function getCompetitorOnboardingState(currentPath: string) {
 	};
 }
 
-export function getRequireApproval(): boolean {
-	return hackkitConfig.requireApproval ?? false;
+export async function getRequireApproval(): Promise<boolean> {
+	return Boolean(await (await getRuntime()).getSettingValue(CoreSetting.RequireApproval));
 }

@@ -1,9 +1,11 @@
 export {
+	createHackkitRuntimeFromConfig,
 	createHackkitRuntime,
 	getHackkitRuntime,
 	setHackkitRuntime,
 } from "./runtime";
 export type {
+	CreateHackkitRuntimeFromConfigOptions,
 	CreateHackkitRuntimeOptions,
 	HackkitRuntime,
 } from "./runtime";

@@ -150,6 +150,19 @@ export const coreEvent = sqliteTable("core_event", {
 	updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
 });
 
+export const coreSetting = sqliteTable("core_setting", {
+	key: text("key").primaryKey().notNull(),
+	value: text("value", { mode: "json" }).notNull(),
+	createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
+	createdByAuthId: text("createdByAuthId").references(() => coreUser.authId, {
+		onDelete: "set null",
+	}),
+	updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+	updatedByAuthId: text("updatedByAuthId").references(() => coreUser.authId, {
+		onDelete: "set null",
+	}),
+});
+
 export const coreEventScan = sqliteTable("core_eventScan", {
 	id: text("id").primaryKey().notNull(),
 	eventId: text("eventId")

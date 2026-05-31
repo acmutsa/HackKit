@@ -1,7 +1,20 @@
-import type { Event, EventScan, EventTypes, User } from "@hackkit/core";
+import type {
+	Event,
+	EventScan,
+	EventTypes,
+	ResolvedHackathonSetting,
+	SettingKey,
+	User,
+} from "@hackkit/core";
 import type { HackKitActionResult } from "./actions";
 
-export type { EventTypeOption, EventTypes, UserDataOptions } from "@hackkit/core";
+export type {
+	EventTypeOption,
+	EventTypes,
+	ResolvedHackathonSetting,
+	SettingKey,
+	UserDataOptions,
+} from "@hackkit/core";
 
 export type UserDataFormValues = {
 	age: number;
@@ -66,6 +79,8 @@ export type CheckInUserInput = {
 	rawQr: string;
 };
 
+export type SetSettingsInput = readonly { key: SettingKey; value: boolean | number }[];
+
 export type HackKitUIActions = {
 	completeUserData: (
 		values: UserDataFormValues,
@@ -100,6 +115,13 @@ export type HackKitUIActions = {
 		input: CheckInUserInput,
 	) => Promise<HackKitActionResult<User>>;
 	clearCheckIn: (targetAuthId: string) => Promise<HackKitActionResult<User>>;
+	listSettings: () => Promise<HackKitActionResult<ResolvedHackathonSetting[]>>;
+	setSettings: (
+		values: SetSettingsInput,
+	) => Promise<HackKitActionResult<ResolvedHackathonSetting[]>>;
+	resetSetting: (
+		key: SettingKey,
+	) => Promise<HackKitActionResult<ResolvedHackathonSetting>>;
 };
 
 export type ScheduleListProps = {
@@ -133,4 +155,9 @@ export type EventScannerProps = {
 export type CheckInScannerProps = {
 	className?: string;
 	onDone?: () => void;
+};
+
+export type HackathonSettingsFormProps = {
+	settings: ResolvedHackathonSetting[];
+	className?: string;
 };

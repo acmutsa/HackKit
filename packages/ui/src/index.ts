@@ -30,6 +30,7 @@ export { toDateTimeLocalValue } from "./lib/datetime-local";
 export { EventAdminList } from "./components/event-admin-list";
 export { EventScanner } from "./components/event-scanner";
 export { CheckInScanner } from "./components/check-in-scanner";
+export { HackathonSettingsForm } from "./components/hackathon-settings-form";
 export {
 	createEventPassQrPayload,
 	DEFAULT_EVENT_PASS_QR_TTL_MS,
@@ -44,6 +45,7 @@ export type {
 	EventFormValues,
 	EventPassProps,
 	EventScannerProps,
+	HackathonSettingsFormProps,
 	HackKitUIActions,
 	HackTagFormValues,
 	HackerRegistrationFormValues,
@@ -51,6 +53,7 @@ export type {
 	PreviewEventPassQrResult,
 	RecordEventScanInput,
 	ScheduleListProps,
+	SetSettingsInput,
 	UserDataFormValues,
 } from "./types";
 

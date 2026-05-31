@@ -17,7 +17,10 @@ export default async function DashboardPage() {
 		userData,
 		hacker,
 	} = await getCompetitorOnboardingState("/dashboard");
-	const hackkit = await getHackkit();
+	const [hackkit, requireApproval] = await Promise.all([
+		getHackkit(),
+		getRequireApproval(),
+	]);
 	const role = currentUser.roleId
 		? await hackkit.roles.getRole(currentUser.roleId)
 		: null;
@@ -30,7 +33,7 @@ export default async function DashboardPage() {
 					<p className="text-muted-foreground">
 						Role: {role?.name ?? "None"} · Check-in:{" "}
 						{currentUser.checkedInAt ? "Yes" : "No"}
-						{getRequireApproval()
+						{requireApproval
 							? ` · Approved: ${currentUser.isApproved ? "Yes" : "Pending"}`
 							: ""}
 					</p>

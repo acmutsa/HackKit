@@ -4,8 +4,11 @@ import {
 	type AuthAdapter,
 	type HackKit,
 	type HackKitPlugin,
+	type SettingKey,
+	type SettingValue,
 	type User,
 } from "@hackkit/core";
+import { resolveHackkitConfig, type HackkitConfig } from "@hackkit/config";
 import type { EventTypesInput, UserDataOptionsInput } from "@hackkit/core";
 import type { HackKitLoggerOptions, PermissionKey } from "@hackkit/core";
 import type { HackKitUIActions } from "@hackkit/ui";
@@ -19,9 +22,7 @@ export type CreateHackkitRuntimeOptions = {
 	plugins?: readonly HackKitPlugin[];
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
-	eventPassQrTtlMs: number;
 	logger?: HackKitLoggerOptions;
-	requireApproval?: boolean;
 	defaultCompetitorRoleId?: string;
 	seedRoles?: readonly {
 		id: string;
@@ -32,13 +33,20 @@ export type CreateHackkitRuntimeOptions = {
 	}[];
 };
 
+export type CreateHackkitRuntimeFromConfigOptions = {
+	config: HackkitConfig;
+	database: unknown;
+	auth: AuthAdapter;
+};
+
 export type HackkitRuntime = {
 	hackkit: HackKit;
 	mutations: HackKitUIActions;
 	pageGuards: PageGuards;
 	getAuthId: () => Promise<string>;
 	getCurrentUser: () => Promise<User>;
-	eventPassQrTtlMs: number;
+	getSettingValue: (key: SettingKey) => Promise<SettingValue>;
+	invalidateSettingsCache: () => void;
 };
 
 export async function createHackkitRuntime(
@@ -50,7 +58,6 @@ export async function createHackkitRuntime(
 		userDataOptions: options.userDataOptions,
 		eventTypes: options.eventTypes,
 		logger: options.logger,
-		requireApproval: options.requireApproval,
 		defaultCompetitorRoleId: options.defaultCompetitorRoleId,
 		seedRoles: options.seedRoles,
 	});
@@ -75,13 +82,26 @@ export async function createHackkitRuntime(
 		});
 	}
 
+	const settingsCache = new Map<SettingKey, Promise<SettingValue>>();
+	function invalidateSettingsCache() {
+		settingsCache.clear();
+	}
+	function getSettingValue(key: SettingKey): Promise<SettingValue> {
+		const cached = settingsCache.get(key);
+		if (cached) return cached;
+		const value = hackkit.settings.getValue(key);
+		settingsCache.set(key, value);
+		return value;
+	}
+
 	const mutations = createHackKitMutations({
 		hackkit,
 		getAuthId,
-		eventPassQrTtlMs: options.eventPassQrTtlMs,
+		getSettingValue,
+		invalidateSettingsCache,
 	});
 
-	const pageGuards = createPageGuards(hackkit, getAuthId);
+	const pageGuards = createPageGuards(hackkit, getAuthId, { getSettingValue });
 
 	return {
 		hackkit,
@@ -89,8 +109,25 @@ export async function createHackkitRuntime(
 		pageGuards,
 		getAuthId,
 		getCurrentUser,
-		eventPassQrTtlMs: options.eventPassQrTtlMs,
+		getSettingValue,
+		invalidateSettingsCache,
 	};
+}
+
+export function createHackkitRuntimeFromConfig(
+	options: CreateHackkitRuntimeFromConfigOptions,
+): Promise<HackkitRuntime> {
+	const config = resolveHackkitConfig(options.config);
+	return createHackkitRuntime({
+		database: options.database,
+		auth: options.auth,
+		plugins: config.plugins,
+		userDataOptions: config.userDataOptions,
+		eventTypes: config.eventTypes,
+		logger: config.logger,
+		defaultCompetitorRoleId: config.defaultCompetitorRoleId,
+		seedRoles: config.seedRoles,
+	});
 }
 
 let runtimePromise: Promise<HackkitRuntime> | null = null;

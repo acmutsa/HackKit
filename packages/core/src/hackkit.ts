@@ -32,6 +32,8 @@ import type {
 } from "./types";
 import { createUsersApi } from "./functions/users";
 import { createEventsApi } from "./functions/events";
+import { createSettingsApi } from "./functions/settings";
+import { createCompetitorRegistrationPolicy } from "./functions/registration-policy";
 import {
 	createCompleteUserDataSchema,
 	resolveUserDataOptions,
@@ -65,7 +67,6 @@ type CreateHackkitOptions<
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
 	logger?: HackKitLoggerOptions;
-	requireApproval?: boolean;
 	defaultCompetitorRoleId?: string;
 	seedRoles?: readonly SeedRoleInput[];
 };
@@ -83,13 +84,11 @@ export function createHackkit<
 	const db = isDatabaseAdapterFactory(options.database)
 		? options.database.create({ storage: registry.storage, now, id })
 		: options.database;
-	const pluginApis = setupPluginApis(plugins, { database: db, registry });
 	const userDataOptions = resolveUserDataOptions(options.userDataOptions);
 	const eventTypes = resolveEventTypes(options.eventTypes);
 	const completeUserDataSchema =
 		createCompleteUserDataSchema(userDataOptions);
 	const logger = createLogger(options.logger);
-	const requireApproval = options.requireApproval ?? false;
 	const defaultCompetitorRoleId = options.defaultCompetitorRoleId;
 	const seedRoles = options.seedRoles ?? [];
 
@@ -119,14 +118,26 @@ export function createHackkit<
 	}
 
 	const accessControl = createAccessControl({ getUserOrThrow, getRoleOrThrow });
+	const settingsApi = createSettingsApi({
+		db,
+		now,
+		logger,
+		settings: registry.settings,
+		requirePermission: accessControl.requirePermission,
+	});
+	const pluginApis = setupPluginApis(plugins, {
+		database: db,
+		registry,
+		getSettingValue: settingsApi.getValue,
+	});
 
 	const runtimeContext: HackkitRuntimeContext = {
 		db,
 		now,
 		id,
 		logger,
-		requireApproval,
 		defaultCompetitorRoleId,
+		getSettingValue: settingsApi.getValue,
 		eventTypes,
 		userDataOptions,
 		getUserOrThrow,
@@ -135,6 +146,8 @@ export function createHackkit<
 		assertCanManageRole: accessControl.assertCanManageRole,
 		accessControl,
 	};
+
+	const registrationPolicy = createCompetitorRegistrationPolicy(runtimeContext);
 
 	async function registerHacker(input: unknown): Promise<Hacker> {
 		const parsed = parseInput(registerHackerSchema, input);
@@ -164,6 +177,8 @@ export function createHackkit<
 
 				let hacker: Hacker;
 				if (!existing) {
+					const { requireApproval } =
+						await registrationPolicy.assertCanRegisterNewHacker();
 					hacker = await db.insert(coreModels.hacker, value);
 					if (defaultCompetitorRoleId) {
 						await getRoleOrThrow(defaultCompetitorRoleId);
@@ -205,7 +220,8 @@ export function createHackkit<
 		registry,
 		plugins: pluginApis,
 		accessControl,
-		users: createUsersApi(runtimeContext),
+		settings: settingsApi,
+		users: createUsersApi({ ...runtimeContext, registrationPolicy }),
 		events: createEventsApi(runtimeContext),
 		async init(): Promise<void> {
 			await seedConfiguredRoles();

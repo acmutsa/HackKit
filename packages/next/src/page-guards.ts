@@ -1,11 +1,12 @@
-import type { HackKit, PermissionKey } from "@hackkit/core";
-import { HackKitError } from "@hackkit/core";
+import type { HackKit, PermissionKey, SettingKey, SettingValue } from "@hackkit/core";
+import { CoreSetting, HackKitError } from "@hackkit/core";
 import type { AccessPrincipal } from "@hackkit/core";
 import { notFound, redirect } from "next/navigation";
 
 export type PageGuardOptions = {
 	onForbidden?: "notFound" | "redirect" | ((error: HackKitError) => never);
 	redirectTo?: string;
+	getSettingValue?: (key: SettingKey) => Promise<SettingValue>;
 };
 
 export function createPageGuards(
@@ -38,6 +39,17 @@ export function createPageGuards(
 			} catch (error) {
 				handleForbidden(error);
 			}
+		},
+
+		async requireHackerRegistrationOpenForNewHacker(): Promise<void> {
+			const authId = await getAuthId();
+			const existing = await hackkit.hackers.getHacker(authId);
+			if (existing) return;
+			const registrationOpen = options.getSettingValue
+				? await options.getSettingValue(CoreSetting.RegistrationOpen)
+				: await hackkit.settings.getValue(CoreSetting.RegistrationOpen);
+			if (registrationOpen) return;
+			handleForbidden(new HackKitError("FORBIDDEN", "Hacker registration is closed."));
 		},
 
 		async getOptionalPermission(

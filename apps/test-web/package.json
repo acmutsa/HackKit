@@ -18,6 +18,7 @@
     "@hackkit/blob-local": "workspace:*",
     "@hackkit/blob-s3": "workspace:*",
     "@hackkit/cli": "workspace:*",
+    "@hackkit/config": "workspace:*",
     "@hackkit/core": "workspace:*",
     "@hackkit/next": "workspace:*",
     "@hackkit/plugin-teams": "workspace:*",

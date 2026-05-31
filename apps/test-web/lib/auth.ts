@@ -6,7 +6,6 @@ import { nextCookies } from "better-auth/next-js";
 import {
 	account,
 	session,
-	syncBetterAuthStorage,
 	toBetterAuthLogger,
 	user,
 	verification,
@@ -14,12 +13,10 @@ import {
 import { getAuthSession as getAuthSessionFromAuth } from "@hackkit/auth-better-auth/session";
 import { db } from "./db";
 import { getAppLogger } from "./logger";
+import { resolveAppBaseUrl } from "./app-config";
 
 export const auth = betterAuth({
-	baseURL:
-		process.env.BETTER_AUTH_URL ??
-		process.env.NEXT_PUBLIC_APP_URL ??
-		"http://localhost:3000",
+	baseURL: resolveAppBaseUrl(),
 	secret:
 		process.env.BETTER_AUTH_SECRET ??
 		"test-web-development-secret-change-me-please",

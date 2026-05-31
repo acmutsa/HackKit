@@ -6,6 +6,8 @@ import type {
 import { HackKitError } from "./errors";
 import { coreModels } from "./models";
 import { CorePermission } from "./permissions";
+import type { HackathonSettingDefinition, SettingKey, SettingValue } from "./settings";
+import { coreSettings } from "./settings";
 import type { PermissionKey } from "./types";
 
 type ModelMap = Record<string, PersistentModel>;
@@ -14,6 +16,7 @@ type PermissionMap = Record<string, PermissionKey>;
 export type HackKitPluginContext = {
 	database: DatabaseAdapter;
 	registry: HackKitRegistry;
+	getSettingValue: (key: SettingKey) => Promise<SettingValue>;
 };
 
 export type HackKitPlugin<
@@ -29,6 +32,7 @@ export type HackKitPlugin<
 	actionNames?: readonly string[];
 	models?: ModelMap;
 	permissions?: PermissionMap;
+	settings?: readonly HackathonSettingDefinition[];
 	setup?: (context: HackKitPluginContext) => TApi;
 };
 
@@ -45,6 +49,7 @@ export type HackKitRegistry = {
 	models: Record<string, PersistentModel>;
 	permissions: Record<string, PermissionKey>;
 	plugins: Record<string, HackKitPlugin>;
+	settings: readonly HackathonSettingDefinition[];
 	storage: StorageRegistry;
 };
 
@@ -55,6 +60,7 @@ export function createPluginRegistry(
 		models: { ...coreModels },
 		permissions: { ...CorePermission },
 		plugins: {},
+		settings: [...coreSettings],
 		storage: { models: { ...coreModels } },
 	};
 
@@ -84,6 +90,22 @@ export function createPluginRegistry(
 			}
 			registry.models[modelKey] = pluginModel;
 			registry.storage.models[modelKey] = pluginModel;
+		}
+
+		for (const setting of plugin.settings ?? []) {
+			if (!setting.key.startsWith(`${plugin.id}.`)) {
+				throw new HackKitError(
+					"INVALID_OPERATION",
+					`Plugin setting '${setting.key}' must use the '${plugin.id}.' namespace.`,
+				);
+			}
+			if (registry.settings.some((existing) => existing.key === setting.key)) {
+				throw new HackKitError(
+					"CONFLICT",
+					`HackKit setting '${setting.key}' is already registered.`,
+				);
+			}
+			registry.settings = [...registry.settings, setting];
 		}
 
 		for (const [name, permission] of Object.entries(

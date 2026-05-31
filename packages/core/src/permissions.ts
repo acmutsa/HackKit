@@ -19,6 +19,7 @@ export const CorePermission = {
 	EventsDelete: "core.events.delete",
 	EventsScan: "core.events.scan",
 	UsersCheckIn: "core.users.checkIn",
+	SettingsManage: "core.settings.manage",
 } as const satisfies Record<string, PermissionKey>;
 
 export type CorePermission =

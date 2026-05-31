@@ -19,6 +19,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@hackkit/config": "workspace:*",
     "@hackkit/core": "workspace:*",
     "@hackkit/ui": "workspace:*"
   },

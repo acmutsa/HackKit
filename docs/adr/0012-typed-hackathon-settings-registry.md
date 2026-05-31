@@ -1,0 +1,3 @@
+# Typed Hackathon Settings Registry with Generic Value Rows
+
+Hackathon Settings are defined by HackKit Core and plugins in a typed registry, while runtime values are persisted as one generic row per setting key with a JSON value and latest-change metadata. Missing rows resolve to definition defaults, settings are validated against their registered definitions, Core reads settings from the database without caching, and integration packages such as `@hackkit/next` may cache resolved settings and invalidate that cache after settings mutations. This keeps plugin-defined settings extensible without adding schema columns for every setting, while avoiding an unstructured key/value API.

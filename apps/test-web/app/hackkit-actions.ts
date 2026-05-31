@@ -1,5 +1,6 @@
 "use server";
 
+import type { SettingKey } from "@hackkit/core";
 import { createHackKitMutations } from "@hackkit/next";
 import { actionFailure, actionSuccess } from "@hackkit/ui/actions";
 import { getRuntime } from "@/lib/runtime";
@@ -72,6 +73,20 @@ export async function clearCheckIn(
 	...args: Parameters<ReturnType<typeof createHackKitMutations>["clearCheckIn"]>
 ) {
 	return createHackKitMutations(await getRuntime()).clearCheckIn(...args);
+}
+
+export async function listSettings() {
+	return createHackKitMutations(await getRuntime()).listSettings();
+}
+
+export async function setSettings(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["setSettings"]>
+) {
+	return createHackKitMutations(await getRuntime()).setSettings(...args);
+}
+
+export async function resetSetting(key: SettingKey) {
+	return createHackKitMutations(await getRuntime()).resetSetting(key);
 }
 
 export async function bootstrapOwner() {

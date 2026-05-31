@@ -2,6 +2,7 @@ import { coreModels, HackKitError } from "@hackkit/core";
 import type { AuthId, User } from "@hackkit/core";
 import type { HackKitPluginContext } from "@hackkit/core";
 import { teamsModels, type Team, type TeamInvite, type TeamMember } from "./models";
+import { TeamsSetting } from "./settings";
 
 export type TeamWithMembers = Team & {
 	members: (TeamMember & { user: User })[];
@@ -67,6 +68,20 @@ async function resolveInviteeAuthId(
 		throw new HackKitError("NOT_FOUND", "User with that HackTag was not found.");
 	}
 	return user.authId;
+}
+
+async function assertTeamHasRoom(
+	context: HackKitPluginContext,
+	teamId: string,
+): Promise<void> {
+	const maximumTeamSize = await context.getSettingValue(TeamsSetting.MaximumTeamSize);
+	if (typeof maximumTeamSize !== "number" || maximumTeamSize === 0) return;
+	const members = await context.database.findMany(teamsModels.member, {
+		where: { teamId },
+	});
+	if (members.length >= maximumTeamSize) {
+		throw new HackKitError("INVALID_OPERATION", "Maximum team size has been reached.");
+	}
 }
 
 async function hydrateTeam(
@@ -210,6 +225,7 @@ export function createTeamsApi(context: HackKitPluginContext) {
 			);
 			await assertNotOnTeam(context, input.actorAuthId);
 
+			await assertTeamHasRoom(context, invite.teamId);
 			await database.insert(teamsModels.member, {
 				teamId: invite.teamId,
 				authId: input.actorAuthId,

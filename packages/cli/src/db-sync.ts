@@ -1,7 +1,7 @@
 import { createClient } from "@libsql/client";
 import {
+	createDrizzleDatabaseAdapter,
 	createPluginRegistry,
-	syncDrizzleStorage,
 } from "@hackkit/core";
 import { drizzle } from "drizzle-orm/libsql";
 import type { HackkitConfig } from "./config";
@@ -12,8 +12,12 @@ export async function runDbSync(config: HackkitConfig): Promise<void> {
 	const client = createClient({ url: config.databaseUrl });
 	const db = drizzle(client);
 	const registry = createPluginRegistry(config.plugins ?? []);
+	const databaseAdapter = createDrizzleDatabaseAdapter(db as any);
 
-	await syncDrizzleStorage(db as any, registry.storage);
+	if (!databaseAdapter.schema?.sync) {
+		throw new Error("Configured database adapter does not support schema sync.");
+	}
+	await databaseAdapter.schema.sync({ storage: registry.storage });
 
 	if (config.auth?.syncStorage) {
 		await config.auth.syncStorage(db);

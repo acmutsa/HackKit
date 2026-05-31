@@ -45,7 +45,7 @@ function ensurePluginInConfig(
 		(match, current: string) => {
 			if (current.includes(`${importName}()`)) return match;
 			const trimmed = current.trim();
-			const next = trimmed ? `${trimmed}, ${importName}()` : importName();
+			const next = trimmed ? `${trimmed}, ${importName}()` : `${importName}()`;
 			return `plugins: [${next}]`;
 		},
 	);

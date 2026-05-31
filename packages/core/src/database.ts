@@ -258,6 +258,21 @@ export type DatabaseAdapterFactoryContext = {
 	id: () => string;
 };
 
+export type GeneratedSchemaFile = {
+	path: string;
+	content: string;
+};
+
+export type DatabaseSchemaAdapter = {
+	id: string;
+	generateSchemaFiles(input: {
+		storage: StorageRegistry;
+		outDir?: string;
+	}): GeneratedSchemaFile[] | Promise<GeneratedSchemaFile[]>;
+	getSyncStatements?(input: { storage: StorageRegistry }): readonly string[];
+	sync?(input: { storage: StorageRegistry; database?: unknown }): Promise<void>;
+};
+
 export type DatabaseAdapter = {
 	insert<TModel extends Model>(
 		model: TModel,
@@ -284,6 +299,7 @@ export type DatabaseAdapter = {
 
 export type DatabaseAdapterFactory = {
 	create(context: DatabaseAdapterFactoryContext): DatabaseAdapter;
+	schema?: DatabaseSchemaAdapter;
 };
 
 export type DatabaseAdapterInput = DatabaseAdapter | DatabaseAdapterFactory;

@@ -1,9 +1,12 @@
 export {
+	compileDrizzleStorage,
 	createDrizzleDatabaseAdapter,
+	createDrizzleSchemaAdapter,
 	syncDrizzleStorage,
 	toDrizzleTableName,
+	toDrizzleTableExportName,
 } from "./adapters/db/drizzle";
-export type { DrizzleLibsqlDatabase } from "./adapters/db/drizzle";
+export type { CompiledDrizzleStorage, DrizzleLibsqlDatabase } from "./adapters/db/drizzle";
 export type { AuthAdapter, AuthIdentity, AuthSession } from "./adapters/auth";
 export type {
 	BlobStorageAdapter,
@@ -44,6 +47,12 @@ export {
 	resolveEventTypes,
 } from "./event-types";
 export {
+	CoreSetting,
+	coreSettings,
+	defineSetting,
+	validateSettingValue,
+} from "./settings";
+export {
 	createInMemoryDatabaseAdapter,
 	createInMemoryDatabaseAdapterFromStorage,
 } from "./adapters/db/memory";
@@ -60,10 +69,12 @@ export type {
 	DatabaseAdapterFactory,
 	DatabaseAdapterFactoryContext,
 	DatabaseAdapterInput,
+	DatabaseSchemaAdapter,
 	FieldDefinition,
 	FieldKind,
 	FieldReference,
 	FindManyOptions,
+	GeneratedSchemaFile,
 	InferInsert,
 	InferSelect,
 	Model,
@@ -81,6 +92,15 @@ export type {
 	UserDataOptions,
 	UserDataOptionsInput,
 } from "./user-data-options";
+export type {
+	BooleanSettingDefinition,
+	HackathonSettingDefinition,
+	NumberSettingDefinition,
+	ResolvedHackathonSetting,
+	SettingKey,
+	SettingValue,
+	SettingValueType,
+} from "./settings";
 export { HackKitError, hackKitErrorCodes } from "./errors";
 export type { HackKitErrorCode } from "./errors";
 export { coreModels } from "./models";
@@ -96,6 +116,7 @@ export type {
 	AuthId,
 	Event,
 	EventScan,
+	HackathonSetting,
 	Hacker,
 	PermissionKey,
 	Role,
@@ -111,6 +132,7 @@ export type {
 	NewUserData,
 	NewEvent,
 	NewEventScan,
+	NewHackathonSetting,
 } from "./types";
 export {
 	assignRoleSchema,

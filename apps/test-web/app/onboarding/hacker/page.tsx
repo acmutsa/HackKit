@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentUser, getHackkit } from "@/lib/runtime";
+import { getCurrentUser, getHackkit, getPageGuards } from "@/lib/runtime";
 import { getOnboardingSteps } from "@/lib/onboarding";
 import { OnboardingShell } from "../onboarding-shell";
 import { HackerRegistrationClient } from "./hacker-registration-client";
@@ -8,6 +8,7 @@ import { toHackerFormDefaults } from "./hacker-form-defaults";
 export const dynamic = "force-dynamic";
 
 export default async function HackerOnboardingPage() {
+	await (await getPageGuards()).requireHackerRegistrationOpenForNewHacker();
 	const currentUser = await getCurrentUser();
 	if (!currentUser.hackTag) {
 		redirect("/onboarding/hacktag");

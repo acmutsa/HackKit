@@ -1,24 +1,16 @@
 import "server-only";
 
 import { betterAuthAdapter } from "@hackkit/auth-better-auth";
-import { createHackkitRuntime, setHackkitRuntime } from "@hackkit/next";
-import { DEFAULT_EVENT_PASS_QR_TTL_MS } from "@hackkit/ui";
-import hackkitConfig from "../hackkit.config";
+import { createHackkitRuntimeFromConfig, setHackkitRuntime } from "@hackkit/next";
 import { auth } from "./auth";
 import { db } from "./db";
 import { getAppLogger } from "./logger";
+import { appConfig } from "./app-config";
 
-const runtimePromise = createHackkitRuntime({
+const runtimePromise = createHackkitRuntimeFromConfig({
+	config: appConfig,
 	database: db,
 	auth: betterAuthAdapter({ auth, logger: getAppLogger() }),
-	plugins: hackkitConfig.plugins,
-	userDataOptions: hackkitConfig.userDataOptions,
-	eventTypes: hackkitConfig.eventTypes,
-	eventPassQrTtlMs: DEFAULT_EVENT_PASS_QR_TTL_MS,
-	logger: hackkitConfig.logger,
-	requireApproval: hackkitConfig.requireApproval,
-	defaultCompetitorRoleId: hackkitConfig.defaultCompetitorRoleId,
-	seedRoles: hackkitConfig.seedRoles,
 });
 
 setHackkitRuntime(runtimePromise);

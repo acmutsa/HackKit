@@ -3,19 +3,10 @@ import "server-only";
 import { createLocalBlobStorage, type LocalBlobStorage } from "@hackkit/blob-local";
 import { createS3BlobStorage, type S3BlobStorage } from "@hackkit/blob-s3";
 import type { BlobStorageAdapterWithView } from "@hackkit/core";
-import type { HackkitBlobConfig } from "@hackkit/cli";
-import hackkitConfig from "../hackkit.config";
-
-function resolveAppBaseUrl(): string {
-	return (
-		process.env.BETTER_AUTH_URL ??
-		process.env.NEXT_PUBLIC_APP_URL ??
-		"http://localhost:3000"
-	);
-}
+import { appConfig, resolveAppBaseUrl } from "./app-config";
 
 export function createBlobStorageFromConfig(): BlobStorageAdapterWithView {
-	const blob = hackkitConfig.blob as HackkitBlobConfig | undefined;
+	const blob = appConfig.blob;
 	if (blob?.adapter === "s3") {
 		return createS3BlobStorage({
 			bucket: blob.bucket,
