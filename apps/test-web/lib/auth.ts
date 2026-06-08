@@ -13,13 +13,31 @@ import {
 import { getAuthSession as getAuthSessionFromAuth } from "@hackkit/auth-better-auth/session";
 import { db } from "./db";
 import { getAppLogger } from "./logger";
-import { resolveAppBaseUrl } from "./app-config";
+import { env } from "../env";
+
+const socialProviders = {
+	...(env.githubClientId && env.githubClientSecret
+		? {
+				github: {
+					clientId: env.githubClientId,
+					clientSecret: env.githubClientSecret,
+				},
+			}
+		: {}),
+	...(env.googleClientId && env.googleClientSecret
+		? {
+				google: {
+					clientId: env.googleClientId,
+					clientSecret: env.googleClientSecret,
+				},
+			}
+		: {}),
+};
 
 export const auth = betterAuth({
-	baseURL: resolveAppBaseUrl(),
-	secret:
-		process.env.BETTER_AUTH_SECRET ??
-		"test-web-development-secret-change-me-please",
+	baseURL: env.betterAuthUrl,
+	secret: env.betterAuthSecret,
+	trustedOrigins: env.betterAuthTrustedOrigins,
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
 		schema: { user, session, account, verification },
@@ -28,6 +46,7 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 	},
+	socialProviders,
 	plugins: [nextCookies()],
 	logger: toBetterAuthLogger(getAppLogger()),
 });

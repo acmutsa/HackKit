@@ -6,9 +6,11 @@
   "scripts": {
     "plugin:sync": "hackkit plugin sync",
     "db:sync": "hackkit db sync",
+    "sync": "pnpm plugin:sync && pnpm db:sync",
     "predev": "pnpm plugin:sync && turbo run build --filter=test-web^...",
     "dev": "next dev -p 3000",
     "build": "next build",
+    "verify": "pnpm sync && pnpm typecheck && pnpm build",
     "start": "next start",
     "studio": "drizzle-kit studio",
     "typecheck": "turbo run build --filter=@hackkit/cli && tsc -p tsconfig.json --noEmit"

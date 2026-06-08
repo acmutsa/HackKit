@@ -1,0 +1,64 @@
+name: Test Web
+
+on:
+    pull_request:
+        paths:
+            - "apps/test-web/**"
+            - "packages/**"
+            - "pnpm-lock.yaml"
+            - "turbo.json"
+            - ".github/workflows/test-web.yml"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 8.3.1
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Sync plugin files
+              working-directory: apps/test-web
+              run: pnpm plugin:sync
+
+            - name: Sync local schema
+              working-directory: apps/test-web
+              env:
+                  DATABASE_URL: file:.data/ci.db
+                  NEXT_PUBLIC_APP_URL: http://localhost:3000
+                  BETTER_AUTH_URL: http://localhost:3000
+                  BETTER_AUTH_SECRET: ci-test-web-secret-at-least-32-chars
+                  HACKKIT_BLOB_ADAPTER: local
+              run: pnpm db:sync
+
+            - name: Typecheck
+              run: pnpm --filter test-web typecheck
+
+            - name: Build
+              env:
+                  DATABASE_URL: libsql://test-web-ci.turso.io
+                  TURSO_AUTH_TOKEN: ci-token
+                  NEXT_PUBLIC_APP_URL: https://test-web-ci.example.com
+                  BETTER_AUTH_URL: https://test-web-ci.example.com
+                  BETTER_AUTH_SECRET: ci-test-web-secret-at-least-32-chars
+                  HACKKIT_BLOB_ADAPTER: s3
+                  HACKKIT_S3_BUCKET: ci-bucket
+                  HACKKIT_S3_REGION: auto
+                  HACKKIT_S3_ENDPOINT: https://example.r2.cloudflarestorage.com
+                  HACKKIT_S3_ACCESS_KEY_ID: ci-access-key
+                  HACKKIT_S3_SECRET_ACCESS_KEY: ci-secret-key
+              run: pnpm --filter test-web build

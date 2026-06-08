@@ -56,6 +56,22 @@ _Avoid_: **Permission** keys, **Role** hierarchy position
 Structured metadata attached to a **HackKit Logger** message: action name, outcome, **Auth ID**s, stable domain record ids (event, team, role), and on failure the **HackKit** error code and message — not emails, names, or form field values.
 _Avoid_: Full request payloads, **User Data** answers, resume contents
 
+**Notification Intent**:
+A persisted, provider-neutral record that a HackKit domain transition should notify one or more recipients, with a typed notification kind and payload supplied by **HackKit Core**.
+_Avoid_: Email, Discord message, rendered template, immediate side effect
+
+**Notification Delivery Attempt**:
+One attempt by a **Notification Channel Plugin** to deliver a **Notification Intent** through a concrete channel.
+_Avoid_: Notification intent, audit log, domain event
+
+**Notification Channel Plugin**:
+A **HackKit Plugin** that subscribes to **Notification Intents**, resolves channel-specific destinations, renders templates for that channel, and records **Notification Delivery Attempts**.
+_Avoid_: HackKit Core notification sender, generic transport helper
+
+**Email Notification Plugin**:
+A HackKit-maintained **Notification Channel Plugin** that delivers **Notification Intents** by email through configured providers such as Resend or SMTP.
+_Avoid_: Auth adapter, app-owned mailer, hard-coded email service in **HackKit Core**
+
 **Blob Storage Adapter**:
 An integration boundary that lets a HackKit Web App store files and pass resulting URLs or keys into HackKit Core. The contract lives in **HackKit Core**; concrete implementations (e.g. local filesystem, S3-compatible) ship as separate packages configured per **HackKit Web App**.
 _Avoid_: HackKit Core file system, attachment domain model
@@ -180,8 +196,12 @@ _Avoid_: Session timeout, auth token expiry
 The encoded payload (including participant identity and issue time) presented as a scannable **Event Pass**. Encoding, parsing, and freshness checks are implemented in **HackKit UI**; the server mutation layer imports the same module to validate raw QR on confirm before calling **HackKit Core**.
 _Avoid_: HackKit Core module, separate credential registry package
 
+**Group**:
+A hackathon-defined participant cohort assigned to **Hackers**, separate from **Teams**, used for organizer operations and optional Discord role mapping.
+_Avoid_: Team, Role, Discord guild, capacity limit
+
 **Team**:
-A competition group for **Hackers** with a unique **Team Tag**, owned by one **Team Owner**.
+A competition entry for **Hackers** with a unique **Team Tag**, owned by one **Team Owner**.
 _Avoid_: Role, organization account, staff group
 
 **Team Tag**:
@@ -208,6 +228,14 @@ _Avoid_: RSVP, role assignment, email notification
 A one-time record that a **User** arrived and was checked in to the hackathon as a whole.
 _Avoid_: **Event Scan**, RSVP
 
+**RSVP**:
+An approved **Hacker**'s pre-arrival confirmation that they intend to attend, recorded before **Hackathon Check-in** and governed by RSVP-specific hackathon settings.
+_Avoid_: **Organiser Approval**, **Hackathon Check-in**, **Event Scan**
+
+**RSVP Waitlist**:
+An optional first-come list of approved **Hackers** who attempted to RSVP after the RSVP limit was reached and may be promoted by organizers.
+_Avoid_: **Organiser Approval** queue, **Hackathon Capacity**, automatic acceptance
+
 ## Relationships
 
 -   **HackKit Web App** depends on **HackKit Core** for hackathon behavior.
@@ -228,6 +256,9 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit Plugins** should be configured in one place so package-specific integration details stay contained inside plugin packages.
 -   **HackKit Plugins** expose storage schema contributions using **Storage Schema** without requiring every plugin to implement every database dialect.
 -   **Storage Schema** can express field-level single-column references between plugin models and **HackKit Core** models.
+-   **HackKit Core** owns **Notification Intents** and typed notification payloads; **Notification Channel Plugins** own channel-specific destination resolution, rendering, delivery, and **Notification Delivery Attempts**.
+-   **Notification Intents** are persisted before delivery so channel plugins may process them asynchronously and retry failed **Notification Delivery Attempts**.
+-   The **Email Notification Plugin** is configured as a **HackKit Plugin**; **HackKit Core** does not send email directly.
 -   **Storage Schema** uses domain property names; database adapters map them to concrete column names.
 -   Database adapters derive table names from namespaced model keys using deterministic naming conventions.
 -   SQLite table names use a `hackkit_` prefix followed by namespace and snake-cased model name.
@@ -273,6 +304,10 @@ _Avoid_: **Event Scan**, RSVP
 -   **HackKit UI** ships default forms for **Competitor Onboarding** steps, including **HackTag** claim, **User Data**, and **Hacker Registration**; **HackKit Web Apps** wire routes, server actions, and adapters.
 -   **Hacker Registration** resume uploads use a **Blob Storage Adapter** in the **HackKit Web App**; **HackKit Core** stores only the **Stored File Reference** on the **Hacker** record when provided; omitting a resume leaves `resumeUrl` unset (no sentinel placeholder).
 -   A **Hacker** belongs to exactly one **User**.
+-   A **Hacker** may have zero or one **Group**.
+-   **Group** assignment happens when a **Hacker** receives **Organiser Approval** if no **Group** has been assigned yet.
+-   Automatic **Group** assignment uses round-robin distribution across enabled **Groups**; **Groups** do not impose capacity limits.
+-   **Hackathon Capacity**, not **Group** membership, controls how many **Hackers** may receive **Organiser Approval**.
 -   Organizers and judges are **Users** with **Roles**, not **Hackers**, unless they are also competing.
 -   A **User** has one **Role** in v1.
 -   Completing **Hacker Registration** assigns the hackathon’s default competitor **Role** from `hackkit.config.ts`; auth sign-up and `ensureUser` do not assign a **Role** by themselves.
@@ -304,6 +339,10 @@ _Avoid_: **Event Scan**, RSVP
 -   Each **Event Type** has a stable stored value, display label, and color, using the same value/label pattern as **User Data Options**.
 -   **Event** records use string identifiers in HackKit Core.
 -   Public schedule listing of non-hidden **Events** does not require an authenticated **User**; actors with `core.events.view` or higher can list hidden **Events** as well.
+-   An **RSVP** may be recorded only for an approved **Hacker**.
+-   **RSVP** has hackathon settings separate from **Hackathon Capacity**, including whether RSVP is open, the RSVP limit, and whether the **RSVP Waitlist** is enabled.
+-   **RSVP Waitlist** promotion is organizer-managed in v1; HackKit does not automatically promote **Hackers** from the **RSVP Waitlist**.
+-   A **Hacker** cannot self-cancel an **RSVP** in v1; organizers may correct RSVP state.
 -   A **Team** belongs to the teams plugin domain and is composed of **Team Members** who must be **Hackers**.
 -   Each **Hacker** may belong to at most one **Team** in v1.
 -   Each **Team** has exactly one **Team Owner**, who is always a **Team Member**.
@@ -351,7 +390,7 @@ _Avoid_: **Event Scan**, RSVP
 -   Lowering **Maximum Registrations** or **Hackathon Capacity** below the current count does not retroactively remove **Hackers** or revoke **Organiser Approval**; it blocks future registrations or approvals.
 -   Admin experiences should surface when the current **Hacker** or approved **Hacker** count exceeds the configured **Maximum Registrations** or **Hackathon Capacity**.
 -   Resume on **Hacker Registration** — resolved: optional `resumeUrl` only; no legacy “no resume provided” sentinel URL.
--   **Hacker** `group` assignment — deferred this milestone; field may remain unset until guild/group policy is defined.
+-   **Hacker** `group` assignment — resolved: **Group** is a HackKit participant cohort assigned at **Organiser Approval** time by round-robin distribution unless an organizer has already assigned one; it is separate from **Team** and may map to Discord roles through a plugin.
 -   Default competitor **Role** on onboarding — resolved: applied when **Hacker Registration** completes, not at auth/`ensureUser` (legacy-aligned).
 -   **Hacker** vs **User** for **Event Pass** could mean competitors only — resolved: attendance uses **Auth ID** for any **User**, matching the original HackKit convention that all participants share one identity record.
 -   Legacy storage used one scan row per user and event with an incrementing count — resolved: HackKit Core stores each scan as a separate **Event Scan** row with its own identifier.

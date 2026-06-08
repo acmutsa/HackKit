@@ -1,9 +1,11 @@
 import { defineConfig } from "drizzle-kit";
+import { env } from "./env";
 
 export default defineConfig({
 	schema: "./drizzle.schema.ts",
 	dialect: "turso",
 	dbCredentials: {
-		url: process.env.DATABASE_URL ?? "file:.data/test-web.db",
+		url: env.databaseUrl,
+		authToken: env.tursoAuthToken,
 	},
 });

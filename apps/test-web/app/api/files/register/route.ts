@@ -19,6 +19,12 @@ export async function POST(request: Request): Promise<NextResponse> {
 				{ status: 400 },
 			);
 		}
+		if (body.location !== "resumes") {
+			return NextResponse.json(
+				{ error: "Unsupported upload location." },
+				{ status: 400 },
+			);
+		}
 
 		const target = await getBlobStorage().getUploadTarget({
 			location: body.location,

@@ -14,11 +14,19 @@ export async function PUT(request: Request): Promise<NextResponse> {
 	if (!key) {
 		return NextResponse.json({ error: "key is required" }, { status: 400 });
 	}
+	if (!key.startsWith("resumes/")) {
+		return NextResponse.json(
+			{ error: "Unsupported upload key." },
+			{ status: 400 },
+		);
+	}
 
 	const storage = getBlobStorage();
 	if (!isLocalBlobStorage(storage)) {
 		return NextResponse.json(
-			{ error: "Direct upload is only supported for local blob storage." },
+			{
+				error: "Direct upload is only supported for local blob storage.",
+			},
 			{ status: 400 },
 		);
 	}

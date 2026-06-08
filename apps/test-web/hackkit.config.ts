@@ -2,11 +2,12 @@ import { defineHackkitConfig } from "@hackkit/config";
 import type { PermissionKey } from "@hackkit/core";
 import { syncBetterAuthStorage } from "@hackkit/auth-better-auth";
 import { teamsPlugin } from "@hackkit/plugin-teams";
+import { env } from "./env";
 
 const participantPermissions = [] as PermissionKey[];
 
 export default defineHackkitConfig({
-	databaseUrl: process.env.DATABASE_URL ?? "file:.data/test-web.db",
+	databaseUrl: env.databaseUrl,
 	defaultCompetitorRoleId: "core.participant",
 	seedRoles: [
 		{
@@ -16,12 +17,22 @@ export default defineHackkitConfig({
 			permissions: participantPermissions,
 		},
 	],
-	blob: {
-		adapter: "local",
-		baseDir: ".data/uploads",
-	},
+	blob:
+		env.blobAdapter === "s3"
+			? {
+					adapter: "s3",
+					bucket: env.s3Bucket!,
+					region: env.s3Region!,
+					endpoint: env.s3Endpoint,
+					accessKeyId: env.s3AccessKeyId,
+					secretAccessKey: env.s3SecretAccessKey,
+				}
+			: {
+					adapter: "local",
+					baseDir: env.localBlobBaseDir,
+				},
 	logger: {
-		level: process.env.NODE_ENV === "production" ? "warn" : "debug",
+		level: env.nodeEnv === "production" ? "warn" : "debug",
 	},
 	plugins: [teamsPlugin()],
 	userDataOptions: {

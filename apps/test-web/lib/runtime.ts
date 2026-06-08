@@ -1,11 +1,15 @@
 import "server-only";
 
 import { betterAuthAdapter } from "@hackkit/auth-better-auth";
-import { createHackkitRuntimeFromConfig, setHackkitRuntime } from "@hackkit/next";
+import {
+	createHackkitRuntimeFromConfig,
+	setHackkitRuntime,
+} from "@hackkit/next";
 import { auth } from "./auth";
 import { db } from "./db";
 import { getAppLogger } from "./logger";
 import { appConfig } from "./app-config";
+import { provisionOwnerFromAllowlist } from "./owner-provisioning";
 
 const runtimePromise = createHackkitRuntimeFromConfig({
 	config: appConfig,
@@ -20,7 +24,10 @@ export async function getRuntime() {
 }
 
 export async function getCurrentUser() {
-	return (await getRuntime()).getCurrentUser();
+	const runtime = await getRuntime();
+	const user = await runtime.getCurrentUser();
+	await provisionOwnerFromAllowlist(runtime.hackkit, user);
+	return user;
 }
 
 export async function getHackkit() {

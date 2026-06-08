@@ -1,9 +1,13 @@
 import "server-only";
 
-import { createLocalBlobStorage, type LocalBlobStorage } from "@hackkit/blob-local";
+import {
+	createLocalBlobStorage,
+	type LocalBlobStorage,
+} from "@hackkit/blob-local";
 import { createS3BlobStorage, type S3BlobStorage } from "@hackkit/blob-s3";
 import type { BlobStorageAdapterWithView } from "@hackkit/core";
 import { appConfig, resolveAppBaseUrl } from "./app-config";
+import { env } from "../env";
 
 export function createBlobStorageFromConfig(): BlobStorageAdapterWithView {
 	const blob = appConfig.blob;
@@ -12,9 +16,8 @@ export function createBlobStorageFromConfig(): BlobStorageAdapterWithView {
 			bucket: blob.bucket,
 			region: blob.region,
 			endpoint: blob.endpoint,
-			accessKeyId: blob.accessKeyId ?? process.env.S3_ACCESS_KEY_ID,
-			secretAccessKey:
-				blob.secretAccessKey ?? process.env.S3_SECRET_ACCESS_KEY,
+			accessKeyId: blob.accessKeyId ?? env.s3AccessKeyId,
+			secretAccessKey: blob.secretAccessKey ?? env.s3SecretAccessKey,
 			filesRoutePrefix: blob.filesRoutePrefix,
 		});
 	}
