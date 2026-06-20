@@ -1,9 +1,6 @@
 "use client";
 
-import CreatedWithHackkit from "@/components/landing/CreatedWithHackkit";
 import Image from "next/image";
-import Link from "next/link";
-import { Instagram, Facebook, Twitter, Github } from "lucide-react";
 import FooterLinks, { footerSections } from "./FooterLinks";
 
 import { Shadows_Into_Light } from "next/font/google";
@@ -28,7 +25,7 @@ export default function Footer() {
 				</div>
 
 				{/* links, resources, other hackatons */}
-				<div className=" grid grid-cols-1 justify-items-center gap-4 lg:grid-cols-3 lg:gap-8">
+				<div className="grid grid-cols-1 justify-items-center gap-4 lg:grid-cols-3 lg:gap-8">
 					{footerSections.map((section) => (
 						<FooterLinks
 							key={section.title}
@@ -38,33 +35,6 @@ export default function Footer() {
 					))}
 				</div>
 
-				{/* icons */}
-				<div className="mb-8 flex w-full flex-col items-center justify-center gap-y-8">
-					<CreatedWithHackkit />
-					<div className="flex h-[50px] w-[200px] items-center justify-between gap-2 rounded-lg bg-hackathon px-2">
-						<Link href="https://twitter.com/rowdyhacks/">
-							<Twitter className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://www.instagram.com/rowdyhacks/">
-							<Instagram className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://www.facebook.com/UTSA.ACM">
-							<Facebook className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://github.com/acmutsa/RowdyHacksX">
-							<Github className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://go.rowdyhacks.org/discord">
-							<Image
-								className="select-none invert"
-								src="/img/assets/discord_icon.svg"
-								alt="Discord logo"
-								width={20}
-								height={20}
-							/>
-						</Link>
-					</div>
-				</div>
 				<p
 					className={`${shadowsIntoLight.className} text-s text-center text-black`}
 				>
