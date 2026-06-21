@@ -1,8 +1,13 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../shadcn/ui/button";
 import { Manuale, Shadows_Into_Light } from "next/font/google"
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 
+const line1 = "Heist";
+const line2 = "starts at 9:00";
 const shadows = Shadows_Into_Light({
 	subsets: ["latin"],
 	variable: "--font-shadows",
@@ -23,10 +28,23 @@ export default function Hero() {
 						className="w-full h-auto"
 					/>
 					<div className="absolute rotate-12 right-[3.2rem] bottom-[6.4rem] sm:right-[4.2rem] sm:bottom-[8.25rem] md:right-[5rem] md:bottom-[10rem] lg:right-[7.3rem] lg:bottom-[13.8rem] w-[25%]">
-						<img
+					<motion.img
 							src="img/assets/top-secret.svg"
 							alt=""
 							className="w-full h-auto"
+							initial={{ scale: 0, y: -40, opacity: 0 }}
+							whileInView={{
+								scale: [0.25, 3, 1],
+								y: [-80, 0],
+								opacity: [0, 1, 1],
+
+							}}
+							transition={{
+								duration: 0.5,
+								delay: 0.75,
+								ease: [0.2, 0.9, 0.2, 1],
+							}}
+							viewport={{ once: false, amount: 0.5 }}
 						/>
 					</div>
 					<div className="absolute right-[23%] top-[13.5%] w-[50%] lg:right-[21%] lg:top-[13%]">
@@ -106,8 +124,39 @@ export default function Hero() {
 						/>
 					</div>
 					<div className={`${shadows.className} absolute w-[15%] top-[32.5%] left-[15%] rotate-[12deg] sm:top-[31%] font-semibold`}>
-						<p className="text-red-800 text-center text-[1.5vw]">Heist</p>
-						<p className="text-red-800 text-center text-[1.5vw]">starts at 9:00</p>
+					<p className="text-red-800 text-center text-[1.75vw]">
+							{line1.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{
+										delay: i * 0.05,
+									}}
+									viewport={{ once: false, amount: 0.95 }}
+
+
+								>
+									{char}
+								</motion.span>
+							))}
+						</p>
+
+						<p className="text-red-800 text-center text-[1.75vw]">
+							{line2.split("").map((char, i) => (
+								<motion.span
+									key={`l2-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{
+										delay: i * 0.05
+									}}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))}
+						</p>
 					</div>
 				</div>
 				<div className="absolute w-[30%] sm:w-[12.5%] lg:w-[17.5%] left-[36%] top-[74.5%] sm:top-[70%] sm:left-[83%] lg:top-[35%] lg:left-[77.5%]">
@@ -165,7 +214,7 @@ export default function Hero() {
 					/>
 				</div>
 			</section>
-			<div className="flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
+			{/* <div className="flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
 				<Link href={"https://github.com/acmutsa/hackkit"}>
 					<Button variant={"outline"} size={"lg"}>
 						GitHub
@@ -183,7 +232,7 @@ export default function Hero() {
 				</Link>
 				<div className="h-0 basis-full" />
 				<div className="max-h-[50px] overflow-hidden"></div>
-			</div>
+			</div> */}
 		</>
 	);
 }

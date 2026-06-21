@@ -26,7 +26,7 @@ export default function Home() {
 				<Map />
 				<Partners />
 				<FAQ />
-				<WorkWithUs />
+				{/* <WorkWithUs /> */}
 				<Footer />
 			</main>
 		</div>

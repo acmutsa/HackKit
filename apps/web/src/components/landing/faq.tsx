@@ -17,7 +17,9 @@ export default function FAQ() {
             id="About"
         >
             <div className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-8 [container-type:inline-size]">
-                <div className="flex w-full max-w-[1400px] flex-row items-center justify-center">
+                <div className="flex w-full max-w-[1400px] flex-col items-center justify-center">
+                    {/* Desktop/larger screen version */}
+                    <div className="hidden w-full flex-row items-center justify-center sm:flex">
                     <div className="relative flex w-[50%] justify-center">
                         <img src="/img/assets/FAQ.svg" className="w-[33cqw]" />
 
@@ -51,9 +53,24 @@ export default function FAQ() {
                         </div>
                     </div>
 
-                    <div className="relative flex w-[50%] justify-center  pt-[5%]">
+                    <div className="relative flex w-[50%] justify-center pt-[5%]">
                         <img src="/img/assets/FAQ.svg" className="w-[33cqw]" />
-                        <img src="/img/assets/classified.svg" className="w-[40%] h-auto object-contain absolute -top-[4%] right-[15%] rotate-[15deg]" />
+                        <motion.img src="/img/assets/classified.svg"
+                            className="w-[40%] h-auto object-contain absolute -top-[4%] right-[15%] rotate-[15deg]"
+                            initial={{ scale: 0, y: -40, opacity: 0, rotate: 15 }}
+                            whileInView={{
+                                scale: [0.25, 3, 1],
+                                y: [-80, 0],
+                                opacity: [0, 1, 1],
+
+                            }}
+                            transition={{
+                                duration: 0.5,
+                                delay: 0.75,
+                                ease: [0.2, 0.9, 0.2, 1],
+                            }}
+                            viewport={{ once: false, margin: "0px 0px -20% 0px" }} />
+                        {/* <img src="/img/assets/classified.svg" className="w-[40%] h-auto object-contain absolute -top-[4%] right-[15%] rotate-[15deg]" /> */}
                         <div className="absolute top-[8%] flex flex-col items-center py-[6cqw] w-full gap-4 px-4 gap-y-1">
                             {/* need to map out faq.json here */}
 
@@ -77,6 +94,72 @@ export default function FAQ() {
                             </div>
                         </div>
                     </div>
+                    </div>
+                    {/* Mobile/smaller screen version */}
+                    <div className="relative flex w-full justify-center sm:hidden">
+                        <img src="/img/assets/FAQ_longer.svg" className="w-[100%] " />
+                        <motion.img src="/img/assets/classified.svg"
+                            className="w-[62%] h-auto object-contain absolute -top-[10%] right-[0.25%] rotate-[5deg]"
+                            initial={{ scale: 0, y: -100, opacity: 0, rotate: 15 }}
+                            whileInView={{
+                                scale: [0.25, 3, 1],
+                                y: [-80, 0],
+                                opacity: [0, 1, 2],
+
+                            }}
+                            transition={{
+                                duration: 0.5,
+                                delay: 0.75,
+                                ease: [0.2, 0.9, 0.2, 1],
+                            }}
+                            viewport={{ once: false, margin: "0px 0px -20% 0px" }} />
+                        <div className="absolute top-[5%] flex flex-col items-center w-full gap-4 px-4 gap-y-5">
+                            <div className="flex flex-row items-stretch justify-center max-w-[1600px]">
+                                <img src="/img/assets/finger-print.svg" alt="" className="w-[10.5cqw] h-auto object-contain border border-r-0 border-black" />
+                                <h1 className={`text-center font-bold text-[10.5cqw] border border-black pl-[1cqw] pr-[40cqw]  ${manuale.className}`}>
+                                    FAQ
+                                </h1>
+
+                            </div>
+                            {/* need to map out faq.json here */}
+                            <div className="flex flex-col items-left justify-center w-[60cqw]">
+                                <h2 className={`font-bold text-[4.75cqw]  pr-[5cqw]  ${manuale.className}`}>
+                                    What is RowdyHacks?
+                                </h2>
+                                <p className={`font-normal text-[3.5cqw] pr-[2cqw]  ${manuale.className}`}>
+                                    RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col items-left justify-center w-[60cqw]">
+                                <h2 className={`font-bold text-[4.75cqw]  pr-[5cqw]  ${manuale.className}`}>
+                                    How Much Experience Do I Need?
+                                </h2>
+                                <p className={`font-normal text-[3.5cqw]  pr-[2cqw]  ${manuale.className}`}>
+                                    No prior experience is required! RowdyHacks is open to all skill levels, from beginners to experienced developers. We'll have workshops, mentors, and resources available to help you get started.
+                                </p>
+                            </div>
+                            <div className="flex flex-col items-left justify-center w-[60cqw]">
+                                <h2 className={`font-bold text-[4.75cqw]  pr-[5cqw]  ${manuale.className}`}>
+                                    How do teams work?
+                                </h2>
+                                <p className={`font-normal text-[3.5cqw]  pr-[5cqw]  ${manuale.className}`}>
+                                    Teams are limited to 1-4 hackers. If you have a team in mind, make sure all members submit an application before the deadline. If you don't have a team and would like to be a part of one, no worries! We'll have a dedicated time for team formation after the opening ceremony.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col items-left justify-center w-[60cqw]">
+                                <h2 className={`font-bold text-[4.75cqw]  pr-[5cqw]  ${manuale.className}`}>
+                                    Can I stay overnight?
+                                </h2>
+                                <p className={`font-normal text-[3.5cqw]  pr-[5cqw]  ${manuale.className}`}>
+                                    Yes, however, if you leave the building after its closing time, you will not be able to re-enter until it re-opens, so plan accordingly. The building closes at 6PM and re-opens at 6AM.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>

@@ -25,7 +25,7 @@ export default function MLHBadge() {
 			<div className="relative block h-0 w-full dark:hidden">
 				<Link
 					id="mlh-trust-badge"
-					className="absolute right-[3.25%] sm:right-[1.95%] md:right-[2%] lg:right-[2%] xl:right-[27.5%] top-0 z-50 w-[10%] min-w-[60px] max-w-[100px]"
+					className="absolute right-[3.25%] sm:right-[1.95%] md:right-[10%] lg:right-[2%] xl:right-[6.015%] top-0 z-50 w-[10%] min-w-[60px] max-w-[100px]"
 					// style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
 					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2025-season&utm_content=white"
 					target="_blank"
