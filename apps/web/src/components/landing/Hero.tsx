@@ -214,7 +214,7 @@ export default function Hero() {
 					/>
 				</div>
 			</section>
-			<div className="flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
+			{/* <div className="flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
 				<Link href={"https://github.com/acmutsa/hackkit"}>
 					<Button variant={"outline"} size={"lg"}>
 						GitHub
@@ -232,7 +232,7 @@ export default function Hero() {
 				</Link>
 				<div className="h-0 basis-full" />
 				<div className="max-h-[50px] overflow-hidden"></div>
-			</div>
+			</div> */}
 		</>
 	);
 }
