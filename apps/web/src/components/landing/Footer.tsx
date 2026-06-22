@@ -15,8 +15,9 @@ const shadowsIntoLight = Shadows_Into_Light({
 
 export default function Footer() {
 	return (
-		<footer className="relative bottom-0 w-full overflow-hidden bg-transparent px-8 py-8 md:px-10">
-			<div className="flex flex-col items-center">
+		<footer className="relative bottom-0 w-full overflow-hidden bg-transparent">
+
+			<div className="flex flex-col items-center gap-y-8 py-8">
 				<div className="mb-8">
 					<Image
 						className="w-20 sm:w-28"
@@ -39,34 +40,36 @@ export default function Footer() {
 				</div>
 
 				{/* icons */}
-				<div className="mb-8 flex w-full flex-col items-center justify-center gap-y-8">
-					<CreatedWithHackkit />
-					<div className="flex h-[50px] w-[200px] items-center justify-between gap-2 rounded-lg bg-hackathon px-2">
-						<Link href="https://twitter.com/rowdyhacks/">
-							<Twitter className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://www.instagram.com/rowdyhacks/">
-							<Instagram className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://www.facebook.com/UTSA.ACM">
-							<Facebook className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://github.com/acmutsa/RowdyHacksX">
-							<Github className="invert dark:invert-0" />
-						</Link>
-						<Link href="https://go.rowdyhacks.org/discord">
-							<Image
-								className="select-none invert"
-								src="/img/assets/discord_icon.svg"
-								alt="Discord logo"
-								width={20}
-								height={20}
-							/>
-						</Link>
-					</div>
+				
+
+				<div className="flex h-[50px] w-[200px] items-center justify-between gap-4">
+					<Link href="https://twitter.com/rowdyhacks/">
+						<Twitter className="invert dark:invert-0" />
+					</Link>
+					<Link href="https://www.instagram.com/rowdyhacks/">
+						<Instagram className="invert dark:invert-0" />
+					</Link>
+					<Link href="https://www.facebook.com/UTSA.ACM">
+						<Facebook className="invert dark:invert-0" />
+					</Link>
+					<Link href="https://github.com/acmutsa/RowdyHacksX">
+						<Github className="invert dark:invert-0" />
+					</Link>
+					<Link href="https://go.rowdyhacks.org/discord">
+						<Image
+							className="select-none invert"
+							src="/img/assets/discord_icon.svg"
+							alt="Discord logo"
+							width={20}
+							height={20}
+						/>
+					</Link>
 				</div>
+
+				<CreatedWithHackkit />
+
 				<p
-					className={`${shadowsIntoLight.className} text-s text-center text-black`}
+					className={`${shadowsIntoLight.className} text-center text-center hover:underline text-xl text-black md:text-2xl md:font-semibold md:text-black`}
 				>
 					Made with &lt;/&gt; &amp; ♥ @ RowdyHacks
 					<br />© RowdyHacks &amp; Association of Computing Machinery

@@ -4,6 +4,14 @@ import { useRef } from "react";
 import { Shadows_Into_Light } from "next/font/google";
 import Pin from "@/components/landing/Pin";
 import { findPosition } from "@/hooks/findPosition";
+import { motion } from "motion/react";
+
+const line1 = "CONNECTED?";
+const line2_1 = "UTSA";
+const line2_2 = "Main Campus";
+const line3_1 = "UTSA";
+const line3_2 = "San Pedro 1";
+const line3_3 = "(Place of action)";
 
 const shadowsIntoLight = Shadows_Into_Light({
   weight: "400",
@@ -49,7 +57,7 @@ export default function Map() {
                         >
                             <Image
                                 ref={mainCampusImgRef}
-                                src="/img/map/main-campus.svg"
+                                src="/img/assets/map/main-campus.png"
                                 alt="main campus"
                                 fill
                                 className="object-contain"
@@ -58,7 +66,7 @@ export default function Map() {
                                 <Pin/>
                             </div>
                             <div style={mainCampusCardTextStyle}>
-                                <p className="w-full text-[#AC1903] font-extrabold text-2xl">
+                                <p className="w-full text-[#AC1903] font-extrabold lg:text-xl xl:text-2xl 2xl:text-3xl">
                                     Target 2
                                 </p>
                             </div>
@@ -73,7 +81,7 @@ export default function Map() {
                         >
                             <Image
                                 ref={sp1CampusImgRef}
-                                src="/img/map/SP1.svg"
+                                src="/img/assets/map/SP1.png"
                                 alt="sp1"
                                 fill
                                 className="object-contain"
@@ -83,7 +91,7 @@ export default function Map() {
                             </div>
                             
                             <div style={sp1CardTextStyle}>
-                                <p className="w-full text-[#AC1903] font-extrabold text-2xl">
+                                <p className="w-full text-[#AC1903] font-extrabold lg:text-xl xl:text-2xl 2xl:text-3xl">
                                     SP1 - Target 1
                                 </p>
                             </div>
@@ -98,7 +106,7 @@ export default function Map() {
                 >
                     {/* San Pedro 1 */}
                     <div style={sp1PinStyle}>
-                        <Pin name="/img/map/pin4.svg" size={24}/>
+                        <Pin name="/img/assets/map/pin4.svg" size={24}/>
                     </div>
 
                     <a
@@ -106,15 +114,49 @@ export default function Map() {
                         target="_blank"
                         style={sp1TextStyle}
                     >
-                        <p className="text-[#AC1903] font-extrabold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-                            UTSA <br/> San Pedro 1 <br/> (Place of action)
+                        <p className="text-[#AC1903] font-extrabold text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
+                            {line3_1.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ delay: 1.8 + i * 0.05 }}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))} 
+                            <br/>
+                            {line3_2.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ delay: 2.7 + i * 0.05 }}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))} 
+                            <br/>
+                            {line3_3.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ delay: 3.6 + i * 0.05 }}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))} 
                         </p>
                     </a>
 
                     <div style={sp1CircleStyle}>
                         <div className="relative w-[8vw] h-[8vw] sm:w-[6vw] sm:h-[6vw]">
                             <Image
-                                src="/img/map/red-circle1.svg"
+                                src="/img/assets/map/red-circle1.svg"
                                 alt="pin"
                                 fill
                                 className="object-contain"
@@ -124,13 +166,13 @@ export default function Map() {
 
                     {/* Main Campus */}
                     <div style={mainCampusPinStyle}>
-                        <Pin name="/img/map/pin5.svg" size={24}/>
+                        <Pin name="/img/assets/map/pin5.svg" size={24}/>
                     </div>
 
                     <div style={mainCampusCircleStyle}>
                         <div className="relative w-[8vw] h-[8vw] sm:w-[6vw] sm:h-[6vw]">
                             <Image
-                                src="/img/map/red-circle1.svg"
+                                src="/img/assets/map/red-circle1.svg"
                                 alt="pin"
                                 fill
                                 className="object-contain"
@@ -143,21 +185,53 @@ export default function Map() {
                         target="_blank"
                         style={mainCampusTextStyle}
                     >
-                        <p className="text-[#AC1903] font-extrabold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-bold">
-                            UTSA <br/> Main Campus
+                        <p className="text-[#AC1903] font-extrabold text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl font-bold">
+                            {line2_1.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ delay: i * 0.05 }}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))} 
+                            <br/> 
+                            {line2_2.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ delay: 0.8 + i * 0.05 }}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))} 
                         </p>
                     </a>
 
                     <div style={connectedStyle}>
-                        <p className="rotate-[61deg] text-[#AC1903] font-extrabold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl">
-                            CONNECTED? 
+                        <p className="rotate-[61deg] text-[#AC1903] font-extrabold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">
+                            {line1.split("").map((char, i) => (
+								<motion.span
+									key={`l1-${i}`}
+									initial={{ opacity: 0, y: 6 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ delay: 5 + i * 0.05 }}
+									viewport={{ once: false, amount: 0.95 }}
+								>
+									{char}
+								</motion.span>
+							))}
                         </p>
                     </div>
 
 
                     <Image
                         ref={mapImgRef}
-                        src="/img/map/map-background.svg"
+                        src="/img/assets/map/map-background.png"
                         alt="red-circle"
                         fill
                         className="object-contain object-center drop-shadow-[6px_10px_3px_rgba(0,0,0,0.55)]"
