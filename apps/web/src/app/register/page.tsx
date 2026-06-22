@@ -28,26 +28,25 @@ export default async function Page() {
 			<>
 				<Navbar />
 				<main className="overflow-x-hidden dark:bg-zinc-950">
-					<div className="mx-auto min-h-screen max-w-5xl px-5 pb-10 pt-[20vh] font-sans dark:text-white">
-						<h1 className="text-6xl font-black md:text-8xl">
-							Register
-						</h1>
+					<div className="mx-auto min-h-screen max-w-5xl px-5 pb-10 pt-16 md:pt-20 font-sans dark:text-white">
+						<h1 className="text-6xl font-black md:text-8xl">Register</h1>
+
 						<p className="mt-5 font-medium">
 							<span className="font-bold">Welcome Hacker!</span>{" "}
-							Please fill out the form below to complete your
-							registration for {c.hackathonName}.
+							Please fill out the form below to complete your registration for{" "}
+							{c.hackathonName}.
 						</p>
-						<p className="pb-10 pt-5 text-xs">
+
+						<p className="pb-6 pt-4 text-xs">
 							Psttt... Running into a issue? Please let us know on{" "}
 							<Link className="underline" href={c.links.discord}>
 								Discord
 							</Link>
 							!
 						</p>
+
 						<RegisterForm
-							defaultEmail={
-								user.emailAddresses[0]?.emailAddress || ""
-							}
+							defaultEmail={user.emailAddresses[0]?.emailAddress || ""}
 						/>
 					</div>
 				</main>
@@ -67,8 +66,8 @@ export default async function Page() {
 					Registration Is Currently Closed
 				</h2>
 				<p className="text-center font-bold">
-					If you believe this is a mistake or have any questions, feel
-					free to reach out to us at {c.issueEmail}!
+					If you believe this is a mistake or have any questions, feel free to
+					reach out to us at {c.issueEmail}!
 				</p>
 
 				<Link href={"/"}>
