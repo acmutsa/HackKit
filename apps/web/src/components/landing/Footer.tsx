@@ -1,12 +1,12 @@
 "use client";
 
-import CreatedWithHackkit from "@/components/landing/CreatedWithHackkit";
 import Image from "next/image";
-import Link from "next/link";
-import { Instagram, Facebook, Twitter, Github } from "lucide-react";
 import FooterLinks, { footerSections } from "./FooterLinks";
 
 import { Shadows_Into_Light } from "next/font/google";
+import Link from "next/link";
+import { Facebook, Github, Instagram, Twitter } from "lucide-react";
+import CreatedWithHackkit from "./CreatedWithHackkit";
 
 const shadowsIntoLight = Shadows_Into_Light({
 	weight: "400",
@@ -16,7 +16,6 @@ const shadowsIntoLight = Shadows_Into_Light({
 export default function Footer() {
 	return (
 		<footer className="relative bottom-0 w-full overflow-hidden bg-transparent">
-
 			<div className="flex flex-col items-center gap-y-8 py-8">
 				<div className="mb-8">
 					<Image
@@ -29,7 +28,7 @@ export default function Footer() {
 				</div>
 
 				{/* links, resources, other hackatons */}
-				<div className=" grid grid-cols-1 justify-items-center gap-4 lg:grid-cols-3 lg:gap-8">
+				<div className="grid grid-cols-1 justify-items-center gap-4 lg:grid-cols-3 lg:gap-8">
 					{footerSections.map((section) => (
 						<FooterLinks
 							key={section.title}
@@ -40,7 +39,6 @@ export default function Footer() {
 				</div>
 
 				{/* icons */}
-				
 
 				<div className="flex h-[50px] w-[200px] items-center justify-between gap-4">
 					<Link href="https://twitter.com/rowdyhacks/">
@@ -69,7 +67,7 @@ export default function Footer() {
 				<CreatedWithHackkit />
 
 				<p
-					className={`${shadowsIntoLight.className} text-center text-center hover:underline text-xl text-black md:text-2xl md:font-semibold md:text-black`}
+					className={`${shadowsIntoLight.className} text-center text-xl text-black hover:underline md:text-2xl md:font-semibold md:text-black`}
 				>
 					Made with &lt;/&gt; &amp; ♥ @ RowdyHacks
 					<br />© RowdyHacks &amp; Association of Computing Machinery
