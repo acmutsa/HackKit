@@ -26,10 +26,11 @@ export default function Home() {
 				<Hero />
 				<About />
 				<Map />
+				<WorkWithUs />
 				<Partners />
 				<FAQ />
 				<Footer />
-		
+				
 			{/* </main> */}
 		</div>
 	);

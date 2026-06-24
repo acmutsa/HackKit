@@ -5,7 +5,7 @@
 @layer base {
 	:root {
 		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
-		--bg-image: url("/img/assets/background.png");
+		--bg-image: url("/img/assets/background.webp");
 		--background: 28 43% 47%;
 		--foreground: 0 0% 0%;
 		--border: 0 0% 0%;
@@ -42,7 +42,7 @@
 
 	.dark {
 		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
-		--bg-image: url("/img/assets/background.png");
+		--bg-image: url("/img/assets/background.webp");
 		--background: 28 43% 47%;
 		--foreground: 0 0% 0%;
 		--border: 0 0% 0%;

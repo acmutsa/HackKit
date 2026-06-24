@@ -41,7 +41,7 @@ export default async function Navbar({ className }: NavbarProps) {
 					className,
 				)}
 				style={{
-					backgroundImage: "url('/img/assets/menu/menu.png')",
+					backgroundImage: "url('/img/assets/menu/menu.webp')",
 					backgroundPosition: "center",
 					backgroundRepeat: "no-repeat",
 					backgroundSize: "100% 100%",
@@ -50,7 +50,7 @@ export default async function Navbar({ className }: NavbarProps) {
 				<div className="flex h-full w-full items-center px-2 sm:px-6 lg:px-8">
 					<div className="flex h-full shrink-0 items-center">
 						<img
-							src={"/img/assets/menu/pin1.png"}
+							src={"/img/assets/menu/pin1.webp"}
 							alt={c.hackathonName + " Logo"}
 							className="pointer-events-none h-12 w-auto sm:h-14 md:h-20 lg:h-24 xl:h-28"
 						/>
@@ -115,7 +115,7 @@ export default async function Navbar({ className }: NavbarProps) {
 						{user && <ProfileButton />}
 						<div className="flex h-full shrink-0 items-center">
 							<img
-								src={"/img/assets/menu/pin1.png"}
+								src={"/img/assets/menu/pin1.webp"}
 								alt="right side pin"
 								className="pointer-events-none h-12 w-auto sm:h-14 md:h-20 lg:h-24 xl:h-28"
 							/>

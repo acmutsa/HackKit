@@ -100,7 +100,7 @@ export default function Map() {
 							>
 								<Image
 									ref={mainCampusImgRef}
-									src="/img/assets/map/main-campus.png"
+									src="/img/assets/map/main-campus.webp"
 									alt="main campus"
 									fill
 									className="object-contain"
@@ -123,7 +123,7 @@ export default function Map() {
 							>
 								<Image
 									ref={sp1CampusImgRef}
-									src="/img/assets/map/SP1.png"
+									src="/img/assets/map/SP1.webp"
 									alt="sp1"
 									fill
 									className="object-contain"
@@ -147,12 +147,12 @@ export default function Map() {
 					>
 						{/* Main Campus */}
 						<div style={mainCampusPinStyle}>
-							<Pin name="/img/assets/map/pin5.png" size={50} />
+							<Pin name="/img/assets/map/pin5.webp" size={50} />
 						</div>
 
 						{/* San Pedro 1 */}
 						<div style={sp1PinStyle}>
-							<Pin name="/img/assets/map/pin5.png" size={50} />
+							<Pin name="/img/assets/map/pin5.webp" size={50} />
 						</div>
 
 						<a
@@ -271,7 +271,7 @@ export default function Map() {
 
 						<Image
 							ref={mapImgRef}
-							src="/img/assets/map/map-background.png"
+							src="/img/assets/map/map-background.webp"
 							alt="red-circle"
 							fill
 							className="object-contain object-center drop-shadow-[6px_10px_3px_rgba(0,0,0,0.55)]"

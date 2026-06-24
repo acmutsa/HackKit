@@ -39,7 +39,7 @@ export default function Hero() {
 
 				<div className="relative w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)] sm:left-4 sm:w-[85%] md:left-5 md:w-[75%] lg:left-10 lg:w-[70%]">
 					<img
-						src="img/assets/hero/hero.png"
+						src="img/assets/hero/hero.webp"
 						alt=""
 						className="h-auto w-full"
 					/>
@@ -74,14 +74,14 @@ export default function Hero() {
 					</div>
 					<div className="absolute right-[15%] top-[11%] w-[45%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]">
 						<img
-							src="img/assets/hero/logo-background.png"
+							src="img/assets/hero/logo-background.webp"
 							alt=""
 							className="h-auto w-full"
 						/>
 					</div>
 					<div className="absolute right-[27%] top-[24%] w-[20%]">
 						<img
-							src="img/assets/logo_stamp.png"
+							src="img/assets/logo_stamp.webp"
 							alt=""
 							className="h-auto w-full"
 						/>
@@ -122,7 +122,7 @@ export default function Hero() {
 
 				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] lg:left-[77.5%] md:top-[35%] md:top-[35%] lg:top-[35%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/hero/register/blank-tape-stickers3.png"
+						src="/img/assets/hero/register/blank-tape-stickers3.webp"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -134,7 +134,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[1%] top-[68%] w-[35%] rotate-3 hover:scale-110 sm:left-[82%] sm:top-[43%] sm:w-[18%] sm:-rotate-3 md:left-[80%] lg:left-[75%] lg:w-[25%]">
 					<img
-						src="/img/assets/buttons/blank-tape-stickers2.png"
+						src="/img/assets/buttons/blank-tape-stickers2.webp"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -146,7 +146,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[22%] top-[83%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[50%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[55%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/buttons/blank-tape-stickers1.png"
+						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -158,7 +158,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[54.5%] top-[83%] w-[25%] hover:scale-110 sm:left-[87%] sm:top-[55%] sm:w-[12.5%] lg:left-[80%] lg:top-[63%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/buttons/blank-tape-stickers1.png"
+						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -170,7 +170,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[37%] top-[90%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[60%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[72%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/buttons/blank-tape-stickers1.png"
+						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>

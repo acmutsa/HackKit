@@ -31,12 +31,12 @@ export default function About() {
 				<div className="w-[85%] sm:w-[75%] md:w-[70%] lg:w-[60%] xl:w-[60%]">
 					<div className="duration-400 relative flex w-[100%] flex-col items-center justify-center ease-in-out [container-type:inline-size] lg:hidden xl:hidden">
 						<img
-							src="/img/assets/about/about1.png"
+							src="/img/assets/about/about1.webp"
 							className="absolute -top-[3%] right-[12%] h-auto w-[135%] -rotate-[8deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 						/>
 
 						<img
-							src="/img/assets/about/about.png"
+							src="/img/assets/about/about.webp"
 							alt="RowdyHacks XII About Us Section"
 							className="z-15 relative h-full w-[100%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 						/>
@@ -65,7 +65,7 @@ export default function About() {
 							</p>
 							<div className="duration-400 absolute left-[50%] top-[110%] flex w-[40%] -rotate-[15deg] items-center justify-center decoration-2 transition delay-150 ease-in-out hover:scale-110 hover:underline">
 								<img
-									src="/img/assets/buttons/blank-tape-stickers1.png"
+									src="/img/assets/buttons/blank-tape-stickers1.webp"
 									alt=""
 									className="w-full"
 								/>
@@ -83,12 +83,12 @@ export default function About() {
 					<div className="relative hidden w-[90%] lg:flex">
 						<div className="relative right-[25%] z-10 flex w-full -rotate-[5deg] flex-col items-center justify-center [container-type:inline-size]">
 							<img
-								src="/img/assets/about/about1.png"
+								src="/img/assets/about/about1.webp"
 								className="absolute -top-[3%] right-[12%] h-auto w-[90%] -rotate-[8deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							/>
 
 							<img
-								src="/img/assets/about/about.png"
+								src="/img/assets/about/about.webp"
 								alt="RowdyHacks XII About Us Section"
 								className="z-15 relative h-full w-[80%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							/>
@@ -117,7 +117,7 @@ export default function About() {
 								</p>
 								<div className="duration-400 absolute left-[50%] top-[110%] flex w-[40%] -rotate-[15deg] items-center justify-center decoration-2 transition delay-150 ease-in-out hover:scale-110 hover:underline">
 									<img
-										src="/img/assets/buttons/blank-tape-stickers1.png"
+										src="/img/assets/buttons/blank-tape-stickers1.webp"
 										alt=""
 										className="w-full"
 									/>
@@ -133,7 +133,7 @@ export default function About() {
 
 						<div className="absolute -top-[10%] left-[52%] z-0 flex w-full rotate-[7.35deg] flex-col items-center justify-center opacity-100 [container-type:inline-size]">
 							<img
-								src="/img/assets/about/about2.png"
+								src="/img/assets/about/about2.webp"
 								alt="RowdyHacks XII About Us Section"
 								className="h-auto w-[100%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							/>
