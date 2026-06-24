@@ -1,8 +1,28 @@
 {
     "faq": [
         {
-            "question": "What is RowdyHacks?",
-            "answer": "RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours."
+            "question": "Who can attend?",
+            "answer": "All students can sign up to be a hacker. Regardless of your experience, education, or background, as long as you are excited about learning, building, and having fun, we'd love for you to attend."
+        },
+        {
+            "question": "When is the deadline to apply?",
+            "answer": "The deadline for registration is <Date>, at 23:59."
+        },
+        {
+            "question": "How much experience do I need?",
+            "answer": "Absolutely zero! We want you here because you have a passion for creating, not because you're the most experienced hacker on the block. We'll have lots of resources including workshops and a bunch of mentors to help beginners get started. There'll also be plenty of people to learn from and help out!"
+        },
+        {
+            "question": "How much does it cost?",
+            "answer": "Nothing. Nada. Zilch. It's completely free for all accepted hackers. To make it even better, we'll be giving out a ton of swag to every hacker, and prizes to our winners."
+        },
+        {
+            "question": "What should I bring?",
+            "answer": "Please bring a valid ID in addition to anything that would help you with creating your hack or making you comfortable. A laptop, charger, mouse, keyboard, hardware, light jacket, and any hygienic products should be helpful. Don't bring anything you wouldn't bring on an airplane."
+        },
+        {
+            "question": "How do teams work?",
+            "answer": "Teams are limited to 1-4 hackers. If you have a team in mind, make sure all members submit an application before the deadline. If you don't have a team and would like to be a part of one, no worries! We'll have a dedicated time for team formation after the opening ceremony."
         }
     ]
 }

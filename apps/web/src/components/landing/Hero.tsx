@@ -1,13 +1,12 @@
-'use client'
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "../shadcn/ui/button";
-import { Manuale, Shadows_Into_Light } from "next/font/google"
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+"use client";
+
+import { Manuale, Shadows_Into_Light } from "next/font/google";
+import { motion } from "motion/react";
+import Pin from "@/components/landing/Pin";
 
 const line1 = "Heist";
 const line2 = "starts at 9:00";
+
 const shadows = Shadows_Into_Light({
 	subsets: ["latin"],
 	variable: "--font-shadows",
@@ -17,27 +16,45 @@ const manuale = Manuale({
 	subsets: ["latin"],
 	weight: "500",
 });
+
+
+function DossierPins() {
+	return (
+		<>
+			<Pin className="absolute left-[12%] top-[15%] z-40  sm:left-[74%] sm:top-[28%] md:left-[67%] md:top-[30%] lg:left-[83%] lg:top-[36%]" /> 
+			<Pin className="absolute left-[55%] top-[18%] z-40  sm:left-[49%] sm:top-[21%] md:left-[44%] md:top-[21%] lg:left-[42%] lg:top-[20%]"/>
+			<Pin className="absolute left-[88%]  top-[28%] z-40  sm:left-[12%] sm:top-[15%] md:left-[7%] md:top-[15%]"/>
+			<Pin className="absolute left-[94%]  top-[54%] z-40  sm:left-[5%] sm:top-[45%] " />
+			<Pin className="absolute left-[47%] top-[74%] z-40  sm:left-[14%] sm:top-[85%] "/>
+			<Pin className="absolute left-[8%] top-[81%] z-40 block sm:hidden "/>
+		</>
+	);
+}
+
 export default function Hero() {
 	return (
 		<>
-			<section className="w-full overflow-hidden relative pb-[30vw] sm:pb-[0]">
-				<div className="absolute w-full sm:w-[85%] md:w-[80%] lg:w-[75%] sm:left-4 md:left-8 lg:left-12 relative">
+			<section className="relative w-full pt-[15%] sm:pt-[3%] pb-[30vw] sm:pb-[3vw] md:pb-[5vw]">
+				<DossierPins />
+
+				<div className="relative w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)] sm:left-4 sm:w-[85%] md:left-5 md:w-[75%] lg:left-10 lg:w-[70%]">
 					<img
-						src="img/assets/logo-background.svg"
+						src="img/assets/hero/hero.webp"
 						alt=""
-						className="w-full h-auto"
+						className="h-auto w-full"
 					/>
-					<div className="absolute rotate-12 right-[3.2rem] bottom-[6.4rem] sm:right-[4.2rem] sm:bottom-[8.25rem] md:right-[5rem] md:bottom-[10rem] lg:right-[7.3rem] lg:bottom-[13.8rem] w-[25%]">
-					<motion.img
-							src="img/assets/top-secret.svg"
+
+					{/* top-secret: animated pop-in (moved from commented code) */}
+					<div className="#AC1903 absolute right-[8%] top-[60%] w-[25%] rotate-12">
+						<motion.img
+							src="img/assets/hero/top-secret.svg"
 							alt=""
-							className="w-full h-auto"
+							className="h-auto w-full"
 							initial={{ scale: 0, y: -40, opacity: 0 }}
 							whileInView={{
 								scale: [0.25, 3, 1],
 								y: [-80, 0],
 								opacity: [0, 1, 1],
-
 							}}
 							transition={{
 								duration: 0.5,
@@ -47,110 +64,53 @@ export default function Hero() {
 							viewport={{ once: false, amount: 0.5 }}
 						/>
 					</div>
-					<div className="absolute right-[23%] top-[13.5%] w-[50%] lg:right-[21%] lg:top-[13%]">
+
+					<div className="#AC1903 absolute left-[37.5%] top-[21%] w-[17.5%]">
 						<img
-							src="img/assets/logo-background-paper.svg"
+							src="img/assets/hero/marker-circle3.svg"
 							alt=""
-							className="w-full h-auto"
+							className="h-auto w-full"
 						/>
 					</div>
-					<div className="absolute w-[20%] top-[28%] right-[37.5%] lg:top-[28%] lg:right-[36%]">
+					<div className="absolute right-[15%] top-[11%] w-[45%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]">
 						<img
-							src="img/assets/rh-city-logo-black.svg"
+							src="img/assets/hero/logo-background.webp"
 							alt=""
-							className="w-full h-auto" />
-					</div>
-					<div className="absolute w-[17.5%] top-[35%] left-[7.5%]">
-						<img
-							src="img/assets/marker-circle3.svg"
-							alt=""
-							className="w-full h-auto"
+							className="h-auto w-full"
 						/>
 					</div>
-					<div className="absolute w-[42.5%] top-[23%] left-[7.75%] -rotate-[5deg] sm:w-[32.5%] sm:top-[25.25%] sm:left-[46.5%] sm:rotate-[9.5deg]">
+					<div className="absolute right-[27%] top-[24%] w-[20%]">
 						<img
-							src="img/assets/red-thread.svg"
+							src="img/assets/logo_stamp.webp"
 							alt=""
-							className="w-full h-auto"
+							className="h-auto w-full"
 						/>
 					</div>
-					<div className="absolute w-[40%] top-[26%] left-[50%] rotate-[13deg] sm:w-[36.5%] sm:left-[10.5%] sm:top-[23.5%] sm:-rotate-[4deg]">
-						<img
-							src="img/assets/red-thread.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className="absolute w-[55%] top-[57.5%] left-[63.5%] rotate-[84.5deg] sm:w-[23.5%] sm:top-[36%] sm:left-[-3%] sm:rotate-[102.5deg]">
-						<img
-							src="img/assets/red-thread.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className="absolute w-[84%] top-[93.5%] left-[11.75%] rotate-[165deg] z-10 sm:w-[27.5%] sm:top-[61%] sm:left-[-5%] sm:-rotate-[100.5deg]">
-						<img
-							src="img/assets/red-thread.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className="absolute w-[3.5%] top-[25%] left-[5.5%] z-[15] sm:top-[28%] sm:left-[77.5%] sm:w-[2.5%]">
-						<img
-							src="img/assets/silver-pin.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className="absolute w-[3.5%] top-[21.25%] right-[47.5%] z-[15] sm:right-[52%] sm:top-[22.5%] sm:w-[2.5%]">
-						<img
-							src="img/assets/silver-pin.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className="absolute w-[3.5%] top-[30%] right-[10%] z-[15] sm:left-[9.75%] sm:top-[24.75%] sm:w-[2.5%]">
-						<img
-							src="img/assets/silver-pin.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className="absolute w-[3.5%] bottom-[12.5%] right-[5%] z-[15] sm:top-[47.5%] sm:left-[5%] sm:w-[2.5%]">
-						<img
-							src="img/assets/silver-pin.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
-					<div className={`${shadows.className} absolute w-[15%] top-[32.5%] left-[15%] rotate-[12deg] sm:top-[31%] font-semibold`}>
-					<p className="text-red-800 text-center text-[1.75vw]">
+
+					{/* Heist / starts at 9:00: per-character fade-up (moved from commented code) */}
+					<div
+						className={`${shadows.className} absolute left-[34%] top-[30.5%] w-[15%] rotate-[12deg]`}
+					>
+						<p className="text-small text-center font-extrabold text-[#AC1903] sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
 							{line1.split("").map((char, i) => (
 								<motion.span
 									key={`l1-${i}`}
 									initial={{ opacity: 0, y: 6 }}
 									whileInView={{ opacity: 1, y: 0 }}
-									transition={{
-										delay: i * 0.05,
-									}}
+									transition={{ delay: i * 0.05 }}
 									viewport={{ once: false, amount: 0.95 }}
-
-
 								>
 									{char}
 								</motion.span>
 							))}
 						</p>
-
-						<p className="text-red-800 text-center text-[1.75vw]">
+						<p className="text-small text-center font-extrabold text-[#AC1903] sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
 							{line2.split("").map((char, i) => (
 								<motion.span
 									key={`l2-${i}`}
 									initial={{ opacity: 0, y: 6 }}
 									whileInView={{ opacity: 1, y: 0 }}
-									transition={{
-										delay: i * 0.05
-									}}
+									transition={{ delay: 0.7 + i * 0.05 }}
 									viewport={{ once: false, amount: 0.95 }}
 								>
 									{char}
@@ -159,80 +119,69 @@ export default function Hero() {
 						</p>
 					</div>
 				</div>
-				<div className="absolute w-[30%] sm:w-[12.5%] lg:w-[17.5%] left-[36%] top-[74.5%] sm:top-[70%] sm:left-[83%] lg:top-[35%] lg:left-[77.5%]">
+
+				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] lg:left-[77.5%] md:top-[35%] md:top-[35%] lg:top-[35%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/blank-tape-stickers3.svg"
+						src="/img/assets/hero/register/blank-tape-stickers3.webp"
 						alt=""
-						className="w-full h-auto"
+						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
-					<h1 className={`absolute top-[15%] left-[14%] -rotate-[5deg] text-[4.5vw] sm:text-[1.5vw] lg:text-[2.75vw] lg:top[20%] lg:left-[15%] font-medium ${shadows.className}`}>Help Wanted</h1>
-					<div className="absolute hidden sm:block sm:w-[10%] sm:top-[7.5%] sm:right-[49%] ">
-						<img
-							src="/img/assets/silver-pin.svg"
-							alt=""
-							className="w-full h-auto"
-						/>
-					</div>
+					<h1
+						className={`lg:top[20%] absolute left-[14%] top-[15%] -rotate-[5deg] text-[4.5vw] font-medium sm:text-[1.5vw] lg:left-[15%] lg:text-[2.75vw] ${shadows.className}`}
+					>
+						Help Wanted
+					</h1>
 				</div>
-				<div className="absolute hover:scale-110 w-[35%] sm:w-[18%] lg:w-[25%] top-[68%] left-[1%] sm:left-[82%] sm:top-[43%] md:left-[80%] lg:left-[75%] rotate-3 sm:-rotate-3">
+				<div className="absolute left-[1%] top-[68%] w-[35%] rotate-3 hover:scale-110 sm:left-[82%] sm:top-[43%] sm:w-[18%] sm:-rotate-3 md:left-[80%] lg:left-[75%] lg:w-[25%]">
 					<img
-						src="/img/assets/blank-tape-stickers1.svg"
+						src="/img/assets/buttons/blank-tape-stickers2.webp"
 						alt=""
-						className="w-full h-auto"
+						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
-					<h1 className={`absolute top-[20%] right-[30%] sm:top-[18%] lg:right-[30%] sm:right-[25%] text-red-800 text-[4.5vw] sm:text-[2.5vw] lg:text-[3.5vw] font-extrabold ${shadows.className}`}>Register</h1>
+					<h1
+						className={`absolute right-[30%] top-[20%] text-[4.5vw] font-extrabold text-red-800 sm:right-[25%] sm:top-[18%] sm:text-[2.5vw] lg:right-[30%] lg:text-[3.5vw] ${shadows.className}`}
+					>
+						Register
+					</h1>
 				</div>
-				<div className="absolute hover:scale-110 w-[25%] left-[22%] top-[83%] sm:w-[12.5%] sm:left-[82%] sm:top-[50%] lg:top-[55%] lg:left-[72.5%] lg:w-[17.5%]">
+				<div className="absolute left-[22%] top-[83%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[50%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[55%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/blank-tape-stickers1.svg"
+						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
-						className="w-full h-auto"
+						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
-					<h1 className={`absolute top-[20%] left-[32.5%] text-[2.75vw] sm:text-[1.75vw] sm:top-[10%] sm:left-[25%] font-medium lg:text-[2.75vw] lg:top-[12.5%] ${shadows.className}`}>Mentors</h1>
+					<h1
+						className={`absolute left-[32.5%] top-[20%] text-[2.75vw] font-medium sm:left-[25%] sm:top-[10%] sm:text-[1.75vw] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+					>
+						Mentors
+					</h1>
 				</div>
-				<div className="absolute hover:scale-110 w-[25%] left-[54.5%] top-[83%] sm:w-[12.5%] sm:left-[87%] sm:top-[55%] lg:top-[63%] lg:left-[80%] lg:w-[17.5%]">
+				<div className="absolute left-[54.5%] top-[83%] w-[25%] hover:scale-110 sm:left-[87%] sm:top-[55%] sm:w-[12.5%] lg:left-[80%] lg:top-[63%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/blank-tape-stickers1.svg"
+						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
-						className="w-full h-auto"
+						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
-					<h1 className={`absolute top-[20%] left-[32.5%] text-[2.75vw] sm:text-[1.75vw] sm:top-[10%] sm:left-[27.5%] font-medium lg:text-[2.75vw] lg:left-[30%] lg:top-[12.5%] ${shadows.className}`}>Judges</h1>
+					<h1
+						className={`absolute left-[32.5%] top-[20%] text-[2.75vw] font-medium sm:left-[27.5%] sm:top-[10%] sm:text-[1.75vw] lg:left-[30%] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+					>
+						Judges
+					</h1>
 				</div>
-				<div className="absolute hover:scale-110 w-[25%] left-[37%] top-[90%] sm:w-[12.5%] sm:left-[82%] sm:top-[60%] lg:top-[72%] lg:left-[72.5%] lg:w-[17.5%]">
+				<div className="absolute left-[37%] top-[90%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[60%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[72%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/blank-tape-stickers1.svg"
+						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
-						className="w-full h-auto"
+						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
-					<h1 className={`absolute top-[20%] left-[27.5%] text-[2.75vw] sm:text-[1.75vw] sm:top-[10%] sm:left-[17.5%] font-medium lg:text-[2.75vw] lg:top-[12.5%] lg:left-[20%] ${shadows.className}`}>Volunteers</h1>
+					<h1
+						className={`absolute left-[27.5%] top-[20%] text-[2.75vw] font-medium sm:left-[17.5%] sm:top-[10%] sm:text-[1.75vw] lg:left-[20%] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+					>
+						Volunteers
+					</h1>
 				</div>
-				<div className="absolute w-[3.5%] bottom-[16.5%] left-[12.5%] z-[15] sm:bottom-[22.5%] sm: left-[11.5%] sm:w-[2%]">
-					<img
-						src="img/assets/silver-pin.svg"
-						alt=""
-						className="w-full h-auto"
-					/>
-				</div>
+
 			</section>
-			{/* <div className="flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-4">
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						GitHub
-					</Button>
-				</Link>
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						Docs
-					</Button>
-				</Link>
-				<Link href={"https://github.com/acmutsa/hackkit"}>
-					<Button variant={"outline"} size={"lg"}>
-						Channel Log
-					</Button>
-				</Link>
-				<div className="h-0 basis-full" />
-				<div className="max-h-[50px] overflow-hidden"></div>
-			</div> */}
 		</>
 	);
 }

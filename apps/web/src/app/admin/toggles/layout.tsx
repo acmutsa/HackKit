@@ -16,7 +16,7 @@ export default async function Layout({ children }: ToggleLayoutProps) {
 		return notFound();
 
 	return (
-		<div className="mx-auto grid max-w-5xl grid-cols-5 gap-x-3 pt-44">
+		<div className="mx-auto grid w-full max-w-5xl grid-cols-5 gap-x-3">
 			<div className="min-h-screen">
 				<ToggleItem name="Toggles" path="/admin/toggles" />
 				<ToggleItem name="Landing Page" path="/admin/toggles/landing" />
