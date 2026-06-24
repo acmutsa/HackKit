@@ -48,7 +48,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	});
 
 	return (
-		<main className="mx-auto max-w-5xl pt-44">
+		<main className="mx-auto max-w-5xl">
 			{!!banInstance && (
 				<div className="absolute left-0 top-28 w-screen bg-destructive p-2 text-center">
 					<strong>

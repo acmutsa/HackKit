@@ -15,7 +15,7 @@ export default async function Page() {
 
 	// pass serializable data to client
 	return (
-		<div className="mx-auto max-w-7xl px-5 pt-40">
+		<div className="mx-auto w-full max-w-7xl px-5">
 			<h1 className="mb-4 text-2xl font-bold">Roles</h1>
 			<Suspense
 				fallback={
