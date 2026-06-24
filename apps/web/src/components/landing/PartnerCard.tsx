@@ -39,38 +39,31 @@ function PartnerCard({
 		<Link
 			href={partner.url || "#Sponsors"}
 			target={partner.url ? "_blank" : undefined}
-			className={`duration-350 group h-fit ${padding[index] ?? padding[padding.length - 1]} font-semibold opacity-100 transition ease-in-out hover:scale-105 ${partner.url ? "" : "pointer-events-none"}`}
+			className={`duration-350 group h-fit ${padding[index] ?? padding[padding.length - 1]} font-semibold opacity-100  ${partner.url ? "" : "cursor-default"}`}
 		>
-			<div
-				className={`relative flex h-[10vh] w-[38vw] flex-col items-center justify-center bg-contain bg-center bg-no-repeat sm:h-[13vh] md:h-[15vh] md:w-[35vw] lg:h-[20vh] lg:w-[32vw] xl:w-[23vw] 2xl:w-[23vw] ${manuale.className} text-sm font-normal drop-shadow-[4px_6px_3px_rgba(0,0,0,0.45)] md:text-base lg:text-lg`}
-				style={{
-					backgroundImage: "url('/img/sponsors/empty-paper.svg')",
-				}}
-			>
-				<Pin
-					size={12}
-					className="absolute left-1/2 top-[5%] z-30 -translate-x-1/2"
-				/>
-				<div className="relative mt-5 flex h-[60%] w-[70%] shrink-0 items-center justify-center 2xl:w-[55%]">
-					{partner.logo ? (
-						<Image
-							src={`/img/partner-logos/${partner.logo}`}
-							alt={`${partner.name} logo`}
-							fill
-							className="object-contain"
-						/>
-					) : (
-						<span className="font-shadows text-2xl text-black md:text-3xl lg:text-4xl">
-							Logo
-						</span>
-					)}
-				</div>
+			<div className="relative">
+				<Pin className="absolute left-1/2 top-[5%] z-30 -translate-x-1/2" />
+				<div
+					className={`relative flex h-[10vh] w-[38vw] flex-col items-center justify-center bg-contain bg-center bg-no-repeat sm:h-[13vh] md:h-[15vh] md:w-[35vw] lg:h-[20vh] lg:w-[32vw] xl:w-[23vw] 2xl:w-[23vw] ${manuale.className} text-sm font-normal drop-shadow-[4px_6px_3px_rgba(0,0,0,0.45)] md:text-base lg:text-lg transition ease-in-out hover:scale-105`}
+					style={{backgroundImage: "url('/img/sponsors/empty-paper.svg')",}}
+				>
+					<div className="relative mt-5 flex h-[60%] w-[50%] shrink-0 items-center justify-center 2xl:w-[55%]">
+						{partner.logo ? (
+							<Image
+								src={`/img/partner-logos/${partner.logo}`}
+								alt={`${partner.name} logo`}
+								fill
+								className="object-contain"
+							/>
+						) : (
+							<span className="font-shadows text-2xl text-black md:text-3xl lg:text-4xl">
+								Logo
+							</span>
+						)}
+					</div>
 
-				{partner.logo && (
-					<p className="mb-5 flex items-center justify-center text-center">
-						{partner.name}
-					</p>
-				)}
+				</div>
+				
 			</div>
 		</Link>
 	);

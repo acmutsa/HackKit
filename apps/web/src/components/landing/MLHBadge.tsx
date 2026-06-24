@@ -11,7 +11,6 @@ export default function MLHBadge() {
 				<Link
 					id="mlh-trust-badge"
 					className="absolute right-[6.1%] top-0 w-[10%] min-w-[60px] max-w-[100px]"
-					// style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
 					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2025-season&utm_content=black"
 					target="_blank"
 				>

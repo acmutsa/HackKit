@@ -9,6 +9,7 @@ import MLHBadge from "@/components/landing/MLHBadge";
 import FAQ from "@/components/landing/faq";
 import LandingThread from "@/components/landing/LandingThread";
 import { Oswald } from "next/font/google";
+import WorkWithUs from "@/components/landing/WorkWithUs";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -21,14 +22,15 @@ export default function Home() {
 			<LandingThread />
 			<Navbar />
 			<MLHBadge />
-			<main className="overflow-x-hidden">
+			{/* <main className="overflow-x-hidden"> */}
 				<Hero />
 				<About />
 				<Map />
 				<Partners />
 				<FAQ />
 				<Footer />
-			</main>
+				<WorkWithUs />
+			{/* </main> */}
 		</div>
 	);
 }

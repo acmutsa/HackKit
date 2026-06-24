@@ -85,7 +85,7 @@ export default function Map() {
 	);
 
 	return (
-		<section className="flex w-full items-center justify-center">
+		<section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[5vw]" id="About">
 			<div
 				className={`relative flex h-fit w-full flex-col items-center justify-center gap-y-10 py-0 lg:py-12 xl:py-12 2xl:py-12 ${shadowsIntoLight.className}`}
 			>
@@ -138,7 +138,7 @@ export default function Map() {
 									</p>
 								</div>
 							</div>
-						</div>
+                    </div>
 					</div>
 
 					<div
@@ -147,12 +147,12 @@ export default function Map() {
 					>
 						{/* Main Campus */}
 						<div style={mainCampusPinStyle}>
-							<Pin name="/img/assets/map/pin5.png" size={26} />
+							<Pin name="/img/assets/map/pin5.png" size={50} />
 						</div>
 
 						{/* San Pedro 1 */}
 						<div style={sp1PinStyle}>
-							<Pin name="/img/assets/map/pin4.png" size={26} />
+							<Pin name="/img/assets/map/pin5.png" size={50} />
 						</div>
 
 						<a
@@ -160,7 +160,7 @@ export default function Map() {
 							target="_blank"
 							style={sp1TextStyle}
 						>
-							<p className="text-sm font-extrabold text-[#AC1903] sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
+							<p className="text-sm font-extrabold text-[#AC1903] hover:underline sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
 								{line3_1.split("").map((char, i) => (
 									<motion.span
 										key={`l1-${i}`}
@@ -226,7 +226,7 @@ export default function Map() {
 							target="_blank"
 							style={mainCampusTextStyle}
 						>
-							<p className="text-sm font-bold font-extrabold text-[#AC1903] sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
+							<p className="text-sm font-bold font-extrabold text-[#AC1903] hover:underline sm:text-base md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">
 								{line2_1.split("").map((char, i) => (
 									<motion.span
 										key={`l1-${i}`}

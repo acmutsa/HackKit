@@ -2,10 +2,9 @@ import Image from "next/image";
 
 export default function Pin({
 	name = "/img/assets/silver-pin.svg",
-	size = 10,
+	size = 25,
 	className = "",
 	no_thread = false,
-	maxSize = 34,
 }: {
 	name?: string;
 	size?: number;
@@ -16,12 +15,8 @@ export default function Pin({
 	return (
 		<div
 			aria-hidden="true"
-			className={`shrink-0 drop-shadow-[2px_4px_2px_rgba(0,0,0,0.65)] ${className} ${no_thread ? "" : "pin"}`}
-			style={{
-				width: `clamp(10px, ${size * 0.2}vw, ${maxSize}px)`,
-				height: `clamp(10px, ${size * 0.2}vw, ${maxSize}px)`,
-				zIndex: 40,
-			}}
+			className={`shrink-0 drop-shadow-[2px_4px_2px_rgba(0,0,0,0.65)] w-[calc(var(--pin-size)*0.55)] h-[calc(var(--pin-size)*0.55)] md:w-[calc(var(--pin-size)*0.75)] md:h-[calc(var(--pin-size)*0.75)] lg:w-[var(--pin-size)] lg:h-[var(--pin-size)] ${className} ${no_thread ? "" : "pin"}`}
+			style={{ "--pin-size": `${size}px` } as React.CSSProperties}
 		>
 			<div className="relative h-full w-full">
 				<Image src={name} alt="" fill className="object-contain" />

@@ -16,6 +16,16 @@ const allFaqs = faqData.faq as Faq[];
 const leftFaqs = allFaqs.slice(0, LEFT_COUNT);
 const rightFaqs = allFaqs.slice(LEFT_COUNT);
 
+function DossierPins() {
+	return (
+		<>
+		<Pin className="absolute left-[25%] top-[5%] z-30 sm:left-[25%] sm:top-[7%]  md:left-[25%] md:top-[7%]" />
+		<Pin className="absolute left-[50%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[57%] md:top-[18%] lg:left-[57%] lg:top-[23%]" />
+		<Pin className="absolute left-[80%] top-[6%] z-30 sm:left-[80%] sm:top-[8%] md:left-[75%] md:top-[15%] lg:left-[75%] lg:top-[17%]" />
+		</>
+	);
+}
+
 function PaperBg() {
 	return (
 		<img
@@ -106,98 +116,13 @@ function FaqItem({ item }: { item: Faq }) {
 
 /* ---------- Page ---------- */
 
-const questions = [
-	{
-		question: "Who can attend?",
-		answer: "All students can sign up to be a hacker, regardless of experience, education, or background.",
-	},
-	{
-		question: "When is the deadline to apply?",
-		answer: "The registration deadline will be announced soon.",
-	},
-	{
-		question: "How much experience do I need?",
-		answer: "Absolutely zero! We want you here because you have a passion for creating, not because you're the most experienced hacker on the block.",
-	},
-	{
-		question: "How much does it cost?",
-		answer: "Nothing. Nada. Zilch. It's completely free for all accepted hackers.",
-	},
-	{
-		question: "What should I bring?",
-		answer: "Bring a valid ID and anything that will help you create or stay comfortable: a laptop, charger, mouse, keyboard, hardware, light jacket, and hygiene products. Don't bring anything you wouldn't bring on an airplane.",
-	},
-	{
-		question: "How do teams work?",
-		answer: "Teams are limited to 1–4 hackers. If you have a team in mind, make sure every member submits an application. If you don't have a team, we'll have dedicated time for team formation.",
-	},
-	{
-		question: "Can I stay overnight?",
-		answer: "Yes. However, if you leave after the building closes, you won't be able to re-enter until it reopens, so plan accordingly.",
-	},
-	{
-		question: "Where can I park?",
-		answer: "Parking information will be announced before the event.",
-	},
-];
-
-function FAQSheet({
-	items,
-	classified = false,
-}: {
-	items: typeof questions;
-	classified?: boolean;
-}) {
-	return (
-		<div className="relative w-[88vw] max-w-[600px] shrink-0">
-			<img src="/img/assets/FAQ.svg" alt="" className="h-auto w-full" />
-			<Pin
-				size={14}
-				className={`absolute top-[5%] z-30 ${classified ? "right-[10%]" : "left-[10%]"}`}
-			/>
-			{classified && (
-				<img
-					src="/img/assets/classified.svg"
-					alt="Classified"
-					className="absolute right-[8%] top-[6%] z-20 w-[43%] rotate-[12deg]"
-				/>
-			)}
-			<div className="absolute inset-x-[12%] top-[9%]">
-				{!classified && (
-					<div className="mb-[4%] flex items-stretch">
-						<img
-							src="/img/assets/finger-print.svg"
-							alt=""
-							className="w-[18%] border border-r-0 border-black object-contain p-[2%]"
-						/>
-						<h2 className="flex flex-1 items-center border border-black px-[6%] text-[clamp(14px,4vw,28px)] font-bold">
-							FAQ
-						</h2>
-					</div>
-				)}
-				<div className={classified ? "pt-[22%]" : ""}>
-					{items.map(({ question, answer }) => (
-						<div className="mb-[5%]" key={question}>
-							<h3 className="text-[clamp(12px,3.5vw,22px)] font-bold leading-tight">
-								{question}
-							</h3>
-							<p className="pl-[4%] text-[clamp(10px,2.8vw,17px)] leading-snug">
-								{answer}
-							</p>
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	);
-}
-
 export default function FAQ() {
 	return (
-		<section className="flex w-full items-center justify-center" id="FAQ">
-			<div className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-8 [container-type:inline-size]">
+		<section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[5vw]" id="FAQ"> 
+			<DossierPins />
+			<div className="flex w-full flex-col items-center justify-center gap-8 [container-type:inline-size]">
 				{/* ===== Desktop & Tablet ===== */}
-				<div className="hidden w-full max-w-[1400px] flex-row items-center justify-center md:flex">
+				<div className="hidden w-full flex-row items-center justify-center md:flex">
 					{/* Left paper */}
 					<div className="flex justify-center">
 						<div className="relative flex w-[40cqw] flex-col gap-y-[0.5cqw] px-[10%] pb-[30%] pt-[20%]">
@@ -211,7 +136,7 @@ export default function FAQ() {
 
 					{/* Right paper */}
 					<div className="flex justify-center">
-						<div className="relative flex w-[40cqw] flex-col gap-y-[0.5cqw] px-[10%] pb-[30%] pt-[20%]">
+						<div className="relative flex w-[40cqw] flex-col gap-y-[0.5cqw] px-[10%] pb-[26%] pt-[40%]">
 							<PaperBg />
 							<ClassifiedStamp />
 							{rightFaqs.map((item, index) => (

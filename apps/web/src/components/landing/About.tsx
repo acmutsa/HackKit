@@ -14,28 +14,22 @@ const shadow = Shadows_Into_Light({
 
 function DossierPins() {
 	return (
-		<>
-			<Pin size={14} className="absolute left-[14%] top-[8%] z-30" />
-			<Pin size={14} className="absolute right-[18%] top-[9%] z-30" />
-			<Pin size={14} className="absolute right-[7%] top-[49%] z-30" />
-			<Pin size={14} className="absolute bottom-[9%] right-[10%] z-30" />
+		<>	
+			<Pin className="absolute right-[70%] top-[0%] z-40 sm:right-[18%] sm:top-[9%]  md:right-[18%] md:top-[9%]" />
+			<Pin className="absolute right-[40%] top-[-2%] z-40 sm:right-[7%]  sm:top-[49%] md:right-[7%]  md:top-[49%]" />
+			<Pin className="absolute right-[5%] top-[6%] z-40 sm:right-[14%] sm:top-[85%] md:right-[19%] md:top-[90%] lg:right-[10%] lg:top-[91%]" />
+			<Pin className="absolute right-[11%] top-[90%] z-40 sm:right-[45%] sm:top-[95%] lg:right-[36%] lg:top-[95%]" />
 		</>
 	);
 }
 
 export default function About() {
-	const d1_stylesheet = {
-		width: "25rem",
-		height: "auto",
-		sm: "width: 30rem",
-	};
 	return (
-		<section className="flex w-full items-center justify-center" id="About">
-			<div
-				className={`relative flex h-fit w-full flex-col items-center justify-center py-0 lg:py-12 xl:py-12 2xl:py-12`}
-			>
+		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw]" id="About"> 
+			<DossierPins />
+			<div className={`relative flex h-fit w-full flex-col items-center justify-center py-0 lg:py-12 xl:py-12 2xl:py-12`}>
 				<div className="w-[85%] sm:w-[75%] md:w-[70%] lg:w-[60%] xl:w-[60%]">
-					<div className="duration-400 relative flex w-[100%] flex-col items-center justify-center transition delay-150 ease-in-out [container-type:inline-size] hover:rotate-[3deg] hover:scale-110 lg:hidden xl:hidden">
+					<div className="duration-400 relative flex w-[100%] flex-col items-center justify-center ease-in-out [container-type:inline-size] lg:hidden xl:hidden">
 						<img
 							src="/img/assets/about/about1.png"
 							className="absolute -top-[3%] right-[12%] h-auto w-[135%] -rotate-[8deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
@@ -46,7 +40,6 @@ export default function About() {
 							alt="RowdyHacks XII About Us Section"
 							className="z-15 relative h-full w-[100%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 						/>
-						<DossierPins />
 
 						<div className="absolute left-[10%] top-[45%] flex w-[80%] flex-col items-center gap-[0.6cqw]">
 							<div className="relative overflow-visible">
@@ -56,47 +49,6 @@ export default function About() {
 									What is RowdyHacks?
 								</h2>
 
-								{/* Circle
-									<motion.svg
-										className="absolute top-1/2 left-[55%] w-[50cqw] -translate-x-[70%] -translate-y-1/2 -rotate-[2deg]"
-										viewBox="0 0 500 100"
-										fill="none"
-									>
-										{[0, 1, 2, 3].map((i) => {
-											const baseLeft = 90 - i * 2;
-											const baseRight = 480 + i * 2;
-
-											shared distortion values
-											const wobbleX = (i % 2 === 0 ? -10 : 8);
-											const wobbleYTop = (i % 2 === 0 ? -6 : 6);
-											const wobbleYBottom = (i % 2 === 0 ? 8 : -6);
-
-											return (
-												<motion.path
-													key={i}
-													d={`M${baseLeft + wobbleX},52
-															C${baseLeft},${10 + wobbleYTop} ${baseRight},${10 - wobbleYTop} ${baseRight - wobbleX},48
-															C${baseRight},${90 + wobbleYBottom} ${baseLeft},${90 - wobbleYBottom} ${baseLeft + wobbleX},52`}
-													stroke="#991b1b"
-													strokeWidth={2 + i * 0.4}
-													strokeLinecap="round"
-													fill="none"
-													animate={{
-														pathLength: [0, 1, 1, 0],
-														opacity: [0, 1, 1, 0],
-													}}
-													transition={{
-														duration: 6,
-														times: [0, 0.15, 0.8, 1],
-														delay: i * 0.05,
-														repeat: Infinity,
-														repeatDelay: 2,
-														ease: "easeInOut",
-													}}
-												/>
-											);
-										})}
-									</motion.svg> */}
 							</div>
 							<p
 								className={`w-[90%] text-center text-sm font-light leading-tight sm:text-base md:text-lg ${manuale.className}`}
@@ -113,7 +65,7 @@ export default function About() {
 							</p>
 							<div className="duration-400 absolute left-[50%] top-[110%] flex w-[40%] -rotate-[15deg] items-center justify-center decoration-2 transition delay-150 ease-in-out hover:scale-110 hover:underline">
 								<img
-									src="/img/assets/blank-tape-stickers1.svg"
+									src="/img/assets/buttons/blank-tape-stickers1.png"
 									alt=""
 									className="w-full"
 								/>
@@ -132,7 +84,7 @@ export default function About() {
 						<div className="relative right-[25%] z-10 flex w-full -rotate-[5deg] flex-col items-center justify-center [container-type:inline-size]">
 							<img
 								src="/img/assets/about/about1.png"
-								className="absolute -top-[3%] right-[12%] h-auto w-[95%] -rotate-[8deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
+								className="absolute -top-[3%] right-[12%] h-auto w-[90%] -rotate-[8deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							/>
 
 							<img
@@ -140,7 +92,6 @@ export default function About() {
 								alt="RowdyHacks XII About Us Section"
 								className="z-15 relative h-full w-[80%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							/>
-							<DossierPins />
 
 							<div className="absolute left-[10%] top-[45%] flex w-[80%] flex-col items-center gap-[0.6cqw]">
 								<div className="relative overflow-visible">
@@ -150,47 +101,6 @@ export default function About() {
 										What is RowdyHacks?
 									</h2>
 
-									{/* Circle */}
-									{/* <motion.svg
-										className="absolute top-1/2 left-1/2 w-[35cqw] -translate-x-[70%] -translate-y-1/2 -rotate-[2deg]"
-										viewBox="0 0 500 100"
-										fill="none"
-									>
-										{[0, 1, 2, 3].map((i) => {
-											const baseLeft = 90 - i * 2;
-											const baseRight = 480 + i * 2;
-
-											// shared distortion values
-											const wobbleX = (i % 2 === 0 ? -10 : 8);
-											const wobbleYTop = (i % 2 === 0 ? -6 : 6);
-											const wobbleYBottom = (i % 2 === 0 ? 8 : -6);
-
-											return (
-												<motion.path
-													key={i}
-													d={`M${baseLeft + wobbleX},52
-															C${baseLeft},${10 + wobbleYTop} ${baseRight},${10 - wobbleYTop} ${baseRight - wobbleX},48
-															C${baseRight},${90 + wobbleYBottom} ${baseLeft},${90 - wobbleYBottom} ${baseLeft + wobbleX},52`}
-													stroke="#991b1b"
-													strokeWidth={2 + i * 0.4}
-													strokeLinecap="round"
-													fill="none"
-													animate={{
-														pathLength: [0, 1, 1, 0],
-														opacity: [0, 1, 1, 0],
-													}}
-													transition={{
-														duration: 6,
-														times: [0, 0.15, 0.8, 1],
-														delay: i * 0.05,
-														repeat: Infinity,
-														repeatDelay: 2,
-														ease: "easeInOut",
-													}}
-												/>
-											);
-										})}
-									</motion.svg> */}
 								</div>
 								<p
 									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-3xl ${manuale.className}`}
@@ -207,7 +117,7 @@ export default function About() {
 								</p>
 								<div className="duration-400 absolute left-[50%] top-[110%] flex w-[40%] -rotate-[15deg] items-center justify-center decoration-2 transition delay-150 ease-in-out hover:scale-110 hover:underline">
 									<img
-										src="/img/assets/blank-tape-stickers1.svg"
+										src="/img/assets/buttons/blank-tape-stickers1.png"
 										alt=""
 										className="w-full"
 									/>
@@ -268,6 +178,8 @@ export default function About() {
 									show for it, and a few new friends along the
 									way.
 								</p>
+
+
 							</div>
 						</div>
 					</div>

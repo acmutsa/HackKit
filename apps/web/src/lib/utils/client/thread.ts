@@ -36,7 +36,7 @@ export function connectElementsWithThread(
 			left: "0",
 			top: "0",
 			pointerEvents: "none",
-			zIndex: "30",
+			zIndex: "39",
 			overflow: "visible",
 		});
 
@@ -45,13 +45,14 @@ export function connectElementsWithThread(
 
 	const documentWidth = document.documentElement.scrollWidth;
 	const documentHeight = document.documentElement.scrollHeight;
+	const dropShadow = "drop-shadow(6px 8px 3px rgba(0, 0, 0, 0.45))";
 	svg.setAttribute("viewBox", `0 0 ${documentWidth} ${documentHeight}`);
 	svg.setAttribute("width", String(documentWidth));
 	svg.setAttribute("height", String(documentHeight));
 	svg.style.width = `${documentWidth}px`;
 	svg.style.height = `${documentHeight}px`;
 	svg.innerHTML = "";
-	svg.style.filter = blur > 0 ? `blur(${blur}px)` : "";
+	svg.style.filter = blur > 0 ? `blur(${blur}px) ${dropShadow}` : dropShadow;
 
 	const elements = [
 		...document.querySelectorAll<HTMLElement>(`.${className}`),
@@ -140,11 +141,19 @@ export function connectElementsWithThread(
 	}
 }
 
+function responsiveSegmentHeight(): number {
+	const w = window.innerWidth;
+	if (w >= 1024) return 18; // lg
+	if (w >= 768) return 14;  // md
+	if (w >= 640) return 11;  // sm
+	return 8;                 // base
+}
+
 export function redrawThread(): void {
 	connectElementsWithThread("pin", {
 		threadSrc: "/img/assets/red-thread.svg",
 		segmentWidth: 32,
-		segmentHeight: 20,
+		segmentHeight: responsiveSegmentHeight(),
 		stepRatio: 0.5,
 		extraTrim: 7,
 		opacity: 0.95,

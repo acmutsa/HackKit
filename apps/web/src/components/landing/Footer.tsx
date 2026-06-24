@@ -20,7 +20,7 @@ export default function Footer() {
 				<div className="mb-8">
 					<Image
 						className="w-20 sm:w-28"
-						src="/img/logo/rh-logo-black.svg"
+						src="/img/assets/footer/rh-city-logo-black.svg"
 						alt="RowdyHacks Logo"
 						width={100}
 						height={50}
@@ -56,7 +56,7 @@ export default function Footer() {
 					<Link href="https://go.rowdyhacks.org/discord">
 						<Image
 							className="select-none invert"
-							src="/img/assets/discord_icon.svg"
+							src="/img/assets/footer/discord_icon.svg"
 							alt="Discord logo"
 							width={20}
 							height={20}

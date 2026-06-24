@@ -2,6 +2,7 @@
 
 import { Manuale, Shadows_Into_Light } from "next/font/google";
 import { motion } from "motion/react";
+import Pin from "@/components/landing/Pin";
 
 const line1 = "Heist";
 const line2 = "starts at 9:00";
@@ -16,10 +17,26 @@ const manuale = Manuale({
 	weight: "500",
 });
 
+
+function DossierPins() {
+	return (
+		<>
+			<Pin className="absolute left-[12%] top-[15%] z-40  sm:left-[74%] sm:top-[28%] md:left-[67%] md:top-[30%] lg:left-[83%] lg:top-[36%]" /> 
+			<Pin className="absolute left-[55%] top-[18%] z-40  sm:left-[49%] sm:top-[21%] md:left-[44%] md:top-[21%] lg:left-[42%] lg:top-[20%]"/>
+			<Pin className="absolute left-[88%]  top-[28%] z-40  sm:left-[12%] sm:top-[15%] md:left-[7%] md:top-[15%]"/>
+			<Pin className="absolute left-[94%]  top-[54%] z-40  sm:left-[5%] sm:top-[45%] " />
+			<Pin className="absolute left-[47%] top-[74%] z-40  sm:left-[14%] sm:top-[85%] "/>
+			<Pin className="absolute left-[8%] top-[81%] z-40 block sm:hidden "/>
+		</>
+	);
+}
+
 export default function Hero() {
 	return (
 		<>
-			<section className="relative w-full overflow-hidden pb-[30vw] pt-8 sm:pb-[0]">
+			<section className="relative w-full pt-[15%] sm:pt-[3%] pb-[30vw] sm:pb-[3vw] md:pb-[5vw]">
+				<DossierPins />
+
 				<div className="relative w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)] sm:left-4 sm:w-[85%] md:left-5 md:w-[75%] lg:left-10 lg:w-[70%]">
 					<img
 						src="img/assets/hero/hero.png"
@@ -103,7 +120,7 @@ export default function Hero() {
 					</div>
 				</div>
 
-				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] lg:left-[77.5%] lg:top-[35%] lg:w-[17.5%]">
+				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] lg:left-[77.5%] md:top-[35%] md:top-[35%] lg:top-[35%] lg:w-[17.5%]">
 					<img
 						src="/img/assets/hero/register/blank-tape-stickers3.png"
 						alt=""
@@ -117,7 +134,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[1%] top-[68%] w-[35%] rotate-3 hover:scale-110 sm:left-[82%] sm:top-[43%] sm:w-[18%] sm:-rotate-3 md:left-[80%] lg:left-[75%] lg:w-[25%]">
 					<img
-						src="/img/assets/hero/register/blank-tape-stickers2.png"
+						src="/img/assets/buttons/blank-tape-stickers2.png"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -129,7 +146,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[22%] top-[83%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[50%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[55%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/hero/register/blank-tape-stickers1.png"
+						src="/img/assets/buttons/blank-tape-stickers1.png"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -141,7 +158,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[54.5%] top-[83%] w-[25%] hover:scale-110 sm:left-[87%] sm:top-[55%] sm:w-[12.5%] lg:left-[80%] lg:top-[63%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/hero/register/blank-tape-stickers1.png"
+						src="/img/assets/buttons/blank-tape-stickers1.png"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -153,7 +170,7 @@ export default function Hero() {
 				</div>
 				<div className="absolute left-[37%] top-[90%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[60%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[72%] lg:w-[17.5%]">
 					<img
-						src="/img/assets/hero/register/blank-tape-stickers1.png"
+						src="/img/assets/buttons/blank-tape-stickers1.png"
 						alt=""
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
@@ -164,36 +181,6 @@ export default function Hero() {
 					</h1>
 				</div>
 
-				<div className="pin absolute bottom-[12.5%] right-[5%] z-40 h-fit w-[3.5%] sm:left-[5%] sm:top-[47.5%] sm:w-[2.5%]">
-					<img
-						src="img/assets/silver-pin.svg"
-						alt=""
-						className="h-auto w-full"
-					/>
-				</div>
-
-				<div className="pin absolute right-[10%] top-[30%] z-40 w-[3.5%] sm:left-[9.75%] sm:top-[24.75%] sm:w-[2.5%]">
-					<img
-						src="img/assets/silver-pin.svg"
-						alt=""
-						className="h-auto w-full"
-					/>
-				</div>
-				<div className="pin absolute right-[47.5%] top-[21.25%] z-40 w-[3.5%] sm:right-[52%] sm:top-[22.5%] sm:w-[2.5%]">
-					<img
-						src="img/assets/silver-pin.svg"
-						alt=""
-						className="h-auto w-full"
-					/>
-				</div>
-
-				<div className="pin absolute left-[5.5%] top-[25%] z-40 w-[3.5%] sm:left-[77.5%] sm:top-[28%] sm:w-[2.5%]">
-					<img
-						src="img/assets/silver-pin.svg"
-						alt=""
-						className="h-auto w-full"
-					/>
-				</div>
 			</section>
 		</>
 	);
