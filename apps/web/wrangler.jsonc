@@ -1,0 +1,31 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "rowdyhacks-xii-web",
+	"compatibility_date": "2026-06-25",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "rowdyhacks-xii-web"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "rowdyhacks-xii-next-cache"
+		}
+	],
+	"images": {
+		"binding": "IMAGES"
+	},
+	"vars": {
+		"NODE_ENV": "production",
+		"NEXTJS_ENV": "production",
+		"NEXT_INC_CACHE_R2_PREFIX": "rowdyhacks-xii-web"
+	}
+}

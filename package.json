@@ -11,6 +11,7 @@
     "migrations:drop": "pnpm --filter=db migrations:drop",
     "studio": "pnpm --filter=db studio",
     "db:seed": "pnpm --filter=db db:seed",
+    "deploy": "pnpm --filter=web deploy",
     "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
     "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
     "format": "prettier --write .",

@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import createJiti from "jiti";
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
@@ -26,5 +27,9 @@ const nextConfig = {
 		},
 	},
 };
+
+if (process.env.NODE_ENV === "development") {
+	initOpenNextCloudflareForDev();
+}
 
 export default nextConfig;
