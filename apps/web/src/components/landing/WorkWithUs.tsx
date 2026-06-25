@@ -1,5 +1,6 @@
 "use client";
 
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Shadows_Into_Light } from "next/font/google";
@@ -17,10 +18,6 @@ const shadowsIntoLight = Shadows_Into_Light({
 	subsets: ["latin"],
 	variable: "--font-shadows",
 });
-
-const TILTS = [-5, 4, -3, 5, -4];
-
-
 
 
 function srcFor(p: Person) {
@@ -91,7 +88,9 @@ function Polaroid({ person, slotIndex }: { person: Person; slotIndex: number }) 
 					{front.linkedin && (
 							<Link
 								href={front.linkedin}
-								className="absolute inset-0"
+								className={`absolute inset-0 ${showFront ? "" : "pointer-events-none"}`}
+								tabIndex={showFront ? 0 : -1}
+								aria-hidden={!showFront}
 							>
 							<Linkedin
 								style={{ transition: "opacity 2000ms ease-in-out" }}
@@ -102,7 +101,9 @@ function Polaroid({ person, slotIndex }: { person: Person; slotIndex: number }) 
 					{back.linkedin && (
 							<Link
 								href={back.linkedin}
-								className="absolute inset-0"
+								className={`absolute inset-0 ${showFront ? "pointer-events-none" : ""}`}
+								tabIndex={showFront ? -1 : 0}
+								aria-hidden={showFront}
 							>
 							<Linkedin
 								style={{ transition: "opacity 2000ms ease-in-out" }}
@@ -238,7 +239,6 @@ export default function WorkWithUs() {
 					<button
 						type="button"
 						onClick={() => move(step)}
-						aria-label={"Next suspects"}
 						className={`${shadowsIntoLight.className} text-[7vw] transition-transform hover:scale-110 active:scale-95`}
 					>
 						{"\u203A"}
