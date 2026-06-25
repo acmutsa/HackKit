@@ -96,7 +96,7 @@ export default function About() {
 							<div className="absolute left-[10%] top-[45%] flex w-[80%] flex-col items-center gap-[0.6cqw]">
 								<div className="relative overflow-visible">
 									<h2
-										className={`pb-[6%] font-bold leading-tight lg:text-2xl xl:text-4xl 2xl:text-4xl ${manuale.className}`}
+										className={`pb-[6%] font-bold leading-tight lg:text-2xl xl:text-4xl 2xl:text-5xl ${manuale.className}`}
 									>
 										What is RowdyHacks?
 									</h2>

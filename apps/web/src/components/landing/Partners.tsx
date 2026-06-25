@@ -29,7 +29,7 @@ function DossierPins() {
 		<Pin className="absolute left-[50%] top-[0%] z-30 lg:left-[50%] lg:top-[3%]" />
 		<Pin className="absolute left-[26%] top-[26%] z-30 sm:left-[26%] sm:top-[23%] md:left-[30%] md:top-[22%] lg:left-[38%] lg:top-[23%]" />
 
-		<Pin no_thread className="absolute left-[50%] top-[62%] z-30 sm:top-[53%] md:top-[49%] lg:top-[47%]" />
+		<Pin no_thread className="absolute left-[50%] top-[62%] z-30 sm:top-[53%] md:top-[49%] lg:top-[45%]" />
 		</>
 	);
 }
@@ -42,28 +42,28 @@ export default async function Partners() {
 			<div className="relative flex flex-col items-center justify-center gap-y-6 py-10">
 
 				<div
-					className={`relative h-fit w-[50vw] max-w-[440px] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} -rotate-6 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
+					className={`relative h-fit w-[65vw] sm:w-[60vw] md:w-[50vw] lg:w-[30vw] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} -rotate-6 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
 					style={{
 						backgroundImage:
 							"url('/img/sponsors/sponsors-header-background.svg')",
 					}}
 				>
 
-					<p className="font-shadows p-6 text-center text-2xl text-black md:text-4xl lg:text-6xl">
+					<p className="font-shadows p-6 text-center text-black sm:text-lg md:text-xl lg:text-2xl xl:text-4xl 2xl:text-5xl">
 						Sponsors
 					</p>
 				</div>
 
 				<div
-					className={`relative h-fit w-[50vw] max-w-[440px] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} rotate-4 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
+					className={`relative h-fit w-[70vw] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} rotate-4 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
 					style={{
 						backgroundImage:
 							"url('/img/sponsors/sponsors-header-background.svg')",
 					}}
 				>
 
-					<p className="font-shadows p-6 text-center text-black sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">
-						Coming Soon 
+					<p className="font-shadows p-6 text-center text-black sm:text-lg md:text-xl lg:text-2xl xl:text-4xl 2xl:text-5xl">
+						Currently under investigation  
 					</p>
 				</div>
 

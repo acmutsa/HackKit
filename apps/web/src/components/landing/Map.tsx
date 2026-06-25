@@ -85,7 +85,7 @@ export default function Map() {
 	);
 
 	return (
-		<section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[5vw]" id="About">
+		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw]" id="About">
 			<div
 				className={`relative flex h-fit w-full flex-col items-center justify-center gap-y-10 py-0 lg:py-12 xl:py-12 2xl:py-12 ${shadowsIntoLight.className}`}
 			>
