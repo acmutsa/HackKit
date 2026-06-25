@@ -1,6 +1,6 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 main = ".open-next/worker.js"
-name = "my-app"
+name = "rowdyhacksxii"
 # Set this to today's date
 compatibility_date = "2026-06-25"
 compatibility_flags = [ "nodejs_compat" ]
