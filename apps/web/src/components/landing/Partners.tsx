@@ -49,7 +49,7 @@ export default async function Partners() {
 					}}
 				>
 
-					<p className="font-shadows p-6 text-center text-2xl text-black md:text-4xl lg:text-6xl">
+					<p className="font-shadows p-6 text-center text-black sm:text-lg md:text-xl lg:text-2xl xl:text-4xl 2xl:text-5xl">
 						Sponsors
 					</p>
 				</div>
@@ -62,7 +62,7 @@ export default async function Partners() {
 					}}
 				>
 
-					<p className="font-shadows p-6 text-center text-black sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">
+					<p className="font-shadows p-6 text-center text-black sm:text-lg md:text-xl lg:text-2xl xl:text-4xl 2xl:text-5xl">
 						Coming Soon 
 					</p>
 				</div>
