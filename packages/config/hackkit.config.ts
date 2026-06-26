@@ -19,13 +19,15 @@ const c = {
 	itteration: "I",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
-	rsvpDefaultLimit: 500,
 	botName: "HackKit",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schoolOptions[0],
 	localUniversitySchoolIDName: "UTSA id (abc123)",
 	localUniversityShortIDMaxLength: 6,
+	registrationAvailable: false,
+	rsvpAvailable: false,
+	rsvpLimit: 500,
 	registration: {
 		schools: schoolOptions,
 		majors: majorOptions,

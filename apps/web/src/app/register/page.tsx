@@ -4,8 +4,6 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
-import { redisMGet } from "@/lib/utils/server/redis";
-import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
 
@@ -19,11 +17,9 @@ export default async function Page() {
 	const registration = await getUser(userId);
 	if (registration) return redirect("/dash");
 
-	const [defaultRegistrationEnabled]: (string | null)[] = await redisMGet(
-		"config:registration:registrationEnabled",
-	);
+	const registrationEnabled = c.registrationAvailable;
 
-	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
+	if (registrationEnabled) {
 		return (
 			<>
 				<Navbar />
