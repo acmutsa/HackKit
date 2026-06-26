@@ -32,7 +32,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	return (
 		<>
 			<ClientToast duration={2500} position="top-right" />
-			<SidebarProvider>
+			<SidebarProvider className="bg-background text-foreground">
 				<AdminSidebar user={user} />
 				<SidebarInset>
 					<header className="flex h-16 shrink-0 items-center gap-2">

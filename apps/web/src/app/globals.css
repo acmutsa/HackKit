@@ -4,106 +4,71 @@
 
 @layer base {
 	:root {
-		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
+		--gradient-color-stops: var(--hackathon-primary), transparent;
 		--bg-image: url("/img/assets/background.webp");
-		--background: 28 43% 47%;
-		--foreground: 0 0% 0%;
-		--border: 0 0% 0%;
-		--input: 0 0% 0%;
 
-		--popover: 43.33, 37.5%, 90.59%;
-		--popover-foreground: 0 0% 0%;
-
-		--accent: 7.81, 96.57%, 34.31%;
-		--accent-foreground: 0 0% 0%;
-
-		--primary: 0 0% 0%;
-		--primary-foreground: 43.33, 37.5%, 90.59%;
-
-		--muted: 7.81, 96.57%, 34.31%;
-		--muted-foreground: 37.5, 20.51%, 15.29%;
-
-		--secondary: 0 0% 0%;
-		--secondary-foreground: 242 86% 52%;
-
-		--radius: 0.5rem;
-
-		--card: 43.33, 37.5%, 90.59%;
-		--card-foreground: 0 0% 0%;
-
-		--ring: 7.81, 96.57%, 34.31%;
-
-		--destructive: 7.81, 96.57%, 34.31%;
-		--destructive-foreground: 0 0% 0%;
-
-		--nav: 255, 255, 255;
-		--hackathon-primary: 7.81, 96.57%, 34.31%;
-		--gradient-color-1: #668cff;
-		--gradient-color-2: #3366ff;
-		--gradient-color-3: #002db3;
-		--gradient-color-4: #1952cc;
-		--sidebar-background: 0 0% 98%;
-		--sidebar-foreground: 240 5.3% 26.1%;
-		--sidebar-primary: 240 5.9% 10%;
-		--sidebar-primary-foreground: 0 0% 98%;
-		--sidebar-accent: 240 4.8% 95.9%;
-		--sidebar-accent-foreground: 240 5.9% 10%;
-		--sidebar-border: 220 13% 91%;
-		--sidebar-ring: 217.2 91.2% 59.8%;
-	}
-
-	.dark {
-		--gradient-color-stops: hsl(var(--hackathon-primary)), transparent;
-		--bg-image: url("/img/assets/background.webp");
-		--background: 28 43% 47%;
-		--foreground: 0 0% 0%;
-		--border: 0 0% 0%;
-		--input: 0 0% 0%;
-
-		--popover: 43.33, 37.5%, 90.59%;
-		--popover-foreground: 0 0% 0%;
-
-		--accent: 7.81, 96.57%, 34.31%;
-		--accent-foreground: 0 0% 0%;
-
-		--primary: 0 0% 0%;
-		--primary-foreground: 43.33, 37.5%, 90.59%;
-
-		--muted: 7.81, 96.57%, 34.31%;
-		--muted-foreground: 37.5, 20.51%, 15.29%;
-
-		--secondary: 0 0% 0%;
-		--secondary-foreground: 242 86% 52%;
-
-		--radius: 0.5rem;
-
-		--card: 43.33, 37.5%, 90.59%;
-		--card-foreground: 0 0% 0%;
-
-		--ring: 7.81, 96.57%, 34.31%;
-
-		--destructive: 7.81, 96.57%, 34.31%;
-		--destructive-foreground: 0 0% 0%;
-
-		--nav: 255, 255, 255;
-		--hackathon-primary: 7.81, 96.57%, 34.31%;
-		--ring: 240 3.7% 15.9%;
-
-		--sidebar-background: 240 5.9% 10%;
-
-		--sidebar-foreground: 240 4.8% 95.9%;
-
-		--sidebar-primary: 224.3 76.3% 48%;
-
-		--sidebar-primary-foreground: 0 0% 100%;
-
-		--sidebar-accent: 240 3.7% 15.9%;
-
-		--sidebar-accent-foreground: 240 4.8% 95.9%;
-
-		--sidebar-border: 240 3.7% 15.9%;
-
-		--sidebar-ring: 217.2 91.2% 59.8%;
+		--background: oklch(0.9404 0.0181 89.3604);
+		--foreground: oklch(0.145 0 0);
+		--card: oklch(1 0 0);
+		--card-foreground: oklch(0.145 0 0);
+		--popover: oklch(1 0 0);
+		--popover-foreground: oklch(0.145 0 0);
+		--primary: oklch(0.2843 0.0195 80.4025);
+		--primary-foreground: oklch(0.985 0 0);
+		--secondary: oklch(0.97 0 0);
+		--secondary-foreground: oklch(0.205 0 0);
+		--muted: oklch(0.97 0 0);
+		--muted-foreground: oklch(0.556 0 0);
+		--accent: oklch(0.8407 0.1291 90.3073);
+		--accent-foreground: oklch(0.205 0 0);
+		--destructive: oklch(0.577 0.245 27.325);
+		--destructive-foreground: oklch(1 0 0);
+		--border: oklch(0.5452 0.0549 80.4233);
+		--input: oklch(0.922 0 0);
+		--ring: oklch(0.8297 0 0);
+		--nav: #ffffff;
+		--hackathon-primary: #ac1703;
+		--chart-1: oklch(0.81 0.1 252);
+		--chart-2: oklch(0.62 0.19 260);
+		--chart-3: oklch(0.55 0.22 263);
+		--chart-4: oklch(0.49 0.22 264);
+		--chart-5: oklch(0.42 0.18 266);
+		--sidebar: oklch(1 0 0);
+		--sidebar-foreground: oklch(0.145 0 0);
+		--sidebar-primary: oklch(0.2843 0.0195 80.4025);
+		--sidebar-primary-foreground: oklch(0.985 0 0);
+		--sidebar-accent: oklch(0.8407 0.1291 90.3073);
+		--sidebar-accent-foreground: oklch(0.205 0 0);
+		--sidebar-border: oklch(0.5452 0.0549 80.4233);
+		--sidebar-ring: oklch(0.708 0 0);
+		--font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+			"Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+			"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+			"Noto Color Emoji";
+		--font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times,
+			serif;
+		--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+			"Liberation Mono", "Courier New", monospace;
+		--radius: 0.625rem;
+		--shadow-x: 0;
+		--shadow-y: 1px;
+		--shadow-blur: 3px;
+		--shadow-spread: 0px;
+		--shadow-opacity: 0.1;
+		--shadow-color: oklch(0 0 0);
+		--shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
+		--shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
+		--shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 0.1),
+			0 1px 2px -1px rgb(0 0 0 / 0.1);
+		--shadow: 0 1px 3px 0px rgb(0 0 0 / 0.1),
+			0 1px 2px -1px rgb(0 0 0 / 0.1);
+		--shadow-md: 0 1px 3px 0px rgb(0 0 0 / 0.1),
+			0 2px 4px -1px rgb(0 0 0 / 0.1);
+		--shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 0.1),
+			0 4px 6px -1px rgb(0 0 0 / 0.1);
+		--shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 0.1),
+			0 8px 10px -1px rgb(0 0 0 / 0.1);
+		--shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 0.25);
 	}
 }
 
@@ -149,7 +114,7 @@
 .pulsatingDot:before {
 	animation: pulseRing 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 	/* background-color: var(--pulsating-dot, #00BEFF); */
-	background-color: hsl(var(--hackathon-primary));
+	background-color: var(--hackathon-primary);
 	border-radius: 45px;
 	content: "";
 	display: block;

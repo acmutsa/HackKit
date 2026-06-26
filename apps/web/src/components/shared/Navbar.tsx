@@ -37,7 +37,7 @@ export default async function Navbar({ className }: NavbarProps) {
 		<div className="z-50 flex w-full px-2 pt-2 sm:px-4 lg:px-6">
 			<div
 				className={cn(
-					`relative top-0 z-50 h-16 w-full overflow-visible bg-nav md:h-20 lg:h-24 xl:h-28 ${shadow.className} drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]`,
+					`relative top-0 z-50 h-16 w-full overflow-visible md:h-20 lg:h-24 xl:h-28 ${shadow.className} drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]`,
 					className,
 				)}
 				style={{
@@ -82,8 +82,8 @@ export default async function Navbar({ className }: NavbarProps) {
 										}
 									>
 										<Button
-											variant={"outline"}
-											className="bg-nav hover:bg-background md:text-lg lg:h-12 lg:px-6 lg:text-2xl xl:h-14 xl:text-[1.75rem]"
+											variant={"link"}
+											className="bg-transparent md:text-lg lg:h-12 lg:px-6 lg:text-2xl xl:h-14 xl:text-[1.75rem]"
 										>
 											{registrationIsComplete
 												? "Dashboard"
@@ -96,7 +96,7 @@ export default async function Navbar({ className }: NavbarProps) {
 									<Link href={"/sign-in"}>
 										<Button
 											variant={"link"}
-											className="bg-nav text-sm sm:text-sm md:text-lg lg:h-12 lg:px-5 lg:text-2xl xl:h-14 xl:text-[1.75rem]"
+											className="bg-transparent md:text-lg lg:h-12 lg:px-5 lg:text-2xl xl:h-14 xl:text-[1.75rem]"
 										>
 											Sign In
 										</Button>
