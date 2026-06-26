@@ -18,10 +18,7 @@ const c = {
 	hackathonName: "RowdyHacks",
 	itteration: "XII",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-	defaultMetaDataDescription: "Your Metadata Description Here",
-	botName: "HackKit",
 	defaultMetaDataDescription: "RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.",
-	rsvpDefaultLimit: 500,
 	botName: "RowdyHacks",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
