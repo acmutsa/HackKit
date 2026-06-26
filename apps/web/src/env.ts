@@ -16,8 +16,6 @@ export const env = createEnv({
 		R2_SECRET_ACCESS_KEY: z.string(),
 		TURSO_AUTH_TOKEN: z.string(),
 		TURSO_DATABASE_URL: z.string(),
-		UPSTASH_REDIS_REST_TOKEN: z.string(),
-		UPSTASH_REDIS_REST_URL: z.string(),
 	},
 	client: {
 		NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),

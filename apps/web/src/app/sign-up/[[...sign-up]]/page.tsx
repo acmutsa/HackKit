@@ -1,16 +1,12 @@
 import { SignUp } from "@clerk/nextjs";
-import { redisMGet } from "@/lib/utils/server/redis";
-import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import c from "config";
 import { Button } from "@/components/shadcn/ui/button";
 import Link from "next/link";
 
 export default async function Page() {
-	const [defaultRegistrationEnabled]: (string | null)[] = await redisMGet(
-		"config:registration:registrationEnabled",
-	);
+	const registrationEnabled = c.registrationAvailable;
 
-	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
+	if (registrationEnabled) {
 		return (
 			<main className="flex min-h-screen items-center justify-center">
 				<SignUp fallbackRedirectUrl={"/register"} />
