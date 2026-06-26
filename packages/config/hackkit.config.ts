@@ -15,11 +15,14 @@ import {
 const defaultTheme = "dark";
 
 const c = {
-	hackathonName: "HackKit",
-	itteration: "I",
+	hackathonName: "RowdyHacks",
+	itteration: "XII",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
 	defaultMetaDataDescription: "Your Metadata Description Here",
 	botName: "HackKit",
+	defaultMetaDataDescription: "RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.",
+	rsvpDefaultLimit: 500,
+	botName: "RowdyHacks",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schoolOptions[0],
@@ -106,10 +109,10 @@ const c = {
 		guide: "https://go.rowdyhacks.org/discord",
 	},
 	icon: {
-		sm: "/img/logo/hackkit.svg",
-		md: "/img/logo/hackkit-md.png",
-		lg: "/img/logo/hackkit-lg.png",
-		svg: "/img/logo/hackkit.svg",
+		sm: "/img/logo/rh-logo-black.svg",
+		md: "/img/logo/rh-logo-black.png",
+		lg: "/img/logo/rh-logo-black.png",
+		svg: "/img/logo/rh-logo-black.svg",
 	},
 	dashPaths: {
 		dash: {
@@ -119,11 +122,11 @@ const c = {
 		},
 	},
 	eventTypes: {
-		Meal: "#FFC107",
-		Workshop: "#10b981",
-		Ceremony: "#9C27B0",
-		Social: "#2196F3",
-		Other: "#795548",
+		Meal: "#EBC75F",
+		Workshop: "#AC1903",
+		Ceremony: "#006b29",
+		Social: "#db6e00",
+		Other: "#2F291F",
 	},
 	days: {
 		Saturday: new Date(2023, 6, 15),
