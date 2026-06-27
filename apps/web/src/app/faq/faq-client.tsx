@@ -76,7 +76,7 @@ function FaqHeader() {
             <img
                 src="/img/assets/faq/finger-print.svg"
                 alt=""
-                className="h-auto w-[4cqw] border border-r-0 border-black object-contain p-[0.25cqw]"
+                className="h-auto w-[5cqw] border border-r-0 border-black object-contain p-[0.25cqw]"
             />
             <h1
                 className={`w-[100%] border border-black  p-[5%] text-start text-2xl font-bold sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl ${manuale.className}`}
@@ -95,7 +95,7 @@ function FaqItem({ item }: { item: Faq }) {
             whileHover="hover"
             animate="rest"
         >
-            <div className="relative w-fit py-[0%] pr-[20%]">
+            <div className="relative w-fit py-[3%] pr-[20%]">
                 <h2
                     className={`text-xs font-bold sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl ${manuale.className}`}
                 >
@@ -106,7 +106,7 @@ function FaqItem({ item }: { item: Faq }) {
                     className="absolute inset-0 -left-10 -top-1 h-full w-full object-fill"
                     variants={{
                         rest: { opacity: 0, scale: 0.8 },
-                        hover: { opacity: 1, scale: 1 },
+                        hover: { opacity: 1, scale: 0.95 },
                     }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
                     alt=""
