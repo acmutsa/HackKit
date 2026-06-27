@@ -3,7 +3,52 @@ import { Manuale } from "next/font/google";
 import faqData from "./faq.json";
 import { motion } from "motion/react";
 import Pin from "./Pin";
+import Link from "next/link";
 
+
+export function FaqHoverLink() {
+  return (
+    <motion.div
+      initial="rest"
+      whileHover="hover"
+      animate="rest"
+      className=" relative py-[2cqw] pb-0 "
+    >
+      <Link href="/faq" className="inline-flex items-center gap-2">
+	  <motion.span
+          variants={{
+            rest: { opacity: 0, x: -12 },
+            hover: { opacity: 1, x: 2 },
+          }}
+          transition={{ duration: 0.25 }}
+		  className={`text-2xl ${manuale.className} hover:underline`}
+        >
+          More Questions?</motion.span>
+        <motion.svg
+          width="40"
+          height="40"
+          viewBox="0 0 20 20"
+          variants={{
+            rest: { opacity:1, x: 5 },
+            hover: {opacity:1, x: 175 },
+          }}
+		  className="absolute justify-end"
+        
+        >
+          <path
+            d="M7.5 5L12.5 10L7.5 15"
+            fill="none"
+            stroke="#AB1820"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </motion.svg>
+		
+      </Link>
+    </motion.div>
+  );
+}
 const manuale = Manuale({
 	subsets: ["latin"],
 	display: "swap",
@@ -142,10 +187,13 @@ export default function FAQ() {
 							{rightFaqs.map((item, index) => (
 								<FaqItem key={index} item={item} />
 							))}
+
+							<FaqHoverLink/>
+
 						</div>
 					</div>
 				</div>
-
+				
 				{/* ===== Mobile ===== */}
 				<div className="flex w-full justify-center md:hidden">
 					<div className="relative flex w-[85cqw] flex-col gap-y-[0.5cqw] px-[10%] pb-[30%] pt-[20%]">
@@ -159,6 +207,7 @@ export default function FAQ() {
 						{allFaqs.map((item, index) => (
 							<FaqItem key={index} item={item} />
 						))}
+								<FaqHoverLink/>
 					</div>
 				</div>
 			</div>
