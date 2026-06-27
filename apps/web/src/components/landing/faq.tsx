@@ -18,9 +18,9 @@ export function FaqHoverLink() {
 	  <motion.span
           variants={{
             rest: { opacity: 0, x: -12 },
-            hover: { opacity: 1, x: 2 },
+            hover: { opacity: [0,0.25,0.5,0.75,1], x: 2 },
           }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.15 }}
 		  className={`text-2xl ${manuale.className} hover:underline`}
         >
           More Questions?</motion.span>
@@ -32,6 +32,7 @@ export function FaqHoverLink() {
             rest: { opacity:1, x: 5 },
             hover: {opacity:1, x: 175 },
           }}
+		  transition={{duration: 0.25}}
 		  className="absolute justify-end"
         
         >
