@@ -103,7 +103,7 @@ export default function About() {
 
 								</div>
 								<p
-									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-3xl ${manuale.className}`}
+									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-2xl ${manuale.className}`}
 								>
 									RowdyHacks is UTSA's annual hackathon,
 									hosted by the Association for Computing
@@ -164,7 +164,7 @@ export default function About() {
 									}}
 								/>
 								<p
-									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-3xl ${manuale.className}`}
+									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-2xl ${manuale.className}`}
 								>
 									Whether you’ve a seasoned hackathon vet or
 									you’re just getting started, you’ll feel

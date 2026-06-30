@@ -18,7 +18,8 @@ const c = {
 	hackathonName: "RowdyHacks",
 	itteration: "XII",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-	defaultMetaDataDescription: "RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.",
+	defaultMetaDataDescription:
+		"RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.",
 	botName: "RowdyHacks",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
@@ -167,6 +168,7 @@ const publicRoutes = [
 	/^\/user\//,
 	"/404",
 	"/bugreport",
+	"/register",
 	/^\/sign-in(\/.*)?$/,
 	/^\/sign-up(\/.*)?$/,
 ];

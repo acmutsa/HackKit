@@ -17,16 +17,15 @@ const manuale = Manuale({
 	weight: "500",
 });
 
-
 function DossierPins() {
 	return (
 		<>
-			<Pin className="absolute left-[12%] top-[15%] z-40  sm:left-[74%] sm:top-[28%] md:left-[67%] md:top-[30%] lg:left-[83%] lg:top-[36%]" /> 
-			<Pin className="absolute left-[55%] top-[18%] z-40  sm:left-[49%] sm:top-[21%] md:left-[44%] md:top-[21%] lg:left-[42%] lg:top-[20%]"/>
-			<Pin className="absolute left-[88%]  top-[28%] z-40  sm:left-[12%] sm:top-[15%] md:left-[7%] md:top-[15%]"/>
-			<Pin className="absolute left-[94%]  top-[54%] z-40  sm:left-[5%] sm:top-[45%] " />
-			<Pin className="absolute left-[47%] top-[74%] z-40  sm:left-[14%] sm:top-[85%] "/>
-			<Pin className="absolute left-[8%] top-[81%] z-40 block sm:hidden "/>
+			<Pin className="absolute left-[12%] top-[15%] z-40 sm:left-[74%] sm:top-[28%] md:left-[67%] md:top-[30%] lg:left-[83%] lg:top-[36%]" />
+			<Pin className="absolute left-[55%] top-[18%] z-40 sm:left-[49%] sm:top-[21%] md:left-[44%] md:top-[21%] lg:left-[42%] lg:top-[20%]" />
+			<Pin className="absolute left-[88%] top-[28%] z-40 sm:left-[12%] sm:top-[15%] md:left-[7%] md:top-[15%]" />
+			<Pin className="absolute left-[94%] top-[54%] z-40 sm:left-[5%] sm:top-[45%]" />
+			<Pin className="absolute left-[47%] top-[74%] z-40 sm:left-[14%] sm:top-[85%]" />
+			<Pin className="absolute left-[8%] top-[81%] z-40 block sm:hidden" />
 		</>
 	);
 }
@@ -34,7 +33,7 @@ function DossierPins() {
 export default function Hero() {
 	return (
 		<>
-			<section className="relative w-full pt-[15%] sm:pt-[3%] pb-[30vw] sm:pb-[3vw] md:pb-[5vw]">
+			<section className="relative w-full pb-[30vw] pt-[15%] sm:pb-[3vw] sm:pt-[3%] md:pb-[5vw]">
 				<DossierPins />
 
 				<div className="relative w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)] sm:left-4 sm:w-[85%] md:left-5 md:w-[75%] lg:left-10 lg:w-[70%]">
@@ -120,7 +119,7 @@ export default function Hero() {
 					</div>
 				</div>
 
-				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] lg:left-[77.5%] md:top-[35%] md:top-[35%] lg:top-[35%] lg:w-[17.5%]">
+				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] md:top-[35%] lg:left-[77.5%] lg:top-[35%] lg:w-[17.5%]">
 					<img
 						src="/img/assets/hero/register/blank-tape-stickers3.webp"
 						alt=""
@@ -180,7 +179,6 @@ export default function Hero() {
 						Volunteers
 					</h1>
 				</div>
-
 			</section>
 		</>
 	);

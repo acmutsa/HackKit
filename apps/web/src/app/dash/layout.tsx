@@ -29,57 +29,61 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 	return (
 		<>
 			<ClientToast />
-			<div className="grid h-16 w-full grid-cols-2 bg-nav px-5">
-				<div className="flex items-center gap-x-4">
-					<Link href="/">
-						<Image
-							src={c.icon.svg}
-							alt={c.hackathonName + " Logo"}
-							width={32}
-							height={32}
-						/>
-					</Link>
+			<div className="min-h-screen bg-background text-foreground">
+				<div className="grid h-16 w-full grid-cols-2 bg-nav px-5">
+					<div className="flex items-center gap-x-4">
+						<Link href="/">
+							<Image
+								src={c.icon.svg}
+								alt={c.hackathonName + " Logo"}
+								width={32}
+								height={32}
+							/>
+						</Link>
 
-					<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
-					<h2 className="font-bold tracking-tight">Dashboard</h2>
+						<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
+						<h2 className="font-bold tracking-tight">
+							Dashboard
+						</h2>
+					</div>
+					<div className="hidden items-center justify-end gap-x-4 md:flex">
+						<Link href={"/"}>
+							<Button
+								variant={"outline"}
+								className="bg-nav hover:bg-background"
+							>
+								Home
+							</Button>
+						</Link>
+						<Link href={c.links.guide} target="_blank">
+							<Button
+								variant={"outline"}
+								className="bg-nav hover:bg-background"
+							>
+								Survival Guide
+							</Button>
+						</Link>
+						<Link href={c.links.discord} target="_blank">
+							<Button
+								variant={"outline"}
+								className="bg-nav hover:bg-background"
+							>
+								Discord
+							</Button>
+						</Link>
+						<ProfileButton />
+					</div>
+					<div className="flex items-center justify-end gap-x-4 md:hidden">
+						<ProfileButton />
+					</div>
 				</div>
-				<div className="hidden items-center justify-end gap-x-4 md:flex">
-					<Link href={"/"}>
-						<Button
-							variant={"outline"}
-							className="bg-nav hover:bg-background"
-						>
-							Home
-						</Button>
-					</Link>
-					<Link href={c.links.guide} target="_blank">
-						<Button
-							variant={"outline"}
-							className="bg-nav hover:bg-background"
-						>
-							Survival Guide
-						</Button>
-					</Link>
-					<Link href={c.links.discord} target="_blank">
-						<Button
-							variant={"outline"}
-							className="bg-nav hover:bg-background"
-						>
-							Discord
-						</Button>
-					</Link>
-					<ProfileButton />
+				<div className="flex h-12 w-full border-b border-b-border bg-nav px-5">
+					{Object.entries(c.dashPaths.dash).map(([name, path]) => (
+						<DashNavItem key={name} name={name} path={path} />
+					))}
 				</div>
-				<div className="flex items-center justify-end gap-x-4 md:hidden">
-					<ProfileButton />
-				</div>
+				{children}
 			</div>
-			<div className="flex h-12 w-full border-b border-b-border bg-nav px-5">
-				{Object.entries(c.dashPaths.dash).map(([name, path]) => (
-					<DashNavItem key={name} name={name} path={path} />
-				))}
-			</div>
-			{children}
 		</>
 	);
 }
