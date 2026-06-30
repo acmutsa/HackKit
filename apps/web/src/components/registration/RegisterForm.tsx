@@ -82,6 +82,12 @@ import {
 	decodeBase64AsFile,
 } from "@/lib/utils/shared/files";
 import { useDebouncedCallback } from "use-debounce";
+import { Manuale } from "next/font/google";
+
+const manuale = Manuale({
+	subsets: ["latin"],
+	display: "swap",
+});
 
 export default function RegisterForm({
 	defaultEmail,
@@ -361,7 +367,7 @@ export default function RegisterForm({
 					isLoading={isLoading}
 				/>
 			) : (
-				<div className="relative">
+				<div className={`relative ${manuale.className}`}>
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
@@ -1654,7 +1660,7 @@ export default function RegisterForm({
 														type="file"
 														{...getInputProps()}
 													/>
-													<p className="p-2 text-center">
+													<p className="p-2 text-center text-muted-foreground">
 														{uploadedFile
 															? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
 															: isDragActive
@@ -1822,7 +1828,6 @@ export default function RegisterForm({
 														{...field}
 														placeholder="Type and then press enter to add a skill..."
 														tags={skills}
-														className="sm:min-w-[450px]"
 														setTags={(newTags) => {
 															setSkills(newTags);
 															field.onChange(
