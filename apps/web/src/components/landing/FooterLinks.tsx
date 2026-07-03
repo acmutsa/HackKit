@@ -18,7 +18,7 @@ const shadowsIntoLight = Shadows_Into_Light({
 const resources = [
 	{ name: "Register", link: "/auth" },
 	{ name: "FAQ", link: "/faq" },
-	{ name: "Code of Conduct", link: "https://mlh.io/code-of-conduct" },
+	{ name: "Code of Conduct", link: "https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md" },
 	{ name: "Contact Us", link: "/contact" },
 	{ name: "ACM-W", link: "https://acmutsa.org/suborg_acmw/" },
 	{ name: "ACM UTSA", link: "https://acmutsa.org/" },

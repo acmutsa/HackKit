@@ -15,8 +15,8 @@ export default function MLHBadge() {
 					target="_blank"
 				>
 					<Image
-						src="https://s3.amazonaws.com/logged-assets/trust-badge/2025/mlh-trust-badge-2025-black.svg"
-						alt="Major League Hacking 2025 Hackathon Season"
+						src="https://logged-assets.s3.amazonaws.com/trust-badge/2027/mlh-trust-badge-2027-red.svg"
+						alt="Major League Hacking 2026 Hackathon Season"
 						width={0}
 						height={0}
 						className="aspect-auto h-auto w-full"
