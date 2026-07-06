@@ -9,7 +9,9 @@ function findPackageRoot(resolvedPath: string, packageName: string): string {
 	while (dir !== dirname(dir)) {
 		const packageJsonPath = join(dir, "package.json");
 		if (existsSync(packageJsonPath)) {
-			const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+			const packageJson = JSON.parse(
+				readFileSync(packageJsonPath, "utf8"),
+			) as {
 				name?: string;
 			};
 			if (packageJson.name === packageName) return dir;
@@ -74,6 +76,14 @@ export const PLUGIN_PACKAGE_BY_ID: Record<
 	teams: {
 		packageName: "@hackkit/plugin-teams",
 		importName: "teamsPlugin",
+	},
+	discord: {
+		packageName: "@hackkit/plugin-discord",
+		importName: "discordPlugin",
+	},
+	notificationsEmail: {
+		packageName: "@hackkit/plugin-notifications-email",
+		importName: "emailNotificationsPlugin",
 	},
 };
 

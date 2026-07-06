@@ -53,13 +53,6 @@ function readList(name: string): string[] {
 	);
 }
 
-function requireEnv(name: string): string {
-	const value = read(name);
-	if (!value)
-		throw new Error(`Missing required environment variable: ${name}`);
-	return value;
-}
-
 function resolveNodeEnv(): TestWebEnv["nodeEnv"] {
 	if (process.env.NODE_ENV === "production") return "production";
 	if (process.env.NODE_ENV === "test") return "test";
@@ -130,7 +123,7 @@ function assertProductionEnv(env: TestWebEnv): void {
 		throw new Error("HACKKIT_BLOB_ADAPTER must be s3 in production.");
 	}
 
-	if (!env.discordGuildId) {
+	if (env.discordGuildId === "development-guild") {
 		throw new Error("DISCORD_GUILD_ID must be set in production.");
 	}
 	if (!env.discordBotApiUrl) {
@@ -145,13 +138,25 @@ function assertProductionEnv(env: TestWebEnv): void {
 		);
 	}
 
-	for (const name of [
-		"HACKKIT_S3_BUCKET",
-		"HACKKIT_S3_REGION",
-		"HACKKIT_S3_ACCESS_KEY_ID",
-		"HACKKIT_S3_SECRET_ACCESS_KEY",
-	] as const) {
-		requireEnv(name);
+	if (!env.s3Bucket) {
+		throw new Error(
+			"HACKKIT_S3_BUCKET or S3_BUCKET must be set in production.",
+		);
+	}
+	if (!env.s3Region) {
+		throw new Error(
+			"HACKKIT_S3_REGION or S3_REGION must be set in production.",
+		);
+	}
+	if (!env.s3AccessKeyId) {
+		throw new Error(
+			"HACKKIT_S3_ACCESS_KEY_ID or S3_ACCESS_KEY_ID must be set in production.",
+		);
+	}
+	if (!env.s3SecretAccessKey) {
+		throw new Error(
+			"HACKKIT_S3_SECRET_ACCESS_KEY or S3_SECRET_ACCESS_KEY must be set in production.",
+		);
 	}
 }
 
