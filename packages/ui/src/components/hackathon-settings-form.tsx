@@ -12,7 +12,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
-type FormValue = boolean | number;
+type FormValue = boolean | number | "";
 type FormState = Record<string, FormValue>;
 
 function toFormState(settings: readonly ResolvedHackathonSetting[]): FormState {
@@ -28,6 +28,10 @@ function groupSettings(settings: readonly ResolvedHackathonSetting[]) {
 	return [...groups.entries()].sort(([a], [b]) => a.localeCompare(b));
 }
 
+function toNumberInputValue(value: FormValue): number | "" {
+	return typeof value === "number" && Number.isFinite(value) ? value : "";
+}
+
 export function HackathonSettingsForm({ settings, className }: HackathonSettingsFormProps) {
 	const { actions } = useHackKitUI();
 	const [currentSettings, setCurrentSettings] = React.useState(settings);
@@ -36,10 +40,24 @@ export function HackathonSettingsForm({ settings, className }: HackathonSettings
 	const [resettingKey, setResettingKey] = React.useState<SettingKey | null>(null);
 
 	const defaults = React.useMemo(() => toFormState(currentSettings), [currentSettings]);
+	const invalidNumberKeys = currentSettings
+		.filter(
+			(setting) =>
+				setting.type === "number" &&
+				(values[setting.key] === "" ||
+					typeof values[setting.key] !== "number" ||
+					!Number.isFinite(values[setting.key])),
+		)
+		.map((setting) => setting.key);
 	const dirtyUpdates = currentSettings
-		.filter((setting) => values[setting.key] !== defaults[setting.key])
+		.filter(
+			(setting) =>
+				!invalidNumberKeys.includes(setting.key) &&
+				values[setting.key] !== defaults[setting.key],
+		)
 		.map((setting) => ({ key: setting.key, value: values[setting.key] }));
 	const hasDirty = dirtyUpdates.length > 0;
+	const hasInvalidNumbers = invalidNumberKeys.length > 0;
 
 	function updateSettingInState(updated: ResolvedHackathonSetting) {
 		setCurrentSettings((existing) =>
@@ -49,9 +67,14 @@ export function HackathonSettingsForm({ settings, className }: HackathonSettings
 	}
 
 	async function saveChanges() {
-		if (!hasDirty) return;
+		if (!hasDirty || hasInvalidNumbers) return;
 		setIsSaving(true);
-		const result = await actions.setSettings(dirtyUpdates);
+		const result = await actions.setSettings(
+			dirtyUpdates.map((update) => ({
+				key: update.key,
+				value: update.value as boolean | number,
+			})),
+		);
 		setIsSaving(false);
 		if (!result.ok) {
 			toast.error(result.message);
@@ -112,14 +135,17 @@ export function HackathonSettingsForm({ settings, className }: HackathonSettings
 											id={setting.key}
 											type="number"
 											className="w-40"
-											value={Number(values[setting.key])}
+											value={toNumberInputValue(values[setting.key])}
 											min={setting.min}
 											max={setting.max}
 											step={setting.integer ? 1 : undefined}
 											onChange={(event) =>
 												setValues((existing) => ({
 													...existing,
-													[setting.key]: event.currentTarget.valueAsNumber,
+													[setting.key]:
+														event.currentTarget.value === ""
+															? ""
+															: event.currentTarget.valueAsNumber,
 												}))
 											}
 										/>
@@ -139,7 +165,11 @@ export function HackathonSettingsForm({ settings, className }: HackathonSettings
 				</Card>
 			))}
 			<div className="flex justify-end">
-				<Button type="button" disabled={!hasDirty || isSaving} onClick={saveChanges}>
+				<Button
+					type="button"
+					disabled={!hasDirty || hasInvalidNumbers || isSaving}
+					onClick={saveChanges}
+				>
 					{isSaving ? "Saving..." : "Save Changes"}
 				</Button>
 			</div>
