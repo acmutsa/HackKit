@@ -9,6 +9,11 @@ export const coreModels = {
 			lastName: field.string(),
 			profilePhotoUrl: field.string().optional(),
 			hackTag: field.string().optional().unique(),
+			bio: field.string().optional(),
+			pronouns: field.string().optional(),
+			skills: field.json<string[]>().default([]),
+			isProfileSearchable: field.boolean().default(true),
+			discordDisplayHandle: field.string().optional(),
 			roleId: field
 				.string()
 				.optional()
@@ -64,6 +69,31 @@ export const coreModels = {
 			updatedAt: field.date().defaultNow(),
 		},
 		indexes: [["registeredAt"]],
+	}),
+	rsvp: defineModel("core.rsvp", {
+		fields: {
+			authId: field
+				.string()
+				.primaryKey()
+				.references("core.user", "authId", { onDelete: "cascade" }),
+			status: field.enum(["confirmed", "waitlisted", "cancelled"] as const),
+			waitlistPosition: field.integer().optional(),
+			createdAt: field.date().defaultNow(),
+			updatedAt: field.date().defaultNow(),
+			confirmedAt: field.date().optional(),
+			waitlistedAt: field.date().optional(),
+			cancelledAt: field.date().optional(),
+			cancelledByAuthId: field
+				.string()
+				.optional()
+				.references("core.user", "authId", { onDelete: "setNull" }),
+			promotedAt: field.date().optional(),
+			promotedByAuthId: field
+				.string()
+				.optional()
+				.references("core.user", "authId", { onDelete: "setNull" }),
+		},
+		indexes: [["status"], ["waitlistPosition"], ["createdAt"], ["updatedAt"]],
 	}),
 	role: defineModel("core.role", {
 		fields: {
@@ -139,5 +169,40 @@ export const coreModels = {
 			["eventId", "authId"],
 			["scannedAt"],
 		],
+	}),
+	notificationIntent: defineModel("core.notificationIntent", {
+		fields: {
+			id: field.string().primaryKey().defaultId(),
+			kind: field.string(),
+			recipientAuthId: field
+				.string()
+				.optional()
+				.references("core.user", "authId", { onDelete: "setNull" }),
+			payload: field.json<Record<string, unknown>>().default({}),
+			status: field
+				.enum(["pending", "processing", "delivered", "failed", "skipped"] as const)
+				.default("pending"),
+			idempotencyKey: field.string().optional().unique(),
+			createdAt: field.date().defaultNow(),
+			updatedAt: field.date().defaultNow(),
+		},
+		indexes: [["kind"], ["recipientAuthId"], ["status"], ["createdAt"]],
+	}),
+	notificationDeliveryAttempt: defineModel("core.notificationDeliveryAttempt", {
+		fields: {
+			id: field.string().primaryKey().defaultId(),
+			intentId: field
+				.string()
+				.references("core.notificationIntent", "id", { onDelete: "cascade" }),
+			channel: field.string(),
+			provider: field.string().optional(),
+			status: field.enum(["delivered", "failed", "skipped"] as const),
+			recipient: field.string().optional(),
+			externalId: field.string().optional(),
+			error: field.string().optional(),
+			metadata: field.json<Record<string, unknown>>().default({}),
+			attemptedAt: field.date().defaultNow(),
+		},
+		indexes: [["intentId"], ["channel"], ["status"], ["attemptedAt"]],
 	}),
 } as const;

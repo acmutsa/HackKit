@@ -23,6 +23,7 @@ function formatDateTime(value: Date): string {
 export function ScheduleList({
 	events,
 	eventTypes,
+	getEventHref,
 	className,
 }: ScheduleListProps) {
 	if (events.length === 0) {
@@ -67,6 +68,14 @@ export function ScheduleList({
 						</p>
 					) : null}
 					<p className="mt-3 text-sm">{event.description}</p>
+					{getEventHref ? (
+						<a
+							href={getEventHref(event)}
+							className="mt-4 inline-flex text-sm font-medium text-primary hover:underline"
+						>
+							View details
+						</a>
+					) : null}
 				</li>
 			))}
 		</ul>

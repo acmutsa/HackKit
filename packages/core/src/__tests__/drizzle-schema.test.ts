@@ -26,6 +26,9 @@ describe("Drizzle schema compiler", () => {
 		const compiled = compileDrizzleStorage(registry.storage);
 
 		expect(compiled.schemaSource).toContain("export const coreSetting");
+		expect(compiled.schemaSource).toContain(
+			"export const coreNotificationIntent",
+		);
 		expect(compiled.schemaSource).toContain("export const sampleEntry");
 		expect(compiled.schemaSource).toContain(
 			'references(() => coreUser.authId, { onDelete: "cascade" })',

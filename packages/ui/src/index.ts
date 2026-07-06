@@ -23,7 +23,30 @@ export { UserDataFields, UserDataForm } from "./components/user-data-form";
 export type {
 	UserDataFormProps,
 } from "./components/user-data-form";
+export { UserProfileSettingsForm } from "./components/user-profile-settings-form";
+export type { UserProfileSettingsFormProps } from "./components/user-profile-settings-form";
+export { PublicProfileCard } from "./components/public-profile-card";
+export type { PublicProfileCardProps } from "./components/public-profile-card";
 export { ScheduleList } from "./components/schedule-list";
+export {
+	ParticipantDashboard,
+	PublicHelpPage,
+	PublicLandingPage,
+	PublicSiteFooter,
+	ScheduleDetail,
+} from "./components/public-shell";
+export type {
+	DashboardStatusItem,
+	ParticipantDashboardProps,
+	PublicHelpPageProps,
+	PublicLandingPageProps,
+	PublicShellFeature,
+	PublicShellLink,
+	PublicShellStat,
+	PublicSiteFooterGroup,
+	PublicSiteFooterProps,
+	ScheduleDetailProps,
+} from "./components/public-shell";
 export { EventPass } from "./components/event-pass";
 export { EventAdminForm } from "./components/event-admin-form";
 export { toDateTimeLocalValue } from "./lib/datetime-local";
@@ -31,6 +54,19 @@ export { EventAdminList } from "./components/event-admin-list";
 export { EventScanner } from "./components/event-scanner";
 export { CheckInScanner } from "./components/check-in-scanner";
 export { HackathonSettingsForm } from "./components/hackathon-settings-form";
+export { RsvpConfirmation } from "./components/rsvp-confirmation";
+export {
+	AdminOverviewPanel,
+	AdminRolesPanel,
+	AdminUserDetail,
+	AdminUsersTable,
+} from "./components/admin-console";
+export type {
+	AdminOverviewPanelProps,
+	AdminRolesPanelProps,
+	AdminUserDetailProps,
+	AdminUsersTableProps,
+} from "./components/admin-console";
 export {
 	createEventPassQrPayload,
 	DEFAULT_EVENT_PASS_QR_TTL_MS,
@@ -41,6 +77,10 @@ export {
 export type {
 	CheckInScannerProps,
 	CheckInUserInput,
+	ApproveUserInput,
+	AssignRoleInput,
+	BanUserInput,
+	CreateRoleInput,
 	EventAdminFormProps,
 	EventFormValues,
 	EventPassProps,
@@ -52,8 +92,12 @@ export type {
 	PreviewEventPassQrInput,
 	PreviewEventPassQrResult,
 	RecordEventScanInput,
+	RsvpConfirmationProps,
 	ScheduleListProps,
+	SetRsvpStatusInput,
 	SetSettingsInput,
+	UpdateRoleInput,
+	UserProfileFormValues,
 	UserDataFormValues,
 } from "./types";
 

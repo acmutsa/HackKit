@@ -10,6 +10,7 @@ import {
 } from "@hackkit/core";
 import { resolveHackkitConfig, type HackkitConfig } from "@hackkit/config";
 import type { EventTypesInput, UserDataOptionsInput } from "@hackkit/core";
+import type { GroupsInput } from "@hackkit/core";
 import type { HackKitLoggerOptions, PermissionKey } from "@hackkit/core";
 import type { HackKitUIActions } from "@hackkit/ui";
 import { redirect } from "next/navigation";
@@ -22,6 +23,7 @@ export type CreateHackkitRuntimeOptions = {
 	plugins?: readonly HackKitPlugin[];
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
+	groups?: GroupsInput;
 	logger?: HackKitLoggerOptions;
 	defaultCompetitorRoleId?: string;
 	seedRoles?: readonly {
@@ -57,6 +59,7 @@ export async function createHackkitRuntime(
 		plugins: options.plugins,
 		userDataOptions: options.userDataOptions,
 		eventTypes: options.eventTypes,
+		groups: options.groups,
 		logger: options.logger,
 		defaultCompetitorRoleId: options.defaultCompetitorRoleId,
 		seedRoles: options.seedRoles,
@@ -101,7 +104,10 @@ export async function createHackkitRuntime(
 		invalidateSettingsCache,
 	});
 
-	const pageGuards = createPageGuards(hackkit, getAuthId, { getSettingValue });
+	const pageGuards = createPageGuards(hackkit, getAuthId, {
+		getCurrentUser,
+		getSettingValue,
+	});
 
 	return {
 		hackkit,
@@ -124,6 +130,7 @@ export function createHackkitRuntimeFromConfig(
 		plugins: config.plugins,
 		userDataOptions: config.userDataOptions,
 		eventTypes: config.eventTypes,
+		groups: config.groups,
 		logger: config.logger,
 		defaultCompetitorRoleId: config.defaultCompetitorRoleId,
 		seedRoles: config.seedRoles,

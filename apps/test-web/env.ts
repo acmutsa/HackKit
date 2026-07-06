@@ -1,4 +1,5 @@
 type BlobAdapter = "local" | "s3";
+type EmailProvider = "none" | "resend" | "smtp";
 
 type TestWebEnv = {
 	nodeEnv: "development" | "test" | "production";
@@ -21,6 +22,21 @@ type TestWebEnv = {
 	githubClientSecret?: string;
 	googleClientId?: string;
 	googleClientSecret?: string;
+	emailProvider: EmailProvider;
+	emailFrom?: string;
+	emailReplyTo?: string;
+	resendApiKey?: string;
+	smtpHost?: string;
+	smtpPort?: number;
+	smtpSecure: boolean;
+	smtpUsername?: string;
+	smtpPassword?: string;
+	discordGuildId: string;
+	discordVerificationBaseUrl: string;
+	discordBotApiUrl?: string;
+	discordInternalAuthKey?: string;
+	discordParticipantRoleId?: string;
+	discordParticipantRoleName?: string;
 };
 
 function read(name: string): string | undefined {
@@ -54,6 +70,30 @@ function resolveBlobAdapter(nodeEnv: TestWebEnv["nodeEnv"]): BlobAdapter {
 	const adapter = read("HACKKIT_BLOB_ADAPTER");
 	if (adapter === "local" || adapter === "s3") return adapter;
 	return nodeEnv === "production" ? "s3" : "local";
+}
+
+function resolveEmailProvider(): EmailProvider {
+	const provider = read("HACKKIT_EMAIL_PROVIDER");
+	if (provider === "resend" || provider === "smtp") return provider;
+	return "none";
+}
+
+function readNumber(name: string): number | undefined {
+	const value = read(name);
+	if (!value) return undefined;
+	const parsed = Number(value);
+	if (!Number.isFinite(parsed)) {
+		throw new Error(`${name} must be a number.`);
+	}
+	return parsed;
+}
+
+function readBoolean(name: string, defaultValue: boolean): boolean {
+	const value = read(name);
+	if (!value) return defaultValue;
+	if (["1", "true", "yes"].includes(value.toLowerCase())) return true;
+	if (["0", "false", "no"].includes(value.toLowerCase())) return false;
+	throw new Error(`${name} must be a boolean.`);
 }
 
 function assertProductionEnv(env: TestWebEnv): void {
@@ -90,6 +130,21 @@ function assertProductionEnv(env: TestWebEnv): void {
 		throw new Error("HACKKIT_BLOB_ADAPTER must be s3 in production.");
 	}
 
+	if (!env.discordGuildId) {
+		throw new Error("DISCORD_GUILD_ID must be set in production.");
+	}
+	if (!env.discordBotApiUrl) {
+		throw new Error("DISCORD_BOT_API_URL must be set in production.");
+	}
+	if (!env.discordInternalAuthKey) {
+		throw new Error("DISCORD_INTERNAL_AUTH_KEY must be set in production.");
+	}
+	if (!env.discordParticipantRoleId && !env.discordParticipantRoleName) {
+		throw new Error(
+			"DISCORD_PARTICIPANT_ROLE_ID or DISCORD_PARTICIPANT_ROLE_NAME must be set in production.",
+		);
+	}
+
 	for (const name of [
 		"HACKKIT_S3_BUCKET",
 		"HACKKIT_S3_REGION",
@@ -108,6 +163,7 @@ export function resolveTestWebEnv(): TestWebEnv {
 		"http://localhost:3000";
 	const betterAuthUrl = read("BETTER_AUTH_URL") ?? appUrl;
 	const blobAdapter = resolveBlobAdapter(nodeEnv);
+	const emailProvider = resolveEmailProvider();
 
 	const env: TestWebEnv = {
 		nodeEnv,
@@ -138,6 +194,23 @@ export function resolveTestWebEnv(): TestWebEnv {
 		githubClientSecret: read("GITHUB_CLIENT_SECRET"),
 		googleClientId: read("GOOGLE_CLIENT_ID"),
 		googleClientSecret: read("GOOGLE_CLIENT_SECRET"),
+		emailProvider,
+		emailFrom: read("HACKKIT_EMAIL_FROM"),
+		emailReplyTo: read("HACKKIT_EMAIL_REPLY_TO"),
+		resendApiKey: read("RESEND_API_KEY"),
+		smtpHost: read("SMTP_HOST"),
+		smtpPort: readNumber("SMTP_PORT"),
+		smtpSecure: readBoolean("SMTP_SECURE", false),
+		smtpUsername: read("SMTP_USERNAME"),
+		smtpPassword: read("SMTP_PASSWORD"),
+		discordGuildId: read("DISCORD_GUILD_ID") ?? "development-guild",
+		discordVerificationBaseUrl:
+			read("DISCORD_VERIFICATION_BASE_URL") ?? appUrl,
+		discordBotApiUrl: read("DISCORD_BOT_API_URL") ?? read("BOT_API_URL"),
+		discordInternalAuthKey:
+			read("DISCORD_INTERNAL_AUTH_KEY") ?? read("INTERNAL_AUTH_KEY"),
+		discordParticipantRoleId: read("DISCORD_PARTICIPANT_ROLE_ID"),
+		discordParticipantRoleName: read("DISCORD_PARTICIPANT_ROLE_NAME"),
 	};
 
 	assertProductionEnv(env);

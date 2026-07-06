@@ -33,6 +33,7 @@ import type {
 import { createUsersApi } from "./functions/users";
 import { createEventsApi } from "./functions/events";
 import { createSettingsApi } from "./functions/settings";
+import { createAdminApi } from "./functions/admin";
 import { createCompetitorRegistrationPolicy } from "./functions/registration-policy";
 import {
 	createCompleteUserDataSchema,
@@ -44,10 +45,17 @@ import {
 	type EventTypesInput,
 } from "./event-types";
 import {
+	resolveGroups,
+	type GroupsInput,
+} from "./groups";
+import {
 	createLogger,
 	type HackKitLoggerOptions,
 } from "./adapters/logger";
 import { withDomainLog } from "./domain-log";
+import { createNotificationsApi } from "./notifications";
+import { createRsvpApi } from "./functions/rsvp";
+import { createGroupsApi } from "./functions/groups";
 
 type SeedRoleInput = {
 	id: string;
@@ -66,6 +74,7 @@ type CreateHackkitOptions<
 	id?: () => string;
 	userDataOptions?: UserDataOptionsInput;
 	eventTypes?: EventTypesInput;
+	groups?: GroupsInput;
 	logger?: HackKitLoggerOptions;
 	defaultCompetitorRoleId?: string;
 	seedRoles?: readonly SeedRoleInput[];
@@ -86,11 +95,13 @@ export function createHackkit<
 		: options.database;
 	const userDataOptions = resolveUserDataOptions(options.userDataOptions);
 	const eventTypes = resolveEventTypes(options.eventTypes);
+	const groups = resolveGroups(options.groups);
 	const completeUserDataSchema =
 		createCompleteUserDataSchema(userDataOptions);
 	const logger = createLogger(options.logger);
 	const defaultCompetitorRoleId = options.defaultCompetitorRoleId;
 	const seedRoles = options.seedRoles ?? [];
+	const notificationsApi = createNotificationsApi({ db, now });
 
 	async function seedConfiguredRoles(): Promise<void> {
 		const timestamp = now();
@@ -129,6 +140,8 @@ export function createHackkit<
 		database: db,
 		registry,
 		getSettingValue: settingsApi.getValue,
+		notifications: notificationsApi,
+		groups,
 	});
 
 	const runtimeContext: HackkitRuntimeContext = {
@@ -140,14 +153,18 @@ export function createHackkit<
 		getSettingValue: settingsApi.getValue,
 		eventTypes,
 		userDataOptions,
+		groups,
 		getUserOrThrow,
 		getRoleOrThrow,
 		requirePermission: accessControl.requirePermission,
 		assertCanManageRole: accessControl.assertCanManageRole,
 		accessControl,
+		notifications: notificationsApi,
 	};
 
 	const registrationPolicy = createCompetitorRegistrationPolicy(runtimeContext);
+	const rsvpApi = createRsvpApi(runtimeContext);
+	const groupsApi = createGroupsApi(runtimeContext);
 
 	async function registerHacker(input: unknown): Promise<Hacker> {
 		const parsed = parseInput(registerHackerSchema, input);
@@ -221,8 +238,16 @@ export function createHackkit<
 		plugins: pluginApis,
 		accessControl,
 		settings: settingsApi,
-		users: createUsersApi({ ...runtimeContext, registrationPolicy }),
+		notifications: notificationsApi,
+		users: createUsersApi({
+			...runtimeContext,
+			registrationPolicy,
+			groups: groupsApi,
+		}),
+		rsvp: rsvpApi,
+		groups: groupsApi,
 		events: createEventsApi(runtimeContext),
+		admin: createAdminApi(runtimeContext),
 		async init(): Promise<void> {
 			await seedConfiguredRoles();
 		},
@@ -265,6 +290,17 @@ export function createHackkit<
 		},
 
 		roles: {
+			async listRoles(input?: { actorAuthId?: AuthId }): Promise<Role[]> {
+				if (input?.actorAuthId)
+					await accessControl.requirePermission(
+						input.actorAuthId,
+						CorePermission.RolesView,
+					);
+				return db.findMany(coreModels.role, {
+					orderBy: { field: "position", direction: "asc" },
+				});
+			},
+
 			async getRole(roleId: RoleId): Promise<Role | null> {
 				return db.findOne(coreModels.role, { id: roleId });
 			},

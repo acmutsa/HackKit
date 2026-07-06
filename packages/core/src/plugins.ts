@@ -5,10 +5,12 @@ import type {
 } from "./database";
 import { HackKitError } from "./errors";
 import { coreModels } from "./models";
+import type { NotificationsApi } from "./notifications";
 import { CorePermission } from "./permissions";
 import type { HackathonSettingDefinition, SettingKey, SettingValue } from "./settings";
 import { coreSettings } from "./settings";
 import type { PermissionKey } from "./types";
+import type { HackkitGroup } from "./groups";
 
 type ModelMap = Record<string, PersistentModel>;
 type PermissionMap = Record<string, PermissionKey>;
@@ -17,6 +19,8 @@ export type HackKitPluginContext = {
 	database: DatabaseAdapter;
 	registry: HackKitRegistry;
 	getSettingValue: (key: SettingKey) => Promise<SettingValue>;
+	notifications: NotificationsApi;
+	groups: readonly HackkitGroup[];
 };
 
 export type HackKitPlugin<

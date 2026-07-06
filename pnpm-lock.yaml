@@ -75,6 +75,12 @@ importers:
       '@hackkit/next':
         specifier: workspace:*
         version: link:../../packages/next
+      '@hackkit/plugin-discord':
+        specifier: workspace:*
+        version: link:../../packages/plugin-discord
+      '@hackkit/plugin-notifications-email':
+        specifier: workspace:*
+        version: link:../../packages/plugin-notifications-email
       '@hackkit/plugin-teams':
         specifier: workspace:*
         version: link:../../packages/plugin-teams
@@ -532,6 +538,62 @@ importers:
       typescript:
         specifier: 5.5.3
         version: 5.5.3
+
+  packages/plugin-discord:
+    dependencies:
+      '@hackkit/core':
+        specifier: workspace:*
+        version: link:../core
+      '@hackkit/next':
+        specifier: workspace:*
+        version: link:../next
+      '@hackkit/ui':
+        specifier: workspace:*
+        version: link:../ui
+      next:
+        specifier: '>=14'
+        version: 14.2.35(react-dom@18.3.1)(react@18.3.1)
+      react:
+        specifier: '>=18'
+        version: 18.3.1
+      react-dom:
+        specifier: '>=18'
+        version: 18.3.1(react@18.3.1)
+      sonner:
+        specifier: ^1.5.0
+        version: 1.5.0(react-dom@18.3.1)(react@18.3.1)
+      zod:
+        specifier: ^3.25.67
+        version: 3.25.67
+    devDependencies:
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: 18.3.0
+        version: 18.3.0
+      typescript:
+        specifier: 5.5.3
+        version: 5.5.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
+
+  packages/plugin-notifications-email:
+    dependencies:
+      '@hackkit/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: 20.14.11
+        version: 20.14.11
+      typescript:
+        specifier: 5.5.3
+        version: 5.5.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
 
   packages/plugin-teams:
     dependencies:

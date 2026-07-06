@@ -53,6 +53,9 @@ export const CoreSetting = {
 	EventPassQrTtlMs: "core.eventPassQrTtlMs",
 	MaximumRegistrations: "core.maximumRegistrations",
 	HackathonCapacity: "core.hackathonCapacity",
+	RsvpOpen: "core.rsvpOpen",
+	RsvpLimit: "core.rsvpLimit",
+	RsvpWaitlistEnabled: "core.rsvpWaitlistEnabled",
 } as const satisfies Record<string, SettingKey>;
 
 export type CoreSetting = (typeof CoreSetting)[keyof typeof CoreSetting];
@@ -95,6 +98,33 @@ export const coreSettings = [
 		label: "Hackathon capacity",
 		description: "Maximum number of hackers who may be approved. 0 means unlimited.",
 		category: "Registration",
+	}),
+	defineSetting({
+		key: CoreSetting.RsvpOpen,
+		type: "boolean",
+		defaultValue: false,
+		label: "RSVP open",
+		description: "Allow approved hackers to claim a spot before arrival.",
+		category: "RSVP",
+	}),
+	defineSetting({
+		key: CoreSetting.RsvpLimit,
+		type: "number",
+		defaultValue: 0,
+		integer: true,
+		min: 0,
+		unit: "hackers",
+		label: "RSVP limit",
+		description: "Maximum confirmed RSVPs. 0 means unlimited.",
+		category: "RSVP",
+	}),
+	defineSetting({
+		key: CoreSetting.RsvpWaitlistEnabled,
+		type: "boolean",
+		defaultValue: false,
+		label: "RSVP waitlist",
+		description: "Place hackers on an ordered waitlist after the RSVP limit is reached.",
+		category: "RSVP",
 	}),
 	defineSetting({
 		key: CoreSetting.EventPassQrTtlMs,

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser, getHackkit, getPageGuards } from "@/lib/runtime";
+import { appConfig } from "@/lib/app-config";
 import { getOnboardingSteps } from "@/lib/onboarding";
 import { OnboardingShell } from "../onboarding-shell";
 import { HackerRegistrationClient } from "./hacker-registration-client";
@@ -32,6 +33,7 @@ export default async function HackerOnboardingPage() {
 			<HackerRegistrationClient
 				currentUser={currentUser}
 				defaultValues={toHackerFormDefaults(hacker)}
+				registrationOptions={appConfig.hackerRegistrationOptions}
 			/>
 		</OnboardingShell>
 	);

@@ -47,6 +47,10 @@ export {
 	resolveEventTypes,
 } from "./event-types";
 export {
+	getEnabledGroups,
+	resolveGroups,
+} from "./groups";
+export {
 	CoreSetting,
 	coreSettings,
 	defineSetting,
@@ -59,11 +63,35 @@ export {
 export { createAccessControl } from "./access-control";
 export type { AccessControl, AccessPrincipal } from "./access-control";
 export type { HackkitRuntimeContext } from "./hackkit-context";
+export {
+	CoreNotificationKind,
+	coreNotificationPayloadSchemas,
+	createNotificationsApi,
+} from "./notifications";
+export { createRsvpApi } from "./functions/rsvp";
+export type { RsvpApi, RsvpSummary } from "./functions/rsvp";
+export { createGroupsApi } from "./functions/groups";
+export type { GroupsApi } from "./functions/groups";
+export type {
+	CoreNotificationPayloadMap,
+	DeliverPendingNotificationsInput,
+	DeliverPendingNotificationsResult,
+	NotificationChannel,
+	NotificationDeliveryAttemptStatus,
+	NotificationDeliveryResult,
+	NotificationIntentStatus,
+	NotificationKind,
+	NotificationPayload,
+	NotificationsApi,
+	NotificationsApiContext,
+	QueueNotificationIntentInput,
+} from "./notifications";
 export type {
 	EventTypeOption,
 	EventTypes,
 	EventTypesInput,
 } from "./event-types";
+export type { GroupsInput, HackkitGroup, HackkitGroupInput } from "./groups";
 export type {
 	DatabaseAdapter,
 	DatabaseAdapterFactory,
@@ -118,6 +146,7 @@ export type {
 	EventScan,
 	HackathonSetting,
 	Hacker,
+	Rsvp,
 	PermissionKey,
 	Role,
 	RoleId,
@@ -125,7 +154,12 @@ export type {
 	UserBan,
 	UserData,
 	UserId,
+	AdminOverview,
+	AdminUserExportRow,
+	AdminUserRecord,
+	PublicUserProfile,
 	NewHacker,
+	NewRsvp,
 	NewRole,
 	NewUser,
 	NewUserBan,
@@ -133,8 +167,15 @@ export type {
 	NewEvent,
 	NewEventScan,
 	NewHackathonSetting,
+	NewNotificationDeliveryAttempt,
+	NewNotificationIntent,
+	NotificationDeliveryAttempt,
+	NotificationIntent,
 } from "./types";
 export {
+	adminCancelRsvpSchema,
+	adminPromoteRsvpSchema,
+	adminSetRsvpStatusSchema,
 	assignRoleSchema,
 	approveUserSchema,
 	banUserSchema,
@@ -143,6 +184,7 @@ export {
 	claimHackTagSchema,
 	clearCheckInUserSchema,
 	completeUserDataSchema,
+	confirmRsvpSchema,
 	createEventSchemaFactory,
 	createRoleSchema,
 	deleteEventSchema,
@@ -159,5 +201,6 @@ export {
 	unbanUserSchema,
 	updateEventSchemaFactory,
 	updateRoleSchema,
+	updateUserProfileSchema,
 } from "./schemas";
 export type { CompleteUserDataInput } from "./schemas";

@@ -2,11 +2,14 @@
 
 import { HackerRegistrationForm } from "@hackkit/ui";
 import type { User } from "@hackkit/core";
+import type { HackerRegistrationOptions } from "@hackkit/config";
 import { uploadResumeFile } from "@/lib/upload-resume";
 
 export function HackerRegistrationClient({
 	currentUser,
 	defaultValues,
+	registrationOptions,
+	successRedirectTo = "/dashboard",
 }: {
 	currentUser: User;
 	defaultValues?: Partial<{
@@ -22,13 +25,20 @@ export function HackerRegistrationClient({
 		personalWebsiteUrl?: string;
 		resumeUrl?: string;
 	}>;
+	registrationOptions?: HackerRegistrationOptions;
+	successRedirectTo?: string;
 }) {
 	return (
 		<HackerRegistrationForm
 			currentUser={currentUser}
 			defaultValues={defaultValues}
 			localStorageKey={`test-web:onboarding:${currentUser.authId}:hacker`}
-			successRedirectTo="/dashboard"
+			successRedirectTo={successRedirectTo}
+			schoolOptions={registrationOptions?.schools}
+			majorOptions={registrationOptions?.majors}
+			levelOfStudyOptions={registrationOptions?.levelsOfStudy}
+			softwareExperienceOptions={registrationOptions?.softwareExperience}
+			heardFromOptions={registrationOptions?.heardFrom}
 			uploadResume={uploadResumeFile}
 		/>
 	);

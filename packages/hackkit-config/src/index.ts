@@ -2,6 +2,7 @@ import type {
 	AuthAdapter,
 	EventTypesInput,
 	HackKitLoggerOptions,
+	GroupsInput,
 	HackKitPlugin,
 	PermissionKey,
 	UserDataOptionsInput,
@@ -37,11 +38,26 @@ export type HackkitSeedRole = {
 	color?: string;
 };
 
+export type RegistrationOption = {
+	value: string;
+	label: string;
+};
+
+export type HackerRegistrationOptions = {
+	schools?: readonly RegistrationOption[];
+	majors?: readonly RegistrationOption[];
+	levelsOfStudy?: readonly RegistrationOption[];
+	softwareExperience?: readonly RegistrationOption[];
+	heardFrom?: readonly RegistrationOption[];
+};
+
 export type HackkitConfig = {
 	plugins?: readonly HackKitPlugin[];
 	databaseUrl: string;
 	userDataOptions?: UserDataOptionsInput;
+	hackerRegistrationOptions?: HackerRegistrationOptions;
 	eventTypes?: EventTypesInput;
+	groups?: GroupsInput;
 	auth?: Pick<AuthAdapter, "syncStorage">;
 	logger?: HackKitLoggerOptions;
 	defaultCompetitorRoleId?: string;

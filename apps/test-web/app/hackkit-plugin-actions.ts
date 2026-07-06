@@ -4,6 +4,7 @@
 
 import { getRuntime } from "@/lib/runtime";
 import { createTeamsActions } from "@hackkit/plugin-teams";
+import { createDiscordActions } from "@hackkit/plugin-discord";
 
 const teamsActionsPromise = getRuntime().then((runtime) =>
 	createTeamsActions(runtime),
@@ -32,4 +33,18 @@ export async function leaveTeam(...args: Parameters<Awaited<ReturnType<typeof cr
 export async function removeMember(...args: Parameters<Awaited<ReturnType<typeof createTeamsActions>>["removeMember"]>) {
 	const actions = await teamsActionsPromise;
 	return actions.removeMember(...args);
+}
+
+const discordActionsPromise = getRuntime().then((runtime) =>
+	createDiscordActions(runtime),
+);
+
+export async function confirmDiscordVerification(...args: Parameters<Awaited<ReturnType<typeof createDiscordActions>>["confirmDiscordVerification"]>) {
+	const actions = await discordActionsPromise;
+	return actions.confirmDiscordVerification(...args);
+}
+
+export async function syncDiscordMemberRoles(...args: Parameters<Awaited<ReturnType<typeof createDiscordActions>>["syncDiscordMemberRoles"]>) {
+	const actions = await discordActionsPromise;
+	return actions.syncDiscordMemberRoles(...args);
 }

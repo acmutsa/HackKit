@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAuthSession } from "@/lib/auth";
+import { publicSiteConfig } from "@/lib/public-site-config";
 import { ProfileMenu } from "./profile-menu";
 
 export async function AppBar() {
@@ -7,42 +8,24 @@ export async function AppBar() {
 
 	return (
 		<header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-			<div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+			<div className="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3">
 				<Link href="/" className="text-sm font-semibold tracking-tight">
-					HackKit Test
+					{publicSiteConfig.brand.shortName}
 				</Link>
 				{session ? (
-					<nav className="flex items-center gap-4 text-sm">
-						<Link
-							href="/schedule"
-							className="text-muted-foreground hover:text-foreground"
-						>
-							Schedule
-						</Link>
-						<Link
-							href="/pass"
-							className="text-muted-foreground hover:text-foreground"
-						>
-							Event Pass
-						</Link>
-						<Link
-							href="/teams"
-							className="text-muted-foreground hover:text-foreground"
-						>
-							Teams
-						</Link>
-						<Link
-							href="/invites"
-							className="text-muted-foreground hover:text-foreground"
-						>
-							Invites
-						</Link>
-						<Link
-							href="/dashboard"
-							className="text-muted-foreground hover:text-foreground"
-						>
-							Dashboard
-						</Link>
+					<nav className="flex flex-wrap items-center justify-end gap-4 text-sm">
+						{[
+							...publicSiteConfig.nav.public,
+							...publicSiteConfig.nav.participant,
+						].map((item) => (
+							<Link
+								key={item.href}
+								href={item.href}
+								className="text-muted-foreground hover:text-foreground"
+							>
+								{item.label}
+							</Link>
+						))}
 						<ProfileMenu
 							name={session.user.name}
 							email={session.user.email}
@@ -50,15 +33,24 @@ export async function AppBar() {
 						/>
 					</nav>
 				) : (
-					<div className="flex items-center gap-3 text-sm">
+					<div className="flex flex-wrap items-center justify-end gap-3 text-sm">
+						{publicSiteConfig.nav.public.map((item) => (
+							<Link
+								key={item.href}
+								href={item.href}
+								className="text-muted-foreground hover:text-foreground"
+							>
+								{item.label}
+							</Link>
+						))}
 						<Link href="/sign-in" className="text-muted-foreground hover:text-foreground">
 							Sign in
 						</Link>
 						<Link
-							href="/sign-up"
+							href={publicSiteConfig.landing.primaryAction.href}
 							className="rounded-md bg-primary px-3 py-2 font-medium text-primary-foreground"
 						>
-							Sign up
+							{publicSiteConfig.landing.primaryAction.label}
 						</Link>
 					</div>
 				)}

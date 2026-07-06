@@ -19,7 +19,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 				{ status: 400 },
 			);
 		}
-		if (body.location !== "resumes") {
+		if (!["resumes", "profile-photos"].includes(body.location)) {
 			return NextResponse.json(
 				{ error: "Unsupported upload location." },
 				{ status: 400 },

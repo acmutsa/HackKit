@@ -2,7 +2,12 @@ import type {
 	Event,
 	EventScan,
 	EventTypes,
+	PermissionKey,
 	ResolvedHackathonSetting,
+	Role,
+	RoleId,
+	Rsvp,
+	RsvpSummary,
 	SettingKey,
 	User,
 } from "@hackkit/core";
@@ -12,6 +17,8 @@ export type {
 	EventTypeOption,
 	EventTypes,
 	ResolvedHackathonSetting,
+	Rsvp,
+	RsvpSummary,
 	SettingKey,
 	UserDataOptions,
 } from "@hackkit/core";
@@ -33,6 +40,18 @@ export type UserDataFormValues = {
 
 export type HackTagFormValues = {
 	hackTag: string;
+};
+
+export type UserProfileFormValues = {
+	firstName: string;
+	lastName: string;
+	hackTag: string;
+	bio?: string;
+	pronouns?: string;
+	skills: string[];
+	isProfileSearchable: boolean;
+	discordDisplayHandle?: string;
+	profilePhotoUrl?: string;
 };
 
 export type HackerRegistrationFormValues = {
@@ -81,6 +100,42 @@ export type CheckInUserInput = {
 
 export type SetSettingsInput = readonly { key: SettingKey; value: boolean | number }[];
 
+export type ApproveUserInput = {
+	targetAuthId: string;
+	approved: boolean;
+};
+
+export type BanUserInput = {
+	targetAuthId: string;
+	reason?: string;
+};
+
+export type AssignRoleInput = {
+	targetAuthId: string;
+	roleId: RoleId;
+};
+
+export type SetRsvpStatusInput = {
+	targetAuthId: string;
+	status: Rsvp["status"];
+};
+
+export type CreateRoleInput = {
+	id?: RoleId;
+	name: string;
+	position: number;
+	permissions: PermissionKey[];
+	color?: string;
+};
+
+export type UpdateRoleInput = {
+	roleId: RoleId;
+	name?: string;
+	position?: number;
+	permissions?: PermissionKey[];
+	color?: string;
+};
+
 export type HackKitUIActions = {
 	completeUserData: (
 		values: UserDataFormValues,
@@ -88,6 +143,9 @@ export type HackKitUIActions = {
 	claimHackTag: (
 		values: HackTagFormValues,
 	) => Promise<HackKitActionResult>;
+	updateUserProfile: (
+		values: UserProfileFormValues,
+	) => Promise<HackKitActionResult<User>>;
 	registerHacker: (
 		values: HackerRegistrationFormValues,
 	) => Promise<HackKitActionResult>;
@@ -115,6 +173,21 @@ export type HackKitUIActions = {
 		input: CheckInUserInput,
 	) => Promise<HackKitActionResult<User>>;
 	clearCheckIn: (targetAuthId: string) => Promise<HackKitActionResult<User>>;
+	confirmRsvp: () => Promise<HackKitActionResult<Rsvp>>;
+	cancelRsvp: (targetAuthId: string) => Promise<HackKitActionResult<Rsvp>>;
+	setRsvpStatus: (
+		input: SetRsvpStatusInput,
+	) => Promise<HackKitActionResult<Rsvp>>;
+	promoteRsvp: (targetAuthId?: string) => Promise<HackKitActionResult<Rsvp>>;
+	approveUser: (input: ApproveUserInput) => Promise<HackKitActionResult<User>>;
+	banUser: (input: BanUserInput) => Promise<HackKitActionResult>;
+	unbanUser: (targetAuthId: string) => Promise<HackKitActionResult>;
+	assignRoleToUser: (
+		input: AssignRoleInput,
+	) => Promise<HackKitActionResult<User>>;
+	createRole: (input: CreateRoleInput) => Promise<HackKitActionResult<Role>>;
+	updateRole: (input: UpdateRoleInput) => Promise<HackKitActionResult<Role>>;
+	deleteRole: (roleId: RoleId) => Promise<HackKitActionResult>;
 	listSettings: () => Promise<HackKitActionResult<ResolvedHackathonSetting[]>>;
 	setSettings: (
 		values: SetSettingsInput,
@@ -127,6 +200,7 @@ export type HackKitUIActions = {
 export type ScheduleListProps = {
 	events: Event[];
 	eventTypes: EventTypes;
+	getEventHref?: (event: Event) => string;
 	className?: string;
 };
 
@@ -159,5 +233,11 @@ export type CheckInScannerProps = {
 
 export type HackathonSettingsFormProps = {
 	settings: ResolvedHackathonSetting[];
+	className?: string;
+};
+
+export type RsvpConfirmationProps = {
+	rsvp: Rsvp | null;
+	summary: RsvpSummary;
 	className?: string;
 };

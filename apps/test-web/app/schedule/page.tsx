@@ -16,7 +16,11 @@ export default async function SchedulePage() {
 						Public agenda for the hackathon.
 					</p>
 				</div>
-				<ScheduleList events={events} eventTypes={hackkit.events.options} />
+				<ScheduleList
+					events={events}
+					eventTypes={hackkit.events.options}
+					getEventHref={(event) => `/schedule/${event.id}`}
+				/>
 			</div>
 		</main>
 	);

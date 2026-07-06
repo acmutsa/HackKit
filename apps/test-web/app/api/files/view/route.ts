@@ -13,6 +13,8 @@ function storedFileReferenceForKey(key: string): string {
 }
 
 async function canViewFile(key: string): Promise<boolean> {
+	if (key.startsWith("profile-photos/")) return true;
+
 	const session = await getAuthSession();
 	if (!session) return false;
 
@@ -33,7 +35,7 @@ export async function GET(request: Request): Promise<NextResponse> {
 	if (!key) {
 		return NextResponse.json({ error: "key is required" }, { status: 400 });
 	}
-	if (!key.startsWith("resumes/")) {
+	if (!key.startsWith("resumes/") && !key.startsWith("profile-photos/")) {
 		return NextResponse.json({ error: "Not found" }, { status: 404 });
 	}
 	if (!(await canViewFile(key))) {

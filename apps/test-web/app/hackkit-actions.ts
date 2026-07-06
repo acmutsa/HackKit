@@ -20,6 +20,14 @@ export async function claimHackTag(
 	return createHackKitMutations(await getRuntime()).claimHackTag(...args);
 }
 
+export async function updateUserProfile(
+	...args: Parameters<
+		ReturnType<typeof createHackKitMutations>["updateUserProfile"]
+	>
+) {
+	return createHackKitMutations(await getRuntime()).updateUserProfile(...args);
+}
+
 export async function registerHacker(
 	...args: Parameters<
 		ReturnType<typeof createHackKitMutations>["registerHacker"]
@@ -84,6 +92,78 @@ export async function clearCheckIn(
 	>
 ) {
 	return createHackKitMutations(await getRuntime()).clearCheckIn(...args);
+}
+
+export async function confirmRsvp(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["confirmRsvp"]>
+) {
+	return createHackKitMutations(await getRuntime()).confirmRsvp(...args);
+}
+
+export async function cancelRsvp(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["cancelRsvp"]>
+) {
+	return createHackKitMutations(await getRuntime()).cancelRsvp(...args);
+}
+
+export async function setRsvpStatus(
+	...args: Parameters<
+		ReturnType<typeof createHackKitMutations>["setRsvpStatus"]
+	>
+) {
+	return createHackKitMutations(await getRuntime()).setRsvpStatus(...args);
+}
+
+export async function promoteRsvp(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["promoteRsvp"]>
+) {
+	return createHackKitMutations(await getRuntime()).promoteRsvp(...args);
+}
+
+export async function approveUser(
+	...args: Parameters<
+		ReturnType<typeof createHackKitMutations>["approveUser"]
+	>
+) {
+	return createHackKitMutations(await getRuntime()).approveUser(...args);
+}
+
+export async function banUser(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["banUser"]>
+) {
+	return createHackKitMutations(await getRuntime()).banUser(...args);
+}
+
+export async function unbanUser(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["unbanUser"]>
+) {
+	return createHackKitMutations(await getRuntime()).unbanUser(...args);
+}
+
+export async function assignRoleToUser(
+	...args: Parameters<
+		ReturnType<typeof createHackKitMutations>["assignRoleToUser"]
+	>
+) {
+	return createHackKitMutations(await getRuntime()).assignRoleToUser(...args);
+}
+
+export async function createRole(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["createRole"]>
+) {
+	return createHackKitMutations(await getRuntime()).createRole(...args);
+}
+
+export async function updateRole(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["updateRole"]>
+) {
+	return createHackKitMutations(await getRuntime()).updateRole(...args);
+}
+
+export async function deleteRole(
+	...args: Parameters<ReturnType<typeof createHackKitMutations>["deleteRole"]>
+) {
+	return createHackKitMutations(await getRuntime()).deleteRole(...args);
 }
 
 export async function listSettings() {

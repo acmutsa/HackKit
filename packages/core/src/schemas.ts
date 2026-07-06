@@ -24,6 +24,22 @@ export const ensureUserSchema = z.object({
 	profilePhotoUrl: z.string().url().optional(),
 });
 
+export const updateUserProfileSchema = z.object({
+	authId: authIdSchema,
+	firstName: z.string().min(1).max(100).optional(),
+	lastName: z.string().min(1).max(100).optional(),
+	profilePhotoUrl: z
+		.union([z.string().url(), z.string().min(1).regex(/^\/\S+$/), z.literal("")])
+		.optional()
+		.transform((value) => (value === "" ? undefined : value)),
+	hackTag: hackTagSchema.optional(),
+	bio: z.string().max(500).optional(),
+	pronouns: z.string().max(40).optional(),
+	skills: z.array(z.string().min(1).max(40)).max(20).optional(),
+	isProfileSearchable: z.boolean().optional(),
+	discordDisplayHandle: z.string().max(40).optional(),
+});
+
 export const claimHackTagSchema = z.object({
 	authId: authIdSchema,
 	hackTag: hackTagSchema,
@@ -101,6 +117,23 @@ export const checkInUserSchema = actorSchema.extend({
 
 export const clearCheckInUserSchema = actorSchema.extend({
 	targetAuthId: authIdSchema,
+});
+
+export const confirmRsvpSchema = z.object({
+	authId: authIdSchema,
+});
+
+export const adminCancelRsvpSchema = actorSchema.extend({
+	targetAuthId: authIdSchema,
+});
+
+export const adminSetRsvpStatusSchema = actorSchema.extend({
+	targetAuthId: authIdSchema,
+	status: z.enum(["confirmed", "waitlisted", "cancelled"]),
+});
+
+export const adminPromoteRsvpSchema = actorSchema.extend({
+	targetAuthId: authIdSchema.optional(),
 });
 
 export const deleteEventSchema = actorSchema.extend({

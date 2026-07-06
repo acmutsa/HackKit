@@ -52,8 +52,11 @@ export type HackerRegistrationFormProps = {
 	localStorageKey?: string;
 	successRedirectTo?: string;
 	className?: string;
-	levelOfStudyOptions?: Array<{ value: string; label: string }>;
-	softwareExperienceOptions?: Array<{ value: string; label: string }>;
+	schoolOptions?: readonly { value: string; label: string }[];
+	majorOptions?: readonly { value: string; label: string }[];
+	levelOfStudyOptions?: readonly { value: string; label: string }[];
+	softwareExperienceOptions?: readonly { value: string; label: string }[];
+	heardFromOptions?: readonly { value: string; label: string }[];
 	uploadResume?: (file: File) => Promise<string>;
 };
 
@@ -76,14 +79,52 @@ const DEFAULT_SOFTWARE_EXPERIENCE = [
 	{ value: "advanced", label: "Advanced" },
 ];
 
+function SelectField({
+	label,
+	placeholder,
+	value,
+	onValueChange,
+	options,
+	error,
+}: {
+	label: string;
+	placeholder: string;
+	value?: string;
+	onValueChange: (value: string) => void;
+	options: readonly { value: string; label: string }[];
+	error?: string;
+}) {
+	return (
+		<div className="space-y-2">
+			<Label>{label}</Label>
+			<Select value={value} onValueChange={onValueChange}>
+				<SelectTrigger>
+					<SelectValue placeholder={placeholder} />
+				</SelectTrigger>
+				<SelectContent>
+					{options.map((option) => (
+						<SelectItem key={option.value} value={option.value}>
+							{option.label}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+			<FieldError message={error} />
+		</div>
+	);
+}
+
 export function HackerRegistrationForm({
 	currentUser,
 	defaultValues,
 	localStorageKey,
 	successRedirectTo = "/dashboard",
 	className,
+	schoolOptions,
+	majorOptions,
 	levelOfStudyOptions = DEFAULT_LEVEL_OF_STUDY,
 	softwareExperienceOptions = DEFAULT_SOFTWARE_EXPERIENCE,
+	heardFromOptions,
 	uploadResume,
 }: HackerRegistrationFormProps) {
 	const router = useRouter();
@@ -153,20 +194,50 @@ export function HackerRegistrationForm({
 					onSubmit={form.handleSubmit(onSubmit)}
 				>
 					<div className="grid gap-4 md:grid-cols-2">
-						<div className="space-y-2">
-							<Label htmlFor="university">University</Label>
-							<Input id="university" {...form.register("university")} />
-							<FieldError
-								message={form.formState.errors.university?.message}
+						{schoolOptions ? (
+							<SelectField
+								label="University"
+								placeholder="Select school"
+								value={form.watch("university")}
+								onValueChange={(value) =>
+									form.setValue("university", value, {
+										shouldValidate: true,
+									})
+								}
+								options={schoolOptions}
+								error={form.formState.errors.university?.message}
 							/>
-						</div>
-						<div className="space-y-2">
-							<Label htmlFor="major">Major</Label>
-							<Input id="major" {...form.register("major")} />
-							<FieldError
-								message={form.formState.errors.major?.message}
+						) : (
+							<div className="space-y-2">
+								<Label htmlFor="university">University</Label>
+								<Input id="university" {...form.register("university")} />
+								<FieldError
+									message={form.formState.errors.university?.message}
+								/>
+							</div>
+						)}
+						{majorOptions ? (
+							<SelectField
+								label="Major"
+								placeholder="Select major"
+								value={form.watch("major")}
+								onValueChange={(value) =>
+									form.setValue("major", value, {
+										shouldValidate: true,
+									})
+								}
+								options={majorOptions}
+								error={form.formState.errors.major?.message}
 							/>
-						</div>
+						) : (
+							<div className="space-y-2">
+								<Label htmlFor="major">Major</Label>
+								<Input id="major" {...form.register("major")} />
+								<FieldError
+									message={form.formState.errors.major?.message}
+								/>
+							</div>
+						)}
 						<div className="space-y-2">
 							<Label htmlFor="schoolId">School ID</Label>
 							<Input id="schoolId" {...form.register("schoolId")} />
@@ -174,36 +245,18 @@ export function HackerRegistrationForm({
 								message={form.formState.errors.schoolId?.message}
 							/>
 						</div>
-						<div className="space-y-2">
-							<Label>Level of study</Label>
-							<Select
-								value={form.watch("levelOfStudy")}
-								onValueChange={(value) =>
-									form.setValue("levelOfStudy", value, {
-										shouldValidate: true,
-									})
-								}
-							>
-								<SelectTrigger>
-									<SelectValue placeholder="Select level" />
-								</SelectTrigger>
-								<SelectContent>
-									{levelOfStudyOptions.map((option) => (
-										<SelectItem
-											key={option.value}
-											value={option.value}
-										>
-											{option.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<FieldError
-								message={
-									form.formState.errors.levelOfStudy?.message
-								}
-							/>
-						</div>
+						<SelectField
+							label="Level of study"
+							placeholder="Select level"
+							value={form.watch("levelOfStudy")}
+							onValueChange={(value) =>
+								form.setValue("levelOfStudy", value, {
+									shouldValidate: true,
+								})
+							}
+							options={levelOfStudyOptions}
+							error={form.formState.errors.levelOfStudy?.message}
+						/>
 						<div className="space-y-2">
 							<Label htmlFor="hackathonsAttended">
 								Hackathons attended
@@ -223,44 +276,40 @@ export function HackerRegistrationForm({
 								}
 							/>
 						</div>
-						<div className="space-y-2">
-							<Label>Software experience</Label>
-							<Select
-								value={form.watch("softwareExperience")}
-								onValueChange={(value) =>
-									form.setValue("softwareExperience", value, {
-										shouldValidate: true,
-									})
-								}
-							>
-								<SelectTrigger>
-									<SelectValue placeholder="Select experience" />
-								</SelectTrigger>
-								<SelectContent>
-									{softwareExperienceOptions.map((option) => (
-										<SelectItem
-											key={option.value}
-											value={option.value}
-										>
-											{option.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<FieldError
-								message={
-									form.formState.errors.softwareExperience
-										?.message
-								}
-							/>
-						</div>
+						<SelectField
+							label="Software experience"
+							placeholder="Select experience"
+							value={form.watch("softwareExperience")}
+							onValueChange={(value) =>
+								form.setValue("softwareExperience", value, {
+									shouldValidate: true,
+								})
+							}
+							options={softwareExperienceOptions}
+							error={form.formState.errors.softwareExperience?.message}
+						/>
 					</div>
 
 					<div className="grid gap-4 md:grid-cols-2">
-						<div className="space-y-2">
-							<Label htmlFor="heardFrom">How did you hear about us?</Label>
-							<Input id="heardFrom" {...form.register("heardFrom")} />
-						</div>
+						{heardFromOptions ? (
+							<SelectField
+								label="How did you hear about us?"
+								placeholder="Select source"
+								value={form.watch("heardFrom")}
+								onValueChange={(value) =>
+									form.setValue("heardFrom", value, {
+										shouldValidate: true,
+									})
+								}
+								options={heardFromOptions}
+								error={form.formState.errors.heardFrom?.message}
+							/>
+						) : (
+							<div className="space-y-2">
+								<Label htmlFor="heardFrom">How did you hear about us?</Label>
+								<Input id="heardFrom" {...form.register("heardFrom")} />
+							</div>
+						)}
 						<div className="space-y-2">
 							<Label htmlFor="githubUrl">GitHub URL</Label>
 							<Input id="githubUrl" {...form.register("githubUrl")} />

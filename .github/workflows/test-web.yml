@@ -45,6 +45,43 @@ jobs:
                   HACKKIT_BLOB_ADAPTER: local
               run: pnpm db:sync
 
+            - name: Verify generated files are current
+              run: |
+                  changed="$(git status --porcelain -- apps/test-web/app/discord apps/test-web/app/invites/page.tsx apps/test-web/app/teams/page.tsx apps/test-web/app/hackkit-plugin-actions.ts apps/test-web/drizzle.schema.ts apps/test-web/hackkit.lock)"
+                  if [ -n "$changed" ]; then
+                      echo "$changed"
+                      git diff -- apps/test-web/app/discord apps/test-web/app/invites/page.tsx apps/test-web/app/teams/page.tsx apps/test-web/app/hackkit-plugin-actions.ts apps/test-web/drizzle.schema.ts apps/test-web/hackkit.lock
+                      exit 1
+                  fi
+
+            - name: Package tests
+              run: |
+                  pnpm --filter @hackkit/core test
+                  pnpm --filter @hackkit/config test
+                  pnpm --filter @hackkit/plugin-teams test
+                  pnpm --filter @hackkit/plugin-discord test
+                  pnpm --filter @hackkit/plugin-notifications-email test
+
+            - name: Package typechecks
+              run: |
+                  pnpm --filter @hackkit/core typecheck
+                  pnpm --filter @hackkit/config typecheck
+                  pnpm --filter @hackkit/next typecheck
+                  pnpm --filter @hackkit/ui typecheck
+                  pnpm --filter @hackkit/plugin-teams typecheck
+                  pnpm --filter @hackkit/plugin-discord typecheck
+                  pnpm --filter @hackkit/plugin-notifications-email typecheck
+
+            - name: Package builds
+              run: |
+                  pnpm --filter @hackkit/core build
+                  pnpm --filter @hackkit/config build
+                  pnpm --filter @hackkit/next build
+                  pnpm --filter @hackkit/ui build
+                  pnpm --filter @hackkit/plugin-teams build
+                  pnpm --filter @hackkit/plugin-discord build
+                  pnpm --filter @hackkit/plugin-notifications-email build
+
             - name: Typecheck
               run: pnpm --filter test-web typecheck
 
@@ -61,4 +98,8 @@ jobs:
                   HACKKIT_S3_ENDPOINT: https://example.r2.cloudflarestorage.com
                   HACKKIT_S3_ACCESS_KEY_ID: ci-access-key
                   HACKKIT_S3_SECRET_ACCESS_KEY: ci-secret-key
+                  DISCORD_GUILD_ID: ci-guild
+                  DISCORD_BOT_API_URL: https://discord-bot-ci.example.com
+                  DISCORD_INTERNAL_AUTH_KEY: ci-internal-auth-key
+                  DISCORD_PARTICIPANT_ROLE_ID: ci-participant-role
               run: pnpm --filter test-web build

@@ -1,0 +1,54 @@
+{
+  "name": "@hackkit/plugin-discord",
+  "version": "0.0.0",
+  "description": "HackKit Discord verification and role sync plugin",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./app/discord/page": {
+      "types": "./app/discord/page.tsx",
+      "default": "./app/discord/page.tsx"
+    },
+    "./app/discord/verify/page": {
+      "types": "./app/discord/verify/page.tsx",
+      "default": "./app/discord/verify/page.tsx"
+    },
+    "./app/*": "./app/*"
+  },
+  "files": [
+    "dist",
+    "src",
+    "app"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hackkit/core": "workspace:*",
+    "@hackkit/next": "workspace:*",
+    "@hackkit/ui": "workspace:*",
+    "sonner": "^1.5.0",
+    "zod": "^3.25.67"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "typescript": "5.5.3",
+    "vitest": "^3.2.4"
+  },
+  "license": "MIT",
+  "private": true
+}

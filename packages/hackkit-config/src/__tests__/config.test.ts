@@ -25,14 +25,23 @@ describe("HackKit config", () => {
 			dirname(fileURLToPath(import.meta.url)),
 			"../../../..",
 		);
-		const config = await loadHackkitConfig("apps/test-web/hackkit.config.ts", {
-			cwd: repoRoot,
-		});
+		const config = await loadHackkitConfig(
+			"apps/test-web/hackkit.config.ts",
+			{
+				cwd: repoRoot,
+			},
+		);
 
 		expect(config.databaseUrl).toBe(
 			process.env.DATABASE_URL ?? "file:.data/test-web.db",
 		);
-		expect(config.plugins).toHaveLength(1);
-		expect(config.seedRoles.map((role) => role.id)).toContain("core.participant");
+		expect(config.plugins.map((plugin) => plugin.id)).toEqual([
+			"teams",
+			"discord",
+			"notificationsEmail",
+		]);
+		expect(config.seedRoles.map((role) => role.id)).toContain(
+			"core.participant",
+		);
 	});
 });

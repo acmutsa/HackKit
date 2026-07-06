@@ -1,13 +1,17 @@
-import { redirect } from "next/navigation";
+import { PublicLandingPage } from "@hackkit/ui";
 import { getAuthSession } from "@/lib/auth";
-import { getCompetitorOnboardingState } from "@/lib/onboarding";
+import { publicSiteConfig } from "@/lib/public-site-config";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
 	const session = await getAuthSession();
-	if (!session) redirect("/sign-in");
+	const { signedInAction, ...landing } = publicSiteConfig.landing;
 
-	const { nextHref } = await getCompetitorOnboardingState("/");
-	redirect(nextHref ?? "/dashboard");
+	return (
+		<PublicLandingPage
+			{...landing}
+			primaryAction={session ? signedInAction : landing.primaryAction}
+		/>
+	);
 }

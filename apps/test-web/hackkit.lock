@@ -22,6 +22,32 @@
         "leaveTeam",
         "removeMember"
       ]
+    },
+    {
+      "id": "discord",
+      "package": "@hackkit/plugin-discord",
+      "version": "0.0.0",
+      "routes": [
+        {
+          "host": "app/discord/page.tsx",
+          "source": "@hackkit/plugin-discord/app/discord/page"
+        },
+        {
+          "host": "app/discord/verify/page.tsx",
+          "source": "@hackkit/plugin-discord/app/discord/verify/page"
+        }
+      ],
+      "actions": [
+        "confirmDiscordVerification",
+        "syncDiscordMemberRoles"
+      ]
+    },
+    {
+      "id": "notificationsEmail",
+      "package": "@hackkit/plugin-notifications-email",
+      "version": "0.0.0",
+      "routes": [],
+      "actions": []
     }
   ]
 }

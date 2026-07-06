@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "plugin:sync": "hackkit plugin sync",
+    "db:reset": "bash scripts/db-reset.sh",
     "db:sync": "hackkit db sync",
     "sync": "pnpm plugin:sync && pnpm db:sync",
     "predev": "pnpm plugin:sync && turbo run build --filter=test-web^...",
@@ -23,6 +24,8 @@
     "@hackkit/config": "workspace:*",
     "@hackkit/core": "workspace:*",
     "@hackkit/next": "workspace:*",
+    "@hackkit/plugin-discord": "workspace:*",
+    "@hackkit/plugin-notifications-email": "workspace:*",
     "@hackkit/plugin-teams": "workspace:*",
     "@hackkit/ui": "workspace:*",
     "@libsql/client": "^0.14.0",

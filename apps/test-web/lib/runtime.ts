@@ -2,6 +2,7 @@ import "server-only";
 
 import { betterAuthAdapter } from "@hackkit/auth-better-auth";
 import {
+	createPageGuards,
 	createHackkitRuntimeFromConfig,
 	setHackkitRuntime,
 } from "@hackkit/next";
@@ -35,5 +36,9 @@ export async function getHackkit() {
 }
 
 export async function getPageGuards() {
-	return (await getRuntime()).pageGuards;
+	const runtime = await getRuntime();
+	return createPageGuards(runtime.hackkit, runtime.getAuthId, {
+		getCurrentUser,
+		getSettingValue: runtime.getSettingValue,
+	});
 }

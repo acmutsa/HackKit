@@ -14,7 +14,7 @@ export async function PUT(request: Request): Promise<NextResponse> {
 	if (!key) {
 		return NextResponse.json({ error: "key is required" }, { status: 400 });
 	}
-	if (!key.startsWith("resumes/")) {
+	if (!key.startsWith("resumes/") && !key.startsWith("profile-photos/")) {
 		return NextResponse.json(
 			{ error: "Unsupported upload key." },
 			{ status: 400 },

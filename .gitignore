@@ -48,3 +48,9 @@ sessions/
 
 # test-web local sqlite
 apps/test-web/.data/
+
+# cursor
+.cursor/plans/
+
+# build
+**/dist/

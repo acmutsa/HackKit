@@ -1,0 +1,34 @@
+{
+  "name": "@hackkit/plugin-notifications-email",
+  "version": "0.0.0",
+  "description": "HackKit email notification channel plugin",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hackkit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.11",
+    "typescript": "5.5.3",
+    "vitest": "^3.2.4"
+  },
+  "license": "MIT",
+  "private": true
+}

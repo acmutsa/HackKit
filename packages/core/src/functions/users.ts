@@ -12,8 +12,9 @@ import {
 	clearCheckInUserSchema,
 	ensureUserSchema,
 	unbanUserSchema,
+	updateUserProfileSchema,
 } from "../schemas";
-import type { AuthId, User, UserBan } from "../types";
+import type { AuthId, PublicUserProfile, User, UserBan } from "../types";
 
 export type UsersApiContext = Pick<
 	HackkitRuntimeContext,
@@ -26,6 +27,7 @@ export type UsersApiContext = Pick<
 	| "assertCanManageRole"
 > & {
 	registrationPolicy: CompetitorRegistrationPolicy;
+	groups: { assignNextGroup(authId: AuthId): Promise<unknown> };
 };
 
 export function createUsersApi(context: UsersApiContext) {
@@ -38,6 +40,7 @@ export function createUsersApi(context: UsersApiContext) {
 		requirePermission,
 		assertCanManageRole,
 		registrationPolicy,
+		groups,
 	} = context;
 
 	return {
@@ -51,6 +54,8 @@ export function createUsersApi(context: UsersApiContext) {
 			if (!existing) {
 				const user: User = {
 					...parsed,
+					skills: [],
+					isProfileSearchable: true,
 					isApproved: false,
 					createdAt: timestamp,
 					updatedAt: timestamp,
@@ -65,7 +70,7 @@ export function createUsersApi(context: UsersApiContext) {
 					email: parsed.email,
 					firstName: parsed.firstName,
 					lastName: parsed.lastName,
-					profilePhotoUrl: parsed.profilePhotoUrl,
+					profilePhotoUrl: existing.profilePhotoUrl ?? parsed.profilePhotoUrl,
 					updatedAt: timestamp,
 				},
 			);
@@ -74,6 +79,50 @@ export function createUsersApi(context: UsersApiContext) {
 
 		async getUser(authId: AuthId): Promise<User | null> {
 			return db.findOne(coreModels.user, { authId });
+		},
+
+		async getUserByHackTag(hackTag: string): Promise<User | null> {
+			const parsedHackTag = parseInput(claimHackTagSchema.shape.hackTag, hackTag);
+			return db.findOne(coreModels.user, { hackTag: parsedHackTag });
+		},
+
+		async getPublicProfileByHackTag(
+			hackTag: string,
+		): Promise<PublicUserProfile | null> {
+			const user = await this.getUserByHackTag(hackTag);
+			if (!user || !user.isProfileSearchable) return null;
+			const [hacker, role] = await Promise.all([
+				db.findOne(coreModels.hacker, { authId: user.authId }),
+				user.roleId ? db.findOne(coreModels.role, { id: user.roleId }) : null,
+			]);
+			return {
+				user: {
+					authId: user.authId,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					profilePhotoUrl: user.profilePhotoUrl,
+					hackTag: user.hackTag,
+					bio: user.bio,
+					pronouns: user.pronouns,
+					skills: user.skills,
+					discordDisplayHandle: user.discordDisplayHandle,
+				},
+				hacker: hacker
+					? {
+							university: hacker.university,
+							major: hacker.major,
+							levelOfStudy: hacker.levelOfStudy,
+							githubUrl: hacker.githubUrl,
+							linkedInUrl: hacker.linkedInUrl,
+							personalWebsiteUrl: hacker.personalWebsiteUrl,
+						}
+					: null,
+				role,
+			};
+		},
+
+		async getUserBan(authId: AuthId): Promise<UserBan | null> {
+			return db.findOne(coreModels.userBan, { authId });
 		},
 
 		async listUsers(input?: { actorAuthId?: AuthId }): Promise<User[]> {
@@ -119,6 +168,48 @@ export function createUsersApi(context: UsersApiContext) {
 			);
 		},
 
+		async updateProfile(input: unknown): Promise<User> {
+			const parsed = parseInput(updateUserProfileSchema, input);
+			return withDomainLog(
+				logger,
+				"users.updateProfile",
+				{ targetAuthId: parsed.authId },
+				async () => {
+					await getUserOrThrow(parsed.authId);
+					if (parsed.hackTag) {
+						const existing = await db.findOne(coreModels.user, {
+							hackTag: parsed.hackTag,
+						});
+						if (existing && existing.authId !== parsed.authId) {
+							throw new HackKitError(
+								"CONFLICT",
+								"HackTag is already claimed.",
+							);
+						}
+					}
+					const [updated] = await db.update(
+						coreModels.user,
+						{ authId: parsed.authId },
+						{
+							firstName: parsed.firstName,
+							lastName: parsed.lastName,
+							profilePhotoUrl: parsed.profilePhotoUrl,
+							hackTag: parsed.hackTag,
+							bio: parsed.bio,
+							pronouns: parsed.pronouns,
+							skills: parsed.skills?.map((skill) => skill.toLowerCase()),
+							isProfileSearchable: parsed.isProfileSearchable,
+							discordDisplayHandle: parsed.discordDisplayHandle,
+							updatedAt: now(),
+						},
+					);
+					if (!updated)
+						throw new HackKitError("NOT_FOUND", "User not found.");
+					return updated;
+				},
+			);
+		},
+
 		async approveUser(input: unknown): Promise<User> {
 			const parsed = parseInput(approveUserSchema, input);
 			return withDomainLog(
@@ -152,6 +243,9 @@ export function createUsersApi(context: UsersApiContext) {
 					);
 					if (!updated)
 						throw new HackKitError("NOT_FOUND", "User not found.");
+					if (parsed.approved) {
+						await groups.assignNextGroup(parsed.targetAuthId);
+					}
 					return updated;
 				},
 			);
