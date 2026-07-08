@@ -69,7 +69,7 @@ CI also runs package typechecks and builds for `@hackkit/core`, `@hackkit/config
 
 ## Server Actions
 
-Next.js requires `"use server"` in the app. Mutations live in `@hackkit/next`; [`app/hackkit-actions.ts`](app/hackkit-actions.ts) wraps `createHackKitMutations(await getRuntime())`.
+UI mutations live on the Next runtime (`runtime.mutations` from `createHackKitMutations`). Named server actions and the `hackKitUIActions` provider map ship from `@hackkit/next` — [`app/providers.tsx`](app/providers.tsx) passes `hackKitUIActions` to `HackKitUIProvider`. Plugin actions remain generated in [`app/hackkit-plugin-actions.ts`](app/hackkit-plugin-actions.ts) by `hackkit plugin sync`.
 
 ## Configuration
 

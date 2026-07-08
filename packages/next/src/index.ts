@@ -12,5 +12,6 @@ export type {
 export { actionFailure, actionSuccess } from "@hackkit/ui/actions";
 export type { HackKitActionResult } from "@hackkit/ui/actions";
 export { createHackKitMutations } from "./mutations";
+export { hackKitUIActions } from "./action-map";
 export { createPageGuards } from "./page-guards";
 export type { PageGuardOptions, PageGuards } from "./page-guards";

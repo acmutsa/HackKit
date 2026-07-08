@@ -8,7 +8,6 @@ export const DEFAULT_PROTECTED_PATHS = [
 	"app/layout.tsx",
 	"app/globals.css",
 	"app/providers.tsx",
-	"app/hackkit-actions.ts",
 	"app/page.tsx",
 	"app/dashboard",
 	"app/sign-in",
