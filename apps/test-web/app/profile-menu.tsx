@@ -9,10 +9,12 @@ export function ProfileMenu({
 	name,
 	email,
 	image,
+	isAdmin = false,
 }: {
 	name: string;
 	email: string;
 	image?: string | null;
+	isAdmin?: boolean;
 }) {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
@@ -77,6 +79,16 @@ export function ProfileMenu({
 						>
 							Registration
 						</Link>
+						{isAdmin ? (
+							<Link
+								href="/admin"
+								role="menuitem"
+								onClick={() => setIsOpen(false)}
+								className="block rounded-md px-3 py-2 text-sm text-accent-foreground hover:bg-muted"
+							>
+								Admin
+							</Link>
+						) : null}
 						<button
 							type="button"
 							role="menuitem"

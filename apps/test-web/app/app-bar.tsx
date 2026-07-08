@@ -1,10 +1,22 @@
 import Link from "next/link";
+import { CorePermission } from "@hackkit/core";
 import { getAuthSession } from "@/lib/auth";
+import { getCurrentUser, getRuntime } from "@/lib/runtime";
 import { publicSiteConfig } from "@/lib/public-site-config";
 import { ProfileMenu } from "./profile-menu";
 
+async function getIsAdmin() {
+	const runtime = await getRuntime();
+	const currentUser = await getCurrentUser();
+	return runtime.hackkit.accessControl.hasPermission(
+		currentUser.authId,
+		CorePermission.Admin,
+	);
+}
+
 export async function AppBar() {
 	const session = await getAuthSession();
+	const isAdmin = session ? await getIsAdmin() : false;
 
 	return (
 		<header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -30,6 +42,7 @@ export async function AppBar() {
 							name={session.user.name}
 							email={session.user.email}
 							image={session.user.image}
+							isAdmin={isAdmin}
 						/>
 					</nav>
 				) : (
