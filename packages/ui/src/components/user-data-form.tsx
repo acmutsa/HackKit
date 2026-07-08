@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import {
 	createCompleteUserDataSchema,
 	type User,
@@ -337,11 +336,11 @@ export function UserDataForm({
 	userDataOptions,
 	defaultValues,
 	localStorageKey,
-	successRedirectTo = "/dashboard",
+	successRedirectTo,
 	className,
 }: UserDataFormProps) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
+	const redirectTo = successRedirectTo ?? navigation.routes.dashboard;
 	const schema = React.useMemo(
 		() => createUserDataFormSchema(userDataOptions),
 		[userDataOptions],
@@ -361,7 +360,7 @@ export function UserDataForm({
 
 		clearPersistedState();
 		toast.success("User data saved.");
-		router.push(successRedirectTo);
+		navigation.push(redirectTo);
 	}
 
 	return (

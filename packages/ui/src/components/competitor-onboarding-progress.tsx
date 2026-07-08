@@ -1,6 +1,8 @@
-import Link from "next/link";
+"use client";
+
 import { cn } from "../lib/cn";
 import type { CompetitorOnboardingStep } from "../lib/onboarding-steps";
+import { useHackKitNavigation } from "../provider";
 
 export type CompetitorOnboardingProgressProps = {
 	steps: CompetitorOnboardingStep[];
@@ -11,6 +13,8 @@ export function CompetitorOnboardingProgress({
 	steps,
 	className,
 }: CompetitorOnboardingProgressProps) {
+	const { Link } = useHackKitNavigation();
+
 	return (
 		<nav
 			aria-label="Competitor onboarding progress"

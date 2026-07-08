@@ -1,6 +1,8 @@
+"use client";
+
 import type { Event, EventTypes } from "@hackkit/core";
-import Link from "next/link";
 import { cn } from "../lib/cn";
+import { useHackKitNavigation } from "../provider";
 
 export type EventAdminListProps = {
 	events: Event[];
@@ -17,6 +19,8 @@ export function EventAdminList({
 	eventTypes,
 	className,
 }: EventAdminListProps) {
+	const { Link, routes } = useHackKitNavigation();
+
 	if (events.length === 0) {
 		return (
 			<p className={cn("text-sm text-muted-foreground", className)}>
@@ -53,13 +57,13 @@ export function EventAdminList({
 							<td className="px-4 py-3">
 								<div className="flex gap-3">
 									<Link
-										href={`/admin/events/${event.id}/edit`}
+										href={routes.admin.eventEdit(event.id)}
 										className="text-primary hover:underline"
 									>
 										Edit
 									</Link>
 									<Link
-										href={`/admin/scanner/${event.id}`}
+										href={routes.admin.eventScanner(event.id)}
 										className="text-primary hover:underline"
 									>
 										Scanner

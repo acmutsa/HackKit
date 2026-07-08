@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -89,11 +88,11 @@ export function EventAdminForm({
 	defaultValues,
 	eventId,
 	submitLabel = "Save event",
-	successRedirectTo = "/admin/events",
+	successRedirectTo,
 	className,
 }: EventAdminFormProps) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
+	const redirectTo = successRedirectTo ?? navigation.routes.admin.events;
 	const schema = React.useMemo(
 		() => createEventFormSchema(eventTypes),
 		[eventTypes],
@@ -117,8 +116,8 @@ export function EventAdminForm({
 		}
 
 		toast.success(eventId ? "Event updated." : "Event created.");
-		router.push(successRedirectTo);
-		router.refresh();
+		navigation.push(redirectTo);
+		navigation.refresh();
 	}
 
 	return (

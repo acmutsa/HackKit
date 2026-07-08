@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import type { AdminUserRecord, PermissionKey, Role } from "@hackkit/core";
 import { CorePermission } from "@hackkit/core";
 import { toast } from "sonner";
@@ -43,8 +42,7 @@ export function AdminUserActions({
 	record: AdminUserRecord;
 	roles: Role[];
 }) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
 	const [pendingAction, setPendingAction] = React.useState<PendingAction>(null);
 	const [roleId, setRoleId] = React.useState(record.user.roleId ?? "");
 	const [banReason, setBanReason] = React.useState(record.ban?.reason ?? "");
@@ -62,7 +60,7 @@ export function AdminUserActions({
 			return;
 		}
 		toast.success(successMessage);
-		router.refresh();
+		navigation.refresh();
 	}
 
 	return (
@@ -273,8 +271,7 @@ export function AdminRoleManager({
 	roles: Role[];
 	permissions?: string[];
 }) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
 	const [pendingAction, setPendingAction] = React.useState<PendingAction>(null);
 	const [name, setName] = React.useState("");
 	const [position, setPosition] = React.useState(roles.length + 1);
@@ -308,7 +305,7 @@ export function AdminRoleManager({
 		setPosition(roles.length + 2);
 		setColor("");
 		setSelectedPermissions([]);
-		router.refresh();
+		navigation.refresh();
 	}
 
 	async function deleteRole(role: Role) {
@@ -322,7 +319,7 @@ export function AdminRoleManager({
 			return;
 		}
 		toast.success("Role deleted.");
-		router.refresh();
+		navigation.refresh();
 	}
 
 	return (
@@ -430,8 +427,7 @@ function RoleEditor({
 	setPendingAction: (action: PendingAction) => void;
 	onDelete: (role: Role) => Promise<void>;
 }) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
 	const [name, setName] = React.useState(role.name);
 	const [position, setPosition] = React.useState(role.position);
 	const [color, setColor] = React.useState(role.color ?? "");
@@ -464,7 +460,7 @@ function RoleEditor({
 			return;
 		}
 		toast.success("Role updated.");
-		router.refresh();
+		navigation.refresh();
 	}
 
 	return (
