@@ -58,6 +58,7 @@ jobs:
               run: |
                   pnpm --filter @hackkit/core test
                   pnpm --filter @hackkit/config test
+                  pnpm --filter @hackkit/next test
                   pnpm --filter @hackkit/plugin-teams test
                   pnpm --filter @hackkit/plugin-discord test
                   pnpm --filter @hackkit/plugin-notifications-email test

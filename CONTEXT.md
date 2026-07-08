@@ -9,7 +9,7 @@ The framework-independent HackKit kernel that defines hackathon domain concepts 
 _Avoid_: Framework runtime, web app, Next app
 
 **HackKit Web App**:
-A fully built HackKit application that assembles UI, routes, and adapters into a working hackathon site.
+A fully built HackKit application that assembles UI, routes, and adapters into a working hackathon site. Next.js apps wire Core, guards, mutations, and HackKit UI through `@hackkit/next` — see [`docs/guides/next-integration.md`](docs/guides/next-integration.md).
 _Avoid_: Core, kernel
 
 **HackKit UI**:

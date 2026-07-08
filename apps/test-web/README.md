@@ -50,6 +50,13 @@ DISCORD_PARTICIPANT_ROLE_ID=...
 
 Use `DISCORD_PARTICIPANT_ROLE_NAME` instead of `DISCORD_PARTICIPANT_ROLE_ID` only when role IDs are not available. Optional email delivery is configured with `HACKKIT_EMAIL_PROVIDER=resend` plus `RESEND_API_KEY`, or `HACKKIT_EMAIL_PROVIDER=smtp` plus `SMTP_HOST` and SMTP credentials.
 
+## Next integration path
+
+This app follows the single `@hackkit/next` integration path for runtime setup, page guards, Core mutations, and HackKit UI provider actions. See:
+
+-   [`packages/next/README.md`](../../packages/next/README.md) — package API and wiring recipe
+-   [`docs/guides/next-integration.md`](../../docs/guides/next-integration.md) — full guide and drift checks
+
 ## Release checks
 
 Run the same app checks locally before deploying:
@@ -58,6 +65,7 @@ Run the same app checks locally before deploying:
 pnpm --filter test-web sync
 pnpm --filter @hackkit/core test
 pnpm --filter @hackkit/config test
+pnpm --filter @hackkit/next test
 pnpm --filter @hackkit/plugin-teams test
 pnpm --filter @hackkit/plugin-discord test
 pnpm --filter @hackkit/plugin-notifications-email test
@@ -74,4 +82,4 @@ UI mutations live on the Next runtime (`runtime.mutations` from `createHackKitMu
 ## Configuration
 
 -   [`hackkit.config.ts`](hackkit.config.ts) — plugins, User Data options, Event Types, database URL
--   [`lib/runtime.ts`](lib/runtime.ts) — `createHackkitRuntime` composition root
+-   [`lib/runtime.ts`](lib/runtime.ts) — `createHackkitRuntimeFromConfig` composition root; use `getPageGuards()` for layouts
