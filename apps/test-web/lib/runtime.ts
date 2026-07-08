@@ -2,7 +2,6 @@ import "server-only";
 
 import { betterAuthAdapter } from "@hackkit/auth-better-auth";
 import {
-	createPageGuards,
 	createHackkitRuntimeFromConfig,
 	setHackkitRuntime,
 } from "@hackkit/next";
@@ -16,6 +15,9 @@ const runtimePromise = createHackkitRuntimeFromConfig({
 	config: appConfig,
 	database: db,
 	auth: betterAuthAdapter({ auth, logger: getAppLogger() }),
+	afterCurrentUser: async (user, hackkit) => {
+		await provisionOwnerFromAllowlist(hackkit, user);
+	},
 });
 
 setHackkitRuntime(runtimePromise);
@@ -25,10 +27,7 @@ export async function getRuntime() {
 }
 
 export async function getCurrentUser() {
-	const runtime = await getRuntime();
-	const user = await runtime.getCurrentUser();
-	await provisionOwnerFromAllowlist(runtime.hackkit, user);
-	return user;
+	return (await getRuntime()).getCurrentUser();
 }
 
 export async function getHackkit() {
@@ -36,9 +35,5 @@ export async function getHackkit() {
 }
 
 export async function getPageGuards() {
-	const runtime = await getRuntime();
-	return createPageGuards(runtime.hackkit, runtime.getAuthId, {
-		getCurrentUser,
-		getSettingValue: runtime.getSettingValue,
-	});
+	return (await getRuntime()).pageGuards;
 }
