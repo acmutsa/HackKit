@@ -26,7 +26,7 @@ const c = {
 	localUniversityName: schoolOptions[0],
 	localUniversitySchoolIDName: "UTSA id (abc123)",
 	localUniversityShortIDMaxLength: 6,
-	registrationAvailable: false,
+	registrationAvailable: true,
 	rsvpAvailable: false,
 	rsvpLimit: 500,
 	registration: {
@@ -137,7 +137,7 @@ const c = {
 	noResumeProvidedURL:
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
-	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
+	startDate: new Date(new Date(2026, 9, 3).setHours(14, 0, 0, 0)), // October 3, 2026 at 9:00 AM CDT
 	prettyLocation: "Location of Hackathon",
 	featureFlags: {
 		core: {

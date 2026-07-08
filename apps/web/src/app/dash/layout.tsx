@@ -29,7 +29,8 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 	return (
 		<>
 			<ClientToast />
-			<div className="min-h-screen bg-background text-foreground">
+			<div className="min-h-screen bg-transparent text-foreground">
+
 				<div className="grid h-16 w-full grid-cols-2 bg-nav px-5">
 					<div className="flex items-center gap-x-4">
 						<Link href="/">
@@ -83,6 +84,8 @@ export default async function DashLayout({ children }: DashLayoutProps) {
 					))}
 				</div>
 				{children}
+
+
 			</div>
 		</>
 	);
