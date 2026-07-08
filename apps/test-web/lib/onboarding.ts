@@ -6,6 +6,7 @@ import {
 	type CompetitorOnboardingStep,
 } from "@hackkit/ui";
 import { CoreSetting } from "@hackkit/core";
+import { hackKitUIRoutes } from "./hackkit-ui-routes";
 import { getCurrentUser, getHackkit, getRuntime } from "./runtime";
 
 async function loadCompetitorOnboardingInput(currentPath: string) {
@@ -23,6 +24,7 @@ async function loadCompetitorOnboardingInput(currentPath: string) {
 		hacker,
 		requireApproval: Boolean(requireApproval),
 		currentPath,
+		routes: hackKitUIRoutes,
 	};
 }
 

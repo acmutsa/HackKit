@@ -44,20 +44,13 @@ const STEP_LABELS: Record<CompetitorOnboardingStepId, string> = {
 	approval: "Approval",
 };
 
-function stepHref(
-	id: CompetitorOnboardingStepId,
-	routes: HackKitUIRoutes,
-): string {
-	switch (id) {
-		case "hacktag":
-			return routes.onboarding.hacktag;
-		case "user-data":
-			return routes.onboarding.userData;
-		case "hacker":
-			return routes.onboarding.hacker;
-		case "approval":
-			return routes.dashboard;
-	}
+function stepHrefs(routes: HackKitUIRoutes): Record<CompetitorOnboardingStepId, string> {
+	return {
+		hacktag: routes.onboarding.hacktag,
+		"user-data": routes.onboarding.userData,
+		hacker: routes.onboarding.hacker,
+		approval: routes.dashboard,
+	};
 }
 
 function isStepDone(
@@ -84,10 +77,11 @@ export function buildCompetitorOnboardingSteps(
 		? resolveHackKitUIRoutes(input.routes)
 		: DEFAULT_HACKKIT_UI_ROUTES;
 
+	const hrefs = stepHrefs(routes);
 	const steps: CompetitorOnboardingStep[] = STEP_ORDER.map((id) => ({
 		id,
 		label: STEP_LABELS[id],
-		href: stepHref(id, routes),
+		href: hrefs[id],
 		done: isStepDone(id, input),
 	}));
 
