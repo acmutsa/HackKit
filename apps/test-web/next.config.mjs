@@ -6,6 +6,7 @@ const nextConfig = {
 		"@hackkit/next",
 		"@hackkit/auth-better-auth",
 		"@hackkit/plugin-teams",
+		"@hackkit/plugin-discord",
 	],
 };
 

@@ -538,6 +538,9 @@ importers:
       typescript:
         specifier: 5.5.3
         version: 5.5.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@20.14.11)(jiti@2.4.2)
 
   packages/plugin-discord:
     dependencies:
