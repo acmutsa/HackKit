@@ -1,7 +1,21 @@
 export { actionFailure, actionSuccess } from "./actions";
 export type { HackKitActionResult } from "./actions";
-export { HackKitUIProvider, useHackKitUI } from "./provider";
+export {
+	HackKitUIProvider,
+	useHackKitNavigation,
+	useHackKitUI,
+} from "./provider";
 export type { HackKitUIProviderProps } from "./provider";
+export {
+	DEFAULT_HACKKIT_UI_ROUTES,
+	resolveHackKitUIRoutes,
+} from "./navigation";
+export type {
+	HackKitLinkProps,
+	HackKitNavigation,
+	HackKitUIRoutes,
+	HackKitUIRoutesInput,
+} from "./navigation";
 export { toUserDataFormDefaultValues } from "./user-data-form-defaults";
 export { HackTagForm } from "./components/hack-tag-form";
 export type { HackTagFormProps } from "./components/hack-tag-form";

@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { updateUserProfileSchema, type User } from "@hackkit/core";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -59,8 +58,7 @@ export function UserProfileSettingsForm({
 	uploadProfilePhoto,
 	className,
 }: UserProfileSettingsFormProps) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
 	const [profilePhotoFile, setProfilePhotoFile] = React.useState<File | null>(null);
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -121,7 +119,7 @@ export function UserProfileSettingsForm({
 		}
 
 		toast.success("Profile saved.");
-		router.refresh();
+		navigation.refresh();
 	}
 
 	return (

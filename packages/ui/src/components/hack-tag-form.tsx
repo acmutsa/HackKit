@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { claimHackTagSchema, type User } from "@hackkit/core";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -42,11 +41,12 @@ export function HackTagForm({
 	currentUser,
 	defaultValues,
 	localStorageKey,
-	successRedirectTo = "/onboarding/user-data",
+	successRedirectTo,
 	className,
 }: HackTagFormProps) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
+	const redirectTo =
+		successRedirectTo ?? navigation.routes.onboarding.userData;
 	const form = useForm<HackTagFormValues>({
 		resolver: zodResolver(hackTagFormSchema),
 		defaultValues: {
@@ -64,7 +64,7 @@ export function HackTagForm({
 
 		clearPersistedState();
 		toast.success("HackTag claimed.");
-		router.push(successRedirectTo);
+		navigation.push(redirectTo);
 	}
 
 	return (

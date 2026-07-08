@@ -1,4 +1,10 @@
 import type { Hacker, User, UserData } from "@hackkit/core";
+import {
+	DEFAULT_HACKKIT_UI_ROUTES,
+	type HackKitUIRoutes,
+	type HackKitUIRoutesInput,
+	resolveHackKitUIRoutes,
+} from "../navigation";
 
 export type CompetitorOnboardingStepId =
 	| "hacktag"
@@ -20,6 +26,8 @@ export type BuildCompetitorOnboardingStepsInput = {
 	hacker: Hacker | null;
 	requireApproval: boolean;
 	currentPath?: string;
+	/** Route map override; defaults preserve the generated Next App Router paths. */
+	routes?: HackKitUIRoutesInput | HackKitUIRoutes;
 };
 
 const STEP_ORDER: CompetitorOnboardingStepId[] = [
@@ -29,15 +37,21 @@ const STEP_ORDER: CompetitorOnboardingStepId[] = [
 	"approval",
 ];
 
-const STEP_META: Record<
-	CompetitorOnboardingStepId,
-	{ label: string; href: string }
-> = {
-	hacktag: { label: "HackTag", href: "/onboarding/hacktag" },
-	"user-data": { label: "User Data", href: "/onboarding/user-data" },
-	hacker: { label: "Hacker Registration", href: "/onboarding/hacker" },
-	approval: { label: "Approval", href: "/dashboard" },
+const STEP_LABELS: Record<CompetitorOnboardingStepId, string> = {
+	hacktag: "HackTag",
+	"user-data": "User Data",
+	hacker: "Hacker Registration",
+	approval: "Approval",
 };
+
+function stepHrefs(routes: HackKitUIRoutes): Record<CompetitorOnboardingStepId, string> {
+	return {
+		hacktag: routes.onboarding.hacktag,
+		"user-data": routes.onboarding.userData,
+		hacker: routes.onboarding.hacker,
+		approval: routes.dashboard,
+	};
+}
 
 function isStepDone(
 	id: CompetitorOnboardingStepId,
@@ -59,10 +73,15 @@ function isStepDone(
 export function buildCompetitorOnboardingSteps(
 	input: BuildCompetitorOnboardingStepsInput,
 ): CompetitorOnboardingStep[] {
+	const routes = input.routes
+		? resolveHackKitUIRoutes(input.routes)
+		: DEFAULT_HACKKIT_UI_ROUTES;
+
+	const hrefs = stepHrefs(routes);
 	const steps: CompetitorOnboardingStep[] = STEP_ORDER.map((id) => ({
 		id,
-		label: STEP_META[id].label,
-		href: STEP_META[id].href,
+		label: STEP_LABELS[id],
+		href: hrefs[id],
 		done: isStepDone(id, input),
 	}));
 

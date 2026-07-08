@@ -1,6 +1,8 @@
-import Link from "next/link";
+"use client";
+
 import type { AdminOverview, AdminUserRecord, Role } from "@hackkit/core";
 import { BadgeText, formatDateTime, fullName } from "../lib/admin-console";
+import { useHackKitNavigation } from "../provider";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { AdminUserActions, AdminRoleManager } from "./admin-console-controls";
@@ -10,6 +12,7 @@ export type AdminOverviewPanelProps = {
 };
 
 export function AdminOverviewPanel({ overview }: AdminOverviewPanelProps) {
+	const { Link, routes } = useHackKitNavigation();
 	const stats = [
 		["Registrations", overview.totalUsers],
 		["Hackers", overview.totalHackers],
@@ -71,7 +74,7 @@ export function AdminOverviewPanel({ overview }: AdminOverviewPanelProps) {
 						{overview.recentUsers.map((record) => (
 							<Link
 								key={record.user.authId}
-								href={`/admin/users/${encodeURIComponent(record.user.authId)}`}
+								href={routes.admin.userDetail(record.user.authId)}
 								className="block rounded-md border p-3 hover:bg-muted"
 							>
 								<div className="font-medium">{fullName(record)}</div>
@@ -93,6 +96,8 @@ export type AdminUsersTableProps = {
 };
 
 export function AdminUsersTable({ users, exportHref }: AdminUsersTableProps) {
+	const { Link, routes } = useHackKitNavigation();
+
 	return (
 		<div className="space-y-4">
 			<div className="flex items-center justify-between gap-4">
@@ -122,7 +127,7 @@ export function AdminUsersTable({ users, exportHref }: AdminUsersTableProps) {
 							<tr key={record.user.authId} className="border-t">
 								<td className="px-4 py-3">
 									<Link
-										href={`/admin/users/${encodeURIComponent(record.user.authId)}`}
+										href={routes.admin.userDetail(record.user.authId)}
 										className="font-medium hover:underline"
 									>
 										{fullName(record)}

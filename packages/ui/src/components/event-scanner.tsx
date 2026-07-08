@@ -2,7 +2,6 @@
 
 import type { EventScan, User } from "@hackkit/core";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
 import { cn } from "../lib/cn";
@@ -18,8 +17,7 @@ import {
 } from "./ui/card";
 
 export function EventScanner({ event, className, onDone }: EventScannerProps) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
 	const [loading, setLoading] = React.useState(false);
 	const [rawQr, setRawQr] = React.useState<string | null>(null);
 	const [targetUser, setTargetUser] = React.useState<User | null>(null);
@@ -70,7 +68,7 @@ export function EventScanner({ event, className, onDone }: EventScannerProps) {
 		setTargetUser(null);
 		setPriorScans([]);
 		onDone?.();
-		router.refresh();
+		navigation.refresh();
 	}
 
 	return (

@@ -51,6 +51,7 @@ apps/test-web/.data/
 
 # cursor
 .cursor/plans/
+.cursor/settings.json
 HANDOFF.md
 
 # build

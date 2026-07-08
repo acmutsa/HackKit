@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { registerHackerSchema, type User } from "@hackkit/core";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -118,7 +117,7 @@ export function HackerRegistrationForm({
 	currentUser,
 	defaultValues,
 	localStorageKey,
-	successRedirectTo = "/dashboard",
+	successRedirectTo,
 	className,
 	schoolOptions,
 	majorOptions,
@@ -127,8 +126,8 @@ export function HackerRegistrationForm({
 	heardFromOptions,
 	uploadResume,
 }: HackerRegistrationFormProps) {
-	const router = useRouter();
-	const { actions } = useHackKitUI();
+	const { actions, navigation } = useHackKitUI();
+	const redirectTo = successRedirectTo ?? navigation.routes.dashboard;
 	const [resumeFile, setResumeFile] = React.useState<File | null>(null);
 	const form = useForm<HackerRegistrationFormValues>({
 		resolver: zodResolver(hackerRegistrationFormSchema),
@@ -175,7 +174,7 @@ export function HackerRegistrationForm({
 
 		clearPersistedState();
 		toast.success("Hacker registration complete.");
-		router.push(successRedirectTo);
+		navigation.push(redirectTo);
 	}
 
 	return (
