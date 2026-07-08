@@ -25,7 +25,7 @@ function DossierPins() {
 
 export default function About() {
 	return (
-		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw]" id="About"> 
+		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw] [container-type:inline-size]" id="About"> 
 			<DossierPins />
 			<div className={`relative flex h-fit w-full flex-col items-center justify-center py-0 lg:py-12 xl:py-12 2xl:py-12`}>
 				<div className="w-[85%] sm:w-[75%] md:w-[70%] lg:w-[60%] xl:w-[60%]">

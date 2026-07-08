@@ -33,7 +33,7 @@ function DossierPins() {
 export default function Hero() {
 	return (
 		<>
-			<section className="relative w-full pb-[30vw] pt-[15%] sm:pb-[3vw] sm:pt-[3%] md:pb-[5vw]">
+			<section className="relative w-full pb-[30cqw] pt-[15%] sm:pb-[3cqw] sm:pt-[3%] md:pb-[5cqw] [container-type:inline-size]" id="Hero">
 				<DossierPins />
 
 				<div className="relative w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)] sm:left-4 sm:w-[85%] md:left-5 md:w-[75%] lg:left-10 lg:w-[70%]">
@@ -126,7 +126,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`lg:top[20%] absolute left-[14%] top-[15%] -rotate-[5deg] text-[4.5vw] font-medium sm:text-[1.5vw] lg:left-[15%] lg:text-[2.75vw] ${shadows.className}`}
+						className={`lg:top[20%] absolute left-[14%] top-[15%] -rotate-[5deg] text-[4.5cqw] font-medium sm:text-[1.5cqw] lg:left-[15%] lg:text-[2.75cqw] ${shadows.className}`}
 					>
 						Help Wanted
 					</h1>
@@ -138,7 +138,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`absolute right-[30%] top-[20%] text-[4.5vw] font-extrabold text-red-800 sm:right-[25%] sm:top-[18%] sm:text-[2.5vw] lg:right-[30%] lg:text-[3.5vw] ${shadows.className}`}
+						className={`absolute right-[30%] top-[20%] text-[4.5cqw] font-extrabold text-red-800 sm:right-[25%] sm:top-[18%] sm:text-[2.5cqw] lg:right-[30%] lg:text-[3.5cqw] ${shadows.className}`}
 					>
 						Register
 					</h1>
@@ -150,7 +150,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`absolute left-[32.5%] top-[20%] text-[2.75vw] font-medium sm:left-[25%] sm:top-[10%] sm:text-[1.75vw] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+						className={`absolute left-[32.5%] top-[20%] text-[2.75cqw] font-medium sm:left-[25%] sm:top-[10%] sm:text-[1.75cqw] lg:top-[12.5%] lg:text-[2.75cqw] ${shadows.className}`}
 					>
 						Mentors
 					</h1>
@@ -162,7 +162,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`absolute left-[32.5%] top-[20%] text-[2.75vw] font-medium sm:left-[27.5%] sm:top-[10%] sm:text-[1.75vw] lg:left-[30%] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+						className={`absolute left-[32.5%] top-[20%] text-[2.75cqw] font-medium sm:left-[27.5%] sm:top-[10%] sm:text-[1.75cqw] lg:left-[30%] lg:top-[12.5%] lg:text-[2.75cqw] ${shadows.className}`}
 					>
 						Judges
 					</h1>
@@ -174,7 +174,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`absolute left-[27.5%] top-[20%] text-[2.75vw] font-medium sm:left-[17.5%] sm:top-[10%] sm:text-[1.75vw] lg:left-[20%] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+						className={`absolute left-[27.5%] top-[20%] text-[2.75cqw] font-medium sm:left-[17.5%] sm:top-[10%] sm:text-[1.75cqw] lg:left-[20%] lg:top-[12.5%] lg:text-[2.75cqw] ${shadows.className}`}
 					>
 						Volunteers
 					</h1>

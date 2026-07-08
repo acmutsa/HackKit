@@ -118,7 +118,7 @@ function FaqItem({ item }: { item: Faq }) {
 
 export default function FAQ() {
 	return (
-		<section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[5vw]" id="FAQ"> 
+		<section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[5vw] [container-type:inline-size]" id="FAQ"> 
 			<DossierPins />
 			<div className="flex w-full flex-col items-center justify-center gap-8 [container-type:inline-size]">
 				{/* ===== Desktop & Tablet ===== */}
