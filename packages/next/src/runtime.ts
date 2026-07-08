@@ -33,12 +33,18 @@ export type CreateHackkitRuntimeOptions = {
 		permissions: PermissionKey[];
 		color?: string;
 	}[];
+	/**
+	 * App-specific work after the runtime resolves the current user.
+	 * Runs for both `runtime.getCurrentUser` and the runtime-owned page guards.
+	 */
+	afterCurrentUser?: (user: User, hackkit: HackKit) => Promise<void>;
 };
 
 export type CreateHackkitRuntimeFromConfigOptions = {
 	config: HackkitConfig;
 	database: unknown;
 	auth: AuthAdapter;
+	afterCurrentUser?: CreateHackkitRuntimeOptions["afterCurrentUser"];
 };
 
 export type HackkitRuntime = {
@@ -79,10 +85,14 @@ export async function createHackkitRuntime(
 	async function getCurrentUser(): Promise<User> {
 		const session = await requireSession();
 		const identity = options.auth.getIdentity(session);
-		return hackkit.users.ensureUser({
+		const user = await hackkit.users.ensureUser({
 			authId: options.auth.toAuthId(session),
 			...identity,
 		});
+		if (options.afterCurrentUser) {
+			await options.afterCurrentUser(user, hackkit);
+		}
+		return user;
 	}
 
 	const settingsCache = new Map<SettingKey, Promise<SettingValue>>();
@@ -134,6 +144,7 @@ export function createHackkitRuntimeFromConfig(
 		logger: config.logger,
 		defaultCompetitorRoleId: config.defaultCompetitorRoleId,
 		seedRoles: config.seedRoles,
+		afterCurrentUser: options.afterCurrentUser,
 	});
 }
 
