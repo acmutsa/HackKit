@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { HackKitUIActions } from "@hackkit/ui";
-import { hackKitUIActions } from "../action-map";
+import {
+	createHackkitApi,
+	HACKKIT_UI_ACTION_ENDPOINTS,
+} from "../api";
 import { createHackKitMutations } from "../mutations";
-import * as serverActions from "../actions";
 
 /**
- * Canonical key list for HackKit UI actions. Extending `HackKitUIActions`
- * without updating this array fails typecheck below; omitting a bridge
- * export fails the runtime assertions.
+ * Extending `HackKitUIActions` without registering an API endpoint fails
+ * typecheck below and the runtime parity assertion.
  */
 const EXPECTED_ACTION_KEYS = [
 	"completeUserData",
@@ -60,8 +61,8 @@ function sortedKeys(value: object): string[] {
 const expectedSorted = [...EXPECTED_ACTION_KEYS].sort();
 
 describe("Core action bridge", () => {
-	it("exposes every HackKitUIActions key on hackKitUIActions", () => {
-		expect(sortedKeys(hackKitUIActions)).toEqual(expectedSorted);
+	it("registers every HackKitUIActions key as a Better Call endpoint", () => {
+		expect(sortedKeys(HACKKIT_UI_ACTION_ENDPOINTS)).toEqual(expectedSorted);
 	});
 
 	it("exposes every HackKitUIActions key from createHackKitMutations", () => {
@@ -73,22 +74,23 @@ describe("Core action bridge", () => {
 		expect(sortedKeys(mutations)).toEqual(expectedSorted);
 	});
 
-	it("exports a named server action for every HackKitUIActions key", () => {
-		const actionExports = Object.fromEntries(
-			EXPECTED_ACTION_KEYS.map((key) => {
-				const value = (serverActions as Record<string, unknown>)[key];
-				return [key, value];
-			}),
-		);
+	it("exposes typed direct API methods for every UI action", () => {
+		const api = createHackkitApi({
+			hackkit: {} as never,
+			auth: {
+				getSession: async () => null,
+				toAuthId: () => "auth-id",
+				getIdentity: () => ({
+					email: "user@example.com",
+					firstName: "User",
+					lastName: "Example",
+				}),
+			},
+			resolveSession: async () => null,
+			getSettingValue: async () => true,
+		});
 		for (const key of EXPECTED_ACTION_KEYS) {
-			expect(typeof actionExports[key], key).toBe("function");
-		}
-		expect(sortedKeys(actionExports)).toEqual(expectedSorted);
-	});
-
-	it("wires provider map entries to functions", () => {
-		for (const key of EXPECTED_ACTION_KEYS) {
-			expect(typeof hackKitUIActions[key], key).toBe("function");
+			expect(typeof api.api[key], key).toBe("function");
 		}
 	});
 });

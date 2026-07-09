@@ -8,7 +8,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/ui-actions-client.d.ts",
+      "import": "./dist/ui-actions-client.js",
+      "default": "./dist/ui-actions-client.js"
     }
   },
   "files": [
@@ -22,7 +28,9 @@
   "dependencies": {
     "@hackkit/config": "workspace:*",
     "@hackkit/core": "workspace:*",
-    "@hackkit/ui": "workspace:*"
+    "@hackkit/ui": "workspace:*",
+    "better-call": "1.3.5",
+    "zod": "^4.4.3"
   },
   "peerDependencies": {
     "next": ">=14",
