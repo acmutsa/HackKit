@@ -14,6 +14,7 @@ import type { GroupsInput } from "@hackkit/core";
 import type { HackKitLoggerOptions, PermissionKey } from "@hackkit/core";
 import type { HackKitUIActions } from "@hackkit/ui";
 import { redirect } from "next/navigation";
+import { createHackkitApi, type CreateHackkitApiOptions } from "./api";
 import { createHackKitMutations } from "./mutations";
 import { createPageGuards, type PageGuards } from "./page-guards";
 
@@ -38,6 +39,13 @@ export type CreateHackkitRuntimeOptions = {
 	 * Runs for both `runtime.getCurrentUser` and the runtime-owned page guards.
 	 */
 	afterCurrentUser?: (user: User, hackkit: HackKit) => Promise<void>;
+	/**
+	 * Resolves a cookie-authenticated Better Auth session from the headers of
+	 * the API request. This is deliberately separate from the ambient
+	 * `AuthAdapter.getSession()` used by Server Components and page guards.
+	 */
+	resolveSession: CreateHackkitApiOptions["resolveSession"];
+	allowedApiOrigins?: readonly string[];
 };
 
 export type CreateHackkitRuntimeFromConfigOptions = {
@@ -45,11 +53,14 @@ export type CreateHackkitRuntimeFromConfigOptions = {
 	database: unknown;
 	auth: AuthAdapter;
 	afterCurrentUser?: CreateHackkitRuntimeOptions["afterCurrentUser"];
+	resolveSession: CreateHackkitRuntimeOptions["resolveSession"];
+	allowedApiOrigins?: readonly string[];
 };
 
 export type HackkitRuntime = {
 	hackkit: HackKit;
 	mutations: HackKitUIActions;
+	api: ReturnType<typeof createHackkitApi>;
 	pageGuards: PageGuards;
 	getAuthId: () => Promise<string>;
 	getCurrentUser: () => Promise<User>;
@@ -118,10 +129,20 @@ export async function createHackkitRuntime(
 		getCurrentUser,
 		getSettingValue,
 	});
+	const api = createHackkitApi({
+		hackkit,
+		auth: options.auth,
+		resolveSession: options.resolveSession,
+		getSettingValue,
+		invalidateSettingsCache,
+		afterCurrentUser: options.afterCurrentUser,
+		allowedOrigins: options.allowedApiOrigins,
+	});
 
 	return {
 		hackkit,
 		mutations,
+		api,
 		pageGuards,
 		getAuthId,
 		getCurrentUser,
@@ -145,6 +166,8 @@ export function createHackkitRuntimeFromConfig(
 		defaultCompetitorRoleId: config.defaultCompetitorRoleId,
 		seedRoles: config.seedRoles,
 		afterCurrentUser: options.afterCurrentUser,
+		resolveSession: options.resolveSession,
+		allowedApiOrigins: options.allowedApiOrigins,
 	});
 }
 

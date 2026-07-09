@@ -15,6 +15,8 @@ const runtimePromise = createHackkitRuntimeFromConfig({
 	config: appConfig,
 	database: db,
 	auth: betterAuthAdapter({ auth, logger: getAppLogger() }),
+	resolveSession: (requestHeaders) =>
+		auth.api.getSession({ headers: requestHeaders }),
 	afterCurrentUser: async (user, hackkit) => {
 		await provisionOwnerFromAllowlist(hackkit, user);
 	},

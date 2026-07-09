@@ -178,9 +178,21 @@ pnpm --filter test-web build
 
 CI also runs package typechecks and builds for `@hackkit/core`, `@hackkit/config`, `@hackkit/next`, `@hackkit/ui`, `@hackkit/plugin-teams`, `@hackkit/plugin-discord`, and `@hackkit/plugin-notifications-email`.
 
-## Server Actions
+## Core UI API boundary
 
-UI mutations live on the Next runtime (`runtime.mutations` from `createHackKitMutations`). Named server actions and the `hackKitUIActions` provider map ship from `@hackkit/next` — [`app/providers.tsx`](app/providers.tsx) passes `hackKitUIActions` to `HackKitUIProvider`. Plugin actions remain generated in [`app/hackkit-plugin-actions.ts`](app/hackkit-plugin-actions.ts) by `hackkit plugin sync`.
+Core UI mutations are served by the static Better Call registry on
+`/api/hackkit`; [`app/api/hackkit/[...all]/route.ts`](app/api/hackkit/[...all]/route.ts)
+is only a Web Request → Next route adapter. The client-side
+[`app/providers.tsx`](app/providers.tsx) creates the typed
+`HackKitUIActions` client from `@hackkit/next/client`, so there are no
+app-local Core Server Actions or action maps.
+
+The API resolves Better Auth sessions from the incoming Request headers.
+Cookie-authenticated JSON mutations require a same-origin `Origin` header and
+continue through the existing Core permission checks. Better Auth itself stays
+on its separate `/api/auth/[...all]` route. Plugin actions remain generated in
+[`app/hackkit-plugin-actions.ts`](app/hackkit-plugin-actions.ts) by
+`hackkit plugin sync`; they are deliberately outside the Core UI API registry.
 
 ## Configuration
 
