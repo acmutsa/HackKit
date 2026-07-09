@@ -53,30 +53,41 @@ function textToSkills(value?: string) {
 		.filter(Boolean);
 }
 
+function userToFormValues(user: User): FormValues {
+	return {
+		firstName: user.firstName,
+		lastName: user.lastName,
+		hackTag: user.hackTag ?? "",
+		bio: user.bio ?? "",
+		pronouns: user.pronouns ?? "",
+		skills: user.skills ?? [],
+		skillsText: skillsToText(user.skills),
+		isProfileSearchable: user.isProfileSearchable ?? true,
+		discordDisplayHandle: user.discordDisplayHandle ?? "",
+		profilePhotoUrl: user.profilePhotoUrl ?? undefined,
+	};
+}
+
 export function UserProfileSettingsForm({
 	currentUser,
 	uploadProfilePhoto,
 	className,
 }: UserProfileSettingsFormProps) {
 	const { actions, navigation } = useHackKitUI();
-	const [profilePhotoFile, setProfilePhotoFile] = React.useState<File | null>(null);
+	const [profilePhotoFile, setProfilePhotoFile] = React.useState<File | null>(
+		null,
+	);
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {
-			firstName: currentUser.firstName,
-			lastName: currentUser.lastName,
-			hackTag: currentUser.hackTag ?? "",
-			bio: currentUser.bio ?? "",
-			pronouns: currentUser.pronouns ?? "",
-			skills: currentUser.skills ?? [],
-			skillsText: skillsToText(currentUser.skills),
-			isProfileSearchable: currentUser.isProfileSearchable ?? true,
-			discordDisplayHandle: currentUser.discordDisplayHandle ?? "",
-			profilePhotoUrl: currentUser.profilePhotoUrl,
-		},
+		defaultValues: userToFormValues(currentUser),
 	});
-	const previewPhoto =
-		profilePhotoFile ? URL.createObjectURL(profilePhotoFile) : currentUser.profilePhotoUrl;
+	React.useEffect(() => {
+		form.reset(userToFormValues(currentUser));
+		setProfilePhotoFile(null);
+	}, [currentUser, form]);
+	const previewPhoto = profilePhotoFile
+		? URL.createObjectURL(profilePhotoFile)
+		: currentUser.profilePhotoUrl;
 
 	React.useEffect(() => {
 		if (!profilePhotoFile) return;
@@ -112,12 +123,20 @@ export function UserProfileSettingsForm({
 			discordDisplayHandle: values.discordDisplayHandle,
 			profilePhotoUrl,
 		};
-		const result = await actions.updateUserProfile(payload);
+		let result;
+		try {
+			result = await actions.updateUserProfile(payload);
+		} catch {
+			toast.error("Could not save your profile. Please try again.");
+			return;
+		}
 		if (!result.ok) {
 			toast.error(result.message);
 			return;
 		}
 
+		form.reset(userToFormValues(result.data));
+		setProfilePhotoFile(null);
 		toast.success("Profile saved.");
 		navigation.refresh();
 	}
@@ -127,11 +146,17 @@ export function UserProfileSettingsForm({
 			<CardHeader>
 				<CardTitle>Profile</CardTitle>
 				<CardDescription>
-					Update your public profile, HackTag, and Discord display handle.
+					Update your public profile, HackTag, and Discord display
+					handle.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+				<form
+					className="space-y-6"
+					onSubmit={form.handleSubmit(onSubmit, () => {
+						toast.error("Please correct the highlighted profile fields.");
+					})}
+				>
 					<div className="flex items-center gap-4">
 						{previewPhoto ? (
 							// eslint-disable-next-line @next/next/no-img-element
@@ -148,13 +173,17 @@ export function UserProfileSettingsForm({
 						)}
 						{uploadProfilePhoto ? (
 							<div className="space-y-2">
-								<Label htmlFor="profilePhoto">Profile photo</Label>
+								<Label htmlFor="profilePhoto">
+									Profile photo
+								</Label>
 								<Input
 									id="profilePhoto"
 									type="file"
 									accept="image/png,image/jpeg,image/webp,image/gif"
 									onChange={(event) =>
-										setProfilePhotoFile(event.target.files?.[0] ?? null)
+										setProfilePhotoFile(
+											event.target.files?.[0] ?? null,
+										)
 									}
 								/>
 							</div>
@@ -164,32 +193,60 @@ export function UserProfileSettingsForm({
 					<div className="grid gap-4 md:grid-cols-2">
 						<div className="space-y-2">
 							<Label htmlFor="firstName">First name</Label>
-							<Input id="firstName" {...form.register("firstName")} />
-							<FieldError message={form.formState.errors.firstName?.message} />
+							<Input
+								id="firstName"
+								{...form.register("firstName")}
+							/>
+							<FieldError
+								message={
+									form.formState.errors.firstName?.message
+								}
+							/>
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="lastName">Last name</Label>
-							<Input id="lastName" {...form.register("lastName")} />
-							<FieldError message={form.formState.errors.lastName?.message} />
+							<Input
+								id="lastName"
+								{...form.register("lastName")}
+							/>
+							<FieldError
+								message={
+									form.formState.errors.lastName?.message
+								}
+							/>
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="hackTag">HackTag</Label>
 							<Input id="hackTag" {...form.register("hackTag")} />
-							<FieldError message={form.formState.errors.hackTag?.message} />
+							<FieldError
+								message={form.formState.errors.hackTag?.message}
+							/>
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="pronouns">Pronouns</Label>
-							<Input id="pronouns" {...form.register("pronouns")} />
-							<FieldError message={form.formState.errors.pronouns?.message} />
+							<Input
+								id="pronouns"
+								{...form.register("pronouns")}
+							/>
+							<FieldError
+								message={
+									form.formState.errors.pronouns?.message
+								}
+							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="discordDisplayHandle">Discord display handle</Label>
+							<Label htmlFor="discordDisplayHandle">
+								Discord display handle
+							</Label>
 							<Input
 								id="discordDisplayHandle"
 								{...form.register("discordDisplayHandle")}
 							/>
 							<FieldError
-								message={form.formState.errors.discordDisplayHandle?.message}
+								message={
+									form.formState.errors.discordDisplayHandle
+										?.message
+								}
 							/>
 						</div>
 					</div>
@@ -197,7 +254,9 @@ export function UserProfileSettingsForm({
 					<div className="space-y-2">
 						<Label htmlFor="bio">Bio</Label>
 						<Textarea id="bio" {...form.register("bio")} />
-						<FieldError message={form.formState.errors.bio?.message} />
+						<FieldError
+							message={form.formState.errors.bio?.message}
+						/>
 					</div>
 
 					<div className="space-y-2">
@@ -216,17 +275,29 @@ export function UserProfileSettingsForm({
 						<Checkbox
 							checked={form.watch("isProfileSearchable")}
 							onCheckedChange={(value) =>
-								form.setValue("isProfileSearchable", value === true, {
-									shouldDirty: true,
-									shouldValidate: true,
-								})
+								form.setValue(
+									"isProfileSearchable",
+									value === true,
+									{
+										shouldDirty: true,
+										shouldValidate: true,
+									},
+								)
 							}
 						/>
-						<span>Show my public profile at /@{form.watch("hackTag") || "tag"}.</span>
+						<span>
+							Show my public profile at /@
+							{form.watch("hackTag") || "tag"}.
+						</span>
 					</label>
 
-					<Button type="submit" disabled={form.formState.isSubmitting}>
-						{form.formState.isSubmitting ? "Saving..." : "Save profile"}
+					<Button
+						type="submit"
+						disabled={form.formState.isSubmitting}
+					>
+						{form.formState.isSubmitting
+							? "Saving..."
+							: "Save profile"}
 					</Button>
 				</form>
 			</CardContent>

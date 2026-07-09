@@ -54,6 +54,9 @@ jobs:
                       exit 1
                   fi
 
+            - name: Test local database bootstrap
+              run: pnpm --filter test-web test:db-bootstrap
+
             - name: Package tests
               run: |
                   pnpm --filter @hackkit/core test
@@ -63,30 +66,13 @@ jobs:
                   pnpm --filter @hackkit/plugin-discord test
                   pnpm --filter @hackkit/plugin-notifications-email test
 
-            - name: Package typechecks
-              run: |
-                  pnpm --filter @hackkit/core typecheck
-                  pnpm --filter @hackkit/config typecheck
-                  pnpm --filter @hackkit/next typecheck
-                  pnpm --filter @hackkit/ui typecheck
-                  pnpm --filter @hackkit/plugin-teams typecheck
-                  pnpm --filter @hackkit/plugin-discord typecheck
-                  pnpm --filter @hackkit/plugin-notifications-email typecheck
-
-            - name: Package builds
-              run: |
-                  pnpm --filter @hackkit/core build
-                  pnpm --filter @hackkit/config build
-                  pnpm --filter @hackkit/next build
-                  pnpm --filter @hackkit/ui build
-                  pnpm --filter @hackkit/plugin-teams build
-                  pnpm --filter @hackkit/plugin-discord build
-                  pnpm --filter @hackkit/plugin-notifications-email build
+            - name: Build test-web dependency graph
+              run: pnpm exec turbo run build --filter=test-web^...
 
             - name: Typecheck
               run: pnpm --filter test-web typecheck
 
-            - name: Build
+            - name: Build test-web
               env:
                   DATABASE_URL: libsql://test-web-ci.turso.io
                   TURSO_AUTH_TOKEN: ci-token

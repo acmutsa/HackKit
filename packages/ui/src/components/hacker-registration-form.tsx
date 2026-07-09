@@ -163,10 +163,18 @@ export function HackerRegistrationForm({
 			}
 		}
 
-		const result = await actions.registerHacker({
-			...values,
-			resumeUrl: resumeUrl || undefined,
-		});
+		let result;
+		try {
+			result = await actions.registerHacker({
+				...values,
+				resumeUrl: resumeUrl || undefined,
+			});
+		} catch {
+			toast.error(
+				"Could not complete registration. Your details are still available; please retry.",
+			);
+			return;
+		}
 		if (!result.ok) {
 			toast.error(result.message);
 			return;
@@ -204,14 +212,22 @@ export function HackerRegistrationForm({
 									})
 								}
 								options={schoolOptions}
-								error={form.formState.errors.university?.message}
+								error={
+									form.formState.errors.university?.message
+								}
 							/>
 						) : (
 							<div className="space-y-2">
 								<Label htmlFor="university">University</Label>
-								<Input id="university" {...form.register("university")} />
+								<Input
+									id="university"
+									{...form.register("university")}
+								/>
 								<FieldError
-									message={form.formState.errors.university?.message}
+									message={
+										form.formState.errors.university
+											?.message
+									}
 								/>
 							</div>
 						)}
@@ -233,15 +249,22 @@ export function HackerRegistrationForm({
 								<Label htmlFor="major">Major</Label>
 								<Input id="major" {...form.register("major")} />
 								<FieldError
-									message={form.formState.errors.major?.message}
+									message={
+										form.formState.errors.major?.message
+									}
 								/>
 							</div>
 						)}
 						<div className="space-y-2">
 							<Label htmlFor="schoolId">School ID</Label>
-							<Input id="schoolId" {...form.register("schoolId")} />
+							<Input
+								id="schoolId"
+								{...form.register("schoolId")}
+							/>
 							<FieldError
-								message={form.formState.errors.schoolId?.message}
+								message={
+									form.formState.errors.schoolId?.message
+								}
 							/>
 						</div>
 						<SelectField
@@ -285,7 +308,10 @@ export function HackerRegistrationForm({
 								})
 							}
 							options={softwareExperienceOptions}
-							error={form.formState.errors.softwareExperience?.message}
+							error={
+								form.formState.errors.softwareExperience
+									?.message
+							}
 						/>
 					</div>
 
@@ -305,15 +331,25 @@ export function HackerRegistrationForm({
 							/>
 						) : (
 							<div className="space-y-2">
-								<Label htmlFor="heardFrom">How did you hear about us?</Label>
-								<Input id="heardFrom" {...form.register("heardFrom")} />
+								<Label htmlFor="heardFrom">
+									How did you hear about us?
+								</Label>
+								<Input
+									id="heardFrom"
+									{...form.register("heardFrom")}
+								/>
 							</div>
 						)}
 						<div className="space-y-2">
 							<Label htmlFor="githubUrl">GitHub URL</Label>
-							<Input id="githubUrl" {...form.register("githubUrl")} />
+							<Input
+								id="githubUrl"
+								{...form.register("githubUrl")}
+							/>
 							<FieldError
-								message={form.formState.errors.githubUrl?.message}
+								message={
+									form.formState.errors.githubUrl?.message
+								}
 							/>
 						</div>
 						<div className="space-y-2">
@@ -323,11 +359,15 @@ export function HackerRegistrationForm({
 								{...form.register("linkedInUrl")}
 							/>
 							<FieldError
-								message={form.formState.errors.linkedInUrl?.message}
+								message={
+									form.formState.errors.linkedInUrl?.message
+								}
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="personalWebsiteUrl">Website URL</Label>
+							<Label htmlFor="personalWebsiteUrl">
+								Website URL
+							</Label>
 							<Input
 								id="personalWebsiteUrl"
 								{...form.register("personalWebsiteUrl")}
@@ -343,18 +383,22 @@ export function HackerRegistrationForm({
 
 					{uploadResume ? (
 						<div className="space-y-2">
-							<Label htmlFor="resume">Resume (optional, PDF)</Label>
+							<Label htmlFor="resume">
+								Resume (optional, PDF)
+							</Label>
 							<Input
 								id="resume"
 								type="file"
 								accept="application/pdf,.pdf"
 								onChange={(event) => {
-									const file = event.target.files?.[0] ?? null;
+									const file =
+										event.target.files?.[0] ?? null;
 									setResumeFile(file);
 								}}
 							/>
 							<p className="text-sm text-muted-foreground">
-								You can skip resume upload and submit without one.
+								You can skip resume upload and submit without
+								one.
 							</p>
 						</div>
 					) : null}

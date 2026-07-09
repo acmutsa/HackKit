@@ -105,6 +105,28 @@ pnpm --filter test-web sync
 
 `sync` updates plugin routes/actions and the local Drizzle schema. CI verifies those generated files are committed.
 
+## Automatic local database initialization
+
+`pnpm --filter test-web dev` safely initializes the default missing local
+database before Next starts. First-run initialization runs both plugin sync and
+database sync, including the configured plugin and Better Auth storage. If the
+database already exists, it is left untouched; use `db:reset` only when you
+explicitly want to discard local data.
+
+## Build dependency graph
+
+Build every workspace package that test-web transitively requires before
+building the app:
+
+```bash
+pnpm exec turbo run build --filter=test-web^...
+pnpm --filter test-web build
+```
+
+Turbo derives that dependency set from `apps/test-web/package.json`; add every
+runtime or build-time workspace import there. CI runs the same graph command
+before its production-configured test-web build.
+
 ## Production setup
 
 Production requires remote persistence and explicit auth, storage, owner, and Discord configuration:
