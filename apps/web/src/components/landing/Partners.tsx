@@ -36,13 +36,13 @@ function DossierPins() {
 
 export default async function Partners() {
 	return (
-		<section id="Sponsors" className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[5vw]">
+		<section id="Sponsors" className="relative w-full flex items-center justify-center pb-[0cqw] sm:pb-[3cqw] md:pb-[5cqw] [container-type:inline-size]" >
 			<DossierPins />
 
 			<div className="relative flex flex-col items-center justify-center gap-y-6 py-10">
 
 				<div
-					className={`relative h-fit w-[65vw] sm:w-[60vw] md:w-[50vw] lg:w-[30vw] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} -rotate-6 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
+					className={`relative h-fit w-[65cqw] sm:w-[60cqw] md:w-[50cqw] lg:w-[30cqw] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} -rotate-6 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
 					style={{
 						backgroundImage:
 							"url('/img/sponsors/sponsors-header-background.svg')",
@@ -55,7 +55,7 @@ export default async function Partners() {
 				</div>
 
 				<div
-					className={`relative h-fit w-[70vw] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} rotate-4 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
+					className={`relative h-fit w-[70cqw] bg-contain bg-center bg-no-repeat ${shadowsIntoLight.className} rotate-4 drop-shadow-[2px_5px_1px_rgba(0,0,0,0.35)]`}
 					style={{
 						backgroundImage:
 							"url('/img/sponsors/sponsors-header-background.svg')",

@@ -47,7 +47,7 @@ function Polaroid({
 
 	return (
 		<div
-			className="z-40 h-auto w-[40vw] rounded-[3px] bg-[#F0EDE7] px-[5%] pb-[15%] pt-[12%] shadow-[0_7px_10px_rgba(0,0,0,0.28)] drop-shadow-[2px_5px_1px_rgba(0,0,0,0.45)] sm:w-[25vw] sm:pb-[18%] md:w-[15vw] md:w-[21vw] md:pb-[20%] lg:w-[16vw] lg:pb-[23%] xl:w-[16vw] xl:pb-[22%]"
+			className="z-40 h-auto w-[40cqw] rounded-[3px] bg-[#F0EDE7] px-[5%] pb-[15%] pt-[12%] shadow-[0_7px_10px_rgba(0,0,0,0.28)] drop-shadow-[2px_5px_1px_rgba(0,0,0,0.45)] sm:w-[25cqw] sm:pb-[18%] md:w-[15cqw] md:w-[21cqw] md:pb-[20%] lg:w-[16cqw] lg:pb-[23%] xl:w-[16cqw] xl:pb-[22%]"
 			style={{ transform: `rotate(${roration}deg)` }}
 		>
 			<Pin className="absolute left-[50%] top-[1%] z-30" />
@@ -198,14 +198,11 @@ export default function WorkWithUs() {
 	const slots = [0, 1, 2, 3, 4];
 
 	return (
-		<section
-			className="relative flex w-full items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw]"
-			id="WorkWithUs"
-		>
-			<div className="w-full px-[3vw]">
+		<section className="relative flex w-full items-center justify-center pb-[12cqw] sm:pb-[3cqw] md:pb-[5cqw] [container-type:inline-size]" id="WorkWithUs">
+			<div className="w-full px-[3cqw]">
 				<div className="relative flex flex-col items-center justify-center gap-y-6 pb-[3%] pl-[20%] sm:pb-[8%]">
 					<div
-						className={`relative z-40 h-fit w-[48vw] bg-contain bg-center bg-no-repeat sm:w-[38vw] ${shadowsIntoLight.className} rotate-[13deg] drop-shadow-[2px_5px_1px_rgba(0,0,0,0.45)]`}
+						className={`relative z-40 h-fit w-[48cqw] bg-contain bg-center bg-no-repeat sm:w-[38cqw] ${shadowsIntoLight.className} rotate-[13deg] drop-shadow-[2px_5px_1px_rgba(0,0,0,0.45)]`}
 						style={{
 							backgroundImage:
 								"url('/img/sponsors/sponsors-header-background.svg')",
@@ -219,11 +216,11 @@ export default function WorkWithUs() {
 				</div>
 
 				{/* carousel row */}
-				<div className="flex items-center justify-center gap-[3vw] md:gap-[1.6vw]">
+				<div className="flex items-center justify-center gap-[3cqw] md:gap-[1.6cqw]">
 					<button
 						type="button"
 						onClick={() => move(-step)}
-						className={`${shadowsIntoLight.className} text-[7vw] transition-transform hover:scale-110 active:scale-95`}
+						className={`${shadowsIntoLight.className} text-[7cqw] transition-transform hover:scale-110 active:scale-95`}
 					>
 						{"\u2039"}
 					</button>
@@ -252,7 +249,7 @@ export default function WorkWithUs() {
 					<button
 						type="button"
 						onClick={() => move(step)}
-						className={`${shadowsIntoLight.className} text-[7vw] transition-transform hover:scale-110 active:scale-95`}
+						className={`${shadowsIntoLight.className} text-[7cqw] transition-transform hover:scale-110 active:scale-95`}
 					>
 						{"\u203A"}
 					</button>

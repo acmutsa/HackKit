@@ -2,11 +2,11 @@ import NavbarItem from "./NavbarItem";
 
 export const navBarLinks = [
 	{ name: "Home", url: "/" },
-	{ name: "About", url: "/#about" },
+	{ name: "About", url: "/#About" },
 	{ name: "Schedule", url: "/schedule" },
-	{ name: "Location", url: "/#location" },
-	{ name: "Sponsors", url: "/#sponsors" },
-	{ name: "FAQ", url: "/#faq" },
+	{ name: "Location", url: "/#Map" },
+	{ name: "Sponsors", url: "/#Sponsors" },
+	{ name: "FAQ", url: "/#FAQ" },
 ];
 
 export default async function NavBarLinksGrouper() {
