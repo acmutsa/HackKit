@@ -38,8 +38,8 @@ function DossierPins() {
         <Pin className="absolute left-[80%] top-[6%] z-30 sm:left-[80%] sm:top-[8%] md:left-[40%] md:top-[4%] lg:left-[40%] lg:top-[6%]" />
 
         <Pin className=" hidden md:block absolute left-[90%] top-[5%] z-30 sm:left-[25%] sm:top-[7%]  md:left-[60%] md:top-[12%]" />
-        <Pin className=" hidden sm:block lg:hidden absolute left-[1200%] top-[10%] z-30 sm:left-[35%] sm:top-[7%]  md:left-[80%] md:top-[7%]" />
-        <Pin className=" hidden sm:block  absolute left-[100%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[80%] lg:top-[8%]" />
+        <Pin className=" hidden md:block lg:hidden absolute left-[1200%] top-[10%] z-30 sm:left-[35%] sm:top-[7%]  md:left-[80%] md:top-[7%]" />
+        <Pin className=" hidden lg:block  absolute left-[100%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[80%] lg:top-[8%]" />
         <Pin
             className=" absolute left-[100%] top-[90%] z-30 sm:left-[180vw] sm:top-[22%] md:left-[190vw] md:top-[8%]"
             no_img size={1}
