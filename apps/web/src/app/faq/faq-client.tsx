@@ -32,6 +32,7 @@ const rightFaqs = allFaqs.slice(LEFT_COUNT);
 function DossierPins() {
     return (
         <>
+        <Pin className="absolute left-0 top-[5%] z-40 min-[500px]:top-[4%] md:top-[6%] lg:top-[5%]" no_img size={1}/>
         <Pin className="absolute left-[25%] top-[5%] z-30 sm:left-[30%] sm:top-[7%]  md:left-[20%] md:top-[2%]" />
         <Pin className="absolute left-[50%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[30%] lg:top-[10%]" />
         <Pin className="absolute left-[80%] top-[6%] z-30 sm:left-[80%] sm:top-[8%] md:left-[40%] md:top-[4%] lg:left-[40%] lg:top-[6%]" />
@@ -39,7 +40,10 @@ function DossierPins() {
         <Pin className=" hidden md:block absolute left-[90%] top-[5%] z-30 sm:left-[25%] sm:top-[7%]  md:left-[60%] md:top-[12%]" />
         <Pin className=" hidden sm:block lg:hidden absolute left-[1200%] top-[10%] z-30 sm:left-[35%] sm:top-[7%]  md:left-[80%] md:top-[7%]" />
         <Pin className=" hidden sm:block  absolute left-[100%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[80%] lg:top-[8%]" />
-        
+        <Pin
+            className=" absolute left-[100%] top-[90%] z-30 sm:left-[180vw] sm:top-[22%] md:left-[190vw] md:top-[8%]"
+            no_img size={1}
+            />
         </>
     );
 }
@@ -124,7 +128,6 @@ function FaqItem({ item }: { item: Faq }) {
 export default function FAQClient() {
     return (
         <section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[8vw] lg:pb-[10vw]">
-            <Pin className="absolute left-[-20%] top-[-10%] z-30 sm:left-[-20%] sm:top-[-10%]  md:left-[-20%] md:top-[-10%]" />
             <DossierPins/>
         <div className="relative w-full ">
             
@@ -175,9 +178,7 @@ export default function FAQClient() {
                         </div>
                     </div>
         </div>
-        <Pin
-            className=" block sm:hidden lg:block absolute left-[190vw] top-[90%] z-30 sm:left-[180vw] sm:top-[90%] md:left-[190vw] md:top-[10%]"
-            />
+
     </section>
     );
   }
