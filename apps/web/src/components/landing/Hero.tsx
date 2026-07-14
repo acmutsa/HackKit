@@ -3,7 +3,7 @@
 import { Manuale, Shadows_Into_Light } from "next/font/google";
 import { motion } from "motion/react";
 import Pin from "@/components/landing/Pin";
-
+import Link from "next/link";
 const line1 = "Heist";
 const line2 = "starts at 9:00";
 
@@ -119,7 +119,7 @@ export default function Hero() {
 					</div>
 				</div>
 
-				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] md:top-[35%] lg:left-[77.5%] lg:top-[35%] lg:w-[17.5%]">
+				<div className="absolute left-[36%] top-[74.5%] w-[30%] sm:left-[83%] sm:top-[70%] sm:w-[12.5%] lg:left-[77.5%]  md:top-[35%] lg:top-[35%] lg:w-[17.5%]">
 					<img
 						src="/img/assets/hero/register/blank-tape-stickers3.webp"
 						alt=""
@@ -132,6 +132,7 @@ export default function Hero() {
 					</h1>
 				</div>
 				<div className="absolute left-[1%] top-[68%] w-[35%] rotate-3 hover:scale-110 sm:left-[82%] sm:top-[43%] sm:w-[18%] sm:-rotate-3 md:left-[80%] lg:left-[75%] lg:w-[25%]">
+					<Link href="/register">
 					<img
 						src="/img/assets/buttons/blank-tape-stickers2.webp"
 						alt=""
@@ -142,30 +143,35 @@ export default function Hero() {
 					>
 						Register
 					</h1>
+					</Link>
 				</div>
 				<div className="absolute left-[22%] top-[83%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[50%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[55%] lg:w-[17.5%]">
-					<img
-						src="/img/assets/buttons/blank-tape-stickers1.webp"
-						alt=""
-						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
-					/>
-					<h1
-						className={`absolute left-[32.5%] top-[20%] text-[2.75cqw] font-medium sm:left-[25%] sm:top-[10%] sm:text-[1.75cqw] lg:top-[12.5%] lg:text-[2.75cqw] ${shadows.className}`}
-					>
-						Mentors
-					</h1>
+					<Link href="https://tally.so/r/2EZQ2M">
+						<img
+							src="/img/assets/buttons/blank-tape-stickers1.webp"
+							alt=""
+							className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
+						/>
+						<h1
+							className={`absolute left-[32.5%] top-[20%] text-[2.75vw] font-medium sm:left-[25%] sm:top-[10%] sm:text-[1.75vw] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+						>
+							Mentors
+						</h1>
+					</Link>
 				</div>
 				<div className="absolute left-[54.5%] top-[83%] w-[25%] hover:scale-110 sm:left-[87%] sm:top-[55%] sm:w-[12.5%] lg:left-[80%] lg:top-[63%] lg:w-[17.5%]">
-					<img
-						src="/img/assets/buttons/blank-tape-stickers1.webp"
-						alt=""
-						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
-					/>
-					<h1
-						className={`absolute left-[32.5%] top-[20%] text-[2.75cqw] font-medium sm:left-[27.5%] sm:top-[10%] sm:text-[1.75cqw] lg:left-[30%] lg:top-[12.5%] lg:text-[2.75cqw] ${shadows.className}`}
-					>
-						Judges
-					</h1>
+					<Link href="https://tally.so/r/44do5k">
+						<img
+							src="/img/assets/buttons/blank-tape-stickers1.webp"
+							alt=""
+							className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
+						/>
+						<h1
+							className={`absolute left-[32.5%] top-[20%] text-[2.75vw] font-medium sm:left-[27.5%] sm:top-[10%] sm:text-[1.75vw] lg:left-[30%] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+						>
+							Judges
+						</h1>
+					</Link>
 				</div>
 				<div className="absolute left-[37%] top-[90%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[60%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[72%] lg:w-[17.5%]">
 					<img

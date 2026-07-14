@@ -1,8 +1,116 @@
 "use client";
 import { Manuale } from "next/font/google";
 import faqData from "./faq.json";
+import { Shadows_Into_Light } from "next/font/google";
 import { motion } from "motion/react";
 import Pin from "./Pin";
+import Link from "next/link";
+import { useState } from "react";
+const shadow = Shadows_Into_Light({
+	subsets: ["latin"],
+	weight: "400",
+});
+
+export function FaqHoverLink() {
+
+  return (
+	<Link href="/faq">
+		<motion.div
+		initial="rest"
+		whileHover="hover"
+		viewport={{once: true, amount: 0.6}}
+		className=" relative flex flex-col items-center justify-center py-[10cqw] md:py-[8cqw] xl:py-[5cqw] pb-0 "
+		>
+		<div className="relative inline-flex justify-center items-center gap-2">
+		<motion.span
+			variants={{
+				rest: { opacity: 0, y: 0 },
+				hover: { opacity: [0,0.25,0.5,0.65,0.75,1], y: -25 },
+				
+			}}
+			transition={{ duration: 0.15 }}
+			className={`text-2xl  lg:text-3xl xl:text-5xl ${shadow.className}  text-[#AB1820]`}
+			>
+			More Questions?</motion.span>
+			<motion.svg
+			width="60"
+			height="60"
+			viewBox="0 0 28 20"
+			variants={{
+				rest: { opacity:1,y: 5 },
+				hover: {opacity:1, y: 25 },
+			}}
+			transition={{duration: 0.15}}
+			className="absolute overflow-visible "
+			
+			>
+			<path
+				d="M7.5 5 L13.75 11 L20 5 "
+				fill="none"
+				stroke="#AB1820"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			
+			/>
+			</motion.svg>
+			
+		</div>
+		</motion.div>
+	</Link>
+  );
+}
+
+
+export function MobileFaqHoverLink() {
+
+	return (
+	  <Link href="/faq">
+		  <motion.div
+		  initial="rest"
+		  whileInView="hover"
+		  viewport={{once: false, amount: 0.85}}
+		  className=" relative flex flex-col items-center justify-center py-[10cqw] md:py-[8cqw] xl:py-[5cqw] pb-0 "
+		  >
+		  <div className="relative inline-flex justify-center items-center gap-2">
+		  <motion.span
+			  variants={{
+				  rest: { opacity: 0, y: 0 },
+				  hover: { opacity: [0,0.25,0.5,0.65,0.75,1], y: -15 },
+				  
+			  }}
+			  transition={{ duration: 0.15 }}
+			  className={`text-3xl  ${shadow.className}  text-[#AB1820]`}
+			  >
+			  More Questions?</motion.span>
+			  <motion.svg
+			  width="45"
+			  height="45"
+			  viewBox="0 0 28 20"
+			  variants={{
+				  rest: { opacity:1,y: 5 },
+				  hover: {opacity:1, y: 25 },
+			  }}
+			  transition={{duration: 0.15}}
+			  className="absolute overflow-visible "
+			  
+			  >
+			  <path
+				  d="M7.5 5 L13.75 11 L20 5 "
+				  fill="none"
+				  stroke="#AB1820"
+				  strokeWidth="2"
+				  strokeLinecap="round"
+				  strokeLinejoin="round"
+			  
+			  />
+			  </motion.svg>
+			  
+		  </div>
+		  </motion.div>
+	  </Link>
+	);
+  }
 
 const manuale = Manuale({
 	subsets: ["latin"],
@@ -142,10 +250,13 @@ export default function FAQ() {
 							{rightFaqs.map((item, index) => (
 								<FaqItem key={index} item={item} />
 							))}
+
+							<FaqHoverLink/>
+
 						</div>
 					</div>
 				</div>
-
+				
 				{/* ===== Mobile ===== */}
 				<div className="flex w-full justify-center md:hidden">
 					<div className="relative flex w-[85cqw] flex-col gap-y-[0.5cqw] px-[10%] pb-[30%] pt-[20%]">
@@ -159,6 +270,7 @@ export default function FAQ() {
 						{allFaqs.map((item, index) => (
 							<FaqItem key={index} item={item} />
 						))}
+								<MobileFaqHoverLink/>
 					</div>
 				</div>
 			</div>
