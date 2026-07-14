@@ -14,10 +14,10 @@ const oswald = Oswald({
     subsets: ["latin"],
 });
 
-function PaperBg(){
-    return(
-        <img src="img/assets/faq/FAQ.svg" alt="" 
-        className="absolute w-full h-full inset-0 drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"/>
+function PaperBg() {
+    return (
+        <img src="img/assets/faq/FAQ.svg" alt=""
+            className="absolute w-full h-full inset-0 drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]" />
     );
 
 }
@@ -32,17 +32,17 @@ const rightFaqs = allFaqs.slice(LEFT_COUNT);
 function DossierPins() {
     return (
         <>
-        <Pin className="absolute left-0 top-[5%] z-40 min-[500px]:top-[4%] md:top-[6%] lg:top-[5%]" no_img size={1}/>
-        <Pin className="absolute left-[25%] top-[5%] z-30 sm:left-[30%] sm:top-[7%]  md:left-[20%] md:top-[2%]" />
-        <Pin className="absolute left-[50%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[30%] lg:top-[10%]" />
-        <Pin className="absolute left-[80%] top-[6%] z-30 sm:left-[80%] sm:top-[8%] md:left-[40%] md:top-[4%] lg:left-[40%] lg:top-[6%]" />
+            <Pin className="absolute left-0 top-[5%] z-40 min-[500px]:top-[4%] md:top-[6%] lg:top-[5%]" no_img size={1} />
+            <Pin className="absolute left-[25%] top-[5%] z-30 sm:left-[30%] sm:top-[7%]  md:left-[20%] md:top-[2%]" />
+            <Pin className="absolute left-[50%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[30%] lg:top-[10%]" />
+            <Pin className="absolute left-[80%] top-[6%] z-30 sm:left-[80%] sm:top-[8%] md:left-[40%] md:top-[4%] lg:left-[40%] lg:top-[6%]" />
 
-        <Pin className=" hidden md:block absolute left-[90%] top-[5%] z-30 sm:left-[25%] sm:top-[7%]  md:left-[60%] md:top-[12%]" />
-        <Pin className=" hidden md:block lg:hidden absolute left-[1200%] top-[10%] z-30 sm:left-[35%] sm:top-[7%]  md:left-[80%] md:top-[7%]" />
-        <Pin className=" hidden lg:block  absolute left-[100%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[80%] lg:top-[8%]" />
-        <Pin
-            className=" absolute left-[100%] top-[90%] z-30 sm:left-[180vw] sm:top-[22%] md:left-[190vw] md:top-[8%]"
-            no_img size={1}
+            <Pin className=" hidden md:block absolute left-[90%] top-[5%] z-30 sm:left-[25%] sm:top-[7%]  md:left-[60%] md:top-[12%]" />
+            <Pin className=" hidden md:block lg:hidden absolute left-[1200%] top-[10%] z-30 sm:left-[35%] sm:top-[7%]  md:left-[80%] md:top-[7%]" />
+            <Pin className=" hidden lg:block  absolute left-[100%] top-[3%] z-30 sm:left-[50%] sm:top-[4%] md:left-[30%] md:top-[7%] lg:left-[80%] lg:top-[8%]" />
+            <Pin
+                className=" absolute left-[100%] top-[10%] z-30 sm:left-[180vw] sm:top-[22%] md:left-[190vw] md:top-[8%]"
+                no_img size={1}
             />
         </>
     );
@@ -128,57 +128,57 @@ function FaqItem({ item }: { item: Faq }) {
 export default function FAQClient() {
     return (
         <section className="relative w-full flex items-center justify-center pb-[0vw] sm:pb-[3vw] md:pb-[8vw] lg:pb-[10vw]">
-            <DossierPins/>
-        <div className="relative w-full ">
-            
-            {/* <Navbar /> */}
-            <div className="flex w-full flex-col items-center justify-center gap-8 [container-type:inline-size]">
-            <div className="hidden h-full w-full flex-row items-start justify-center md:flex">
-                {/* Left Paper */}
-                <div className="flex justify-center">
-                <div className="relative flex flex-col w-[40cqw] pb-[40%] pt-[10%] px-[10%]">
-                    <PaperBg />
-                    <div className="relative">
-                        <FaqHeader/>
-                    </div>
-                    {leftFaqs.map((item,index)=>(
-                        <FaqItem key={index} item={item}/>
-                    ))}
-                </div>
-                </div>
-    
-                {/* Right Paper */}
-                <div className="flex justify-center pt-[4%]">
-                <div className="relative flex flex-col  w-[40cqw] pb-[40%] pt-[40%] px-[10%]">
-                    <PaperBg />
-                    <div className="relative">
-                        <ClassifiedStamp/>
-                    </div>
-                    {rightFaqs.map((item, index) => (
-                        <FaqItem key={index} item={item} />
-                    ))}
-                </div>
-                </div>
-                
-            </div>
-            </div>
+            <DossierPins />
+            <div className="relative w-full ">
 
-            <div className="flex w-full justify-center md:hidden">
-                        <div className="relative flex w-[100cqw] flex-col gap-y-[1.5cqw] px-[10%] pb-[50%] pt-[25%]">
-                            <PaperBg />
-
-                            <div className="relative">
-                                <FaqHeader />
-                                <ClassifiedStamp wrapperClassName="pointer-events-none absolute inset-0 flex items-center justify-end pr-[-50%]" />
+                {/* <Navbar /> */}
+                <div className="flex w-full flex-col items-center justify-center gap-8 [container-type:inline-size]">
+                    <div className="hidden h-full w-full flex-row items-start justify-center md:flex">
+                        {/* Left Paper */}
+                        <div className="flex justify-center">
+                            <div className="relative flex flex-col w-[40cqw] pb-[40%] pt-[10%] px-[10%]">
+                                <PaperBg />
+                                <div className="relative">
+                                    <FaqHeader />
+                                </div>
+                                {leftFaqs.map((item, index) => (
+                                    <FaqItem key={index} item={item} />
+                                ))}
                             </div>
-                            
-                            {allFaqs.map((item, index) => (
-                                <FaqItem key={index} item={item} />
-                            ))}
                         </div>
-                    </div>
-        </div>
 
-    </section>
+                        {/* Right Paper */}
+                        <div className="flex justify-center pt-[4%]">
+                            <div className="relative flex flex-col  w-[40cqw] pb-[40%] pt-[40%] px-[10%]">
+                                <PaperBg />
+                                <div className="relative">
+                                    <ClassifiedStamp />
+                                </div>
+                                {rightFaqs.map((item, index) => (
+                                    <FaqItem key={index} item={item} />
+                                ))}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div className="flex w-full justify-center md:hidden">
+                    <div className="relative flex w-[100cqw] flex-col gap-y-[1.5cqw] px-[10%] pb-[50%] pt-[25%]">
+                        <PaperBg />
+
+                        <div className="relative">
+                            <FaqHeader />
+                            <ClassifiedStamp wrapperClassName="pointer-events-none absolute inset-0 flex items-center justify-end pr-[-50%]" />
+                        </div>
+
+                        {allFaqs.map((item, index) => (
+                            <FaqItem key={index} item={item} />
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+        </section>
     );
-  }
+}
