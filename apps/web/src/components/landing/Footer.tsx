@@ -42,24 +42,24 @@ export default function Footer() {
 
 				<div className="flex h-[50px] w-[200px] items-center justify-between gap-4">
 					<Link href="https://twitter.com/rowdyhacks/">
-						<Twitter className="invert dark:invert-0" />
+						<Twitter />
 					</Link>
 					<Link href="https://www.instagram.com/rowdyhacks/">
-						<Instagram className="invert dark:invert-0" />
+						<Instagram />
 					</Link>
 					<Link href="https://www.facebook.com/UTSA.ACM">
-						<Facebook className="invert dark:invert-0" />
+						<Facebook />
 					</Link>
 					<Link href="https://github.com/acmutsa/RowdyHacksX">
-						<Github className="invert dark:invert-0" />
+						<Github />
 					</Link>
 					<Link href="https://go.rowdyhacks.org/discord">
 						<Image
 							className="select-none invert"
 							src="/img/assets/footer/discord_icon.svg"
 							alt="Discord logo"
-							width={20}
-							height={20}
+							width={24}
+							height={24}
 						/>
 					</Link>
 				</div>

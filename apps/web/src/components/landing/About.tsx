@@ -25,7 +25,7 @@ function DossierPins() {
 
 export default function About() {
 	return (
-		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw]" id="About"> 
+		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw] [container-type:inline-size]" id="About"> 
 			<DossierPins />
 			<div className={`relative flex h-fit w-full flex-col items-center justify-center py-0 lg:py-12 xl:py-12 2xl:py-12`}>
 				<div className="w-[85%] sm:w-[75%] md:w-[70%] lg:w-[60%] xl:w-[60%]">
@@ -103,7 +103,7 @@ export default function About() {
 
 								</div>
 								<p
-									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-3xl ${manuale.className}`}
+									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-2xl ${manuale.className}`}
 								>
 									RowdyHacks is UTSA's annual hackathon,
 									hosted by the Association for Computing
@@ -164,7 +164,7 @@ export default function About() {
 									}}
 								/>
 								<p
-									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-3xl ${manuale.className}`}
+									className={`w-[75%] text-center font-light leading-tight lg:text-lg xl:text-xl 2xl:text-2xl ${manuale.className}`}
 								>
 									Whether you’ve a seasoned hackathon vet or
 									you’re just getting started, you’ll feel

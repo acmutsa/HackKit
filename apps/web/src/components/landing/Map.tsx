@@ -85,7 +85,7 @@ export default function Map() {
 	);
 
 	return (
-		<section className="relative w-full flex items-center justify-center pb-[12vw] sm:pb-[3vw] md:pb-[5vw]" id="About">
+		<section className="relative w-full flex items-center justify-center pb-[12cqw] sm:pb-[3cqw] md:pb-[5cqw] [container-type:inline-size]" id="Map">
 			<div
 				className={`relative flex h-fit w-full flex-col items-center justify-center gap-y-10 py-0 lg:py-12 xl:py-12 2xl:py-12 ${shadowsIntoLight.className}`}
 			>
@@ -96,7 +96,7 @@ export default function Map() {
 						<div className={`invisible pb-[20%] lg:visible`}>
 							<div
 								ref={mainCampusCardRef}
-								className="relative aspect-[3.5/4] w-[20vw] rotate-[3deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
+								className="relative aspect-[3.5/4] w-[20cqw] rotate-[3deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							>
 								<Image
 									ref={mainCampusImgRef}
@@ -119,7 +119,7 @@ export default function Map() {
 						<div className={`invisible pt-[20%] lg:visible`}>
 							<div
 								ref={sp1CardRef}
-								className="relative aspect-[3.5/4] w-[20vw] rotate-[3deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
+								className="relative aspect-[3.5/4] w-[20cqw] rotate-[3deg] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 							>
 								<Image
 									ref={sp1CampusImgRef}
@@ -143,7 +143,7 @@ export default function Map() {
 
 					<div
 						ref={mapContainerRef}
-						className={`relative flex h-[45vh] w-full items-center justify-start sm:h-[55vh] md:h-[70vh] lg:h-[70vh] xl:h-[80vh] 2xl:h-[100vh]`}
+						className={`relative flex h-[75cqw] w-full items-center justify-start sm:h-[55cqw] md:h-[70cqw] lg:h-[55cqw] xl:h-[50cqw] `}
 					>
 						{/* Main Campus */}
 						<div style={mainCampusPinStyle}>
@@ -200,7 +200,7 @@ export default function Map() {
 						</a>
 
 						<div style={sp1CircleStyle}>
-							<div className="relative h-[8vw] w-[8vw] sm:h-[6vw] sm:w-[6vw]">
+							<div className="relative h-[8cqw] w-[8cqw] sm:h-[6cqw] sm:w-[6cqw]">
 								<Image
 									src="/img/assets/map/red-circle1.svg"
 									alt="pin"
@@ -211,7 +211,7 @@ export default function Map() {
 						</div>
 
 						<div style={mainCampusCircleStyle}>
-							<div className="relative h-[8vw] w-[8vw] sm:h-[6vw] sm:w-[6vw]">
+							<div className="relative h-[8cqw] w-[8cqw] sm:h-[6cqw] sm:w-[6cqw]">
 								<Image
 									src="/img/assets/map/red-circle1.svg"
 									alt="pin"

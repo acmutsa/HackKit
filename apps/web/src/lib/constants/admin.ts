@@ -64,12 +64,6 @@ export const adminSidebarData: AdminSidebarData = {
 			permission: PermissionType.VIEW_ROLES,
 		},
 		{
-			title: "Toggles",
-			url: "/admin/toggles",
-			icon: ToggleLeft,
-			permission: PermissionType.MANAGE_NAVLINKS,
-		},
-		{
 			title: "Hackathon Check-in",
 			url: "/admin/check-in",
 			icon: ScanLine,

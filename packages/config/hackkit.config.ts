@@ -18,14 +18,15 @@ const c = {
 	hackathonName: "RowdyHacks",
 	itteration: "XII",
 	siteUrl: "https://rowdyhacks.org", // Do not have a trailing slash
-	defaultMetaDataDescription: "RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.",
+	defaultMetaDataDescription:
+		"RowdyHacks is UTSA's annual hackathon, hosted by the Association for Computing Machinery (ACM) at UTSA. It's a weekend-long event where students, tech enthusiasts, and creative minds from all backgrounds come together to collaborate, innovate, and build real-world projects in 24 hours.",
 	botName: "RowdyHacks",
 	botParticipantRole: "Participant",
 	hackathonTimezone: "America/Chicago",
 	localUniversityName: schoolOptions[0],
 	localUniversitySchoolIDName: "UTSA id (abc123)",
 	localUniversityShortIDMaxLength: 6,
-	registrationAvailable: false,
+	registrationAvailable: true,
 	rsvpAvailable: false,
 	rsvpLimit: 500,
 	registration: {
@@ -136,7 +137,7 @@ const c = {
 	noResumeProvidedURL:
 		"https://static.acmutsa.org/No%20Resume%20Provided.pdf",
 	// Come in and change this date to whenever the hackathon starts
-	startDate: new Date(new Date(2024, 1, 24).setHours(9)),
+	startDate: new Date(new Date(2026, 9, 3).setHours(14, 0, 0, 0)), // October 3, 2026 at 9:00 AM CDT
 	prettyLocation: "Location of Hackathon",
 	featureFlags: {
 		core: {
@@ -167,6 +168,7 @@ const publicRoutes = [
 	/^\/user\//,
 	"/404",
 	"/bugreport",
+	"/register",
 	/^\/sign-in(\/.*)?$/,
 	/^\/sign-up(\/.*)?$/,
 ];

@@ -18,11 +18,11 @@ const oswald = Oswald({
 
 export default function Home() {
 	return (
-		<div className={`${oswald.variable} w-full overflow-x-hidden`}>
+		<div className={`min-h-screen w-full overflow-x-hidden text-foreground`}>
 			<LandingThread />
 			<Navbar />
 			<MLHBadge />
-			{/* <main className="overflow-x-hidden"> */}
+			<main className="mx-auto w-full max-w-[1536px]">
 				<Hero />
 				<About />
 				<Map />
@@ -30,8 +30,7 @@ export default function Home() {
 				<Partners />
 				<FAQ />
 				<Footer />
-				
-			{/* </main> */}
+			</main>
 		</div>
 	);
 }

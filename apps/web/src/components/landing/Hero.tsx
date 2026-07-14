@@ -17,16 +17,15 @@ const manuale = Manuale({
 	weight: "500",
 });
 
-
 function DossierPins() {
 	return (
 		<>
-			<Pin className="absolute left-[12%] top-[15%] z-40  sm:left-[74%] sm:top-[28%] md:left-[67%] md:top-[30%] lg:left-[83%] lg:top-[36%]" /> 
-			<Pin className="absolute left-[55%] top-[18%] z-40  sm:left-[49%] sm:top-[21%] md:left-[44%] md:top-[21%] lg:left-[42%] lg:top-[20%]"/>
-			<Pin className="absolute left-[88%]  top-[28%] z-40  sm:left-[12%] sm:top-[15%] md:left-[7%] md:top-[15%]"/>
-			<Pin className="absolute left-[94%]  top-[54%] z-40  sm:left-[5%] sm:top-[45%] " />
-			<Pin className="absolute left-[47%] top-[74%] z-40  sm:left-[14%] sm:top-[85%] "/>
-			<Pin className="absolute left-[8%] top-[81%] z-40 block sm:hidden "/>
+			<Pin className="absolute left-[12%] top-[15%] z-40 sm:left-[74%] sm:top-[28%] md:left-[67%] md:top-[30%] lg:left-[83%] lg:top-[36%]" />
+			<Pin className="absolute left-[55%] top-[18%] z-40 sm:left-[49%] sm:top-[21%] md:left-[44%] md:top-[21%] lg:left-[42%] lg:top-[20%]" />
+			<Pin className="absolute left-[88%] top-[28%] z-40 sm:left-[12%] sm:top-[15%] md:left-[7%] md:top-[15%]" />
+			<Pin className="absolute left-[94%] top-[54%] z-40 sm:left-[5%] sm:top-[45%]" />
+			<Pin className="absolute left-[47%] top-[74%] z-40 sm:left-[14%] sm:top-[85%]" />
+			<Pin className="absolute left-[8%] top-[81%] z-40 block sm:hidden" />
 		</>
 	);
 }
@@ -34,7 +33,7 @@ function DossierPins() {
 export default function Hero() {
 	return (
 		<>
-			<section className="relative w-full pt-[15%] sm:pt-[3%] pb-[30vw] sm:pb-[3vw] md:pb-[5vw]">
+			<section className="relative w-full pb-[30cqw] pt-[15%] sm:pb-[3cqw] sm:pt-[3%] md:pb-[5cqw] [container-type:inline-size]" id="Hero">
 				<DossierPins />
 
 				<div className="relative w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)] sm:left-4 sm:w-[85%] md:left-5 md:w-[75%] lg:left-10 lg:w-[70%]">
@@ -127,7 +126,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`lg:top[20%] absolute left-[14%] top-[15%] -rotate-[5deg] text-[4.5vw] font-medium sm:text-[1.5vw] lg:left-[15%] lg:text-[2.75vw] ${shadows.className}`}
+						className={`lg:top[20%] absolute left-[14%] top-[15%] -rotate-[5deg] text-[4.5cqw] font-medium sm:text-[1.5cqw] lg:left-[15%] lg:text-[2.75cqw] ${shadows.className}`}
 					>
 						Help Wanted
 					</h1>
@@ -140,7 +139,7 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`absolute right-[30%] top-[20%] text-[4.5vw] font-extrabold text-red-800 sm:right-[25%] sm:top-[18%] sm:text-[2.5vw] lg:right-[30%] lg:text-[3.5vw] ${shadows.className}`}
+						className={`absolute right-[30%] top-[20%] text-[4.5cqw] font-extrabold text-red-800 sm:right-[25%] sm:top-[18%] sm:text-[2.5cqw] lg:right-[30%] lg:text-[3.5cqw] ${shadows.className}`}
 					>
 						Register
 					</h1>
@@ -181,12 +180,11 @@ export default function Hero() {
 						className="h-auto w-full drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]"
 					/>
 					<h1
-						className={`absolute left-[27.5%] top-[20%] text-[2.75vw] font-medium sm:left-[17.5%] sm:top-[10%] sm:text-[1.75vw] lg:left-[20%] lg:top-[12.5%] lg:text-[2.75vw] ${shadows.className}`}
+						className={`absolute left-[27.5%] top-[20%] text-[2.75cqw] font-medium sm:left-[17.5%] sm:top-[10%] sm:text-[1.75cqw] lg:left-[20%] lg:top-[12.5%] lg:text-[2.75cqw] ${shadows.className}`}
 					>
 						Volunteers
 					</h1>
 				</div>
-
 			</section>
 		</>
 	);
