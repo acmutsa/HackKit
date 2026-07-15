@@ -1,0 +1,202 @@
+{
+    "team": [
+        { 
+            "fname": "Evelynn", 
+            "lname": "Donaldson", 
+            "imgLink": "/img/assets/team/Evelynn Donaldson.webp", 
+            "linkedin": "https://www.linkedin.com/in/evelynn-donaldson-191a00290/"
+        },
+        { 
+            "fname": "Alekzander", 
+            "lname": "Brysch", 
+            "imgLink": "/img/assets/team/Alekzander Brysch.webp", 
+            "linkedin": "https://www.linkedin.com/in/zander-brysch/",
+            "note": "Director?",
+            "top": "87%",
+            "left": "10%"
+        },
+        { 
+            "fname": "Paula", 
+            "lname": "Com", 
+            "imgLink": "/img/assets/team/Paula Com.webp", 
+            "linkedin": "https://www.linkedin.com/in/paula-com-morales/" 
+        },
+        { 
+            "fname": "Tri", 
+            "lname": "Nguyen", 
+            "imgLink": "/img/assets/team/Tri Nguyen.webp", 
+            "linkedin": "https://www.linkedin.com/in/tri-nguyen2/" 
+        },
+        { 
+            "fname": "Rufat", 
+            "lname": "Niftaliyev", 
+            "imgLink": "/img/assets/team/Rufat Niftaliyev.webp", 
+            "linkedin": "https://www.linkedin.com/in/rufat-niftaliyev/" ,
+            "note": "Lead?",
+            "top": "87%",
+            "left": "50%"
+        },
+        { 
+            "fname": "Cayden", 
+            "lname": "Hutcheson", 
+            "imgLink": "/img/assets/team/Cayden Hutcheson.webp", 
+            "linkedin": "https://www.linkedin.com/in/cayden-hutcheson110/",
+            "note": "Director?",
+            "top": "8%",
+            "left": "15%"
+        },
+        { 
+            "fname": "Ash", 
+            "lname": "Hernandez", 
+            "imgLink": "/img/assets/team/Ash Hernandez.webp", 
+            "linkedin": "https://www.linkedin.com/in/ashley-hernandez-sanchez-b76312333/" 
+        },
+        { 
+            "fname": "Maryna", 
+            "lname": "Korolova", 
+            "imgLink": "/img/assets/team/Maryna Korolova.webp", 
+            "linkedin": "https://www.linkedin.com/in/marynakorolova",
+            "note": "Lead?",
+            "top": "83%",
+            "left": "50%"
+        }, 
+        { 
+            "fname": "Shaun", 
+            "lname": "Philippe", 
+            "imgLink": "/img/assets/team/Shaun Philippe.webp", 
+            "linkedin": "https://www.linkedin.com/in/shaun-ph/" 
+        },
+        { 
+            "fname": "Josie", 
+            "lname": "Sauceda", 
+            "imgLink": "/img/assets/team/Josie Sauceda.webp", 
+            "linkedin": "https://www.linkedin.com/in/josie-sauceda/" 
+        },
+        { 
+            "fname": "Miguel", 
+            "lname": "Oseguera", 
+            "imgLink": "/img/assets/team/Miguel Oseguera.webp", 
+            "linkedin": "https://www.linkedin.com/in/miguel-oseguera-0b5306281/",
+            "note": "Lead?",
+            "top": "8%",
+            "left": "8%"
+        },
+        { 
+            "fname": "Blessy", 
+            "lname": "Kalluri", 
+            "imgLink": "/img/assets/team/Blessy Kalluri.webp", 
+            "linkedin": "https://www.linkedin.com/in/blessykalluri/" 
+        },
+        { 
+            "fname": "Camille", 
+            "lname": "Hart", 
+            "imgLink": "/img/assets/team/Camille Hart.webp", 
+            "linkedin": "https://www.linkedin.com/in/camille-louise-rivera/" 
+        },
+        { 
+            "fname": "Anh", 
+            "lname": "Doan", 
+            "imgLink": "/img/assets/team/Anh Doan.webp", 
+            "linkedin": "https://www.linkedin.com/in/minh-anh-doan-600b94291/",
+            "note": "Lead?",
+            "top": "85%",
+            "left": "6%"
+        },
+        { 
+            "fname": "Abrar", 
+            "lname": "Ahmed", 
+            "imgLink": "/img/assets/team/Abrar Ahmed.webp", 
+            "linkedin": "https://www.linkedin.com/in/abrar-ahmed1/" 
+        },
+        { 
+            "fname": "Diego", 
+            "lname": "Medina", 
+            "imgLink": "/img/assets/team/Diego Medina.webp", 
+            "linkedin": "https://www.linkedin.com/in/diegomedina12/",
+            "note": "Lead?",
+            "top": "85%",
+            "left": "39%"
+        },
+        { 
+            "fname": "Dyshana", 
+            "lname": "Torres Rivera", 
+            "imgLink": "/img/assets/team/Dyshana Torres Rivera.webp", 
+            "linkedin": "https://www.linkedin.com/in/dyshana-torres/" 
+        },
+        { 
+            "fname": "Elisa", 
+            "lname": "Moran", 
+            "imgLink": "/img/assets/team/Elisa Moran.webp", 
+            "linkedin": "https://www.linkedin.com/in/elisa-moran-a6aa2b29a/" 
+        },
+        { 
+            "fname": "Eric", 
+            "lname": "Lee", 
+            "imgLink": "/img/assets/team/Eric Lee.webp", 
+            "linkedin": "https://www.linkedin.com/in/eric-lee-sunghyun/",
+            "note": "Lead?",
+            "top": "9%",
+            "left": "7%"
+        },
+        { 
+            "fname": "Francisco", 
+            "lname": "Epinoza", 
+            "imgLink": "/img/assets/team/Francisco Epinoza.webp", 
+            "linkedin": "https://www.linkedin.com/in/francisco0-espinoza7/" 
+        },
+        { 
+            "fname": "Layla", 
+            "lname": "Mendiola", 
+            "imgLink": "/img/assets/team/Layla Mendiola.webp", 
+            "linkedin": "https://www.linkedin.com/in/layla-mendiola-144013381/" 
+        },
+        { 
+            "fname": "Martin", 
+            "lname": "Llano", 
+            "imgLink": "/img/assets/team/Martin Llano.webp", 
+            "linkedin": "https://www.linkedin.com/in/martin-llano-b10239291/" 
+        },
+        { 
+            "fname": "Reese", 
+            "lname": "Sylvester", 
+            "imgLink": "/img/assets/team/Reese Sylvester.webp", 
+            "linkedin": "" ,
+            "note": "Lead?",
+            "top": "10%",
+            "left": "13%"
+        },
+        { 
+            "fname": "Anam", 
+            "lname": "Sultana", 
+            "imgLink": "/img/assets/team/Anam Sultana.webp", 
+            "linkedin": "https://www.linkedin.com/in/anam-sult/" 
+        },
+        { 
+            "fname": "Savanah", 
+            "lname": "Schaefer", 
+            "imgLink": "/img/assets/team/Savanah Schaefer.webp", 
+            "linkedin": "https://www.linkedin.com/in/savanahsch/",
+            "note": "Lead?",
+            "top": "86%",
+            "left": "10%"
+        },
+        { 
+            "fname": "Scherly", 
+            "lname": "Ramirez", 
+            "imgLink": "/img/assets/team/Scherly Ramirez.webp", 
+            "linkedin": "https://www.linkedin.com/in/scherly-ramirez-miranda-189623388/" 
+        },
+        { 
+            "fname": "Tochi", 
+            "lname": "Kalu", 
+            "imgLink": "/img/assets/team/Tochi Kalu.webp", 
+            "linkedin": "" 
+        },
+        { 
+            "fname": "Victoria", 
+            "lname": "Rivas", 
+            "imgLink": "/img/assets/team/Victoria Rivas.webp", 
+            "linkedin": "" 
+        }
+    ]
+}

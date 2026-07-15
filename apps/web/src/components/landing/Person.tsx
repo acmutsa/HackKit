@@ -1,9 +1,9 @@
 export type Person = {
-	fname: string; //picture file name must match name with .png
+	fname: string;
 	lname: string;
 	imgLink: string;
-	role: string;
-	linkedin: string;
-	website: string;
-	github: string;
+	linkedin?: string;
+	note?: string; 
+	top?:string
+	left?:string
 };
