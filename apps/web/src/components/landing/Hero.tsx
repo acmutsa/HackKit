@@ -174,6 +174,7 @@ export default function Hero() {
 					</Link>
 				</div>
 				<div className="absolute left-[37%] top-[90%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[60%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[72%] lg:w-[17.5%]">
+					<Link href="https://tally.so/r/lbge2X">
 					<img
 						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
@@ -184,6 +185,7 @@ export default function Hero() {
 					>
 						Volunteers
 					</h1>
+					</Link>
 				</div>
 			</section>
 		</>
