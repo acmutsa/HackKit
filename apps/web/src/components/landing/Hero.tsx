@@ -132,7 +132,7 @@ export default function Hero() {
 					</h1>
 				</div>
 				<div className="absolute left-[1%] top-[68%] w-[35%] rotate-3 hover:scale-110 sm:left-[82%] sm:top-[43%] sm:w-[18%] sm:-rotate-3 md:left-[80%] lg:left-[75%] lg:w-[25%]">
-					<Link href="/register">
+					<Link href="/">
 					<img
 						src="/img/assets/buttons/blank-tape-stickers2.webp"
 						alt=""
@@ -174,6 +174,7 @@ export default function Hero() {
 					</Link>
 				</div>
 				<div className="absolute left-[37%] top-[90%] w-[25%] hover:scale-110 sm:left-[82%] sm:top-[60%] sm:w-[12.5%] lg:left-[72.5%] lg:top-[72%] lg:w-[17.5%]">
+					<Link href="https://tally.so/r/lbge2X">
 					<img
 						src="/img/assets/buttons/blank-tape-stickers1.webp"
 						alt=""
@@ -184,6 +185,7 @@ export default function Hero() {
 					>
 						Volunteers
 					</h1>
+					</Link>
 				</div>
 			</section>
 		</>
