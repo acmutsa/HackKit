@@ -132,7 +132,7 @@ export default function Hero() {
 					</h1>
 				</div>
 				<div className="absolute left-[1%] top-[68%] w-[35%] rotate-3 hover:scale-110 sm:left-[82%] sm:top-[43%] sm:w-[18%] sm:-rotate-3 md:left-[80%] lg:left-[75%] lg:w-[25%]">
-					<Link href="/">
+					<Link href="/register">
 					<img
 						src="/img/assets/buttons/blank-tape-stickers2.webp"
 						alt=""
