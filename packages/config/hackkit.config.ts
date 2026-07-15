@@ -26,7 +26,7 @@ const c = {
 	localUniversityName: schoolOptions[0],
 	localUniversitySchoolIDName: "UTSA id (abc123)",
 	localUniversityShortIDMaxLength: 6,
-	registrationAvailable: true,
+	registrationAvailable: false,
 	rsvpAvailable: false,
 	rsvpLimit: 500,
 	registration: {
