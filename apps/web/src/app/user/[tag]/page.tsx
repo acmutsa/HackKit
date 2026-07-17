@@ -1,11 +1,21 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import RoleBadge from "@/components/dash/shared/RoleBadge";
-import { Balancer } from "react-wrap-balancer";
-import Link from "next/link";
-import { Github, Linkedin, Globe } from "lucide-react";
 import Navbar from "@/components/shared/Navbar";
 import { getHackerByTag } from "db/functions";
+
+function ProfileField({
+	label,
+	value,
+}: {
+	label: string;
+	value: React.ReactNode;
+}) {
+	return (
+		<div className="border-b border-black">
+			<span className="font-bold">{label}:</span> <span>{value}</span>
+		</div>
+	);
+}
 
 export default async function ({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
@@ -16,91 +26,84 @@ export default async function ({ params }: { params: { tag: string } }) {
 	return (
 		<>
 			<Navbar />
-			<div className="max-w-screen relative flex min-h-screen items-center justify-center bg-nav">
-				<div className="absolute top-0 h-[50vh] w-[60vw] -translate-y-[22vh] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[color-mix(in_hsl_longer_hue,hsl(var(--hackathon-primary))_80%,#fff)] via-hackathon to-transparent opacity-50 blur-[100px] will-change-transform" />
-				<div className="grid min-h-[45vh] w-full max-w-5xl grid-cols-5 gap-x-2">
-					<div className="flex flex-col justify-center">
-						<div className="relative aspect-square w-full overflow-hidden rounded-full">
-							<Image
-								fill
-								src={user.profilePhoto}
-								alt={`@${user.hackerTag}'s Profile Photo`}
-								className="object-cover"
-							/>
+			<main className="mx-auto w-full max-w-[800px]">
+				<div className="flex w-full items-center justify-center py-[12vw] sm:py-[3vw] md:py-[5vw] [container-type:inline-size]">
+					<div className="bg-[#E2DDD4] p-[5%] text-black w-[90%] drop-shadow-[6px_8px_3px_rgba(0,0,0,0.45)]">
+
+						<div className="w-full h-auto flex flex-col gap-6">
+
+							<div className="relative w-[10%]">
+								<Image
+									width={64}
+									height={64}
+									src="/img/assets/profile/agency.png"
+									alt="Central Intelligence Agency"
+									className="contain"
+								/>
+							</div>
+
+							<h1 className="break-all text-xl font-bold sm:text-lg">
+								#hdbiwefh-0390128r9uedhfc923839r823h
+							</h1>
+
+							<div className="w-full h-auto grid grid-cols-1 md:grid-cols-5 gap-2">
+								<div className="col-span-2 relativ w-[60%] md:w-[100%]  h-auto flex justify-center item-center">
+									<img
+										src="/img/assets/profile/profile-picture.png"
+										alt={`@${user.hackerTag}'s Profile Photo`}
+										className="h-auto w-full"
+									/>
+								</div>
+
+								<div className="col-span-3 flex flex-col gap-2">
+									<ProfileField
+										label="Name"
+										value={`${user.firstName} ${user.lastName}`}
+									/>
+									<ProfileField
+										label="Pronouns"
+										value={user.pronouns}
+									/>
+									<ProfileField label="Email" value={user.email} />
+									<ProfileField
+										label="Phone"
+										value={user.phoneNumber}
+									/>
+									<ProfileField
+										label="Country of residence"
+										value={user.countryOfResidence}
+									/>
+									<ProfileField
+										label="Age"
+										value={user.age}
+									/>
+									<ProfileField
+										label="Hack Tag"
+										value={`@${user.hackerTag}`}
+									/>
+
+								</div>
+							</div>
+
+							<div className="w-full h-auto flex flex-col gap-4">
+								<h3 className="w-full text-xl text-start font-bold uppercase">
+									Finger Prints:
+								</h3>
+								<div className="relative w-[80%]">
+									<img
+										src="/img/assets/profile/finger-prints.png"
+										alt="Fingerprints"
+										className="h-auto w-full"
+									/>
+								</div>
+							</div>
+
 						</div>
-						<h1 className="mt-2 text-2xl font-bold">
-							{user.firstName} {user.lastName}
-						</h1>
-						<div className="mt-1 flex items-center gap-x-2">
-							<h2 className="font-mono text-lg text-muted-foreground">
-								@{user.hackerTag}
-							</h2>
-							<RoleBadge role={user.role} />
-						</div>
-						{user.hackerData.GitHub &&
-							user.hackerData.GitHub.length > 0 && (
-								<Link
-									href={
-										"https://github.com/" +
-										user.hackerData.GitHub
-									}
-									className="mt-10 flex items-center gap-x-2 leading-none hover:underline"
-								>
-									<Github className="text-xl" />
-									{user.hackerData.GitHub}
-								</Link>
-							)}
-						{user.hackerData.LinkedIn &&
-							user.hackerData.LinkedIn.length > 0 && (
-								<Link
-									href={
-										"https://linkedin.com/in/" +
-										user.hackerData.LinkedIn
-									}
-									className="mt-3 flex items-center gap-x-2 leading-none hover:underline"
-								>
-									<Linkedin className="text-xl" />
-									{user.hackerData.LinkedIn}
-								</Link>
-							)}
-						{user.hackerData.PersonalWebsite &&
-							user.hackerData.PersonalWebsite.length > 0 && (
-								<Link
-									href={
-										user.hackerData.PersonalWebsite.startsWith(
-											"http",
-										) ||
-										user.hackerData.PersonalWebsite.startsWith(
-											"https",
-										)
-											? user.hackerData.PersonalWebsite
-											: "https://" +
-												user.hackerData.PersonalWebsite
-									}
-									className="mt-3 flex items-center gap-x-2 leading-none hover:underline"
-								>
-									<Globe className="text-xl" />
-									{user.hackerData.PersonalWebsite.replace(
-										"https://",
-										"",
-									).replace("http://", "")}
-								</Link>
-							)}
+
 					</div>
-					<div className="col-span-4 flex flex-col justify-center pl-5">
-						<h3 className="font-bold">About</h3>
-						<p>
-							<Balancer>{user.bio}</Balancer>
-						</p>
-						{user.skills && (user.skills as string[]).length > 0 ? (
-							<>
-								<h3 className="mt-4 font-bold">Skills</h3>
-								<p>{(user.skills as string[]).join(", ")}</p>
-							</>
-						) : null}
-					</div>
+
 				</div>
-			</div>
+			</main>
 		</>
 	);
 }
