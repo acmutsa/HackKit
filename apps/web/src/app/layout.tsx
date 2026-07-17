@@ -12,9 +12,7 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang="en">
-				<body className={theme === "dark" ? "dark" : ""}>
-					{children}
-				</body>
+				<body>{children}</body>
 			</html>
 		</ClerkProvider>
 	);

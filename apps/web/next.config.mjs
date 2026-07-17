@@ -21,6 +21,11 @@ const nextConfig = {
 		],
 	},
 	experimental: {
+		outputFileTracingIncludes: {
+			"/*": [
+				"../../node_modules/.pnpm/@libsql+isomorphic-ws@0.1.5/node_modules/@libsql/isomorphic-ws/**/*",
+			],
+		},
 		serverActions: {
 			allowedOrigins: ["localhost:3000"],
 		},

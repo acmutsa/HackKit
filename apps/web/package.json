@@ -7,6 +7,10 @@
     "build": "pnpm with-env next build",
     "start": "pnpm with-env next start",
     "lint": "next lint",
+    "preview": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
@@ -15,6 +19,7 @@
     "@clerk/nextjs": "^6.12.12",
     "@hookform/resolvers": "^3.9.0",
     "@internationalized/date": "^3.5.4",
+    "@opennextjs/cloudflare": "^1.20.0",
     "@planetscale/database": "^1.18.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -47,6 +52,7 @@
     "embla-carousel": "8.1.7",
     "embla-carousel-react": "8.1.7",
     "lucide-react": "^0.411.0",
+    "motion": "^12.38.0",
     "nanoid": "^5.0.7",
     "next": "14.2.35",
     "next-safe-action": "^7.9.3",
@@ -83,6 +89,7 @@
     "postcss": "8.4.39",
     "tailwindcss": "3.4.6",
     "tailwindcss-animate": "1.0.7",
-    "typescript": "5.5.3"
+    "typescript": "5.5.3",
+    "wrangler": "^4.105.0"
   }
 }

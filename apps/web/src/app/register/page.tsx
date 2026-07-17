@@ -1,45 +1,56 @@
 import c from "config";
 import RegisterForm from "@/components/registration/RegisterForm";
+import RegisterClosed from "@/components/registration/RegistretionClosed";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
-import { redisMGet } from "@/lib/utils/server/redis";
-import { parseRedisBoolean } from "@/lib/utils/server/redis";
-import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
+import { Manuale, Shadows_Into_Light } from "next/font/google";
+
+const manuale = Manuale({
+    subsets: ["latin"],
+    display: "swap",
+});
+const shadow = Shadows_Into_Light({
+    subsets: ["latin"],
+    weight: "400",
+});
 
 export default async function Page() {
-	const { userId } = await auth();
-	if (!userId) return redirect("/sign-up");
 
-	const user = await currentUser();
-	if (!user) return redirect("/sign-up");
+	const registrationEnabled = c.registrationAvailable;
 
-	const registration = await getUser(userId);
-	if (registration) return redirect("/dash");
+	if (registrationEnabled) {
 
-	const [defaultRegistrationEnabled]: (string | null)[] = await redisMGet(
-		"config:registration:registrationEnabled",
-	);
+		const { userId } = await auth();
+		if (!userId) return redirect("/sign-up");
 
-	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
+		const user = await currentUser();
+		if (!user) return redirect("/sign-up");
+
+		const registration = await getUser(userId);
+		if (registration) return redirect("/dash");
+
 		return (
 			<>
 				<Navbar />
-				<main className="overflow-x-hidden dark:bg-zinc-950">
-					<div className="mx-auto min-h-screen max-w-5xl px-5 pb-10 pt-[20vh] font-sans dark:text-white">
-						<h1 className="text-6xl font-black md:text-8xl">
+				<main className="overflow-x-hidden bg-transparent flex items-center justify-center px-4">
+					<div className="h-auto max-w-5xl my-5 rounded-[3px] bg-card px-10 py-20 shadow-[-2px_10px_8px_rgba(0,0,0,0.28)] drop-shadow-[10px_14px_7px_rgba(0,0,0,0.45)]">
+						<p className={` text-end pb-[5%] pr-[10%] text-md text-[#AC1903] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl rotate-[8deg]  text-hackathon ${shadow.className} w-full`}>
+							Case File · {c.hackathonName} 
+						</p>
+						<h1 className={`font-black  text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-5xl leading-tight ${manuale.className}`}>
 							Register
 						</h1>
-						<p className="mt-5 font-medium">
+						<p className={`mt-5 font-light text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-2xl  ${manuale.className}`} >
 							<span className="font-bold">Welcome Hacker!</span>{" "}
 							Please fill out the form below to complete your
 							registration for {c.hackathonName}.
 						</p>
-						<p className="pb-10 pt-5 text-xs">
+						<p className={`pb-10 pt-5 font-light text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-2xl  ${manuale.className}`}>
 							Psttt... Running into a issue? Please let us know on{" "}
-							<Link className="underline" href={c.links.discord}>
+							<Link className="underline text-[#AC1903]" href={c.links.discord}>
 								Discord
 							</Link>
 							!
@@ -55,32 +66,5 @@ export default async function Page() {
 		);
 	}
 
-	return (
-		<main className="flex min-h-screen flex-col items-center justify-center px-2">
-			<div className="max-w-screen fixed left-1/2 top-[calc(50%+7rem)] h-[40vh] w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 overflow-x-hidden bg-hackathon opacity-30 blur-[100px] will-change-transform" />
-			<h2 className="text-4xl font-extrabold">{c.hackathonName}</h2>
-			<h1 className="mb-10 pb-5 text-6xl font-extrabold text-hackathon dark:bg-gradient-to-t dark:from-hackathon/80 dark:to-white dark:bg-clip-text dark:text-transparent md:text-8xl">
-				Registration
-			</h1>
-			<div className="relative z-10 flex aspect-video w-full max-w-[500px] flex-col items-center justify-center gap-y-4 rounded-xl bg-white px-5 py-4 backdrop-blur transition dark:bg-white/[0.08]">
-				<h2 className="text-center text-2xl font-black">
-					Registration Is Currently Closed
-				</h2>
-				<p className="text-center font-bold">
-					If you believe this is a mistake or have any questions, feel
-					free to reach out to us at {c.issueEmail}!
-				</p>
-
-				<Link href={"/"}>
-					<Button>Return Home</Button>
-				</Link>
-				<p className="text-center text-sm">
-					Already registered?
-					<Link className="pl-1 underline" href={"/sign-in"}>
-						Sign-in.
-					</Link>
-				</p>
-			</div>
-		</main>
-	);
+	return ( <RegisterClosed />	);
 }

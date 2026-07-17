@@ -82,6 +82,12 @@ import {
 	decodeBase64AsFile,
 } from "@/lib/utils/shared/files";
 import { useDebouncedCallback } from "use-debounce";
+import { Manuale } from "next/font/google";
+
+const manuale = Manuale({
+	subsets: ["latin"],
+	display: "swap",
+});
 
 export default function RegisterForm({
 	defaultEmail,
@@ -361,14 +367,14 @@ export default function RegisterForm({
 					isLoading={isLoading}
 				/>
 			) : (
-				<div className="relative">
+				<div className={`relative ${manuale.className}`}>
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
 							className="space-y-6"
 						>
 							<FormGroupWrapper title="General">
-								<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
+								<div className="md:grid-cols grid grid-cols-1 gap-x-2 gap-y-4">
 									<FormField
 										control={form.control}
 										name="firstName"
@@ -690,7 +696,7 @@ export default function RegisterForm({
 																variant="outline"
 																role="combobox"
 																className={cn(
-																	"w-full justify-between",
+																	"w-full justify-between border-border bg-card font-normal",
 																	!field.value &&
 																		"text-muted-foreground",
 																)}
@@ -914,7 +920,7 @@ export default function RegisterForm({
 																variant="outline"
 																role="combobox"
 																className={cn(
-																	"w-full justify-between",
+																	"w-full justify-between border-border bg-card font-normal",
 																	!field.value &&
 																		"text-muted-foreground",
 																)}
@@ -1121,7 +1127,7 @@ export default function RegisterForm({
 																variant="outline"
 																role="combobox"
 																className={cn(
-																	"w-full justify-between",
+																	"w-full justify-between border-border bg-card font-normal",
 																	!field.value &&
 																		"text-muted-foreground",
 																)}
@@ -1138,7 +1144,7 @@ export default function RegisterForm({
 																		: "Select a Major"}
 																</p>
 
-																<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+																<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0" />
 															</Button>
 														</FormControl>
 													</PopoverTrigger>
@@ -1292,7 +1298,7 @@ export default function RegisterForm({
 											<FormItem>
 												<FormLabel>
 													{formatRegistrationField(
-														`Where did you hear about ${c.hackathonName}?`,
+														`Where did you hear about us?`,
 														hackerRegistrationFormValidator.shape[
 															field.name
 														].isOptional(),
@@ -1648,13 +1654,13 @@ export default function RegisterForm({
 														uploadedFile
 															? ""
 															: "cursor-pointer"
-													} flex min-h-[200px] flex-col items-center justify-center rounded-lg border-dashed border-white`}
+													} flex min-h-[200px] flex-col items-center justify-center rounded-lg border border-dashed border-border`}
 												>
 													<input
 														type="file"
 														{...getInputProps()}
 													/>
-													<p className="p-2 text-center">
+													<p className="p-2 text-center text-muted-foreground">
 														{uploadedFile
 															? `${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
 															: isDragActive
@@ -1697,7 +1703,7 @@ export default function RegisterForm({
 												</FormLabel>
 												<FormControl>
 													<div className="flex">
-														<div className="flex h-10 w-10 items-center justify-center rounded-l bg-accent text-lg font-light text-primary">
+														<div className="flex h-10 w-10 items-center justify-center rounded-l border border-r-0 bg-accent text-lg font-light text-primary">
 															@
 														</div>
 														<Input
@@ -1822,7 +1828,6 @@ export default function RegisterForm({
 														{...field}
 														placeholder="Type and then press enter to add a skill..."
 														tags={skills}
-														className="sm:min-w-[450px]"
 														setTags={(newTags) => {
 															setSkills(newTags);
 															field.onChange(

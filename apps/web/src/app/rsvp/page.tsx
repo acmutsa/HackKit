@@ -7,20 +7,11 @@ import { eq } from "db/drizzle";
 import { userCommonData } from "db/schema";
 import ClientToast from "@/components/shared/ClientToast";
 import { SignedOut, RedirectToSignIn } from "@clerk/nextjs";
-import {
-	parseRedisBoolean,
-	parseRedisNumber,
-	redisGet,
-} from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
 import { getUser } from "db/functions";
 
-export default async function RsvpPage({
-	searchParams,
-}: {
-	searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default async function RsvpPage() {
 	const { userId } = await auth();
 
 	if (!userId) {
@@ -42,22 +33,12 @@ export default async function RsvpPage({
 		return redirect("/i/approval");
 	}
 
-	const rsvpEnabled = parseRedisBoolean(
-		(await redisGet("config:registration:allowRSVPs")) as
-			| string
-			| boolean
-			| null
-			| undefined,
-		true,
-	);
+	const rsvpEnabled = c.rsvpAvailable;
 
 	let isRsvpPossible = false;
 
-	if (rsvpEnabled === true) {
-		const rsvpLimit = parseRedisNumber(
-			await redisGet("config:registration:maxRSVPs"),
-			c.rsvpDefaultLimit,
-		);
+	if (rsvpEnabled) {
+		const rsvpLimit = c.rsvpLimit;
 
 		const rsvpUserCount = await db
 			.select({ count: count() })
