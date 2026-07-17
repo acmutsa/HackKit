@@ -2,17 +2,6 @@
 	"$schema": "https://turbo.build/schema.json",
 	"globalDependencies": ["**/.env.*local"],
     "globalEnv": [
-        "AWS_ACCESS_KEY_ID",
-        "AWS_REGION",
-        "AWS_S3_BUCKET",
-        "AWS_S3_ENDPOINT",
-        "AWS_S3_REGION",
-        "AWS_SECRET_ACCESS_KEY",
-        "AWS_SES_ACCESS_KEY",
-        "AWS_SES_EMAIL_FROM",
-        "AWS_SES_SECRET_ACCESS_KEY",
-        "BACKUP_CRON_SCHEDULE",
-        "BACKUP_DATABASE_URL",
         "BOT_API_URL",
         "CLERK_SECRET_KEY",
         "DISCORD_CLIENT_ID",
@@ -21,13 +10,10 @@
         "DISCORD_PROD_SERVER_ID",
         "DISCORD_PROD_VERIFY_CHANNEL_ID",
         "DISCORD_SECRET_TOKEN",
-        "HK_ENV",
         "SHARED_SECRET",
         "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
         "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
         "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
-        "UPSTASH_REDIS_REST_TOKEN",
-        "UPSTASH_REDIS_REST_URL",
         "TURSO_AUTH_TOKEN",
         "TURSO_DATABASE_URL"
       ],
@@ -37,6 +23,11 @@
 			"outputs": [".next/**", "!.next/cache/**"]
 		},
 		"lint": {},
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
 		"dev": {
 			"cache": false,
 			"persistent": true

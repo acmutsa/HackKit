@@ -1,11 +1,13 @@
 import Navbar from "@/components/shared/Navbar";
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
+import Map from "@/components/landing/Map";
 
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
 import MLHBadge from "@/components/landing/MLHBadge";
-
+import FAQ from "@/components/landing/faq";
+import LandingThread from "@/components/landing/LandingThread";
 import { Oswald } from "next/font/google";
 import WorkWithUs from "@/components/landing/WorkWithUs";
 
@@ -16,20 +18,21 @@ const oswald = Oswald({
 
 export default function Home() {
 	return (
-		<div className={`${oswald.variable} w-full overflow-x-hidden`}>
+		<div className={`min-h-screen w-full overflow-x-hidden text-foreground`}>
+			<LandingThread />
 			<Navbar />
 			<MLHBadge />
-			<main className="overflow-x-hidden">
+			<main className="mx-auto w-full max-w-[1536px]">
 				<Hero />
-
 				<About />
-				<Partners />
+				<Map />
 				<WorkWithUs />
+				<Partners />
+				<FAQ />
 				<Footer />
 			</main>
 		</div>
 	);
 }
 
-export const runtime = "edge";
 export const revalidate = 30;

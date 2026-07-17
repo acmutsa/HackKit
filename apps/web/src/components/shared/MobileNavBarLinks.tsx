@@ -1,22 +1,20 @@
-import { getAllNavItems } from "@/lib/utils/server/redis";
 import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 } from "@/components/shadcn/ui/dropdown-menu";
 import Link from "next/link";
+import { navBarLinks } from "./NavBarLinksGrouper";
 export default async function MobileNavBarLinks() {
-	const navLinks = await getAllNavItems();
+	const navLinks = navBarLinks;
 
 	return (
 		<div className="cursor-pointer md:hidden">
-			{navLinks.items.map((nav, key) => {
+			{navLinks.map((item) => {
 				return (
-					<div key={nav.name}>
-						{nav.enabled ? (
-							<Link href={nav.url}>
-								<DropdownMenuItem>{nav.name}</DropdownMenuItem>
-							</Link>
-						) : null}
+					<div key={item.name}>
+						<Link href={item.url}>
+							<DropdownMenuItem>{item.name}</DropdownMenuItem>
+						</Link>
 					</div>
 				);
 			})}
@@ -24,5 +22,4 @@ export default async function MobileNavBarLinks() {
 	);
 }
 
-export const runtime = "edge";
 export const revalidate = 30;

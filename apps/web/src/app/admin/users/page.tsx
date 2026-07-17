@@ -17,7 +17,7 @@ export default async function Page() {
 	const userData = await getAllUsers();
 
 	return (
-		<div className="mx-auto max-w-7xl px-5 pt-40">
+		<div className="mx-auto max-w-7xl px-5">
 			<div className="mb-5 grid w-full grid-cols-2">
 				<div className="flex items-center">
 					<div>
@@ -53,5 +53,4 @@ export default async function Page() {
 	);
 }
 
-export const runtime = "edge";
 export const revalidate = 10;

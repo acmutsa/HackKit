@@ -1,6 +1,5 @@
 import { fileURLToPath } from "node:url";
 import createJiti from "jiti";
-import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
 jiti("./src/env");
@@ -22,14 +21,15 @@ const nextConfig = {
 		],
 	},
 	experimental: {
+		outputFileTracingIncludes: {
+			"/*": [
+				"../../node_modules/.pnpm/@libsql+isomorphic-ws@0.1.5/node_modules/@libsql/isomorphic-ws/**/*",
+			],
+		},
 		serverActions: {
 			allowedOrigins: ["localhost:3000"],
 		},
 	},
 };
-
-if (process.env.NODE_ENV === "development") {
-	await setupDevPlatform();
-}
 
 export default nextConfig;
