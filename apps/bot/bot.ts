@@ -32,6 +32,10 @@ const expressApp = express();
 expressApp.use(express.json());
 expressApp.use(sharedSecretMiddleware);
 
+expressApp.get("/", (req, res) => {
+	res.send("Bot Receivers");
+});
+
 //Load receivers for bot's webhooks
 loadReceivers(expressApp, client);
 

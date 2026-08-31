@@ -9,6 +9,9 @@ export function sharedSecretMiddleware(
 	if (!expected) {
 		console.error("SHARED_SECRET not configured");
 		process.exit(1);
+	}
+
+	if (req.path === "/") {
 		return next();
 	}
 

@@ -1,6 +1,10 @@
 {
 	"compilerOptions": {
 		"typeRoots": ["./@types", "node_modules/@types"],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["../web/src/*"]
+		},
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
