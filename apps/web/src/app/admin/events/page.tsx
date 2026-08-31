@@ -25,7 +25,7 @@ export default async function Page() {
 		PermissionType.CREATE_EVENTS,
 	);
 	return (
-		<div className="mx-auto max-w-7xl px-5 pt-44">
+		<div className="mx-auto max-w-7xl px-5">
 			<div className="mb-5 grid w-full grid-cols-2">
 				<div className="flex items-center">
 					<div>

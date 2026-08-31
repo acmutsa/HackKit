@@ -1,5 +1,5 @@
-import { db } from ".";
-import { roles } from "./schema";
+import { db } from "../";
+import { roles } from "../schema";
 
 async function main() {
 	const result = await db.insert(roles).values([
@@ -16,3 +16,8 @@ async function main() {
 		console.log("Successfully seeded roles.");
 	}
 }
+
+main().catch((e) => {
+	console.error(e);
+	process.exit(1);
+});

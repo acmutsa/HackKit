@@ -96,5 +96,3 @@ export default async function Navbar({ className }: NavbarProps) {
 		</div>
 	);
 }
-
-export const runtime = "edge";

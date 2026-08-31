@@ -55,5 +55,4 @@ export function Overview({ rawData }: OverviewProps) {
 	);
 }
 
-export const runtime = "edge";
 export const revalidate = 30;

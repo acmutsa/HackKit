@@ -2,13 +2,17 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "start": "turbo run start",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "preinstall": "npx only-allow pnpm",
     "migrations:generate": "pnpm --filter=db migrations:generate",
     "migrations:apply": "pnpm --filter=db migrations:apply",
     "migrations:drop": "pnpm --filter=db migrations:drop",
     "studio": "pnpm --filter=db studio",
-    "tunnel": "pnpm --filter=devtunnel opentunnel",
+    "db:seed": "pnpm --filter=db db:seed",
+    "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
+    "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
     "format": "prettier --write .",
     "format-check": "prettier --check ."
   },
