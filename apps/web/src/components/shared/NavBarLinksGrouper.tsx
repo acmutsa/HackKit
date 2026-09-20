@@ -12,7 +12,7 @@ export default async function NavBarLinksGrouper() {
 				</NavbarItem>,
 			);
 		}
-	}
+	}		
 	return <>{toRender}</>;
 }
 
